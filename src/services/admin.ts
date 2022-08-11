@@ -47,3 +47,24 @@ export async function getCaptcha(params?: any, options?: { [key: string]: any })
     options,
   });
 }
+
+export async function getPermissionGroups(params?: any, options?: { [key: string]: any }) {
+  return [
+    { key: 'setting', name: '后台设置' },
+    { key: 'archive', name: '内容管理' },
+    { key: 'content', name: '页面资源' },
+    { key: 'plugin', name: '功能资源' },
+    { key: 'design', name: '模板设计' },
+    { key: 'statistic', name: '数据统计' },
+    { key: 'account', name: '管理员' },
+    { key: 'tool', name: '系统功能' },
+  ];
+}
+
+export async function getPermissions(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/admin/permissions',
+    params,
+    options,
+  });
+}
