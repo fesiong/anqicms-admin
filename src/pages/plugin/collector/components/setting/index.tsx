@@ -65,13 +65,15 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     values = Object.assign(setting, values);
 
     const hide = message.loading('正在提交中', 0);
-    saveCollectorSetting(values).then((res) => {
-      message.info(res.msg);
-      this.handleSetVisible(false);
-      this.props.onCancel();
-    }).finally(() => {
-      hide();
-    });
+    saveCollectorSetting(values)
+      .then((res) => {
+        message.info(res.msg);
+        this.handleSetVisible(false);
+        this.props.onCancel();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   handleRemove = (field: string, index: number) => {
@@ -185,6 +187,12 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 { label: '存入草稿箱', value: 0 },
                 { label: '正常发布', value: 1 },
               ]}
+            />
+            <ProFormDigit
+              name="from_website"
+              label="采集指定网站"
+              placeholder="如：www.jianshu.com"
+              extra="填写域名，不带路径。如：www.jianshu.com。如果发现采集不到内容，请取消这项内容填写"
             />
             <ProFormDigit
               name="title_min_length"

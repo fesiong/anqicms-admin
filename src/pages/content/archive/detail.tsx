@@ -64,12 +64,13 @@ export default class ArchiveForm extends React.Component {
       if (copyId > 0) {
         this.getArchive(Number(copyId), true);
       } else {
-        let archive = getStore('unsaveArchive')
+        let archive = getStore('unsaveArchive');
         if (archive) {
+          console.log('load store');
           categoryId = archive.category_id;
           this.setState({
             archive,
-          })
+          });
         }
         this.defaultContent = archive?.content || '';
         this.setState({
@@ -92,6 +93,7 @@ export default class ArchiveForm extends React.Component {
   beforeunload = (e: any) => {
     let archive = this.state.archive;
     if (!archive.id && !this.submitted) {
+      console.log('save-store');
       let values = this.formRef.current?.getFieldsValue();
       archive.content = this.state.content;
       archive = Object.assign(archive, values);
@@ -112,6 +114,7 @@ export default class ArchiveForm extends React.Component {
   componentWillUnmount() {
     let archive = this.state.archive;
     if (!archive.id && !this.submitted) {
+      console.log('save-store');
       let values = this.formRef.current?.getFieldsValue();
       archive.content = this.state.content;
       archive = Object.assign(archive, values);
@@ -293,6 +296,7 @@ export default class ArchiveForm extends React.Component {
       message.error(res.msg);
     } else {
       removeStore('unsaveArchive');
+      this.submitted = true;
       message.success(res.msg);
       history.goBack();
     }
@@ -300,8 +304,8 @@ export default class ArchiveForm extends React.Component {
 
   handleCleanExtraField = (field: string) => {
     let extra = {};
-    extra[field] = {value: ''};
-    this.formRef?.current?.setFieldsValue({extra});
+    extra[field] = { value: '' };
+    this.formRef?.current?.setFieldsValue({ extra });
 
     let { archive } = this.state;
     delete archive.extra[field];
@@ -312,8 +316,8 @@ export default class ArchiveForm extends React.Component {
 
   handleUploadExtraField = (field: string, row: any) => {
     let extra = {};
-    extra[field] = {value: row.logo};
-    this.formRef?.current?.setFieldsValue({extra});
+    extra[field] = { value: row.logo };
+    this.formRef?.current?.setFieldsValue({ extra });
     let { archive } = this.state;
     if (!archive.extra[field]) {
       archive.extra[field] = {};
@@ -482,7 +486,7 @@ export default class ArchiveForm extends React.Component {
                               <ProFormText
                                 name={['extra', item.field_name, 'value']}
                                 label={item.name}
-                                >
+                              >
                                 {archive.extra[item.field_name]?.value ? (
                                   <div className="ant-upload-item">
                                     <Image
@@ -549,7 +553,7 @@ export default class ArchiveForm extends React.Component {
                       <Button
                         block
                         onClick={() => {
-                          let values= this.formRef.current?.getFieldsValue() || {};
+                          let values = this.formRef.current?.getFieldsValue() || {};
                           values.draft = true;
                           this.onSubmit(values);
                         }}

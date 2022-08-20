@@ -1,6 +1,6 @@
-import config from "@/services/config";
-import { message } from "antd";
-import { getStore } from "./store";
+import config from '@/services/config';
+import { message } from 'antd';
+import { getStore } from './store';
 
 /**
  * 校验是否登录
@@ -43,7 +43,7 @@ export const sizeFormat = (num: number) => {
   } else if (num > 500) {
     result = (num / 1024).toFixed(2) + 'KB';
   } else {
-    result = num + "B";
+    result = num + 'B';
   }
 
   return result;
@@ -132,8 +132,12 @@ export const getWordsCount = function (str: string) {
 };
 
 export const case2Camel = function (str: string) {
-  return str.replaceAll('_', ' ').toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase()).replaceAll(' ', '');
-}
+  return str
+    .replaceAll('_', ' ')
+    .toLowerCase()
+    .replace(/( |^)[a-z]/g, (L) => L.toUpperCase())
+    .replaceAll(' ', '');
+};
 
 export const downloadFile = (url: string, params?: any, fileName?: string) => {
   //强制等待1秒钟
@@ -189,4 +193,3 @@ export const downloadFile = (url: string, params?: any, fileName?: string) => {
       return Promise.resolve({});
     });
 };
-
