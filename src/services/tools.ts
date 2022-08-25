@@ -11,7 +11,7 @@ const request = extend({
 
 request.use(async (ctx, next) => {
   const { req } = ctx;
-  const { url, options } = req;
+  const { options } = req;
 
   let headers: any = {};
 
