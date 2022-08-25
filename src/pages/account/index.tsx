@@ -25,17 +25,20 @@ const AccountSetting: React.FC = () => {
   };
 
   const handleFinish = async (values: any) => {
+    values = Object.assign(initialState?.currentUser || {}, values);
     const hide = message.loading('正在提交中', 0);
-    saveAdmin(values).then(async (res) => {
-      if (res.code === 0) {
-        message.success('更新基本信息成功');
-        await fetchUserInfo();
-      } else {
-        message.error(res.msg);
-      }
-    }).finally(() => {
-      hide();
-    });
+    saveAdmin(values)
+      .then(async (res) => {
+        if (res.code === 0) {
+          message.success('更新基本信息成功');
+          await fetchUserInfo();
+        } else {
+          message.error(res.msg);
+        }
+      })
+      .finally(() => {
+        hide();
+      });
   };
   return (
     <GridContent>

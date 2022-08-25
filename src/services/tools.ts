@@ -24,7 +24,11 @@ request.use(async (ctx, next) => {
     headers: headers,
   };
 
-  await next();
+  try {
+    await next();
+  } catch (err: any) {
+    console.log(err);
+  }
 
   const { res } = ctx;
 
@@ -36,6 +40,15 @@ request.use(async (ctx, next) => {
       style: { marginTop: '50px' },
     });
     history.push('/login');
+    return Promise.reject(res);
+  } else if (res.code === 1002) {
+    //需要登录
+    message.warning({
+      content: res.msg,
+      key: 'error',
+      style: { marginTop: '50px' },
+    });
+    return Promise.reject(res);
   }
 });
 

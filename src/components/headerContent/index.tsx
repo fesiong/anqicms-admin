@@ -11,12 +11,12 @@ const GlobalHeaderContent: React.FC = (props) => {
     const selectPath = history.location.pathname;
     for (let i in routes) {
       if (routes[i].path && selectPath.indexOf(routes[i].path) === 0) {
-        return i
+        return i;
       }
     }
 
     return '';
-  }
+  };
 
   const selectKey: string = getSelectKey();
 
@@ -29,7 +29,7 @@ const GlobalHeaderContent: React.FC = (props) => {
     let current: any = routes[index] || null;
     if (current != null) {
       // preview单独处理
-      if (current.path == "/preview") {
+      if (current.path == '/preview') {
         let baseUrl = '';
         if (!initialState.system) {
           const system = await initialState?.fetchSystemSetting?.();
@@ -41,29 +41,45 @@ const GlobalHeaderContent: React.FC = (props) => {
           }
           baseUrl = system?.base_url || '';
         } else {
-          baseUrl = initialState.system?.base_url || ''
+          baseUrl = initialState.system?.base_url || '';
         }
-        window.open(baseUrl)
+        window.open(baseUrl);
         return;
       }
 
       if (current.routes) {
-        history.push(current.routes[0].path)
+        history.push(current.routes[0].path);
       } else {
-        history.push(current.path)
+        history.push(current.path);
       }
     }
+  };
 
+  let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
+  if (initialState?.currentUser?.id != 1 && initialState?.currentUser?.group_id != 1) {
+    for (let i in routes) {
+      if (!routes[i].hideInTop && routes[i].name) {
+        // 需要处理
+        routes[i].unaccessible = true;
+        for (let j in permissions) {
+          if (permissions[j].indexOf(routes[i].path) === 0) {
+            // 存在
+            routes[i].unaccessible = false;
+            break;
+          }
+        }
+      }
+    }
   }
 
   return (
-    <div className='header-nav'>
+    <div className="header-nav">
       <Menu onClick={onClickMenu} selectedKeys={[selectKey]} theme={'dark'} mode="horizontal">
         {routes.map((item, index) => {
-          if(!item.hideInTop && item.name) {
-            return <Menu.Item key={index}>{item.name}</Menu.Item>
+          if (!item.hideInTop && item.name && !item.unaccessible) {
+            return <Menu.Item key={index}>{item.name}</Menu.Item>;
           }
-          return null
+          return null;
         })}
       </Menu>
     </div>

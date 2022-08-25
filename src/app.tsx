@@ -1,4 +1,4 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import type { MenuDataItem, Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
@@ -87,6 +87,30 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ],
     headerContentRender: () => <HeaderContent />,
     menuHeaderRender: undefined,
+    menuDataRender: (menuData: MenuDataItem[]) => {
+      let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
+      if (initialState?.currentUser?.id != 1 && initialState?.currentUser?.group_id != 1) {
+        for (let i in menuData) {
+          if (menuData[i].access) {
+            // 需要处理
+            let hasChildren = false;
+            let tmpMenus = menuData[i];
+            for (let j in tmpMenus.routes) {
+              if (permissions.indexOf(tmpMenus.children[j].path) === -1) {
+                tmpMenus.routes[j].unaccessible = true;
+              } else {
+                hasChildren = true;
+              }
+            }
+            if (!hasChildren) {
+              menuData[i].unaccessible = true;
+            }
+          }
+        }
+      }
+
+      return menuData;
+    },
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态

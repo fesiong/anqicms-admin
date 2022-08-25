@@ -5,7 +5,7 @@ import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
 import { getAdminLoginLogs } from '@/services';
 
-const PluginSendmail: React.FC = () => {
+const AdminLoginLog: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
   const columns: ProColumns<any>[] = [
@@ -54,4 +54,4 @@ const PluginSendmail: React.FC = () => {
   );
 };
 
-export default PluginSendmail;
+export default AdminLoginLog;

@@ -8,10 +8,26 @@ export async function login(body: any, options?: { [key: string]: any }) {
   });
 }
 
+export async function getAdminList(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/admin/list',
+    params,
+    options,
+  });
+}
+
 export async function getAdminInfo(params?: any, options?: { [key: string]: any }) {
   return get({
     url: '/admin/detail',
     params,
+    options,
+  });
+}
+
+export async function deleteAdminInfo(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/admin/delete',
+    body,
     options,
   });
 }
@@ -48,23 +64,42 @@ export async function getCaptcha(params?: any, options?: { [key: string]: any })
   });
 }
 
-export async function getPermissionGroups(params?: any, options?: { [key: string]: any }) {
-  return [
-    { key: 'setting', name: '后台设置' },
-    { key: 'archive', name: '内容管理' },
-    { key: 'content', name: '页面资源' },
-    { key: 'plugin', name: '功能资源' },
-    { key: 'design', name: '模板设计' },
-    { key: 'statistic', name: '数据统计' },
-    { key: 'account', name: '管理员' },
-    { key: 'tool', name: '系统功能' },
-  ];
+export async function getPermissionMenus(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/admin/menus',
+    params,
+    options,
+  });
 }
 
-export async function getPermissions(params?: any, options?: { [key: string]: any }) {
+export async function getAdminGroups(params?: any, options?: { [key: string]: any }) {
   return get({
-    url: '/admin/permissions',
+    url: '/admin/group/list',
     params,
+    options,
+  });
+}
+
+export async function getAdminGroupInfo(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/admin/group/detail',
+    params,
+    options,
+  });
+}
+
+export async function saveAdminGroupInfo(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/admin/group/detail',
+    body,
+    options,
+  });
+}
+
+export async function deleteAdminGroupInfo(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/admin/group/delete',
+    body,
     options,
   });
 }
