@@ -121,15 +121,15 @@ ol {
   }
   .delete {
     position: absolute;
-    cursor: pointer;
-    text-align: center;
     right: 0;
     bottom: 0;
     left: 0;
     display: none;
     padding: 3px;
     color: #fff;
+    text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
   }
   &:hover {
     .delete {
@@ -137,11 +137,16 @@ ol {
     }
   }
   .add {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #fafafa;
     height: 100%;
+    padding: 20px 0;
+    text-align: center;
+    background-color: #fafafa;
     cursor: pointer;
+  }
+  &.ant-upload-file {
+    width: inherit;
+    height: inherit;
+    word-break: break-all;
   }
 }
 

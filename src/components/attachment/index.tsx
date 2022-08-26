@@ -3,7 +3,7 @@ import { Button, message, Modal, Image, Avatar, Upload, Select, Space } from 'an
 import { ActionType } from '@ant-design/pro-table';
 import ProList from '@ant-design/pro-list';
 import { getAttachmentCategories, getAttachments, uploadAttachment } from '@/services/attachment';
-import './index.less'
+import './index.less';
 
 export type AttachmentProps = {
   onSelect: (row?: any) => void;
@@ -19,7 +19,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
   const [categoryId, setCategoryId] = useState<number>(0);
 
   useEffect(() => {
-    getAttachmentCategories().then(res => {
+    getAttachmentCategories().then((res) => {
       setCategories(res.data || []);
     });
   }, []);
@@ -27,9 +27,9 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
   const handleUploadImage = (e: any) => {
     let formData = new FormData();
     formData.append('file', e.file);
-    formData.append('category_id', categoryId + "");
+    formData.append('category_id', categoryId + '');
     uploadAttachment(formData).then((res) => {
-      if (res.code !== 0 ){
+      if (res.code !== 0) {
         message.info(res.msg);
       } else {
         message.info(res.msg || '上传成功');
@@ -38,24 +38,24 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
     });
   };
 
-  const handleChangeCategory = (e:any) => {
-    setCategoryId(e)
+  const handleChangeCategory = (e: any) => {
+    setCategoryId(e);
     actionRef.current?.reload();
-  }
+  };
 
   const useDetail = (row: any) => {
     props.onSelect(row);
     visibleControl(false);
-  }
+  };
 
   const visibleControl = (flag: boolean) => {
-    props.manual ? (props.onCancel ? props.onCancel(flag) : null) : setVisible(flag)
-  }
+    props.manual ? (props.onCancel ? props.onCancel(flag) : null) : setVisible(flag);
+  };
 
   return (
     <>
       <div
-        style={{display: 'inline-block'}}
+        style={{ display: 'inline-block' }}
         onClick={() => {
           visibleControl(!visible);
         }}
@@ -63,34 +63,36 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
         {props.children}
       </div>
       <Modal
-        className='material-modal'
+        className="material-modal"
         width={800}
-        title={<div>
-          <Space size={16}>
-              <span>选择图片</span>
-                <Select
-                  defaultValue={categoryId}
-                  style={{ width: 120 }}
-                  onChange={handleChangeCategory}
-                >
-                  <Select.Option value={0}>全部资源</Select.Option>
-                  {categories.map((item: any, index) => (
-                    <Select.Option key={item.id} value={item.id}>
-                      {item.title}
-                    </Select.Option>
-                  ))}
-                </Select>
-                <Upload
-                  name="file"
-                  showUploadList={false}
-                  multiple
-                  accept=".jpg,.jpeg,.png,.gif,.webp"
-                  customRequest={handleUploadImage}
-                >
-                  <Button type="primary">上传新图片</Button>
-                </Upload>
-              </Space>
-        </div>}
+        title={
+          <div>
+            <Space size={16}>
+              <span>选择文件</span>
+              <Select
+                defaultValue={categoryId}
+                style={{ width: 120 }}
+                onChange={handleChangeCategory}
+              >
+                <Select.Option value={0}>全部资源</Select.Option>
+                {categories.map((item: any, index) => (
+                  <Select.Option key={item.id} value={item.id}>
+                    {item.title}
+                  </Select.Option>
+                ))}
+              </Select>
+              <Upload
+                name="file"
+                showUploadList={false}
+                multiple
+                //accept="*"
+                customRequest={handleUploadImage}
+              >
+                <Button type="primary">上传新文件</Button>
+              </Upload>
+            </Space>
+          </div>
+        }
         visible={props.manual ? props.visible : visible}
         onCancel={() => {
           visibleControl(false);
@@ -114,14 +116,14 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
           showActions="hover"
           showExtra="hover"
           search={false}
-          rowClassName='image-row'
+          rowClassName="image-row"
           metas={{
             content: {
               search: false,
               render: (text: any, row: any) => {
                 return (
                   <div className="image-item">
-                    <div className="inner">
+                    <div className="inner" title={row.file_name}>
                       {row.thumb ? (
                         <Image
                           className="img"
@@ -132,9 +134,11 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
                           alt={row.file_name}
                         />
                       ) : (
-                        <Avatar className="default-img" size={100}>
-                          {row.file_location.substring(row.file_location.lastIndexOf('.'))}
-                        </Avatar>
+                        <a href={row.logo} target={'_blank'}>
+                          <Avatar className="default-img" size={100}>
+                            {row.file_location.substring(row.file_location.lastIndexOf('.'))}
+                          </Avatar>
+                        </a>
                       )}
                       <div
                         className="info link"

@@ -522,6 +522,36 @@ export default class ArchiveForm extends React.Component {
                                   </AttachmentSelect>
                                 )}
                               </ProFormText>
+                            ) : item.type === 'file' ? (
+                              <ProFormText
+                                name={['extra', item.field_name, 'value']}
+                                label={item.name}
+                              >
+                                {archive.extra[item.field_name]?.value ? (
+                                  <div className="ant-upload-item ant-upload-file">
+                                    <span>{archive.extra[item.field_name]?.value}</span>
+                                    <span
+                                      className="delete"
+                                      onClick={this.handleCleanExtraField.bind(
+                                        this,
+                                        item.field_name,
+                                      )}
+                                    >
+                                      <DeleteOutlined />
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <AttachmentSelect
+                                    onSelect={this.handleUploadExtraField.bind(
+                                      this,
+                                      item.field_name,
+                                    )}
+                                    visible={false}
+                                  >
+                                    <Button>上传</Button>
+                                  </AttachmentSelect>
+                                )}
+                              </ProFormText>
                             ) : (
                               ''
                             )}

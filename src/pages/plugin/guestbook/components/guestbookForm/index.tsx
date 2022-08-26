@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  ModalForm,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
+import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 
 import moment from 'moment';
 import { Image } from 'antd';
@@ -43,8 +39,20 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
           initialValue={props.editingGuestbook.extra_data[key]}
           label={key}
           readonly
-          extra={props.editingGuestbook.extra_data[key]?.indexOf('http') !== -1 &&
-          <Image width={200} src={props.editingGuestbook.extra_data[key]} />
+          extra={
+            props.editingGuestbook.extra_data[key]?.indexOf('http') !== -1 && (
+              <a href={props.editingGuestbook.extra_data[key]} target={'_blank'}>
+                {props.editingGuestbook.extra_data[key].indexOf('.jpg') !== -1 ||
+                props.editingGuestbook.extra_data[key].indexOf('.jpeg') !== -1 ||
+                props.editingGuestbook.extra_data[key].indexOf('.png') !== -1 ||
+                props.editingGuestbook.extra_data[key].indexOf('.webp') !== -1 ||
+                props.editingGuestbook.extra_data[key].indexOf('.gif') !== -1 ? (
+                  <Image width={200} src={props.editingGuestbook.extra_data[key]} />
+                ) : (
+                  '点击预览'
+                )}
+              </a>
+            )
           }
         />
       ))}

@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Col, Input, message, Modal, Row, Space } from 'antd';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import {
-  ModalForm,
-  ProFormRadio,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
+import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { pluginGetGuestbookSetting, pluginSaveGuestbookSetting } from '@/services/plugin/guestbook';
 
 const GuestbookSetting: React.FC = (props) => {
@@ -48,7 +43,7 @@ const GuestbookSetting: React.FC = (props) => {
     for (let i in setting.fields) {
       if (setting.fields[i].field_name == values.field_name) {
         exists = true;
-        setting.fields[i] = Object.assign(setting.fields[i],values);
+        setting.fields[i] = Object.assign(setting.fields[i], values);
       }
     }
     if (!exists) {
@@ -120,16 +115,17 @@ const GuestbookSetting: React.FC = (props) => {
       dataIndex: 'option',
       render: (text: any, record, index) => (
         <Space size={20}>
-            <>
+          <>
+            <a
+              onClick={() => {
+                setCurrentField(record);
+                setEditVisible(true);
+              }}
+            >
+              编辑
+            </a>
+            {!record.is_system && (
               <a
-                onClick={() => {
-                  setCurrentField(record);
-                  setEditVisible(true);
-                }}
-              >
-                编辑
-              </a>
-          {!record.is_system && (<a
                 className="text-red"
                 onClick={() => {
                   handleRemoveItem(index);
@@ -137,8 +133,8 @@ const GuestbookSetting: React.FC = (props) => {
               >
                 删除
               </a>
-          )}
-            </>
+            )}
+          </>
         </Space>
       ),
     },
@@ -244,6 +240,7 @@ const GuestbookSetting: React.FC = (props) => {
               checkbox: '多项选择',
               select: '下拉选择',
               image: '图片',
+              file: '文件',
             }}
           />
           <ProFormRadio.Group
