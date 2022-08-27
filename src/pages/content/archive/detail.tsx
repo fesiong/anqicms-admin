@@ -134,6 +134,8 @@ export default class ArchiveForm extends React.Component {
     if (copy) {
       archive.id = 0;
       archive.url_token = '';
+      archive.created_time = 0;
+      archive.updated_time = 0;
     }
     let content = archive.data?.content || '';
     if (content.length > 0 && content[0] != '<') {
