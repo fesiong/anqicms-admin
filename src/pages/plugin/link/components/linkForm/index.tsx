@@ -42,7 +42,7 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
       }}
     >
       <ProFormText name="title" label="对方关键词" />
-      <ProFormText name="link" label="对方链接" extra={'如：https://www.kandaoni.com/'} />
+      <ProFormText name="link" label="对方链接" extra={'如：https://www.anqicms.com/'} />
       <ProFormRadio.Group
         name="nofollow"
         label="NOFOLLOW"

@@ -55,12 +55,13 @@ const SettingSystemFrom: React.FC<any> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
 
-  console.log(extraFields)
+  console.log(extraFields);
   return (
     <PageHeaderWrapper>
       <Card>
@@ -82,7 +83,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               name="base_url"
               label="网站地址"
               width="lg"
-              extra="指该网站的PC端访问网址，如：https://www.kandaoni.com，用来生成全站的绝对地址"
+              extra="指该网站的PC端访问网址，如：https://www.anqicms.com，用来生成全站的绝对地址"
               rules={[
                 {
                   required: true,
@@ -94,21 +95,21 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               name="mobile_url"
               label="移动端地址"
               width="lg"
-              extra="指该网站的手机端访问网址，如：https://m.kandaoni.com，如果模板类型为PC+手机站，需要设置。"
+              extra="指该网站的手机端访问网址，如：https://m.anqicms.com，如果模板类型为PC+手机站，需要设置。"
             />
             <ProFormText label="网站LOGO" width="lg" extra="网站LOGO会显示在页头">
-              <AttachmentSelect onSelect={ handleSelectLogo } visible={false}>
+              <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
                 <div className="ant-upload-item">
-                {siteLogo ? (
-                  <img src={siteLogo} style={{ width: '100%' }} />
-                ) : (
-                  <div className='add'>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>上传</div>
-                  </div>
-                )}
+                  {siteLogo ? (
+                    <img src={siteLogo} style={{ width: '100%' }} />
+                  ) : (
+                    <div className="add">
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>上传</div>
+                    </div>
+                  )}
                 </div>
-                </AttachmentSelect>
+              </AttachmentSelect>
             </ProFormText>
             <ProFormText
               name="site_icp"
@@ -134,14 +135,14 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               name="language"
               width="lg"
               label="默认语言包"
-              request={async(params) => {
+              request={async (params) => {
                 let names = [];
                 for (let item of setting.languages) {
-                  names.push({label: item, value: item})
+                  names.push({ label: item, value: item });
                 }
-                return names
+                return names;
               }}
-              extra='前端一些内置的文字，会按语言包的设定来显示'
+              extra="前端一些内置的文字，会按语言包的设定来显示"
             />
             <ProFormText
               name="admin_url"
@@ -149,11 +150,13 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               width="lg"
               fieldProps={{
                 suffix: '/system/',
-                placeholder: 'http或https开头的域名'
+                placeholder: 'http或https开头的域名',
               }}
               extra={
                 <div>
-                  <div>你可以给后台单独设置独立的域名地址，加强安全性。如：https://admin.kandaoni.com</div>
+                  <div>
+                    你可以给后台单独设置独立的域名地址，加强安全性。如：https://admin.anqicms.com
+                  </div>
                   <div>注意：在设置之前，必须先解析域名，并绑定域名，否则会无法访问后台。</div>
                 </div>
               }
@@ -187,52 +190,69 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               />
             )}
             <Collapse>
-                <Collapse.Panel className='mb-normal' header="自定义参数" extra={<Button size='small' onClick={(e) => {
-                  e.stopPropagation()
-                  extraFields.push({name: '', value: '', remark: ''})
-                  setExtraFields([].concat(extraFields))
-                }}>添加参数</Button>} key="1">
-                    {extraFields.map((item: any, index: number) => (
-                      <Row key={index} gutter={16}>
-                        <Col span={8}>
-                        <ProFormText
-                            name={['extra_fields', index, 'name']}
-                            label='参数名'
-                            required={true}
-                            width="lg"
-                            extra='保存后会转换成驼峰命名，可通过该名称调用'
-                          />
-                          </Col>
-                          <Col span={8}>
-                        <ProFormText
-                            name={['extra_fields', index, 'value']}
-                            label='参数值'
-                            required={true}
-                            width="lg"
-                          />
-                          </Col>
-                        <Col span={6}>
-                        <ProFormText
-                            name={['extra_fields', index, 'remark']}
-                            label='备注'
-                            width="lg"
-                          />
-                          </Col>
-                          <Col span={2}>
-                            <Button style={{marginTop: '30px'}} onClick={() => {
-                               Modal.confirm({
-                                 title: '确定要删除这个参数吗？',
-                                 onOk: () => {
-                                  extraFields.splice(index, 1)
-                                  setExtraFields([].concat(extraFields))
-                                 }
-                               })
-                            }}>删除</Button>
-                          </Col>
-                      </Row>
-                    ))}
-                </Collapse.Panel>
-              </Collapse>
+              <Collapse.Panel
+                className="mb-normal"
+                header="自定义参数"
+                extra={
+                  <Button
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      extraFields.push({ name: '', value: '', remark: '' });
+                      setExtraFields([].concat(extraFields));
+                    }}
+                  >
+                    添加参数
+                  </Button>
+                }
+                key="1"
+              >
+                {extraFields.map((item: any, index: number) => (
+                  <Row key={index} gutter={16}>
+                    <Col span={8}>
+                      <ProFormText
+                        name={['extra_fields', index, 'name']}
+                        label="参数名"
+                        required={true}
+                        width="lg"
+                        extra="保存后会转换成驼峰命名，可通过该名称调用"
+                      />
+                    </Col>
+                    <Col span={8}>
+                      <ProFormText
+                        name={['extra_fields', index, 'value']}
+                        label="参数值"
+                        required={true}
+                        width="lg"
+                      />
+                    </Col>
+                    <Col span={6}>
+                      <ProFormText
+                        name={['extra_fields', index, 'remark']}
+                        label="备注"
+                        width="lg"
+                      />
+                    </Col>
+                    <Col span={2}>
+                      <Button
+                        style={{ marginTop: '30px' }}
+                        onClick={() => {
+                          Modal.confirm({
+                            title: '确定要删除这个参数吗？',
+                            onOk: () => {
+                              extraFields.splice(index, 1);
+                              setExtraFields([].concat(extraFields));
+                            },
+                          });
+                        }}
+                      >
+                        删除
+                      </Button>
+                    </Col>
+                  </Row>
+                ))}
+              </Collapse.Panel>
+            </Collapse>
           </ProForm>
         )}
       </Card>

@@ -163,7 +163,7 @@ const PluginPush: React.FC<any> = (props) => {
                 <ProFormText
                   name="baidu_api"
                   label="推送接口地址"
-                  extra="如：http://data.zz.baidu.com/urls?site=https://www.kandaoni.com&token=DTHpH8Xn99BrJLBY"
+                  extra="如：http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DTHpH8Xn99BrJLBY"
                 />
               </Card>
               <Card size="small" title="必应搜索主动推送" bordered={false}>

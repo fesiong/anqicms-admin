@@ -9,7 +9,14 @@ import {
 import ProList from '@ant-design/pro-list';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Button, Card, message, Modal, Space, Tag } from 'antd';
-import { deleteSettingNav, getSettingNav, saveSettingNav, getCategories, getModules, getSettingNavTypes } from '@/services';
+import {
+  deleteSettingNav,
+  getSettingNav,
+  saveSettingNav,
+  getCategories,
+  getModules,
+  getSettingNavTypes,
+} from '@/services';
 import NavTypes from './components/navType';
 
 const SettingNavFrom: React.FC<any> = (props) => {
@@ -46,7 +53,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
 
   const getCategoryList = async () => {
     const res = await getCategories();
-    const pages = await getCategories({type: 3});
+    const pages = await getCategories({ type: 3 });
     let categories = (res.data || []).concat(pages.data || []);
     setCategories(categories);
   };
@@ -55,20 +62,22 @@ const SettingNavFrom: React.FC<any> = (props) => {
     const res = await getModules();
     let modules = res.data || [];
     setModules(modules);
-    let options = [{
-      value: 0,
-      label: '首页',
-    }];
+    let options = [
+      {
+        value: 0,
+        label: '首页',
+      },
+    ];
 
     for (let item of modules) {
       options.push({
         value: item.id,
         label: item.title + '首页',
-      })
+      });
     }
 
-    setInnerOptions(options)
-  }
+    setInnerOptions(options);
+  };
 
   const editNav = (row: any) => {
     setEditingNav(row);
@@ -80,12 +89,12 @@ const SettingNavFrom: React.FC<any> = (props) => {
     Modal.confirm({
       title: '确定要删除该导航吗',
       onOk: () => {
-        deleteSettingNav(row).then(res => {
+        deleteSettingNav(row).then((res) => {
           message.success(res.msg);
           getNavList(typeId);
-        })
-      }
-    })
+        });
+      },
+    });
   };
 
   const handleShowAddNav = () => {
@@ -95,7 +104,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
   };
 
   const onNavSubmit = async (values: any) => {
-    values = Object.assign(editingNav, values)
+    values = Object.assign(editingNav, values);
     values.type_id = typeId;
     const hide = message.loading('正在提交中', 0);
     saveSettingNav(values)
@@ -106,7 +115,8 @@ const SettingNavFrom: React.FC<any> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
@@ -117,23 +127,41 @@ const SettingNavFrom: React.FC<any> = (props) => {
         return item.title;
       }
     }
-  }
+  };
 
   const handleChangeNavType = (typeId: number) => {
-    setTypeId(typeId)
+    setTypeId(typeId);
     getNavList(typeId);
-  }
+  };
 
   return (
     <PageHeaderWrapper>
-      <Card title={<div>
-        <Space>
-          {navTypes.map((item) => (
-            <Button key={item.id} type={typeId == item.id ? 'primary' : 'default'} onClick={() => {handleChangeNavType(item.id)}}>{item.title}</Button>
-          ))}
-          <NavTypes onCancel={()=> {getNavTypes()}}><Button>导航类别管理</Button></NavTypes>
-        </Space>
-      </div>}>
+      <Card
+        title={
+          <div>
+            <Space>
+              {navTypes.map((item) => (
+                <Button
+                  key={item.id}
+                  type={typeId == item.id ? 'primary' : 'default'}
+                  onClick={() => {
+                    handleChangeNavType(item.id);
+                  }}
+                >
+                  {item.title}
+                </Button>
+              ))}
+              <NavTypes
+                onCancel={() => {
+                  getNavTypes();
+                }}
+              >
+                <Button>导航类别管理</Button>
+              </NavTypes>
+            </Space>
+          </div>
+        }
+      >
         <ProList<any>
           toolBarRender={() => {
             return [<Button onClick={handleShowAddNav}>添加导航</Button>];
@@ -163,10 +191,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
                         ? '外链: ' + row.link
                         : row.nav_type == 1
                         ? '分类/页面: ' + row.page_id
-                        : '内置: ' +
-                          (row.page_id > 0
-                            ? getModuleName(row.page_id)
-                            : '首页')}
+                        : '内置: ' + (row.page_id > 0 ? getModuleName(row.page_id) : '首页')}
                     </Tag>
                   </Space>
                 );
@@ -211,7 +236,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
                   title: '顶级导航',
                   id: 0,
                 },
-              ]
+              ];
               for (let item of navs) {
                 if (item.parent_id == 0) {
                   newNavs.push(item);
@@ -247,11 +272,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
             ]}
           />
           {nav_type == 0 && (
-            <ProFormRadio.Group
-              name="page_id"
-              label="内置导航"
-              options={innerOptions}
-            />
+            <ProFormRadio.Group name="page_id" label="内置导航" options={innerOptions} />
           )}
           {nav_type == 1 && (
             <ProFormSelect
@@ -275,7 +296,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
               name="link"
               label="填写链接"
               width="lg"
-              extra="连接使用http或https开头，如： https://www.kandaoni.com/"
+              extra="连接使用http或https开头，如： https://www.anqicms.com/"
             />
           )}
           <ProFormDigit

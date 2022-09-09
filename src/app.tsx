@@ -81,7 +81,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       }
     },
     links: [
-      <a href="https://www.kandaoni.com/anqicms" target="_blank">
+      <a href="https://www.anqicms.com/" target="_blank">
         <LinkOutlined />
         <span>安企CMS(AnqiCMS)</span>
       </a>,

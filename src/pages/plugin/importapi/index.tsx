@@ -178,7 +178,7 @@ const PluginImportApi: React.FC<any> = (props) => {
                           title: 'logo',
                           required: false,
                           remark:
-                            '文档的缩略图，可以是绝对地址，如: https://www.kandaoni.com/logo.png 或相对地址，如: /logo.png',
+                            '文档的缩略图，可以是绝对地址，如: https://www.anqicms.com/logo.png 或相对地址，如: /logo.png',
                         },
                         {
                           title: 'publish_time',
@@ -225,7 +225,7 @@ const PluginImportApi: React.FC<any> = (props) => {
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "发布成功",   //如果有错误，则这里会描述错误的原因\n    "data": {\n        "url":"https://www.kandaoni.com/..." //这里返回文档的url\n    }\n}'
+                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "发布成功",   //如果有错误，则这里会描述错误的原因\n    "data": {\n        "url":"https://www.anqicms.com/..." //这里返回文档的url\n    }\n}'
                             }
                           </code>
                         </pre>

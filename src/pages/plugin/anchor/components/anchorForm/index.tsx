@@ -38,7 +38,7 @@ const AnchorForm: React.FC<AnchorFormProps> = (props) => {
       <ProFormText
         name="link"
         label="锚文本链接"
-        extra={'支持相对链接和绝对连接，如：/a/123.html 或 https://www.kandaoni.com/'}
+        extra={'支持相对链接和绝对连接，如：/a/123.html 或 https://www.anqicms.com/'}
       />
       <ProFormDigit
         name="weight"

@@ -1,7 +1,7 @@
 import { DefaultFooter } from '@ant-design/pro-layout';
 
 const Footer: React.FC = () => {
-  const defaultMessage = 'kandaoni.com';
+  const defaultMessage = 'anqicms.com';
 
   const currentYear = new Date().getFullYear();
 
@@ -10,9 +10,9 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'kandaoni.com/template',
+          key: 'anqicms.com/manual',
           title: '模板使用教程',
-          href: 'https://www.kandaoni.com/category/10',
+          href: 'https://www.anqicms.com/manual',
           blankTarget: true,
         },
       ]}

@@ -23,10 +23,10 @@ const GlobalHeaderRight: React.FC = () => {
   return (
     <Space className={className}>
       <span
-        style={{fontSize: 20}}
+        style={{ fontSize: 20 }}
         className={styles.action}
         onClick={() => {
-          window.open('https://www.kandaoni.com/anqicms');
+          window.open('https://www.anqicms.com/');
         }}
       >
         <QuestionCircleOutlined />

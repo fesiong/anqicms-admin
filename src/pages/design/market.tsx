@@ -10,9 +10,9 @@ const DesignMarket: React.FC = () => {
     getHeight();
     window.addEventListener('resize', getHeight);
     return () => {
-        // 组件销毁时移除监听事件
-        window.removeEventListener('resize', getHeight);
-    }
+      // 组件销毁时移除监听事件
+      window.removeEventListener('resize', getHeight);
+    };
   }, []);
 
   const getHeight = () => {
@@ -24,12 +24,16 @@ const DesignMarket: React.FC = () => {
     }
 
     setHeight(num);
-  }
+  };
 
   return (
     <PageContainer>
       <Card>
-        <iframe className='frame-page' src='https://www.kandaoni.com/category/27' height={height}></iframe>
+        <iframe
+          className="frame-page"
+          src="https://www.anqicms.com/design"
+          height={height}
+        ></iframe>
       </Card>
     </PageContainer>
   );
