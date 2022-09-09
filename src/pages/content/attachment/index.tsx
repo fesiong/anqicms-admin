@@ -14,6 +14,7 @@ import {
   Card,
   Avatar,
   Input,
+  Alert,
 } from 'antd';
 import React from 'react';
 import './index.less';
@@ -21,6 +22,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import {
   changeAttachmentCategory,
+  changeAttachmentName,
   deleteAttachment,
   getAttachmentCategories,
   getAttachments,
@@ -29,6 +31,7 @@ import {
 import AttachmentCategory from './components/category';
 import moment from 'moment';
 import { sizeFormat } from '@/utils';
+import { ModalForm, ProFormText } from '@ant-design/pro-form';
 
 export default class ImageList extends React.Component {
   state: { [key: string]: any } = {
@@ -44,6 +47,7 @@ export default class ImageList extends React.Component {
     tmpCategoryId: 0,
     currentAttach: {},
     detailVisible: false,
+    editVisible: false,
 
     indeterminate: false,
     selectedAll: false,
@@ -239,6 +243,36 @@ export default class ImageList extends React.Component {
     });
   };
 
+  handleModifyName = () => {
+    this.setState({
+      editVisible: true,
+    });
+  };
+
+  changeModifyName = (mode: any) => {
+    this.setState({
+      editVisible: mode,
+    });
+  };
+
+  onSubmitEdit = async (values: any) => {
+    console.log(values);
+    const { currentAttach } = this.state;
+    currentAttach.file_name = values.file_name;
+    changeAttachmentName(currentAttach).then((res) => {
+      if (res.code !== 0) {
+        message.info(res.msg);
+      } else {
+        message.info(res.msg || '修改成功');
+        this.setState({
+          currentAttach: currentAttach,
+        });
+        this.getImageList();
+      }
+    });
+    this.changeModifyName(false);
+  };
+
   handleRemoveAttach = () => {
     const { currentAttach } = this.state;
     this.setState(
@@ -302,6 +336,7 @@ export default class ImageList extends React.Component {
       selectedIds,
       currentAttach,
       detailVisible,
+      editVisible,
       indeterminate,
       selectedAll,
     } = this.state;
@@ -460,7 +495,7 @@ export default class ImageList extends React.Component {
             <div className="detail">
               <div className="info">
                 <div className="item">
-                  <div className="name">文件名:</div>
+                  <div className="name">文件名(ALT):</div>
                   <div className="value">{currentAttach.file_name}</div>
                 </div>
                 <div className="item">
@@ -499,6 +534,7 @@ export default class ImageList extends React.Component {
                 >
                   <Button>替换图片</Button>
                 </Upload>
+                <Button onClick={this.handleModifyName}>修改文件名</Button>
                 <Button onClick={this.handleRemoveAttach}>删除图片</Button>
                 <Button danger onClick={this.hideAttachDetail}>
                   关闭
@@ -515,6 +551,22 @@ export default class ImageList extends React.Component {
             </div>
           </div>
         </Modal>
+        {editVisible && (
+          <ModalForm
+            width={600}
+            title="修改文件名(ALT)"
+            visible={editVisible}
+            initialValues={currentAttach}
+            layout="horizontal"
+            onFinish={this.onSubmitEdit}
+            onVisibleChange={(e) => this.changeModifyName(e)}
+          >
+            <div className="mb-normal">
+              <Alert message="请填写新的文件名" />
+            </div>
+            <ProFormText name="file_name" />
+          </ModalForm>
+        )}
       </PageContainer>
     );
   }

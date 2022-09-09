@@ -351,6 +351,15 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               { label: '必填', value: true },
             ]}
           />
+          <ProFormRadio.Group
+            name="is_filter"
+            label="作为筛选参数"
+            options={[
+              { label: '否', value: false },
+              { label: '是', value: true },
+            ]}
+            extra="只有字段类型是单选、多选、下拉类型的时候，才有效"
+          />
           <ProFormTextArea
             label="默认值"
             name="content"

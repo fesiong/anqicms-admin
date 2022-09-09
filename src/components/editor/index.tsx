@@ -10,7 +10,6 @@ import { message, Tooltip } from 'antd';
 import { HtmlMenu } from './html/menu';
 import { MaterialMenu } from './material/menu';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { getBaseUrl } from '@/utils';
 
 // 注册。要在创建编辑器之前注册
 E.registerMenu('html', HtmlMenu);
@@ -31,10 +30,7 @@ const WangEditor: React.FC<WangEditorProps> = (props) => {
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
 
   const handleSelectImages = (e: any) => {
-    editorRef.current?.editor.cmd.do(
-      'insertHTML',
-      `<img src="${e.logo}" alt="${e.file_name}" style="max-width:100%;"/>`,
-    );
+    editorRef.current?.editor.cmd.do('insertHTML', `<img src="${e.logo}" alt="${e.file_name}"/>`);
     setAttachVisible(false);
   };
 

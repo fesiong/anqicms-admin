@@ -1,5 +1,5 @@
 import E from 'wangeditor';
-const { $, BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = E;
+const { BtnMenu } = E;
 // 定义菜单 class
 export class HtmlMenu extends BtnMenu {
   htmlMode = false;
@@ -28,6 +28,7 @@ export class HtmlMenu extends BtnMenu {
     if (customSetMode) {
       customSetMode((mode: boolean) => {
         this.htmlMode = mode;
+        setMode(this.htmlMode);
         this.tryChangeActive();
       });
     }

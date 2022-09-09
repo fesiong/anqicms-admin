@@ -16,6 +16,14 @@ export async function uploadAttachment(body: any, options?: { [key: string]: any
   });
 }
 
+export async function changeAttachmentName(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/attachment/edit',
+    body,
+    options,
+  });
+}
+
 export async function deleteAttachment(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/attachment/delete',
