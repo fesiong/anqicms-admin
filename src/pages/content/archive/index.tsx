@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Modal, Space, Tag } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -9,6 +9,7 @@ import { getCategories } from '@/services/category';
 import moment from 'moment';
 import { history } from 'umi';
 import ReplaceKeywords from '@/components/replaceKeywords';
+import './index.less';
 import {
   deleteArchive,
   getArchives,
@@ -34,6 +35,24 @@ const ArchiveList: React.FC = (props) => {
   const [replaceVisible, setReplaceVisible] = useState<boolean>(false);
   const [flagVisible, setFlagVisible] = useState<boolean>(false);
   const [statusVisible, setStatusVisible] = useState<boolean>(false);
+  const [modules, setModules] = useState<any[]>([]);
+  const [moduleId, setModuleId] = useState<Number>(0);
+
+  useEffect(() => {
+    setModuleId(Number(history.location.query?.module_id || 0));
+    loadModules();
+  }, []);
+
+  const loadModules = async () => {
+    let res = await getModules({});
+    setModules([{ title: '所有文档', id: 0 }].concat(res.data || []));
+  };
+
+  const onSelectModule = (id: Number) => {
+    setModuleId(id);
+    history.replace('/archive/list?module_id=' + id);
+    actionRef.current?.reload();
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -146,26 +165,9 @@ const ArchiveList: React.FC = (props) => {
     {
       title: '内容模型',
       dataIndex: 'module_id',
+      hideInSearch: true,
       render: (dom: any, entity) => {
         return entity.module_name;
-      },
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
-        return (
-          <ProFormSelect
-            name="module_id"
-            request={async () => {
-              let res = await getModules({});
-              return [{ title: '所有模型', id: 0 }].concat(res.data || []);
-            }}
-            fieldProps={{
-              fieldNames: {
-                label: 'title',
-                value: 'id',
-              },
-              ...fieldProps,
-            }}
-          />
-        );
       },
     },
     {
@@ -288,7 +290,21 @@ const ArchiveList: React.FC = (props) => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="文档列表"
+        headerTitle={
+          <div className="module-tags">
+            {modules.map((item: any) => (
+              <div
+                className={'module-tag ' + (item.id == moduleId ? 'active' : '')}
+                key={item.id}
+                onClick={() => {
+                  onSelectModule(item.id);
+                }}
+              >
+                {item.title}
+              </div>
+            ))}
+          </div>
+        }
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -316,7 +332,11 @@ const ArchiveList: React.FC = (props) => {
             type="primary"
             key="add"
             onClick={() => {
-              history.push('/archive/detail');
+              if (moduleId > 0) {
+                history.push('/archive/detail?module_id=' + moduleId);
+              } else {
+                history.push('/archive/detail');
+              }
             }}
           >
             <PlusOutlined /> 添加文档
@@ -355,7 +375,6 @@ const ArchiveList: React.FC = (props) => {
         )}
         request={(params, sort) => {
           let categoryId = history.location.query?.category_id || 0;
-          let moduleId = history.location.query?.module_id || 0;
           if (categoryId > 0) {
             params = Object.assign({ category_id: categoryId }, params);
           }

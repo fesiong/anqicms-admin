@@ -37,6 +37,7 @@ const WangEditor: React.FC<WangEditorProps> = (props) => {
   const onChangeCode = (newCode: string) => {
     if (code != newCode) {
       code = newCode;
+      props.setContent(code);
     }
   };
 
