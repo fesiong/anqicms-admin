@@ -13,6 +13,7 @@ import { exportFile } from '@/utils';
 import KeywordImport from './components/import';
 import { collectCollectorArticle, digCollectorKeyword } from '@/services/collector';
 import KeywordForm from './components/keywordForm';
+import KeywordSetting from './components/setting';
 
 const PluginKeyword: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -65,19 +66,21 @@ const PluginKeyword: React.FC = () => {
 
   const handleCollectArticle = (keyword: any) => {
     const hide = message.loading('正在采集中', 0);
-    collectCollectorArticle(keyword).then(res => {
-      if (res.code !== 0) {
-        message.error(res.msg)
-      } else {
-        if (actionRef.current) {
-          actionRef.current.reload();
+    collectCollectorArticle(keyword)
+      .then((res) => {
+        if (res.code !== 0) {
+          message.error(res.msg);
+        } else {
+          if (actionRef.current) {
+            actionRef.current.reload();
+          }
+          message.info(res.msg);
         }
-        message.info(res.msg);
-      }
-    }).finally(() => {
-      hide();
-    })
-  }
+      })
+      .finally(() => {
+        hide();
+      });
+  };
 
   const columns: ProColumns<any>[] = [
     {
@@ -185,6 +188,9 @@ const PluginKeyword: React.FC = () => {
           >
             手动拓词
           </Button>,
+          <KeywordSetting onCancel={() => {}} key="setting">
+            <Button>拓词设置</Button>
+          </KeywordSetting>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>

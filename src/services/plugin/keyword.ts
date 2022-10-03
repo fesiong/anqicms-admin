@@ -39,3 +39,19 @@ export async function pluginImportKeyword(body: any, options?: { [key: string]: 
     options,
   });
 }
+
+export async function getKeywordSetting(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/plugin/keyword/setting',
+    params,
+    options,
+  });
+}
+
+export async function saveKeywordSetting(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/keyword/setting',
+    body,
+    options,
+  });
+}

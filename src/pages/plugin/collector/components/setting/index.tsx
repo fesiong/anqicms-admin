@@ -7,9 +7,11 @@ import {
   ProFormText,
 } from '@ant-design/pro-form';
 import './index.less';
-import { Input, message, Space, Tag } from 'antd';
+import { Input, message, Space, Tag, Image, Row, Col, Avatar, Button } from 'antd';
 import { getCollectorSetting, saveCollectorSetting } from '@/services/collector';
 import { getCategories } from '@/services/category';
+import AttachmentSelect from '@/components/attachment';
+import { PlusOutlined } from '@ant-design/icons';
 
 export type CollectorSettingProps = {
   onCancel: (flag?: boolean) => void;
@@ -21,6 +23,8 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     fetched: false,
     setting: {},
     tmpInput: {},
+    selectedEngine: '',
+    insertImage: false,
   };
 
   componentDidMount() {
@@ -47,9 +51,14 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
       if (!setting.content_replace) {
         setting.content_replace = [];
       }
+      if (!setting.images) {
+        setting.images = [];
+      }
       this.setState({
         setting: setting,
         fetched: true,
+        selectedEngine: setting.from_engine,
+        insertImage: setting.insert_image,
       });
     });
   }
@@ -124,8 +133,29 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
+  onChangeEngine = (e: any) => {
+    this.setState({
+      selectedEngine: e.target.value,
+    });
+  };
+
+  onChangeInsertImage = (e: any) => {
+    console.log(e);
+    this.setState({
+      insertImage: e.target.value,
+    });
+  };
+
+  handleSelectLogo = (row: any) => {
+    const { setting } = this.state;
+    setting['images'].push(row.logo);
+    this.setState({
+      setting,
+    });
+  };
+
   render() {
-    const { visible, fetched, setting, tmpInput } = this.state;
+    const { visible, fetched, setting, tmpInput, selectedEngine, insertImage } = this.state;
 
     return (
       <>
@@ -161,6 +191,57 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 { label: '自动按计划采集', value: true },
               ]}
             />
+            <ProFormRadio.Group
+              name="language"
+              label="采集文章语种"
+              options={[
+                { label: '中文', value: 'zh' },
+                { label: '英文', value: 'en' },
+              ]}
+            />
+            <ProFormRadio.Group
+              name="collect_mode"
+              label="采集模式"
+              options={[
+                { label: '文章采集', value: 0 },
+                { label: '文章组合', value: 1 },
+              ]}
+              extra="文章采集模式，会按原文采集整篇文章；文章组合模式，会从搜索列表中的简介中采集并组合成文章"
+            />
+            <ProFormRadio.Group
+              name="from_engine"
+              label="采集来源"
+              fieldProps={{
+                onChange: (e) => {
+                  this.onChangeEngine(e);
+                },
+              }}
+              options={[
+                { label: '百度', value: 'baidu' },
+                { label: '搜搜', value: '360' },
+                { label: '搜狗', value: 'sogou' },
+                { label: '谷歌', value: 'google' },
+                { label: '必应国内', value: 'bingcn' },
+                { label: '必应国际', value: 'bing' },
+                { label: '其他', value: 'other' },
+              ]}
+              extra="文章采集模式只支持百度搜索引擎，其他选项无效。"
+            />
+            {selectedEngine == 'other' && (
+              <ProFormText
+                name="from_website"
+                label="自定义来源"
+                placeholder="如：https://cn.bing.com/search?q=%s"
+                extra={
+                  <div>
+                    注意自定义来源格式必须是一个搜索列表，搜索的关键词用<Tag>%s</Tag>
+                    表示，如搜索链接是：<Tag>https://cn.bing.com/search?q=安企CMS</Tag>，则将
+                    <Tag>安企CMS</Tag>替换为<Tag>%s</Tag>后为：
+                    <Tag>https://cn.bing.com/search?q=%s</Tag>
+                  </div>
+                }
+              />
+            )}
             <ProFormSelect
               label="默认发布文章分类"
               name="category_id"
@@ -189,12 +270,6 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               ]}
             />
             <ProFormDigit
-              name="from_website"
-              label="采集指定网站"
-              placeholder="如：www.jianshu.com"
-              extra="填写域名，不带路径。如：www.jianshu.com。如果发现采集不到内容，请取消这项内容填写"
-            />
-            <ProFormDigit
               name="title_min_length"
               label="标题最少字数"
               placeholder="默认10个字"
@@ -205,14 +280,6 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               label="内容最少字数"
               placeholder="默认400个字"
               extra="采集文章的时候，文章内容字数少于指定的字数，则不会采集"
-            />
-            <ProFormRadio.Group
-              name="auto_dig_keyword"
-              label="关键词自动拓词"
-              options={[
-                { label: '否', value: false },
-                { label: '自动', value: true },
-              ]}
             />
             <ProFormRadio.Group
               name="auto_pseudo"
@@ -252,6 +319,60 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               placeholder="默认1000"
               extra="每日最大发布文章量，最大不能超过10000，这是一个约数，并不一定能发布到这个数量"
             />
+            <ProFormRadio.Group
+              name="insert_image"
+              label="是否插入图片"
+              options={[
+                { label: '不插入图片', value: false },
+                { label: '插入图片', value: true },
+              ]}
+              fieldProps={{
+                onChange: (e) => {
+                  this.onChangeInsertImage(e);
+                },
+              }}
+            />
+            {insertImage && (
+              <ProFormText label="供插入的图片列表">
+                <div className="insert-image">
+                  <Row gutter={[16, 16]} className="image-list">
+                    {setting.images?.map((item: any, index: number) => (
+                      <Col span={4} key={index}>
+                        <div className="image-item">
+                          <div className="inner">
+                            <div className="link">
+                              <Image className="img" preview={true} src={item} />
+                              <span
+                                className="close"
+                                onClick={this.handleRemove.bind(this, 'images', index)}
+                              >
+                                移除
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    ))}
+                    <Col span={4}>
+                      <div className="image-item">
+                        <div className="inner">
+                          <div className="link">
+                            <AttachmentSelect onSelect={this.handleSelectLogo} visible={false}>
+                              <div className="ant-upload-item">
+                                <div className="add">
+                                  <PlusOutlined />
+                                  <div style={{ marginTop: 8 }}>上传</div>
+                                </div>
+                              </div>
+                            </AttachmentSelect>
+                          </div>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </ProFormText>
+            )}
             <ProFormText
               label="标题排除词"
               fieldProps={{

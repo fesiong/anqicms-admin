@@ -5,7 +5,6 @@ import { history, Link } from 'umi';
 import CollectorSetting from './components/setting';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import ReplaceKeywords from '@/components/replaceKeywords';
-import { PlusOutlined } from '@ant-design/icons';
 import { deleteArchive, releaseArchive, getArchives } from '@/services';
 import moment from 'moment';
 
@@ -85,9 +84,11 @@ const PluginCollector: React.FC = () => {
       hideInSearch: true,
       render: (dom, entity) => {
         return (
-          <div style={{maxWidth: 400}}><a href={entity.link} target="_blank">
-          {dom}
-        </a></div>
+          <div style={{ maxWidth: 400 }}>
+            <a href={entity.link} target="_blank">
+              {dom}
+            </a>
+          </div>
         );
       },
     },
@@ -97,9 +98,7 @@ const PluginCollector: React.FC = () => {
       hideInSearch: true,
       width: 70,
       render: (text, record) => {
-        return (
-          text ? <img src={record.thumb} className='list-thumb' /> : null
-        );
+        return text ? <img src={record.thumb} className="list-thumb" /> : null;
       },
     },
     {
@@ -124,7 +123,7 @@ const PluginCollector: React.FC = () => {
           text: '待发布',
           status: 'Default',
         },
-      }
+      },
     },
     {
       title: '时间',
@@ -143,14 +142,16 @@ const PluginCollector: React.FC = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-        {record.status == 0 && <a
-          key="recover"
-          onClick={async () => {
-            await handlePublish([record.id]);
-          }}
-        >
-          发布
-        </a>}
+          {record.status == 0 && (
+            <a
+              key="recover"
+              onClick={async () => {
+                await handlePublish([record.id]);
+              }}
+            >
+              发布
+            </a>
+          )}
           <a
             key="delete"
             onClick={async () => {
@@ -176,77 +177,71 @@ const PluginCollector: React.FC = () => {
   return (
     <PageContainer>
       <Card>
-      <Alert
-            message={
-              <div>
-                采集文章需要先设置核心关键词，请检查“关键词库管理”功能，并添加相应的关键词。更多采集和伪原创设置，请点击{' '}
+        <Alert
+          message={
+            <div>采集文章需要先设置核心关键词，请检查“关键词库管理”功能，并添加相应的关键词。</div>
+          }
+        />
 
-              </div>
-            }
-          />
-
-<ProTable<any>
-        actionRef={actionRef}
-        rowKey="id"
-        search={false}
-        toolBarRender={() => [
-          <CollectorSetting onCancel={() => {}} key="setting">
-                  <Button>
-            采集和伪原创设置
-          </Button>
-                </CollectorSetting>
-          ,
-          <Button
-            key="keywords"
-            onClick={() => {
-              history.push('/plugin/keyword')
-            }}
-          >
-            关键词库管理
-          </Button>,
-          <Button
-            key="replace"
-            onClick={() => {
-              setReplaceVisible(true);
-            }}
-          >
-            批量替换关键词
-          </Button>,
-        ]}
-        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-          <Space>
-          <Button
-            size={'small'}
-            onClick={async () => {
-              await handlePublish(selectedRowKeys);
-            }}
-          >
-            批量发布
-          </Button>
+        <ProTable<any>
+          actionRef={actionRef}
+          rowKey="id"
+          search={false}
+          toolBarRender={() => [
+            <CollectorSetting onCancel={() => {}} key="setting">
+              <Button>采集和伪原创设置</Button>
+            </CollectorSetting>,
             <Button
-              size={'small'}
-              onClick={async () => {
-                await handleRemove(selectedRowKeys);
+              key="keywords"
+              onClick={() => {
+                history.push('/plugin/keyword');
               }}
             >
-              批量删除
-            </Button>
-            <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
-            </Button>
-          </Space>
-        )}
-        request={(params, sort) => {
-          params.collect = true;
-          return getArchives(params);
-        }}
-        columns={columns}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            setSelectedRowKeys(selectedRowKeys);
-          },
-        }}
-      />
+              关键词库管理
+            </Button>,
+            <Button
+              key="replace"
+              onClick={() => {
+                setReplaceVisible(true);
+              }}
+            >
+              批量替换关键词
+            </Button>,
+          ]}
+          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+            <Space>
+              <Button
+                size={'small'}
+                onClick={async () => {
+                  await handlePublish(selectedRowKeys);
+                }}
+              >
+                批量发布
+              </Button>
+              <Button
+                size={'small'}
+                onClick={async () => {
+                  await handleRemove(selectedRowKeys);
+                }}
+              >
+                批量删除
+              </Button>
+              <Button type="link" size={'small'} onClick={onCleanSelected}>
+                取消选择
+              </Button>
+            </Space>
+          )}
+          request={(params, sort) => {
+            params.collect = true;
+            return getArchives(params);
+          }}
+          columns={columns}
+          rowSelection={{
+            onChange: (selectedRowKeys) => {
+              setSelectedRowKeys(selectedRowKeys);
+            },
+          }}
+        />
       </Card>
       <ReplaceKeywords
         visible={replaceVisible}
