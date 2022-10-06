@@ -1,0 +1,57 @@
+import { get, post } from '../tools';
+
+export async function pluginGetUsers(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/plugin/user/list',
+    params,
+    options,
+  });
+}
+
+export async function pluginGetUserInfo(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/plugin/user/detail',
+    params,
+    options,
+  });
+}
+
+export async function pluginSaveUserInfo(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/user/detail',
+    body,
+    options,
+  });
+}
+
+export async function pluginGetUserGroups(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/plugin/user/group/list',
+    params,
+    options,
+  });
+}
+
+export async function pluginGetUserGroupInfo(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/plugin/user/group/detail',
+    params,
+    options,
+  });
+}
+
+export async function pluginSaveUserGroupInfo(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/user/group/detail',
+    body,
+    options,
+  });
+}
+
+export async function pluginDeleteUserGroup(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/user/group/delete',
+    body,
+    options,
+  });
+}

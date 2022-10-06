@@ -66,7 +66,7 @@ export async function getDesignFileHistories(params: any, options?: { [key: stri
 
 export async function deleteDesignHistoryFile(body: any, options?: { [key: string]: any }) {
   return post({
-    url: "/design/file/history/delete",
+    url: '/design/file/history/delete',
     body,
     options,
   });

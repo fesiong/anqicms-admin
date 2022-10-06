@@ -5,7 +5,7 @@ import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
 import { deleteAdminInfo, getAdminGroups, getAdminList, saveAdmin } from '@/services';
 import { Button, message, Space } from 'antd';
-import { useModel, history } from 'umi';
+import { useModel } from 'umi';
 import { ModalForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -28,8 +28,8 @@ const AdminList: React.FC = () => {
       values.status = 1;
     }
     values.status = Number(values.status);
-    values = Object.assign(editInfo, values);
-    saveAdmin(values).then((res) => {
+    const postData = Object.assign(editInfo, values);
+    saveAdmin(postData).then((res) => {
       if (res.code !== 0) {
         message.error(res.msg);
       } else {
@@ -126,7 +126,7 @@ const AdminList: React.FC = () => {
         rowKey="id"
         actionRef={actionRef}
         search={false}
-        request={(params, sort) => {
+        request={(params) => {
           return getAdminList(params);
         }}
         columns={columns}
@@ -162,7 +162,7 @@ const AdminList: React.FC = () => {
             name="group_id"
             label="分组"
             request={async () => {
-              let res = await getAdminGroups({});
+              const res = await getAdminGroups({});
               return res.data || [];
             }}
             fieldProps={{
