@@ -7,10 +7,11 @@ import ProTable from '@ant-design/pro-table';
 import { pluginCheckLink, pluginDeleteLink, pluginGetLinks } from '@/services/plugin/link';
 import moment from 'moment';
 import LinkForm from './components/linkForm';
+import LinkApi from './components/api';
 
 const PluginLink: React.FC = () => {
   const actionRef = useRef<ActionType>();
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const [, setSelectedRowKeys] = useState<any[]>([]);
   const [currentLink, setCurrentLink] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
 
@@ -21,7 +22,7 @@ const PluginLink: React.FC = () => {
         const hide = message.loading('正在删除', 0);
         if (!selectedRowKeys) return true;
         try {
-          for (let item of selectedRowKeys) {
+          for (const item of selectedRowKeys) {
             await pluginDeleteLink({
               id: item,
             });
@@ -47,7 +48,7 @@ const PluginLink: React.FC = () => {
   };
 
   const handleCheckLink = async (record: any) => {
-    let res = await pluginCheckLink(record);
+    const res = await pluginCheckLink(record);
     message.info(res.msg);
     if (actionRef.current) {
       actionRef.current.reload();
@@ -78,12 +79,12 @@ const PluginLink: React.FC = () => {
     {
       title: '对方关键词/链接',
       dataIndex: 'title',
-      render: (text, record) => {
+      render: (_, record) => {
         return (
           <div>
             <span>{record.title}</span>
             <span> / </span>
-            <a href={record.link} target="_blank">
+            <a href={record.link} target="_blank" rel="noreferrer">
               {record.link}
             </a>
           </div>
@@ -93,7 +94,7 @@ const PluginLink: React.FC = () => {
     {
       title: '对方联系方式/备注',
       dataIndex: 'contact',
-      render: (text, record) => {
+      render: (_, record) => {
         return (
           <div>
             <span>{record.contact}</span>
@@ -119,7 +120,7 @@ const PluginLink: React.FC = () => {
     {
       title: '添加时间',
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (_, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: '操作',
@@ -167,6 +168,9 @@ const PluginLink: React.FC = () => {
         rowKey="id"
         search={false}
         toolBarRender={() => [
+          <LinkApi key="api">
+            <Button>友情链接API</Button>
+          </LinkApi>,
           <Button
             type="primary"
             key="add"
@@ -194,7 +198,7 @@ const PluginLink: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetLinks(params);
         }}
         columns={columns}

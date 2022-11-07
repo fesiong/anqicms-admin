@@ -1,29 +1,5 @@
 import { get, post } from '../tools';
 
-export async function pluginGetPayConfig(params?: any, options?: { [key: string]: any }) {
-  return get({
-    url: '/plugin/order/pay/config',
-    params,
-    options,
-  });
-}
-
-export async function pluginSavePayConfig(body: any, options?: { [key: string]: any }) {
-  return post({
-    url: '/plugin/order/pay/config',
-    body,
-    options,
-  });
-}
-
-export async function pluginPayUploadFile(body: any, options?: { [key: string]: any }) {
-  return post({
-    url: '/plugin/order/pay/upload',
-    body,
-    options,
-  });
-}
-
 export async function pluginGetOrders(params?: any, options?: { [key: string]: any }) {
   return get({
     url: '/plugin/order/list',
@@ -72,9 +48,33 @@ export async function pluginSetOrderRefund(body: any, options?: { [key: string]:
   });
 }
 
+export async function pluginOrderApplyRefund(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/order/refund/apply',
+    body,
+    options,
+  });
+}
+
 export async function pluginExportOrder(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/plugin/order/export',
+    body,
+    options,
+  });
+}
+
+export async function pluginGetOrderSetting(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/plugin/order/config',
+    params,
+    options,
+  });
+}
+
+export async function pluginSaveOrderSetting(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/order/config',
     body,
     options,
   });

@@ -6,6 +6,7 @@ import ProTable from '@ant-design/pro-table';
 import {
   pluginExportOrder,
   pluginGetOrders,
+  pluginOrderApplyRefund,
   pluginSetOrderDelivery,
   pluginSetOrderFinished,
   pluginSetOrderRefund,
@@ -19,8 +20,8 @@ import {
 } from '@ant-design/pro-form';
 import moment from 'moment';
 import OrderForm from './components/orderForm';
-import PayConfig from './components/pay';
 import { exportFile } from '@/utils';
+import OrderSetting from './setting';
 
 const PluginOrder: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -93,6 +94,19 @@ const PluginOrder: React.FC = () => {
     setRefundVisible(true);
   };
 
+  const handleApplyRefund = (record: any) => {
+    Modal.confirm({
+      title: '确定要对这笔订单申请退款吗？',
+      content: '退款后，资金会原路返回。',
+      onOk: () => {
+        pluginOrderApplyRefund(record).then((res) => {
+          message.info(res.msg);
+          actionRef.current?.reload();
+        });
+      },
+    });
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: '订单ID',
@@ -128,7 +142,9 @@ const PluginOrder: React.FC = () => {
       dataIndex: 'paid_time',
       hideInSearch: true,
       render: (_, entity) => {
-        return moment(entity.paid_time * 1000).format('YYYY-MM-DD HH:mm');
+        return entity.paid_time > 0
+          ? moment(entity.paid_time * 1000).format('YYYY-MM-DD HH:mm')
+          : '-';
       },
     },
     {
@@ -184,7 +200,6 @@ const PluginOrder: React.FC = () => {
         <Space size={20}>
           {record.status == 1 && (
             <a
-              key="edit"
               onClick={() => {
                 handleSetDelivery(record);
               }}
@@ -194,7 +209,6 @@ const PluginOrder: React.FC = () => {
           )}
           {record.status == 2 && (
             <a
-              key="edit"
               onClick={() => {
                 handleSetFinished(record);
               }}
@@ -204,7 +218,6 @@ const PluginOrder: React.FC = () => {
           )}
           {record.status == 8 && (
             <a
-              key="edit"
               onClick={() => {
                 handleSetRefund(record);
               }}
@@ -212,8 +225,16 @@ const PluginOrder: React.FC = () => {
               处理退款
             </a>
           )}
+          {(record.status == 1 || record.status == 2 || record.status == 3) && (
+            <a
+              onClick={() => {
+                handleApplyRefund(record);
+              }}
+            >
+              申请退款
+            </a>
+          )}
           <a
-            key="edit"
             onClick={() => {
               handleEditOrder(record);
             }}
@@ -233,7 +254,6 @@ const PluginOrder: React.FC = () => {
         rowKey="id"
         toolBarRender={() => [
           <Button
-            type="primary"
             key="export"
             onClick={() => {
               setExportVisible(true);
@@ -241,9 +261,9 @@ const PluginOrder: React.FC = () => {
           >
             导出订单
           </Button>,
-          <PayConfig key="group" onCancel={() => {}}>
-            <Button type="primary">支付配置</Button>
-          </PayConfig>,
+          <OrderSetting key="setting">
+            <Button>订单设置</Button>
+          </OrderSetting>,
         ]}
         tableAlertOptionRender={false}
         request={(params) => {

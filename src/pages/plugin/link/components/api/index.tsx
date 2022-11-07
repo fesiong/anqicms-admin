@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, message, Modal, Space, Table, Tag, Tooltip } from 'antd';
+import { Alert, Button, message, Modal, Space, Table, Tag, Tooltip } from 'antd';
 import { pluginGetImportApiSetting, pluginUpdateApiToken } from '@/services';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import ProCard from '@ant-design/pro-card';
 import { history } from 'umi';
-import { downloadFile } from '@/utils';
 import './index.less';
-import trainImg from '@/images/train.png';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 
-const PluginImportApi: React.FC<any> = () => {
+const PluginLinkApi: React.FC<any> = (props) => {
+  const [visible, setVisible] = useState<boolean>(false);
   const [tokenVidible, setTokenVisible] = useState<boolean>(false);
   const [tab, setTab] = useState('1');
   const [setting, setSetting] = useState<any>({});
@@ -30,7 +28,7 @@ const PluginImportApi: React.FC<any> = () => {
   }, []);
 
   const handleUpdateToken = async (values: any) => {
-    if (values.token == '') {
+    if (values.link_token == '') {
       message.error('请填写Token，128字符以内');
       return;
     }
@@ -46,23 +44,29 @@ const PluginImportApi: React.FC<any> = () => {
     });
   };
 
-  const handleDownloadTrainModule = () => {
-    downloadFile(
-      '/plugin/transfer/download',
-      {
-        provider: 'train',
-      },
-      'train2anqicms.wpm',
-    );
-  };
-
   const handleCopied = () => {
     message.success('复制成功');
   };
 
   return (
-    <PageHeaderWrapper>
-      <Card>
+    <>
+      <div
+        onClick={() => {
+          setVisible(!visible);
+        }}
+      >
+        {props.children}
+      </div>
+      <Modal
+        width={1000}
+        zIndex={10}
+        visible={visible}
+        onCancel={() => {
+          setVisible(false);
+        }}
+        footer={null}
+        title="友情链接API"
+      >
         <Alert
           message={
             <div>
@@ -71,8 +75,8 @@ const PluginImportApi: React.FC<any> = () => {
                 <Space>
                   <span>我的Token：</span>
                   <Tag>
-                    <CopyToClipboard text={setting.token} onCopy={handleCopied}>
-                      <Tooltip title="点击复制">{setting.token}</Tooltip>
+                    <CopyToClipboard text={setting.link_token} onCopy={handleCopied}>
+                      <Tooltip title="点击复制">{setting.link_token}</Tooltip>
                     </CopyToClipboard>
                   </Tag>
                   <Button
@@ -98,17 +102,164 @@ const PluginImportApi: React.FC<any> = () => {
               },
             }}
           >
-            <ProCard.TabPane key="1" tab="文档导入接口">
+            <ProCard.TabPane key="1" tab="获取友情链接列表接口">
               <div className="import-fields">
                 <div className="field-item">
                   <div className="name">接口地址：</div>
                   <div className="value">
                     <CopyToClipboard
-                      text={setting.base_url + '/api/import/archive?token=' + setting.token}
+                      text={setting.base_url + '/api/friendlink/list?token=' + setting.link_token}
                       onCopy={handleCopied}
                     >
                       <Tooltip title="点击复制">
-                        {setting.base_url}/api/import/archive?token={setting.token}
+                        {setting.base_url}/api/friendlink/list?token={setting.link_token}
+                      </Tooltip>
+                    </CopyToClipboard>
+                  </div>
+                </div>
+                <div className="field-item">
+                  <div className="name">请求方式：</div>
+                  <div className="value">POST / GET</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">请求类型：</div>
+                  <div className="value">form-data / query params</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">
+                    POST表单 /<br /> Query Params 字段：
+                  </div>
+                  <div className="value">无</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">返回格式：</div>
+                  <div className="value">JSON</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">正确结果示例：</div>
+                  <div className="value">
+                    <Alert
+                      message={
+                        <pre>
+                          <code>
+                            {
+                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因\n    "data": {\n'
+                            }
+
+                            {'      [\n'}
+                            {
+                              '        {\n          "id": 1,\n          "link": "https://www.anqicms.com/",\n          "title": "AnqiCMS",\n        },\n'
+                            }
+                            {
+                              '        {\n          "id": 2,\n          "link": "https://www.baidu.com/",\n          "title": "百度",\n        }\n'
+                            }
+                            {'      ]\n'}
+
+                            {'    }\n}'}
+                          </code>
+                        </pre>
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="field-item">
+                  <div className="name">错误结果示例：</div>
+                  <div className="value">
+                    <Alert
+                      message={
+                        <pre>
+                          <code>
+                            {
+                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                            }
+                          </code>
+                        </pre>
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </ProCard.TabPane>
+
+            <ProCard.TabPane key="2" tab="验证接口">
+              <div className="import-fields">
+                <div className="field-item">
+                  <div className="name">接口地址：</div>
+                  <div className="value">
+                    <CopyToClipboard
+                      text={setting.base_url + '/api/friendlink/check?token=' + setting.link_token}
+                      onCopy={handleCopied}
+                    >
+                      <Tooltip title="点击复制">
+                        {setting.base_url}/api/friendlink/check?token={setting.link_token}
+                      </Tooltip>
+                    </CopyToClipboard>
+                  </div>
+                </div>
+                <div className="field-item">
+                  <div className="name">请求方式：</div>
+                  <div className="value">POST / GET</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">请求类型：</div>
+                  <div className="value">form-data / query params</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">
+                    POST表单 /<br /> Query Params 字段：
+                  </div>
+                  <div className="value">无</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">返回格式：</div>
+                  <div className="value">JSON</div>
+                </div>
+                <div className="field-item">
+                  <div className="name">正确结果示例：</div>
+                  <div className="value">
+                    <Alert
+                      message={
+                        <pre>
+                          <code>
+                            {
+                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因'
+                            }
+                            {'\n}'}
+                          </code>
+                        </pre>
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="field-item">
+                  <div className="name">错误结果示例：</div>
+                  <div className="value">
+                    <Alert
+                      message={
+                        <pre>
+                          <code>
+                            {
+                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                            }
+                          </code>
+                        </pre>
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </ProCard.TabPane>
+            <ProCard.TabPane key="3" tab="添加友情链接接口">
+              <div className="import-fields">
+                <div className="field-item">
+                  <div className="name">接口地址：</div>
+                  <div className="value">
+                    <CopyToClipboard
+                      text={setting.base_url + '/api/friendlink/create?token=' + setting.link_token}
+                      onCopy={handleCopied}
+                    >
+                      <Tooltip title="点击复制">
+                        {setting.base_url}/api/friendlink/create?token={setting.link_token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
@@ -146,78 +297,44 @@ const PluginImportApi: React.FC<any> = () => {
                       ]}
                       dataSource={[
                         {
-                          title: 'id',
-                          required: false,
-                          remark: '文档ID，默认自动生成',
-                        },
-                        {
                           title: 'title',
                           required: true,
-                          remark: '文档标题',
+                          remark: '对方关键词',
                         },
                         {
-                          title: 'content',
+                          title: 'link',
                           required: true,
-                          remark: '文档内容',
+                          remark: '对方链接',
                         },
                         {
-                          title: 'category_id',
-                          required: true,
-                          remark: '分类ID',
-                        },
-                        {
-                          title: 'keywords',
+                          title: 'nofollow',
                           required: false,
-                          remark: '文档关键词',
+                          remark: '是否添加nofollow，可选值：0 不添加, 1 添加',
                         },
                         {
-                          title: 'description',
+                          title: 'back_link',
                           required: false,
-                          remark: '文档简介',
+                          remark: '对方反链页',
                         },
                         {
-                          title: 'url_token',
+                          title: 'my_title',
                           required: false,
-                          remark: '自定义URL别名，仅支持数字、英文字母',
+                          remark: '我的关键词',
                         },
                         {
-                          title: 'images[]',
+                          title: 'my_link',
                           required: false,
-                          remark: '文章组图，可以设置最多9张图片。',
+                          remark: '我的链接',
                         },
                         {
-                          title: 'logo',
+                          title: 'contact',
                           required: false,
-                          remark:
-                            '文档的缩略图，可以是绝对地址，如: https://www.anqicms.com/logo.png 或相对地址，如: /logo.png',
+                          remark: '对方联系方式',
                         },
                         {
-                          title: 'publish_time',
+                          title: 'remark',
                           required: false,
-                          remark:
-                            '格式：2006-01-02 15:04:05  文档的发布时间，可以是未来的时间，如果是未来的时间，则文档会在等到时间到了才正式发布。',
-                        },
-                        {
-                          title: 'tag',
-                          required: false,
-                          remark: '文档Tag标签，多个tag用英文逗号分隔,例如：aaa,bbb,ccc',
-                        },
-                        {
-                          title: '其他自定义字段',
-                          required: false,
-                          remark: '如果你还传了其他自定义字段，并且文档表中存在该字段，则也支持。',
-                        },
-                        {
-                          title: 'draft',
-                          required: false,
-                          remark:
-                            '是否存入到草稿，支持的值有：false|true，填写true时，则发布的文档会保存到草稿',
-                        },
-                        {
-                          title: 'cover',
-                          required: false,
-                          remark:
-                            '当相同标题、ID文档存在时是否覆盖，支持的值有：false|true，填写true时，则会覆盖成最新的内容，设置为false时，则会提示错误',
+                          remark: '备注信息',
                         },
                       ]}
                       key="title"
@@ -236,7 +353,7 @@ const PluginImportApi: React.FC<any> = () => {
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "发布成功",   //如果有错误，则这里会描述错误的原因\n    "data": {\n        "url":"https://www.anqicms.com/..." //这里返回文档的url\n    }\n}'
+                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "链接已保存",   //如果有错误，则这里会描述错误的原因\n}'
                             }
                           </code>
                         </pre>
@@ -262,33 +379,31 @@ const PluginImportApi: React.FC<any> = () => {
                 </div>
               </div>
             </ProCard.TabPane>
-            <ProCard.TabPane key="3" tab="获取分类接口">
+            <ProCard.TabPane key="4" tab="删除友情链接接口">
               <div className="import-fields">
                 <div className="field-item">
                   <div className="name">接口地址：</div>
                   <div className="value">
                     <CopyToClipboard
-                      text={setting.base_url + '/api/import/categories?token=' + setting.token}
+                      text={setting.base_url + '/api/friendlink/delete?token=' + setting.link_token}
                       onCopy={handleCopied}
                     >
                       <Tooltip title="点击复制">
-                        {setting.base_url}/api/import/categories?token={setting.token}
+                        {setting.base_url}/api/friendlink/delete?token={setting.link_token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
                   <div className="name">请求方式：</div>
-                  <div className="value">POST / GET</div>
+                  <div className="value">POST</div>
                 </div>
                 <div className="field-item">
                   <div className="name">请求类型：</div>
-                  <div className="value">form-data / query params</div>
+                  <div className="value">form-data</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">
-                    POST表单 /<br /> Query Params 字段：
-                  </div>
+                  <div className="name">POST表单字段：</div>
                   <div className="value">
                     <Table
                       size="small"
@@ -312,9 +427,9 @@ const PluginImportApi: React.FC<any> = () => {
                       ]}
                       dataSource={[
                         {
-                          title: 'module_id',
+                          title: 'link',
                           required: true,
-                          remark: '要获取的分类类型，填数字，支持的值：1 文章，2 产品',
+                          remark: '对方链接',
                         },
                       ]}
                       key="title"
@@ -333,25 +448,8 @@ const PluginImportApi: React.FC<any> = () => {
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因\n    "data": {\n'
+                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "链接已删除",   //如果有错误，则这里会描述错误的原因\n}'
                             }
-
-                            {'      [\n'}
-                            {
-                              '        {\n          "id": 1,\n          "parent_id": 0,\n          "title": "新闻大事",\n        },\n'
-                            }
-                            {
-                              '        {\n          "id": 2,\n          "parent_id": 1,\n          "title": "国际新闻",\n        },\n'
-                            }
-                            {
-                              '        {\n          "id": 3,\n          "parent_id": 1,\n          "title": "国内新闻",\n        },\n'
-                            }
-                            {
-                              '        {\n          "id": 4,\n          "parent_id": 0,\n          "title": "案例展示",\n        },\n'
-                            }
-                            {'      ]\n'}
-
-                            {'    }\n}'}
                           </code>
                         </pre>
                       }
@@ -376,47 +474,15 @@ const PluginImportApi: React.FC<any> = () => {
                 </div>
               </div>
             </ProCard.TabPane>
-            <ProCard.TabPane key="2" tab="火车头发布模块">
-              <div className="import-fields">
-                <div className="field-item">
-                  <div className="name">网站地址：</div>
-                  <div className="value">{setting.base_url}</div>
-                </div>
-                <div className="field-item">
-                  <div className="name">全局变量：</div>
-                  <div className="value">
-                    <CopyToClipboard text={setting.token} onCopy={handleCopied}>
-                      <Tooltip title="点击复制">{setting.token}</Tooltip>
-                    </CopyToClipboard>
-                  </div>
-                </div>
-                <div className="field-item">
-                  <div className="name">模块下载：</div>
-                  <div className="value">
-                    <Button onClick={handleDownloadTrainModule}>点击下载 train2anqicms.wpm</Button>
-                  </div>
-                </div>
-                <div className="field-item">
-                  <div className="name">支持版本：</div>
-                  <div className="value">支持火车头采集器9.0以上版本导入发布模块使用</div>
-                </div>
-                <div className="field-item">
-                  <div className="name">配置示例：</div>
-                  <div className="value">
-                    <img src={trainImg} />
-                  </div>
-                </div>
-              </div>
-            </ProCard.TabPane>
           </ProCard>
         </div>
-      </Card>
+      </Modal>
       <ModalForm
         width={600}
         modalProps={{
           zIndex: 100,
         }}
-        title={'重置导入Token'}
+        title={'重置友情链接Token'}
         visible={tokenVidible}
         layout="horizontal"
         onVisibleChange={(flag) => {
@@ -425,13 +491,13 @@ const PluginImportApi: React.FC<any> = () => {
         onFinish={handleUpdateToken}
       >
         <ProFormText
-          name="token"
+          name="link_token"
           label="新的Token"
           placeholder={'请填写新的Token'}
           extra="Token一般由数字、字母组合构成，长于10位，小于128位"
         />
       </ModalForm>
-    </PageHeaderWrapper>
+    </>
   );
 };
-export default PluginImportApi;
+export default PluginLinkApi;

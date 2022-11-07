@@ -1,13 +1,12 @@
-import { Button, Space } from 'antd';
+import { message, Modal, Space } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { pluginGetUserGroups, pluginGetUsers } from '@/services';
+import { pluginDeleteUserInfo, pluginGetUserGroups, pluginGetUsers } from '@/services';
 import { ProFormSelect } from '@ant-design/pro-form';
 import moment from 'moment';
 import UserForm from './components/userForm';
-import UserGroups from './components/group';
 
 const PluginUser: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -30,8 +29,16 @@ const PluginUser: React.FC = () => {
     setEditVisible(true);
   };
 
-  const onUserGroupClose = () => {
-    getUserGroups();
+  const handleDelete = (row: any) => {
+    Modal.confirm({
+      title: '确定要删除该条数据吗？',
+      onOk: () => {
+        pluginDeleteUserInfo(row).then((res) => {
+          message.info(res.msg);
+          actionRef.current?.reload();
+        });
+      },
+    });
   };
 
   const columns: ProColumns<any>[] = [
@@ -44,13 +51,22 @@ const PluginUser: React.FC = () => {
       dataIndex: 'user_name',
     },
     {
+      title: '手机',
+      dataIndex: 'phone',
+    },
+    {
+      title: '邮箱',
+      hideInSearch: true,
+      dataIndex: 'email',
+    },
+    {
       title: '真实姓名',
       dataIndex: 'real_name',
     },
     {
       title: '用户组',
       dataIndex: 'group_id',
-      render: (dom: any, entity) => {
+      render: (_, entity) => {
         return entity.group?.title;
       },
       renderFormItem: (_, { fieldProps }) => {
@@ -93,6 +109,13 @@ const PluginUser: React.FC = () => {
           >
             编辑
           </a>
+          <a
+            onClick={() => {
+              handleDelete(record);
+            }}
+          >
+            删除
+          </a>
         </Space>
       ),
     },
@@ -104,11 +127,11 @@ const PluginUser: React.FC = () => {
         headerTitle="用户管理"
         actionRef={actionRef}
         rowKey="id"
-        toolBarRender={() => [
-          <UserGroups key="group" onCancel={() => onUserGroupClose()}>
-            <Button type="primary">用户组管理</Button>
-          </UserGroups>,
-        ]}
+        // toolBarRender={() => [
+        //   <UserFieldSetting key="setting">
+        //     <Button type="primary">用户附加字段设置</Button>
+        //   </UserFieldSetting>,
+        // ]}
         tableAlertOptionRender={false}
         request={(params) => {
           return pluginGetUsers(params);

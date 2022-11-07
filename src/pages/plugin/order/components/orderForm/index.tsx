@@ -69,6 +69,12 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
       }}
       submitter={false}
     >
+      <ProFormText
+        name="type"
+        label="订单类型"
+        readonly
+        initialValue={order.type == 'vip' ? 'VIP' : '商品'}
+      />
       <ProFormText name="order_id" label="订单ID" readonly initialValue={order.order_id} />
       <ProFormText
         name="status"
@@ -154,36 +160,30 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
         </>
       )}
       <ProFormText name="remark" label="订单备注" readonly initialValue={order.remark} />
-      <ProFormText name="origin" label="订单来源" readonly initialValue={order.origin} />
       <Divider />
-      <div>
-        <div>订购商品</div>
-        {order.details?.map((item: any, index: number) => (
-          <div key={index}>
-            <ProFormText
-              name="color"
-              label="颜色"
-              readonly
-              initialValue={order.color}
-              fieldProps={{
-                suffix: <div style={{ width: 32, height: 32, backgroundColor: order.color }}></div>,
-              }}
-            />
-            <ProFormText name="title" label="名称" readonly initialValue={item.goods?.title} />
-            <ProFormText name="amount" label="单价" readonly initialValue={order.price / 100} />
-            <ProFormText name="amount" label="订购数量" readonly initialValue={item.quantity} />
-            <ProFormText name="amount" label="总价" readonly initialValue={order.amount / 100} />
-            <div style={{ display: 'flex' }}>
-              {item.goods?.images?.map((im: any, ii: number) => (
-                <div key={ii} style={{ flex: 1 }}>
-                  <ProFormText name="im" label="链接" readonly initialValue={im} />
-                  <img src={im} style={{ width: 300 }} />
-                </div>
-              ))}
+      {order.type == 'vip' ? (
+        <div>
+          <div>购买VIP</div>
+          {order.details?.map((item: any, index: number) => (
+            <div key={index}>
+              <ProFormText name="title" label="名称" readonly initialValue={item.group?.title} />
+              <ProFormText name="amount" label="单价" readonly initialValue={item.price / 100} />
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div>
+          <div>订购商品</div>
+          {order.details?.map((item: any, index: number) => (
+            <div key={index}>
+              <ProFormText name="title" label="名称" readonly initialValue={item.goods?.title} />
+              <ProFormText name="amount" label="单价" readonly initialValue={order.price / 100} />
+              <ProFormText name="amount" label="订购数量" readonly initialValue={item.quantity} />
+              <ProFormText name="amount" label="总价" readonly initialValue={item.amount / 100} />
+            </div>
+          ))}
+        </div>
+      )}
       <Divider />
       <ProFormText name="name" label="收件人" readonly initialValue={order.order_address?.name} />
       <ProFormText

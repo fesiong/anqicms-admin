@@ -7,7 +7,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-form';
 import './index.less';
-import { Input, message, Space, Tag, Image, Row, Col, Avatar, Button } from 'antd';
+import { Input, message, Space, Tag, Image, Row, Col } from 'antd';
 import { getCollectorSetting, saveCollectorSetting } from '@/services/collector';
 import { getCategories } from '@/services/category';
 import AttachmentSelect from '@/components/attachment';
@@ -29,7 +29,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
 
   componentDidMount() {
     getCollectorSetting().then((res) => {
-      let setting = res.data;
+      const setting = res.data;
       if (!setting.title_exclude) {
         setting.title_exclude = [];
       }
@@ -71,10 +71,10 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
 
   handleSubmit = async (values: any) => {
     const { setting } = this.state;
-    values = Object.assign(setting, values);
+    const postData = Object.assign(setting, values);
 
     const hide = message.loading('正在提交中', 0);
-    saveCollectorSetting(values)
+    saveCollectorSetting(postData)
       .then((res) => {
         message.info(res.msg);
         this.handleSetVisible(false);
@@ -101,14 +101,14 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
-  handleAddField = (field: string, e: any) => {
+  handleAddField = (field: string) => {
     const { tmpInput, setting } = this.state;
     if (field == 'content_replace') {
       if (!tmpInput['from'] || tmpInput['from'] == tmpInput['to']) {
         return;
       }
       let exists = false;
-      for (let item of setting[field]) {
+      for (const item of setting[field]) {
         if (item.from == tmpInput['from']) {
           exists = true;
           break;
@@ -248,7 +248,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               required
               extra="如果关键词没设置分类，则采集到的文章默认会被归类到这个分类下,必须设置一个分类否则无法正常采集"
               request={async () => {
-                let res = await getCategories({ type: 1 });
+                const res = await getCategories({ type: 1 });
                 return res.data || [];
               }}
               fieldProps={{
@@ -288,6 +288,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 { label: '否', value: false },
                 // { label: '进行伪原创', value: true },
               ]}
+              extra="当前版本尚未支持自动伪原创功能"
             />
             {/* <ProFormDigit
               name="pseudo_api"

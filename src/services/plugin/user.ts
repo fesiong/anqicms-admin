@@ -24,6 +24,14 @@ export async function pluginSaveUserInfo(body: any, options?: { [key: string]: a
   });
 }
 
+export async function pluginDeleteUserInfo(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/user/delete',
+    body,
+    options,
+  });
+}
+
 export async function pluginGetUserGroups(params?: any, options?: { [key: string]: any }) {
   return get({
     url: '/plugin/user/group/list',
@@ -51,6 +59,22 @@ export async function pluginSaveUserGroupInfo(body: any, options?: { [key: strin
 export async function pluginDeleteUserGroup(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/plugin/user/group/delete',
+    body,
+    options,
+  });
+}
+
+export async function pluginGetUserFieldsSetting(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/plugin/user/fields',
+    params,
+    options,
+  });
+}
+
+export async function pluginSaveUserFieldsSetting(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/user/fields',
     body,
     options,
   });

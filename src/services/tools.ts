@@ -7,17 +7,20 @@ const request = extend({
   prefix: config.baseUrl,
   timeout: 60000,
   requestType: 'json',
+  //mode: 'no-cors',
 });
 
 request.use(async (ctx, next) => {
   const { req } = ctx;
   const { options } = req;
 
-  let headers: any = {};
+  const headers: any = {
+    Origin: window.location.origin,
+  };
 
-  let adminToken = getStore('adminToken');
+  const adminToken = getStore('adminToken');
   if (adminToken) {
-    headers['admin'] = adminToken;
+    headers.admin = adminToken;
   }
   ctx.req.options = {
     ...options,

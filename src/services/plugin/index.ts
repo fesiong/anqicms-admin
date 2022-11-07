@@ -14,6 +14,7 @@ export * from './sendmail';
 export * from './sitemap';
 export * from './storage';
 export * from './order';
+export * from './pay';
 export * from './retailer';
 export * from './user';
 export * from './weapp';

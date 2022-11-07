@@ -25,6 +25,7 @@ import {
   getCategories,
   getCategoryInfo,
   getModules,
+  pluginGetUserGroups,
 } from '@/services';
 const { Panel } = Collapse;
 
@@ -46,12 +47,12 @@ export default class ArchiveForm extends React.Component {
   formRef = React.createRef<ProFormInstance>();
 
   componentDidMount = async () => {
-    let res = await getModules();
+    const res = await getModules();
     this.setState({
       modules: res.data || [],
     });
 
-    let moduleId = history.location.query?.module_id || 1;
+    const moduleId = history.location.query?.module_id || 1;
     let categoryId = history.location.query?.category_id || 0;
     let id = history.location.query?.id || 0;
     if (id == 'new') {
@@ -60,11 +61,11 @@ export default class ArchiveForm extends React.Component {
     if (id > 0) {
       this.getArchive(Number(id));
     } else {
-      let copyId = history.location.query?.copyid || 0;
+      const copyId = history.location.query?.copyid || 0;
       if (copyId > 0) {
         this.getArchive(Number(copyId), true);
       } else {
-        let archive = getStore('unsaveArchive');
+        const archive = getStore('unsaveArchive');
         if (archive) {
           console.log('load store');
           categoryId = archive.category_id;
@@ -94,7 +95,7 @@ export default class ArchiveForm extends React.Component {
     let archive = this.state.archive;
     if (!archive.id && !this.submitted) {
       console.log('save-store');
-      let values = this.formRef.current?.getFieldsValue();
+      const values = this.formRef.current?.getFieldsValue();
       archive.content = this.state.content;
       archive = Object.assign(archive, values);
       if (typeof archive.flag === 'object') {
@@ -103,7 +104,7 @@ export default class ArchiveForm extends React.Component {
       setStore('unsaveArchive', archive);
     }
     if (this.state.content != '' && this.state.content != this.defaultContent) {
-      let confirmationMessage = '你有尚未保存的内容，直接离开会导致内容丢失，确定要离开吗？';
+      const confirmationMessage = '你有尚未保存的内容，直接离开会导致内容丢失，确定要离开吗？';
       (e || window.event).returnValue = confirmationMessage;
       return confirmationMessage;
     }
@@ -115,7 +116,7 @@ export default class ArchiveForm extends React.Component {
     let archive = this.state.archive;
     if (!archive.id && !this.submitted) {
       console.log('save-store');
-      let values = this.formRef.current?.getFieldsValue();
+      const values = this.formRef.current?.getFieldsValue();
       archive.content = this.state.content;
       archive = Object.assign(archive, values);
       if (typeof archive.flag === 'object') {
@@ -127,10 +128,10 @@ export default class ArchiveForm extends React.Component {
   }
 
   getArchive = async (id: number, copy?: boolean) => {
-    let res = await getArchiveInfo({
+    const res = await getArchiveInfo({
       id: id,
     });
-    let archive = res.data || { extra: {}, flag: null };
+    const archive = res.data || { extra: {}, flag: null };
     if (copy) {
       archive.id = 0;
       archive.url_token = '';
@@ -153,10 +154,10 @@ export default class ArchiveForm extends React.Component {
   };
 
   getArchiveCategory = async (categoryId: number) => {
-    let res = await getCategoryInfo({
+    const res = await getCategoryInfo({
       id: categoryId,
     });
-    let category = res.data || {};
+    const category = res.data || {};
     if (category.module_id) {
       // 设置用户选择
       this.formRef.current?.setFieldsValue({ category_id: categoryId });
@@ -174,7 +175,7 @@ export default class ArchiveForm extends React.Component {
       return;
     }
     let module = { fields: [] };
-    for (let item of this.state.modules) {
+    for (const item of this.state.modules) {
       if (item.id == moduleId) {
         module = item;
         break;
@@ -197,7 +198,7 @@ export default class ArchiveForm extends React.Component {
     if (!archive.images) {
       archive.images = [];
     }
-    for (let i in archive.images) {
+    for (const i in archive.images) {
       if (archive.images[i] == row.logo) {
         exists = true;
         break;
@@ -234,8 +235,8 @@ export default class ArchiveForm extends React.Component {
   };
 
   handleSelectedKeywords = async (values: string[]) => {
-    let keywords = (this.formRef?.current?.getFieldValue('keywords') || '').split(',');
-    for (let item of values) {
+    const keywords = (this.formRef?.current?.getFieldValue('keywords') || '').split(',');
+    for (const item of values) {
       if (keywords.indexOf(item) === -1) {
         keywords.push(item);
       }
@@ -247,15 +248,15 @@ export default class ArchiveForm extends React.Component {
   };
 
   onChangeTagInput = (e: any) => {
-    let value = e.target?.value || '';
+    const value = e.target?.value || '';
     getTags({
       type: 1,
       title: value,
       pageSize: 10,
     }).then((res) => {
-      let data = res.data || [];
-      let result = {};
-      for (let item of data) {
+      const data = res.data || [];
+      const result = {};
+      for (const item of data) {
         result[item.title] = item.title;
       }
       this.setState({
@@ -265,20 +266,21 @@ export default class ArchiveForm extends React.Component {
   };
 
   onSubmit = async (values: any) => {
-    let { archive, content } = this.state;
-    var extra = archive.extra;
-    archive = Object.assign(archive, values);
+    const { archive, content } = this.state;
+    const postData = Object.assign(archive, values);
+    postData.price = Number(values.price);
+    postData.stock = Number(values.stock);
     // 必须选择分类
-    if (!archive.category_id || archive.category_id == 0) {
+    if (!postData.category_id || postData.category_id == 0) {
       message.error('请选择文档分类');
       return;
     }
     const hide = message.loading('正在提交中', 0);
-    archive.content = content;
-    if (typeof archive.flag === 'object') {
-      archive.flag = archive.flag.join(',');
+    postData.content = content;
+    if (typeof postData.flag === 'object') {
+      postData.flag = postData.flag.join(',');
     }
-    let res = await saveArchive(archive);
+    const res = await saveArchive(postData);
     hide();
     if (res.code != 0) {
       if (res.data && res.data.id) {
@@ -305,11 +307,11 @@ export default class ArchiveForm extends React.Component {
   };
 
   handleCleanExtraField = (field: string) => {
-    let extra = {};
+    const extra = {};
     extra[field] = { value: '' };
     this.formRef?.current?.setFieldsValue({ extra });
 
-    let { archive } = this.state;
+    const { archive } = this.state;
     delete archive.extra[field];
     this.setState({
       archive,
@@ -317,10 +319,10 @@ export default class ArchiveForm extends React.Component {
   };
 
   handleUploadExtraField = (field: string, row: any) => {
-    let extra = {};
+    const extra = {};
     extra[field] = { value: row.logo };
     this.formRef?.current?.setFieldsValue({ extra });
-    let { archive } = this.state;
+    const { archive } = this.state;
     if (!archive.extra[field]) {
       archive.extra[field] = {};
     }
@@ -333,7 +335,7 @@ export default class ArchiveForm extends React.Component {
 
   handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
-      let values = this.formRef.current?.getFieldsValue();
+      const values = this.formRef.current?.getFieldsValue();
       // 自动保存
       this.onSubmit(values);
 
@@ -422,6 +424,47 @@ export default class ArchiveForm extends React.Component {
                             placeholder="默认跟随分类的内容模板"
                           />
                         </Col>
+                        <Col span={12}>
+                          <ProFormDigit
+                            label="价格"
+                            name="price"
+                            fieldProps={{ precision: 0, addonAfter: '分' }}
+                            extra="注意，单位是分，比如1元，这里就要填100"
+                          />
+                        </Col>
+                        <Col span={12}>
+                          <ProFormDigit
+                            label="库存"
+                            name="stock"
+                            fieldProps={{ precision: 0, addonAfter: '件' }}
+                          />
+                        </Col>
+                        <Col span={12}>
+                          <ProFormSelect
+                            name="read_level"
+                            label="阅读等级"
+                            request={async () => {
+                              const res = await pluginGetUserGroups({});
+                              return [{ level: 0, title: '不限制', id: 0 }].concat(res.data || []);
+                            }}
+                            fieldProps={{
+                              fieldNames: {
+                                label: 'title',
+                                value: 'level',
+                              },
+                              optionItemRender(item) {
+                                return (
+                                  <div
+                                    dangerouslySetInnerHTML={{
+                                      __html: 'L' + item.level + item.title,
+                                    }}
+                                  ></div>
+                                );
+                              },
+                            }}
+                            extra="如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读"
+                          />
+                        </Col>
                         {module.fields?.map((item: any, index: number) => (
                           <Col span={12} key={index}>
                             {item.type === 'text' ? (
@@ -450,10 +493,10 @@ export default class ArchiveForm extends React.Component {
                                 name={['extra', item.field_name, 'value']}
                                 label={item.name}
                                 request={async () => {
-                                  let tmpData = item.content.split('\n');
-                                  let data = [];
-                                  for (let item of tmpData) {
-                                    data.push({ label: item, value: item });
+                                  const tmpData = item.content.split('\n');
+                                  const data = [];
+                                  for (const item1 of tmpData) {
+                                    data.push({ label: item1, value: item1 });
                                   }
                                   return data;
                                 }}
@@ -463,10 +506,10 @@ export default class ArchiveForm extends React.Component {
                                 name={['extra', item.field_name, 'value']}
                                 label={item.name}
                                 request={async () => {
-                                  let tmpData = item.content.split('\n');
-                                  let data = [];
-                                  for (let item of tmpData) {
-                                    data.push({ label: item, value: item });
+                                  const tmpData = item.content.split('\n');
+                                  const data = [];
+                                  for (const item1 of tmpData) {
+                                    data.push({ label: item1, value: item1 });
                                   }
                                   return data;
                                 }}
@@ -476,10 +519,10 @@ export default class ArchiveForm extends React.Component {
                                 name={['extra', item.field_name, 'value']}
                                 label={item.name}
                                 request={async () => {
-                                  let tmpData = item.content.split('\n');
-                                  let data = [];
-                                  for (let item of tmpData) {
-                                    data.push({ label: item, value: item });
+                                  const tmpData = item.content.split('\n');
+                                  const data = [];
+                                  for (const item1 of tmpData) {
+                                    data.push({ label: item1, value: item1 });
                                   }
                                   return data;
                                 }}
@@ -585,7 +628,7 @@ export default class ArchiveForm extends React.Component {
                       <Button
                         block
                         onClick={() => {
-                          let values = this.formRef.current?.getFieldsValue() || {};
+                          const values = this.formRef.current?.getFieldsValue() || {};
                           values.draft = true;
                           this.onSubmit(values);
                         }}
@@ -611,7 +654,7 @@ export default class ArchiveForm extends React.Component {
                       name="category_id"
                       width="lg"
                       request={async () => {
-                        let res = await getCategories({ type: 1 });
+                        const res = await getCategories({ type: 1 });
                         return res.data || [];
                       }}
                       fieldProps={{

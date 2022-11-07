@@ -23,10 +23,6 @@ const Dashboard: React.FC = () => {
   const [trafficData, setTrafficData] = useState<any[]>([]);
   const [infoData, setInfoData] = useState<any>({});
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     getStatisticSummary().then((res) => {
       setData(res.data || {});
@@ -44,6 +40,10 @@ const Dashboard: React.FC = () => {
       setInfoData(res.data || []);
     });
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleJump = (str: string) => {
     history.push(str);
@@ -243,9 +243,10 @@ const Dashboard: React.FC = () => {
           </Card>
           <Card style={{ marginTop: '24px' }} title="软件信息">
             <p>软件版本：{infoData.version}</p>
+            <p>占用内存：{(infoData.memory_usage / 1024 / 1024).toFixed(1)} MB</p>
             <p>
               官网地址：
-              <a href="https://www.anqicms.com/" target={'_blank'}>
+              <a href="https://www.anqicms.com/" target={'_blank'} rel="noreferrer">
                 https://www.anqicms.com
               </a>
             </p>
