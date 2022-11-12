@@ -1,4 +1,5 @@
 export * from './anchor';
+export * from './backup';
 export * from './comment';
 export * from './fileupload';
 export * from './guestbook';

@@ -111,3 +111,19 @@ export async function getDesignDocs(params?: any, options?: { [key: string]: any
     options,
   });
 }
+
+export async function restoreDesignData(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/design/data/restore',
+    body,
+    options,
+  });
+}
+
+export async function backupDesignData(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/design/data/backup',
+    body,
+    options,
+  });
+}

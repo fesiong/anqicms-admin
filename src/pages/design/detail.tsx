@@ -2,19 +2,27 @@ import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, Space, Modal, message, Image, Upload } from 'antd';
+import { Button, Space, Modal, message, Image, Upload, Tooltip, Checkbox } from 'antd';
 import {
+  backupDesignData,
   deleteDesignFileInfo,
   getDesignInfo,
+  restoreDesignData,
   saveDesignFileInfo,
   saveDesignInfo,
   UploadDesignFileInfo,
-} from '@/services/design';
+} from '@/services';
 import { history, useModel } from 'umi';
 import moment from 'moment';
 import { PlusOutlined } from '@ant-design/icons';
-import { ModalForm, ProFormInstance, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-form';
-import { downloadFile } from '@/utils';
+import {
+  ModalForm,
+  ProFormInstance,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-form';
+import { downloadFile, sizeFormat } from '@/utils';
 
 const DesignDetail: React.FC = () => {
   const { initialState } = useModel('@@initialState');
@@ -29,6 +37,7 @@ const DesignDetail: React.FC = () => {
   const staticActionRef = useRef<ActionType>();
   const [staticDirs, setStaticDirs] = useState<any[]>([]);
   const [templateDirs, setTemplateDirs] = useState<any[]>([]);
+  const [autoBackup, setAutoBackup] = useState<boolean>(true);
 
   useEffect(() => {
     fetchDesignInfo();
@@ -46,40 +55,40 @@ const DesignDetail: React.FC = () => {
 
         let tmpDirs = new Set();
         for (let item of res.data.tpl_files) {
-          let path = item.path.substring(0, item.path.lastIndexOf("/") + 1);
+          let path = item.path.substring(0, item.path.lastIndexOf('/') + 1);
           if (!path) {
-            path = "/"
+            path = '/';
           }
           tmpDirs.add(path);
         }
         let tmpList = [];
-        for(let key of tmpDirs.keys()) {
+        for (let key of tmpDirs.keys()) {
           tmpList.push({
             label: key,
             value: key,
-          })
+          });
         }
         setTemplateDirs(tmpList);
 
         tmpDirs.clear();
         for (let item of res.data.static_files) {
-          let path = item.path.substring(0, item.path.lastIndexOf("/") + 1);
+          let path = item.path.substring(0, item.path.lastIndexOf('/') + 1);
           if (!path) {
-            path = "/"
+            path = '/';
           }
           tmpDirs.add(path);
         }
         let tmpList2 = [];
-        for(let key of tmpDirs.keys()) {
+        for (let key of tmpDirs.keys()) {
           tmpList2.push({
             label: key,
             value: key,
-          })
+          });
         }
         setStaticDirs(tmpList2);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         message.error('获取模板信息出错');
       });
   };
@@ -113,14 +122,20 @@ const DesignDetail: React.FC = () => {
             <Image
               width={340}
               src={
-                (initialState?.system?.base_url || '') + '/static/' + designInfo.package + "/" + info.path
+                (initialState?.system?.base_url || '') +
+                '/static/' +
+                designInfo.package +
+                '/' +
+                info.path
               }
             />
           </div>
         ),
       });
     } else {
-      window.open((initialState?.system?.base_url || '') + '/static/' + designInfo.package + "/" + info.path)
+      window.open(
+        (initialState?.system?.base_url || '') + '/static/' + designInfo.package + '/' + info.path,
+      );
     }
   };
 
@@ -138,17 +153,6 @@ const DesignDetail: React.FC = () => {
         fetchDesignInfo();
       },
     });
-  };
-
-  const getSize = (size: any) => {
-    if (size < 500) {
-      return size + 'B';
-    }
-    if (size < 1024 * 1024) {
-      return (size / 1024).toFixed(2) + 'KB';
-    }
-
-    return (size / 1024 / 1024).toFixed(2) + 'MB';
   };
 
   const handleAddFile = (type: string) => {
@@ -176,14 +180,16 @@ const DesignDetail: React.FC = () => {
     values.package = designInfo.package;
     values.type = addFileType;
 
-    saveDesignFileInfo(values).then((res) => {
-      message.info(res.msg);
-      fetchDesignInfo();
-      setEditVisible(false);
-      setAddVisible(false);
-    }).finally(() => {
-      hide();
-    });
+    saveDesignFileInfo(values)
+      .then((res) => {
+        message.info(res.msg);
+        fetchDesignInfo();
+        setEditVisible(false);
+        setAddVisible(false);
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   const handleSaveInfo = (values: any) => {
@@ -216,7 +222,9 @@ const DesignDetail: React.FC = () => {
     let values = formRef.current?.getFieldsValue();
     Modal.confirm({
       title: '确定要上传文件吗？',
-      content: `你上传的文件将存放到${addFileType == 'static' ? '资源' : '模板'}目录：${values.path} 中。`,
+      content: `你上传的文件将存放到${addFileType == 'static' ? '资源' : '模板'}目录：${
+        values.path
+      } 中。`,
       onOk: async () => {
         let formData = new FormData();
         formData.append('file', e.file);
@@ -225,20 +233,80 @@ const DesignDetail: React.FC = () => {
         formData.append('path', values.path);
 
         const hide = message.loading('正在提交中', 0);
-        UploadDesignFileInfo(formData).then((res) => {
-          if (res.code !== 0 ){
-            message.info(res.msg);
-          } else {
-            message.info(res.msg || '上传成功');
-            setAddVisible(false);
-            actionRef.current?.reload();
-          }
-        }).finally(() => {
-          hide();
-        });
+        UploadDesignFileInfo(formData)
+          .then((res) => {
+            if (res.code !== 0) {
+              message.info(res.msg);
+            } else {
+              message.info(res.msg || '上传成功');
+              setAddVisible(false);
+              actionRef.current?.reload();
+            }
+          })
+          .finally(() => {
+            hide();
+          });
       },
     });
-  }
+  };
+
+  const handleRestoreDesignData = () => {
+    Modal.confirm({
+      title: '确定要安装该模板的演示数据吗？',
+      content: (
+        <div>
+          <p>该安装操作将会用模板的演示数据覆盖，请谨慎操作。</p>
+          <p>在执行安装演示数据前，建议先备份网站原有数据。</p>
+          <div>
+            <Checkbox
+              value={true}
+              checked={autoBackup}
+              onChange={(e) => {
+                setAutoBackup(e.target.checked);
+              }}
+            >
+              <span className="text-red">*</span>
+              自动执行备份
+            </Checkbox>
+          </div>
+        </div>
+      ),
+      onOk: () => {
+        const hide = message.loading('正在提交中', 0);
+        restoreDesignData({ package: designInfo.package, auto_backup: autoBackup })
+          .then((res) => {
+            message.info(res.msg);
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
+  const handleBackupDesignData = () => {
+    Modal.confirm({
+      title: '确定要给当前模板增加初始化数据吗？',
+      content: (
+        <div>
+          <p>该操作旨在给当前模板增加一份用于模板初始化的演示数据。</p>
+          {designInfo.preview_data && (
+            <p>该模板已经存在演示数据，如果再次执行，旧的演示数据将会被覆盖。</p>
+          )}
+        </div>
+      ),
+      onOk: async () => {
+        const hide = message.loading('正在执行备份中', 0);
+        backupDesignData({ package: designInfo.package })
+          .then((res) => {
+            message.info(res.msg);
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
 
   const columns: ProColumns<any>[] = [
     {
@@ -264,7 +332,7 @@ const DesignDetail: React.FC = () => {
       title: '大小',
       dataIndex: 'size',
       width: 150,
-      render: (text: any, record: any) => <div>{getSize(text)}</div>,
+      render: (text: any, record: any) => <div>{sizeFormat(text)}</div>,
     },
     {
       title: '修改时间',
@@ -324,7 +392,7 @@ const DesignDetail: React.FC = () => {
       title: '大小',
       dataIndex: 'size',
       width: 150,
-      render: (text: any, record: any) => <div>{getSize(text)}</div>,
+      render: (text: any, record: any) => <div>{sizeFormat(text)}</div>,
     },
     {
       title: '修改时间',
@@ -369,12 +437,13 @@ const DesignDetail: React.FC = () => {
         search={false}
         toolBarRender={() => [
           <Button
-            key="download"
+            type="primary"
+            key="add"
             onClick={() => {
-              handleDownload();
+              handleAddFile('template');
             }}
           >
-            打包下载模板
+            <PlusOutlined /> 添加新文件
           </Button>,
           <Button
             key="edit"
@@ -385,14 +454,23 @@ const DesignDetail: React.FC = () => {
             修改模板信息
           </Button>,
           <Button
-            type="primary"
-            key="add"
+            key="download"
             onClick={() => {
-              handleAddFile('template');
+              handleDownload();
             }}
           >
-            <PlusOutlined /> 添加新文件
+            打包下载模板
           </Button>,
+          designInfo.status == 1 && (
+            <Button key="backup" onClick={handleBackupDesignData}>
+              备份模板数据
+            </Button>
+          ),
+          designInfo.preview_data && designInfo.status == 1 && (
+            <Tooltip title="安装该模板的演示数据" key="restore">
+              <Button onClick={handleRestoreDesignData}>初始化模板数据</Button>
+            </Tooltip>
+          ),
         ]}
         request={async (params, sort) => {
           return {
@@ -431,7 +509,7 @@ const DesignDetail: React.FC = () => {
       {addVisible && (
         <ModalForm
           width={600}
-          title={'添加新'+(addFileType == 'static' ? '资源' : '模板')+'文件'}
+          title={'添加新' + (addFileType == 'static' ? '资源' : '模板') + '文件'}
           formRef={formRef}
           visible={addVisible}
           modalProps={{
@@ -454,17 +532,15 @@ const DesignDetail: React.FC = () => {
             }}
           />
           <ProFormText name="tpl" label="模板文件">
-            <Upload
-                    name="file"
-                    showUploadList={false}
-                    customRequest={handleUploadTemplate}
-                  >
-                    <Button type="primary">选择文件</Button>
-                  </Upload>
-            </ProFormText>
-            <div>
-              <p>说明：只能上传模板文件(.html)、和资源文件(css,js,图片,字体等)，以及zip的文件。如果上传zip,会自动解压到当前目录。</p>
-            </div>
+            <Upload name="file" showUploadList={false} customRequest={handleUploadTemplate}>
+              <Button type="primary">选择文件</Button>
+            </Upload>
+          </ProFormText>
+          <div>
+            <p>
+              说明：只能上传模板文件(.html)、和资源文件(css,js,图片,字体等)，以及zip的文件。如果上传zip,会自动解压到当前目录。
+            </p>
+          </div>
         </ModalForm>
       )}
       {editVisible && (

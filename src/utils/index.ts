@@ -36,6 +36,14 @@ export const showNumber = (num: number) => {
   return result;
 };
 
+export const sleep = async (t: number) => {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, t);
+  });
+};
+
 export const sizeFormat = (num: number) => {
   let result: any = '';
   if (num > 1000000) {
@@ -156,12 +164,19 @@ export const downloadFile = (url: string, params?: any, fileName?: string) => {
     body: JSON.stringify(params),
   })
     .then((res: any) => {
-      fileName =
-        res.headers
-          .get('Content-Disposition')
-          ?.split(';')[1]
-          ?.split('filename=')[1]
-          .replace(/"/g, '') || fileName;
+      if (res.status !== 200) {
+        message.destroy();
+        message.error('文件打包失败' + res.statusText);
+        return;
+      }
+      let tmpName = res.headers.get('Content-Disposition')?.split(';')[1]?.split('filename')[1];
+      if (tmpName) {
+        if (tmpName.indexOf("'") !== -1) {
+          tmpName = tmpName.substring(tmpName.lastIndexOf("'") + 1);
+        }
+        tmpName = tmpName.substring(tmpName.lastIndexOf('=') + 1);
+        fileName = tmpName;
+      }
       res
         .blob()
         .then((blob: any) => {

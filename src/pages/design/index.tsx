@@ -2,19 +2,21 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, Space, Modal, message, Upload } from 'antd';
+import { Button, Space, Modal, message, Upload, Tooltip, Checkbox } from 'antd';
 import {
   deleteDesignInfo,
   getDesignList,
   UploadDesignInfo,
   activeDesignInfo,
-} from '@/services/design';
+  restoreDesignData,
+} from '@/services';
 import { history } from 'umi';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 
 const DesignIndex: React.FC = () => {
   const [addVisible, setAddVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
+  const [autoBackup, setAutoBackup] = useState<boolean>(true);
 
   const handleUseTemplate = (template: any) => {
     Modal.confirm({
@@ -78,6 +80,41 @@ const DesignIndex: React.FC = () => {
       });
   };
 
+  const handleRestoreDesignData = (record: any) => {
+    Modal.confirm({
+      title: '确定要安装该模板的演示数据吗？',
+      content: (
+        <div>
+          <p>该安装操作将会用模板的演示数据覆盖，请谨慎操作。</p>
+          <p>在执行安装演示数据前，建议先备份网站原有数据。</p>
+          <div>
+            <Checkbox
+              value={true}
+              checked={autoBackup}
+              onChange={(e) => {
+                setAutoBackup(e.target.checked);
+              }}
+            >
+              <span className="text-red">*</span>
+              自动执行备份
+            </Checkbox>
+          </div>
+        </div>
+      ),
+      onOk: () => {
+        const hide = message.loading('正在提交中', 0);
+        restoreDesignData({ package: record.package, auto_backup: autoBackup })
+          .then((res) => {
+            message.info(res.msg);
+            actionRef.current?.reload();
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: '名称',
@@ -129,6 +166,18 @@ const DesignIndex: React.FC = () => {
             >
               启用
             </Button>
+          )}
+          {record.preview_data && record.status == 1 && (
+            <Tooltip title="安装该模板的演示数据">
+              <Button
+                type="link"
+                onClick={() => {
+                  handleRestoreDesignData(record);
+                }}
+              >
+                初始化
+              </Button>
+            </Tooltip>
           )}
           <Button
             type="link"
