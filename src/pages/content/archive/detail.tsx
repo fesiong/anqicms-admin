@@ -55,6 +55,10 @@ export default class ArchiveForm extends React.Component {
 
     const moduleId = history.location.query?.module_id || 1;
     let categoryId = history.location.query?.category_id || 0;
+    const lastCategoryId = getStore('last_category_id') || 0;
+    if (categoryId == 0 && lastCategoryId > 0) {
+      categoryId = lastCategoryId;
+    }
     let id = history.location.query?.id || 0;
     if (id == 'new') {
       id = 0;
@@ -168,6 +172,7 @@ export default class ArchiveForm extends React.Component {
   };
 
   onChangeSelectCategory = (e: any) => {
+    setStore('last_category_id', e);
     this.getArchiveCategory(e);
   };
 
@@ -677,7 +682,16 @@ export default class ArchiveForm extends React.Component {
                       width="lg"
                       request={async () => {
                         const res = await getCategories({ type: 1 });
-                        return res.data || [];
+                        const categories = res.data || [];
+                        if (categories.length == 0) {
+                          Modal.error({
+                            title: '请先创建分类，再来发布文档',
+                            onOk: () => {
+                              history.push('/archive/category');
+                            },
+                          });
+                        }
+                        return categories;
                       }}
                       fieldProps={{
                         fieldNames: {

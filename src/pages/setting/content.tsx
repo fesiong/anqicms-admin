@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import ProForm, {
-  ProFormText,
-  ProFormRadio,
-  ProFormGroup,
-} from '@ant-design/pro-form';
+import ProForm, { ProFormText, ProFormRadio, ProFormGroup } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Button, Card, message, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { convertImagetoWebp, getSettingContent, rebuildThumb, saveSettingContent } from '@/services/setting';
+import {
+  convertImagetoWebp,
+  getSettingContent,
+  rebuildThumb,
+  saveSettingContent,
+} from '@/services/setting';
 import AttachmentSelect from '@/components/attachment';
 
 const SettingContactFrom: React.FC<any> = (props) => {
@@ -22,7 +23,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
     const res = await getSettingContent();
     let setting = res.data || null;
     setSetting(setting);
-    console.log(setting)
+    console.log(setting);
     setDefaultThumb(setting?.default_thumb || '');
     setResizeImage(setting?.resize_image || 0);
   };
@@ -32,29 +33,35 @@ const SettingContactFrom: React.FC<any> = (props) => {
     message.success('上传完成');
   };
 
+  const handleRemoveLogo = (e: any) => {
+    e.stopPropagation();
+    setDefaultThumb('');
+  };
+
   const handleConvertToWebp = () => {
     Modal.confirm({
       title: '确定要将图库中不是webp的图片转成webp吗？',
-      content: '该功能可能会因为替换不彻底而导致部分页面引用的旧图片地址显示不正常，该部分需要手工去发现并修复。',
+      content:
+        '该功能可能会因为替换不彻底而导致部分页面引用的旧图片地址显示不正常，该部分需要手工去发现并修复。',
       onOk: () => {
-        convertImagetoWebp({}).then(res => {
+        convertImagetoWebp({}).then((res) => {
           message.info(res.msg);
-        })
-      }
-    })
-  }
+        });
+      },
+    });
+  };
 
   const handleRebuildThumb = () => {
     Modal.confirm({
       title: '确定要重修生成缩略图吗？',
       content: '如果你是刚改的缩略图尺寸，还没保存，请先取消，并提交保存，再点击生成。',
       onOk: () => {
-        rebuildThumb({}).then(res => {
+        rebuildThumb({}).then((res) => {
           message.info(res.msg);
-        })
-      }
-    })
-  }
+        });
+      },
+    });
+  };
 
   const onSubmit = async (values: any) => {
     values.default_thumb = defaultThumb;
@@ -66,7 +73,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
     values.thumb_crop = Number(values.thumb_crop);
     values.thumb_width = Number(values.thumb_width);
     values.thumb_height = Number(values.thumb_height);
-    values.quality = Number(values.quality)
+    values.quality = Number(values.quality);
 
     const hide = message.loading('正在提交中', 0);
     saveSettingContent(values)
@@ -75,7 +82,8 @@ const SettingContactFrom: React.FC<any> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
@@ -126,7 +134,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
                   label: '首字母',
                 },
               ]}
-              extra='默认是标题的全拼音，如果选择首字母的话，则会只取每个字的第一个字母（英文则是每个单词的第一个字母）'
+              extra="默认是标题的全拼音，如果选择首字母的话，则会只取每个字的第一个字母（英文则是每个单词的第一个字母）"
             />
             <ProFormRadio.Group
               name="use_webp"
@@ -141,21 +149,30 @@ const SettingContactFrom: React.FC<any> = (props) => {
                   label: '启用',
                 },
               ]}
-              extra={<div>
-                <span>如果你希望上传的jpg、png等图片，都全部转为webp图片格式(可以减少体积),则选择启用。只对修改后的上传的图片生效。</span>
-                <span>如果你想将以上传的图片转为webp，请点击&nbsp;&nbsp;<Button size='small' onClick={handleConvertToWebp}>使用webp转换工具</Button></span>
-              </div>}
+              extra={
+                <div>
+                  <span>
+                    如果你希望上传的jpg、png等图片，都全部转为webp图片格式(可以减少体积),则选择启用。只对修改后的上传的图片生效。
+                  </span>
+                  <span>
+                    如果你想将以上传的图片转为webp，请点击&nbsp;&nbsp;
+                    <Button size="small" onClick={handleConvertToWebp}>
+                      使用webp转换工具
+                    </Button>
+                  </span>
+                </div>
+              }
             />
             <ProFormText
-                name="quality"
-                label="图片质量"
-                width="lg"
-                placeholder="默认：90"
-                fieldProps={{
-                  suffix: '%',
-                }}
-                extra='图片质量只对jpg格式和webp格式生效。默认质量为90%'
-              />
+              name="quality"
+              label="图片质量"
+              width="lg"
+              placeholder="默认：90"
+              fieldProps={{
+                suffix: '%',
+              }}
+              extra="图片质量只对jpg格式和webp格式生效。默认质量为90%"
+            />
             <ProFormRadio.Group
               name="resize_image"
               label="自动压缩大图"
@@ -221,24 +238,34 @@ const SettingContactFrom: React.FC<any> = (props) => {
                 }}
               />
             </ProFormGroup>
-              <div className='text-muted mb-normal'>
-                <span>如果你更改了缩略图尺寸，请先提交保存，然后再点击重新&nbsp;&nbsp;<Button size='small' onClick={handleRebuildThumb}>批量生成缩略图</Button></span>
-              </div>
+            <div className="text-muted mb-normal">
+              <span>
+                如果你更改了缩略图尺寸，请先提交保存，然后再点击重新&nbsp;&nbsp;
+                <Button size="small" onClick={handleRebuildThumb}>
+                  批量生成缩略图
+                </Button>
+              </span>
+            </div>
             <ProFormText
               label="默认缩略图"
               width="lg"
               extra="如果文章没有缩略图，继续调用将会使用默认缩略图代替"
             >
-              <AttachmentSelect onSelect={ handleSelectLogo } visible={false}>
+              <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
                 <div className="ant-upload-item">
-                {defaultThumb ? (
-                  <img src={defaultThumb} style={{ width: '100%' }} />
-                ) : (
-                  <div className='add'>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>上传</div>
-                  </div>
-                )}
+                  {defaultThumb ? (
+                    <>
+                      <img src={defaultThumb} style={{ width: '100%' }} />
+                      <a className="delete" onClick={handleRemoveLogo}>
+                        删除
+                      </a>
+                    </>
+                  ) : (
+                    <div className="add">
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>上传</div>
+                    </div>
+                  )}
                 </div>
               </AttachmentSelect>
             </ProFormText>

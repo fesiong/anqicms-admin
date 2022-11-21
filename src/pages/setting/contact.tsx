@@ -27,6 +27,11 @@ const SettingContactFrom: React.FC<any> = (props) => {
     message.success('上传完成');
   };
 
+  const handleRemoveLogo = (e: any) => {
+    e.stopPropagation();
+    setQrcode('');
+  };
+
   const onSubmit = async (values: any) => {
     values.qrcode = qrcode;
     const hide = message.loading('正在提交中', 0);
@@ -56,7 +61,12 @@ const SettingContactFrom: React.FC<any> = (props) => {
               <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
                 <div className="ant-upload-item">
                   {qrcode ? (
-                    <img src={qrcode} style={{ width: '100%' }} />
+                    <>
+                      <img src={qrcode} style={{ width: '100%' }} />
+                      <a className="delete" onClick={handleRemoveLogo}>
+                        删除
+                      </a>
+                    </>
                   ) : (
                     <div className="add">
                       <PlusOutlined />

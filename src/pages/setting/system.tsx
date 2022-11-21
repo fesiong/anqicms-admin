@@ -39,6 +39,11 @@ const SettingSystemFrom: React.FC<any> = (props) => {
     message.success('上传完成');
   };
 
+  const handleRemoveLogo = (e: any) => {
+    e.stopPropagation();
+    setSiteLogo('');
+  };
+
   const onSubmit = async (values: any) => {
     values.site_logo = siteLogo;
     const hide = message.loading('正在提交中', 0);
@@ -101,7 +106,12 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
                 <div className="ant-upload-item">
                   {siteLogo ? (
-                    <img src={siteLogo} style={{ width: '100%' }} />
+                    <>
+                      <img src={siteLogo} style={{ width: '100%' }} />
+                      <a className="delete" onClick={handleRemoveLogo}>
+                        删除
+                      </a>
+                    </>
                   ) : (
                     <div className="add">
                       <PlusOutlined />
@@ -130,6 +140,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               width="lg"
               label="版权信息"
               placeholder="版权信息会显示在页尾"
+              extra="这里支持填写html标签"
             />
             <ProFormSelect
               name="language"

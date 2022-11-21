@@ -68,7 +68,7 @@ const DesignMarket: React.FC = () => {
         <iframe
           ref={actionRef}
           className="frame-page"
-          src="https://www.anqicms.com/design/"
+          src="https://www.anqicms.com/design"
           height={height}
           onLoad={handleIframe}
         ></iframe>
