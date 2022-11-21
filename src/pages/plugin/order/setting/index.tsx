@@ -68,6 +68,12 @@ const OrderSetting: React.FC = (props) => {
           extra="默认不自动关闭"
           fieldProps={{ precision: 0, addonAfter: '分钟' }}
         />
+        <ProFormDigit
+          label="商家销售收益"
+          name="seller_percent"
+          extra="商家销售收益百分比"
+          fieldProps={{ precision: 0, addonAfter: '%' }}
+        />
       </ModalForm>
     </>
   );

@@ -64,6 +64,14 @@ export async function getDesignFileHistories(params: any, options?: { [key: stri
   });
 }
 
+export async function getDesignTemplateFiles(params: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/design/file/templates',
+    params,
+    options,
+  });
+}
+
 export async function deleteDesignHistoryFile(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/design/file/history/delete',
@@ -83,6 +91,14 @@ export async function restoreDesignFileInfo(body: any, options?: { [key: string]
 export async function saveDesignFileInfo(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/design/file/save',
+    body,
+    options,
+  });
+}
+
+export async function copyDesignFileInfo(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/design/file/copy',
     body,
     options,
   });

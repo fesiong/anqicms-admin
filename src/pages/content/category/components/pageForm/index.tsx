@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ModalForm, ProFormDigit, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import {
+  ModalForm,
+  ProFormDigit,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-form';
 
 import { saveCategory } from '@/services/category';
 import WangEditor from '@/components/editor';
 import { Image, message, Collapse } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import AttachmentSelect from '@/components/attachment';
+import { getDesignTemplateFiles } from '@/services';
 
 export type CategoryFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -103,7 +110,30 @@ const PageForm: React.FC<CategoryFormProps> = (props) => {
             extra="注意：自定义URL只能填写字母、数字和下划线，不能带空格"
           />
           <ProFormDigit name="sort" label="显示顺序" extra={'默认99，数字越小越靠前'} />
-          <ProFormText name="template" label="页面模板" extra="页面默认值：page/detail.html" />
+          <ProFormSelect
+            label="页面模板"
+            showSearch
+            name="template"
+            request={async () => {
+              const res = await getDesignTemplateFiles({});
+              const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+              for (const i in data) {
+                if (!data[i].remark) {
+                  data[i].remark = data[i].path;
+                } else {
+                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                }
+              }
+              return data;
+            }}
+            fieldProps={{
+              fieldNames: {
+                label: 'remark',
+                value: 'path',
+              },
+            }}
+            extra={<div>页面默认值：page/detail.html</div>}
+          />
           <ProFormText label="Banner图">
             {categoryImages.length
               ? categoryImages.map((item: string, index: number) => (

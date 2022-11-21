@@ -352,13 +352,21 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
             ]}
           />
           <ProFormRadio.Group
+            name="follow_level"
+            label="阅读等级"
+            options={[
+              { label: '始终显示', value: false },
+              { label: '跟随文档阅读等级', value: true },
+            ]}
+          />
+          <ProFormRadio.Group
             name="is_filter"
             label="作为筛选参数"
             options={[
               { label: '否', value: false },
               { label: '是', value: true },
             ]}
-            extra="只有字段类型是单选、多选、下拉类型的时候，才有效"
+            extra="只有字段类型是单选、多选、下拉类型并且不是跟随文档阅读等级的时候，才有效"
           />
           <ProFormTextArea
             label="默认值"

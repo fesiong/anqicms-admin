@@ -8,7 +8,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-form';
 
-import { getCategories, saveCategory } from '@/services';
+import { getCategories, getDesignTemplateFiles, saveCategory } from '@/services';
 import { Collapse, message, Image } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import WangEditor from '@/components/editor';
@@ -20,7 +20,7 @@ export type CategoryFormProps = {
   type: number;
   visible: boolean;
   category: any;
-  modules: any[],
+  modules: any[];
 };
 
 const CategoryForm: React.FC<CategoryFormProps> = (props) => {
@@ -30,10 +30,10 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
   const [currentModule, setCurrentModule] = useState<any>({});
 
   useEffect(() => {
-    setCategoryImages(props.category?.images || [])
-    setCategoryLogo(props.category?.logo || '')
+    setCategoryImages(props.category?.images || []);
+    setCategoryLogo(props.category?.logo || '');
     let moduleId = props.category?.module_id || 1;
-    changeModule(moduleId)
+    changeModule(moduleId);
   }, []);
 
   const onSubmit = async (values: any) => {
@@ -59,14 +59,14 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
     if (!exists) {
       categoryImages.push(row.logo);
     }
-    setCategoryImages([].concat(categoryImages))
+    setCategoryImages([].concat(categoryImages));
     message.success('上传完成');
   };
 
   const handleCleanImages = (index: number, e: any) => {
     e.stopPropagation();
     categoryImages.splice(index, 1);
-    setCategoryImages([].concat(categoryImages))
+    setCategoryImages([].concat(categoryImages));
   };
 
   const handleSelectLogo = (row: any) => {
@@ -76,17 +76,17 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
 
   const handleCleanLogo = (e: any) => {
     e.stopPropagation();
-    setCategoryLogo('')
+    setCategoryLogo('');
   };
 
   const changeModule = (e: any) => {
     for (let item of props.modules) {
       if (item.id == e) {
         setCurrentModule(item);
-        break
+        break;
       }
     }
-  }
+  };
 
   return (
     <ModalForm
@@ -111,15 +111,15 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
         request={async () => {
           return props.modules;
         }}
-        readonly={(props.category?.id || props.category?.module_id > 0) ? true : false}
+        readonly={props.category?.id || props.category?.module_id > 0 ? true : false}
         fieldProps={{
           fieldNames: {
             label: 'title',
             value: 'id',
           },
           onChange: (e) => {
-            changeModule(e)
-          }
+            changeModule(e);
+          },
         }}
       />
       <ProFormSelect
@@ -147,7 +147,7 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
           categories = [{ id: 0, title: '顶级分类', spacer: '' }].concat(categories);
           return categories;
         }}
-        readonly={(props.category?.id || props.category?.module_id > 0) ? false : true}
+        readonly={props.category?.id || props.category?.module_id > 0 ? false : true}
         fieldProps={{
           fieldNames: {
             label: 'title',
@@ -171,45 +171,56 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
             placeholder="默认为页面名称，无需填写"
             extra="注意：如果你希望页面的title标签的内容不是页面名称，可以通过SEO标题设置"
           />
-          <ProFormText
-            name="keywords"
-            label="关键词"
-            extra="你可以单独设置关键词"
-          />
+          <ProFormText name="keywords" label="关键词" extra="你可以单独设置关键词" />
           <ProFormText
             name="url_token"
             label="自定义URL"
             placeholder="默认会自动生成，无需填写"
             extra="注意：自定义URL只能填写字母、数字和下划线，不能带空格"
           />
-          <ProFormText
-            name="template"
+          <ProFormSelect
             label="分类模板"
-            extra={
-              <div>分类默认值：{currentModule.table_name}/list.html</div>
-            }
+            showSearch
+            name="template"
+            request={async () => {
+              const res = await getDesignTemplateFiles({});
+              const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+              for (const i in data) {
+                if (!data[i].remark) {
+                  data[i].remark = data[i].path;
+                } else {
+                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                }
+              }
+              return data;
+            }}
+            fieldProps={{
+              fieldNames: {
+                label: 'remark',
+                value: 'path',
+              },
+            }}
+            extra={<div>分类默认值：{currentModule.table_name}/list.html</div>}
           />
           <ProFormRadio.Group
-              name="is_inherit"
-              label="应用到子分类"
-              options={[
-                {
-                  value: 0,
-                  label: '不应用',
-                },
-                {
-                  value: 1,
-                  label: '应用',
-                },
-              ]}
-              extra='如果设置了自定义分类模板，可以选择应用到所有子分类，或者仅对当前分类生效'
-            />
+            name="is_inherit"
+            label="应用到子分类"
+            options={[
+              {
+                value: 0,
+                label: '不应用',
+              },
+              {
+                value: 1,
+                label: '应用',
+              },
+            ]}
+            extra="如果设置了自定义分类模板，可以选择应用到所有子分类，或者仅对当前分类生效"
+          />
           <ProFormText
             name="detail_template"
             label="文档模板"
-            extra={
-              <div>文档模板默认值：{currentModule.table_name}/detail.html</div>
-            }
+            extra={<div>文档模板默认值：{currentModule.table_name}/detail.html</div>}
           />
           <ProFormText label="Banner图">
             {categoryImages.length
@@ -227,9 +238,9 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
                   </div>
                 ))
               : null}
-              <AttachmentSelect onSelect={ handleSelectImages } visible={false}>
+            <AttachmentSelect onSelect={handleSelectImages} visible={false}>
               <div className="ant-upload-item">
-                <div className='add'>
+                <div className="add">
                   <PlusOutlined />
                   <div style={{ marginTop: 8 }}>上传</div>
                 </div>
@@ -237,27 +248,28 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
             </AttachmentSelect>
           </ProFormText>
           <ProFormText label="缩略图">
-            {categoryLogo
-              ?
+            {categoryLogo ? (
               <div className="ant-upload-item">
-                    <Image
-                      preview={{
-                        src: categoryLogo,
-                      }}
-                      src={categoryLogo}
-                    />
-                    <span className="delete" onClick={handleCleanLogo}>
-                      <DeleteOutlined />
-                    </span>
-                  </div>
-              : <AttachmentSelect onSelect={ handleSelectLogo } visible={false}>
-              <div className="ant-upload-item">
-                <div className='add'>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>上传</div>
-                </div>
+                <Image
+                  preview={{
+                    src: categoryLogo,
+                  }}
+                  src={categoryLogo}
+                />
+                <span className="delete" onClick={handleCleanLogo}>
+                  <DeleteOutlined />
+                </span>
               </div>
-            </AttachmentSelect>}
+            ) : (
+              <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
+                <div className="ant-upload-item">
+                  <div className="add">
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>上传</div>
+                  </div>
+                </div>
+              </AttachmentSelect>
+            )}
           </ProFormText>
           <WangEditor
             className="mb-normal"

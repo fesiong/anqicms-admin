@@ -13,10 +13,10 @@ import {
 import { history } from 'umi';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 
+let autoBackup = false;
 const DesignIndex: React.FC = () => {
   const [addVisible, setAddVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [autoBackup, setAutoBackup] = useState<boolean>(true);
 
   const handleUseTemplate = (template: any) => {
     Modal.confirm({
@@ -90,9 +90,8 @@ const DesignIndex: React.FC = () => {
           <div>
             <Checkbox
               value={true}
-              checked={autoBackup}
               onChange={(e) => {
-                setAutoBackup(e.target.checked);
+                autoBackup = e.target.checked;
               }}
             >
               <span className="text-red">*</span>

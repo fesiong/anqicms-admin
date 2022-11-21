@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Row, Col, Statistic, Tabs } from 'antd';
+import { Card, Row, Col, Statistic, Tabs, Button, Modal } from 'antd';
 import './index.less';
 import StatisticsRow from './components/statistics';
 import {
@@ -13,10 +13,25 @@ import {
 import { history } from 'umi';
 import { Line } from '@ant-design/plots';
 import moment from 'moment';
+import {
+  LoginForm,
+  ModalForm,
+  ProFormInstance,
+  ProFormRadio,
+  ProFormText,
+} from '@ant-design/pro-form';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
 const Dashboard: React.FC = () => {
+  const formRef = useRef<
+    ProFormInstance<{
+      name: string;
+      company?: string;
+      useMode?: string;
+    }>
+  >();
   const [data, setData] = useState<any>({});
   const [includeData, setIncludeData] = useState<any[]>([]);
   const [spiderData, setSpiderData] = useState<any[]>([]);
@@ -89,7 +104,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <PageContainer>
+    <PageContainer extra={<div></div>}>
       <Suspense fallback={null}>
         <StatisticsRow loading={false} data={data} />
       </Suspense>

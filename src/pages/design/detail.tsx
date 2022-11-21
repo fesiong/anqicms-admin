@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, Space, Modal, message, Image, Upload, Tooltip, Checkbox } from 'antd';
+import { Button, Space, Modal, message, Image, Upload, Tooltip, Checkbox, Input } from 'antd';
 import {
   backupDesignData,
+  copyDesignFileInfo,
   deleteDesignFileInfo,
   getDesignInfo,
   restoreDesignData,
@@ -23,7 +24,9 @@ import {
   ProFormText,
 } from '@ant-design/pro-form';
 import { downloadFile, sizeFormat } from '@/utils';
+import TemplateShare from './components/share';
 
+let autoBackup = false;
 const DesignDetail: React.FC = () => {
   const { initialState } = useModel('@@initialState');
   const formRef = React.createRef<ProFormInstance>();
@@ -37,7 +40,11 @@ const DesignDetail: React.FC = () => {
   const staticActionRef = useRef<ActionType>();
   const [staticDirs, setStaticDirs] = useState<any[]>([]);
   const [templateDirs, setTemplateDirs] = useState<any[]>([]);
-  const [autoBackup, setAutoBackup] = useState<boolean>(true);
+
+  const inputRef = useRef<any>();
+  const inputRef2 = useRef<any>();
+
+  const anqiUser = initialState?.anqiUser;
 
   useEffect(() => {
     fetchDesignInfo();
@@ -155,6 +162,46 @@ const DesignDetail: React.FC = () => {
     });
   };
 
+  const handleCopy = (type: string, info: any) => {
+    Modal.confirm({
+      title: '请填写复制后的文件名',
+      content: (
+        <div>
+          <div style={{ padding: '10px 0' }}>
+            <div>新的文件名：</div>
+            <div>
+              <Input ref={inputRef} defaultValue={info.path} />
+            </div>
+          </div>
+          <div style={{ padding: '10px 0' }}>
+            <div>新的文件备注：</div>
+            <div>
+              <Input ref={inputRef2} defaultValue={info.remark} />
+            </div>
+          </div>
+        </div>
+      ),
+      onOk: () => {
+        const newPath = inputRef.current?.state?.value;
+        if (!newPath || newPath == info.path) {
+          message.error('新文件名与被复制的文件名一致，请重新修改');
+          return false;
+        }
+        const remark = inputRef2.current?.state?.value;
+        copyDesignFileInfo({
+          package: designInfo.package,
+          type: type,
+          path: info.path,
+          new_path: newPath,
+          remark: remark,
+        }).then((res) => {
+          message.info(res.msg);
+        });
+        return true;
+      },
+    });
+  };
+
   const handleAddFile = (type: string) => {
     setAddFileType(type);
     setAddVisible(true);
@@ -260,9 +307,8 @@ const DesignDetail: React.FC = () => {
           <div>
             <Checkbox
               value={true}
-              checked={autoBackup}
               onChange={(e) => {
-                setAutoBackup(e.target.checked);
+                autoBackup = e.target.checked;
               }}
             >
               <span className="text-red">*</span>
@@ -352,7 +398,15 @@ const DesignDetail: React.FC = () => {
               handleAddRemark('template', record);
             }}
           >
-            +备注
+            +备注/重命名
+          </Button>
+          <Button
+            type="link"
+            onClick={() => {
+              handleCopy('template', record);
+            }}
+          >
+            复制一份
           </Button>
           <Button
             danger
@@ -412,7 +466,15 @@ const DesignDetail: React.FC = () => {
               handleAddRemark('static', record);
             }}
           >
-            +备注
+            +备注/重命名
+          </Button>
+          <Button
+            type="link"
+            onClick={() => {
+              handleCopy('static', record);
+            }}
+          >
+            复制一份
           </Button>
           <Button
             danger
@@ -471,8 +533,22 @@ const DesignDetail: React.FC = () => {
               <Button onClick={handleRestoreDesignData}>初始化模板数据</Button>
             </Tooltip>
           ),
+          anqiUser?.auth_id > 0 &&
+            (designInfo.template_id == 0 || designInfo.auth_id == anqiUser?.auth_id) && (
+              <Tooltip title="将模板上架到AnqiCMS模板市场" key="share">
+                <TemplateShare
+                  templateId={designInfo.template_id}
+                  package={designInfo.package}
+                  onFinished={() => {
+                    actionRef.current?.reload();
+                  }}
+                >
+                  <Button>分享上架模板</Button>
+                </TemplateShare>
+              </Tooltip>
+            ),
         ]}
-        request={async (params, sort) => {
+        request={async () => {
           return {
             data: designInfo.tpl_files || [],
             success: true,

@@ -10,3 +10,4 @@ export * from './setting';
 export * from './statistic';
 export * from './tag';
 export * from './version';
+export * from './anqi';

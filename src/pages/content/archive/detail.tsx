@@ -26,6 +26,7 @@ import {
   getCategoryInfo,
   getModules,
   pluginGetUserGroups,
+  getDesignTemplateFiles,
 } from '@/services';
 const { Panel } = Collapse;
 
@@ -418,10 +419,31 @@ export default class ArchiveForm extends React.Component {
                           />
                         </Col>
                         <Col span={12}>
-                          <ProFormText
-                            name="template"
+                          <ProFormSelect
                             label="文档模板"
-                            placeholder="默认跟随分类的内容模板"
+                            showSearch
+                            name="template"
+                            request={async () => {
+                              const res = await getDesignTemplateFiles({});
+                              const data = [{ path: '', remark: '默认模板' }].concat(
+                                res.data || [],
+                              );
+                              for (const i in data) {
+                                if (!data[i].remark) {
+                                  data[i].remark = data[i].path;
+                                } else {
+                                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                                }
+                              }
+                              return data;
+                            }}
+                            fieldProps={{
+                              fieldNames: {
+                                label: 'remark',
+                                value: 'path',
+                              },
+                            }}
+                            extra="默认跟随分类的内容模板"
                           />
                         </Col>
                         <Col span={12}>

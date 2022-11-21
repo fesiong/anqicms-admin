@@ -9,6 +9,7 @@ import { LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import HeaderContent from './components/headerContent';
 import { getSettingSystem } from './services/setting';
+import { getAnqiInfo } from './services/anqi';
 
 const loginPath = '/login';
 
@@ -24,9 +25,11 @@ export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: any;
   system?: any;
+  anqiUser?: any;
   loading?: boolean;
   fetchUserInfo?: () => Promise<any | undefined>;
   fetchSystemSetting?: () => Promise<any | undefined>;
+  fetchAnqiUser?: () => Promise<any | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -46,22 +49,35 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
+  const fetchAnqiUser = async () => {
+    try {
+      const msg = await getAnqiInfo();
+      return msg.data;
+    } catch (error) {
+      //
+    }
+    return undefined;
+  };
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     const system = await fetchSystemSetting();
+    const anqiUser = await fetchAnqiUser();
 
     return {
       fetchSystemSetting,
       fetchUserInfo,
+      fetchAnqiUser,
       currentUser,
       settings: defaultSettings,
       system: system,
+      anqiUser: anqiUser,
     };
   }
   return {
     fetchSystemSetting,
     fetchUserInfo,
+    fetchAnqiUser,
     settings: defaultSettings,
   };
 }
