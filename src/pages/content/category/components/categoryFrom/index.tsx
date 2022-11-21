@@ -217,9 +217,28 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
             ]}
             extra="如果设置了自定义分类模板，可以选择应用到所有子分类，或者仅对当前分类生效"
           />
-          <ProFormText
-            name="detail_template"
+          <ProFormSelect
             label="文档模板"
+            showSearch
+            name="detail_template"
+            request={async () => {
+              const res = await getDesignTemplateFiles({});
+              const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+              for (const i in data) {
+                if (!data[i].remark) {
+                  data[i].remark = data[i].path;
+                } else {
+                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                }
+              }
+              return data;
+            }}
+            fieldProps={{
+              fieldNames: {
+                label: 'remark',
+                value: 'path',
+              },
+            }}
             extra={<div>文档模板默认值：{currentModule.table_name}/detail.html</div>}
           />
           <ProFormText label="Banner图">
