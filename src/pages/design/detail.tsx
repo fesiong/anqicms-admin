@@ -533,20 +533,20 @@ const DesignDetail: React.FC = () => {
               <Button onClick={handleRestoreDesignData}>初始化模板数据</Button>
             </Tooltip>
           ),
-          anqiUser?.auth_id > 0 &&
-            (designInfo.template_id == 0 || designInfo.auth_id == anqiUser?.auth_id) && (
-              <Tooltip title="将模板上架到AnqiCMS模板市场" key="share">
-                <TemplateShare
-                  templateId={designInfo.template_id}
-                  package={designInfo.package}
-                  onFinished={() => {
-                    actionRef.current?.reload();
-                  }}
-                >
-                  <Button>分享上架模板</Button>
-                </TemplateShare>
-              </Tooltip>
-            ),
+          <Tooltip title="将模板上架到AnqiCMS模板市场" key="share">
+            <TemplateShare
+              designInfo={designInfo}
+              canShare={
+                anqiUser?.auth_id > 0 &&
+                (designInfo.template_id == 0 || designInfo.auth_id == anqiUser?.auth_id)
+              }
+              onFinished={() => {
+                actionRef.current?.reload();
+              }}
+            >
+              <Button>分享上架模板</Button>
+            </TemplateShare>
+          </Tooltip>,
         ]}
         request={async () => {
           return {

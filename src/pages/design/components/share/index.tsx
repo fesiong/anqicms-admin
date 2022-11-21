@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { message, Modal, Upload } from 'antd';
 import {
   ModalForm,
   ProFormDigit,
+  ProFormInstance,
   ProFormRadio,
   ProFormText,
   ProFormTextArea,
@@ -12,8 +13,8 @@ import { PlusOutlined } from '@ant-design/icons';
 
 export type TemplateShareProps = {
   children: any;
-  templateId: number;
-  package: string;
+  designInfo: any;
+  canShare: boolean;
   onFinished?: () => void;
 };
 
@@ -22,6 +23,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
   const [pcThumb, setPcThumb] = useState<string>('');
   const [mobileThumb, setMobileThumb] = useState<string>('');
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const formRef = useRef<ProFormInstance>();
 
   const confirmShareTemplate = async (values: any) => {
     Modal.confirm({
@@ -29,8 +31,8 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
       content: <div>如果该模板已经提交上架过了，则会更新模板市场对应模板到当前版本。</div>,
       onOk: async () => {
         const postData = values;
-        postData.package = props.package;
-        postData.template_id = props.templateId;
+        postData.package = props.designInfo.package;
+        postData.template_id = props.designInfo.templateId;
         postData.price = Math.floor(postData.price * 100);
         postData.auto_backup = !!postData.auto_backup;
         postData.pc_thumb = pcThumb;
@@ -80,6 +82,11 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
     <>
       <div
         onClick={() => {
+          if (!props.canShare) {
+            message.info('请先登录AnqiCMS官网账号');
+            return;
+          }
+          formRef.current?.setFieldsValue(props.designInfo);
           setVisible(!visible);
         }}
       >
@@ -89,6 +96,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
         width={800}
         title={'上架模板到设计市场'}
         visible={visible}
+        formRef={formRef}
         modalProps={{
           onCancel: () => {
             setVisible(false);
