@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { message, Modal, Upload } from 'antd';
+import { message, Modal, RadioChangeEvent, Upload } from 'antd';
 import {
   ModalForm,
   ProFormDigit,
@@ -15,6 +15,7 @@ export type TemplateShareProps = {
   children: any;
   designInfo: any;
   canShare: boolean;
+  templateId: number;
   onFinished?: () => void;
 };
 
@@ -23,12 +24,22 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
   const [pcThumb, setPcThumb] = useState<string>('');
   const [mobileThumb, setMobileThumb] = useState<string>('');
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [onlyTemplate, setOnlyTemplate] = useState<boolean>(false);
   const formRef = useRef<ProFormInstance>();
 
   const confirmShareTemplate = async (values: any) => {
     Modal.confirm({
-      title: '确定要将该模板上架到模板市场吗？',
-      content: <div>如果该模板已经提交上架过了，则会更新模板市场对应模板到当前版本。</div>,
+      title:
+        props.templateId > 0
+          ? '确定要替换模板市场对应的模板吗？'
+          : '确定要将该模板上架到模板市场吗？',
+      content: (
+        <div>
+          {props.templateId > 0
+            ? '该模板已经上架模板市场，现在提交则会更新模板市场对应模板到当前版本。'
+            : '您的模板将上架到模板市场供用户选择使用。'}
+        </div>
+      ),
       onOk: async () => {
         const postData = values;
         postData.package = props.designInfo.package;
@@ -38,6 +49,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
         postData.pc_thumb = pcThumb;
         postData.mobile_thumb = mobileThumb;
         postData.preview_images = previewImages;
+        postData.only_template = onlyTemplate;
 
         anqiShareTemplate(postData).then((res) => {
           if (res.code === 0) {
@@ -78,6 +90,10 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
       });
   };
 
+  const handleChangeOption = (e: RadioChangeEvent) => {
+    setOnlyTemplate(e.target.value);
+  };
+
   return (
     <>
       <div
@@ -108,98 +124,123 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
         }}
       >
         <ProFormText name="name" label="模板名称" extra="例如：机械设备模板" />
-        <ProFormDigit
-          name="price"
-          label="模板售价"
-          addonAfter="元"
-          extra="如免费分享，则不需设置。设置售价后，有用户购买模板，您将获得80%的实际销售收益"
-        />
-        <ProFormRadio.Group
-          name="auto_backup"
-          label="演示数据"
-          options={[
-            {
-              value: 0,
-              label: '不处理',
-            },
-            {
-              value: 1,
-              label: '自动备份演示数据',
-            },
-          ]}
-          extra="模板携带演示数据效果更好"
-        />
-        <ProFormText name="author" label="模板作者" />
-        <ProFormText name="homepage" label="作者主页" />
+        {props.templateId > 0 && (
+          <ProFormRadio.Group
+            name="only_template"
+            initialValue={false}
+            label="进更新模板"
+            options={[
+              {
+                value: false,
+                label: '更新全部',
+              },
+              {
+                value: true,
+                label: '仅更新模板',
+              },
+            ]}
+            fieldProps={{
+              onChange: handleChangeOption,
+            }}
+            extra="已经在模板市场的模板，可以只更新模板文件"
+          />
+        )}
         <ProFormText name="version" label="模板版本" placeholder="如：1.0.0" />
-        <ProFormTextArea fieldProps={{ rows: 10 }} name="description" label="模板介绍" />
-        <ProFormText label="PC端截图">
-          <Upload
-            name="file"
-            multiple
-            showUploadList={false}
-            accept=".jpg,.jpeg,.png,.gif,.webp"
-            customRequest={(e) => {
-              handleUploadImage('pc_thumb', e);
-            }}
-          >
-            <div className="ant-upload-item">
-              {pcThumb ? (
-                <img src={pcThumb} style={{ width: '100%' }} />
-              ) : (
-                <div className="add">
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>上传</div>
+        {!onlyTemplate && (
+          <>
+            <ProFormDigit
+              name="price"
+              label="模板售价"
+              addonAfter="元"
+              extra="如免费分享，则不需设置。设置售价后，有用户购买模板，您将获得80%的实际销售收益"
+            />
+            <ProFormRadio.Group
+              name="auto_backup"
+              label="演示数据"
+              options={[
+                {
+                  value: 0,
+                  label: '不处理',
+                },
+                {
+                  value: 1,
+                  label: '自动备份演示数据',
+                },
+              ]}
+              extra="模板携带演示数据效果更好"
+            />
+            <ProFormText name="author" label="模板作者" />
+            <ProFormText name="homepage" label="作者主页" />
+            <ProFormTextArea fieldProps={{ rows: 10 }} name="description" label="模板介绍" />
+            <ProFormText label="PC端截图">
+              <Upload
+                name="file"
+                multiple
+                showUploadList={false}
+                accept=".jpg,.jpeg,.png,.gif,.webp"
+                customRequest={(e) => {
+                  handleUploadImage('pc_thumb', e);
+                }}
+              >
+                <div className="ant-upload-item">
+                  {pcThumb ? (
+                    <img src={pcThumb} style={{ width: '100%' }} />
+                  ) : (
+                    <div className="add">
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>上传</div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </Upload>
-        </ProFormText>
-        <ProFormText label="移动端截图">
-          <Upload
-            name="file"
-            multiple
-            showUploadList={false}
-            accept=".jpg,.jpeg,.png,.gif,.webp"
-            customRequest={(e) => {
-              handleUploadImage('mobile_thumb', e);
-            }}
-          >
-            <div className="ant-upload-item">
-              {mobileThumb ? (
-                <img src={mobileThumb} style={{ width: '100%' }} />
-              ) : (
-                <div className="add">
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>上传</div>
+              </Upload>
+            </ProFormText>
+            <ProFormText label="移动端截图">
+              <Upload
+                name="file"
+                multiple
+                showUploadList={false}
+                accept=".jpg,.jpeg,.png,.gif,.webp"
+                customRequest={(e) => {
+                  handleUploadImage('mobile_thumb', e);
+                }}
+              >
+                <div className="ant-upload-item">
+                  {mobileThumb ? (
+                    <img src={mobileThumb} style={{ width: '100%' }} />
+                  ) : (
+                    <div className="add">
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>上传</div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </Upload>
-        </ProFormText>
-        <ProFormText label="模板预览图片" extra="建议上传模板全幅页面截图，不少于3张。">
-          <Upload
-            name="file"
-            multiple
-            showUploadList={false}
-            accept=".jpg,.jpeg,.png,.gif,.webp"
-            customRequest={(e) => {
-              handleUploadImage('preview_images', e);
-            }}
-          >
-            <div className="ant-upload-item">
-              <div className="add">
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>上传</div>
-              </div>
-            </div>
-          </Upload>
-          {previewImages.map((item: string, index: number) => (
-            <div className="ant-upload-item" key={index}>
-              <img src={item} style={{ width: '100%' }} />
-            </div>
-          ))}
-        </ProFormText>
+              </Upload>
+            </ProFormText>
+            <ProFormText label="模板预览图片" extra="建议上传模板全幅页面截图，不少于3张。">
+              <Upload
+                name="file"
+                multiple
+                showUploadList={false}
+                accept=".jpg,.jpeg,.png,.gif,.webp"
+                customRequest={(e) => {
+                  handleUploadImage('preview_images', e);
+                }}
+              >
+                <div className="ant-upload-item">
+                  <div className="add">
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>上传</div>
+                  </div>
+                </div>
+              </Upload>
+              {previewImages.map((item: string, index: number) => (
+                <div className="ant-upload-item" key={index}>
+                  <img src={item} style={{ width: '100%' }} />
+                </div>
+              ))}
+            </ProFormText>
+          </>
+        )}
       </ModalForm>
     </>
   );

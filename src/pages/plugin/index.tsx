@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Row, Col } from 'antd';
 import './index.less';
@@ -7,8 +7,13 @@ import { history, useModel } from 'umi';
 
 const PluginIndex: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
+  const [type, setType] = useState<string>('');
   const jumpToPlugin = (item: any) => {
     history.push(item.path);
+  };
+
+  const onChangeType = (val: string) => {
+    setType(val);
   };
 
   let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
@@ -27,12 +32,62 @@ const PluginIndex: React.FC = () => {
 
   return (
     <PageContainer>
-      <Card title="功能列表">
+      <Card
+        title={
+          <div className="module-tags">
+            <div
+              className={'module-tag ' + (!type ? 'active' : '')}
+              onClick={() => {
+                onChangeType('');
+              }}
+            >
+              全部功能
+            </div>
+            <div
+              className={'module-tag ' + (type === 'normal' ? 'active' : '')}
+              onClick={() => {
+                onChangeType('normal');
+              }}
+            >
+              常用功能
+            </div>
+            <div
+              className={'module-tag ' + (type === 'content' ? 'active' : '')}
+              onClick={() => {
+                onChangeType('content');
+              }}
+            >
+              文档功能
+            </div>
+            <div
+              className={'module-tag ' + (type === 'shop' ? 'active' : '')}
+              onClick={() => {
+                onChangeType('shop');
+              }}
+            >
+              用户/商城
+            </div>
+            <div
+              className={'module-tag ' + (type === 'system' ? 'active' : '')}
+              onClick={() => {
+                onChangeType('system');
+              }}
+            >
+              系统功能
+            </div>
+          </div>
+        }
+      >
         <Row gutter={[20, 20]}>
           {routes.map((item: any, index) => {
             if (item.path == '/plugin') {
               return item.routes.map((inner: any, i: number) => {
-                if (!inner.hideInMenu && inner.name && !inner.unaccessible) {
+                if (
+                  !inner.hideInMenu &&
+                  inner.name &&
+                  !inner.unaccessible &&
+                  (!type || type == inner.type)
+                ) {
                   return (
                     <Col key={i} span={6}>
                       <div

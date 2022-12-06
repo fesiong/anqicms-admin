@@ -109,7 +109,6 @@ const PageCategory: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         search={false}
-        pagination={false}
         toolBarRender={() => [
           <Button
             type="primary"

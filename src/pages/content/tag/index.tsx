@@ -59,8 +59,8 @@ const ArticleTag: React.FC = () => {
       render: (dom, entity) => {
         return (
           <a href={entity.link} target="_blank">
-              {dom}
-            </a>
+            {dom}
+          </a>
         );
       },
     },
@@ -111,7 +111,6 @@ const ArticleTag: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         search={false}
-        pagination={false}
         toolBarRender={() => [
           <Button
             type="primary"

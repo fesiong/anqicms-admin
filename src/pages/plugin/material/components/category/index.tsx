@@ -31,10 +31,15 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
   };
 
   const handleRemove = async (record: any) => {
-    let res = await pluginDeleteMaterialCategory(record);
+    Modal.confirm({
+      title: '确定要删除吗？',
+      onOk: async () => {
+        let res = await pluginDeleteMaterialCategory(record);
 
-    message.info(res.msg);
-    actionRef.current?.reloadAndRest?.();
+        message.info(res.msg);
+        actionRef.current?.reloadAndRest?.();
+      },
+    });
   };
 
   const handleSaveCategory = () => {
@@ -54,7 +59,8 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };

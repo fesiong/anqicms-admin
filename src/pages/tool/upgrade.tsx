@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Button, Card, message, Modal } from 'antd';
-import { checkVersion, getVersion, upgradeVersion } from '@/services/version';
+import { checkVersion, getVersion, upgradeVersion, anqiRestart } from '@/services';
 
 var loading = false;
 
@@ -16,14 +16,11 @@ const ToolUpgradeForm: React.FC<any> = (props) => {
   const getSetting = async () => {
     const res = await getVersion();
     let setting = res.data || null;
+
     setSetting(setting);
 
     checkVersion().then((res) => {
       setNewVersion(res.data || null);
-
-      if (res.data?.description) {
-        message.info(res.data.description);
-      }
     });
   };
 
@@ -40,6 +37,19 @@ const ToolUpgradeForm: React.FC<any> = (props) => {
           .then((res) => {
             Modal.info({
               content: res.msg,
+              okText: '重启运行新版',
+              onOk() {
+                const hide2 = message.loading('正在重新启动中', 0);
+                anqiRestart({})
+                  .then(() => {})
+                  .catch(() => {})
+                  .finally(() => {
+                    setTimeout(() => {
+                      hide2();
+                      window.location.reload();
+                    }, 3000);
+                  });
+              },
             });
             getSetting();
           })
@@ -70,26 +80,19 @@ const ToolUpgradeForm: React.FC<any> = (props) => {
             />
             {newVersion ? (
               <div>
-                <ProFormText
-                  name="version"
-                  fieldProps={{
-                    value: newVersion.version,
-                  }}
-                  label="最新版本"
-                  width="lg"
-                  readonly
-                />
-                <ProFormText
-                  name="description"
-                  fieldProps={{
-                    value: newVersion.description,
-                  }}
-                  label="版本说明"
-                  width="lg"
-                  readonly
-                />
+                <ProFormText label="最新版本" width="lg" readonly>
+                  <div className="text-primary">{newVersion.version}</div>
+                </ProFormText>
+                <ProFormText label="版本说明" width="lg" readonly>
+                  <div
+                    className="elem-quote"
+                    dangerouslySetInnerHTML={{ __html: newVersion.description }}
+                  ></div>
+                </ProFormText>
                 <div className="mt-normal">
-                  <Button onClick={upgradeSubmit}>升级到最新版</Button>
+                  <Button type="primary" onClick={upgradeSubmit}>
+                    升级到最新版
+                  </Button>
                 </div>
               </div>
             ) : (

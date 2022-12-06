@@ -39,3 +39,19 @@ export async function anqiDownloadTemplate(body: any, options?: { [key: string]:
     options,
   });
 }
+
+export async function anqiSendFeedback(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/anqi/feedback',
+    body,
+    options,
+  });
+}
+
+export async function anqiRestart(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/anqi/restart',
+    body,
+    options,
+  });
+}

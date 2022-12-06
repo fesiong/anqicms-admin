@@ -24,3 +24,4 @@ export * from './withdraw';
 export * from './finance';
 export * from './commission';
 export * from './fulltext';
+export * from './replace';

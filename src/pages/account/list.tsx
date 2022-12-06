@@ -4,7 +4,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
 import { deleteAdminInfo, getAdminGroups, getAdminList, saveAdmin } from '@/services';
-import { Button, message, Space } from 'antd';
+import { Button, message, Modal, Space } from 'antd';
 import { useModel } from 'umi';
 import { ModalForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
@@ -45,12 +45,16 @@ const AdminList: React.FC = () => {
       message.error('该管理员不能删除');
       return;
     }
-
-    deleteAdminInfo({
-      id: record.id,
-    }).then((res) => {
-      message.info(res.msg);
-      actionRef.current?.reload();
+    Modal.confirm({
+      title: '确定要删除该管理员吗？',
+      onOk: () => {
+        deleteAdminInfo({
+          id: record.id,
+        }).then((res) => {
+          message.info(res.msg);
+          actionRef.current?.reload();
+        });
+      },
     });
   };
 

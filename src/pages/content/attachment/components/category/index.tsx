@@ -31,10 +31,15 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
   };
 
   const handleRemove = async (record: any) => {
-    let res = await deleteAttachmentCategory(record);
+    Modal.confirm({
+      title: '确定要删除吗？',
+      onOk: async () => {
+        let res = await deleteAttachmentCategory(record);
 
-    message.info(res.msg);
-    actionRef.current?.reloadAndRest?.();
+        message.info(res.msg);
+        actionRef.current?.reloadAndRest?.();
+      },
+    });
   };
 
   const handleSaveCategory = () => {
@@ -54,7 +59,8 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
@@ -138,7 +144,6 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
             actionRef={actionRef}
             rowKey="id"
             search={false}
-            pagination={false}
             toolBarRender={false}
             request={(params, sort) => {
               return getAttachmentCategories(params);

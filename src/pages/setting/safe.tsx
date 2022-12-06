@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProForm, {
-  ProFormRadio,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
+import ProForm, { ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, message } from 'antd';
 import { getSettingSafe, saveSettingSafe } from '@/services';
@@ -32,7 +28,8 @@ const SettingSafeFrom: React.FC<any> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
@@ -55,14 +52,81 @@ const SettingSafeFrom: React.FC<any> = (props) => {
                   label: '开启',
                 },
               ]}
-              extra='如需开启验证码，请参考验证码标签使用js调用刷新验证码和提交验证数据'
+              extra="如需开启验证码，请参考验证码标签使用js调用刷新验证码和提交验证数据"
             />
-            <ProFormText name="daily_limit" label="同IP每日提交限制" width="lg" fieldProps={{suffix: '次'}} extra='0表示不限制' />
-            <ProFormText name="content_limit" label="提交留言内容至少" width="lg" fieldProps={{suffix: '字'}} extra='0表示不限制' />
-            <ProFormText name="interval_limit" label="留言提交间隔" width="lg" fieldProps={{suffix: '秒'}} extra='0表示不限制' />
-            <ProFormTextArea name="content_forbidden" label="留言敏感词过滤" width="lg" extra='一行一个，提交的留言、评论内容包含有这些词的将会被拒绝。' />
-            <ProFormTextArea name="ip_forbidden" label="限制IP地址" width="lg" extra={<div>一行一个，使用这些IP访问的链接将会被拒绝。ip支持的格式：单个IP: 192.168.0.1，某个IP段: 192.168.0.0/16</div>} />
-            <ProFormTextArea name="ua_forbidden" label="限制UserAgent" width="lg" extra='一行一个，使用这些UserAgent访问的链接将会被拒绝。' />
+            <ProFormText
+              name="daily_limit"
+              label="同IP每日提交限制"
+              width="lg"
+              fieldProps={{ suffix: '次' }}
+              extra="0表示不限制"
+            />
+            <ProFormText
+              name="content_limit"
+              label="提交留言内容至少"
+              width="lg"
+              fieldProps={{ suffix: '字' }}
+              extra="0表示不限制"
+            />
+            <ProFormText
+              name="interval_limit"
+              label="留言提交间隔"
+              width="lg"
+              fieldProps={{ suffix: '秒' }}
+              extra="0表示不限制"
+            />
+            <ProFormTextArea
+              name="content_forbidden"
+              label="留言敏感词过滤"
+              width="lg"
+              extra="一行一个，提交的留言、评论内容包含有这些词的将会被拒绝。"
+            />
+            <ProFormTextArea
+              name="ip_forbidden"
+              label="限制IP地址"
+              width="lg"
+              extra={
+                <div>
+                  一行一个，使用这些IP访问的链接将会被拒绝。ip支持的格式：单个IP:
+                  192.168.0.1，某个IP段: 192.168.0.0/16
+                </div>
+              }
+            />
+            <ProFormTextArea
+              name="ua_forbidden"
+              label="限制UserAgent"
+              width="lg"
+              extra="一行一个，使用这些UserAgent访问的链接将会被拒绝。"
+            />
+            <ProFormRadio.Group
+              name="api_open"
+              label="开放API接口"
+              options={[
+                {
+                  value: 0,
+                  label: '关闭',
+                },
+                {
+                  value: 1,
+                  label: '开放',
+                },
+              ]}
+              extra="开放后，才能请求API地址。文档导入接口不受限制"
+            />
+            <ProFormRadio.Group
+              name="api_publish"
+              label="API发布结果"
+              options={[
+                {
+                  value: 0,
+                  label: '进入草稿箱',
+                },
+                {
+                  value: 1,
+                  label: '正常发布',
+                },
+              ]}
+            />
           </ProForm>
         )}
       </Card>

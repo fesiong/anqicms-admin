@@ -275,14 +275,19 @@ export default class ImageList extends React.Component {
 
   handleRemoveAttach = () => {
     const { currentAttach } = this.state;
-    this.setState(
-      {
-        selectedIds: [currentAttach.id],
+    Modal.confirm({
+      title: '确定要删除吗？',
+      onOk: () => {
+        this.setState(
+          {
+            selectedIds: [currentAttach.id],
+          },
+          () => {
+            this.handleDeleteImage();
+          },
+        );
       },
-      () => {
-        this.handleDeleteImage();
-      },
-    );
+    });
   };
 
   handleReplaceAttach = (e: any) => {

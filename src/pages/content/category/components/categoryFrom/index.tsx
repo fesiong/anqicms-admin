@@ -162,6 +162,12 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
       />
       <ProFormText name="title" label="分类名称" />
       <ProFormTextArea name="description" label="分类简介" />
+      <ProFormText
+        name="url_token"
+        label="URL别名"
+        placeholder="默认会自动生成，无需填写"
+        extra="注意：URL别名只能填写字母、数字和下划线，不能带空格"
+      />
       <Collapse>
         <Collapse.Panel header="其他参数" key="1">
           <ProFormDigit name="sort" label="显示顺序" extra={'默认99，数字越小越靠前'} />
@@ -172,12 +178,6 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
             extra="注意：如果你希望页面的title标签的内容不是页面名称，可以通过SEO标题设置"
           />
           <ProFormText name="keywords" label="关键词" extra="你可以单独设置关键词" />
-          <ProFormText
-            name="url_token"
-            label="自定义URL"
-            placeholder="默认会自动生成，无需填写"
-            extra="注意：自定义URL只能填写字母、数字和下划线，不能带空格"
-          />
           <ProFormSelect
             label="分类模板"
             showSearch

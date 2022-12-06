@@ -24,14 +24,6 @@ export async function replaceCollectorArticle(body: any, options?: { [key: strin
   });
 }
 
-export async function pseudoCollectorArticle(body: any, options?: { [key: string]: any }) {
-  return post({
-    url: '/collector/article/pseudo',
-    body,
-    options,
-  });
-}
-
 export async function digCollectorKeyword(body?: any, options?: { [key: string]: any }) {
   return post({
     url: '/collector/keyword/dig',

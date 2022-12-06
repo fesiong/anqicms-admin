@@ -10,6 +10,7 @@ import { message, Tooltip } from 'antd';
 import { HtmlMenu } from './html/menu';
 import { MaterialMenu } from './material/menu';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { uploadAttachment } from '@/services';
 
 // 注册。要在创建编辑器之前注册
 E.registerMenu('html', HtmlMenu);
@@ -41,6 +42,26 @@ const WangEditor: React.FC<WangEditorProps> = (props) => {
     }
   };
 
+  const handleUpload = async (resultFiles: any[], insertImgFn: Function) => {
+    for (let i in resultFiles) {
+      const hide = message.loading('插入中...', 0);
+      let formData = new FormData();
+      formData.append('file', resultFiles[i]);
+      uploadAttachment(formData)
+        .then((res) => {
+          if (res.code !== 0) {
+            message.info(res.msg);
+          } else {
+            message.info(res.msg || '上传成功');
+            insertImgFn(res.data.logo);
+          }
+        })
+        .finally(() => {
+          hide();
+        });
+    }
+  };
+
   return (
     <div
       className={'editor-container ' + props.className}
@@ -51,6 +72,10 @@ const WangEditor: React.FC<WangEditorProps> = (props) => {
         defaultValue={props.content}
         config={{
           height: 500,
+          // 支持拖拽上传图片
+          customUploadImg: (resultFiles: Function[], insertImgFn: Function) => {
+            handleUpload(resultFiles, insertImgFn);
+          },
           // 上传图片处理
           uploadImgFromMedia: () => {
             setAttachVisible(true);

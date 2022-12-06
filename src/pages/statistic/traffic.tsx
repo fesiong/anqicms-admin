@@ -36,7 +36,7 @@ const StatisticTraffic: React.FC<any> = (props) => {
   return (
     <PageHeaderWrapper>
       <StatisticCard
-        title="蜘蛛统计"
+        title="流量统计"
         tip="这里统计的是非蜘蛛访问的IP以及访问次数，具体可以查看详情记录"
         chart={<Line {...config} />}
       />

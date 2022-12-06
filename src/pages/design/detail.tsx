@@ -490,6 +490,10 @@ const DesignDetail: React.FC = () => {
     },
   ];
 
+  const canShare =
+    anqiUser?.auth_id > 0 &&
+    (designInfo.template_id == 0 || designInfo.auth_id == anqiUser?.auth_id);
+
   return (
     <PageContainer title={designInfo.name + ' 文件管理'}>
       <ProTable<any>
@@ -533,20 +537,20 @@ const DesignDetail: React.FC = () => {
               <Button onClick={handleRestoreDesignData}>初始化模板数据</Button>
             </Tooltip>
           ),
-          <Tooltip title="将模板上架到AnqiCMS模板市场" key="share">
-            <TemplateShare
-              designInfo={designInfo}
-              canShare={
-                anqiUser?.auth_id > 0 &&
-                (designInfo.template_id == 0 || designInfo.auth_id == anqiUser?.auth_id)
-              }
-              onFinished={() => {
-                actionRef.current?.reload();
-              }}
-            >
-              <Button>分享上架模板</Button>
-            </TemplateShare>
-          </Tooltip>,
+          (canShare || !anqiUser || anqiUser?.auth_id == 0) && (
+            <Tooltip title="将模板上架到AnqiCMS模板市场" key="share">
+              <TemplateShare
+                designInfo={designInfo}
+                canShare={canShare}
+                templateId={designInfo.template_id}
+                onFinished={() => {
+                  actionRef.current?.reload();
+                }}
+              >
+                <Button>分享上架模板</Button>
+              </TemplateShare>
+            </Tooltip>
+          ),
         ]}
         request={async () => {
           return {
@@ -554,7 +558,6 @@ const DesignDetail: React.FC = () => {
             success: true,
           };
         }}
-        pagination={false}
         columns={columns}
       />
       <ProTable<any>
@@ -579,7 +582,6 @@ const DesignDetail: React.FC = () => {
             success: true,
           };
         }}
-        pagination={false}
         columns={columnsStatic}
       />
       {addVisible && (

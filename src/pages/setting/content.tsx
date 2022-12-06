@@ -35,7 +35,12 @@ const SettingContactFrom: React.FC<any> = (props) => {
 
   const handleRemoveLogo = (e: any) => {
     e.stopPropagation();
-    setDefaultThumb('');
+    Modal.confirm({
+      title: '确定要删除吗？',
+      onOk: async () => {
+        setDefaultThumb('');
+      },
+    });
   };
 
   const handleConvertToWebp = () => {

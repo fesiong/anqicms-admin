@@ -8,7 +8,7 @@ import {
   getPermissionMenus,
   saveAdminGroupInfo,
 } from '@/services';
-import { Alert, Button, Checkbox, Collapse, Input, message, Space } from 'antd';
+import { Alert, Button, Checkbox, Collapse, Input, message, Modal, Space } from 'antd';
 import { useModel } from 'umi';
 import { ModalForm, ProFormCheckbox, ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
@@ -75,12 +75,16 @@ const AdminGroupList: React.FC = () => {
       message.error('该管理分组不能删除');
       return;
     }
-
-    deleteAdminGroupInfo({
-      id: record.id,
-    }).then((res) => {
-      message.info(res.msg);
-      actionRef.current?.reload();
+    Modal.confirm({
+      title: '确定要删除该分组吗？',
+      onOk: () => {
+        deleteAdminGroupInfo({
+          id: record.id,
+        }).then((res) => {
+          message.info(res.msg);
+          actionRef.current?.reload();
+        });
+      },
     });
   };
   const columns: ProColumns<any>[] = [

@@ -4,14 +4,12 @@ import ProForm, {
   ProFormText,
   ProFormTextArea,
   ProFormRadio,
-  ProFormDateTimePicker,
 } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, Col, Collapse, message, Modal, Row, Upload } from 'antd';
-import { uploadAttachment } from '@/services/attachment';
+import { Button, Card, Col, Collapse, message, Modal, Row } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { getSettingSystem, saveSettingSystem } from '@/services/setting';
-import { useModel, utils } from 'umi';
+import { useModel } from 'umi';
 import AttachmentSelect from '@/components/attachment';
 
 const SettingSystemFrom: React.FC<any> = (props) => {

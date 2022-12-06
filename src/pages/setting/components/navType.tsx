@@ -27,10 +27,15 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
   };
 
   const handleRemove = async (record: any) => {
-    let res = await deleteSettingNavType(record);
+    Modal.confirm({
+      title: '确定要删除吗？',
+      onOk: async () => {
+        let res = await deleteSettingNavType(record);
 
-    message.info(res.msg);
-    actionRef.current?.reloadAndRest?.();
+        message.info(res.msg);
+        actionRef.current?.reloadAndRest?.();
+      },
+    });
   };
 
   const handleSaveType = () => {
@@ -95,7 +100,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
   return (
     <>
       <div
-        style={{display: 'inline-block'}}
+        style={{ display: 'inline-block' }}
         onClick={() => {
           setVisible(!visible);
         }}

@@ -119,7 +119,7 @@ const PluginRedirect: React.FC = () => {
             >
               导入链接
             </Button>
-          </RedirectImport>
+          </RedirectImport>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>

@@ -5,7 +5,7 @@ import { useModel } from 'umi';
 import Avatar from './AvatarDropdown';
 import styles from './index.less';
 import { LoginForm, ProFormText } from '@ant-design/pro-form';
-import { anqiLogin } from '@/services/anqi';
+import { anqiLogin, anqiRestart } from '@/services';
 import moment from 'moment';
 
 export type SiderTheme = 'light' | 'dark';
@@ -13,8 +13,8 @@ export type SiderTheme = 'light' | 'dark';
 const GlobalHeaderRight: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [visible, setVisible] = useState<boolean>(false);
-  const [code, setCode] = useState<number>(0);
-  const [errorMsg, setErrorMsg] = useState<string>('');
+  const [code] = useState<number>(0);
+  const [errorMsg] = useState<string>('');
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -59,6 +59,26 @@ const GlobalHeaderRight: React.FC = () => {
     });
   };
 
+  const confirmRestart = () => {
+    Modal.confirm({
+      title: '重启 AnqiCMS',
+      content: '您即将要重启 AnqiCMS，重启期间网站会有短暂的时间无法打开。确定要继续吗？',
+      okText: '重启',
+      onOk: () => {
+        const hide2 = message.loading('正在重新启动中', 0);
+        anqiRestart({})
+          .then(() => {})
+          .catch(() => {})
+          .finally(() => {
+            setTimeout(() => {
+              hide2();
+              window.location.reload();
+            }, 3000);
+          });
+      },
+    });
+  };
+
   return (
     <>
       <Space className={className}>
@@ -83,6 +103,9 @@ const GlobalHeaderRight: React.FC = () => {
           <QuestionCircleOutlined />
         </span>
         <Avatar menu />
+        <div className={styles.restart} onClick={confirmRestart}>
+          重启
+        </div>
       </Space>
 
       <Modal

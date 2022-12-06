@@ -63,8 +63,13 @@ const PluginPush: React.FC<any> = (props) => {
   };
 
   const handleRemoveJs = (index: number) => {
-    jsCodes.splice(index, 1);
-    setJsCodes([].concat(...jsCodes));
+    Modal.confirm({
+      title: '确定要删除吗？',
+      onOk: async () => {
+        jsCodes.splice(index, 1);
+        setJsCodes([].concat(...jsCodes));
+      },
+    });
   };
 
   const handleShowPushLog = () => {
@@ -224,7 +229,6 @@ const PluginPush: React.FC<any> = (props) => {
         <ProTable<any>
           rowKey="id"
           search={false}
-          pagination={false}
           toolBarRender={false}
           request={(params, sort) => {
             return pluginGetPushLogs(params);

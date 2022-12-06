@@ -17,7 +17,7 @@ const ArchiveCategory: React.FC = () => {
   const [modules, setModules] = useState<any[]>([]);
 
   useEffect(() => {
-    getModules().then(res => {
+    getModules().then((res) => {
       setModules(res.data || []);
     });
   }, []);
@@ -56,7 +56,7 @@ const ArchiveCategory: React.FC = () => {
 
   const handleShowArchives = (record: any) => {
     history.push('/archive/list?category_id=' + record.id);
-  }
+  };
 
   const getModuleName = (moduleId: number) => {
     for (let item of modules) {
@@ -65,7 +65,7 @@ const ArchiveCategory: React.FC = () => {
       }
     }
     return null;
-  }
+  };
 
   const columns: ProColumns<any>[] = [
     {
@@ -118,7 +118,7 @@ const ArchiveCategory: React.FC = () => {
           <a
             key="edit"
             onClick={() => {
-              handleEditCategory({parent_id: record.id, module_id: record.module_id});
+              handleEditCategory({ parent_id: record.id, module_id: record.module_id });
             }}
           >
             增加子类
@@ -150,17 +150,16 @@ const ArchiveCategory: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="文章分类列表"
+        headerTitle="文档分类列表"
         actionRef={actionRef}
         rowKey="id"
         search={false}
-        pagination={false}
         toolBarRender={() => [
           <Button
             type="primary"
             key="add"
             onClick={() => {
-              handleEditCategory({parent_id:0, module_id: null});
+              handleEditCategory({ parent_id: 0, module_id: null });
             }}
           >
             <PlusOutlined /> 添加顶级分类

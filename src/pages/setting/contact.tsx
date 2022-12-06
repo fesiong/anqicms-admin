@@ -29,7 +29,12 @@ const SettingContactFrom: React.FC<any> = (props) => {
 
   const handleRemoveLogo = (e: any) => {
     e.stopPropagation();
-    setQrcode('');
+    Modal.confirm({
+      title: '确定要删除吗？',
+      onOk: async () => {
+        setQrcode('');
+      },
+    });
   };
 
   const onSubmit = async (values: any) => {

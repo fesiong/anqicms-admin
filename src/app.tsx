@@ -125,6 +125,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           }
         }
       }
+      if (initialState?.currentUser?.id != 1 || initialState?.currentUser?.site_id != 1) {
+        for (let i in menuData) {
+          if (menuData[i].path == '/website') {
+            menuData[i].unaccessible = true;
+          }
+        }
+      }
 
       return menuData;
     },

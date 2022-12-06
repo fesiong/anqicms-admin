@@ -1,9 +1,9 @@
 .plugin-item {
   display: flex;
   align-items: center;
+  padding: 10px;
   border: 1px solid #eee;
   cursor: pointer;
-  padding: 10px;
   .avatar {
     margin-right: 10px;
     padding: 5px;
@@ -16,5 +16,16 @@
   .info {
     flex: 1;
     text-align: center;
+  }
+}
+.module-tags {
+  font-weight: normal;
+  .module-tag {
+    display: inline-block;
+    padding: 8px 10px;
+    cursor: pointer;
+    &.active {
+      color: var(--ant-primary-color);
+    }
   }
 }

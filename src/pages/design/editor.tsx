@@ -3,7 +3,14 @@ import { PageContainer } from '@ant-design/pro-layout';
 import MonacoEditor from 'react-monaco-editor';
 import { Button, Card, Col, message, Row, Space, Collapse, Modal } from 'antd';
 import { history } from 'umi';
-import { deleteDesignHistoryFile, getDesignFileHistories, getDesignFileInfo, getDesignInfo, restoreDesignFileInfo, saveDesignFileInfo } from '@/services/design';
+import {
+  deleteDesignHistoryFile,
+  getDesignFileHistories,
+  getDesignFileInfo,
+  getDesignInfo,
+  restoreDesignFileInfo,
+  saveDesignFileInfo,
+} from '@/services/design';
 import './index.less';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import moment from 'moment';
@@ -26,9 +33,9 @@ const DesignEditor: React.FC = () => {
     getHeight();
     window.addEventListener('resize', getHeight);
     return () => {
-        // 组件销毁时移除监听事件
-        window.removeEventListener('resize', getHeight);
-    }
+      // 组件销毁时移除监听事件
+      window.removeEventListener('resize', getHeight);
+    };
   }, []);
 
   const fetchDesignInfo = async () => {
@@ -77,7 +84,7 @@ const DesignEditor: React.FC = () => {
   const editorDidMount = (editor: any, monaco: any) => {
     //console.log('editorDidMount', editor);
     //editor.focus();
-  }
+  };
 
   const onChangeCode = (newCode: string) => {
     if (code != newCode) {
@@ -93,12 +100,14 @@ const DesignEditor: React.FC = () => {
     fileInfo.type = fileType;
     unsave = false;
     const hide = message.loading('正在提交中', 0);
-    saveDesignFileInfo(fileInfo).then((res) => {
-      message.info(res.msg);
-      actionRef.current?.reload();
-    }).finally(() => {
-      hide();
-    });
+    saveDesignFileInfo(fileInfo)
+      .then((res) => {
+        message.info(res.msg);
+        actionRef.current?.reload();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   const handleEditFile = (type: string, info: any) => {
@@ -134,15 +143,17 @@ const DesignEditor: React.FC = () => {
           package: designInfo.package,
           path: fileInfo.path,
           type: fileType,
-        }).then(res => {
-          message.info(res.msg);
-          fetchDesignFileInfo(info.path);
-        }).finally(() => {
-          hide();
-        });
+        })
+          .then((res) => {
+            message.info(res.msg);
+            fetchDesignFileInfo(info.path);
+          })
+          .finally(() => {
+            hide();
+          });
       },
     });
-  }
+  };
 
   const deleteHistoryFile = (info: any) => {
     Modal.confirm({
@@ -154,19 +165,20 @@ const DesignEditor: React.FC = () => {
           package: designInfo.package,
           path: fileInfo.path,
           type: fileType,
-        }).then(res => {
-          message.info(res.msg);
-          actionRef.current?.reload();
-        }).finally(() => {
-          hide();
-        });;
+        })
+          .then((res) => {
+            message.info(res.msg);
+            actionRef.current?.reload();
+          })
+          .finally(() => {
+            hide();
+          });
       },
     });
-  }
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "s" && (event.ctrlKey || event.metaKey)) {
-
+    if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
       // 自动保存
       handleSave();
 
@@ -179,15 +191,19 @@ const DesignEditor: React.FC = () => {
       return size + 'B';
     }
     if (size < 1024 * 1024) {
-      return (size/1024).toFixed(2) + 'KB';
+      return (size / 1024).toFixed(2) + 'KB';
     }
 
-    return (size / 1024 / 1024).toFixed(2) + 'MB'
-  }
+    return (size / 1024 / 1024).toFixed(2) + 'MB';
+  };
 
   const getLanguage = (filePath: string) => {
-    return filePath.indexOf('.html') !== -1 ? 'html' : filePath.indexOf('.css') !== -1 ? 'css' : 'javascript';
-  }
+    return filePath.indexOf('.html') !== -1
+      ? 'html'
+      : filePath.indexOf('.css') !== -1
+      ? 'css'
+      : 'javascript';
+  };
 
   const getHeight = () => {
     let num = window?.innerHeight - 260;
@@ -198,7 +214,7 @@ const DesignEditor: React.FC = () => {
     }
 
     setHeight(num);
-  }
+  };
 
   const columns: ProColumns<any>[] = [
     {
@@ -208,12 +224,12 @@ const DesignEditor: React.FC = () => {
     {
       title: '大小',
       dataIndex: 'size',
-      render: (text: any, record: any) => (<div>{getSize(text)}</div>),
+      render: (text: any, record: any) => <div>{getSize(text)}</div>,
     },
     {
       title: '修改时间',
       dataIndex: 'last_mod',
-      render: (text: any) => (moment((text as number) * 1000).format('YYYY-MM-DD HH:mm'))
+      render: (text: any) => moment((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: '操作',
@@ -228,7 +244,8 @@ const DesignEditor: React.FC = () => {
             }}
           >
             恢复
-          </Button><Button
+          </Button>
+          <Button
             danger
             type="link"
             onClick={() => {
@@ -247,19 +264,21 @@ const DesignEditor: React.FC = () => {
       <Card>
         <Row gutter={16}>
           <Col span={18}>
-            <div className='code-editor-box' onKeyDown={handleKeyDown}>
-            {loaded && <MonacoEditor
-              height={height}
-              language={getLanguage(fileInfo?.path || '')}
-              theme="vs-dark"
-              value={code}
-              options={{
-                selectOnLineNumbers: false,
-                wordWrap: 'on'
-              }}
-              onChange={onChangeCode}
-              editorDidMount={editorDidMount}
-            />}
+            <div className="code-editor-box" onKeyDown={handleKeyDown}>
+              {loaded && (
+                <MonacoEditor
+                  height={height}
+                  language={getLanguage(fileInfo?.path || '')}
+                  theme="vs-dark"
+                  value={code}
+                  options={{
+                    selectOnLineNumbers: false,
+                    wordWrap: 'on',
+                  }}
+                  onChange={onChangeCode}
+                  editorDidMount={editorDidMount}
+                />
+              )}
             </div>
             <div className="mt-normal">
               <Space size={16}>
@@ -280,7 +299,7 @@ const DesignEditor: React.FC = () => {
                 </Button>
                 <Button
                   onClick={() => {
-                    setShowHistory(true)
+                    setShowHistory(true);
                   }}
                 >
                   查看历史
@@ -304,7 +323,14 @@ const DesignEditor: React.FC = () => {
               </Collapse.Panel>
               <Collapse.Panel className="tpl-file-list" showArrow={false} header="资源文件" key="2">
                 {designInfo?.static_files?.map((item: any, index: number) => {
-                  if (item.path.indexOf('.js') !== -1 || item.path.indexOf('.ts') !== -1 || item.path.indexOf('.css') !== -1 || item.path.indexOf('.scss') !== -1 || item.path.indexOf('.sass') !== -1 || item.path.indexOf('.less') !== -1) {
+                  if (
+                    item.path.indexOf('.js') !== -1 ||
+                    item.path.indexOf('.ts') !== -1 ||
+                    item.path.indexOf('.css') !== -1 ||
+                    item.path.indexOf('.scss') !== -1 ||
+                    item.path.indexOf('.sass') !== -1 ||
+                    item.path.indexOf('.less') !== -1
+                  ) {
                     return (
                       <div
                         key={index}
@@ -323,21 +349,30 @@ const DesignEditor: React.FC = () => {
           </Col>
         </Row>
       </Card>
-      <Modal title='文件历史' visible={showHistory} onCancel={() => {setShowHistory(false)}} onOk={() => {setShowHistory(false)}} width={800}>
-      <ProTable<any>
-        headerTitle="设计文件管理"
-        actionRef={actionRef}
-        rowKey="path"
-        search={false}
-        toolBarRender={false}
-        request={async(params, sort) => {
-          params.package = designInfo.package;
-          params.path = fileInfo.path;
-          return getDesignFileHistories(params)
+      <Modal
+        title="文件历史"
+        visible={showHistory}
+        onCancel={() => {
+          setShowHistory(false);
         }}
-        pagination={false}
-        columns={columns}
-      />
+        onOk={() => {
+          setShowHistory(false);
+        }}
+        width={800}
+      >
+        <ProTable<any>
+          headerTitle="设计文件管理"
+          actionRef={actionRef}
+          rowKey="path"
+          search={false}
+          toolBarRender={false}
+          request={async (params, sort) => {
+            params.package = designInfo.package;
+            params.path = fileInfo.path;
+            return getDesignFileHistories(params);
+          }}
+          columns={columns}
+        />
       </Modal>
     </PageContainer>
   );

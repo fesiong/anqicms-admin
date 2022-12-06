@@ -1,7 +1,4 @@
-import {
-  LockOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
@@ -37,10 +34,12 @@ const Login: React.FC = () => {
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
+    const anqiUser = await initialState?.fetchAnqiUser?.();
     if (userInfo) {
       await setInitialState((s) => ({
         ...s,
         currentUser: userInfo,
+        anqiUser: anqiUser,
       }));
     }
   };
@@ -79,7 +78,7 @@ const Login: React.FC = () => {
       const res = await getCaptcha();
       setCaptcha(res.data || {});
     } catch (e) {
-      message.error('获取验证码失败')
+      message.error('获取验证码失败');
     }
   };
 

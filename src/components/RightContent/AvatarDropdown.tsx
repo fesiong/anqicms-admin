@@ -41,7 +41,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       }
       if (!key) {
         history.push(`/account/index`);
-        return
+        return;
       }
       history.push(`/account/${key}`);
     },
@@ -79,11 +79,11 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         </Menu.Item>
       )}
       <Menu.Item key="logs/login">
-      <GroupOutlined />
+        <GroupOutlined />
         登录记录
       </Menu.Item>
       <Menu.Item key="logs/action">
-      <ProfileOutlined />
+        <ProfileOutlined />
         操作记录
       </Menu.Item>
       {menu && <Menu.Divider />}
@@ -97,7 +97,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
+        <Avatar size="small" className={styles.avatar} src={<UserOutlined />} alt="avatar" />
         <span className={`${styles.name} anticon`}>{currentUser.user_name}</span>
       </span>
     </HeaderDropdown>

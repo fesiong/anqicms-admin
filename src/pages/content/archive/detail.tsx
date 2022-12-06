@@ -740,11 +740,11 @@ export default class ArchiveForm extends React.Component {
                       </AttachmentSelect>
                     </ProFormText>
                   </Card>
-                  <Card className="aside-card" size="small" title="自定义URL">
+                  <Card className="aside-card" size="small" title="URL别名">
                     <ProFormText
                       name="url_token"
                       placeholder="默认会自动生成，无需填写"
-                      extra="注意：自定义URL只能填写字母、数字和下划线，不能带空格"
+                      extra="注意：URL别名只能填写字母、数字和下划线，不能带空格"
                     />
                   </Card>
                   <Card className="aside-card" size="small" title="发布时间">
