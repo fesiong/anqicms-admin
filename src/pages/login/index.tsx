@@ -8,6 +8,7 @@ import { login, getCaptcha } from '@/services/admin';
 
 import styles from './index.less';
 import { setStore } from '@/utils/store';
+import { getSiteInfo } from '@/services';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -27,10 +28,19 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const [captcha, setCaptcha] = useState<any>({});
+  const [siteInfo, setSiteInfo] = useState<any>({});
 
   useEffect(() => {
     handleGetCaptcha();
+
+    initSiteInfo();
   }, []);
+
+  const initSiteInfo = async () => {
+    getSiteInfo({}).then((res) => {
+      setSiteInfo(res?.data || {});
+    });
+  };
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -88,8 +98,18 @@ const Login: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <LoginForm
-          title="欢迎使用"
-          subTitle="安企CMS(安企内容管理系统)"
+          title="安企CMS"
+          subTitle={
+            <div>
+              <p>欢迎使用安企CMS(AnQiCMS)</p>
+              <p>
+                您将登录网站：
+                <a target="_blank" href={siteInfo.base_url}>
+                  {siteInfo.name}
+                </a>
+              </p>
+            </div>
+          }
           initialValues={{
             autoLogin: true,
           }}

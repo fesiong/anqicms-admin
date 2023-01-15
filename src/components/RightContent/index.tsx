@@ -3,9 +3,9 @@ import { LockOutlined, QuestionCircleOutlined, UserOutlined } from '@ant-design/
 import React, { useState } from 'react';
 import { useModel } from 'umi';
 import Avatar from './AvatarDropdown';
-import styles from './index.less';
+import './index.less';
 import { LoginForm, ProFormText } from '@ant-design/pro-form';
-import { anqiLogin, anqiRestart } from '@/services';
+import { anqiLogin, anqiRestart, checkAnqiInfo } from '@/services';
 import moment from 'moment';
 
 export type SiderTheme = 'light' | 'dark';
@@ -13,6 +13,8 @@ export type SiderTheme = 'light' | 'dark';
 const GlobalHeaderRight: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [visible, setVisible] = useState<boolean>(false);
+  const [detailVisible, setDetailVisible] = useState<boolean>(false);
+  const [orderVisible, setOrderVisible] = useState<boolean>(false);
   const [code] = useState<number>(0);
   const [errorMsg] = useState<string>('');
 
@@ -21,11 +23,11 @@ const GlobalHeaderRight: React.FC = () => {
   }
 
   const { navTheme, layout } = initialState.settings;
-  let className = styles.right;
+  let className = 'right';
   const anqiUser = initialState.anqiUser;
 
   if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
-    className = `${styles.right}  ${styles.dark}`;
+    className = `right  dark`;
   }
 
   const handleSubmit = async (values: any) => {
@@ -46,17 +48,24 @@ const GlobalHeaderRight: React.FC = () => {
   };
 
   const showDetail = () => {
-    Modal.info({
-      title: '账号信息',
-      icon: false,
-      content: (
-        <div>
-          <p>用户ID：{anqiUser.auth_id}</p>
-          <p>用户名：{anqiUser.user_name}</p>
-          <p>登录时间：{moment(anqiUser.login_time * 1000).format('yyyy-MM-DD HH:MM')}</p>
-        </div>
-      ),
-    });
+    setDetailVisible(true);
+  };
+
+  const handleOrderVip = () => {
+    setOrderVisible(true);
+    window.open('https://www.anqicms.com/account/vip');
+  };
+
+  const reloadAccount = async () => {
+    setOrderVisible(false);
+    checkAnqiInfo({})
+      .then(async (res) => {
+        await setInitialState((s) => ({
+          ...s,
+          anqiUser: res.data,
+        }));
+      })
+      .catch(() => {});
   };
 
   const confirmRestart = () => {
@@ -95,7 +104,7 @@ const GlobalHeaderRight: React.FC = () => {
         )}
         <span
           style={{ fontSize: 20 }}
-          className={styles.action}
+          className="action"
           onClick={() => {
             window.open('https://www.anqicms.com/');
           }}
@@ -103,7 +112,7 @@ const GlobalHeaderRight: React.FC = () => {
           <QuestionCircleOutlined />
         </span>
         <Avatar menu />
-        <div className={styles.restart} onClick={confirmRestart}>
+        <div className="restart" onClick={confirmRestart}>
           重启
         </div>
       </Space>
@@ -169,6 +178,163 @@ const GlobalHeaderRight: React.FC = () => {
             </a>
           </div>
         </LoginForm>
+      </Modal>
+      <Modal
+        visible={detailVisible}
+        onCancel={() => {
+          setDetailVisible(false);
+        }}
+        width={700}
+        title="账号信息"
+        maskClosable={false}
+        footer={null}
+      >
+        {anqiUser.valid ? (
+          <div>
+            <p>您好：{anqiUser.user_name || '朋友'}，欢迎使用安企盒子。</p>
+            <div className="account-info">
+              <div className="item">
+                <label>授权ID：</label>
+                <div>{anqiUser.auth_id}</div>
+              </div>
+              <div className="item">
+                <label>登录账号：</label>
+                <div>{anqiUser.user_name}</div>
+              </div>
+              <div className="item">
+                <label>VIP有效期：</label>
+                <div>{moment(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}</div>
+              </div>
+              <div className="item">
+                <label>伪原创剩余额度：</label>
+                <div>{anqiUser.pseudo_remain} 篇/天</div>
+              </div>
+              <div className="item">
+                <label>翻译剩余额度：</label>
+                <div>{anqiUser.free_trans_remain} 字/天</div>
+              </div>
+              <div className="item">
+                <label>翻译资源包余量：</label>
+                <div>{anqiUser.translate_remain} 字</div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p>您尚未成为VIP会员，部分软件功能将受限。购买会员可以使用更丰富的功能。</p>
+            <p>
+              <span className="optional">*</span>表示该功能为安企盒子功能。更多的VIP功能使用，请下载{' '}
+              <a href="https://www.anqicms.com/anqibox.html" target="_blank">
+                安企盒子
+              </a>
+              。
+            </p>
+            <div className="compare">
+              <div className="item">
+                <div className="inner free">
+                  <h3>免费用户</h3>
+                  <div className="info">
+                    <ul>
+                      <li>
+                        最多管理2个站点<span className="optional">*</span>
+                      </li>
+                      <li>
+                        最多2个/1万关键词导出任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        最多2个采集文章任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        最多2个文章组合任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        最多2个文章监控任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        整站采集/下载不可用<span className="optional">*</span>
+                      </li>
+                      <li>
+                        每天1万字数文章翻译
+                        <div className="extra">可额外购买68元/100万字数</div>
+                      </li>
+                      <li>
+                        每天10篇文章伪原创
+                        <div className="extra">单篇最大5000字</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="item">
+                <div className="inner vip">
+                  <h3>VIP会员</h3>
+                  <div className="info">
+                    <ul>
+                      <li>
+                        不限制管理站点数量<span className="optional">*</span>
+                      </li>
+                      <li>
+                        不限制关键词任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        不限制采集文章任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        不限制文章组合任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        不限制文章监控任务<span className="optional">*</span>
+                      </li>
+                      <li>
+                        可用整站采集/下载<span className="optional">*</span>
+                      </li>
+                      <li>
+                        每天10万字数文章翻译
+                        <div className="extra">可额外购买68元/100万字数</div>
+                      </li>
+                      <li>
+                        每天1000篇文章伪原创
+                        <div className="extra">单篇最大5000字</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="order-control">
+          <Space align="center">
+            <Button
+              onClick={() => {
+                setDetailVisible(false);
+              }}
+            >
+              关闭
+            </Button>
+            <Button type="primary" onClick={handleOrderVip}>
+              前往购买
+            </Button>
+          </Space>
+        </div>
+      </Modal>
+      <Modal
+        visible={orderVisible}
+        onCancel={() => {
+          setOrderVisible(false);
+        }}
+        title="已购买？"
+        maskClosable={false}
+        footer={null}
+      >
+        <div className="order-control">
+          <Space align="center">
+            <Button onClick={reloadAccount}>关闭</Button>
+            <Button type="primary" onClick={reloadAccount}>
+              更新账号状态
+            </Button>
+          </Space>
+        </div>
       </Modal>
     </>
   );

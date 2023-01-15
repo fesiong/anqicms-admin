@@ -31,3 +31,11 @@ export async function deleteWebsiteInfo(body: any, options?: { [key: string]: an
     options,
   });
 }
+
+export async function getSiteInfo(params: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/siteinfo',
+    params,
+    options,
+  });
+}

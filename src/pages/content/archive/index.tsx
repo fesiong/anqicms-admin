@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space, Tag } from 'antd';
+import { Button, Dropdown, Menu, message, Modal, Space, Tag } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -11,11 +11,14 @@ import { history } from 'umi';
 import ReplaceKeywords from '@/components/replaceKeywords';
 import './index.less';
 import {
+  anqiPseudoArchive,
+  anqiTranslateArchive,
   deleteArchive,
   getArchives,
   getModules,
   updateArchivesFlag,
   updateArchivesStatus,
+  updateArchivesTime,
 } from '@/services';
 
 const flagEnum = {
@@ -35,6 +38,7 @@ const ArchiveList: React.FC = (props) => {
   const [replaceVisible, setReplaceVisible] = useState<boolean>(false);
   const [flagVisible, setFlagVisible] = useState<boolean>(false);
   const [statusVisible, setStatusVisible] = useState<boolean>(false);
+  const [timeVisible, setTimeVisible] = useState<boolean>(false);
   const [modules, setModules] = useState<any[]>([]);
   const [moduleId, setModuleId] = useState<Number>(0);
 
@@ -115,12 +119,73 @@ const ArchiveList: React.FC = (props) => {
       });
   };
 
+  const handleSetTime = async (values: any) => {
+    const hide = message.loading('正在处理', 0);
+    updateArchivesTime({
+      time: Number(values.time),
+      ids: selectedRowKeys,
+    })
+      .then((res) => {
+        message.success(res.msg);
+        setTimeVisible(false);
+        setSelectedRowKeys([]);
+        actionRef.current?.reloadAndRest?.();
+      })
+      .finally(() => {
+        hide();
+      });
+  };
+
   const handleEditArchive = async (record: any) => {
     history.push('/archive/detail?id=' + record.id);
   };
 
   const handleCopyArchive = async (record: any) => {
     history.push('/archive/detail?copyid=' + record.id);
+  };
+
+  const handleTranslateArchive = async (record: any) => {
+    Modal.confirm({
+      title: '确定要翻译选中的文档吗？',
+      content: '需要使用文档翻译服务，请先绑定安企账号。',
+      onOk: async () => {
+        const hide = message.loading('正在翻译', 0);
+        anqiTranslateArchive({
+          id: record.id,
+        })
+          .then((res) => {
+            if (res.code === 0) {
+              actionRef.current?.reloadAndRest?.();
+            }
+            message.info(res.msg);
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
+  const handlePseudoArchive = async (record: any) => {
+    Modal.confirm({
+      title: '确定要伪原创选中的文档吗？',
+      content: '需要使用文档伪原创服务，请先绑定安企账号。',
+      onOk: async () => {
+        const hide = message.loading('正在处理中', 0);
+        anqiPseudoArchive({
+          id: record.id,
+        })
+          .then((res) => {
+            if (res.code === 0) {
+              actionRef.current?.reloadAndRest?.();
+            }
+            message.info(res.msg);
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
   };
 
   const parseFlag = (flag: string) => {
@@ -237,14 +302,16 @@ const ArchiveList: React.FC = (props) => {
       },
     },
     {
-      title: '发布时间',
+      title: '发布/更新时间',
       hideInSearch: true,
       dataIndex: 'created_time',
-      render: (item) => {
-        if (`${item}` === '0') {
-          return false;
-        }
-        return moment((item as number) * 1000).format('YYYY-MM-DD HH:mm');
+      render: (_, record) => {
+        return (
+          <div>
+            <div>{moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+            <div>{moment(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+          </div>
+        );
       },
     },
     {
@@ -261,27 +328,63 @@ const ArchiveList: React.FC = (props) => {
           >
             编辑
           </a>
-          <a
-            key="edit"
-            onClick={() => {
-              handleCopyArchive(record);
-            }}
-            title="复制文本新发一篇"
-          >
-            复制
-          </a>
           <a key="preview" href={record.link} target="_blank">
             查看
           </a>
-          <a
-            className="text-red"
-            key="delete"
-            onClick={async () => {
-              await handleRemove([record.id]);
-            }}
+
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item>
+                  <a
+                    key="edit"
+                    onClick={() => {
+                      handlePseudoArchive(record);
+                    }}
+                    title="伪原创这篇文章"
+                  >
+                    伪原创
+                  </a>
+                </Menu.Item>
+                <Menu.Item>
+                  <a
+                    key="edit"
+                    onClick={() => {
+                      handleTranslateArchive(record);
+                    }}
+                    title="将内容翻译成英文/中文"
+                  >
+                    翻译
+                  </a>
+                </Menu.Item>
+                <Menu.Item>
+                  <a
+                    key="edit"
+                    onClick={() => {
+                      handleCopyArchive(record);
+                    }}
+                    title="复制文本新发一篇"
+                  >
+                    复制
+                  </a>
+                </Menu.Item>
+                <Menu.Item danger>
+                  <a
+                    className="text-red"
+                    key="delete"
+                    onClick={async () => {
+                      await handleRemove([record.id]);
+                    }}
+                  >
+                    删除
+                  </a>
+                </Menu.Item>
+              </Menu>
+            }
+            key="more"
           >
-            删除
-          </a>
+            <a>更多</a>
+          </Dropdown>
         </Space>
       ),
     },
@@ -351,6 +454,14 @@ const ArchiveList: React.FC = (props) => {
               }}
             >
               批量推荐
+            </Button>
+            <Button
+              size={'small'}
+              onClick={async () => {
+                await setTimeVisible(true);
+              }}
+            >
+              刷新时间
             </Button>
             <Button
               size={'small'}
@@ -432,6 +543,24 @@ const ArchiveList: React.FC = (props) => {
             valueEnum={{
               0: '草稿',
               1: '正常',
+            }}
+          />
+        </ModalForm>
+      )}
+      {timeVisible && (
+        <ModalForm
+          width={480}
+          title="请选择新的文档时间"
+          visible={timeVisible}
+          onFinish={handleSetTime}
+          onVisibleChange={(e) => setTimeVisible(e)}
+        >
+          <ProFormRadio.Group
+            name="time"
+            initialValue={1}
+            valueEnum={{
+              1: '更新所选文档的发布时间(首发时间)',
+              2: '更新所选文章的最后编辑时间(更新时间)',
             }}
           />
         </ModalForm>

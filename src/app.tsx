@@ -1,6 +1,6 @@
 import type { MenuDataItem, Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
+import { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
@@ -10,6 +10,8 @@ import defaultSettings from '../config/defaultSettings';
 import HeaderContent from './components/headerContent';
 import { getSettingSystem } from './services/setting';
 import { getAnqiInfo } from './services/anqi';
+import { parse } from 'query-string';
+import { setSessionStore } from './utils/store';
 
 const loginPath = '/login';
 
@@ -84,6 +86,10 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+  const query = parse(history.location.search) || {};
+  if (query['admin-login'] == 'true') {
+    setSessionStore('site-id', query['site-id']);
+  }
   return {
     breadcrumbRender: false,
     rightContentRender: () => <RightContent />,
@@ -125,7 +131,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           }
         }
       }
-      if (initialState?.currentUser?.id != 1 || initialState?.currentUser?.site_id != 1) {
+      if (initialState?.currentUser?.id != 1) {
         for (let i in menuData) {
           if (menuData[i].path == '/website') {
             menuData[i].unaccessible = true;

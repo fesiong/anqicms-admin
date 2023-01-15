@@ -16,6 +16,14 @@ export async function getAnqiInfo(params?: any, options?: { [key: string]: any }
   });
 }
 
+export async function checkAnqiInfo(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/anqi/check',
+    params,
+    options,
+  });
+}
+
 export async function anqiUpload(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/anqi/upload',
@@ -51,6 +59,22 @@ export async function anqiSendFeedback(body: any, options?: { [key: string]: any
 export async function anqiRestart(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/anqi/restart',
+    body,
+    options,
+  });
+}
+
+export async function anqiPseudoArchive(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/anqi/pseudo',
+    body,
+    options,
+  });
+}
+
+export async function anqiTranslateArchive(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/anqi/translate',
     body,
     options,
   });

@@ -5,11 +5,17 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
 import CommentForm from './components/commentForm';
-import { pluginDeleteComment, pluginGetComments } from '@/services/plugin/comment';
+import {
+  pluginDeleteComment,
+  pluginGetComments,
+  pluginCheckComment,
+} from '@/services/plugin/comment';
+import { ModalForm, ProFormRadio } from '@ant-design/pro-form';
 
 const PluginComment: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const [statusVisible, setStatusVisible] = useState<boolean>(false);
   const [currentComment, setCurrentComment] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
 
@@ -43,6 +49,23 @@ const PluginComment: React.FC = () => {
   const handleEditComment = async (record: any) => {
     setCurrentComment(record);
     setEditVisible(true);
+  };
+
+  const handleSetStatus = async (values: any) => {
+    const hide = message.loading('正在处理', 0);
+    pluginCheckComment({
+      status: Number(values.status),
+      ids: selectedRowKeys,
+    })
+      .then((res) => {
+        message.success(res.msg);
+        setStatusVisible(false);
+        setSelectedRowKeys([]);
+        actionRef.current?.reloadAndRest?.();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   const handlePreviewComment = async (record: any) => {
@@ -146,6 +169,14 @@ const PluginComment: React.FC = () => {
             <Button
               size={'small'}
               onClick={async () => {
+                await setStatusVisible(true);
+              }}
+            >
+              批量审核
+            </Button>
+            <Button
+              size={'small'}
+              onClick={async () => {
                 await handleRemove(selectedRowKeys);
                 setSelectedRowKeys([]);
                 actionRef.current?.reloadAndRest?.();
@@ -182,6 +213,23 @@ const PluginComment: React.FC = () => {
             }
           }}
         />
+      )}
+      {statusVisible && (
+        <ModalForm
+          width={480}
+          title="请选择新的状态"
+          visible={statusVisible}
+          onFinish={handleSetStatus}
+          onVisibleChange={(e) => setStatusVisible(e)}
+        >
+          <ProFormRadio.Group
+            name="status"
+            valueEnum={{
+              0: '不显示',
+              1: '显示',
+            }}
+          />
+        </ModalForm>
       )}
     </PageContainer>
   );

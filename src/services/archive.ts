@@ -64,6 +64,14 @@ export async function updateArchivesStatus(body: any, options?: { [key: string]:
   });
 }
 
+export async function updateArchivesTime(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/archive/time',
+    body,
+    options,
+  });
+}
+
 export async function updateArchivesCategory(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/archive/category',

@@ -2,7 +2,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, Space, Modal, message, Image, Upload, Tooltip, Checkbox, Input } from 'antd';
+import {
+  Button,
+  Space,
+  Modal,
+  message,
+  Image,
+  Upload,
+  Tooltip,
+  Checkbox,
+  Input,
+  Avatar,
+} from 'antd';
 import {
   backupDesignData,
   copyDesignFileInfo,
@@ -25,6 +36,7 @@ import {
 } from '@ant-design/pro-form';
 import { downloadFile, sizeFormat } from '@/utils';
 import TemplateShare from './components/share';
+import './index.less';
 
 let autoBackup = false;
 const DesignDetail: React.FC = () => {
@@ -40,6 +52,7 @@ const DesignDetail: React.FC = () => {
   const staticActionRef = useRef<ActionType>();
   const [staticDirs, setStaticDirs] = useState<any[]>([]);
   const [templateDirs, setTemplateDirs] = useState<any[]>([]);
+  const [detailVisible, setDetailVisible] = useState<boolean>(false);
 
   const inputRef = useRef<any>();
   const inputRef2 = useRef<any>();
@@ -111,19 +124,27 @@ const DesignDetail: React.FC = () => {
       info.path.indexOf('.js') !== -1
     ) {
       history.push(`/design/editor?package=${designInfo.package}&type=${type}&path=${info.path}`);
-    } else if (
-      info.path.indexOf('.png') !== -1 ||
-      info.path.indexOf('.jpg') !== -1 ||
-      info.path.indexOf('.jpeg') !== -1 ||
-      info.path.indexOf('.gif') !== -1 ||
-      info.path.indexOf('.webp') !== -1 ||
-      info.path.indexOf('.bmp') !== -1
+    } else {
+      setAddFileType(type);
+      setCurrentFile(info);
+      setDetailVisible(true);
+    }
+  };
+
+  const handlePreview = () => {
+    if (
+      currentFile.path.indexOf('.png') !== -1 ||
+      currentFile.path.indexOf('.jpg') !== -1 ||
+      currentFile.path.indexOf('.jpeg') !== -1 ||
+      currentFile.path.indexOf('.gif') !== -1 ||
+      currentFile.path.indexOf('.webp') !== -1 ||
+      currentFile.path.indexOf('.bmp') !== -1
     ) {
       Modal.info({
         icon: false,
         width: 400,
         maskClosable: true,
-        title: info.path,
+        title: currentFile.path,
         content: (
           <div>
             <Image
@@ -133,7 +154,7 @@ const DesignDetail: React.FC = () => {
                 '/static/' +
                 designInfo.package +
                 '/' +
-                info.path
+                currentFile.path
               }
             />
           </div>
@@ -141,7 +162,11 @@ const DesignDetail: React.FC = () => {
       });
     } else {
       window.open(
-        (initialState?.system?.base_url || '') + '/static/' + designInfo.package + '/' + info.path,
+        (initialState?.system?.base_url || '') +
+          '/static/' +
+          designInfo.package +
+          '/' +
+          currentFile.path,
       );
     }
   };
@@ -154,9 +179,13 @@ const DesignDetail: React.FC = () => {
           package: designInfo.package,
           type: type,
           path: info.path,
-        }).then((res) => {
-          message.info(res.msg);
-        });
+        })
+          .then((res) => {
+            message.info(res.msg);
+          })
+          .finally(() => {
+            setDetailVisible(false);
+          });
         fetchDesignInfo();
       },
     });
@@ -196,6 +225,8 @@ const DesignDetail: React.FC = () => {
           remark: remark,
         }).then((res) => {
           message.info(res.msg);
+          Modal.destroyAll();
+          fetchDesignInfo();
         });
         return true;
       },
@@ -233,6 +264,7 @@ const DesignDetail: React.FC = () => {
         fetchDesignInfo();
         setEditVisible(false);
         setAddVisible(false);
+        setDetailVisible(false);
       })
       .finally(() => {
         hide();
@@ -295,6 +327,33 @@ const DesignDetail: React.FC = () => {
           });
       },
     });
+  };
+
+  const handleReplaceFile = (e: any) => {
+    let replacePath = currentFile.path?.substring(0, currentFile.path?.lastIndexOf('/') + 1);
+    let replaceName = currentFile.path?.substring(currentFile.path?.lastIndexOf('/') + 1);
+    let formData = new FormData();
+    formData.append('file', e.file);
+    formData.append('name', replaceName);
+    formData.append('package', designInfo.package);
+    formData.append('type', addFileType);
+    formData.append('path', replacePath);
+
+    const hide = message.loading('正在提交中', 0);
+    UploadDesignFileInfo(formData)
+      .then((res) => {
+        if (res.code !== 0) {
+          message.info(res.msg);
+        } else {
+          message.info(res.msg || '上传成功');
+          setAddVisible(false);
+          setDetailVisible(false);
+          actionRef.current?.reload();
+        }
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   const handleRestoreDesignData = () => {
@@ -679,6 +738,109 @@ const DesignDetail: React.FC = () => {
           />
         </ModalForm>
       )}
+      <Modal
+        width={900}
+        title={'查看资源详情'}
+        onCancel={() => setDetailVisible(false)}
+        onOk={() => setDetailVisible(false)}
+        visible={detailVisible}
+      >
+        <div className="attachment-detail">
+          <div className="preview">
+            {currentFile.path?.indexOf('.png') !== -1 ||
+            currentFile.path?.indexOf('.jpg') !== -1 ||
+            currentFile.path?.indexOf('.jpeg') !== -1 ||
+            currentFile.path?.indexOf('.gif') !== -1 ||
+            currentFile.path?.indexOf('.webp') !== -1 ||
+            currentFile.path?.indexOf('.bmp') !== -1 ? (
+              <Image
+                width={'100%'}
+                className="img"
+                preview={{
+                  src:
+                    (initialState?.system?.base_url || '') +
+                    '/static/' +
+                    designInfo.package +
+                    '/' +
+                    currentFile.path,
+                }}
+                src={
+                  (initialState?.system?.base_url || '') +
+                  '/static/' +
+                  designInfo.package +
+                  '/' +
+                  currentFile.path
+                }
+                alt={currentFile.path}
+              />
+            ) : (
+              <Avatar className="avatar">
+                {currentFile.path?.substring(currentFile.path?.lastIndexOf('/') + 1)}
+              </Avatar>
+            )}
+          </div>
+          <div className="detail">
+            <div className="info">
+              <div className="item">
+                <div className="name">文件路径:</div>
+                <div className="value">{currentFile.path}</div>
+              </div>
+              <div className="item">
+                <div className="name">文件类型:</div>
+                <div className="value">
+                  {currentFile.path?.substring(currentFile.path?.lastIndexOf('.'))}
+                </div>
+              </div>
+              <div className="item">
+                <div className="name">最近修改:</div>
+                <div className="value">
+                  {moment(currentFile.last_mod * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                </div>
+              </div>
+              <div className="item">
+                <div className="name">文件大小:</div>
+                <div className="value">{sizeFormat(currentFile.size)}</div>
+              </div>
+              <div className="item">
+                <div className="name">备注:</div>
+                <div className="value">{currentFile.remark}</div>
+              </div>
+            </div>
+            <Space size={16} align="center" className="btns">
+              <Upload
+                name="file"
+                showUploadList={false}
+                accept={currentFile.path?.substring(currentFile.path?.lastIndexOf('.'))}
+                customRequest={handleReplaceFile}
+              >
+                <Button>替换文件</Button>
+              </Upload>
+              <Button
+                onClick={() => {
+                  handleAddRemark('template', currentFile);
+                }}
+              >
+                修改文件名
+              </Button>
+              <Button
+                onClick={() => {
+                  handleRemove('template', currentFile);
+                }}
+              >
+                删除
+              </Button>
+              <Button danger onClick={() => setDetailVisible(false)}>
+                关闭
+              </Button>
+            </Space>
+            <div className="tips">
+              <p>相关说明：</p>
+              <div>1、替换图片时，图片的URL地址不变，图片大小变为新图片的。</div>
+              <div>2、图片上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。</div>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </PageContainer>
   );
 };

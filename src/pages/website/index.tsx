@@ -1,19 +1,45 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
-import { deleteWebsiteInfo, getWebsiteInfo, getWebsiteList, saveWebsiteInfo } from '@/services';
-import { Button, Divider, message, Modal, RadioChangeEvent, Space, Tag } from 'antd';
-import { ModalForm, ProFormCheckbox, ProFormRadio, ProFormText } from '@ant-design/pro-form';
+import {
+  deleteWebsiteInfo,
+  getSiteInfo,
+  getWebsiteInfo,
+  getWebsiteList,
+  saveWebsiteInfo,
+} from '@/services';
+import { Button, Divider, message, Modal, RadioChangeEvent, Space, Tag, Collapse } from 'antd';
+import {
+  ModalForm,
+  ProFormCheckbox,
+  ProFormDigit,
+  ProFormRadio,
+  ProFormText,
+} from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
+import { useModel } from 'umi';
+const { Panel } = Collapse;
 
 let submiting = false;
 const WebsiteList: React.FC = () => {
+  const { initialState, setInitialState } = useModel('@@initialState');
   const actionRef = useRef<ActionType>();
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [userDefault, setUseDefault] = useState<boolean>(false);
   const [editInfo, setEditInfo] = useState<any>({});
+  const [siteInfo, setSiteInfo] = useState<any>({});
+
+  useEffect(() => {
+    initSiteInfo();
+  }, []);
+
+  const initSiteInfo = async () => {
+    getSiteInfo({}).then((res) => {
+      setSiteInfo(res?.data || {});
+    });
+  };
 
   const handleEdit = (record: any) => {
     if (record.id > 0) {
@@ -26,6 +52,18 @@ const WebsiteList: React.FC = () => {
       setEditInfo(record);
       setUseDefault(record.mysql?.use_default);
       setEditVisible(true);
+    }
+  };
+
+  const visitSystem = (record: any) => {
+    if (record.base_url.lastIndexOf('/') > 7) {
+      let link =
+        record.base_url.substr(0, record.base_url.lastIndexOf('/')) +
+        '/system/login?admin-login=true&site-id=' +
+        record.id;
+      window.open(link);
+    } else {
+      window.open(record.base_url + '/system/login');
     }
   };
 
@@ -126,26 +164,42 @@ const WebsiteList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-          <a
-            key="edit"
-            onClick={() => {
-              handleEdit(record);
-            }}
-          >
-            修改
-          </a>
-          {record.id === 1 ? (
-            <Tag>默认站点</Tag>
+          {record.id === siteInfo.id ? (
+            <Tag>当前站点</Tag>
           ) : (
             <a
-              className="text-red"
-              key="delete"
-              onClick={async () => {
-                await handleRemove([record.id]);
+              key="edit"
+              onClick={() => {
+                visitSystem(record);
               }}
             >
-              删除
+              访问后台
             </a>
+          )}
+          {initialState?.currentUser?.site_id == 1 && (
+            <>
+              <a
+                key="edit"
+                onClick={() => {
+                  handleEdit(record);
+                }}
+              >
+                修改
+              </a>
+              {record.id === 1 ? (
+                <Tag>默认站点</Tag>
+              ) : (
+                <a
+                  className="text-red"
+                  key="delete"
+                  onClick={async () => {
+                    await handleRemove([record.id]);
+                  }}
+                >
+                  删除
+                </a>
+              )}
+            </>
           )}
         </Space>
       ),
@@ -164,15 +218,17 @@ const WebsiteList: React.FC = () => {
         }}
         columns={columns}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              handleEdit({ mysql: { use_default: true }, initialed: false, status: 1 });
-            }}
-          >
-            <PlusOutlined /> 添加新站点
-          </Button>,
+          initialState?.currentUser?.site_id == 1 && (
+            <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                handleEdit({ mysql: { use_default: true }, initialed: false, status: 1 });
+              }}
+            >
+              <PlusOutlined /> 添加新站点
+            </Button>
+          ),
         ]}
       />
       {editVisible && (
@@ -185,13 +241,14 @@ const WebsiteList: React.FC = () => {
           onFinish={onSubmitEdit}
           onVisibleChange={(e) => setEditVisible(e)}
         >
-          {editInfo.id > 0 && <ProFormText name="id" label="站点ID" readonly />}
+          {editInfo.id > 0 && <ProFormDigit name="id" label="站点ID" readonly />}
           <ProFormText name="name" label="站点名称" />
           <ProFormText
             name="root_path"
             label="站点根目录"
-            disabled={editInfo.id > 0}
+            disabled={editInfo.id === 1}
             placeholder="服务器实际路径，如：/www/wwwroot/anqicms.com"
+            extra="正常运行的站点请勿更改，否则会导致站点异常"
           />
           <ProFormText
             name="base_url"
@@ -205,49 +262,50 @@ const WebsiteList: React.FC = () => {
             label="管理员密码"
             placeholder="不修改请留空，新建站点必须填写6位以上"
           />
-          <Divider></Divider>
-          {!editInfo.initialed && (
-            <>
-              <ProFormText
-                name={['mysql', 'database']}
-                label="数据库名称"
-                placeholder="新的数据名称，如：anqicms2"
-              />
-              <ProFormRadio.Group
-                label="数据库信息复用"
-                name={['mysql', 'use_default']}
-                options={[
-                  {
-                    label: '新账号',
-                    value: false,
-                  },
-                  {
-                    label: '复用默认数据库账号信息',
-                    value: true,
-                  },
-                ]}
-                fieldProps={{
-                  onChange: handleChangeUse,
-                }}
-              />
-              {!userDefault && (
-                <>
-                  <ProFormText name={['mysql', 'host']} label="数据库地址" />
-                  <ProFormText
-                    name={['mysql', 'port']}
-                    label="数据库端口"
-                    placeholder="一般是3306"
-                  />
-                  <ProFormText name={['mysql', 'user']} label="数据库用户名" />
-                  <ProFormText name={['mysql', 'password']} label="数据库密码" />
-                </>
-              )}
-              <ProFormCheckbox
-                name="preview_data"
-                label="安装演示数据"
-                extra="勾选后，将安装默认演示数据"
-              />
-            </>
+          {editInfo.id != 1 && (
+            <Collapse defaultActiveKey={[]} ghost>
+              <Panel header="数据库信息 (正常运行的站点请勿更改，否则会导致站点异常)" key="1">
+                <ProFormText
+                  name={['mysql', 'database']}
+                  label="数据库名称"
+                  placeholder="新的数据名称，如：anqicms2"
+                />
+                <ProFormRadio.Group
+                  label="数据库信息复用"
+                  name={['mysql', 'use_default']}
+                  options={[
+                    {
+                      label: '新账号',
+                      value: false,
+                    },
+                    {
+                      label: '复用默认数据库账号信息',
+                      value: true,
+                    },
+                  ]}
+                  fieldProps={{
+                    onChange: handleChangeUse,
+                  }}
+                />
+                {!userDefault && (
+                  <>
+                    <ProFormText name={['mysql', 'host']} label="数据库地址" />
+                    <ProFormDigit
+                      name={['mysql', 'port']}
+                      label="数据库端口"
+                      placeholder="一般是3306"
+                    />
+                    <ProFormText name={['mysql', 'user']} label="数据库用户名" />
+                    <ProFormText name={['mysql', 'password']} label="数据库密码" />
+                  </>
+                )}
+                <ProFormCheckbox
+                  name="preview_data"
+                  label="安装演示数据"
+                  extra="勾选后，将安装默认演示数据"
+                />
+              </Panel>
+            </Collapse>
           )}
           <ProFormRadio.Group
             label="站点状态"

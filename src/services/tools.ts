@@ -1,6 +1,6 @@
 import { extend } from 'umi-request';
 import config from './config';
-import { getStore } from '../utils/store';
+import { getSessionStore, getStore } from '../utils/store';
 import { message } from 'antd';
 import { history } from 'umi';
 const request = extend({
@@ -22,6 +22,10 @@ request.use(async (ctx, next) => {
   if (adminToken) {
     headers.admin = adminToken;
   }
+  const siteId = getSessionStore('site-id');
+  if (siteId) {
+    headers['Site-Id'] = siteId;
+  }
   ctx.req.options = {
     ...options,
     headers: headers,
@@ -35,7 +39,7 @@ request.use(async (ctx, next) => {
 
   const { res } = ctx;
 
-  if (res.code === 1001) {
+  if (res?.code === 1001) {
     //需要登录
     message.warning({
       content: res.msg,
@@ -44,7 +48,7 @@ request.use(async (ctx, next) => {
     });
     history.push('/login');
     return Promise.reject(res);
-  } else if (res.code === 1002) {
+  } else if (res?.code === 1002) {
     //需要登录
     message.warning({
       content: res.msg,

@@ -9,6 +9,7 @@ const PluginStorage: React.FC<any> = (props) => {
   const { initialState } = useModel('@@initialState');
   const [pushSetting, setPushSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const [storageType, setStorageType] = useState<string>('local');
 
   useEffect(() => {
     getSetting();
@@ -18,7 +19,13 @@ const PluginStorage: React.FC<any> = (props) => {
     const res = await pluginGetStorage();
     let setting = res.data || {};
     setPushSetting(setting);
+    setStorageType(setting.storage_type);
     setFetched(true);
+  };
+
+  const changeStorageType = (e: any) => {
+    console.log(e.target.value);
+    setStorageType(e.target.value);
   };
 
   const onSubmit = async (values: any) => {
@@ -45,6 +52,9 @@ const PluginStorage: React.FC<any> = (props) => {
               <ProFormRadio.Group
                 name="storage_type"
                 label="存储方式"
+                fieldProps={{
+                  onChange: changeStorageType,
+                }}
                 options={[
                   {
                     value: 'local',
@@ -69,88 +79,98 @@ const PluginStorage: React.FC<any> = (props) => {
                 ]}
               />
               <ProFormText name="storage_url" label="资源地址" placeholder="" />
-              <ProFormRadio.Group
-                name="keep_local"
-                label="本地存档"
-                options={[
-                  {
-                    value: false,
-                    label: '不保留',
-                  },
-                  {
-                    value: true,
-                    label: '保留',
-                  },
-                ]}
-                extra="使用云存储的时候，可以选择保留本地存档"
-              />
-              <Divider>阿里云存储</Divider>
-              <ProFormText
-                name="aliyun_endpoint"
-                label="阿里云节点"
-                placeholder="例如：http://oss-cn-hangzhou.aliyuncs.com"
-              />
-              <ProFormText name="aliyun_access_key_id" label="阿里云AccessKeyId" placeholder="" />
-              <ProFormText
-                name="aliyun_access_key_secret"
-                label="阿里云AccessKeySecret"
-                placeholder=""
-              />
-              <ProFormText name="aliyun_bucket_name" label="阿里云存储桶名称" placeholder="" />
-              <Divider>腾讯云存储</Divider>
-              <ProFormText name="tencent_secret_id" label="腾讯云SecretId" placeholder="" />
-              <ProFormText name="tencent_secret_key" label="腾讯云SecretKey" placeholder="" />
-              <ProFormText
-                name="tencent_bucket_url"
-                label="腾讯云存储桶地址"
-                placeholder="例如：https://aa-1257021234.cos.ap-guangzhou.myqcloud.com"
-              />
-              <Divider>七牛云存储</Divider>
-              <ProFormText name="qiniu_access_key" label="七牛云AccessKey" placeholder="" />
-              <ProFormText name="qiniu_secret_key" label="七牛云SecretKey" placeholder="" />
-              <ProFormText
-                name="qiniu_bucket"
-                label="七牛云存储桶名称"
-                placeholder="例如：anqicms"
-              />
-              <ProFormRadio.Group
-                name="qiniu_region"
-                label="七牛云存储区域"
-                options={[
-                  {
-                    value: 'z0',
-                    label: '华东',
-                  },
-                  {
-                    value: 'z1',
-                    label: '华北',
-                  },
-                  {
-                    value: 'z2',
-                    label: '华南',
-                  },
-                  {
-                    value: 'na0',
-                    label: '北美',
-                  },
-                  {
-                    value: 'as0',
-                    label: '东南亚',
-                  },
-                  {
-                    value: 'cn-east-2',
-                    label: '华东-浙江2',
-                  },
-                  {
-                    value: 'fog-cn-east-1',
-                    label: '雾存储华东区',
-                  },
-                ]}
-              />
-              <Divider>又拍云存储</Divider>
-              <ProFormText name="upyun_operator" label="又拍云操作员" placeholder="" />
-              <ProFormText name="upyun_password" label="又拍云操作员密码" placeholder="" />
-              <ProFormText name="upyun_bucket" label="又拍云存服务名称" placeholder="" />
+              <div className={storageType == 'local' ? 'hidden' : ''}>
+                <ProFormRadio.Group
+                  name="keep_local"
+                  label="本地存档"
+                  options={[
+                    {
+                      value: false,
+                      label: '不保留',
+                    },
+                    {
+                      value: true,
+                      label: '保留',
+                    },
+                  ]}
+                  extra="使用云存储的时候，可以选择保留本地存档"
+                />
+              </div>
+              <div className={storageType != 'aliyun' ? 'hidden' : ''}>
+                <Divider>阿里云存储</Divider>
+                <ProFormText
+                  name="aliyun_endpoint"
+                  label="阿里云节点"
+                  placeholder="例如：http://oss-cn-hangzhou.aliyuncs.com"
+                />
+                <ProFormText name="aliyun_access_key_id" label="阿里云AccessKeyId" placeholder="" />
+                <ProFormText
+                  name="aliyun_access_key_secret"
+                  label="阿里云AccessKeySecret"
+                  placeholder=""
+                />
+                <ProFormText name="aliyun_bucket_name" label="阿里云存储桶名称" placeholder="" />
+              </div>
+              <div className={storageType != 'tencent' ? 'hidden' : ''}>
+                <Divider>腾讯云存储</Divider>
+                <ProFormText name="tencent_secret_id" label="腾讯云SecretId" placeholder="" />
+                <ProFormText name="tencent_secret_key" label="腾讯云SecretKey" placeholder="" />
+                <ProFormText
+                  name="tencent_bucket_url"
+                  label="腾讯云存储桶地址"
+                  placeholder="例如：https://aa-1257021234.cos.ap-guangzhou.myqcloud.com"
+                />
+              </div>
+              <div className={storageType != 'qiniu' ? 'hidden' : ''}>
+                <Divider>七牛云存储</Divider>
+                <ProFormText name="qiniu_access_key" label="七牛云AccessKey" placeholder="" />
+                <ProFormText name="qiniu_secret_key" label="七牛云SecretKey" placeholder="" />
+                <ProFormText
+                  name="qiniu_bucket"
+                  label="七牛云存储桶名称"
+                  placeholder="例如：anqicms"
+                />
+                <ProFormRadio.Group
+                  name="qiniu_region"
+                  label="七牛云存储区域"
+                  options={[
+                    {
+                      value: 'z0',
+                      label: '华东',
+                    },
+                    {
+                      value: 'z1',
+                      label: '华北',
+                    },
+                    {
+                      value: 'z2',
+                      label: '华南',
+                    },
+                    {
+                      value: 'na0',
+                      label: '北美',
+                    },
+                    {
+                      value: 'as0',
+                      label: '东南亚',
+                    },
+                    {
+                      value: 'cn-east-2',
+                      label: '华东-浙江2',
+                    },
+                    {
+                      value: 'fog-cn-east-1',
+                      label: '雾存储华东区',
+                    },
+                  ]}
+                />
+              </div>
+              <div className={storageType != 'upyun' ? 'hidden' : ''}>
+                <Divider>又拍云存储</Divider>
+                <ProFormText name="upyun_operator" label="又拍云操作员" placeholder="" />
+                <ProFormText name="upyun_password" label="又拍云操作员密码" placeholder="" />
+                <ProFormText name="upyun_bucket" label="又拍云存服务名称" placeholder="" />
+              </div>
             </ProForm>
           )}
         </div>
