@@ -27,6 +27,7 @@ import {
   getModules,
   pluginGetUserGroups,
   getDesignTemplateFiles,
+  deleteArchiveImage,
 } from '@/services';
 const { Panel } = Collapse;
 
@@ -222,10 +223,16 @@ export default class ArchiveForm extends React.Component {
   handleCleanLogo = (index: number, e: any) => {
     e.stopPropagation();
     const { archive } = this.state;
-    archive.images.splice(index, 1);
-    this.setState({
-      archive,
-    });
+    // 请求接口删除
+    deleteArchiveImage({ id: archive.id, image_index: index })
+      .then((res) => {
+        archive.logo = '';
+        archive.images.splice(index, 1);
+        this.setState({
+          archive,
+        });
+      })
+      .catch(() => {});
   };
 
   handleChooseKeywords = () => {

@@ -15,3 +15,11 @@ export async function pluginSaveStorage(body: any, options?: { [key: string]: an
     options,
   });
 }
+
+export async function pluginStorageUploadFile(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/storage/upload',
+    body,
+    options,
+  });
+}

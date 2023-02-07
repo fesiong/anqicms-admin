@@ -24,6 +24,14 @@ export async function saveArchive(body: any, options?: { [key: string]: any }) {
   });
 }
 
+export async function deleteArchiveImage(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/archive/delete/image',
+    body,
+    options,
+  });
+}
+
 export async function deleteArchive(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/archive/delete',

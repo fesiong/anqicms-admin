@@ -25,3 +25,4 @@ export * from './finance';
 export * from './commission';
 export * from './fulltext';
 export * from './replace';
+export * from './titleimage';

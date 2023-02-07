@@ -5,34 +5,35 @@ import './index.less';
 import routes from '../../../config/routes';
 import { history, useModel } from 'umi';
 
-import icon01 from '@/images/icon_01.png';
-import icon02 from '@/images/icon_02.png';
-import icon03 from '@/images/icon_03.png';
-import icon04 from '@/images/icon_04.png';
-import icon05 from '@/images/icon_05.png';
-import icon06 from '@/images/icon_06.png';
-import icon07 from '@/images/icon_07.png';
-import icon08 from '@/images/icon_08.png';
-import icon09 from '@/images/icon_09.png';
-import icon10 from '@/images/icon_10.png';
-import icon11 from '@/images/icon_11.png';
-import icon12 from '@/images/icon_12.png';
-import icon13 from '@/images/icon_13.png';
-import icon14 from '@/images/icon_14.png';
-import icon15 from '@/images/icon_15.png';
-import icon16 from '@/images/icon_16.png';
-import icon17 from '@/images/icon_17.png';
-import icon18 from '@/images/icon_18.png';
-import icon19 from '@/images/icon_19.png';
-import icon20 from '@/images/icon_20.png';
-import icon21 from '@/images/icon_21.png';
-import icon22 from '@/images/icon_22.png';
-import icon23 from '@/images/icon_23.png';
-import icon24 from '@/images/icon_24.png';
-import icon25 from '@/images/icon_25.png';
-import icon26 from '@/images/icon_26.png';
-import icon27 from '@/images/icon_27.png';
-import icon28 from '@/images/icon_28.png';
+import icon_anchor from '@/images/icon_anchor.png';
+import icon_backup from '@/images/icon_backup.png';
+import icon_collector from '@/images/icon_collector.png';
+import icon_comment from '@/images/icon_comment.png';
+import icon_fileupload from '@/images/icon_fileupload.png';
+import icon_finance from '@/images/icon_finance.png';
+import icon_friendlink from '@/images/icon_friendlink.png';
+import icon_fulltext from '@/images/icon_fulltext.png';
+import icon_group from '@/images/icon_group.png';
+import icon_guestbook from '@/images/icon_guestbook.png';
+import icon_importapi from '@/images/icon_importapi.png';
+import icon_keyword from '@/images/icon_keyword.png';
+import icon_material from '@/images/icon_material.png';
+import icon_order from '@/images/icon_order.png';
+import icon_pay from '@/images/icon_pay.png';
+import icon_push from '@/images/icon_push.png';
+import icon_redirect from '@/images/icon_redirect.png';
+import icon_replace from '@/images/icon_replace.png';
+import icon_retailer from '@/images/icon_retailer.png';
+import icon_rewrite from '@/images/icon_rewrite.png';
+import icon_robots from '@/images/icon_robots.png';
+import icon_sendmail from '@/images/icon_sendmail.png';
+import icon_sitemap from '@/images/icon_sitemap.png';
+import icon_storage from '@/images/icon_storage.png';
+import icon_transfer from '@/images/icon_transfer.png';
+import icon_user from '@/images/icon_user.png';
+import icon_weapp from '@/images/icon_weapp.png';
+import icon_wechat from '@/images/icon_wechat.png';
+import icon_titleimage from '@/images/icon_titleimage.png';
 
 const PluginIndex: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -61,62 +62,64 @@ const PluginIndex: React.FC = () => {
 
   const getIcon = (icon: string) => {
     switch (icon) {
-      case 'icon01':
-        return icon01;
-      case 'icon02':
-        return icon02;
-      case 'icon03':
-        return icon03;
-      case 'icon04':
-        return icon04;
-      case 'icon05':
-        return icon05;
-      case 'icon06':
-        return icon06;
-      case 'icon07':
-        return icon07;
-      case 'icon08':
-        return icon08;
-      case 'icon09':
-        return icon09;
-      case 'icon10':
-        return icon10;
-      case 'icon11':
-        return icon11;
-      case 'icon12':
-        return icon12;
-      case 'icon13':
-        return icon13;
-      case 'icon14':
-        return icon14;
-      case 'icon15':
-        return icon15;
-      case 'icon16':
-        return icon16;
-      case 'icon17':
-        return icon17;
-      case 'icon18':
-        return icon18;
-      case 'icon19':
-        return icon19;
-      case 'icon20':
-        return icon20;
-      case 'icon21':
-        return icon21;
-      case 'icon22':
-        return icon22;
-      case 'icon23':
-        return icon23;
-      case 'icon24':
-        return icon24;
-      case 'icon25':
-        return icon25;
-      case 'icon26':
-        return icon26;
-      case 'icon27':
-        return icon27;
-      case 'icon28':
-        return icon28;
+      case 'anchor':
+        return icon_anchor;
+      case 'backup':
+        return icon_backup;
+      case 'collector':
+        return icon_collector;
+      case 'comment':
+        return icon_comment;
+      case 'fileupload':
+        return icon_fileupload;
+      case 'finance':
+        return icon_finance;
+      case 'friendlink':
+        return icon_friendlink;
+      case 'fulltext':
+        return icon_fulltext;
+      case 'group':
+        return icon_group;
+      case 'guestbook':
+        return icon_guestbook;
+      case 'importapi':
+        return icon_importapi;
+      case 'keyword':
+        return icon_keyword;
+      case 'material':
+        return icon_material;
+      case 'order':
+        return icon_order;
+      case 'pay':
+        return icon_pay;
+      case 'push':
+        return icon_push;
+      case 'redirect':
+        return icon_redirect;
+      case 'replace':
+        return icon_replace;
+      case 'retailer':
+        return icon_retailer;
+      case 'rewrite':
+        return icon_rewrite;
+      case 'robots':
+        return icon_robots;
+      case 'sendmail':
+        return icon_sendmail;
+      case 'sitemap':
+        return icon_sitemap;
+      case 'storage':
+        return icon_storage;
+      case 'transfer':
+        return icon_transfer;
+      case 'user':
+        return icon_user;
+      case 'weapp':
+        return icon_weapp;
+      case 'wechat':
+        return icon_wechat;
+      case 'titleimage':
+        return icon_titleimage;
     }
   };
 

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
-import {
-  ModalForm,
-  ProFormDigit,
-  ProFormRadio,
-} from '@ant-design/pro-form';
+import { ModalForm, ProFormDigit, ProFormRadio } from '@ant-design/pro-form';
 import { pluginGetAnchorSetting, pluginSaveAnchorSetting } from '@/services/plugin/anchor';
 
 const AnchorSetting: React.FC = (props) => {
@@ -24,7 +20,7 @@ const AnchorSetting: React.FC = (props) => {
   };
 
   const handleSaveSetting = async (values: any) => {
-    values = Object.assign(setting, values)
+    values = Object.assign(setting, values);
     let res = await pluginSaveAnchorSetting(values);
 
     if (res.code === 0) {
@@ -76,7 +72,7 @@ const AnchorSetting: React.FC = (props) => {
           />
           <ProFormRadio.Group
             name="keyword_way"
-            label="替换方式"
+            label="提取方式"
             options={[
               { label: '自动提取', value: 1 },
               { label: '手动提取', value: 0 },

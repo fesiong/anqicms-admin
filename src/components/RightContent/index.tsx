@@ -1,11 +1,16 @@
 import { Button, message, Modal, Space } from 'antd';
-import { LockOutlined, QuestionCircleOutlined, UserOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import {
+  GlobalOutlined,
+  LockOutlined,
+  QuestionCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
 import { useModel } from 'umi';
 import Avatar from './AvatarDropdown';
 import './index.less';
 import { LoginForm, ProFormText } from '@ant-design/pro-form';
-import { anqiLogin, anqiRestart, checkAnqiInfo } from '@/services';
+import { anqiLogin, anqiRestart, checkAnqiInfo, getSiteInfo } from '@/services';
 import moment from 'moment';
 
 export type SiderTheme = 'light' | 'dark';
@@ -17,6 +22,17 @@ const GlobalHeaderRight: React.FC = () => {
   const [orderVisible, setOrderVisible] = useState<boolean>(false);
   const [code] = useState<number>(0);
   const [errorMsg] = useState<string>('');
+  const [siteInfo, setSiteInfo] = useState<any>({});
+
+  useEffect(() => {
+    initSiteInfo();
+  }, []);
+
+  const initSiteInfo = async () => {
+    getSiteInfo({}).then((res) => {
+      setSiteInfo(res?.data || {});
+    });
+  };
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -102,8 +118,12 @@ const GlobalHeaderRight: React.FC = () => {
             绑定安企账号
           </Button>
         )}
+        <a href={siteInfo.base_url} target={'_blank'} className="action" style={{ color: 'white' }}>
+          <GlobalOutlined style={{ marginRight: 5 }} />
+          {siteInfo.name || siteInfo.base_url}
+        </a>
         <span
-          style={{ fontSize: 20 }}
+          style={{ fontSize: 18 }}
           className="action"
           onClick={() => {
             window.open('https://www.anqicms.com/');

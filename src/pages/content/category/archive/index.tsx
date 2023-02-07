@@ -8,6 +8,7 @@ import { deleteCategory, getCategories, getModules } from '@/services';
 import '../index.less';
 import CategoryForm from '../components/categoryFrom';
 import { history } from 'umi';
+import MultiCategory from '../components/multiCategory';
 
 const ArchiveCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -15,6 +16,7 @@ const ArchiveCategory: React.FC = () => {
   const [currentCategory, setCurrentCategory] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [modules, setModules] = useState<any[]>([]);
+  const [multiVisible, setMultiVisible] = useState<boolean>(false);
 
   useEffect(() => {
     getModules().then((res) => {
@@ -52,6 +54,11 @@ const ArchiveCategory: React.FC = () => {
   const handleEditCategory = async (record: any) => {
     setCurrentCategory(record);
     setEditVisible(true);
+  };
+
+  const handleAddMultiCategory = async (record: any) => {
+    setCurrentCategory(record);
+    setMultiVisible(true);
   };
 
   const handleShowArchives = (record: any) => {
@@ -126,6 +133,14 @@ const ArchiveCategory: React.FC = () => {
           <a
             key="edit"
             onClick={() => {
+              handleAddMultiCategory({ parent_id: record.id, module_id: record.module_id });
+            }}
+          >
+            批量增加子类
+          </a>
+          <a
+            key="edit"
+            onClick={() => {
               handleEditCategory(record);
             }}
           >
@@ -155,6 +170,14 @@ const ArchiveCategory: React.FC = () => {
         rowKey="id"
         search={false}
         toolBarRender={() => [
+          <Button
+            key="add"
+            onClick={() => {
+              handleAddMultiCategory({ parent_id: 0, module_id: null });
+            }}
+          >
+            批量添加分类
+          </Button>,
           <Button
             type="primary"
             key="add"
@@ -210,6 +233,24 @@ const ArchiveCategory: React.FC = () => {
           }}
         />
       )}
+      {multiVisible && (
+        <MultiCategory
+          visible={multiVisible}
+          category={currentCategory}
+          modules={modules}
+          type={1}
+          onCancel={() => {
+            setMultiVisible(false);
+          }}
+          onSubmit={async () => {
+            setMultiVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }}
+        />
+      )}
+      {}
     </PageContainer>
   );
 };
