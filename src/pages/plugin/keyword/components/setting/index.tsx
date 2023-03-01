@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalForm, ProFormRadio, ProFormText } from '@ant-design/pro-form';
+import { ModalForm, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import './index.less';
 import { Input, message, Space, Tag } from 'antd';
 import { getKeywordSetting, saveKeywordSetting } from '@/services';
@@ -14,7 +14,6 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
     fetched: false,
     setting: {},
     tmpInput: {},
-    selectedEngine: '',
   };
 
   componentDidMount() {
@@ -29,7 +28,6 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
       this.setState({
         setting: setting,
         fetched: true,
-        selectedEngine: setting.from_engine,
       });
     });
   }
@@ -43,6 +41,7 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
   handleSubmit = async (values: any) => {
     const { setting } = this.state;
     values = Object.assign(setting, values);
+    values.max_count = Number(values.max_count);
 
     const hide = message.loading('正在提交中', 0);
     saveKeywordSetting(values)
@@ -104,14 +103,8 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
     });
   };
 
-  onChangeEngine = (e: any) => {
-    this.setState({
-      selectedEngine: e.target.value,
-    });
-  };
-
   render() {
-    const { visible, fetched, setting, tmpInput, selectedEngine } = this.state;
+    const { visible, fetched, setting, tmpInput } = this.state;
 
     return (
       <>
@@ -147,6 +140,12 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
                 { label: '自动', value: true },
               ]}
             />
+            <ProFormDigit
+              name="max_count"
+              label="拓词数量"
+              extra="选择了自动拓词，则拓词数量才有效"
+              placeholder="默认100000"
+            />
             <ProFormRadio.Group
               name="language"
               label="关键词语种"
@@ -155,39 +154,6 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
                 { label: '英文', value: 'en' },
               ]}
             />
-            <ProFormRadio.Group
-              name="from_engine"
-              label="关键词来源"
-              fieldProps={{
-                onChange: (e) => {
-                  this.onChangeEngine(e);
-                },
-              }}
-              options={[
-                { label: '百度', value: 'baidu' },
-                { label: '搜搜', value: '360' },
-                { label: '搜狗', value: 'sogou' },
-                { label: '谷歌', value: 'google' },
-                { label: '必应国内', value: 'bingcn' },
-                { label: '必应国际', value: 'bing' },
-                { label: '其他', value: 'other' },
-              ]}
-            />
-            {selectedEngine == 'other' && (
-              <ProFormText
-                name="from_website"
-                label="自定义来源"
-                placeholder="如：https://cn.bing.com/search?q=%s"
-                extra={
-                  <div>
-                    注意自定义来源格式必须是一个搜索列表，搜索的关键词用<Tag>%s</Tag>
-                    表示，如搜索链接是：<Tag>https://cn.bing.com/search?q=安企CMS</Tag>，则将
-                    <Tag>安企CMS</Tag>替换为<Tag>%s</Tag>后为：
-                    <Tag>https://cn.bing.com/search?q=%s</Tag>
-                  </div>
-                }
-              />
-            )}
             <ProFormText
               label="关键词排除词"
               fieldProps={{

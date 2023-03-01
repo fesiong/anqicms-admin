@@ -23,7 +23,6 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     fetched: false,
     setting: {},
     tmpInput: {},
-    selectedEngine: '',
     insertImage: false,
   };
 
@@ -57,7 +56,6 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
       this.setState({
         setting: setting,
         fetched: true,
-        selectedEngine: setting.from_engine,
         insertImage: setting.insert_image,
       });
     });
@@ -133,12 +131,6 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
-  onChangeEngine = (e: any) => {
-    this.setState({
-      selectedEngine: e.target.value,
-    });
-  };
-
   onChangeInsertImage = (e: any) => {
     console.log(e);
     this.setState({
@@ -155,7 +147,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
   };
 
   render() {
-    const { visible, fetched, setting, tmpInput, selectedEngine, insertImage } = this.state;
+    const { visible, fetched, setting, tmpInput, insertImage } = this.state;
 
     return (
       <>
@@ -208,40 +200,19 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               ]}
               extra="文章采集模式，会按原文采集整篇文章；文章组合模式，会从搜索列表中的简介中采集并组合成文章"
             />
-            <ProFormRadio.Group
-              name="from_engine"
-              label="采集来源"
-              fieldProps={{
-                onChange: (e) => {
-                  this.onChangeEngine(e);
-                },
-              }}
-              options={[
-                { label: '百度', value: 'baidu' },
-                { label: '搜搜', value: '360' },
-                { label: '搜狗', value: 'sogou' },
-                { label: '谷歌', value: 'google' },
-                { label: '必应国内', value: 'bingcn' },
-                { label: '必应国际', value: 'bing' },
-                { label: '其他', value: 'other' },
-              ]}
-              extra="文章采集模式只支持百度搜索引擎，其他选项无效。"
+            <ProFormText
+              name="from_website"
+              label="自定义来源"
+              placeholder="如：https://cn.bing.com/search?q=%s"
+              extra={
+                <div>
+                  文章采集可用，注意自定义来源格式必须是一个搜索列表，搜索的关键词用<Tag>%s</Tag>
+                  表示，如搜索链接是：<Tag>https://cn.bing.com/search?q=安企CMS</Tag>，则将
+                  <Tag>安企CMS</Tag>替换为<Tag>%s</Tag>后为：
+                  <Tag>https://cn.bing.com/search?q=%s</Tag>
+                </div>
+              }
             />
-            {selectedEngine == 'other' && (
-              <ProFormText
-                name="from_website"
-                label="自定义来源"
-                placeholder="如：https://cn.bing.com/search?q=%s"
-                extra={
-                  <div>
-                    注意自定义来源格式必须是一个搜索列表，搜索的关键词用<Tag>%s</Tag>
-                    表示，如搜索链接是：<Tag>https://cn.bing.com/search?q=安企CMS</Tag>，则将
-                    <Tag>安企CMS</Tag>替换为<Tag>%s</Tag>后为：
-                    <Tag>https://cn.bing.com/search?q=%s</Tag>
-                  </div>
-                }
-              />
-            )}
             <ProFormSelect
               label="默认发布文章分类"
               name="category_id"
