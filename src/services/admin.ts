@@ -103,3 +103,27 @@ export async function deleteAdminGroupInfo(body: any, options?: { [key: string]:
     options,
   });
 }
+
+export async function findPasswordChoose(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/password/choose',
+    body,
+    options,
+  });
+}
+
+export async function findPasswordVerify(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/password/verify',
+    params,
+    options,
+  });
+}
+
+export async function findPasswordReset(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/password/reset',
+    body,
+    options,
+  });
+}
