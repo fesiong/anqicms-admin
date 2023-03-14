@@ -401,11 +401,14 @@ export default class ArchiveForm extends React.Component {
                   <Collapse>
                     <Panel header="其他参数" key="1">
                       <Row gutter={20}>
-                        {archive.origin_url && (
-                          <Col span={12}>
-                            <ProFormText disabled name="origin_url" label="原文地址" />
-                          </Col>
-                        )}
+                        <Col span={12}>
+                          <ProFormText
+                            label="原文地址"
+                            name="origin_url"
+                            placeholder="默认不用填写"
+                            extra="文章的原文地址，默认不用管"
+                          />
+                        </Col>
                         <Col span={12}>
                           <ProFormText
                             name="seo_title"

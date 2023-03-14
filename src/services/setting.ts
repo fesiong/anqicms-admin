@@ -159,3 +159,43 @@ export async function saveSettingSafe(body: any, options?: { [key: string]: any 
     options,
   });
 }
+
+export async function saveSystemFavicon(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/favicon',
+    body,
+    options,
+  });
+}
+
+export async function deleteSystemFavicon(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/favicon/delete',
+    body,
+    options,
+  });
+}
+
+export async function getSettingBanners(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/setting/banner',
+    params,
+    options,
+  });
+}
+
+export async function saveSettingBanner(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/banner',
+    body,
+    options,
+  });
+}
+
+export async function deleteSettingBanner(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/banner/delete',
+    body,
+    options,
+  });
+}

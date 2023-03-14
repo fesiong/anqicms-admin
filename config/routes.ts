@@ -49,6 +49,11 @@
         component: './setting/index',
       },
       {
+        path: '/setting/banner',
+        name: '首页幻灯片',
+        component: './setting/banner',
+      },
+      {
         path: '/setting/nav',
         name: '导航设置',
         component: './setting/nav',

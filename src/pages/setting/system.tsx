@@ -6,9 +6,14 @@ import ProForm, {
   ProFormRadio,
 } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, Col, Collapse, message, Modal, Row } from 'antd';
+import { Button, Card, Col, Collapse, message, Modal, Row, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { getSettingSystem, saveSettingSystem } from '@/services/setting';
+import {
+  deleteSystemFavicon,
+  getSettingSystem,
+  saveSettingSystem,
+  saveSystemFavicon,
+} from '@/services/setting';
 import { useModel } from 'umi';
 import AttachmentSelect from '@/components/attachment';
 
@@ -40,6 +45,33 @@ const SettingSystemFrom: React.FC<any> = (props) => {
   const handleRemoveLogo = (e: any) => {
     e.stopPropagation();
     setSiteLogo('');
+  };
+
+  const handleRemoveFavicon = (e: any) => {
+    e.stopPropagation();
+    Modal.confirm({
+      title: '确定要删除Ico图标吗？',
+      onOk: () => {
+        deleteSystemFavicon({}).then((res) => {
+          message.info(res.msg);
+          getSetting();
+        });
+      },
+    });
+  };
+
+  const handleUploadFavicon = async (e: any) => {
+    const formData = new FormData();
+    formData.append('file', e.file);
+    const hide = message.loading('正在提交中', 0);
+    saveSystemFavicon(formData)
+      .then((res) => {
+        message.success(res.msg);
+        getSetting();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   const onSubmit = async (values: any) => {
@@ -118,6 +150,31 @@ const SettingSystemFrom: React.FC<any> = (props) => {
                   )}
                 </div>
               </AttachmentSelect>
+            </ProFormText>
+            <ProFormText label="ico图标" extra="会生成favicon.ico，并上传到public目录">
+              <Upload
+                name="file"
+                className="logo-uploader"
+                showUploadList={false}
+                accept=".jpg,.jpeg,.png,.gif,.webp,.ico"
+                customRequest={async (e) => handleUploadFavicon(e)}
+              >
+                <div className="ant-upload-item">
+                  {setting.system?.favicon ? (
+                    <>
+                      <img src={setting.system.favicon} style={{ width: '100%' }} />
+                      <a className="delete" onClick={handleRemoveFavicon}>
+                        删除
+                      </a>
+                    </>
+                  ) : (
+                    <div className="add">
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>上传</div>
+                    </div>
+                  )}
+                </div>
+              </Upload>
             </ProFormText>
             <ProFormText
               name="site_icp"

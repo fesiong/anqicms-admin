@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import MonacoEditor from 'react-monaco-editor';
-import { Button, Card, Col, message, Row, Space, Collapse, Modal } from 'antd';
+import { Button, Card, Col, message, Row, Space, Collapse, Modal, Tree } from 'antd';
 import { history } from 'umi';
 import {
   deleteDesignHistoryFile,
@@ -25,6 +25,8 @@ const DesignEditor: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [height, setHeight] = useState(0);
+  const [tplFiles, setTplFiles] = useState<any[]>([]);
+  const [staticFiles, setStaticFiles] = useState<any[]>([]);
 
   var unsave = false;
 
@@ -54,6 +56,110 @@ const DesignEditor: React.FC = () => {
           type = 'template';
           path = res.data.tpl_files[0].path;
         }
+        let tpls: any[] = [];
+        for (let i in res.data.tpl_files) {
+          let val = res.data.tpl_files[i].path.split('/');
+          if (val.length > 1) {
+            // 检查是否存在
+            let exist = null;
+            for (let j in tpls) {
+              if (tpls[j].key === val[0]) {
+                exist = tpls[j];
+                break;
+              }
+            }
+            if (!exist) {
+              exist = {
+                key: val[0],
+                title: val[0],
+                children: [],
+              };
+              tpls.push(exist);
+            }
+            let path2 = val.slice(1).join('/');
+            exist.children.push({
+              path: res.data.tpl_files[i].path,
+              remark: res.data.tpl_files[i].remark,
+              title: (
+                <div>
+                  <div className="name">{path2}</div>
+                  <div className="extra">{res.data.tpl_files[i].remark}</div>
+                </div>
+              ),
+              key: i,
+            });
+          } else {
+            tpls.push({
+              path: res.data.tpl_files[i].path,
+              remark: res.data.tpl_files[i].remark,
+              title: (
+                <div>
+                  <div className="name">{res.data.tpl_files[i].path}</div>
+                  <div className="extra">{res.data.tpl_files[i].remark}</div>
+                </div>
+              ),
+              key: i,
+            });
+          }
+        }
+        setTplFiles(tpls);
+        // static
+        let statics: any[] = [];
+        for (let i in res.data.static_files) {
+          if (
+            res.data.static_files[i].path.indexOf('.js') !== -1 ||
+            res.data.static_files[i].path.indexOf('.ts') !== -1 ||
+            res.data.static_files[i].path.indexOf('.css') !== -1 ||
+            res.data.static_files[i].path.indexOf('.scss') !== -1 ||
+            res.data.static_files[i].path.indexOf('.sass') !== -1 ||
+            res.data.static_files[i].path.indexOf('.less') !== -1
+          ) {
+            let val = res.data.static_files[i].path.split('/');
+            if (val.length > 1) {
+              // 检查是否存在
+              let exist = null;
+              for (let j in statics) {
+                if (statics[j].key === val[0]) {
+                  exist = statics[j];
+                  break;
+                }
+              }
+              if (!exist) {
+                exist = {
+                  key: val[0],
+                  title: val[0],
+                  children: [],
+                };
+                statics.push(exist);
+              }
+              let path2 = val.slice(1).join('/');
+              exist.children.push({
+                path: res.data.static_files[i].path,
+                remark: res.data.static_files[i].remark,
+                title: (
+                  <div>
+                    <div className="name">{path2}</div>
+                    <div className="extra">{res.data.static_files[i].remark}</div>
+                  </div>
+                ),
+                key: i,
+              });
+            } else {
+              statics.push({
+                path: res.data.static_files[i].path,
+                remark: res.data.static_files[i].remark,
+                title: (
+                  <div>
+                    <div className="name">{res.data.static_files[i].path}</div>
+                    <div className="extra">{res.data.static_files[i].remark}</div>
+                  </div>
+                ),
+                key: i,
+              });
+            }
+          }
+        }
+        setStaticFiles(statics);
 
         fetchDesignFileInfo(path);
       })
@@ -310,40 +416,32 @@ const DesignEditor: React.FC = () => {
           <Col span={6}>
             <Collapse defaultActiveKey={['1']}>
               <Collapse.Panel className="tpl-file-list" showArrow={false} header="模板文件" key="1">
-                {designInfo?.tpl_files?.map((item: any, index: number) => (
-                  <div
-                    key={index}
-                    className={'tpl-item link ' + (fileInfo.path == item.path ? 'active' : '')}
-                    onClick={() => handleEditFile('template', item)}
-                  >
-                    <div className="name">{item.path}</div>
-                    <div className="extra">{item.remark}</div>
-                  </div>
-                ))}
+                <Tree
+                  showLine={true}
+                  showIcon={false}
+                  defaultExpandedKeys={['0-0']}
+                  onSelect={(e, a) => {
+                    if (a.node.children) {
+                      return;
+                    }
+                    handleEditFile('template', a.node);
+                  }}
+                  treeData={tplFiles}
+                />
               </Collapse.Panel>
               <Collapse.Panel className="tpl-file-list" showArrow={false} header="资源文件" key="2">
-                {designInfo?.static_files?.map((item: any, index: number) => {
-                  if (
-                    item.path.indexOf('.js') !== -1 ||
-                    item.path.indexOf('.ts') !== -1 ||
-                    item.path.indexOf('.css') !== -1 ||
-                    item.path.indexOf('.scss') !== -1 ||
-                    item.path.indexOf('.sass') !== -1 ||
-                    item.path.indexOf('.less') !== -1
-                  ) {
-                    return (
-                      <div
-                        key={index}
-                        className={'tpl-item link ' + (fileInfo.path == item.path ? 'active' : '')}
-                        onClick={() => handleEditFile('static', item)}
-                      >
-                        <div className="name">{item.path}</div>
-                        <div className="extra">{item.remark}</div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
+                <Tree
+                  showLine={true}
+                  showIcon={false}
+                  defaultExpandedKeys={['0-0']}
+                  onSelect={(e, a) => {
+                    if (a.node.children) {
+                      return;
+                    }
+                    handleEditFile('static', a.node);
+                  }}
+                  treeData={staticFiles}
+                />
               </Collapse.Panel>
             </Collapse>
           </Col>
