@@ -196,9 +196,14 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               label="采集模式"
               options={[
                 { label: '文章采集', value: 0 },
-                { label: '文章组合', value: 1 },
+                { label: '问答组合', value: 1 },
+                { label: 'AI写作', value: 2 },
               ]}
-              extra="文章采集模式，会按原文采集整篇文章；文章组合模式，会从搜索列表中的简介中采集并组合成文章"
+              extra={
+                <div>
+                  文章采集模式，会按原文采集整篇文章；问答组合模式，会从搜索问答列表中采集并组合成文章，AI写作，会调用AI写作接口写作，需要付费。
+                </div>
+              }
             />
             <ProFormText
               name="from_website"
@@ -254,25 +259,13 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             />
             <ProFormRadio.Group
               name="auto_pseudo"
-              label="是否伪原创"
+              label="是否AI改写"
               options={[
                 { label: '否', value: false },
-                // { label: '进行伪原创', value: true },
+                { label: '进行AI改写', value: true },
               ]}
-              extra="当前版本尚未支持自动伪原创功能"
+              extra="AI改写只支持文章采集和问答组合。需要付费。"
             />
-            {/* <ProFormDigit
-              name="pseudo_api"
-              label="伪原创接口地址"
-              extra={
-                <div>
-                  目前支持搜外管家伪原创接口，接口详情：
-                  <a href="https://guanjia.seowhy.com/write/original/api" target={'_blank'}>
-                    https://guanjia.seowhy.com/write/original/api
-                  </a>
-                </div>
-              }
-            /> */}
             <ProFormDigit
               name="start_hour"
               label="每天开始时间"

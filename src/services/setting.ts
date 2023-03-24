@@ -199,3 +199,35 @@ export async function deleteSettingBanner(body: any, options?: { [key: string]: 
     options,
   });
 }
+
+export async function getSettingSensitiveWords(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/setting/sensitive/words',
+    params,
+    options,
+  });
+}
+
+export async function saveSettingSensitiveWords(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/sensitive/words',
+    body,
+    options,
+  });
+}
+
+export async function checkSettingSensitiveWords(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/sensitive/check',
+    body,
+    options,
+  });
+}
+
+export async function syncSettingSensitiveWords(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/sensitive/sync',
+    body,
+    options,
+  });
+}

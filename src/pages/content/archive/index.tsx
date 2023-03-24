@@ -11,6 +11,7 @@ import { history } from 'umi';
 import ReplaceKeywords from '@/components/replaceKeywords';
 import './index.less';
 import {
+  anqiAiPseudoArchive,
   anqiPseudoArchive,
   anqiTranslateArchive,
   deleteArchive,
@@ -173,6 +174,28 @@ const ArchiveList: React.FC = (props) => {
       onOk: async () => {
         const hide = message.loading('正在处理中', 0);
         anqiPseudoArchive({
+          id: record.id,
+        })
+          .then((res) => {
+            if (res.code === 0) {
+              actionRef.current?.reloadAndRest?.();
+            }
+            message.info(res.msg);
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
+  const handleAiPseudoArchive = async (record: any) => {
+    Modal.confirm({
+      title: '确定要AI改写选中的文档吗？',
+      content: '需要使用文档AI改写服务，请先绑定安企账号。',
+      onOk: async () => {
+        const hide = message.loading('正在处理中', 0);
+        anqiAiPseudoArchive({
           id: record.id,
         })
           .then((res) => {
@@ -355,6 +378,17 @@ const ArchiveList: React.FC = (props) => {
                     title="将内容翻译成英文/中文"
                   >
                     翻译
+                  </a>
+                </Menu.Item>
+                <Menu.Item>
+                  <a
+                    key="edit"
+                    onClick={() => {
+                      handleAiPseudoArchive(record);
+                    }}
+                    title="AI改写这篇文章"
+                  >
+                    AI 改写
                   </a>
                 </Menu.Item>
                 <Menu.Item>

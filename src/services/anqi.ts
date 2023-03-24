@@ -79,3 +79,19 @@ export async function anqiTranslateArchive(body: any, options?: { [key: string]:
     options,
   });
 }
+
+export async function anqiAiPseudoArchive(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/anqi/ai/pseudo',
+    body,
+    options,
+  });
+}
+
+export async function anqiAiGenerateArchive(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/anqi/ai/generate',
+    body,
+    options,
+  });
+}

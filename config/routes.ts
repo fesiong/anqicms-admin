@@ -39,6 +39,11 @@
         component: './setting/safe',
       },
       {
+        path: '/setting/sensitive',
+        name: '敏感词设置',
+        component: './setting/sensitive',
+      },
+      {
         path: '/setting/contact',
         name: '联系方式设置',
         component: './setting/contact',

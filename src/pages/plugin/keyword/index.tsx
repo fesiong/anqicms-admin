@@ -115,7 +115,7 @@ const PluginKeyword: React.FC = () => {
               handleCollectArticle(record);
             }}
           >
-            手动采集文章
+            手动采集/生成文章
           </a>
           <a
             key="edit"
