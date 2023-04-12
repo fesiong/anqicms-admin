@@ -95,7 +95,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       },
       {
         getResponse: true,
-        prefix: 'http://127.0.0.1:8001/auth',
+        prefix: 'https://www.anqicms.com/auth',
         responseType: 'stream',
         headers: {
           token: anqiUser.token,
