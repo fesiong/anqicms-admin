@@ -5,7 +5,7 @@ import { message } from 'antd';
 import { history } from 'umi';
 const request = extend({
   prefix: config.baseUrl,
-  timeout: 60000,
+  timeout: 150000,
   requestType: 'json',
   //mode: 'no-cors',
 });
@@ -14,9 +14,8 @@ request.use(async (ctx, next) => {
   const { req } = ctx;
   const { options } = req;
 
-  const headers: any = {
-    Origin: window.location.origin,
-  };
+  const headers: any = options.headers || {};
+  headers.Origin = window.location.origin;
 
   const adminToken = getStore('adminToken');
   if (adminToken) {

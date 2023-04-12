@@ -23,7 +23,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     fetched: false,
     setting: {},
     tmpInput: {},
-    insertImage: false,
+    insertImage: 0,
   };
 
   componentDidMount() {
@@ -286,10 +286,11 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             />
             <ProFormRadio.Group
               name="insert_image"
-              label="是否插入图片"
+              label="采集图片处理"
               options={[
-                { label: '不插入图片', value: false },
-                { label: '插入图片', value: true },
+                { label: '移除图片', value: 0 },
+                { label: '保留原图片', value: 1 },
+                { label: '自定义插入图片', value: 2 },
               ]}
               fieldProps={{
                 onChange: (e) => {
@@ -297,7 +298,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 },
               }}
             />
-            {insertImage && (
+            {insertImage == 2 && (
               <ProFormText label="供插入的图片列表">
                 <div className="insert-image">
                   <Row gutter={[16, 16]} className="image-list">

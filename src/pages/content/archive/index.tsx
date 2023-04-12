@@ -17,6 +17,7 @@ import {
   deleteArchive,
   getArchives,
   getModules,
+  updateArchivesCategory,
   updateArchivesFlag,
   updateArchivesStatus,
   updateArchivesTime,
@@ -39,6 +40,7 @@ const ArchiveList: React.FC = (props) => {
   const [replaceVisible, setReplaceVisible] = useState<boolean>(false);
   const [flagVisible, setFlagVisible] = useState<boolean>(false);
   const [statusVisible, setStatusVisible] = useState<boolean>(false);
+  const [categoryVisible, setCategoryVisible] = useState<boolean>(false);
   const [timeVisible, setTimeVisible] = useState<boolean>(false);
   const [modules, setModules] = useState<any[]>([]);
   const [moduleId, setModuleId] = useState<Number>(0);
@@ -129,6 +131,27 @@ const ArchiveList: React.FC = (props) => {
       .then((res) => {
         message.success(res.msg);
         setTimeVisible(false);
+        setSelectedRowKeys([]);
+        actionRef.current?.reloadAndRest?.();
+      })
+      .finally(() => {
+        hide();
+      });
+  };
+
+  const handleSetCategory = async (values: any) => {
+    if (values.category_id == 0) {
+      message.error('请选择分类');
+      return;
+    }
+    const hide = message.loading('正在处理', 0);
+    updateArchivesCategory({
+      category_id: Number(values.category_id),
+      ids: selectedRowKeys,
+    })
+      .then((res) => {
+        message.success(res.msg);
+        setCategoryVisible(false);
         setSelectedRowKeys([]);
         actionRef.current?.reloadAndRest?.();
       })
@@ -492,6 +515,14 @@ const ArchiveList: React.FC = (props) => {
             <Button
               size={'small'}
               onClick={async () => {
+                await setCategoryVisible(true);
+              }}
+            >
+              批量更改分类
+            </Button>
+            <Button
+              size={'small'}
+              onClick={async () => {
                 await setTimeVisible(true);
               }}
             >
@@ -595,6 +626,34 @@ const ArchiveList: React.FC = (props) => {
             valueEnum={{
               1: '更新所选文档的发布时间(首发时间)',
               2: '更新所选文章的最后编辑时间(更新时间)',
+              3: '更新所有文档的发布时间(首发时间)',
+              4: '更新所有文章的最后编辑时间(更新时间)',
+            }}
+          />
+        </ModalForm>
+      )}
+      {categoryVisible && (
+        <ModalForm
+          width={480}
+          title="请选择转移到的分类"
+          visible={categoryVisible}
+          onFinish={handleSetCategory}
+          onVisibleChange={(e) => setCategoryVisible(e)}
+        >
+          <ProFormSelect
+            name="category_id"
+            request={async () => {
+              let res = await getCategories({ type: 1 });
+              return [{ spacer: '', title: '请选择', id: 0 }].concat(res.data || []);
+            }}
+            fieldProps={{
+              fieldNames: {
+                label: 'title',
+                value: 'id',
+              },
+              optionItemRender(item) {
+                return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
+              },
             }}
           />
         </ModalForm>

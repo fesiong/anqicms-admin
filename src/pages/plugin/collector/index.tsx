@@ -5,7 +5,13 @@ import { history, Link } from 'umi';
 import CollectorSetting from './components/setting';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import ReplaceKeywords from '@/components/replaceKeywords';
-import { deleteArchive, releaseArchive, getArchives } from '@/services';
+import {
+  deleteArchive,
+  releaseArchive,
+  getArchives,
+  collectCollectorArticle,
+  startCollectorArticle,
+} from '@/services';
 import moment from 'moment';
 
 const PluginCollector: React.FC = () => {
@@ -18,8 +24,8 @@ const PluginCollector: React.FC = () => {
       title: '确定要发布选中的文档吗？',
       content: '只有文章在草稿箱中，才会被成功发布',
       onOk: async () => {
-        const hide = message.loading('正在提交中', 0);
         if (!selectedRowKeys) return true;
+        const hide = message.loading('正在提交中', 0);
         try {
           for (let item of selectedRowKeys) {
             await releaseArchive({
@@ -45,8 +51,8 @@ const PluginCollector: React.FC = () => {
     Modal.confirm({
       title: '确定要删除选中的文档吗？',
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
         if (!selectedRowKeys) return true;
+        const hide = message.loading('正在删除', 0);
         try {
           for (let item of selectedRowKeys) {
             await deleteArchive({
@@ -64,6 +70,24 @@ const PluginCollector: React.FC = () => {
           message.error('删除失败');
           return true;
         }
+      },
+    });
+  };
+
+  const startToCollect = () => {
+    Modal.confirm({
+      title: '确定要开始采集吗？',
+      content: '这将马上开始执行一次采集任务操作',
+      onOk: async () => {
+        const hide = message.loading('正在提交中', 0);
+        startCollectorArticle()
+          .then((res) => {
+            message.success(res.msg || '执行成功');
+            actionRef.current?.reloadAndRest?.();
+          })
+          .finally(() => {
+            hide();
+          });
       },
     });
   };
@@ -191,6 +215,14 @@ const PluginCollector: React.FC = () => {
             <CollectorSetting onCancel={() => {}} key="setting">
               <Button>采集和伪原创设置</Button>
             </CollectorSetting>,
+            <Button
+              key="keywords"
+              onClick={() => {
+                startToCollect();
+              }}
+            >
+              手动开始采集
+            </Button>,
             <Button
               key="keywords"
               onClick={() => {

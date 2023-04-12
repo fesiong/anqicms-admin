@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteCategory, getCategories } from '@/services/category';
+import { deleteCategory, getCategories, getCategoryInfo } from '@/services/category';
 import '../index.less';
 import PageForm from '../components/pageForm';
 
@@ -42,7 +42,12 @@ const PageCategory: React.FC = () => {
   };
 
   const handleEditCategory = async (record: any) => {
-    setCurrentCategory(record);
+    const res = await getCategoryInfo({
+      id: record.id,
+    });
+    const category = res.data || {};
+
+    setCurrentCategory(category);
     setEditVisible(true);
   };
 

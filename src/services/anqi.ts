@@ -88,9 +88,9 @@ export async function anqiAiPseudoArchive(body: any, options?: { [key: string]: 
   });
 }
 
-export async function anqiAiGenerateArchive(body: any, options?: { [key: string]: any }) {
+export async function anqiAiGenerateStream(body: any, options?: { [key: string]: any }) {
   return post({
-    url: '/anqi/ai/generate',
+    url: '/ai/stream',
     body,
     options,
   });

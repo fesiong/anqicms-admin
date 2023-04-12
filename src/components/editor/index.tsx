@@ -1,6 +1,6 @@
 import E from 'wangeditor';
 import ReactWEditor from 'wangeditor-for-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import config from '@/services/config';
 import { getStore } from '@/utils/store';
 import AttachmentSelect from '../attachment';
@@ -20,15 +20,23 @@ export type WangEditorProps = {
   className: string;
   content: string;
   setContent: (html: any) => Promise<void>;
+  ref: any;
 };
 
 var customSetMode: (mode: boolean) => void;
 var code = '';
 
-const WangEditor: React.FC<WangEditorProps> = (props) => {
+const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   const editorRef = useRef(null);
   const [attachVisible, setAttachVisible] = useState<boolean>(false);
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
+
+  useImperativeHandle(ref, () => ({
+    setInnerContent: setInnerContent,
+  }));
+  function setInnerContent(content: string) {
+    editorRef.current?.editor.txt.html(content);
+  }
 
   const handleSelectImages = (e: any) => {
     editorRef.current?.editor.cmd.do('insertHTML', `<img src="${e.logo}" alt="${e.file_name}"/>`);
@@ -159,6 +167,6 @@ const WangEditor: React.FC<WangEditorProps> = (props) => {
       />
     </div>
   );
-};
+});
 
 export default WangEditor;

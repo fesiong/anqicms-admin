@@ -39,3 +39,19 @@ export async function collectCollectorArticle(body?: any, options?: { [key: stri
     options,
   });
 }
+
+export async function startCollectorArticle(body?: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/collector/article/start',
+    body,
+    options,
+  });
+}
+
+export async function getCollectCombineArticle(body?: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/collector/article/combination/get',
+    body,
+    options,
+  });
+}

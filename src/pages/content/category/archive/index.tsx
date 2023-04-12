@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteCategory, getCategories, getModules } from '@/services';
+import { deleteCategory, getCategories, getCategoryInfo, getModules } from '@/services';
 import '../index.less';
 import CategoryForm from '../components/categoryFrom';
 import { history } from 'umi';
@@ -52,7 +52,12 @@ const ArchiveCategory: React.FC = () => {
   };
 
   const handleEditCategory = async (record: any) => {
-    setCurrentCategory(record);
+    const res = await getCategoryInfo({
+      id: record.id,
+    });
+    const category = res.data || {};
+
+    setCurrentCategory(category);
     setEditVisible(true);
   };
 

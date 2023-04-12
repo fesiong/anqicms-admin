@@ -29,6 +29,7 @@ import {
   getDesignTemplateFiles,
   deleteArchiveImage,
 } from '@/services';
+import AiGenerate from '@/components/aiGenerate';
 const { Panel } = Collapse;
 
 export default class ArchiveForm extends React.Component {
@@ -41,12 +42,17 @@ export default class ArchiveForm extends React.Component {
 
     keywordsVisible: false,
     searchedTags: [],
+
+    aiVisible: false,
+    aiTitle: '',
   };
 
   submitted = false;
   defaultContent = '';
 
   formRef = React.createRef<ProFormInstance>();
+
+  editorRef = React.createRef<any>();
 
   componentDidMount = async () => {
     const res = await getModules();
@@ -152,6 +158,7 @@ export default class ArchiveForm extends React.Component {
     archive.created_moment = moment(archive.created_time * 1000);
     this.defaultContent = content;
     this.getModule(archive.module_id);
+    this.getArchiveCategory(archive.category_id);
     this.setState({
       fetched: true,
       archive: archive,
@@ -356,8 +363,33 @@ export default class ArchiveForm extends React.Component {
     }
   };
 
+  aiGenerateArticle = () => {
+    const values = this.formRef.current?.getFieldsValue() || {};
+    this.setState({
+      aiTitle: values.title,
+      aiVisible: true,
+    });
+  };
+
+  onHideAiGenerate = () => {
+    this.setState({
+      aiVisible: false,
+    });
+  };
+
+  onFinishAiGenerate = async (values: any) => {
+    this.onHideAiGenerate();
+    this.formRef.current?.setFieldsValue({ title: values.title });
+    //
+    let content = values.content.trim();
+
+    this.setContent(content);
+    this.editorRef.current?.setInnerContent(content);
+  };
+
   render() {
-    const { archive, content, module, fetched, keywordsVisible, searchedTags } = this.state;
+    const { archive, content, module, fetched, keywordsVisible, searchedTags, aiTitle, aiVisible } =
+      this.state;
     return (
       <PageContainer title={(archive.id > 0 ? '修改' : '添加') + '文档'}>
         <Card onKeyDown={this.handleKeyDown}>
@@ -646,44 +678,57 @@ export default class ArchiveForm extends React.Component {
                     className="mb-normal"
                     setContent={this.setContent}
                     content={content}
+                    ref={this.editorRef}
                   />
                 </Col>
                 <Col span={6}>
-                  <Row gutter={20} className="mb-normal">
-                    <Col flex={1}>
-                      <Button
-                        block
-                        type="primary"
-                        onClick={() => {
-                          this.onSubmit(this.formRef.current?.getFieldsValue());
-                        }}
-                      >
-                        提交
-                      </Button>
-                    </Col>
-                    <Col flex={1}>
-                      <Button
-                        block
-                        onClick={() => {
-                          const values = this.formRef.current?.getFieldsValue() || {};
-                          values.draft = true;
-                          this.onSubmit(values);
-                        }}
-                      >
-                        存草稿
-                      </Button>
-                    </Col>
-                    <Col flex={1}>
-                      <Button
-                        block
-                        onClick={() => {
-                          history.goBack();
-                        }}
-                      >
-                        返回
-                      </Button>
-                    </Col>
-                  </Row>
+                  <div className="mb-normal">
+                    <Row gutter={[16, 16]}>
+                      <Col span={12}>
+                        <Button
+                          block
+                          type="primary"
+                          onClick={() => {
+                            this.onSubmit(this.formRef.current?.getFieldsValue());
+                          }}
+                        >
+                          提交
+                        </Button>
+                      </Col>
+                      <Col span={12}>
+                        <Button
+                          block
+                          onClick={() => {
+                            const values = this.formRef.current?.getFieldsValue() || {};
+                            values.draft = true;
+                            this.onSubmit(values);
+                          }}
+                        >
+                          存草稿
+                        </Button>
+                      </Col>
+                      <Col span={12}>
+                        <Button
+                          block
+                          onClick={() => {
+                            this.aiGenerateArticle();
+                          }}
+                        >
+                          AI写作
+                        </Button>
+                      </Col>
+                      <Col span={12}>
+                        <Button
+                          block
+                          onClick={() => {
+                            history.goBack();
+                          }}
+                        >
+                          返回
+                        </Button>
+                      </Col>
+                    </Row>
+                  </div>
                   <Card className="aside-card" size="small" title="所属分类">
                     <ProFormSelect
                       //label="所属分类"
@@ -793,6 +838,14 @@ export default class ArchiveForm extends React.Component {
             visible={keywordsVisible}
             onCancel={this.handleHideKeywords}
             onSubmit={this.handleSelectedKeywords}
+          />
+        )}
+        {aiVisible && (
+          <AiGenerate
+            visible={aiVisible}
+            title={aiTitle}
+            onCancel={this.onHideAiGenerate}
+            onSubmit={this.onFinishAiGenerate}
           />
         )}
       </PageContainer>
