@@ -2,7 +2,9 @@ import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Input } from 'antd';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import type { AutoCompleteProps } from 'antd/es/auto-complete';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import routes from '../../../config/routes';
+import { history } from 'umi';
 
 import classNames from 'classnames';
 import styles from './index.less';
@@ -13,7 +15,7 @@ export type HeaderSearchProps = {
   onVisibleChange?: (b: boolean) => void;
   className?: string;
   placeholder?: string;
-  options: AutoCompleteProps['options'];
+  options?: AutoCompleteProps['options'];
   defaultVisible?: boolean;
   visible?: boolean;
   defaultValue?: string;
@@ -21,15 +23,13 @@ export type HeaderSearchProps = {
 };
 
 const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
-  const {
-    className,
-    defaultValue,
-    onVisibleChange,
-    placeholder,
-    visible,
-    defaultVisible,
-    ...restProps
-  } = props;
+  const { className, defaultValue, onVisibleChange, placeholder, defaultVisible } = props;
+
+  const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
+
+  useEffect(() => {
+    matchOptions('');
+  }, []);
 
   const inputRef = useRef<Input | null>(null);
 
@@ -42,6 +42,47 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
     value: props.visible,
     onChange: onVisibleChange,
   });
+
+  const onChangeValue = (value: string) => {
+    setValue(value);
+    matchOptions(value);
+  };
+
+  const onSearch = (value: string | undefined) => {
+    const matches = matchOptions(value);
+    if (matches.length > 0) {
+      history.push(matches[0].path);
+    }
+  };
+
+  const matchOptions = (value: string | undefined) => {
+    const tmpOptions: AutoCompleteProps['options'] = [];
+    for (let i in routes) {
+      if (routes[i].routes) {
+        for (let j in routes[i].routes) {
+          if (
+            routes[i].routes[j].name &&
+            (!value || routes[i].routes[j].name.indexOf(value) !== -1)
+          ) {
+            tmpOptions.push({
+              label: routes[i].routes[j].name,
+              value: routes[i].routes[j].name,
+              path: routes[i].routes[j].path,
+            });
+          }
+        }
+      } else if (routes[i].name && (!value || routes[i].name?.indexOf(value) !== -1)) {
+        tmpOptions.push({
+          label: routes[i].name,
+          value: routes[i].name,
+          path: routes[i].path,
+        });
+      }
+    }
+    setOptions(tmpOptions);
+
+    return tmpOptions;
+  };
 
   const inputClass = classNames(styles.input, {
     [styles.show]: searchMode,
@@ -64,6 +105,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
       }}
     >
       <SearchOutlined
+        className={styles.searchIcon}
         key="Icon"
         style={{
           cursor: 'pointer',
@@ -73,20 +115,20 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
         key="AutoComplete"
         className={inputClass}
         value={value}
-        options={restProps.options}
-        onChange={setValue}
+        options={options}
+        onChange={onChangeValue}
+        onSelect={(value: string) => {
+          onSearch(value);
+        }}
       >
         <Input
-          size="small"
           ref={inputRef}
           defaultValue={defaultValue}
           aria-label={placeholder}
           placeholder={placeholder}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              if (restProps.onSearch) {
-                restProps.onSearch(value);
-              }
+              onSearch(value);
             }
           }}
           onBlur={() => {

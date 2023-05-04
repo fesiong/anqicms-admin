@@ -1,10 +1,23 @@
-import React from 'react';
-import ProForm, { ProFormRadio } from '@ant-design/pro-form';
+import React, { useEffect, useState } from 'react';
+import ProForm, { ProFormCheckbox, ProFormRadio } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Alert, Card, message } from 'antd';
-import { pluginGetFulltextConfig, pluginSaveFulltextConfig } from '@/services';
+import { getModules, pluginGetFulltextConfig, pluginSaveFulltextConfig } from '@/services';
 
 const PluginFulltext: React.FC<any> = () => {
+  const [modules, setModules] = useState<any[]>([]);
+
+  useEffect(() => {
+    getModules().then((res) => {
+      const data = res.data || [];
+      const tmpData = [];
+      for (let i in data) {
+        tmpData.push({ label: data[i].title, value: data[i].id });
+      }
+      setModules(tmpData);
+    });
+  }, []);
+
   const onSubmit = async (values: any) => {
     const hide = message.loading('正在提交中', 0);
     pluginSaveFulltextConfig(values)
@@ -42,6 +55,15 @@ const PluginFulltext: React.FC<any> = () => {
               { label: '开启', value: true },
             ]}
           />
+          <ProFormRadio.Group
+            name={'use_content'}
+            label="索引内容"
+            options={[
+              { label: '仅标题和简介', value: false },
+              { label: '包括文档内容', value: true },
+            ]}
+          />
+          <ProFormCheckbox.Group name={'modules'} label="开启的模型" options={modules} />
         </ProForm>
       </Card>
     </PageHeaderWrapper>

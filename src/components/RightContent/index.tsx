@@ -12,6 +12,7 @@ import './index.less';
 import { LoginForm, ProFormText } from '@ant-design/pro-form';
 import { anqiLogin, anqiRestart, checkAnqiInfo, getSiteInfo } from '@/services';
 import moment from 'moment';
+import HeaderSearch from '../HeaderSearch';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -107,16 +108,20 @@ const GlobalHeaderRight: React.FC = () => {
   return (
     <>
       <Space className={className}>
+        <HeaderSearch placeholder="搜索功能" />
         {anqiUser?.auth_id > 0 ? (
-          <Button onClick={showDetail}>{anqiUser.user_name}</Button>
+          <a onClick={showDetail} style={{ color: 'white' }}>
+            {anqiUser.user_name}
+          </a>
         ) : (
-          <Button
+          <a
             onClick={() => {
               setVisible(true);
             }}
+            style={{ color: 'white' }}
           >
             绑定安企账号
-          </Button>
+          </a>
         )}
         <a href={siteInfo.base_url} target={'_blank'} className="action" style={{ color: 'white' }}>
           <GlobalOutlined style={{ marginRight: 5 }} />
@@ -209,9 +214,9 @@ const GlobalHeaderRight: React.FC = () => {
         maskClosable={false}
         footer={null}
       >
-        {anqiUser.valid ? (
+        {anqiUser?.valid ? (
           <div>
-            <p>您好：{anqiUser.user_name || '朋友'}，欢迎使用安企盒子。</p>
+            <p>您好：{anqiUser.user_name || '朋友'}，欢迎使用安企CMS。</p>
             <div className="account-info">
               <div className="item">
                 <label>授权ID：</label>
@@ -241,7 +246,9 @@ const GlobalHeaderRight: React.FC = () => {
           </div>
         ) : (
           <div>
-            <p>您尚未成为VIP会员，部分软件功能将受限。购买会员可以使用更丰富的功能。</p>
+            <p>
+              您尚未成为VIP会员，部分软件功能将受限。购买会员可以使用更丰富的安企盒子和安企CMS功能。
+            </p>
             <p>
               <span className="optional">*</span>表示该功能为安企盒子功能。更多的VIP功能使用，请下载{' '}
               <a href="https://www.anqicms.com/anqibox.html" target="_blank">
@@ -274,12 +281,14 @@ const GlobalHeaderRight: React.FC = () => {
                         整站采集/下载不可用<span className="optional">*</span>
                       </li>
                       <li>
-                        每天1万字数文章翻译
-                        <div className="extra">可额外购买68元/100万字数</div>
+                        累计10万字数文章翻译
+                        <div className="extra">可额外购买 10 积分1000字</div>
                       </li>
                       <li>
-                        每天10篇文章伪原创
-                        <div className="extra">单篇最大5000字</div>
+                        累计伪原创额度 100 篇<div className="extra">超出数量 5 积分一篇</div>
+                      </li>
+                      <li>
+                        累计AI写作额度 10 篇<div className="extra">超出数量 10 积分一篇</div>
                       </li>
                     </ul>
                   </div>
@@ -310,11 +319,14 @@ const GlobalHeaderRight: React.FC = () => {
                       </li>
                       <li>
                         每天10万字数文章翻译
-                        <div className="extra">可额外购买68元/100万字数</div>
+                        <div className="extra">可额外购买 10 积分1000字</div>
                       </li>
                       <li>
-                        每天1000篇文章伪原创
-                        <div className="extra">单篇最大5000字</div>
+                        每天100篇文章伪原创
+                        <div className="extra">超出数量 5 积分一篇</div>
+                      </li>
+                      <li>
+                        每天AI写作额度 100 篇<div className="extra">超出数量 10 积分一篇</div>
                       </li>
                     </ul>
                   </div>
