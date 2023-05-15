@@ -3,9 +3,10 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Card, message } from 'antd';
 import './index.less';
 import { anqiDownloadTemplate } from '@/services';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 
 const DesignMarket: React.FC = () => {
+  const { initialState } = useModel('@@initialState');
   const actionRef = useRef(null);
   const [height, setHeight] = useState(0);
 
@@ -53,13 +54,16 @@ const DesignMarket: React.FC = () => {
   };
 
   const handleIframe = () => {
-    const token = 'aaaabbbb';
-    actionRef.current?.contentWindow?.postMessage(
-      {
-        token,
-      },
-      '*',
-    );
+    if (initialState && initialState.anqiUser) {
+      const anqiUser = initialState.anqiUser;
+      const token = anqiUser.token;
+      actionRef.current?.contentWindow?.postMessage(
+        {
+          token,
+        },
+        '*',
+      );
+    }
   };
 
   return (
