@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ModalForm,
   ProFormDigit,
@@ -24,6 +24,7 @@ export type CategoryFormProps = {
 };
 
 const CategoryForm: React.FC<CategoryFormProps> = (props) => {
+  const editorRef = useRef(null);
   const [content, setContent] = useState<string>('');
   const [categoryImages, setCategoryImages] = useState<string[]>([]);
   const [categoryLogo, setCategoryLogo] = useState<string>('');
@@ -295,6 +296,7 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
             setContent={async (html: string) => {
               setContent(html);
             }}
+            ref={editorRef}
             content={props.category.content}
           />
         </Collapse.Panel>

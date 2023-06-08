@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ModalForm,
   ProFormDigit,
@@ -23,13 +23,16 @@ export type CategoryFormProps = {
 };
 
 const PageForm: React.FC<CategoryFormProps> = (props) => {
+  const editorRef = useRef(null);
   const [content, setContent] = useState<string>('');
   const [categoryImages, setCategoryImages] = useState<string[]>([]);
   const [categoryLogo, setCategoryLogo] = useState<string>('');
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     setCategoryImages(props.category?.images || []);
     setCategoryLogo(props.category?.logo || '');
+    setLoaded(true);
   }, []);
 
   const onSubmit = async (values: any) => {
@@ -185,13 +188,16 @@ const PageForm: React.FC<CategoryFormProps> = (props) => {
           </ProFormText>
         </Collapse.Panel>
       </Collapse>
-      <WangEditor
-        className="mb-normal"
-        setContent={async (html: string) => {
-          setContent(html);
-        }}
-        content={props.category.content}
-      />
+      {loaded && (
+        <WangEditor
+          className="mb-normal"
+          setContent={async (html: string) => {
+            setContent(html);
+          }}
+          ref={editorRef}
+          content={props.category.content}
+        />
+      )}
     </ModalForm>
   );
 };
