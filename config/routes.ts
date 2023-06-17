@@ -336,6 +336,13 @@
         icon: 'titleimage',
       },
       {
+        path: '/plugin/htmlcache',
+        name: '静态页面缓存',
+        type: 'system',
+        component: '@/pages/plugin/htmlcache/index',
+        icon: 'htmlcache',
+      },
+      {
         component: './404',
       },
     ],

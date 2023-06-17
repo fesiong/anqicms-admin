@@ -534,6 +534,14 @@ export default class ArchiveForm extends React.Component {
                             extra="如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读"
                           />
                         </Col>
+                        <Col span={12}>
+                          <ProFormText
+                            name="password"
+                            label="文档密码"
+                            placeholder="可以设置文档密码"
+                            extra="如果你想设置这篇文章为密码查看，可以填写密码。"
+                          />
+                        </Col>
                         {module.fields?.map((item: any, index: number) => (
                           <Col span={12} key={index}>
                             {item.type === 'text' ? (

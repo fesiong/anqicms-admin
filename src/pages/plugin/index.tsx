@@ -34,6 +34,7 @@ import icon_user from '@/images/icon_user.png';
 import icon_weapp from '@/images/icon_weapp.png';
 import icon_wechat from '@/images/icon_wechat.png';
 import icon_titleimage from '@/images/icon_titleimage.png';
+import icon_htmlcache from '@/images/icon_htmlcache.png';
 
 const PluginIndex: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -120,6 +121,8 @@ const PluginIndex: React.FC = () => {
         return icon_wechat;
       case 'titleimage':
         return icon_titleimage;
+      case 'htmlcache':
+        return icon_htmlcache;
     }
   };
 
