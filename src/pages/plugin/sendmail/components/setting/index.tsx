@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ModalForm, ProFormRadio, ProFormText } from '@ant-design/pro-form';
+import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 
 import { pluginGetSendmailSetting, pluginSaveSendmailSetting } from '@/services/plugin/sendmail';
 import { message } from 'antd';
@@ -10,17 +10,20 @@ export type SendmailSettingProps = {
 
 const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [autoReply, setAutoReply] = useState<boolean>(false);
 
   const handleSubmit = async (values: any) => {
     values.port = Number(values.port);
     const hide = message.loading('正在提交中', 0);
-    pluginSaveSendmailSetting(values).then((res) => {
-      message.info(res.msg);
-      setVisible(false);
-      props.onCancel();
-    }).finally(() => {
-      hide();
-    });
+    pluginSaveSendmailSetting(values)
+      .then((res) => {
+        message.info(res.msg);
+        setVisible(false);
+        props.onCancel();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   return (
@@ -37,6 +40,7 @@ const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
         title={'邮件设置'}
         request={async (params) => {
           let res = await pluginGetSendmailSetting();
+          setAutoReply(res.data?.auto_reply || false);
           return res.data;
         }}
         visible={visible}
@@ -77,6 +81,26 @@ const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
           label="收件人邮箱"
           extra='默认发送给发件人，如果需要发送给其他人，请在这里填写，多个收件人请使用英文逗号","分开。'
         />
+        <ProFormRadio.Group
+          name="auto_reply"
+          label="自动回复客户"
+          options={[
+            { label: '不回复', value: false },
+            { label: '自动回复', value: true },
+          ]}
+          fieldProps={{
+            onChange: (e) => {
+              setAutoReply(e.target.value);
+            },
+          }}
+          extra="如果开启了自动回复客户，则在客户留言的时候，自动给客户填写的邮箱发送一封自动回复邮件。"
+        />
+        {autoReply && (
+          <>
+            <ProFormText name="reply_subject" label="自动回复标题" extra="请填写自动回复标题" />
+            <ProFormTextArea name="reply_message" label="自动回复内容" extra="请填写自动回复内容" />
+          </>
+        )}
       </ModalForm>
     </>
   );
