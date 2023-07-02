@@ -412,7 +412,7 @@ export default class ArchiveForm extends React.Component {
                       f: '幻灯[f]',
                       a: '特荐[a]',
                       s: '滚动[s]',
-                      b: '加粗[h]',
+                      b: '加粗[b]',
                       p: '图片[p]',
                       j: '跳转[j]',
                     }}
