@@ -70,7 +70,6 @@ const PluginLinkApi: React.FC<any> = (props) => {
         <Alert
           message={
             <div>
-              <p>通过伪原创、AI写作等第三方平台产生的内容可以对接API导入本系统。</p>
               <div>
                 <Space>
                   <span>我的Token：</span>

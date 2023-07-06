@@ -52,10 +52,15 @@ const ArchiveCategory: React.FC = () => {
   };
 
   const handleEditCategory = async (record: any) => {
-    const res = await getCategoryInfo({
-      id: record.id,
-    });
-    const category = res.data || {};
+    let category: any = null;
+    if (record.id > 0) {
+      const res = await getCategoryInfo({
+        id: record.id,
+      });
+      category = res.data || record;
+    } else {
+      category = record;
+    }
 
     setCurrentCategory(category);
     setEditVisible(true);

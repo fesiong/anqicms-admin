@@ -41,6 +41,10 @@ const PluginSendmail: React.FC = () => {
       render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
+      title: '收件人',
+      dataIndex: 'address',
+    },
+    {
       title: '邮件标题',
       dataIndex: 'subject',
     },
@@ -53,7 +57,7 @@ const PluginSendmail: React.FC = () => {
 
   return (
     <PageContainer>
-      <Alert className='mb-normal' message='邮件提醒可以将网站的留言通过邮件发送到你的邮箱里。' />
+      <Alert className="mb-normal" message="邮件提醒可以将网站的留言通过邮件发送到你的邮箱里。" />
       <ProTable<any>
         headerTitle="邮件提醒"
         rowKey="id"

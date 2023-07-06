@@ -255,6 +255,21 @@ const SettingSystemFrom: React.FC<any> = (props) => {
                 extra={<div>站点关闭后，将会显示上面的提示。支持html标签</div>}
               />
             )}
+            <ProFormRadio.Group
+              name="ban_spider"
+              label="对搜索引擎的可见性"
+              extra="如果设置为不可见，则系统则会拦截所有的UA中包含spider、bot关键词的搜索引擎蜘蛛，并返回403。"
+              options={[
+                {
+                  value: 0,
+                  label: '可见',
+                },
+                {
+                  value: 1,
+                  label: '禁止蜘蛛抓取',
+                },
+              ]}
+            />
             <Collapse>
               <Collapse.Panel
                 className="mb-normal"

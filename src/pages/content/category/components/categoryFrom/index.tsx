@@ -43,6 +43,10 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
     category.type = props.type;
     category.images = categoryImages;
     category.logo = categoryLogo;
+    if (category.title == '') {
+      message.error('请填写分类名称');
+      return;
+    }
     let res = await saveCategory(category);
     message.info(res.msg);
     props.onSubmit();

@@ -1,0 +1,65 @@
+import { Button, Card, message, Modal, Space } from 'antd';
+import React from 'react';
+import { PageContainer } from '@ant-design/pro-layout';
+import { history } from 'umi';
+import CollectorSetting from './components/setting';
+import { startCollectorArticle } from '@/services';
+
+const PluginAiGenerate: React.FC = () => {
+  const startToCollect = () => {
+    Modal.confirm({
+      title: '确定要开始采集吗？',
+      content: '这将马上开始执行一次采集任务操作',
+      onOk: async () => {
+        const hide = message.loading('正在提交中', 0);
+        startCollectorArticle()
+          .then((res) => {
+            message.success(res.msg || '执行成功');
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
+  return (
+    <PageContainer>
+      <Card>
+        <div className="control">
+          <Space size={20} style={{ width: '100%' }}>
+            <CollectorSetting onCancel={() => {}} key="setting">
+              <Button>AI自动写作设置</Button>
+            </CollectorSetting>
+            <Button
+              key="keywords"
+              onClick={() => {
+                startToCollect();
+              }}
+            >
+              手动开始AI写作
+            </Button>
+            <Button
+              key="keywords"
+              onClick={() => {
+                history.push('/plugin/keyword');
+              }}
+            >
+              关键词库管理
+            </Button>
+          </Space>
+        </div>
+        <div className="mt-normal">
+          <p>AI自动写作，会调用AI写作接口写作，需要付费。</p>
+          <p>
+            AI自动写作会自动调用关键词库中的关键词来完成写作，每一个关键词写作一篇文章。请保证关键词库中的文章数量足够。
+          </p>
+          <p>AI自动写作和文章采集功能共用关键词库，关键词已采集过文章的话，不再用来AI写作。</p>
+          <p>生成的文章会自动进入到内容管理里。</p>
+        </div>
+      </Card>
+    </PageContainer>
+  );
+};
+
+export default PluginAiGenerate;

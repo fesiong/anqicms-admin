@@ -66,7 +66,7 @@ const PluginImportApi: React.FC<any> = () => {
         <Alert
           message={
             <div>
-              <p>通过伪原创、AI写作等第三方平台产生的内容可以对接API导入本系统。</p>
+              <p>通过AI写作等第三方平台产生的内容可以对接API导入本系统。</p>
               <div>
                 <Space>
                   <span>我的Token：</span>
@@ -333,7 +333,7 @@ const PluginImportApi: React.FC<any> = () => {
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因\n    "data": {\n'
+                              '{\n    "code": 0,   //返回0表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因\n    "data": {\n'
                             }
 
                             {'      [\n'}

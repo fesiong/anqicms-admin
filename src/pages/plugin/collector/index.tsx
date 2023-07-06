@@ -213,7 +213,7 @@ const PluginCollector: React.FC = () => {
           search={false}
           toolBarRender={() => [
             <CollectorSetting onCancel={() => {}} key="setting">
-              <Button>采集和伪原创设置</Button>
+              <Button>采集和AI改写设置</Button>
             </CollectorSetting>,
             <Button
               key="keywords"

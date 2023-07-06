@@ -5,10 +5,11 @@ import ProForm, {
   ProFormRadio,
   ProFormSelect,
   ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-form';
 import './index.less';
-import { Input, message, Space, Tag, Image, Row, Col } from 'antd';
-import { getCollectorSetting, saveCollectorSetting } from '@/services/collector';
+import { Input, message, Space, Tag, Image, Row, Col, Alert } from 'antd';
+import { getAiGenerateSetting, saveAiGenerateSetting } from '@/services';
 import { getCategories } from '@/services/category';
 import AttachmentSelect from '@/components/attachment';
 import { PlusOutlined } from '@ant-design/icons';
@@ -24,31 +25,17 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     setting: {},
     tmpInput: {},
     insertImage: 0,
+    use_self_key: false,
   };
 
   componentDidMount() {
-    getCollectorSetting().then((res) => {
+    getAiGenerateSetting().then((res) => {
       const setting = res.data;
-      if (!setting.title_exclude) {
-        setting.title_exclude = [];
-      }
-      if (!setting.title_exclude_prefix) {
-        setting.title_exclude_prefix = [];
-      }
-      if (!setting.title_exclude_suffix) {
-        setting.title_exclude_suffix = [];
-      }
-      if (!setting.content_exclude_line) {
-        setting.content_exclude_line = [];
-      }
-      if (!setting.content_exclude) {
-        setting.content_exclude = [];
-      }
-      if (!setting.link_exclude) {
-        setting.link_exclude = [];
-      }
       if (!setting.content_replace) {
         setting.content_replace = [];
+      }
+      if (!setting.open_ai_keys) {
+        setting.open_ai_keys = [];
       }
       if (!setting.images) {
         setting.images = [];
@@ -57,6 +44,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         setting: setting,
         fetched: true,
         insertImage: setting.insert_image,
+        use_self_key: setting.use_self_key,
       });
     });
   }
@@ -69,10 +57,14 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
 
   handleSubmit = async (values: any) => {
     const { setting } = this.state;
+    if (values.demand.length > 500) {
+      message.error('统一要求不能超过500个字符');
+      return;
+    }
     const postData = Object.assign(setting, values);
 
     const hide = message.loading('正在提交中', 0);
-    saveCollectorSetting(postData)
+    saveAiGenerateSetting(postData)
       .then((res) => {
         message.info(res.msg);
         this.handleSetVisible(false);
@@ -121,6 +113,25 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         tmpInput['from'] = '';
         tmpInput['to'] = '';
       }
+    } else if (field == 'open_ai_keys') {
+      if (!tmpInput['key']) {
+        return;
+      }
+      let exists = false;
+      for (const item of setting[field]) {
+        if (item.key == tmpInput['key']) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        setting[field].push({
+          key: tmpInput['key'],
+          invalid: false,
+        });
+
+        tmpInput['key'] = '';
+      }
     } else {
       setting[field].push(tmpInput[field]);
       tmpInput[field] = '';
@@ -146,8 +157,14 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
+  handleChangeUseSelfKey = (e: any) => {
+    this.setState({
+      use_self_key: e.target.value,
+    });
+  };
+
   render() {
-    const { visible, fetched, setting, tmpInput, insertImage } = this.state;
+    const { visible, fetched, setting, tmpInput, insertImage, use_self_key } = this.state;
 
     return (
       <>
@@ -161,7 +178,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         {fetched && (
           <ModalForm
             width={800}
-            title={'采集和AI改写设置'}
+            title={'AI自动写作设置'}
             initialValues={setting}
             visible={visible}
             //layout="horizontal"
@@ -176,47 +193,88 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             }}
           >
             <ProFormRadio.Group
-              name="auto_collect"
-              label="是否自动采集"
+              name="open"
+              label="是否自动写作"
               options={[
                 { label: '否', value: false },
-                { label: '自动按计划采集', value: true },
+                { label: '自动按计划写作', value: true },
               ]}
             />
             <ProFormRadio.Group
               name="language"
-              label="采集文章语种"
+              label="写作文章语种"
               options={[
                 { label: '中文', value: 'zh' },
                 { label: '英文', value: 'en' },
               ]}
             />
+            <ProFormTextArea
+              name="demand"
+              label="写作统一要求"
+              fieldProps={{
+                maxLength: 500,
+              }}
+              extra="可以定义所有AI写作文章的统一要求，不超过200字符。 默认留空即可"
+            />
             <ProFormRadio.Group
-              name="collect_mode"
-              label="采集模式"
+              name="use_self_key"
+              label="AI写作来源"
               options={[
-                { label: '文章采集', value: 0 },
-                { label: '问答组合', value: 1 },
+                { label: '安企CMS官网', value: false },
+                { label: '自备OpenAIKey', value: true },
               ]}
-              extra={
-                <div>
-                  文章采集模式，会按原文采集整篇文章；问答组合模式，会从搜索问答列表中采集并组合成文章。
-                </div>
-              }
+              readonly={!setting.api_valid}
+              fieldProps={{
+                onChange: (e) => {
+                  this.handleChangeUseSelfKey(e);
+                },
+              }}
+              extra="声明：仅有使用安企CMS搭建的海外网站可选自备OpenAIKey"
             />
-            <ProFormText
-              name="from_website"
-              label="自定义来源"
-              placeholder="如：https://cn.bing.com/search?q=%s"
-              extra={
-                <div>
-                  文章采集可用，注意自定义来源格式必须是一个搜索列表，搜索的关键词用<Tag>%s</Tag>
-                  表示，如搜索链接是：<Tag>https://cn.bing.com/search?q=安企CMS</Tag>，则将
-                  <Tag>安企CMS</Tag>替换为<Tag>%s</Tag>后为：
-                  <Tag>https://cn.bing.com/search?q=%s</Tag>
-                </div>
-              }
-            />
+            {use_self_key && (
+              <ProFormText
+                label="OpenAI Keys"
+                extra={
+                  <div>
+                    <div className="text-muted">
+                      <div>
+                        <span className="text-red">*</span> OpenAI Key 一般以 <Tag>sk-</Tag>{' '}
+                        开头，可以添加多个key，程序会每次会随机选择一个key使用。
+                      </div>
+                    </div>
+                    <div className="tag-lists">
+                      <Space size={[12, 12]} wrap>
+                        {setting.open_ai_keys?.map((tag: any, index: number) => (
+                          <span className="edit-tag" key={index}>
+                            <span className="key">{tag.key}</span>
+                            <span className="divide">
+                              <span className="value">{tag.invalid ? '已失效' : '有效'}</span>
+                            </span>
+                            <span
+                              className="close"
+                              onClick={this.handleRemove.bind(this, 'open_ai_keys', index)}
+                            >
+                              ×
+                            </span>
+                          </span>
+                        ))}
+                      </Space>
+                    </div>
+                  </div>
+                }
+              >
+                <Input.Group compact>
+                  <Input
+                    value={tmpInput.key || ''}
+                    onChange={this.handleChangeTmpInput.bind(this, 'key')}
+                    onPressEnter={this.handleAddField.bind(this, 'open_ai_keys')}
+                    suffix={
+                      <a onClick={this.handleAddField.bind(this, 'open_ai_keys')}>按回车添加</a>
+                    }
+                  />
+                </Input.Group>
+              </ProFormText>
+            )}
             <ProFormSelect
               label="默认发布文章分类"
               name="category_id"
@@ -244,44 +302,23 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 { label: '正常发布', value: 1 },
               ]}
             />
-            <ProFormDigit
-              name="title_min_length"
-              label="标题最少字数"
-              placeholder="默认10个字"
-              extra="采集文章的时候，标题字数少于指定的字数，则不会采集"
-            />
-            <ProFormDigit
-              name="content_min_length"
-              label="内容最少字数"
-              placeholder="默认400个字"
-              extra="采集文章的时候，文章内容字数少于指定的字数，则不会采集"
-            />
-            <ProFormRadio.Group
-              name="auto_pseudo"
-              label="是否AI改写"
-              options={[
-                { label: '否', value: false },
-                { label: '进行AI改写', value: true },
-              ]}
-              extra="AI改写只支持文章采集和问答组合。需要付费。"
-            />
             <ProForm.Group>
               <ProFormDigit
                 name="start_hour"
                 label="每天开始时间"
-                placeholder="默认8点开始"
+                placeholder=""
                 extra="请填写0-23的数字，0表示不限"
               />
               <ProFormDigit
                 name="end_hour"
                 label="每天结束时间"
-                placeholder="默认22点结束"
+                placeholder=""
                 extra="请填写0-23的数字，0表示不限"
               />
               <ProFormDigit
                 name="daily_limit"
-                label="每日采集限额"
-                placeholder="默认1000"
+                label="每日发布限额"
+                placeholder=""
                 extra="每日最大发布文章量，0表示不限"
               />
             </ProForm.Group>
@@ -289,8 +326,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               name="insert_image"
               label="采集图片处理"
               options={[
-                { label: '移除图片', value: 0 },
-                { label: '保留原图片', value: 1 },
+                { label: '不处理', value: 0 },
                 { label: '自定义插入图片', value: 2 },
               ]}
               fieldProps={{
@@ -340,194 +376,6 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 </div>
               </ProFormText>
             )}
-            <ProFormText
-              label="标题排除词"
-              fieldProps={{
-                value: tmpInput.title_exclude || '',
-                onChange: this.handleChangeTmpInput.bind(this, 'title_exclude'),
-                onPressEnter: this.handleAddField.bind(this, 'title_exclude'),
-                suffix: <a onClick={this.handleAddField.bind(this, 'title_exclude')}>按回车添加</a>,
-              }}
-              extra={
-                <div>
-                  <div className="text-muted">采集文章的时候，标题出现这些关键词，则不会采集</div>
-                  <div className="tag-lists">
-                    <Space size={[12, 12]} wrap>
-                      {setting.title_exclude?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag}</span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'title_exclude', index)}
-                          >
-                            ×
-                          </span>
-                        </span>
-                      ))}
-                    </Space>
-                  </div>
-                </div>
-              }
-            />
-            <ProFormText
-              label="标题开头排除词"
-              fieldProps={{
-                value: tmpInput.title_exclude_prefix || '',
-                onChange: this.handleChangeTmpInput.bind(this, 'title_exclude_prefix'),
-                onPressEnter: this.handleAddField.bind(this, 'title_exclude_prefix'),
-                suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'title_exclude_prefix')}>按回车添加</a>
-                ),
-              }}
-              extra={
-                <div>
-                  <div className="text-muted">
-                    采集文章的时候，标题开头出现这些关键词，则不会采集
-                  </div>
-                  <div className="tag-lists">
-                    <Space size={[12, 12]} wrap>
-                      {setting.title_exclude_prefix?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag}</span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'title_exclude_prefix', index)}
-                          >
-                            ×
-                          </span>
-                        </span>
-                      ))}
-                    </Space>
-                  </div>
-                </div>
-              }
-            />
-            <ProFormText
-              label="标题结尾排除词"
-              fieldProps={{
-                value: tmpInput.title_exclude_suffix || '',
-                onChange: this.handleChangeTmpInput.bind(this, 'title_exclude_suffix'),
-                onPressEnter: this.handleAddField.bind(this, 'title_exclude_suffix'),
-                suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'title_exclude_suffix')}>按回车添加</a>
-                ),
-              }}
-              extra={
-                <div>
-                  <div className="text-muted">
-                    采集文章的时候，标题结尾出现这些关键词，则不会采集
-                  </div>
-                  <div className="tag-lists">
-                    <Space size={[12, 12]} wrap>
-                      {setting.title_exclude_suffix?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag}</span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'title_exclude_suffix', index)}
-                          >
-                            ×
-                          </span>
-                        </span>
-                      ))}
-                    </Space>
-                  </div>
-                </div>
-              }
-            />
-            <ProFormText
-              label="内容忽略行"
-              fieldProps={{
-                value: tmpInput.content_exclude_line || '',
-                onChange: this.handleChangeTmpInput.bind(this, 'content_exclude_line'),
-                onPressEnter: this.handleAddField.bind(this, 'content_exclude_line'),
-                suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'content_exclude_line')}>按回车添加</a>
-                ),
-              }}
-              extra={
-                <div>
-                  <div className="text-muted">
-                    采集文章的时候，内容出现这些词的那一行，将会被移除
-                  </div>
-                  <div className="tag-lists">
-                    <Space size={[12, 12]} wrap>
-                      {setting.content_exclude_line?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag}</span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'content_exclude_line', index)}
-                          >
-                            ×
-                          </span>
-                        </span>
-                      ))}
-                    </Space>
-                  </div>
-                </div>
-              }
-            />
-            <ProFormText
-              label="链接忽略"
-              fieldProps={{
-                value: tmpInput.link_exclude || '',
-                onChange: this.handleChangeTmpInput.bind(this, 'link_exclude'),
-                onPressEnter: this.handleAddField.bind(this, 'link_exclude'),
-                suffix: <a onClick={this.handleAddField.bind(this, 'link_exclude')}>按回车添加</a>,
-              }}
-              extra={
-                <div>
-                  <div className="text-muted">采集文章的时候，链接出现这些关键词的，则不会采集</div>
-                  <div className="tag-lists">
-                    <Space size={[12, 12]} wrap>
-                      {setting.link_exclude?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag}</span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'link_exclude', index)}
-                          >
-                            ×
-                          </span>
-                        </span>
-                      ))}
-                    </Space>
-                  </div>
-                </div>
-              }
-            />
-            <ProFormText
-              label="内容排除"
-              fieldProps={{
-                value: tmpInput.content_exclude || '',
-                onChange: this.handleChangeTmpInput.bind(this, 'content_exclude'),
-                onPressEnter: this.handleAddField.bind(this, 'content_exclude'),
-                suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'content_exclude')}>按回车添加</a>
-                ),
-              }}
-              extra={
-                <div>
-                  <div className="text-muted">采集文章的时候，内容出现这些词，则整篇文章都丢弃</div>
-                  <div className="tag-lists">
-                    <Space size={[12, 12]} wrap>
-                      {setting.content_exclude?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag}</span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'content_exclude', index)}
-                          >
-                            ×
-                          </span>
-                        </span>
-                      ))}
-                    </Space>
-                  </div>
-                </div>
-              }
-            />
             <ProFormText
               label="内容替换"
               extra={

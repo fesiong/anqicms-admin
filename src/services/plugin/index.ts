@@ -27,3 +27,5 @@ export * from './fulltext';
 export * from './replace';
 export * from './titleimage';
 export * from './htmlcache';
+export * from './aigenerate';
+export * from './timefactor';

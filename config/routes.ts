@@ -331,7 +331,7 @@
       {
         path: '/plugin/titleimage',
         name: '标题自动配图',
-        type: 'system',
+        type: 'content',
         component: '@/pages/plugin/titleimage/index',
         icon: 'titleimage',
       },
@@ -341,6 +341,20 @@
         type: 'system',
         component: '@/pages/plugin/htmlcache/index',
         icon: 'htmlcache',
+      },
+      {
+        path: '/plugin/aigenerate',
+        name: 'AI自动写作',
+        type: 'content',
+        component: '@/pages/plugin/aigenerate/index',
+        icon: 'ai',
+      },
+      {
+        path: '/plugin/timefactor',
+        name: '文档时间因子',
+        type: 'content',
+        component: '@/pages/plugin/timefactor/index',
+        icon: 'timefactor',
       },
       {
         component: './404',

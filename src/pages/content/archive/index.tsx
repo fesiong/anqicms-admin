@@ -12,7 +12,6 @@ import ReplaceKeywords from '@/components/replaceKeywords';
 import './index.less';
 import {
   anqiAiPseudoArchive,
-  anqiPseudoArchive,
   anqiTranslateArchive,
   deleteArchive,
   getArchives,
@@ -175,28 +174,6 @@ const ArchiveList: React.FC = (props) => {
       onOk: async () => {
         const hide = message.loading('正在翻译', 0);
         anqiTranslateArchive({
-          id: record.id,
-        })
-          .then((res) => {
-            if (res.code === 0) {
-              actionRef.current?.reloadAndRest?.();
-            }
-            message.info(res.msg);
-          })
-          .finally(() => {
-            hide();
-          });
-      },
-    });
-  };
-
-  const handlePseudoArchive = async (record: any) => {
-    Modal.confirm({
-      title: '确定要伪原创选中的文档吗？',
-      content: '需要使用文档伪原创服务，请先绑定安企账号。',
-      onOk: async () => {
-        const hide = message.loading('正在处理中', 0);
-        anqiPseudoArchive({
           id: record.id,
         })
           .then((res) => {
@@ -381,17 +358,6 @@ const ArchiveList: React.FC = (props) => {
           <Dropdown
             overlay={
               <Menu>
-                <Menu.Item>
-                  <a
-                    key="edit"
-                    onClick={() => {
-                      handlePseudoArchive(record);
-                    }}
-                    title="伪原创这篇文章"
-                  >
-                    伪原创
-                  </a>
-                </Menu.Item>
                 <Menu.Item>
                   <a
                     key="edit"

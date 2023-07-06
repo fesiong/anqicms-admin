@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Divider, message, Modal, Space } from 'antd';
-import { anqiAiGenerateStream, getAnqiInfo, getCollectCombineArticle } from '@/services';
+import {
+  anqiAiGenerateStream,
+  anqiAiGenerateStreamData,
+  getAnqiInfo,
+  getCollectCombineArticle,
+} from '@/services';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import './index.less';
 
@@ -10,6 +15,8 @@ export type AiGenerateProps = {
   visible: boolean;
   title: string;
 };
+
+let xhr: any = null;
 
 const AiGenerate: React.FC<AiGenerateProps> = (props) => {
   const [anqiUser, setAnqiUser] = useState<any>({});
@@ -27,7 +34,11 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
     getAnqiInfo().then((res) => {
       setAnqiUser(res.data || {});
     });
-    setAiTitle(props.title);
+    setAiTitle(props.title || '');
+
+    return () => {
+      clearInterval(xhr);
+    };
   }, []);
 
   const onChangeAiTitle = (e: any) => {
@@ -64,9 +75,9 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       title: aiTitle,
       demand: aiDemand,
     })
-      .then(async (res) => {
-        if (res.code !== 0) {
-          message.error(res.msg);
+      .then((res) => {
+        if (!res || res.code !== 0) {
+          message.error(res?.msg || '出错啦');
           return;
         }
         setAiTitle(res.data.title);
@@ -88,64 +99,57 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       return;
     }
     setLoading(true);
-    anqiAiGenerateStream(
-      {
-        keyword: aiTitle,
-        demand: aiDemand,
-      },
-      {
-        getResponse: true,
-        prefix: 'https://www.anqicms.com/auth',
-        responseType: 'stream',
-        headers: {
-          token: anqiUser.token,
-        },
-      },
-    )
+    anqiAiGenerateStream({
+      keyword: aiTitle,
+      demand: aiDemand,
+    })
       .then(async (res) => {
+        if (res.code !== 0) {
+          setLoading(false);
+          message.error(res.msg);
+          return;
+        }
         // 重置
         tmpContent = '';
-        const reader = res.body?.getReader();
-        if (reader) {
-          while (true) {
-            const decoder = new TextDecoder('utf-8');
-            let { done, value } = await reader.read();
-            const text = decoder.decode(value, { stream: true });
-            console.log(text);
-            const texts = text.trim().split('\n');
-            for (let i in texts) {
-              try {
-                let data = JSON.parse(texts[i]);
-                if (data.code != 0) {
-                  message.error(data.msg);
-                }
-                if (data && data.data) {
-                  if (!tmpContent) {
-                    tmpContent += '<p>';
-                  }
-                  tmpContent += data.data.replace(/\n+/g, '</p>\n<p>');
-                  setAiContent(tmpContent);
-                }
-                if (data.msg == 'finished') {
-                  done = true;
-                  break;
-                }
-              } catch (e) {}
-            }
-            if (done) {
-              if (tmpContent) {
-                tmpContent += '</p>';
-                setAiFinished(true);
-              }
-              break;
-            }
-          }
-        }
+        let streamId = res.data;
+        xhr = setInterval(() => {
+          getStreamData(streamId);
+        }, 1000);
       })
       .catch(() => {})
-      .finally(() => {
+      .finally(() => {});
+  };
+
+  const getStreamData = (streamId: string) => {
+    anqiAiGenerateStreamData({
+      stream_id: streamId,
+    }).then((res) => {
+      if (res.code != 0) {
         setLoading(false);
-      });
+        clearInterval(xhr);
+        Modal.error({
+          title: res.msg,
+        });
+        return;
+      }
+      setAiFinished(true);
+      if (res.data) {
+        if (!tmpContent) {
+          tmpContent += '<p>';
+        }
+        tmpContent += res.data.replace(/\n+/g, '</p>\n<p>');
+        setAiContent(tmpContent);
+      }
+
+      if (res.msg == 'finished') {
+        if (tmpContent) {
+          tmpContent += '</p>';
+          setAiContent(tmpContent);
+        }
+        setLoading(false);
+        clearInterval(xhr);
+      }
+    });
   };
 
   return (

@@ -64,14 +64,6 @@ export async function anqiRestart(body: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function anqiPseudoArchive(body: any, options?: { [key: string]: any }) {
-  return post({
-    url: '/anqi/pseudo',
-    body,
-    options,
-  });
-}
-
 export async function anqiTranslateArchive(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/anqi/translate',
@@ -90,8 +82,16 @@ export async function anqiAiPseudoArchive(body: any, options?: { [key: string]: 
 
 export async function anqiAiGenerateStream(body: any, options?: { [key: string]: any }) {
   return post({
-    url: '/ai/stream',
+    url: '/anqi/ai/stream',
     body,
+    options,
+  });
+}
+
+export async function anqiAiGenerateStreamData(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/anqi/ai/stream/data',
+    params,
     options,
   });
 }

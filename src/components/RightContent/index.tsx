@@ -231,12 +231,8 @@ const GlobalHeaderRight: React.FC = () => {
                 <div>{moment(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}</div>
               </div>
               <div className="item">
-                <label>伪原创剩余额度：</label>
-                <div>{anqiUser.pseudo_remain} 篇/天</div>
-              </div>
-              <div className="item">
-                <label>翻译剩余额度：</label>
-                <div>{anqiUser.free_trans_remain} 字/天</div>
+                <label>AI写作剩余额度：</label>
+                <div>{anqiUser.ai_remain} 篇/天</div>
               </div>
               <div className="item">
                 <label>翻译资源包余量：</label>
@@ -263,7 +259,7 @@ const GlobalHeaderRight: React.FC = () => {
                   <div className="info">
                     <ul>
                       <li>
-                        最多管理2个站点<span className="optional">*</span>
+                        有效期不限制<span className="optional">*</span>
                       </li>
                       <li>
                         最多2个/1万关键词导出任务<span className="optional">*</span>
@@ -283,9 +279,6 @@ const GlobalHeaderRight: React.FC = () => {
                       <li>
                         累计10万字数文章翻译
                         <div className="extra">可额外购买 10 积分1000字</div>
-                      </li>
-                      <li>
-                        累计伪原创额度 100 篇<div className="extra">超出数量 5 积分一篇</div>
                       </li>
                       <li>
                         累计AI写作额度 10 篇<div className="extra">超出数量 10 积分一篇</div>
@@ -320,10 +313,6 @@ const GlobalHeaderRight: React.FC = () => {
                       <li>
                         每天10万字数文章翻译
                         <div className="extra">可额外购买 10 积分1000字</div>
-                      </li>
-                      <li>
-                        每天100篇文章伪原创
-                        <div className="extra">超出数量 5 积分一篇</div>
                       </li>
                       <li>
                         每天AI写作额度 100 篇<div className="extra">超出数量 10 积分一篇</div>

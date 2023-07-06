@@ -82,6 +82,12 @@ const SettingSafeFrom: React.FC<any> = (props) => {
               extra="一行一个，提交的留言、评论内容包含有这些词的将会被拒绝。"
             />
             <ProFormTextArea
+              name="ua_forbidden"
+              label="限制UserAgent"
+              width="lg"
+              extra="一行一个，使用这些UserAgent访问的链接将会被拒绝。"
+            />
+            <ProFormTextArea
               name="ip_forbidden"
               label="限制IP地址"
               width="lg"
@@ -91,12 +97,6 @@ const SettingSafeFrom: React.FC<any> = (props) => {
                   192.168.0.1，某个IP段: 192.168.0.0/16
                 </div>
               }
-            />
-            <ProFormTextArea
-              name="ua_forbidden"
-              label="限制UserAgent"
-              width="lg"
-              extra="一行一个，使用这些UserAgent访问的链接将会被拒绝。"
             />
             <ProFormRadio.Group
               name="api_open"
