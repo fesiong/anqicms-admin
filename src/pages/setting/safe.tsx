@@ -18,6 +18,7 @@ const SettingSafeFrom: React.FC<any> = (props) => {
 
   const onSubmit = async (values: any) => {
     values.captcha = Number(values.captcha);
+    values.admin_captcha_off = Number(values.admin_captcha_off);
     values.daily_limit = Number(values.daily_limit);
     values.content_limit = Number(values.content_limit);
     values.interval_limit = Number(values.interval_limit);
@@ -39,6 +40,21 @@ const SettingSafeFrom: React.FC<any> = (props) => {
       <Card>
         {setting && (
           <ProForm initialValues={setting} onFinish={onSubmit} title="内容安全设置">
+            <ProFormRadio.Group
+              name="admin_captcha_off"
+              label="后台访问验证码"
+              options={[
+                {
+                  value: 0,
+                  label: '开启',
+                },
+                {
+                  value: 1,
+                  label: '关闭',
+                },
+              ]}
+              extra="为了你的网站安全，建议开启后台验证码"
+            />
             <ProFormRadio.Group
               name="captcha"
               label="留言评论验证码"

@@ -68,7 +68,9 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: any) => {
     try {
       // 登录
-      values.captcha_id = captcha.captcha_id;
+      if (!captcha.captcha_off) {
+        values.captcha_id = captcha.captcha_id;
+      }
       const res = await login({ ...values, type });
       if (res.code === 0) {
         const defaultLoginSuccessMessage = '登录成功！';
@@ -215,15 +217,21 @@ const Login: React.FC = () => {
               },
             ]}
           />
-          <ProFormText
-            name="captcha"
-            fieldProps={{
-              size: 'large',
-              addonAfter: (
-                <img className={styles.captcha} onClick={handleGetCaptcha} src={captcha.captcha} />
-              ),
-            }}
-          ></ProFormText>
+          {!captcha.captcha_off && (
+            <ProFormText
+              name="captcha"
+              fieldProps={{
+                size: 'large',
+                addonAfter: (
+                  <img
+                    className={styles.captcha}
+                    onClick={handleGetCaptcha}
+                    src={captcha.captcha}
+                  />
+                ),
+              }}
+            ></ProFormText>
+          )}
 
           <div
             style={{

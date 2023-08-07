@@ -6,6 +6,7 @@ import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 import type { MenuInfo } from 'rc-menu/lib/interface';
+import { removeStore } from '@/utils/store';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -17,6 +18,7 @@ export type GlobalHeaderRightProps = {
 const loginOut = async () => {
   const { query = {}, search, pathname } = history.location;
   const { redirect } = query;
+  removeStore('adminToken');
   // Note: There may be security issues, please note
   if (window.location.pathname !== '/login' && !redirect) {
     history.replace({
