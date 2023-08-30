@@ -11,7 +11,7 @@ import {
 } from '@/services/plugin/keyword';
 import { exportFile } from '@/utils';
 import KeywordImport from './components/import';
-import { collectCollectorArticle, digCollectorKeyword } from '@/services/collector';
+import { collectCollectorArticle, digCollectorKeyword, collectAiGenerateArticle } from '@/services';
 import KeywordForm from './components/keywordForm';
 import KeywordSetting from './components/setting';
 
@@ -65,21 +65,50 @@ const PluginKeyword: React.FC = () => {
   };
 
   const handleCollectArticle = (keyword: any) => {
-    const hide = message.loading('正在采集中', 0);
-    collectCollectorArticle(keyword)
-      .then((res) => {
-        if (res.code !== 0) {
-          message.error(res.msg);
-        } else {
-          if (actionRef.current) {
-            actionRef.current.reload();
-          }
-          message.info(res.msg);
-        }
-      })
-      .finally(() => {
-        hide();
-      });
+    Modal.confirm({
+      title: '确定要对这个关键词执行采集操作吗？',
+      onOk: async () => {
+        const hide = message.loading('正在采集中', 0);
+        collectCollectorArticle(keyword)
+          .then((res) => {
+            if (res.code !== 0) {
+              message.error(res.msg);
+            } else {
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+              message.info(res.msg);
+            }
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
+  const handleAiGenerateArticle = (keyword: any) => {
+    Modal.confirm({
+      title: '确定要对这个关键词执行AI写作操作吗？',
+      content: 'AI自动写作需要付费，请确保已绑定安企账号。',
+      onOk: async () => {
+        const hide = message.loading('正在生成中', 0);
+        collectAiGenerateArticle(keyword)
+          .then((res) => {
+            if (res.code !== 0) {
+              message.error(res.msg);
+            } else {
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+              message.info(res.msg);
+            }
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
   };
 
   const columns: ProColumns<any>[] = [
@@ -115,7 +144,15 @@ const PluginKeyword: React.FC = () => {
               handleCollectArticle(record);
             }}
           >
-            手动采集/生成文章
+            手动采集
+          </a>
+          <a
+            key="collect"
+            onClick={() => {
+              handleAiGenerateArticle(record);
+            }}
+          >
+            AI写作
           </a>
           <a
             key="edit"

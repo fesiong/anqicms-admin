@@ -31,3 +31,19 @@ export async function startAiGenerateArticle(body?: any, options?: { [key: strin
     options,
   });
 }
+
+export async function checkOpenAIApi(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/aigenerate/checkapi',
+    params,
+    options,
+  });
+}
+
+export async function getAiArticlePlans(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/aigenerate/plans',
+    params,
+    options,
+  });
+}

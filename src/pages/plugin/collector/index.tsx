@@ -1,17 +1,11 @@
 import { Alert, Button, Card, message, Modal, Space } from 'antd';
 import React, { useRef, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { history, Link } from 'umi';
+import { history } from 'umi';
 import CollectorSetting from './components/setting';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import ReplaceKeywords from '@/components/replaceKeywords';
-import {
-  deleteArchive,
-  releaseArchive,
-  getArchives,
-  collectCollectorArticle,
-  startCollectorArticle,
-} from '@/services';
+import { deleteArchive, releaseArchive, getArchives, startCollectorArticle } from '@/services';
 import moment from 'moment';
 
 const PluginCollector: React.FC = () => {

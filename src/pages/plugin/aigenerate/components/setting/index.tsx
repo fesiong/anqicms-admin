@@ -8,8 +8,8 @@ import ProForm, {
   ProFormTextArea,
 } from '@ant-design/pro-form';
 import './index.less';
-import { Input, message, Space, Tag, Image, Row, Col, Alert } from 'antd';
-import { getAiGenerateSetting, saveAiGenerateSetting } from '@/services';
+import { Input, message, Space, Tag, Image, Row, Col } from 'antd';
+import { getAiGenerateSetting, saveAiGenerateSetting, checkOpenAIApi } from '@/services';
 import { getCategories } from '@/services/category';
 import AttachmentSelect from '@/components/attachment';
 import { PlusOutlined } from '@ant-design/icons';
@@ -163,6 +163,27 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
+  handleCheckOpenAIApi = () => {
+    const { setting } = this.state;
+    const hide = message.loading('正在检查中', 0);
+    checkOpenAIApi()
+      .then((res) => {
+        if (res.code == 0) {
+          message.success(res.msg);
+          setting.api_valid = true;
+        } else {
+          message.error(res.msg);
+          setting.api_valid = false;
+        }
+        this.setState({
+          setting,
+        });
+      })
+      .finally(() => {
+        hide();
+      });
+  };
+
   render() {
     const { visible, fetched, setting, tmpInput, insertImage, use_self_key } = this.state;
 
@@ -229,7 +250,18 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   this.handleChangeUseSelfKey(e);
                 },
               }}
-              extra="声明：仅有使用安企CMS搭建的海外网站可选自备OpenAIKey"
+              extra={
+                <div>
+                  <span>声明：仅有使用安企CMS搭建的海外网站可选自备OpenAIKey</span>
+                  <Tag
+                    style={{ marginLeft: 10 }}
+                    className="link"
+                    onClick={this.handleCheckOpenAIApi}
+                  >
+                    检查OpenAI接口
+                  </Tag>
+                </div>
+              }
             />
             {use_self_key && (
               <ProFormText

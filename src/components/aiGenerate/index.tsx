@@ -100,7 +100,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
     }
     setLoading(true);
     anqiAiGenerateStream({
-      keyword: aiTitle,
+      title: aiTitle,
       demand: aiDemand,
     })
       .then(async (res) => {
