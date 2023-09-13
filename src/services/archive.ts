@@ -87,3 +87,19 @@ export async function updateArchivesCategory(body: any, options?: { [key: string
     options,
   });
 }
+
+export async function updateArchivesSort(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/archive/sort',
+    body,
+    options,
+  });
+}
+
+export async function updateArchivesReleasePlan(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/archive/plan',
+    body,
+    options,
+  });
+}

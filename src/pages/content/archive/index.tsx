@@ -1,10 +1,16 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, message, Modal, Space, Tag } from 'antd';
+import { Alert, Button, Dropdown, Input, Menu, message, Modal, Select, Space, Tag } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormCheckbox, ProFormRadio, ProFormSelect } from '@ant-design/pro-form';
+import {
+  ModalForm,
+  ProFormCheckbox,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-form';
 import { getCategories } from '@/services/category';
 import moment from 'moment';
 import { history } from 'umi';
@@ -16,13 +22,16 @@ import {
   deleteArchive,
   getArchives,
   getModules,
+  getSettingContent,
   updateArchivesCategory,
   updateArchivesFlag,
+  updateArchivesReleasePlan,
+  updateArchivesSort,
   updateArchivesStatus,
   updateArchivesTime,
 } from '@/services';
 
-const flagEnum = {
+const flagEnum: any = {
   h: '头条[h]',
   c: '推荐[c]',
   f: '幻灯[f]',
@@ -33,6 +42,9 @@ const flagEnum = {
   j: '跳转[j]',
 };
 
+let toLanguage = '';
+let updating = false;
+
 const ArchiveList: React.FC = (props) => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
@@ -41,13 +53,22 @@ const ArchiveList: React.FC = (props) => {
   const [statusVisible, setStatusVisible] = useState<boolean>(false);
   const [categoryVisible, setCategoryVisible] = useState<boolean>(false);
   const [timeVisible, setTimeVisible] = useState<boolean>(false);
+  const [releaseVisible, setReleaseVisible] = useState<boolean>(false);
   const [modules, setModules] = useState<any[]>([]);
   const [moduleId, setModuleId] = useState<Number>(0);
+  const [contentSetting, setContentSetting] = useState<any>({});
 
   useEffect(() => {
     setModuleId(Number(history.location.query?.module_id || 0));
     loadModules();
+    loadContentSetting();
   }, []);
+
+  const loadContentSetting = () => {
+    getSettingContent().then((res) => {
+      setContentSetting(res.data || {});
+    });
+  };
 
   const loadModules = async () => {
     let res = await getModules({});
@@ -139,13 +160,29 @@ const ArchiveList: React.FC = (props) => {
   };
 
   const handleSetCategory = async (values: any) => {
-    if (values.category_id == 0) {
+    let categoryIds = [];
+    let categoryId = 0;
+    if (typeof values.category_ids == 'number') {
+      // 单分类
+      categoryId = Number(values.category_ids);
+    } else {
+      for (let i in values.category_ids) {
+        if (values.category_ids[i] > 0) {
+          categoryIds.push(values.category_ids[i]);
+        }
+      }
+      if (categoryIds.length > 0) {
+        categoryId = categoryIds[0];
+      }
+    }
+    if (categoryId == 0) {
       message.error('请选择分类');
       return;
     }
     const hide = message.loading('正在处理', 0);
     updateArchivesCategory({
-      category_id: Number(values.category_id),
+      category_id: categoryId,
+      category_ids: categoryIds,
       ids: selectedRowKeys,
     })
       .then((res) => {
@@ -170,11 +207,50 @@ const ArchiveList: React.FC = (props) => {
   const handleTranslateArchive = async (record: any) => {
     Modal.confirm({
       title: '确定要翻译选中的文档吗？',
-      content: '需要使用文档翻译服务，请先绑定安企账号。',
+      content: (
+        <div>
+          <Alert className="mb-normal" message="需要使用文档翻译服务，请先绑定安企账号。"></Alert>
+          <div className="">请选择翻译目标语言</div>
+          <Select
+            style={{ width: '100%' }}
+            onChange={(e) => {
+              toLanguage = e;
+            }}
+            options={[
+              { label: '请选择', value: '', disabled: true },
+              { label: '英语', value: 'en' },
+              { label: '简体中文', value: 'zh-CN' },
+              { label: '繁体中文', value: 'zh-TW' },
+              { label: '越南语', value: 'vi' },
+              { label: '印尼语', value: 'id' },
+              { label: '印地语', value: 'hi' },
+              { label: '意大利语', value: 'it' },
+              { label: '希腊语', value: 'el' },
+              { label: '西班牙语', value: 'es' },
+              { label: '葡萄牙语', value: 'pt' },
+              { label: '塞尔维亚语', value: 'sr' },
+              { label: '缅甸语', value: 'my' },
+              { label: '孟加拉语', value: 'bn' },
+              { label: '泰语', value: 'th' },
+              { label: '土耳其语', value: 'tr' },
+              { label: '日语', value: 'ja' },
+              { label: '老挝语', value: 'lo' },
+              { label: '韩语', value: 'ko' },
+              { label: '俄语', value: 'ru' },
+              { label: '法语', value: 'fr' },
+              { label: '德语', value: 'de' },
+              { label: '波斯语', value: 'fa' },
+              { label: '阿拉伯语', value: 'ar' },
+              { label: '马来语', value: 'ms' },
+            ]}
+          />
+        </div>
+      ),
       onOk: async () => {
         const hide = message.loading('正在翻译', 0);
         anqiTranslateArchive({
           id: record.id,
+          to_language: toLanguage,
         })
           .then((res) => {
             if (res.code === 0) {
@@ -222,11 +298,90 @@ const ArchiveList: React.FC = (props) => {
     );
   };
 
+  const updateSort = (index: number, record: any, value: any) => {
+    if (updating) {
+      return;
+    }
+    value = parseInt(value);
+    console.log(value);
+    if (isNaN(value)) {
+      message.error('请填写大于0的数字');
+      return;
+    }
+    if (value == record.sort) {
+      return;
+    }
+    if (value < 0) {
+      message.error('请填写大于0的数字');
+      return;
+    }
+    updating = true;
+    updateArchivesSort({
+      sort: value,
+      id: record.id,
+    })
+      .then((res) => {
+        message.success(res.msg);
+        actionRef.current?.reload?.();
+      })
+      .finally(() => {
+        updating = false;
+      });
+  };
+
+  const handleSetReleasePlan = async (values: any) => {
+    if (updating) {
+      return;
+    }
+    updating = true;
+    const hide = message.loading('正在处理', 0);
+    updateArchivesReleasePlan({
+      daily_limit: Number(values.daily_limit),
+      start_hour: Number(values.start_hour),
+      end_hour: Number(values.end_hour),
+      ids: selectedRowKeys,
+    })
+      .then((res) => {
+        message.success(res.msg);
+        setReleaseVisible(false);
+        setSelectedRowKeys([]);
+        actionRef.current?.reloadAndRest?.();
+      })
+      .finally(() => {
+        hide();
+        updating = false;
+      });
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: '编号',
       dataIndex: 'id',
       hideInSearch: true,
+      sorter: true,
+    },
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      hideInSearch: true,
+      sorter: true,
+      tooltip: '数值越大，越靠前',
+      width: 90,
+      render: (_, entity, index) => {
+        return (
+          <div>
+            <Input
+              onBlur={(e) => {
+                updateSort(index, entity, e.target.value);
+              }}
+              onPressEnter={(e) => {
+                updateSort(index, entity, e.target.value);
+              }}
+              defaultValue={entity.sort}
+            ></Input>
+          </div>
+        );
+      },
     },
     {
       title: '标题',
@@ -254,15 +409,21 @@ const ArchiveList: React.FC = (props) => {
       title: '内容模型',
       dataIndex: 'module_id',
       hideInSearch: true,
-      render: (dom: any, entity) => {
+      render: (_: any, entity) => {
         return entity.module_name;
       },
     },
     {
       title: '所属分类',
-      dataIndex: 'category_id',
-      render: (dom: any, entity) => {
-        return entity.category?.title;
+      dataIndex: 'category_titles',
+      render: (_: any, entity) => {
+        return (
+          <div>
+            {entity.category_titles?.map((item: string) => (
+              <div>{item}</div>
+            ))}
+          </div>
+        );
       },
       renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
         return (
@@ -287,9 +448,10 @@ const ArchiveList: React.FC = (props) => {
       },
     },
     {
-      title: '浏览量',
+      title: '浏览',
       dataIndex: 'views',
       hideInSearch: true,
+      sorter: true,
     },
     {
       title: '状态',
@@ -476,7 +638,7 @@ const ArchiveList: React.FC = (props) => {
                 await setFlagVisible(true);
               }}
             >
-              批量推荐
+              批量更改Flag
             </Button>
             <Button
               size={'small'}
@@ -505,6 +667,14 @@ const ArchiveList: React.FC = (props) => {
             <Button
               size={'small'}
               onClick={async () => {
+                await setReleaseVisible(true);
+              }}
+            >
+              批量定时发布
+            </Button>
+            <Button
+              size={'small'}
+              onClick={async () => {
                 await handleRemove(selectedRowKeys);
               }}
             >
@@ -517,16 +687,21 @@ const ArchiveList: React.FC = (props) => {
         )}
         request={(params, sort) => {
           let categoryId = history.location.query?.category_id || 0;
-          if (categoryId > 0) {
+          if (Number(categoryId) > 0) {
             params = Object.assign({ category_id: categoryId }, params);
           }
-          if (moduleId > 0) {
+          if (Number(moduleId) > 0) {
             params = Object.assign({ module_id: moduleId }, params);
+          }
+          for (let i in sort) {
+            params.sort = i;
+            params.order = sort[i] == 'ascend' ? 'asc' : 'desc';
           }
           return getArchives(params);
         }}
         columns={columns}
         rowSelection={{
+          preserveSelectedRowKeys: true,
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
@@ -607,12 +782,13 @@ const ArchiveList: React.FC = (props) => {
           onVisibleChange={(e) => setCategoryVisible(e)}
         >
           <ProFormSelect
-            name="category_id"
+            name="category_ids"
             request={async () => {
               let res = await getCategories({ type: 1 });
               return [{ spacer: '', title: '请选择', id: 0 }].concat(res.data || []);
             }}
             fieldProps={{
+              mode: contentSetting.multi_category == 1 ? 'multiple' : '',
               fieldNames: {
                 label: 'title',
                 value: 'id',
@@ -621,6 +797,47 @@ const ArchiveList: React.FC = (props) => {
                 return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
               },
             }}
+          />
+        </ModalForm>
+      )}
+      {releaseVisible && (
+        <ModalForm
+          width={480}
+          title="定时发布任务"
+          visible={releaseVisible}
+          onFinish={handleSetReleasePlan}
+          onVisibleChange={(e) => setReleaseVisible(e)}
+        >
+          <Alert
+            className="mb-normal"
+            message={
+              <div>
+                <div>只有草稿箱的文档会被定时发布，选择正常文章不会发生改变</div>
+                <div>
+                  你选择了 <span className="text-red">{selectedRowKeys.length}</span> 篇文档
+                </div>
+              </div>
+            }
+          ></Alert>
+          <ProFormText
+            name="daily_limit"
+            label="每天数量"
+            placeholder="填整数，不填则当天发完"
+            addonAfter="篇"
+          />
+          <ProFormText
+            name="start_hour"
+            initialValue={8}
+            label="每天开始时间"
+            placeholder="默认8点"
+            addonAfter="时"
+          />
+          <ProFormText
+            name="end_hour"
+            initialValue={20}
+            label="每天结束时间"
+            placeholder="默认20点"
+            addonAfter="时"
           />
         </ModalForm>
       )}

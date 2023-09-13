@@ -28,6 +28,7 @@ import {
   pluginGetUserGroups,
   getDesignTemplateFiles,
   deleteArchiveImage,
+  getSettingContent,
 } from '@/services';
 import AiGenerate from '@/components/aiGenerate';
 const { Panel } = Collapse;
@@ -39,6 +40,7 @@ export default class ArchiveForm extends React.Component {
     content: '',
     modules: [],
     module: { fields: [] },
+    contentSetting: {},
 
     keywordsVisible: false,
     searchedTags: [],
@@ -99,6 +101,11 @@ export default class ArchiveForm extends React.Component {
       // 先默认是文章
       this.getModule(Number(moduleId));
     }
+    getSettingContent().then((res) => {
+      this.setState({
+        contentSetting: res.data || {},
+      });
+    });
 
     window.addEventListener('beforeunload', this.beforeunload);
   };
@@ -180,8 +187,20 @@ export default class ArchiveForm extends React.Component {
   };
 
   onChangeSelectCategory = (e: any) => {
-    setStore('last_category_id', e);
-    this.getArchiveCategory(e);
+    let categoryId = 0;
+    if (typeof e == 'number') {
+      // 单分类
+      categoryId = Number(e);
+    } else {
+      for (let i in e) {
+        if (e[i] > 0) {
+          categoryId = e[i];
+          break;
+        }
+      }
+    }
+    setStore('last_category_id', categoryId);
+    this.getArchiveCategory(categoryId);
   };
 
   getModule = async (moduleId: number) => {
@@ -291,10 +310,27 @@ export default class ArchiveForm extends React.Component {
     postData.price = Number(values.price);
     postData.stock = Number(values.stock);
     // 必须选择分类
-    if (!postData.category_id || postData.category_id == 0) {
+    let categoryIds = [];
+    let categoryId = 0;
+    if (typeof values.category_ids == 'number') {
+      // 单分类
+      categoryId = Number(values.category_ids);
+    } else {
+      for (let i in values.category_ids) {
+        if (values.category_ids[i] > 0) {
+          categoryIds.push(values.category_ids[i]);
+        }
+      }
+      if (categoryIds.length > 0) {
+        categoryId = categoryIds[0];
+      }
+    }
+    if (categoryId == 0) {
       message.error('请选择文档分类');
       return;
     }
+    postData.category_id = categoryId;
+    postData.category_ids = categoryIds;
     const hide = message.loading('正在提交中', 0);
     postData.content = content;
     if (typeof postData.flag === 'object') {
@@ -339,7 +375,7 @@ export default class ArchiveForm extends React.Component {
   };
 
   handleUploadExtraField = (field: string, row: any) => {
-    const extra = {};
+    const extra: any = {};
     extra[field] = { value: row.logo };
     this.formRef?.current?.setFieldsValue({ extra });
     const { archive } = this.state;
@@ -388,8 +424,17 @@ export default class ArchiveForm extends React.Component {
   };
 
   render() {
-    const { archive, content, module, fetched, keywordsVisible, searchedTags, aiTitle, aiVisible } =
-      this.state;
+    const {
+      archive,
+      content,
+      module,
+      fetched,
+      keywordsVisible,
+      searchedTags,
+      aiTitle,
+      aiVisible,
+      contentSetting,
+    } = this.state;
     return (
       <PageContainer title={(archive.id > 0 ? '修改' : '添加') + '文档'}>
         <Card onKeyDown={this.handleKeyDown}>
@@ -741,8 +786,9 @@ export default class ArchiveForm extends React.Component {
                     <ProFormSelect
                       //label="所属分类"
                       showSearch
-                      name="category_id"
+                      name="category_ids"
                       width="lg"
+                      mode={contentSetting.multi_category == 1 ? 'multiple' : ''}
                       request={async () => {
                         const res = await getCategories({ type: 1 });
                         const categories = res.data || [];

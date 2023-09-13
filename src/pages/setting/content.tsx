@@ -142,6 +142,21 @@ const SettingContactFrom: React.FC<any> = (props) => {
               extra="默认是标题的全拼音，如果选择首字母的话，则会只取每个字的第一个字母（英文则是每个单词的第一个字母）"
             />
             <ProFormRadio.Group
+              name="multi_category"
+              label="文档多分类支持"
+              options={[
+                {
+                  value: 0,
+                  label: '不启用',
+                },
+                {
+                  value: 1,
+                  label: '启用',
+                },
+              ]}
+              extra="默认不启用多分类支持，启用多分类可能会导致网站加载变慢"
+            />
+            <ProFormRadio.Group
               name="use_webp"
               label="启用Webp图片格式"
               options={[

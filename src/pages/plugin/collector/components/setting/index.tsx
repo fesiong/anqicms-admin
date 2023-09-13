@@ -265,6 +265,46 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               ]}
               extra="AI改写只支持文章采集和问答组合。需要付费。"
             />
+            <ProFormRadio.Group
+              name="auto_translate"
+              label="是否翻译"
+              options={[
+                { label: '否', value: false },
+                { label: '进行翻译', value: true },
+              ]}
+              extra="翻译需要付费。注意：AI改写和翻译不能同时启用，否则结果会出错"
+            />
+            <ProFormSelect
+              label="翻译目标语言"
+              name="to_language"
+              extra="选择自动翻译后有效"
+              valueEnum={{
+                en: '英语',
+                'zh-CN': '简体中文',
+                'zh-TW': '繁体中文',
+                vi: '越南语',
+                id: '印尼语',
+                hi: '印地语',
+                it: '意大利语',
+                el: '希腊语',
+                es: '西班牙语',
+                pt: '葡萄牙语',
+                sr: '塞尔维亚语',
+                my: '缅甸语',
+                bn: '孟加拉语',
+                th: '泰语',
+                tr: '土耳其语',
+                ja: '日语',
+                lo: '老挝语',
+                ko: '韩语',
+                ru: '俄语',
+                fr: '法语',
+                de: '德语',
+                fa: '波斯语',
+                ar: '阿拉伯语',
+                ms: '马来语',
+              }}
+            />
             <ProForm.Group>
               <ProFormDigit
                 name="start_hour"
