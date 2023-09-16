@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, message, Modal, Image, Avatar, Upload, Select, Space } from 'antd';
+import { Button, message, Modal, Image, Avatar, Upload, Select, Space, Input } from 'antd';
 import { ActionType } from '@ant-design/pro-table';
 import ProList from '@ant-design/pro-list';
 import { getAttachmentCategories, getAttachments, uploadAttachment } from '@/services/attachment';
@@ -17,6 +17,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
+  const [keyword, setKeyword] = useState<string>('');
 
   useEffect(() => {
     getAttachmentCategories().then((res) => {
@@ -50,6 +51,11 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
 
   const visibleControl = (flag: boolean) => {
     props.manual ? (props.onCancel ? props.onCancel(flag) : null) : setVisible(flag);
+  };
+
+  const handleSearch = (kw: any) => {
+    setKeyword(kw);
+    actionRef.current?.reload();
   };
 
   return (
@@ -90,6 +96,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
               >
                 <Button type="primary">上传新文件</Button>
               </Upload>
+              <Input.Search placeholder="输入文件名关键词搜索" onSearch={handleSearch} />
             </Space>
           </div>
         }
@@ -107,6 +114,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
           rowKey="id"
           request={(params) => {
             params.category_id = categoryId;
+            params.q = keyword;
             return getAttachments(params);
           }}
           grid={{ gutter: 16, column: 6 }}
@@ -140,6 +148,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
                           </Avatar>
                         </a>
                       )}
+                      <div className="info name">{row.file_name}</div>
                       <div
                         className="info link"
                         onClick={() => {
