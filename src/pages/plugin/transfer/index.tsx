@@ -204,7 +204,11 @@ const PluginTransfer: React.FC = () => {
                 <Alert message="每个网站只能配置一个Token，如果你提示错误了，请手动删除网站根目录下的 anqicms.config.php 才能再次配置。" />
                 <div style={{ marginTop: '30px' }}>
                   <ProForm formRef={formRef} initialValues={task} submitter={false}>
-                    <ProFormText name="base_url" label="网站地址" />
+                    <ProFormText
+                      name="base_url"
+                      label="网站地址"
+                      placeholder={'http或https开头的网址'}
+                    />
                     <ProFormText name="token" label="通信token" placeholder={'可以是任意字符'} />
                   </ProForm>
                 </div>

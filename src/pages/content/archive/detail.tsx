@@ -61,6 +61,10 @@ export default class ArchiveForm extends React.Component {
     this.setState({
       modules: res.data || [],
     });
+    const setting = await getSettingContent();
+    this.setState({
+      contentSetting: setting.data || {},
+    });
 
     const moduleId = history.location.query?.module_id || 1;
     let categoryId = history.location.query?.category_id || 0;
@@ -83,8 +87,15 @@ export default class ArchiveForm extends React.Component {
         if (archive) {
           console.log('load store');
           categoryId = archive.category_id;
+          if (archive.category_ids?.length > 0) {
+            categoryId = archive.category_ids[0];
+          }
           this.setState({
             archive,
+          });
+        } else {
+          this.setState({
+            archive: { extra: {}, content: '', flag: [], category_ids: [categoryId] },
           });
         }
         this.defaultContent = archive?.content || '';
@@ -101,11 +112,6 @@ export default class ArchiveForm extends React.Component {
       // 先默认是文章
       this.getModule(Number(moduleId));
     }
-    getSettingContent().then((res) => {
-      this.setState({
-        contentSetting: res.data || {},
-      });
-    });
 
     window.addEventListener('beforeunload', this.beforeunload);
   };
@@ -179,9 +185,6 @@ export default class ArchiveForm extends React.Component {
     });
     const category = res.data || {};
     if (category.module_id) {
-      // 设置用户选择
-      this.formRef.current?.setFieldsValue({ category_id: categoryId });
-
       this.getModule(category.module_id);
     }
   };
