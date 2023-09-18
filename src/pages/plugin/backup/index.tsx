@@ -1,9 +1,10 @@
-import { Button, message, Modal, Space, Upload } from 'antd';
+import { Button, message, Modal, Radio, Space, Upload } from 'antd';
 import React, { useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {
+  pluginBackupCleanup,
   pluginBackupData,
   pluginBackupDelete,
   pluginBackupImport,
@@ -17,6 +18,7 @@ var running = false;
 
 const PluginUserGroup: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  let cleanUploads = false;
 
   const handleBackupData = async () => {
     if (running) {
@@ -105,6 +107,43 @@ const PluginUserGroup: React.FC = () => {
       });
   };
 
+  const onChangeData = (e: any) => {
+    cleanUploads = e.target.value;
+  };
+
+  const handleCleanup = async () => {
+    if (running) {
+      return;
+    }
+    Modal.confirm({
+      title: '确定要清空网站数据吗？',
+      content: (
+        <div>
+          <p>该操作会删除全部文章。为了安全起见，请你务必先执行备份，以防不备之需。</p>
+          <p>默认不清理Uploads文件夹，如需清理，请勾选。</p>
+          <Radio.Group onChange={onChangeData}>
+            <Radio value={false}>不清理图片</Radio>
+            <Radio value={true}>清理上传的图片</Radio>
+          </Radio.Group>
+        </div>
+      ),
+      onOk: () => {
+        running = true;
+        const hide = message.loading('正在执行清理操作，请稍候。。', 0);
+        pluginBackupCleanup({
+          clean_uploads: cleanUploads,
+        })
+          .then((res) => {
+            message.success(res.msg);
+          })
+          .finally(() => {
+            hide();
+            running = false;
+          });
+      },
+    });
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: '备份时间',
@@ -182,6 +221,9 @@ const PluginUserGroup: React.FC = () => {
           >
             <Button type="primary">导入本地备份</Button>
           </Upload>,
+          <Button key="clean" onClick={() => handleCleanup()}>
+            清空网站数据
+          </Button>,
         ]}
         search={false}
         tableAlertOptionRender={false}

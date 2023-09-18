@@ -81,8 +81,18 @@ const SettingContactFrom: React.FC<any> = (props) => {
                 </div>
               </AttachmentSelect>
             </ProFormText>
-
-            <Collapse>
+            <Collapse ghost>
+              <Collapse.Panel header="更多设置" key="0">
+                <ProFormText name="qq" label="QQ" width="lg" />
+                <ProFormText name="whats_app" label="WhatsApp" width="lg" />
+                <ProFormText name="facebook" label="Facebook" width="lg" />
+                <ProFormText name="twitter" label="Twitter" width="lg" />
+                <ProFormText name="tiktok" label="Tiktok" width="lg" />
+                <ProFormText name="pinterest" label="Pinterest" width="lg" />
+                <ProFormText name="linkedin" label="Linkedin" width="lg" />
+                <ProFormText name="instagram" label="Instagram" width="lg" />
+                <ProFormText name="youtube" label="Youtube" width="lg" />
+              </Collapse.Panel>
               <Collapse.Panel
                 className="mb-normal"
                 header="自定义参数"

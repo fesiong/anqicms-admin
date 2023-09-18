@@ -38,3 +38,11 @@ export async function pluginBackupImport(body: any, options?: { [key: string]: a
     options,
   });
 }
+
+export async function pluginBackupCleanup(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/backup/cleanup',
+    body,
+    options,
+  });
+}
