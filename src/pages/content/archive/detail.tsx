@@ -31,6 +31,7 @@ import {
   getSettingContent,
 } from '@/services';
 import AiGenerate from '@/components/aiGenerate';
+import MarkdownEditor from '@/components/markdown';
 const { Panel } = Collapse;
 
 export default class ArchiveForm extends React.Component {
@@ -164,9 +165,9 @@ export default class ArchiveForm extends React.Component {
       archive.updated_time = 0;
     }
     let content = archive.data?.content || '';
-    if (content.length > 0 && content[0] != '<') {
-      content = '<p>' + content + '</p>';
-    }
+    // if (content.length > 0 && content[0] != '<') {
+    //   content = '<p>' + content + '</p>';
+    // }
     archive.flag = archive.flag?.split(',') || [];
     archive.created_moment = moment(archive.created_time * 1000);
     this.defaultContent = content;
@@ -730,12 +731,21 @@ export default class ArchiveForm extends React.Component {
                       </Row>
                     </Panel>
                   </Collapse>
-                  <WangEditor
-                    className="mb-normal"
-                    setContent={this.setContent}
-                    content={content}
-                    ref={this.editorRef}
-                  />
+                  {contentSetting.editor == 'markdown' ? (
+                    <MarkdownEditor
+                      className="mb-normal"
+                      setContent={this.setContent}
+                      content={content}
+                      ref={this.editorRef}
+                    />
+                  ) : (
+                    <WangEditor
+                      className="mb-normal"
+                      setContent={this.setContent}
+                      content={content}
+                      ref={this.editorRef}
+                    />
+                  )}
                 </Col>
                 <Col span={6}>
                   <div className="mb-normal">

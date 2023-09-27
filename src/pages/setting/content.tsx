@@ -97,7 +97,22 @@ const SettingContactFrom: React.FC<any> = (props) => {
     <PageHeaderWrapper>
       <Card>
         {setting && (
-          <ProForm initialValues={setting} onFinish={onSubmit} title="联系方式设置">
+          <ProForm initialValues={setting} onFinish={onSubmit} title="内容设置">
+            <ProFormRadio.Group
+              name="editor"
+              label="默认编辑器选择"
+              options={[
+                {
+                  value: '',
+                  label: '富文本编辑器',
+                },
+                {
+                  value: 'markdown',
+                  label: 'Markdown编辑器',
+                },
+              ]}
+              extra="一般使用富文本编辑器即可，Markdown 使用门槛较高"
+            />
             <ProFormRadio.Group
               name="remote_download"
               label="下载远程图片"

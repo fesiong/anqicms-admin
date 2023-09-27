@@ -12,7 +12,8 @@ import WangEditor from '@/components/editor';
 import { Image, message, Collapse } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import AttachmentSelect from '@/components/attachment';
-import { getDesignTemplateFiles } from '@/services';
+import MarkdownEditor from '@/components/markdown';
+import { getDesignTemplateFiles, getSettingContent } from '@/services';
 
 export type CategoryFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -27,12 +28,16 @@ const PageForm: React.FC<CategoryFormProps> = (props) => {
   const [content, setContent] = useState<string>('');
   const [categoryImages, setCategoryImages] = useState<string[]>([]);
   const [categoryLogo, setCategoryLogo] = useState<string>('');
+  const [contentSetting, setContentSetting] = useState<any>({});
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     setCategoryImages(props.category?.images || []);
     setCategoryLogo(props.category?.logo || '');
-    setLoaded(true);
+    getSettingContent().then((res) => {
+      setContentSetting(res.data || {});
+      setLoaded(true);
+    });
   }, []);
 
   const onSubmit = async (values: any) => {
@@ -189,14 +194,27 @@ const PageForm: React.FC<CategoryFormProps> = (props) => {
         </Collapse.Panel>
       </Collapse>
       {loaded && (
-        <WangEditor
-          className="mb-normal"
-          setContent={async (html: string) => {
-            setContent(html);
-          }}
-          ref={editorRef}
-          content={props.category.content}
-        />
+        <>
+          {contentSetting.editor == 'markdown' ? (
+            <MarkdownEditor
+              className="mb-normal"
+              setContent={async (html: string) => {
+                setContent(html);
+              }}
+              content={content}
+              ref={editorRef}
+            />
+          ) : (
+            <WangEditor
+              className="mb-normal"
+              setContent={async (html: string) => {
+                setContent(html);
+              }}
+              ref={editorRef}
+              content={props.category.content}
+            />
+          )}
+        </>
       )}
     </ModalForm>
   );

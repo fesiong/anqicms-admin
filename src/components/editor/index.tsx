@@ -143,7 +143,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
         {htmlMode && (
           <MonacoEditor
             height={563}
-            language={'html'}
+            language={'markdown'}
             theme="vs-dark"
             value={code}
             options={{
