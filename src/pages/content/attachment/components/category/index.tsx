@@ -9,6 +9,7 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 
 export type AttachmentCategoryProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
 };
 
 const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {

@@ -6,6 +6,7 @@ import { history } from 'umi';
 import {
   deleteDesignHistoryFile,
   getDesignFileHistories,
+  getDesignFileHistoryInfo,
   getDesignFileInfo,
   getDesignInfo,
   restoreDesignFileInfo,
@@ -14,6 +15,7 @@ import {
 import './index.less';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import moment from 'moment';
+import TemplateCompare from './components/compare';
 
 var fileType: string = '';
 
@@ -27,6 +29,8 @@ const DesignEditor: React.FC = () => {
   const [height, setHeight] = useState(0);
   const [tplFiles, setTplFiles] = useState<any[]>([]);
   const [staticFiles, setStaticFiles] = useState<any[]>([]);
+  const [showDiff, setShowDiff] = useState<boolean>(false);
+  const [historyContent, setHistoryContent] = useState<string>('');
 
   var unsave = false;
 
@@ -238,6 +242,22 @@ const DesignEditor: React.FC = () => {
     window.scrollTo(window.pageXOffset, 0);
   };
 
+  const handleCompare = (info: any) => {
+    getDesignFileHistoryInfo({
+      hash: info.hash,
+      package: designInfo.package,
+      path: fileInfo.path,
+      type: fileType,
+    }).then((res) => {
+      if (res.code !== 0) {
+        message.error(res.msg);
+      } else {
+        setHistoryContent(res.data);
+        setShowDiff(true);
+      }
+    });
+  };
+
   const handleRestore = (info: any) => {
     Modal.confirm({
       title: '确定要恢复到指定时间的版本吗？',
@@ -292,6 +312,20 @@ const DesignEditor: React.FC = () => {
     }
   };
 
+  const handleGoBack = () => {
+    if (unsave) {
+      Modal.confirm({
+        title: '你有未保存的代码，确定要返回吗？',
+        content: '这么做将会导致未保存的代码丢失。',
+        onOk: () => {
+          history.goBack();
+        },
+      });
+    } else {
+      history.goBack();
+    }
+  };
+
   const getSize = (size: any) => {
     if (size < 500) {
       return size + 'B';
@@ -340,9 +374,17 @@ const DesignEditor: React.FC = () => {
     {
       title: '操作',
       key: 'action',
-      width: 100,
+      width: 110,
       render: (text: any, record: any) => (
-        <Space size={16}>
+        <Space size={12}>
+          <Button
+            type="link"
+            onClick={() => {
+              handleCompare(record);
+            }}
+          >
+            对比
+          </Button>
           <Button
             type="link"
             onClick={() => {
@@ -396,13 +438,7 @@ const DesignEditor: React.FC = () => {
                 >
                   保存
                 </Button>
-                <Button
-                  onClick={() => {
-                    history.goBack();
-                  }}
-                >
-                  返回
-                </Button>
+                <Button onClick={handleGoBack}>返回</Button>
                 <Button
                   onClick={() => {
                     setShowHistory(true);
@@ -472,6 +508,19 @@ const DesignEditor: React.FC = () => {
           columns={columns}
         />
       </Modal>
+      {showDiff && (
+        <TemplateCompare
+          visible={showDiff}
+          originCode={historyContent}
+          language={getLanguage(fileInfo?.path || '')}
+          versionCode={code}
+          onCancel={() => setShowDiff(false)}
+          onFinished={(e) => {
+            onChangeCode(e);
+            setShowDiff(false);
+          }}
+        />
+      )}
     </PageContainer>
   );
 };

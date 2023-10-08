@@ -64,6 +64,14 @@ export async function getDesignFileHistories(params: any, options?: { [key: stri
   });
 }
 
+export async function getDesignFileHistoryInfo(params: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/design/file/history/info',
+    params,
+    options,
+  });
+}
+
 export async function getDesignTemplateFiles(params: any, options?: { [key: string]: any }) {
   return get({
     url: '/design/file/templates',

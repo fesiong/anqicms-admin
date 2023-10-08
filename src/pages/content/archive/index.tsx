@@ -30,6 +30,7 @@ import {
   updateArchivesStatus,
   updateArchivesTime,
 } from '@/services';
+import QuickEditForm from './quickEdit';
 
 const flagEnum: any = {
   h: '头条[h]',
@@ -57,6 +58,8 @@ const ArchiveList: React.FC = (props) => {
   const [modules, setModules] = useState<any[]>([]);
   const [moduleId, setModuleId] = useState<Number>(0);
   const [contentSetting, setContentSetting] = useState<any>({});
+  const [currentArchive, setCurrentArchive] = useState<any>({});
+  const [quickVisible, setQuickVisible] = useState<boolean>(false);
 
   useEffect(() => {
     setModuleId(Number(history.location.query?.module_id || 0));
@@ -65,9 +68,11 @@ const ArchiveList: React.FC = (props) => {
   }, []);
 
   const loadContentSetting = () => {
-    getSettingContent().then((res) => {
-      setContentSetting(res.data || {});
-    });
+    getSettingContent()
+      .then((res) => {
+        setContentSetting(res?.data || {});
+      })
+      .catch();
   };
 
   const loadModules = async () => {
@@ -353,6 +358,11 @@ const ArchiveList: React.FC = (props) => {
       });
   };
 
+  const handleQuickEdit = (record: any) => {
+    setCurrentArchive(record);
+    setQuickVisible(true);
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: '编号',
@@ -513,9 +523,7 @@ const ArchiveList: React.FC = (props) => {
           >
             编辑
           </a>
-          <a key="preview" href={record.link} target="_blank">
-            查看
-          </a>
+          <a onClick={() => handleQuickEdit(record)}>快速编辑</a>
 
           <Dropdown
             overlay={
@@ -840,6 +848,17 @@ const ArchiveList: React.FC = (props) => {
             addonAfter="时"
           />
         </ModalForm>
+      )}
+      {quickVisible && (
+        <QuickEditForm
+          archive={currentArchive}
+          visible={quickVisible}
+          onSubmit={async () => {
+            actionRef.current?.reloadAndRest?.();
+            setQuickVisible(false);
+          }}
+          onCancel={() => setQuickVisible(false)}
+        />
       )}
     </PageContainer>
   );

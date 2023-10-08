@@ -1,9 +1,8 @@
 import E from 'wangeditor';
 import ReactWEditor from 'wangeditor-for-react';
-import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import { useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import config from '@/services/config';
 import { getStore } from '@/utils/store';
-import AttachmentSelect from '../attachment';
 import MonacoEditor from 'react-monaco-editor';
 import './index.less';
 import { message, Tooltip } from 'antd';
@@ -11,6 +10,7 @@ import { HtmlMenu } from './html/menu';
 import { MaterialMenu } from './material/menu';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { uploadAttachment } from '@/services';
+import Attachment from '../attachment/dialog';
 
 // 注册。要在创建编辑器之前注册
 E.registerMenu('html', HtmlMenu);
@@ -28,7 +28,6 @@ var code = '';
 
 const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   const editorRef = useRef(null);
-  const [attachVisible, setAttachVisible] = useState<boolean>(false);
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
 
   useImperativeHandle(ref, () => ({
@@ -40,7 +39,6 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
 
   const handleSelectImages = (e: any) => {
     editorRef.current?.editor.cmd.do('insertHTML', `<img src="${e.logo}" alt="${e.file_name}"/>`);
-    setAttachVisible(false);
   };
 
   const onChangeCode = (newCode: string) => {
@@ -84,9 +82,12 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
           customUploadImg: (resultFiles: Function[], insertImgFn: Function) => {
             handleUpload(resultFiles, insertImgFn);
           },
+          uploadImgAccept: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
           // 上传图片处理
           uploadImgFromMedia: () => {
-            setAttachVisible(true);
+            Attachment.show().then((res) => {
+              handleSelectImages(res);
+            });
           },
           // 上传视频处理
           uploadVideoServer: config.baseUrl + '/attachment/upload',
@@ -155,16 +156,6 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
           />
         )}
       </div>
-      <AttachmentSelect
-        onSelect={(row) => {
-          handleSelectImages(row);
-        }}
-        onCancel={(flag) => {
-          setAttachVisible(flag);
-        }}
-        visible={attachVisible}
-        manual={true}
-      />
     </div>
   );
 });

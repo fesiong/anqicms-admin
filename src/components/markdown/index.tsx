@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle } from 'react';
 import './index.less';
-import { message, Modal, Image, Avatar } from 'antd';
-import { getAttachmentCategories, getAttachments, uploadAttachment } from '@/services';
+import { message } from 'antd';
+import { uploadAttachment } from '@/services';
 import gfm from '@bytemd/plugin-gfm';
 import pmath from '@bytemd/plugin-math';
 import mermaid from '@bytemd/plugin-mermaid';
@@ -9,7 +9,7 @@ import { Editor } from '@bytemd/react';
 import 'bytemd/dist/index.css';
 import zhHans from 'bytemd/locales/zh_Hans.json';
 import { BytemdPlugin } from 'bytemd';
-import ProList from '@ant-design/pro-list';
+import Attachment from '../attachment/dialog';
 
 export type MarkdownEditorProps = {
   className: string;
@@ -28,94 +28,12 @@ export function attachPlugin(): BytemdPlugin {
           type: 'action',
           click({ appendBlock, editor }) {
             const useImage = (item: any) => {
-              materialModal?.destroy();
               appendBlock(`![${item.file_name}](${item.logo})`);
               editor.focus();
             };
 
-            const materialModal = Modal.confirm({
-              width: 800,
-              icon: '',
-              okButtonProps: {
-                className: 'hidden',
-              },
-              className: 'material-modal',
-              onOk: () => {},
-              content: (
-                <ProList<any>
-                  className="material-table"
-                  rowKey="id"
-                  request={(params) => {
-                    // params.category_id = categoryId;
-                    // params.q = keyword;
-                    return getAttachments(params);
-                  }}
-                  grid={{ gutter: 16, column: 6 }}
-                  pagination={{
-                    defaultPageSize: 18,
-                  }}
-                  showActions="hover"
-                  showExtra="hover"
-                  search={{
-                    span: 12,
-                    labelWidth: 120,
-                  }}
-                  rowClassName="image-row"
-                  metas={{
-                    content: {
-                      search: false,
-                      render: (text: any, row: any) => {
-                        return (
-                          <div className="image-item">
-                            <div className="inner" title={row.file_name}>
-                              {row.thumb ? (
-                                <Image
-                                  className="img"
-                                  preview={{
-                                    src: row.logo,
-                                  }}
-                                  src={row.thumb}
-                                  alt={row.file_name}
-                                />
-                              ) : (
-                                <a href={row.logo} target={'_blank'}>
-                                  <Avatar className="default-img" size={100}>
-                                    {row.file_location.substring(
-                                      row.file_location.lastIndexOf('.'),
-                                    )}
-                                  </Avatar>
-                                </a>
-                              )}
-                              <div className="info name">{row.file_name}</div>
-                              <div
-                                className="info link"
-                                onClick={() => {
-                                  useImage(row);
-                                }}
-                              >
-                                点击使用
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      },
-                    },
-                    category_id: {
-                      title: '分类筛选',
-                      valueType: 'select',
-                      request: async () => {
-                        let res = await getAttachmentCategories();
-                        let data = [{ value: 0, label: '全部' }];
-                        for (let i in res.data) {
-                          data.push({ value: res.data[i].id, label: res.data[i].title });
-                        }
-
-                        return data;
-                      },
-                    },
-                  }}
-                />
-              ),
+            Attachment.show().then((res) => {
+              useImage(res);
             });
 
             editor.focus();

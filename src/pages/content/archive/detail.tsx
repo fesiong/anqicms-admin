@@ -62,10 +62,15 @@ export default class ArchiveForm extends React.Component {
     this.setState({
       modules: res.data || [],
     });
-    const setting = await getSettingContent();
-    this.setState({
-      contentSetting: setting.data || {},
-    });
+    try {
+      const setting = await getSettingContent();
+      this.setState({
+        contentSetting: setting.data || {},
+      });
+    } catch (err) {
+      message.error('网络异常');
+      return;
+    }
 
     const moduleId = history.location.query?.module_id || 1;
     let categoryId = history.location.query?.category_id || 0;

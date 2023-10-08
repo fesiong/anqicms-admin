@@ -371,8 +371,8 @@ export default class ImageList extends React.Component {
                 >
                   全部选中
                 </Checkbox>
+                <span>筛选</span>
                 <Input.Search placeholder="输入文件名关键词搜索" onSearch={this.handleSearch} />
-                <span>分类筛选</span>
                 <Select
                   defaultValue={categoryId}
                   style={{ width: 120 }}
@@ -403,10 +403,10 @@ export default class ImageList extends React.Component {
                   name="file"
                   multiple
                   showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp"
+                  accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleUploadImage}
                 >
-                  <Button type="primary">上传新图片</Button>
+                  <Button type="primary">上传新资源</Button>
                 </Upload>
               </Space>
             </div>
@@ -454,14 +454,15 @@ export default class ImageList extends React.Component {
                   ))}
                 </Row>
               ) : (
-                <Empty className="empty-normal" description="图片夹空空如也">
+                <Empty className="empty-normal" description="资源夹空空如也">
                   <Upload
                     name="file"
                     showUploadList={false}
-                    accept=".jpg,.jpeg,.png,.gif,.webp"
+                    multiple={true}
+                    accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                     customRequest={this.handleUploadImage}
                   >
-                    <Button type="primary">添加图片</Button>
+                    <Button type="primary">添加新资源</Button>
                   </Upload>
                 </Empty>
               )}
@@ -487,15 +488,23 @@ export default class ImageList extends React.Component {
         >
           <div className="attachment-detail">
             <div className="preview">
-              <Image
-                width={'100%'}
-                className="img"
-                preview={{
-                  src: currentAttach.logo + '?t=' + currentAttach.updated_time,
-                }}
-                src={currentAttach.logo + '?t=' + currentAttach.updated_time}
-                alt={currentAttach.file_name}
-              />
+              {currentAttach.thumb ? (
+                <Image
+                  width={'100%'}
+                  className="img"
+                  preview={{
+                    src: currentAttach.logo + '?t=' + currentAttach.updated_time,
+                  }}
+                  src={currentAttach.logo + '?t=' + currentAttach.updated_time}
+                  alt={currentAttach.file_name}
+                />
+              ) : (
+                <Avatar className="default-img" size={200}>
+                  {currentAttach.file_location?.substring(
+                    currentAttach.file_location?.lastIndexOf('.'),
+                  )}
+                </Avatar>
+              )}
             </div>
             <div className="detail">
               <div className="info">
@@ -521,12 +530,14 @@ export default class ImageList extends React.Component {
                   <div className="name">文件大小:</div>
                   <div className="value">{sizeFormat(currentAttach.file_size)}</div>
                 </div>
+                {currentAttach.width > 0 && (
+                  <div className="item">
+                    <div className="name">分辨率:</div>
+                    <div className="value">{currentAttach.width + '×' + currentAttach.height}</div>
+                  </div>
+                )}
                 <div className="item">
-                  <div className="name">分辨率:</div>
-                  <div className="value">{currentAttach.width + '×' + currentAttach.height}</div>
-                </div>
-                <div className="item">
-                  <div className="name">图片地址:</div>
+                  <div className="name">资源地址:</div>
                   <div className="value">{currentAttach.logo}</div>
                 </div>
               </div>
@@ -534,24 +545,24 @@ export default class ImageList extends React.Component {
                 <Upload
                   name="file"
                   showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp"
+                  accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleReplaceAttach}
                 >
-                  <Button>替换图片</Button>
+                  <Button>替换资源</Button>
                 </Upload>
                 <Button onClick={this.handleModifyName}>修改文件名</Button>
-                <Button onClick={this.handleRemoveAttach}>删除图片</Button>
+                <Button onClick={this.handleRemoveAttach}>删除</Button>
                 <Button danger onClick={this.hideAttachDetail}>
                   关闭
                 </Button>
               </Space>
               <div className="tips">
                 <p>相关说明：</p>
-                <div>1、替换图片时，图片的URL地址不变，图片大小变为新图片的。</div>
+                <div>1、替换资源时，资源的URL地址不变，资源大小变为新资源的。</div>
                 <div>
                   2、为避免页面受大图影响，当图片过大时，自动按设置的图片大小进行同比例缩小。
                 </div>
-                <div>4、图片上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。</div>
+                <div>4、资源上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。</div>
               </div>
             </div>
           </div>

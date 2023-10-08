@@ -263,7 +263,7 @@ const WebsiteList: React.FC = () => {
             placeholder="不修改请留空，新建站点必须填写6位以上"
           />
           {editInfo.id != 1 && (
-            <Collapse defaultActiveKey={[]} ghost>
+            <Collapse defaultActiveKey={editInfo.id > 0 ? [] : [1]} ghost>
               <Panel header="数据库信息 (正常运行的站点请勿更改，否则会导致站点异常)" key="1">
                 <ProFormText
                   name={['mysql', 'database']}

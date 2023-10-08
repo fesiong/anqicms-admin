@@ -234,10 +234,6 @@ const GlobalHeaderRight: React.FC = () => {
                 <label>AI写作剩余额度：</label>
                 <div>{anqiUser.ai_remain} 篇/天</div>
               </div>
-              <div className="item">
-                <label>翻译资源包余量：</label>
-                <div>{anqiUser.translate_remain} 字</div>
-              </div>
             </div>
           </div>
         ) : (
@@ -277,10 +273,6 @@ const GlobalHeaderRight: React.FC = () => {
                         整站采集/下载不可用<span className="optional">*</span>
                       </li>
                       <li>
-                        累计10万字数文章翻译
-                        <div className="extra">可额外购买 10 积分1000字</div>
-                      </li>
-                      <li>
                         累计AI写作额度 10 篇<div className="extra">超出数量 10 积分一篇</div>
                       </li>
                     </ul>
@@ -309,10 +301,6 @@ const GlobalHeaderRight: React.FC = () => {
                       </li>
                       <li>
                         可用整站采集/下载<span className="optional">*</span>
-                      </li>
-                      <li>
-                        每天10万字数文章翻译
-                        <div className="extra">可额外购买 10 积分1000字</div>
                       </li>
                       <li>
                         每天AI写作额度 100 篇<div className="extra">超出数量 10 积分一篇</div>
