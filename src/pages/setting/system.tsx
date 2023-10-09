@@ -223,7 +223,10 @@ const SettingSystemFrom: React.FC<any> = (props) => {
                   <div>
                     你可以给后台单独设置独立的域名地址，加强安全性。如：https://admin.anqicms.com
                   </div>
-                  <div>注意：在设置之前，必须先解析域名，并绑定域名，否则会无法访问后台。</div>
+                  <div>
+                    注意：<span className="text-red">不能填写本站域名！</span>
+                    在设置之前，必须先解析域名，并绑定域名，否则会无法访问后台。
+                  </div>
                 </div>
               }
             />

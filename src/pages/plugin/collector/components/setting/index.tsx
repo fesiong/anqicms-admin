@@ -221,7 +221,12 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               label="默认发布文章分类"
               name="category_id"
               required
-              extra="如果关键词没设置分类，则采集到的文章默认会被归类到这个分类下,必须设置一个分类否则无法正常采集"
+              extra={
+                <div>
+                  如果关键词没设置分类，则采集到的文章默认会被归类到这个分类下,
+                  <span className="text-red">必须设置一个分类否则无法正常采集</span>
+                </div>
+              }
               request={async () => {
                 const res = await getCategories({ type: 1 });
                 return res.data || [];
