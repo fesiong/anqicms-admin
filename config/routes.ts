@@ -481,6 +481,7 @@
     path: '/tool/upgrade',
     icon: 'CloudSync',
     name: '系统升级',
+    access: 'canAdmin',
     hideInTop: true,
     component: '@/pages/tool/upgrade',
   },

@@ -118,9 +118,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
             // 需要处理
             let hasChildren = false;
             let tmpMenus = menuData[i];
-            for (let j in tmpMenus.routes) {
+            for (let j in tmpMenus.children) {
               if (permissions.indexOf(tmpMenus.children[j].path) === -1) {
-                tmpMenus.routes[j].unaccessible = true;
+                tmpMenus.children[j].unaccessible = true;
               } else {
                 hasChildren = true;
               }
@@ -131,6 +131,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           }
         }
       }
+      console.log(menuData);
       if (initialState?.currentUser?.id != 1) {
         for (let i in menuData) {
           if (menuData[i].path == '/website') {

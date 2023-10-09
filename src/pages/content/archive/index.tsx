@@ -715,12 +715,14 @@ const ArchiveList: React.FC = (props) => {
           },
         }}
       />
-      <ReplaceKeywords
-        visible={replaceVisible}
-        onCancel={() => {
-          setReplaceVisible(false);
-        }}
-      />
+      {replaceVisible && (
+        <ReplaceKeywords
+          visible={replaceVisible}
+          onCancel={() => {
+            setReplaceVisible(false);
+          }}
+        />
+      )}
       {flagVisible && (
         <ModalForm
           width={480}

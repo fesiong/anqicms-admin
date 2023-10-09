@@ -47,8 +47,16 @@ const GlobalHeaderContent: React.FC = (props) => {
         return;
       }
 
+      let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
       if (current.routes) {
-        history.push(current.routes[0].path);
+        let url = current.routes[0].path;
+        for (let j in current.routes) {
+          if (permissions.indexOf(current.routes[j].path) !== -1) {
+            url = current.routes[j].path;
+            break;
+          }
+        }
+        history.push(url);
       } else {
         history.push(current.path);
       }
