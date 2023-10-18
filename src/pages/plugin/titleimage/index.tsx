@@ -100,7 +100,6 @@ const PluginTitleImage: React.FC<any> = () => {
   };
 
   const getPreviewData = () => {
-    console.log(previewText);
     pluginTitleImagePreview({ text: previewText }).then((res) => {
       setPreviewData(res.data);
     });

@@ -195,7 +195,6 @@ const PluginPush: React.FC<any> = (props) => {
                   ]}
                   tableAlertOptionRender={false}
                   request={async (params, sort) => {
-                    console.log(jsCodes);
                     return {
                       data: jsCodes,
                     };

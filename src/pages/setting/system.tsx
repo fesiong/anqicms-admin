@@ -96,7 +96,6 @@ const SettingSystemFrom: React.FC<any> = (props) => {
       });
   };
 
-  console.log(extraFields);
   return (
     <PageHeaderWrapper>
       <Card>

@@ -131,7 +131,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           }
         }
       }
-      console.log(menuData);
       if (initialState?.currentUser?.id != 1) {
         for (let i in menuData) {
           if (menuData[i].path == '/website') {

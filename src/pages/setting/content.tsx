@@ -23,7 +23,6 @@ const SettingContactFrom: React.FC<any> = (props) => {
     const res = await getSettingContent();
     let setting = res.data || null;
     setSetting(setting);
-    console.log(setting);
     setDefaultThumb(setting?.default_thumb || '');
     setResizeImage(setting?.resize_image || 0);
   };

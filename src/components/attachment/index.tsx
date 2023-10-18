@@ -46,7 +46,6 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
       >
         <AttachmentContent
           onSelect={(e: any) => {
-            console.log(e);
             useDetail(e);
           }}
         />

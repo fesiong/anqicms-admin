@@ -22,7 +22,6 @@ const PluginStorage: React.FC<any> = (props) => {
   };
 
   const changeStorageType = (e: any) => {
-    console.log(e.target.value);
     setStorageType(e.target.value);
   };
 

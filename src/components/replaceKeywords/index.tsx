@@ -73,7 +73,6 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
       to: toValue,
     };
     keywords.push(tag);
-    console.log(keywords);
 
     setKeywords([].concat(...keywords));
     setInputVisible(false);

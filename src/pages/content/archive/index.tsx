@@ -308,7 +308,6 @@ const ArchiveList: React.FC = (props) => {
       return;
     }
     value = parseInt(value);
-    console.log(value);
     if (isNaN(value)) {
       message.error('请填写大于0的数字');
       return;

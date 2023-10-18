@@ -132,7 +132,6 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
   };
 
   onChangeInsertImage = (e: any) => {
-    console.log(e);
     this.setState({
       insertImage: e.target.value,
     });

@@ -82,7 +82,6 @@ const PluginTransfer: React.FC = () => {
   };
 
   const checkTask = () => {
-    console.log(timeingXhr);
     if (timeingXhr) {
       return;
     }

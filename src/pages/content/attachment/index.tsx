@@ -256,7 +256,6 @@ export default class ImageList extends React.Component {
   };
 
   onSubmitEdit = async (values: any) => {
-    console.log(values);
     const { currentAttach } = this.state;
     currentAttach.file_name = values.file_name;
     changeAttachmentName(currentAttach).then((res) => {
