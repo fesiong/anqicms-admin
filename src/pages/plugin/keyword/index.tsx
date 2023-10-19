@@ -246,7 +246,7 @@ const PluginKeyword: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetKeywords(params);
         }}
         columns={columns}
@@ -254,6 +254,9 @@ const PluginKeyword: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

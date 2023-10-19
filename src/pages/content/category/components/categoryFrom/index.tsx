@@ -180,6 +180,21 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
         placeholder="默认会自动生成，无需填写"
         extra="注意：URL别名只能填写字母、数字和下划线，不能带空格"
       />
+      <ProFormRadio.Group
+        name="status"
+        label="显示状态"
+        options={[
+          {
+            value: 0,
+            label: '隐藏',
+          },
+          {
+            value: 1,
+            label: '显示',
+          },
+        ]}
+        extra="设置隐藏后，前台不会出现这个分类，隐藏分类下的文档也不会显示"
+      />
       <Collapse>
         <Collapse.Panel header="其他参数" key="1">
           <ProFormDigit name="sort" label="显示顺序" extra={'默认99，数字越小越靠前'} />

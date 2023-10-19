@@ -31,6 +31,8 @@ const DesignEditor: React.FC = () => {
   const [staticFiles, setStaticFiles] = useState<any[]>([]);
   const [showDiff, setShowDiff] = useState<boolean>(false);
   const [historyContent, setHistoryContent] = useState<string>('');
+  const [tplSelect, setTplSelect] = useState<React.Key[]>([]);
+  const [staticSelect, setStaticSelect] = useState<React.Key[]>([]);
 
   var unsave = false;
 
@@ -455,12 +457,24 @@ const DesignEditor: React.FC = () => {
                 <Tree
                   showLine={true}
                   showIcon={false}
-                  defaultExpandedKeys={['0-0']}
-                  onSelect={(e, a) => {
+                  expandedKeys={tplSelect}
+                  onSelect={(_, a) => {
                     if (a.node.children) {
+                      let key = a.node.key;
+                      let tmpItems = tplSelect.flat();
+                      let index = tmpItems.indexOf(key);
+                      if (index === -1) {
+                        tmpItems.push(key);
+                      } else {
+                        tmpItems.splice(index, 1);
+                      }
+                      setTplSelect(tmpItems);
                       return;
                     }
                     handleEditFile('template', a.node);
+                  }}
+                  onExpand={(k) => {
+                    setTplSelect(k);
                   }}
                   treeData={tplFiles}
                 />
@@ -469,12 +483,25 @@ const DesignEditor: React.FC = () => {
                 <Tree
                   showLine={true}
                   showIcon={false}
-                  defaultExpandedKeys={['0-0']}
-                  onSelect={(e, a) => {
+                  expandedKeys={staticSelect}
+                  onSelect={(_, a) => {
                     if (a.node.children) {
+                      let key = a.node.key;
+                      let tmpItems = staticSelect.flat();
+                      let index = tmpItems.indexOf(key);
+                      if (index === -1) {
+                        tmpItems.push(key);
+                      } else {
+                        tmpItems.splice(index, 1);
+                      }
+                      setStaticSelect(tmpItems);
                       return;
                     }
                     handleEditFile('static', a.node);
+                  }}
+                  onExpand={(k) => {
+                    console.log(k);
+                    setStaticSelect(k);
                   }}
                   treeData={staticFiles}
                 />
@@ -500,12 +527,15 @@ const DesignEditor: React.FC = () => {
           rowKey="path"
           search={false}
           toolBarRender={false}
-          request={async (params, sort) => {
+          request={async (params) => {
             params.package = designInfo.package;
             params.path = fileInfo.path;
             return getDesignFileHistories(params);
           }}
           columns={columns}
+          pagination={{
+            showSizeChanger: true,
+          }}
         />
       </Modal>
       {showDiff && (

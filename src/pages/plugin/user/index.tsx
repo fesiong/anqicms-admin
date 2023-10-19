@@ -138,6 +138,9 @@ const PluginUser: React.FC = () => {
         }}
         columns={columns}
         rowSelection={false}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {editVisible && (
         <UserForm

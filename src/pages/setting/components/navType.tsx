@@ -133,7 +133,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
             search={false}
             pagination={false}
             toolBarRender={false}
-            request={(params, sort) => {
+            request={(params) => {
               return getSettingNavTypes(params);
             }}
             columns={columns}

@@ -11,8 +11,8 @@ const StatisticDetail: React.FC = () => {
   const { initialState } = useModel('@@initialState');
 
   const openLink = (text: string) => {
-    window.open((initialState?.system?.base_url || '') + text)
-  }
+    window.open((initialState?.system?.base_url || '') + text);
+  };
 
   const columns: ProColumns<any>[] = [
     {
@@ -29,7 +29,11 @@ const StatisticDetail: React.FC = () => {
       dataIndex: 'url',
       width: 200,
       ellipsis: true,
-      render: (text, record) => <div className='link' onClick={() => openLink(record.url)}>{text}</div>,
+      render: (text, record) => (
+        <div className="link" onClick={() => openLink(record.url)}>
+          {text}
+        </div>
+      ),
     },
     {
       title: 'IP',
@@ -65,10 +69,13 @@ const StatisticDetail: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         search={false}
-        request={(params, sort) => {
+        request={(params) => {
           return getStatisticInfo(params);
         }}
         columns={columns}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
     </PageContainer>
   );

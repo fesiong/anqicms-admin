@@ -90,6 +90,9 @@ const PluginFinanceFlow: React.FC = () => {
       }}
       columns={columns}
       rowSelection={false}
+      pagination={{
+        showSizeChanger: true,
+      }}
     />
   );
 };

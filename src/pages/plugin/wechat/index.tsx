@@ -133,6 +133,9 @@ const PluginWechatMessage: React.FC<any> = () => {
         search={false}
         columns={columns}
         rowSelection={false}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {editVisible && (
         <ModalForm

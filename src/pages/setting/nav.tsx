@@ -16,6 +16,7 @@ import {
   getCategories,
   getModules,
   getSettingNavTypes,
+  getArchives,
 } from '@/services';
 import NavTypes from './components/navType';
 
@@ -29,6 +30,8 @@ const SettingNavFrom: React.FC<any> = (props) => {
   const [innerOptions, setInnerOptions] = useState<any[]>([]);
   const [navTypes, setNavTypes] = useState<any[]>([]);
   const [typeId, setTypeId] = useState<number>(1);
+  const [archives, setArchives] = useState<any[]>([]);
+  const [defaultTitle, setDefaultTitle] = useState<string>('');
 
   useEffect(() => {
     getNavList(typeId);
@@ -106,6 +109,9 @@ const SettingNavFrom: React.FC<any> = (props) => {
   const onNavSubmit = async (values: any) => {
     values = Object.assign(editingNav, values);
     values.type_id = typeId;
+    if (!values.title) {
+      values.title = defaultTitle;
+    }
     const hide = message.loading('正在提交中', 0);
     saveSettingNav(values)
       .then((res) => {
@@ -127,6 +133,12 @@ const SettingNavFrom: React.FC<any> = (props) => {
         return item.title;
       }
     }
+  };
+
+  const onSearchArchives = (e: any) => {
+    getArchives({ title: e, pageSize: 10 }).then((res) => {
+      setArchives(res.data || []);
+    });
   };
 
   const handleChangeNavType = (typeId: number) => {
@@ -182,13 +194,15 @@ const SettingNavFrom: React.FC<any> = (props) => {
               dataIndex: 'description',
             },
             subTitle: {
-              render: (text: any, row: any) => {
+              render: (_: any, row: any) => {
                 return (
                   <Space size={0}>
                     {row.sub_title && <Tag>{row.sub_title}</Tag>}
                     <Tag color="blue">
                       {row.nav_type == 2
                         ? '外链: ' + row.link
+                        : row.nav_type == 3
+                        ? '文档: ' + row.page_id
                         : row.nav_type == 1
                         ? '分类/页面: ' + row.page_id
                         : '内置: ' + (row.page_id > 0 ? getModuleName(row.page_id) : '首页')}
@@ -199,6 +213,11 @@ const SettingNavFrom: React.FC<any> = (props) => {
             },
             actions: {
               render: (text: any, row: any) => [
+                row.parent_id == 0 && (
+                  <a onClick={() => editNav({ parent_id: row.id })} key="link">
+                    添加下级
+                  </a>
+                ),
                 <a onClick={() => editNav(row)} key="link">
                   编辑
                 </a>,
@@ -266,6 +285,10 @@ const SettingNavFrom: React.FC<any> = (props) => {
                 label: '分类/页面',
               },
               {
+                value: 3,
+                label: '文档',
+              },
+              {
                 value: 2,
                 label: '外链',
               },
@@ -279,14 +302,35 @@ const SettingNavFrom: React.FC<any> = (props) => {
               name="page_id"
               width="lg"
               label="选择分类/页面"
-              options={categories}
+              options={categories.map((cat: any) => ({
+                spacer: cat.spacer,
+                label: cat.title + (cat.status == 1 ? '' : '(隐藏)'),
+                value: cat.id,
+                disabled: cat.status != 1,
+              }))}
               fieldProps={{
-                fieldNames: {
-                  label: 'title',
-                  value: 'id',
-                },
                 optionItemRender(item) {
-                  return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
+                  return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}></div>;
+                },
+                onChange: (_, a: any) => {
+                  setDefaultTitle(a.label);
+                },
+              }}
+            />
+          )}
+          {nav_type == 3 && (
+            <ProFormSelect
+              name="page_id"
+              width="lg"
+              label="选择文档"
+              showSearch
+              options={archives.map((a: any) => ({ label: a.title, value: a.id }))}
+              fieldProps={{
+                onSearch: (e) => {
+                  onSearchArchives(e);
+                },
+                onChange: (_, a: any) => {
+                  setDefaultTitle(a.label);
                 },
               }}
             />

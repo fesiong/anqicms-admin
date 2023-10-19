@@ -189,7 +189,7 @@ const PluginComment: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetComments(params);
         }}
         columns={columns}
@@ -197,6 +197,9 @@ const PluginComment: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

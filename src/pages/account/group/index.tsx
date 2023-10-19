@@ -145,7 +145,7 @@ const AdminGroupList: React.FC = () => {
         rowKey="id"
         actionRef={actionRef}
         search={false}
-        request={(params, sort) => {
+        request={(params) => {
           return getAdminGroups(params);
         }}
         columns={columns}

@@ -139,7 +139,7 @@ const ArticleTag: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           params.type = 1;
           return getTags(params);
         }}
@@ -148,6 +148,9 @@ const ArticleTag: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

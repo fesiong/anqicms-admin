@@ -257,7 +257,7 @@ const PluginCollector: React.FC = () => {
               </Button>
             </Space>
           )}
-          request={(params, sort) => {
+          request={(params) => {
             params.collect = true;
             return getArchives(params);
           }}
@@ -266,6 +266,9 @@ const PluginCollector: React.FC = () => {
             onChange: (selectedRowKeys) => {
               setSelectedRowKeys(selectedRowKeys);
             },
+          }}
+          pagination={{
+            showSizeChanger: true,
           }}
         />
       </Card>

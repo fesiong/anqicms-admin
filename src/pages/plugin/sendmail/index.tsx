@@ -87,7 +87,7 @@ const PluginSendmail: React.FC = () => {
             <Button>邮件设置</Button>
           </SendmailSetting>,
         ]}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetSendmails(params);
         }}
         columns={columns}

@@ -53,6 +53,7 @@ const DesignDetail: React.FC = () => {
   const [staticDirs, setStaticDirs] = useState<any[]>([]);
   const [templateDirs, setTemplateDirs] = useState<any[]>([]);
   const [detailVisible, setDetailVisible] = useState<boolean>(false);
+  const [tempDirs, setTempDirs] = useState<any[]>([]);
 
   const inputRef = useRef<any>();
   const inputRef2 = useRef<any>();
@@ -131,46 +132,6 @@ const DesignDetail: React.FC = () => {
     }
   };
 
-  const handlePreview = () => {
-    if (
-      currentFile.path.indexOf('.png') !== -1 ||
-      currentFile.path.indexOf('.jpg') !== -1 ||
-      currentFile.path.indexOf('.jpeg') !== -1 ||
-      currentFile.path.indexOf('.gif') !== -1 ||
-      currentFile.path.indexOf('.webp') !== -1 ||
-      currentFile.path.indexOf('.bmp') !== -1
-    ) {
-      Modal.info({
-        icon: false,
-        width: 400,
-        maskClosable: true,
-        title: currentFile.path,
-        content: (
-          <div>
-            <Image
-              width={340}
-              src={
-                (initialState?.system?.base_url || '') +
-                '/static/' +
-                designInfo.package +
-                '/' +
-                currentFile.path
-              }
-            />
-          </div>
-        ),
-      });
-    } else {
-      window.open(
-        (initialState?.system?.base_url || '') +
-          '/static/' +
-          designInfo.package +
-          '/' +
-          currentFile.path,
-      );
-    }
-  };
-
   const handleRemove = (type: string, info: any) => {
     Modal.confirm({
       title: '确定要删除这个文件吗？',
@@ -211,12 +172,12 @@ const DesignDetail: React.FC = () => {
         </div>
       ),
       onOk: () => {
-        const newPath = inputRef.current?.state?.value;
+        const newPath = inputRef.current?.input?.value;
         if (!newPath || newPath == info.path) {
           message.error('新文件名与被复制的文件名一致，请重新修改');
           return false;
         }
-        const remark = inputRef2.current?.state?.value;
+        const remark = inputRef2.current?.input?.value;
         copyDesignFileInfo({
           package: designInfo.package,
           type: type,
@@ -234,6 +195,7 @@ const DesignDetail: React.FC = () => {
   };
 
   const handleAddFile = (type: string) => {
+    onSearchTempDir('');
     setAddFileType(type);
     setAddVisible(true);
   };
@@ -299,17 +261,18 @@ const DesignDetail: React.FC = () => {
 
   const handleUploadTemplate = (e: any) => {
     let values = formRef.current?.getFieldsValue();
+    let savePath = values.path || '';
     Modal.confirm({
       title: '确定要上传文件吗？',
-      content: `你上传的文件将存放到${addFileType == 'static' ? '资源' : '模板'}目录：${
-        values.path
-      } 中。`,
+      content: `你上传的文件将存放到${
+        addFileType == 'static' ? '资源' : '模板'
+      }目录：${savePath} 中。`,
       onOk: async () => {
         let formData = new FormData();
         formData.append('file', e.file);
         formData.append('package', designInfo.package);
         formData.append('type', addFileType);
-        formData.append('path', values.path);
+        formData.append('path', savePath);
 
         const hide = message.loading('正在提交中', 0);
         UploadDesignFileInfo(formData)
@@ -319,7 +282,7 @@ const DesignDetail: React.FC = () => {
             } else {
               message.info(res.msg || '上传成功');
               setAddVisible(false);
-              actionRef.current?.reload();
+              fetchDesignInfo();
             }
           })
           .finally(() => {
@@ -354,6 +317,27 @@ const DesignDetail: React.FC = () => {
       .finally(() => {
         hide();
       });
+  };
+
+  const onSearchTempDir = (e: string) => {
+    let tmpData = addFileType == 'static' ? staticDirs : templateDirs;
+    if (e == '') {
+      setTempDirs(tmpData);
+      return;
+    }
+    let index = -1;
+    for (let i in tmpData) {
+      if (tmpData[i].value.indexOf(e) !== -1) {
+        index = Number(i);
+        break;
+      }
+    }
+    if (index === -1) {
+      if (e.lastIndexOf('/') !== e.length - 1) {
+        e = e + '/';
+      }
+      setTempDirs([{ label: '新建目录：' + e, value: e }]);
+    }
   };
 
   const handleRestoreDesignData = () => {
@@ -618,6 +602,9 @@ const DesignDetail: React.FC = () => {
           };
         }}
         columns={columns}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       <ProTable<any>
         headerTitle="资源文件"
@@ -635,13 +622,16 @@ const DesignDetail: React.FC = () => {
             <PlusOutlined /> 添加新资源
           </Button>,
         ]}
-        request={async (params, sort) => {
+        request={async () => {
           return {
             data: designInfo.static_files || [],
             success: true,
           };
         }}
         columns={columnsStatic}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {addVisible && (
         <ModalForm
@@ -664,9 +654,12 @@ const DesignDetail: React.FC = () => {
             showSearch
             name="path"
             width="lg"
-            request={async () => {
-              return addFileType == 'static' ? staticDirs : templateDirs;
+            fieldProps={{
+              onSearch: async (e) => {
+                onSearchTempDir(e);
+              },
             }}
+            options={tempDirs}
           />
           <ProFormText name="tpl" label="模板文件">
             <Upload name="file" showUploadList={false} customRequest={handleUploadTemplate}>
@@ -683,7 +676,7 @@ const DesignDetail: React.FC = () => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentFile.name + '修改文件'}
+          title={currentFile.path + '修改文件'}
           visible={editVisible}
           modalProps={{
             onCancel: () => {

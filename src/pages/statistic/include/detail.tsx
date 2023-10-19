@@ -34,7 +34,7 @@ const StatisticDetail: React.FC = () => {
       title: '谷歌收录',
       dataIndex: 'google_count',
       width: 80,
-    }
+    },
   ];
 
   return (
@@ -44,10 +44,13 @@ const StatisticDetail: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         search={false}
-        request={(params, sort) => {
+        request={(params) => {
           return getStatisticIncludeInfo(params);
         }}
         columns={columns}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
     </PageContainer>
   );

@@ -126,6 +126,9 @@ const PluginFinanceWithdraw: React.FC = () => {
         }}
         columns={columns}
         rowSelection={false}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {withdrawVisible && (
         <ModalForm

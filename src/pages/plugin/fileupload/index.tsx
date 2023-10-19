@@ -45,13 +45,15 @@ const PluginFileupload: React.FC = () => {
     let formData = new FormData();
     formData.append('file', e.file);
     const hide = message.loading('正在提交中', 0);
-    pluginUploadFile(formData).then((res) => {
-      message.success(res.msg);
-      setVisible(false);
-      actionRef.current?.reloadAndRest?.();
-    }).finally(() => {
-      hide();
-    });
+    pluginUploadFile(formData)
+      .then((res) => {
+        message.success(res.msg);
+        setVisible(false);
+        actionRef.current?.reloadAndRest?.();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   const columns: ProColumns<any>[] = [
@@ -125,7 +127,7 @@ const PluginFileupload: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetUploadFiles(params);
         }}
         columns={columns}
@@ -134,6 +136,7 @@ const PluginFileupload: React.FC = () => {
             setSelectedRowKeys(selectedRowKeys);
           },
         }}
+        pagination={false}
       />
 
       <Modal

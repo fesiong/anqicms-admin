@@ -88,6 +88,9 @@ const PluginUserGroup: React.FC = () => {
         }}
         columns={columns}
         rowSelection={false}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {editVisible && (
         <UserGroupForm

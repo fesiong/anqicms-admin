@@ -7,7 +7,11 @@ import ProTable from '@ant-design/pro-table';
 
 import { removeHtmlTag } from '@/utils';
 import MaterialImport from './components/import';
-import { pluginDeleteMaterial, pluginGetMaterialCategories, pluginGetMaterials } from '@/services/plugin/material';
+import {
+  pluginDeleteMaterial,
+  pluginGetMaterialCategories,
+  pluginGetMaterials,
+} from '@/services/plugin/material';
 import MaterialForm from './components/materialForm';
 import MaterialCategory from './components/category';
 
@@ -58,9 +62,9 @@ const PluginMaterial: React.FC = () => {
   };
 
   const handleChangeCategory = async (e: any) => {
-    setCategoryId(e)
+    setCategoryId(e);
     actionRef.current?.reloadAndRest?.();
-  }
+  };
 
   const handleEditMaterial = async (record: any) => {
     setCurrentMaterial(record);
@@ -141,18 +145,14 @@ const PluginMaterial: React.FC = () => {
         search={false}
         toolBarRender={() => [
           <span>分类筛选</span>,
-                <Select
-                  defaultValue={categoryId}
-                  style={{ width: 120 }}
-                  onChange={handleChangeCategory}
-                >
-                  <Select.Option value={0}>全部资源</Select.Option>
-                  {categories.map((item: any, index) => (
-                    <Select.Option key={item.id} value={item.id}>
-                      {item.title}
-                    </Select.Option>
-                  ))}
-                </Select>,
+          <Select defaultValue={categoryId} style={{ width: 120 }} onChange={handleChangeCategory}>
+            <Select.Option value={0}>全部资源</Select.Option>
+            {categories.map((item: any, index) => (
+              <Select.Option key={item.id} value={item.id}>
+                {item.title}
+              </Select.Option>
+            ))}
+          </Select>,
           <MaterialImport
             onCancel={() => {
               getSetting();
@@ -200,7 +200,7 @@ const PluginMaterial: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           params.category_id = categoryId;
           return pluginGetMaterials(params);
         }}
@@ -209,6 +209,9 @@ const PluginMaterial: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

@@ -59,7 +59,7 @@ const ModuleList: React.FC = () => {
     },
     {
       title: '模型名称',
-      dataIndex: 'title'
+      dataIndex: 'title',
     },
     {
       title: '模型表名',
@@ -120,17 +120,19 @@ const ModuleList: React.FC = () => {
           >
             编辑
           </a>
-          {record.is_system == 0 && <a
-            className="text-red"
-            key="delete"
-            onClick={async () => {
-              await handleRemove([record.id]);
-              setSelectedRowKeys([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            删除
-          </a>}
+          {record.is_system == 0 && (
+            <a
+              className="text-red"
+              key="delete"
+              onClick={async () => {
+                await handleRemove([record.id]);
+                setSelectedRowKeys([]);
+                actionRef.current?.reloadAndRest?.();
+              }}
+            >
+              删除
+            </a>
+          )}
         </Space>
       ),
     },
@@ -171,7 +173,7 @@ const ModuleList: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return getModules(params);
         }}
         columns={columns}
@@ -179,6 +181,9 @@ const ModuleList: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

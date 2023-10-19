@@ -119,6 +119,21 @@ const ArchiveCategory: React.FC = () => {
       },
     },
     {
+      title: '状态',
+      dataIndex: 'status',
+      hideInSearch: true,
+      valueEnum: {
+        0: {
+          text: '隐藏',
+          status: 'Default',
+        },
+        1: {
+          text: '显示',
+          status: 'Success',
+        },
+      },
+    },
+    {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
@@ -135,7 +150,7 @@ const ArchiveCategory: React.FC = () => {
           <a
             key="edit"
             onClick={() => {
-              handleEditCategory({ parent_id: record.id, module_id: record.module_id });
+              handleEditCategory({ parent_id: record.id, module_id: record.module_id, status: 1 });
             }}
           >
             增加子类
@@ -143,7 +158,11 @@ const ArchiveCategory: React.FC = () => {
           <a
             key="edit"
             onClick={() => {
-              handleAddMultiCategory({ parent_id: record.id, module_id: record.module_id });
+              handleAddMultiCategory({
+                parent_id: record.id,
+                module_id: record.module_id,
+                status: 1,
+              });
             }}
           >
             批量增加子类
@@ -183,7 +202,7 @@ const ArchiveCategory: React.FC = () => {
           <Button
             key="add"
             onClick={() => {
-              handleAddMultiCategory({ parent_id: 0, module_id: null });
+              handleAddMultiCategory({ parent_id: 0, module_id: null, status: 1 });
             }}
           >
             批量添加分类
@@ -192,7 +211,7 @@ const ArchiveCategory: React.FC = () => {
             type="primary"
             key="add"
             onClick={() => {
-              handleEditCategory({ parent_id: 0, module_id: null });
+              handleEditCategory({ parent_id: 0, module_id: null, status: 1 });
             }}
           >
             <PlusOutlined /> 添加顶级分类
@@ -215,7 +234,7 @@ const ArchiveCategory: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           params.type = 1;
           return getCategories(params);
         }}
@@ -224,6 +243,9 @@ const ArchiveCategory: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (
@@ -260,7 +282,6 @@ const ArchiveCategory: React.FC = () => {
           }}
         />
       )}
-      {}
     </PageContainer>
   );
 };

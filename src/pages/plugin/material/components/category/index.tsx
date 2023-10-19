@@ -146,7 +146,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
             search={false}
             pagination={false}
             toolBarRender={false}
-            request={(params, sort) => {
+            request={(params) => {
               return pluginGetMaterialCategories(params);
             }}
             columns={columns}

@@ -159,7 +159,7 @@ const PluginGuestbook: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetGuestbooks(params);
         }}
         columns={columns}
@@ -167,6 +167,9 @@ const PluginGuestbook: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

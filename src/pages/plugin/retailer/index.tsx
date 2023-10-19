@@ -145,6 +145,9 @@ const PluginRetailer: React.FC = () => {
         }}
         columns={columns}
         rowSelection={false}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {editVisible && (
         <ModalForm

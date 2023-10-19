@@ -195,7 +195,7 @@ const GuestbookSetting: React.FC = (props) => {
           ]}
           tableAlertRender={false}
           tableAlertOptionRender={false}
-          request={async (params, sort) => {
+          request={async () => {
             return {
               data: setting.fields || [],
               success: true,

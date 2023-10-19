@@ -131,10 +131,13 @@ const PluginAiGenerate: React.FC = () => {
             actionRef={actionRef}
             rowKey="id"
             search={false}
-            request={(params, sort) => {
+            request={(params) => {
               return getAiArticlePlans(params);
             }}
             columns={columns}
+            pagination={{
+              showSizeChanger: true,
+            }}
           />
         </div>
         <div className="mt-normal">

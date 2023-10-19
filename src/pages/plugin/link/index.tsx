@@ -207,6 +207,9 @@ const PluginLink: React.FC = () => {
             setSelectedRowKeys(selectedRowKeys);
           },
         }}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {editVisible && (
         <LinkForm

@@ -28,7 +28,6 @@ export class MaterialMenu extends BtnMenu {
   }
 
   clickHandler = async () => {
-    console.log(this.isActive);
     let res = await pluginGetMaterialCategories();
     let categories = (res.data || []).reduce((pre: Object, cur: any) => {
       pre[cur.id] = cur.title;

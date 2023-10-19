@@ -73,9 +73,11 @@ const ArchiveList: React.FC = (props) => {
       hideInSearch: true,
       render: (dom, entity) => {
         return (
-          <div style={{maxWidth: 400}}><a href={entity.link} target="_blank">
-          {dom}
-        </a></div>
+          <div style={{ maxWidth: 400 }}>
+            <a href={entity.link} target="_blank">
+              {dom}
+            </a>
+          </div>
         );
       },
     },
@@ -84,9 +86,7 @@ const ArchiveList: React.FC = (props) => {
       dataIndex: 'thumb',
       hideInSearch: true,
       render: (text, record) => {
-        return (
-          text ? <img src={record.thumb} className='list-thumb' /> : null
-        );
+        return text ? <img src={record.thumb} className="list-thumb" /> : null;
       },
     },
     {
@@ -100,15 +100,15 @@ const ArchiveList: React.FC = (props) => {
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-        <a
-          className="text-red"
-          key="recover"
-          onClick={async () => {
-            await handleRecover([record.id]);
-          }}
-        >
-          恢复
-        </a>
+          <a
+            className="text-red"
+            key="recover"
+            onClick={async () => {
+              await handleRecover([record.id]);
+            }}
+          >
+            恢复
+          </a>
           <a
             className="text-red"
             key="delete"
@@ -130,17 +130,17 @@ const ArchiveList: React.FC = (props) => {
         actionRef={actionRef}
         rowKey="id"
         search={false}
-        toolBarRender={false}
+        toolBarRender={() => []}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>
-          <Button
-            size={'small'}
-            onClick={async () => {
-              await handleRecover(selectedRowKeys);
-            }}
-          >
-            批量恢复
-          </Button>
+            <Button
+              size={'small'}
+              onClick={async () => {
+                await handleRecover(selectedRowKeys);
+              }}
+            >
+              批量恢复
+            </Button>
             <Button
               size={'small'}
               onClick={async () => {
@@ -154,7 +154,7 @@ const ArchiveList: React.FC = (props) => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           params.recycle = true;
           return getArchives(params);
         }}
@@ -163,6 +163,9 @@ const ArchiveList: React.FC = (props) => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
     </PageContainer>

@@ -146,10 +146,13 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
             rowKey="id"
             search={false}
             toolBarRender={false}
-            request={(params, sort) => {
+            request={(params) => {
               return getAttachmentCategories(params);
             }}
             columns={columns}
+            pagination={{
+              showSizeChanger: true,
+            }}
           />
         </div>
       </Modal>

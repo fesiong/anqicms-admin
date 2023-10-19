@@ -138,7 +138,7 @@ const PluginRedirect: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetRedirects(params);
         }}
         columns={columns}
@@ -146,6 +146,9 @@ const PluginRedirect: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

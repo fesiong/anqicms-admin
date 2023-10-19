@@ -434,22 +434,25 @@ const ArchiveList: React.FC = (props) => {
           </div>
         );
       },
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
+      renderFormItem: (_, { fieldProps }) => {
         return (
           <ProFormSelect
             name="category_id"
             request={async () => {
               let res = await getCategories({ type: 1 });
-              return [{ spacer: '', title: '所有分类', id: 0 }].concat(res.data || []);
+              const categories = [{ spacer: '', title: '所有分类', id: 0, status: 1 }]
+                .concat(res.data || [])
+                .map((cat: any) => ({
+                  spacer: cat.spacer,
+                  label: cat.title + (cat.status == 1 ? '' : '(隐藏)'),
+                  value: cat.id,
+                }));
+              return categories;
             }}
             fieldProps={{
-              fieldNames: {
-                label: 'title',
-                value: 'id',
-              },
               ...fieldProps,
               optionItemRender(item) {
-                return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
+                return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}></div>;
               },
             }}
           />
@@ -479,7 +482,7 @@ const ArchiveList: React.FC = (props) => {
           status: 'Default',
         },
       },
-      renderFormItem: (_, { type, defaultRender, formItemProps, fieldProps, ...rest }, form) => {
+      renderFormItem: () => {
         return (
           <ProFormSelect
             name="status"
@@ -637,6 +640,10 @@ const ArchiveList: React.FC = (props) => {
             <PlusOutlined /> 添加文档
           </Button>,
         ]}
+        columnsState={{
+          persistenceKey: 'archive-table',
+          persistenceType: 'localStorage',
+        }}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>
             <Button
@@ -712,6 +719,9 @@ const ArchiveList: React.FC = (props) => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {replaceVisible && (

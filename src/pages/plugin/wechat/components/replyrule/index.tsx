@@ -122,6 +122,9 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
           search={false}
           columns={columns}
           rowSelection={false}
+          pagination={{
+            showSizeChanger: true,
+          }}
         />
       </Modal>
       {editVisible && (

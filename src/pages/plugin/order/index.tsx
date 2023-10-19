@@ -271,6 +271,9 @@ const PluginOrder: React.FC = () => {
         }}
         columns={columns}
         rowSelection={false}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {editVisible && (
         <OrderForm

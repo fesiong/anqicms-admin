@@ -45,10 +45,13 @@ const AdminLoginLog: React.FC = () => {
         rowKey="id"
         actionRef={actionRef}
         search={false}
-        request={(params, sort) => {
+        request={(params) => {
           return getAdminLoginLogs(params);
         }}
         columns={columns}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
     </PageContainer>
   );

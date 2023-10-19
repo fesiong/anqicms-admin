@@ -809,7 +809,11 @@ export default class ArchiveForm extends React.Component {
                       mode={contentSetting.multi_category == 1 ? 'multiple' : ''}
                       request={async () => {
                         const res = await getCategories({ type: 1 });
-                        const categories = res.data || [];
+                        const categories = (res.data || []).map((cat: any) => ({
+                          spacer: cat.spacer,
+                          label: cat.title + (cat.status == 1 ? '' : '(隐藏)'),
+                          value: cat.id,
+                        }));
                         if (categories.length == 0) {
                           Modal.error({
                             title: '请先创建分类，再来发布文档',
@@ -821,14 +825,10 @@ export default class ArchiveForm extends React.Component {
                         return categories;
                       }}
                       fieldProps={{
-                        fieldNames: {
-                          label: 'title',
-                          value: 'id',
-                        },
                         optionItemRender(item) {
                           return (
                             <div
-                              dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}
+                              dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}
                             ></div>
                           );
                         },

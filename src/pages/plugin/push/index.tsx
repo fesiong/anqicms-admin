@@ -194,12 +194,13 @@ const PluginPush: React.FC<any> = (props) => {
                     </Button>,
                   ]}
                   tableAlertOptionRender={false}
-                  request={async (params, sort) => {
+                  request={async () => {
                     return {
                       data: jsCodes,
                     };
                   }}
                   columns={jsColumns}
+                  pagination={false}
                 />
                 <div>
                   <p>可以放置百度JS自动提交、360自动收录、头条自动收录等JS代码。</p>
@@ -229,10 +230,13 @@ const PluginPush: React.FC<any> = (props) => {
           rowKey="id"
           search={false}
           toolBarRender={false}
-          request={(params, sort) => {
+          request={(params) => {
             return pluginGetPushLogs(params);
           }}
           columns={columns}
+          pagination={{
+            showSizeChanger: true,
+          }}
         />
       </Modal>
       {editCodeVisible && (

@@ -40,7 +40,7 @@ const Keywords: React.FC<KeywordsProps> = (props) => {
         toolBarRender={false}
         tableAlertRender={false}
         tableAlertOptionRender={false}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetKeywords(params);
         }}
         columns={columns}
@@ -51,6 +51,7 @@ const Keywords: React.FC<KeywordsProps> = (props) => {
         }}
         pagination={{
           defaultPageSize: 10,
+          showSizeChanger: true,
         }}
       />
     </Modal>

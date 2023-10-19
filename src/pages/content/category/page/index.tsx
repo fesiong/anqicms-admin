@@ -45,7 +45,7 @@ const PageCategory: React.FC = () => {
     const res = await getCategoryInfo({
       id: record.id,
     });
-    const category = res.data || {};
+    const category = res.data || { status: 1 };
 
     setCurrentCategory(category);
     setEditVisible(true);
@@ -75,6 +75,21 @@ const PageCategory: React.FC = () => {
             </a>
           </>
         );
+      },
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      hideInSearch: true,
+      valueEnum: {
+        0: {
+          text: '隐藏',
+          status: 'Default',
+        },
+        1: {
+          text: '显示',
+          status: 'Success',
+        },
       },
     },
     {
@@ -119,7 +134,7 @@ const PageCategory: React.FC = () => {
             type="primary"
             key="add"
             onClick={() => {
-              handleEditCategory({});
+              handleEditCategory({ status: 1 });
             }}
           >
             <PlusOutlined /> 添加单页面
@@ -142,7 +157,7 @@ const PageCategory: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           params.type = 3;
           return getCategories(params);
         }}
@@ -151,6 +166,9 @@ const PageCategory: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (

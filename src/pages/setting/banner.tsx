@@ -125,8 +125,11 @@ const SettingBannerFrom: React.FC<any> = () => {
         columns={columns}
         actionRef={actionRef}
         search={false}
-        request={(params, sort) => {
+        request={(params) => {
           return getSettingBanners(params);
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {modalVisible && (

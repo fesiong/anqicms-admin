@@ -10,7 +10,17 @@ import {
   getWebsiteList,
   saveWebsiteInfo,
 } from '@/services';
-import { Button, Divider, message, Modal, RadioChangeEvent, Space, Tag, Collapse } from 'antd';
+import {
+  Button,
+  Divider,
+  message,
+  Modal,
+  RadioChangeEvent,
+  Space,
+  Tag,
+  Collapse,
+  Checkbox,
+} from 'antd';
 import {
   ModalForm,
   ProFormCheckbox,
@@ -30,6 +40,7 @@ const WebsiteList: React.FC = () => {
   const [userDefault, setUseDefault] = useState<boolean>(false);
   const [editInfo, setEditInfo] = useState<any>({});
   const [siteInfo, setSiteInfo] = useState<any>({});
+  const inputRef = useRef<any>();
 
   useEffect(() => {
     initSiteInfo();
@@ -100,15 +111,39 @@ const WebsiteList: React.FC = () => {
       message.error('该站点不能删除');
       return;
     }
+    if (submiting) {
+      return;
+    }
     Modal.confirm({
       title: '确定要删除吗？',
+      content: (
+        <div>
+          <div className="mb-normal">请谨慎操作！是否同时删除数据库和站点文件？</div>
+          <div style={{ padding: '10px 0' }}>
+            <div>
+              <Checkbox ref={inputRef} value={true}>
+                同时删除数据库和文件
+              </Checkbox>
+            </div>
+          </div>
+        </div>
+      ),
       onOk: async () => {
+        submiting = true;
+        const hide = message.loading('正在删除中', 0);
+        const removeFile = inputRef.current?.input?.checked || false;
         deleteWebsiteInfo({
           id: record.id,
-        }).then((res) => {
-          message.info(res.msg);
-          actionRef.current?.reload();
-        });
+          remove_file: removeFile,
+        })
+          .then((res) => {
+            message.info(res.msg);
+            actionRef.current?.reload();
+          })
+          .finally(() => {
+            submiting = false;
+            hide();
+          });
       },
     });
   };
@@ -193,7 +228,7 @@ const WebsiteList: React.FC = () => {
                   className="text-red"
                   key="delete"
                   onClick={async () => {
-                    await handleRemove([record.id]);
+                    await handleRemove(record);
                   }}
                 >
                   删除
@@ -230,6 +265,9 @@ const WebsiteList: React.FC = () => {
             </Button>
           ),
         ]}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
       {editVisible && (
         <ModalForm

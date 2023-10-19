@@ -201,7 +201,7 @@ const PluginAnchor: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={(params) => {
           return pluginGetAnchors(params);
         }}
         columns={columns}
@@ -209,6 +209,9 @@ const PluginAnchor: React.FC = () => {
           onChange: (selectedRowKeys) => {
             setSelectedRowKeys(selectedRowKeys);
           },
+        }}
+        pagination={{
+          showSizeChanger: true,
         }}
       />
       {editVisible && (
