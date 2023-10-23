@@ -37,6 +37,7 @@ import icon_titleimage from '@/images/icon_titleimage.png';
 import icon_htmlcache from '@/images/icon_htmlcache.png';
 import icon_ai from '@/images/icon_ai.png';
 import icon_timefactor from '@/images/icon_timefactor.png';
+import icon_interference from '@/images/icon_interference.png';
 
 const PluginIndex: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -129,6 +130,8 @@ const PluginIndex: React.FC = () => {
         return icon_ai;
       case 'timefactor':
         return icon_timefactor;
+      case 'interference':
+        return icon_interference;
     }
   };
 

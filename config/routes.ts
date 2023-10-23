@@ -357,6 +357,13 @@
         icon: 'timefactor',
       },
       {
+        path: '/plugin/interference',
+        name: '防采集干扰码',
+        type: 'system',
+        component: '@/pages/plugin/interference/index',
+        icon: 'interference',
+      },
+      {
         component: './404',
       },
     ],
