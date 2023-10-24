@@ -351,7 +351,7 @@
       },
       {
         path: '/plugin/timefactor',
-        name: '文档时间因子',
+        name: '时间因子-定时发布',
         type: 'content',
         component: '@/pages/plugin/timefactor/index',
         icon: 'timefactor',
