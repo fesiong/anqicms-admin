@@ -186,7 +186,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
           metas={{
             title: {
               render: (text: any, row: any) => {
-                return (row.parent_id > 0 ? '└  ' : '') + text;
+                return (row.spacer || '') + text;
               },
               dataIndex: 'title',
             },
@@ -259,6 +259,13 @@ const SettingNavFrom: React.FC<any> = (props) => {
               for (let item of navs) {
                 if (item.parent_id == 0) {
                   newNavs.push(item);
+                  for (let sub of navs) {
+                    if (sub.parent_id == item.id) {
+                      sub.spacer = (item.spacer || '') + '└  ';
+                      sub.title = sub.spacer + sub.title;
+                      newNavs.push(sub);
+                    }
+                  }
                 }
               }
               return newNavs;

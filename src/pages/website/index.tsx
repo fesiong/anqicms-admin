@@ -5,27 +5,19 @@ import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
 import {
   deleteWebsiteInfo,
+  getDesignList,
   getSiteInfo,
   getWebsiteInfo,
   getWebsiteList,
   saveWebsiteInfo,
 } from '@/services';
-import {
-  Button,
-  Divider,
-  message,
-  Modal,
-  RadioChangeEvent,
-  Space,
-  Tag,
-  Collapse,
-  Checkbox,
-} from 'antd';
+import { Button, message, Modal, RadioChangeEvent, Space, Tag, Collapse, Checkbox } from 'antd';
 import {
   ModalForm,
   ProFormCheckbox,
   ProFormDigit,
   ProFormRadio,
+  ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
@@ -337,11 +329,35 @@ const WebsiteList: React.FC = () => {
                     <ProFormText name={['mysql', 'password']} label="数据库密码" />
                   </>
                 )}
-                <ProFormCheckbox
-                  name="preview_data"
-                  label="安装演示数据"
-                  extra="勾选后，将安装默认演示数据"
-                />
+                {!editInfo.id && (
+                  <>
+                    <ProFormSelect
+                      label="选择使用的模板"
+                      showSearch
+                      name="template"
+                      request={async () => {
+                        const res = await getDesignList({});
+                        const data = res.data || [];
+                        for (const i in data) {
+                          data[i].label = data[i].name + '(' + data[i].package + ')';
+                        }
+                        return data;
+                      }}
+                      fieldProps={{
+                        fieldNames: {
+                          label: 'label',
+                          value: 'package',
+                        },
+                      }}
+                      extra="新添加的站点将启用选择的模板"
+                    />
+                    <ProFormCheckbox
+                      name="preview_data"
+                      label="安装演示数据"
+                      extra="勾选后，将安装默认演示数据"
+                    />
+                  </>
+                )}
               </Panel>
             </Collapse>
           )}

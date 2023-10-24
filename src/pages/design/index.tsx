@@ -14,6 +14,7 @@ import { history } from 'umi';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 
 let autoBackup = false;
+let autoCleanup = false;
 const DesignIndex: React.FC = () => {
   const [addVisible, setAddVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
@@ -83,9 +84,11 @@ const DesignIndex: React.FC = () => {
   const handleRestoreDesignData = (record: any) => {
     Modal.confirm({
       title: '确定要安装该模板的演示数据吗？',
+      width: 480,
       content: (
         <div>
           <p>该安装操作将会用模板的演示数据覆盖，请谨慎操作。</p>
+          <p>你可以选择在初始化模板数据时自动清空原站点数据。</p>
           <p>在执行安装演示数据前，建议先备份网站原有数据。</p>
           <div>
             <Checkbox
@@ -97,12 +100,28 @@ const DesignIndex: React.FC = () => {
               <span className="text-red">*</span>
               自动执行备份
             </Checkbox>
+            <Checkbox
+              value={true}
+              onChange={(e) => {
+                autoCleanup = e.target.checked;
+                if (autoCleanup) {
+                  autoBackup = true;
+                }
+              }}
+            >
+              <span className="text-red">*</span>
+              自动清空原站点数据
+            </Checkbox>
           </div>
         </div>
       ),
       onOk: () => {
         const hide = message.loading('正在提交中', 0);
-        restoreDesignData({ package: record.package, auto_backup: autoBackup })
+        restoreDesignData({
+          package: record.package,
+          auto_backup: autoBackup,
+          auto_cleanup: autoCleanup,
+        })
           .then((res) => {
             message.info(res.msg);
             actionRef.current?.reload();
