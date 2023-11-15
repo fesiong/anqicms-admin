@@ -43,6 +43,7 @@ const PluginWechatSetting: React.FC<any> = (props) => {
         onFinish={onSubmit}
         title="微信服务号配置"
       >
+        <ProFormText name="server_url" label="服务器地址" width="lg" readonly />
         <ProFormText name="app_id" label="服务号AppID" width="lg" />
         <ProFormText name="app_secret" label="服务号AppSecret" width="lg" />
         <ProFormText name="token" label="服务号Token" width="lg" />
