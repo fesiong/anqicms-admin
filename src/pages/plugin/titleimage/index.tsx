@@ -148,6 +148,24 @@ const PluginTitleImage: React.FC<any> = () => {
                   extra="启用后，会在文档没有图片的时候，自动生成一张包含文档标题的图片作为文档缩略图图片"
                 />
                 <div style={{ display: setting.open ? 'block' : 'none' }}>
+                  <ProFormRadio.Group
+                    name="draw_sub"
+                    label="是否生成文档二级标题配图"
+                    options={[
+                      {
+                        value: false,
+                        label: '关闭',
+                      },
+                      {
+                        value: true,
+                        label: '开启',
+                      },
+                    ]}
+                    fieldProps={{
+                      onChange: changeOpen,
+                    }}
+                    extra="开启后，会在文档没有图片的时候，自动给文档h2标签生成图片，并插入到文档中"
+                  />
                   <ProFormGroup label="生成图片尺寸">
                     <ProFormText
                       name="width"
