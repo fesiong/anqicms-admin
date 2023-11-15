@@ -29,6 +29,7 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
       type: props.type,
       title: '',
       url_token: '',
+      status: 1,
     };
     let splitData = values.inputs.split('\n');
     for (let item of splitData) {
