@@ -6,7 +6,7 @@ import ProForm, {
   ProFormRadio,
 } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, Col, Collapse, message, Modal, Row, Upload } from 'antd';
+import { Button, Card, Col, message, Modal, Row, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   deleteSystemFavicon,
@@ -16,6 +16,7 @@ import {
 } from '@/services/setting';
 import { useModel } from 'umi';
 import AttachmentSelect from '@/components/attachment';
+import CollapseItem from '@/components/collaspeItem';
 
 const SettingSystemFrom: React.FC<any> = (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -272,70 +273,64 @@ const SettingSystemFrom: React.FC<any> = (props) => {
                 },
               ]}
             />
-            <Collapse>
-              <Collapse.Panel
-                className="mb-normal"
-                header="自定义参数"
-                extra={
-                  <Button
-                    size="small"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      extraFields.push({ name: '', value: '', remark: '' });
-                      setExtraFields([].concat(extraFields));
-                    }}
-                  >
-                    添加参数
-                  </Button>
-                }
-                key="1"
-              >
-                {extraFields.map((item: any, index: number) => (
-                  <Row key={index} gutter={16}>
-                    <Col span={8}>
-                      <ProFormText
-                        name={['extra_fields', index, 'name']}
-                        label="参数名"
-                        required={true}
-                        width="lg"
-                        extra="保存后会转换成驼峰命名，可通过该名称调用"
-                      />
-                    </Col>
-                    <Col span={8}>
-                      <ProFormText
-                        name={['extra_fields', index, 'value']}
-                        label="参数值"
-                        required={true}
-                        width="lg"
-                      />
-                    </Col>
-                    <Col span={6}>
-                      <ProFormText
-                        name={['extra_fields', index, 'remark']}
-                        label="备注"
-                        width="lg"
-                      />
-                    </Col>
-                    <Col span={2}>
-                      <Button
-                        style={{ marginTop: '30px' }}
-                        onClick={() => {
-                          Modal.confirm({
-                            title: '确定要删除这个参数吗？',
-                            onOk: () => {
-                              extraFields.splice(index, 1);
-                              setExtraFields([].concat(extraFields));
-                            },
-                          });
-                        }}
-                      >
-                        删除
-                      </Button>
-                    </Col>
-                  </Row>
-                ))}
-              </Collapse.Panel>
-            </Collapse>
+            <CollapseItem
+              className="mb-normal"
+              header="自定义参数"
+              extra={
+                <Button
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    extraFields.push({ name: '', value: '', remark: '' });
+                    setExtraFields([].concat(extraFields));
+                  }}
+                >
+                  添加参数
+                </Button>
+              }
+              key="1"
+            >
+              {extraFields.map((item: any, index: number) => (
+                <Row key={index} gutter={16}>
+                  <Col span={8}>
+                    <ProFormText
+                      name={['extra_fields', index, 'name']}
+                      label="参数名"
+                      required={true}
+                      width="lg"
+                      extra="保存后会转换成驼峰命名，可通过该名称调用"
+                    />
+                  </Col>
+                  <Col span={8}>
+                    <ProFormText
+                      name={['extra_fields', index, 'value']}
+                      label="参数值"
+                      required={true}
+                      width="lg"
+                    />
+                  </Col>
+                  <Col span={6}>
+                    <ProFormText name={['extra_fields', index, 'remark']} label="备注" width="lg" />
+                  </Col>
+                  <Col span={2}>
+                    <Button
+                      style={{ marginTop: '30px' }}
+                      onClick={() => {
+                        Modal.confirm({
+                          title: '确定要删除这个参数吗？',
+                          onOk: () => {
+                            extraFields.splice(index, 1);
+                            setExtraFields([].concat(extraFields));
+                          },
+                        });
+                      }}
+                    >
+                      删除
+                    </Button>
+                  </Col>
+                </Row>
+              ))}
+            </CollapseItem>
           </ProForm>
         )}
       </Card>

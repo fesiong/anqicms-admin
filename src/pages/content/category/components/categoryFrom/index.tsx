@@ -9,11 +9,12 @@ import {
 } from '@ant-design/pro-form';
 
 import { getCategories, getDesignTemplateFiles, getSettingContent, saveCategory } from '@/services';
-import { Collapse, message, Image } from 'antd';
+import { message, Image } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import WangEditor from '@/components/editor';
 import AttachmentSelect from '@/components/attachment';
 import MarkdownEditor from '@/components/markdown';
+import CollapseItem from '@/components/collaspeItem';
 
 export type CategoryFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -195,96 +196,118 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
         ]}
         extra="设置隐藏后，前台不会出现这个分类，隐藏分类下的文档也不会显示"
       />
-      <Collapse>
-        <Collapse.Panel header="其他参数" key="1">
-          <ProFormDigit name="sort" label="显示顺序" extra={'默认99，数字越小越靠前'} />
-          <ProFormText
-            name="seo_title"
-            label="SEO标题"
-            placeholder="默认为页面名称，无需填写"
-            extra="注意：如果你希望页面的title标签的内容不是页面名称，可以通过SEO标题设置"
-          />
-          <ProFormText name="keywords" label="关键词" extra="你可以单独设置关键词" />
-          <ProFormSelect
-            label="分类模板"
-            showSearch
-            name="template"
-            request={async () => {
-              const res = await getDesignTemplateFiles({});
-              const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
-              for (const i in data) {
-                if (!data[i].remark) {
-                  data[i].remark = data[i].path;
-                } else {
-                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
-                }
+      <CollapseItem header="其他参数" showArrow>
+        <ProFormDigit name="sort" label="显示顺序" extra={'默认99，数字越小越靠前'} />
+        <ProFormText
+          name="seo_title"
+          label="SEO标题"
+          placeholder="默认为页面名称，无需填写"
+          extra="注意：如果你希望页面的title标签的内容不是页面名称，可以通过SEO标题设置"
+        />
+        <ProFormText name="keywords" label="关键词" extra="你可以单独设置关键词" />
+        <ProFormSelect
+          label="分类模板"
+          showSearch
+          name="template"
+          request={async () => {
+            const res = await getDesignTemplateFiles({});
+            const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+            for (const i in data) {
+              if (!data[i].remark) {
+                data[i].remark = data[i].path;
+              } else {
+                data[i].remark = data[i].path + '(' + data[i].remark + ')';
               }
-              return data;
-            }}
-            fieldProps={{
-              fieldNames: {
-                label: 'remark',
-                value: 'path',
-              },
-            }}
-            extra={<div>分类默认值：{currentModule.table_name}/list.html</div>}
-          />
-          <ProFormRadio.Group
-            name="is_inherit"
-            label="应用到子分类"
-            options={[
-              {
-                value: 0,
-                label: '不应用',
-              },
-              {
-                value: 1,
-                label: '应用',
-              },
-            ]}
-            extra="如果设置了自定义分类模板，可以选择应用到所有子分类，或者仅对当前分类生效"
-          />
-          <ProFormSelect
-            label="文档模板"
-            showSearch
-            name="detail_template"
-            request={async () => {
-              const res = await getDesignTemplateFiles({});
-              const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
-              for (const i in data) {
-                if (!data[i].remark) {
-                  data[i].remark = data[i].path;
-                } else {
-                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
-                }
+            }
+            return data;
+          }}
+          fieldProps={{
+            fieldNames: {
+              label: 'remark',
+              value: 'path',
+            },
+          }}
+          extra={<div>分类默认值：{currentModule.table_name}/list.html</div>}
+        />
+        <ProFormRadio.Group
+          name="is_inherit"
+          label="应用到子分类"
+          options={[
+            {
+              value: 0,
+              label: '不应用',
+            },
+            {
+              value: 1,
+              label: '应用',
+            },
+          ]}
+          extra="如果设置了自定义分类模板，可以选择应用到所有子分类，或者仅对当前分类生效"
+        />
+        <ProFormSelect
+          label="文档模板"
+          showSearch
+          name="detail_template"
+          request={async () => {
+            const res = await getDesignTemplateFiles({});
+            const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+            for (const i in data) {
+              if (!data[i].remark) {
+                data[i].remark = data[i].path;
+              } else {
+                data[i].remark = data[i].path + '(' + data[i].remark + ')';
               }
-              return data;
-            }}
-            fieldProps={{
-              fieldNames: {
-                label: 'remark',
-                value: 'path',
-              },
-            }}
-            extra={<div>文档模板默认值：{currentModule.table_name}/detail.html</div>}
-          />
-          <ProFormText label="Banner图">
-            {categoryImages.length
-              ? categoryImages.map((item: string, index: number) => (
-                  <div className="ant-upload-item" key={index}>
-                    <Image
-                      preview={{
-                        src: item,
-                      }}
-                      src={item}
-                    />
-                    <span className="delete" onClick={handleCleanImages.bind(this, index)}>
-                      <DeleteOutlined />
-                    </span>
-                  </div>
-                ))
-              : null}
-            <AttachmentSelect onSelect={handleSelectImages} visible={false}>
+            }
+            return data;
+          }}
+          fieldProps={{
+            fieldNames: {
+              label: 'remark',
+              value: 'path',
+            },
+          }}
+          extra={<div>文档模板默认值：{currentModule.table_name}/detail.html</div>}
+        />
+        <ProFormText label="Banner图">
+          {categoryImages.length
+            ? categoryImages.map((item: string, index: number) => (
+                <div className="ant-upload-item" key={index}>
+                  <Image
+                    preview={{
+                      src: item,
+                    }}
+                    src={item}
+                  />
+                  <span className="delete" onClick={handleCleanImages.bind(this, index)}>
+                    <DeleteOutlined />
+                  </span>
+                </div>
+              ))
+            : null}
+          <AttachmentSelect onSelect={handleSelectImages} visible={false}>
+            <div className="ant-upload-item">
+              <div className="add">
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>上传</div>
+              </div>
+            </div>
+          </AttachmentSelect>
+        </ProFormText>
+        <ProFormText label="缩略图">
+          {categoryLogo ? (
+            <div className="ant-upload-item">
+              <Image
+                preview={{
+                  src: categoryLogo,
+                }}
+                src={categoryLogo}
+              />
+              <span className="delete" onClick={handleCleanLogo}>
+                <DeleteOutlined />
+              </span>
+            </div>
+          ) : (
+            <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
               <div className="ant-upload-item">
                 <div className="add">
                   <PlusOutlined />
@@ -292,56 +315,32 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
                 </div>
               </div>
             </AttachmentSelect>
-          </ProFormText>
-          <ProFormText label="缩略图">
-            {categoryLogo ? (
-              <div className="ant-upload-item">
-                <Image
-                  preview={{
-                    src: categoryLogo,
-                  }}
-                  src={categoryLogo}
-                />
-                <span className="delete" onClick={handleCleanLogo}>
-                  <DeleteOutlined />
-                </span>
-              </div>
-            ) : (
-              <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
-                <div className="ant-upload-item">
-                  <div className="add">
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>上传</div>
-                  </div>
-                </div>
-              </AttachmentSelect>
-            )}
-          </ProFormText>
-          {loaded && (
-            <>
-              {contentSetting.editor == 'markdown' ? (
-                <MarkdownEditor
-                  className="mb-normal"
-                  setContent={async (html: string) => {
-                    setContent(html);
-                  }}
-                  content={content}
-                  ref={editorRef}
-                />
-              ) : (
-                <WangEditor
-                  className="mb-normal"
-                  setContent={async (html: string) => {
-                    setContent(html);
-                  }}
-                  ref={editorRef}
-                  content={props.category.content}
-                />
-              )}
-            </>
           )}
-        </Collapse.Panel>
-      </Collapse>
+        </ProFormText>
+        {loaded && (
+          <>
+            {contentSetting.editor == 'markdown' ? (
+              <MarkdownEditor
+                className="mb-normal"
+                setContent={async (html: string) => {
+                  setContent(html);
+                }}
+                content={content}
+                ref={editorRef}
+              />
+            ) : (
+              <WangEditor
+                className="mb-normal"
+                setContent={async (html: string) => {
+                  setContent(html);
+                }}
+                ref={editorRef}
+                content={props.category.content}
+              />
+            )}
+          </>
+        )}
+      </CollapseItem>
     </ModalForm>
   );
 };

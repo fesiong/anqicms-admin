@@ -10,11 +10,12 @@ import {
 
 import { saveCategory } from '@/services/category';
 import WangEditor from '@/components/editor';
-import { Image, message, Collapse } from 'antd';
+import { Image, message } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import AttachmentSelect from '@/components/attachment';
 import MarkdownEditor from '@/components/markdown';
 import { getDesignTemplateFiles, getSettingContent } from '@/services';
+import CollapseItem from '@/components/collaspeItem';
 
 export type CategoryFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -124,57 +125,79 @@ const PageForm: React.FC<CategoryFormProps> = (props) => {
         ]}
         extra="设置隐藏后，前台不会出现这个页面"
       />
-      <Collapse>
-        <Collapse.Panel header="其他参数" key="1">
-          <ProFormText
-            name="seo_title"
-            label="SEO标题"
-            placeholder="默认为页面名称，无需填写"
-            extra="注意：如果你希望页面的title标签的内容不是页面名称，可以通过SEO标题设置"
-          />
-          <ProFormText name="keywords" label="关键词" extra="你可以单独设置关键词" />
-          <ProFormDigit name="sort" label="显示顺序" extra={'默认99，数字越小越靠前'} />
-          <ProFormSelect
-            label="页面模板"
-            showSearch
-            name="template"
-            request={async () => {
-              const res = await getDesignTemplateFiles({});
-              const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
-              for (const i in data) {
-                if (!data[i].remark) {
-                  data[i].remark = data[i].path;
-                } else {
-                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
-                }
+      <CollapseItem header="其他参数" showArrow>
+        <ProFormText
+          name="seo_title"
+          label="SEO标题"
+          placeholder="默认为页面名称，无需填写"
+          extra="注意：如果你希望页面的title标签的内容不是页面名称，可以通过SEO标题设置"
+        />
+        <ProFormText name="keywords" label="关键词" extra="你可以单独设置关键词" />
+        <ProFormDigit name="sort" label="显示顺序" extra={'默认99，数字越小越靠前'} />
+        <ProFormSelect
+          label="页面模板"
+          showSearch
+          name="template"
+          request={async () => {
+            const res = await getDesignTemplateFiles({});
+            const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+            for (const i in data) {
+              if (!data[i].remark) {
+                data[i].remark = data[i].path;
+              } else {
+                data[i].remark = data[i].path + '(' + data[i].remark + ')';
               }
-              return data;
-            }}
-            fieldProps={{
-              fieldNames: {
-                label: 'remark',
-                value: 'path',
-              },
-            }}
-            extra={<div>页面默认值：page/detail.html</div>}
-          />
-          <ProFormText label="Banner图">
-            {categoryImages.length
-              ? categoryImages.map((item: string, index: number) => (
-                  <div className="ant-upload-item" key={index}>
-                    <Image
-                      preview={{
-                        src: item,
-                      }}
-                      src={item}
-                    />
-                    <span className="delete" onClick={handleCleanImages.bind(this, index)}>
-                      <DeleteOutlined />
-                    </span>
-                  </div>
-                ))
-              : null}
-            <AttachmentSelect onSelect={handleSelectImages} visible={false}>
+            }
+            return data;
+          }}
+          fieldProps={{
+            fieldNames: {
+              label: 'remark',
+              value: 'path',
+            },
+          }}
+          extra={<div>页面默认值：page/detail.html</div>}
+        />
+        <ProFormText label="Banner图">
+          {categoryImages.length
+            ? categoryImages.map((item: string, index: number) => (
+                <div className="ant-upload-item" key={index}>
+                  <Image
+                    preview={{
+                      src: item,
+                    }}
+                    src={item}
+                  />
+                  <span className="delete" onClick={handleCleanImages.bind(this, index)}>
+                    <DeleteOutlined />
+                  </span>
+                </div>
+              ))
+            : null}
+          <AttachmentSelect onSelect={handleSelectImages} visible={false}>
+            <div className="ant-upload-item">
+              <div className="add">
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>上传</div>
+              </div>
+            </div>
+          </AttachmentSelect>
+        </ProFormText>
+        <ProFormText label="缩略图">
+          {categoryLogo ? (
+            <div className="ant-upload-item">
+              <Image
+                preview={{
+                  src: categoryLogo,
+                }}
+                src={categoryLogo}
+              />
+              <span className="delete" onClick={handleCleanLogo}>
+                <DeleteOutlined />
+              </span>
+            </div>
+          ) : (
+            <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
               <div className="ant-upload-item">
                 <div className="add">
                   <PlusOutlined />
@@ -182,33 +205,9 @@ const PageForm: React.FC<CategoryFormProps> = (props) => {
                 </div>
               </div>
             </AttachmentSelect>
-          </ProFormText>
-          <ProFormText label="缩略图">
-            {categoryLogo ? (
-              <div className="ant-upload-item">
-                <Image
-                  preview={{
-                    src: categoryLogo,
-                  }}
-                  src={categoryLogo}
-                />
-                <span className="delete" onClick={handleCleanLogo}>
-                  <DeleteOutlined />
-                </span>
-              </div>
-            ) : (
-              <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
-                <div className="ant-upload-item">
-                  <div className="add">
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>上传</div>
-                  </div>
-                </div>
-              </AttachmentSelect>
-            )}
-          </ProFormText>
-        </Collapse.Panel>
-      </Collapse>
+          )}
+        </ProFormText>
+      </CollapseItem>
       {loaded && (
         <>
           {contentSetting.editor == 'markdown' ? (

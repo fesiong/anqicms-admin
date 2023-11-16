@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import MonacoEditor from 'react-monaco-editor';
-import { Button, Card, Col, message, Row, Space, Collapse, Modal, Tree } from 'antd';
+import { Button, Card, Col, message, Row, Space, Modal, Tree } from 'antd';
 import { history } from 'umi';
 import {
   deleteDesignHistoryFile,
@@ -16,6 +16,7 @@ import './index.less';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import moment from 'moment';
 import TemplateCompare from './components/compare';
+import CollapseItem from '@/components/collaspeItem';
 
 var fileType: string = '';
 
@@ -452,61 +453,65 @@ const DesignEditor: React.FC = () => {
             </div>
           </Col>
           <Col span={6}>
-            <Collapse defaultActiveKey={['1']}>
-              <Collapse.Panel className="tpl-file-list" showArrow={false} header="模板文件" key="1">
-                <Tree
-                  showLine={true}
-                  showIcon={false}
-                  expandedKeys={tplSelect}
-                  onSelect={(_, a) => {
-                    if (a.node.children) {
-                      let key = a.node.key;
-                      let tmpItems = tplSelect.flat();
-                      let index = tmpItems.indexOf(key);
-                      if (index === -1) {
-                        tmpItems.push(key);
-                      } else {
-                        tmpItems.splice(index, 1);
-                      }
-                      setTplSelect(tmpItems);
-                      return;
+            <CollapseItem
+              className="tpl-file-list"
+              showArrow={false}
+              open
+              header="模板文件"
+              key="1"
+            >
+              <Tree
+                showLine={true}
+                showIcon={false}
+                expandedKeys={tplSelect}
+                onSelect={(_, a) => {
+                  if (a.node.children) {
+                    let key = a.node.key;
+                    let tmpItems = tplSelect.flat();
+                    let index = tmpItems.indexOf(key);
+                    if (index === -1) {
+                      tmpItems.push(key);
+                    } else {
+                      tmpItems.splice(index, 1);
                     }
-                    handleEditFile('template', a.node);
-                  }}
-                  onExpand={(k) => {
-                    setTplSelect(k);
-                  }}
-                  treeData={tplFiles}
-                />
-              </Collapse.Panel>
-              <Collapse.Panel className="tpl-file-list" showArrow={false} header="资源文件" key="2">
-                <Tree
-                  showLine={true}
-                  showIcon={false}
-                  expandedKeys={staticSelect}
-                  onSelect={(_, a) => {
-                    if (a.node.children) {
-                      let key = a.node.key;
-                      let tmpItems = staticSelect.flat();
-                      let index = tmpItems.indexOf(key);
-                      if (index === -1) {
-                        tmpItems.push(key);
-                      } else {
-                        tmpItems.splice(index, 1);
-                      }
-                      setStaticSelect(tmpItems);
-                      return;
+                    setTplSelect(tmpItems);
+                    return;
+                  }
+                  handleEditFile('template', a.node);
+                }}
+                onExpand={(k) => {
+                  setTplSelect(k);
+                }}
+                treeData={tplFiles}
+              />
+            </CollapseItem>
+            <CollapseItem className="tpl-file-list" showArrow={false} header="资源文件" key="2">
+              <Tree
+                showLine={true}
+                showIcon={false}
+                expandedKeys={staticSelect}
+                onSelect={(_, a) => {
+                  if (a.node.children) {
+                    let key = a.node.key;
+                    let tmpItems = staticSelect.flat();
+                    let index = tmpItems.indexOf(key);
+                    if (index === -1) {
+                      tmpItems.push(key);
+                    } else {
+                      tmpItems.splice(index, 1);
                     }
-                    handleEditFile('static', a.node);
-                  }}
-                  onExpand={(k) => {
-                    console.log(k);
-                    setStaticSelect(k);
-                  }}
-                  treeData={staticFiles}
-                />
-              </Collapse.Panel>
-            </Collapse>
+                    setStaticSelect(tmpItems);
+                    return;
+                  }
+                  handleEditFile('static', a.node);
+                }}
+                onExpand={(k) => {
+                  console.log(k);
+                  setStaticSelect(k);
+                }}
+                treeData={staticFiles}
+              />
+            </CollapseItem>
           </Col>
         </Row>
       </Card>
