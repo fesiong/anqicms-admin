@@ -1,4 +1,4 @@
-import { message, Modal, Space } from 'antd';
+import { Button, message, Modal, Space } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -7,6 +7,7 @@ import { pluginDeleteUserInfo, pluginGetUserGroups, pluginGetUsers } from '@/ser
 import { ProFormSelect } from '@ant-design/pro-form';
 import moment from 'moment';
 import UserForm from './components/userForm';
+import UserFieldSetting from './components/setting';
 
 const PluginUser: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -39,6 +40,11 @@ const PluginUser: React.FC = () => {
         });
       },
     });
+  };
+
+  const handleAddUser = () => {
+    setCurrentUser({});
+    setEditVisible(true);
   };
 
   const columns: ProColumns<any>[] = [
@@ -127,11 +133,12 @@ const PluginUser: React.FC = () => {
         headerTitle="用户管理"
         actionRef={actionRef}
         rowKey="id"
-        // toolBarRender={() => [
-        //   <UserFieldSetting key="setting">
-        //     <Button type="primary">用户附加字段设置</Button>
-        //   </UserFieldSetting>,
-        // ]}
+        toolBarRender={() => [
+          <Button onClick={handleAddUser}>添加用户</Button>,
+          <UserFieldSetting key="setting">
+            <Button>用户附加字段设置</Button>
+          </UserFieldSetting>,
+        ]}
         tableAlertOptionRender={false}
         request={(params) => {
           return pluginGetUsers(params);

@@ -53,7 +53,7 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
         extra="是否添加nofollow标签"
       />
       <ProFormDigit name="sort" label="显示顺序" extra={'值越小，排序越靠前，默认99'} />
-      <CollapseItem header="更多选项" key="1">
+      <CollapseItem header="更多选项" showArrow key="1">
         <ProFormText name="back_link" label="对方反链页" extra={'对方放置本站链接的页面URL'} />
         <ProFormText name="my_title" label="我的关键词" extra={'我放在对方页面的关键词'} />
         <ProFormText name="my_link" label="我的链接" extra={'我放在对方页面的链接'} />

@@ -32,12 +32,14 @@ import {
 } from '@/services';
 import AiGenerate from '@/components/aiGenerate';
 import MarkdownEditor from '@/components/markdown';
+import CollapseItem from '@/components/collaspeItem';
 const { Panel } = Collapse;
 
 export default class ArchiveForm extends React.Component {
   state: { [key: string]: any } = {
     fetched: false,
     archive: { extra: {}, content: '', flag: [] },
+    extraContent: {},
     content: '',
     modules: [],
     module: { fields: [] },
@@ -170,18 +172,23 @@ export default class ArchiveForm extends React.Component {
       archive.updated_time = 0;
     }
     let content = archive.data?.content || '';
-    // if (content.length > 0 && content[0] != '<') {
-    //   content = '<p>' + content + '</p>';
-    // }
     archive.flag = archive.flag?.split(',') || [];
     archive.created_moment = moment(archive.created_time * 1000);
     this.defaultContent = content;
-    this.getModule(archive.module_id);
+    const module = await this.getModule(archive.module_id);
+    const extraContent: any = {};
+    for (let i in module.fields) {
+      if (module.fields[i].type === 'editor') {
+        extraContent[module.fields[i].field_name] =
+          archive.extra[module.fields[i].field_name]?.value || '';
+      }
+    }
     this.getArchiveCategory(archive.category_id);
     this.setState({
       fetched: true,
       archive: archive,
       content: content,
+      extraContent: extraContent,
     });
   };
 
@@ -214,7 +221,7 @@ export default class ArchiveForm extends React.Component {
 
   getModule = async (moduleId: number) => {
     if (this.state.module.id == moduleId) {
-      return;
+      return this.state.module;
     }
     let module = { fields: [] };
     for (const item of this.state.modules) {
@@ -226,11 +233,20 @@ export default class ArchiveForm extends React.Component {
     this.setState({
       module: module,
     });
+    return this.state.module;
   };
 
   setContent = async (html: string) => {
     this.setState({
       content: html,
+    });
+  };
+
+  setExtraContent = async (field: string, html: string) => {
+    const { extraContent } = this.state;
+    extraContent[field] = html;
+    this.setState({
+      extraContent,
     });
   };
 
@@ -303,7 +319,7 @@ export default class ArchiveForm extends React.Component {
       pageSize: 10,
     }).then((res) => {
       const data = res.data || [];
-      const result = {};
+      const result: any = {};
       for (const item of data) {
         result[item.title] = item.title;
       }
@@ -314,10 +330,16 @@ export default class ArchiveForm extends React.Component {
   };
 
   onSubmit = async (values: any) => {
-    const { archive, content } = this.state;
+    const { archive, content, extraContent } = this.state;
     const postData = Object.assign(archive, values);
     postData.price = Number(values.price);
     postData.stock = Number(values.stock);
+    for (let field in extraContent) {
+      if (!postData.extra[field]) {
+        postData.extra[field] = {};
+      }
+      postData.extra[field].value = extraContent[field];
+    }
     // 必须选择分类
     let categoryIds = [];
     let categoryId = 0;
@@ -372,7 +394,7 @@ export default class ArchiveForm extends React.Component {
   };
 
   handleCleanExtraField = (field: string) => {
-    const extra = {};
+    const extra: any = {};
     extra[field] = { value: '' };
     this.formRef?.current?.setFieldsValue({ extra });
 
@@ -436,6 +458,7 @@ export default class ArchiveForm extends React.Component {
     const {
       archive,
       content,
+      extraContent,
       module,
       fetched,
       keywordsVisible,
@@ -484,258 +507,264 @@ export default class ArchiveForm extends React.Component {
                   />
                   <ProFormTextArea name="description" label="文章简介" />
 
-                  <Collapse>
-                    <Panel header="其他参数" key="1">
-                      <Row gutter={20}>
-                        <Col span={12}>
-                          <ProFormText
-                            label="原文地址"
-                            name="origin_url"
-                            placeholder="默认不用填写"
-                            extra="文章的原文地址，默认不用管"
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormText
-                            name="seo_title"
-                            label="SEO标题"
-                            placeholder="默认为文章标题，无需填写"
-                            extra="注意：如果你希望页面的title标签的内容不是文章标题，可以通过SEO标题设置"
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormText
-                            name="canonical_url"
-                            label="规范的链接"
-                            placeholder="默认是文档链接，无需填写"
-                            extra="注意：如果你想将当前的文档指向到另外的页面，才需要在这里填写"
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormText
-                            name="fixed_link"
-                            label="固定链接"
-                            placeholder="默认是文档链接，无需填写"
-                            extra="注意：只有你想把这个文档的链接持久固定，不随伪静态规则改变，才需要填写。 相对链接 / 开头"
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormSelect
-                            label="文档模板"
-                            showSearch
-                            name="template"
-                            request={async () => {
-                              const res = await getDesignTemplateFiles({});
-                              const data = [{ path: '', remark: '默认模板' }].concat(
-                                res.data || [],
-                              );
-                              for (const i in data) {
-                                if (!data[i].remark) {
-                                  data[i].remark = data[i].path;
-                                } else {
-                                  data[i].remark = data[i].path + '(' + data[i].remark + ')';
-                                }
+                  <CollapseItem header="其他参数" showArrow key="1">
+                    <Row gutter={20}>
+                      <Col span={12}>
+                        <ProFormText
+                          label="原文地址"
+                          name="origin_url"
+                          placeholder="默认不用填写"
+                          extra="文章的原文地址，默认不用管"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormText
+                          name="seo_title"
+                          label="SEO标题"
+                          placeholder="默认为文章标题，无需填写"
+                          extra="注意：如果你希望页面的title标签的内容不是文章标题，可以通过SEO标题设置"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormText
+                          name="canonical_url"
+                          label="规范的链接"
+                          placeholder="默认是文档链接，无需填写"
+                          extra="注意：如果你想将当前的文档指向到另外的页面，才需要在这里填写"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormText
+                          name="fixed_link"
+                          label="固定链接"
+                          placeholder="默认是文档链接，无需填写"
+                          extra="注意：只有你想把这个文档的链接持久固定，不随伪静态规则改变，才需要填写。 相对链接 / 开头"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormSelect
+                          label="文档模板"
+                          showSearch
+                          name="template"
+                          request={async () => {
+                            const res = await getDesignTemplateFiles({});
+                            const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+                            for (const i in data) {
+                              if (!data[i].remark) {
+                                data[i].remark = data[i].path;
+                              } else {
+                                data[i].remark = data[i].path + '(' + data[i].remark + ')';
                               }
-                              return data;
-                            }}
-                            fieldProps={{
-                              fieldNames: {
-                                label: 'remark',
-                                value: 'path',
-                              },
-                            }}
-                            extra="默认跟随分类的内容模板"
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormDigit
-                            label="价格"
-                            name="price"
-                            fieldProps={{ precision: 0, addonAfter: '分' }}
-                            extra="注意，单位是分，比如1元，这里就要填100"
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormDigit
-                            label="库存"
-                            name="stock"
-                            fieldProps={{ precision: 0, addonAfter: '件' }}
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormSelect
-                            name="read_level"
-                            label="阅读等级"
-                            request={async () => {
-                              const res = await pluginGetUserGroups({});
-                              return [{ level: 0, title: '不限制', id: 0 }].concat(res.data || []);
-                            }}
-                            fieldProps={{
-                              fieldNames: {
-                                label: 'title',
-                                value: 'level',
-                              },
-                              optionItemRender(item) {
-                                return (
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: 'L' + item.level + item.title,
+                            }
+                            return data;
+                          }}
+                          fieldProps={{
+                            fieldNames: {
+                              label: 'remark',
+                              value: 'path',
+                            },
+                          }}
+                          extra="默认跟随分类的内容模板"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormDigit
+                          label="价格"
+                          name="price"
+                          fieldProps={{ precision: 0, addonAfter: '分' }}
+                          extra="注意，单位是分，比如1元，这里就要填100"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormDigit
+                          label="库存"
+                          name="stock"
+                          fieldProps={{ precision: 0, addonAfter: '件' }}
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormSelect
+                          name="read_level"
+                          label="阅读等级"
+                          request={async () => {
+                            const res = await pluginGetUserGroups({});
+                            return [{ level: 0, title: '不限制', id: 0 }].concat(res.data || []);
+                          }}
+                          fieldProps={{
+                            fieldNames: {
+                              label: 'title',
+                              value: 'level',
+                            },
+                            optionItemRender(item) {
+                              return (
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: 'L' + item.level + item.title,
+                                  }}
+                                ></div>
+                              );
+                            },
+                          }}
+                          extra="如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读"
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <ProFormText
+                          name="password"
+                          label="文档密码"
+                          placeholder="可以设置文档密码"
+                          extra="如果你想设置这篇文章为密码查看，可以填写密码。"
+                        />
+                      </Col>
+                      {module.fields?.map((item: any, index: number) => (
+                        <Col span={item.type === 'editor' ? 24 : 12} key={index}>
+                          {item.type === 'text' ? (
+                            <ProFormText
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                              required={item.required ? true : false}
+                              placeholder={item.content && '默认值：' + item.content}
+                            />
+                          ) : item.type === 'number' ? (
+                            <ProFormDigit
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                              required={item.required ? true : false}
+                              placeholder={item.content && '默认值：' + item.content}
+                            />
+                          ) : item.type === 'textarea' ? (
+                            <ProFormTextArea
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                              required={item.required ? true : false}
+                              placeholder={item.content && '默认值：' + item.content}
+                            />
+                          ) : item.type === 'editor' ? (
+                            <ProFormText
+                              label={item.name}
+                              required={item.required ? true : false}
+                              extra={item.content && '默认值：' + item.content}
+                            >
+                              {contentSetting.editor == 'markdown' ? (
+                                <MarkdownEditor
+                                  className="mb-normal"
+                                  setContent={this.setExtraContent.bind(this, item.field_name)}
+                                  content={extraContent[item.field_name] || ''}
+                                  ref={null}
+                                />
+                              ) : (
+                                <WangEditor
+                                  className="mb-normal"
+                                  setContent={this.setExtraContent.bind(this, item.field_name)}
+                                  content={extraContent[item.field_name] || ''}
+                                  ref={null}
+                                />
+                              )}
+                            </ProFormText>
+                          ) : item.type === 'radio' ? (
+                            <ProFormRadio.Group
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                              request={async () => {
+                                const tmpData = item.content.split('\n');
+                                const data = [];
+                                for (const item1 of tmpData) {
+                                  data.push({ label: item1, value: item1 });
+                                }
+                                return data;
+                              }}
+                            />
+                          ) : item.type === 'checkbox' ? (
+                            <ProFormCheckbox.Group
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                              request={async () => {
+                                const tmpData = item.content.split('\n');
+                                const data = [];
+                                for (const item1 of tmpData) {
+                                  data.push({ label: item1, value: item1 });
+                                }
+                                return data;
+                              }}
+                            />
+                          ) : item.type === 'select' ? (
+                            <ProFormSelect
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                              request={async () => {
+                                const tmpData = item.content.split('\n');
+                                const data = [];
+                                for (const item1 of tmpData) {
+                                  data.push({ label: item1, value: item1 });
+                                }
+                                return data;
+                              }}
+                            />
+                          ) : item.type === 'image' ? (
+                            <ProFormText
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                            >
+                              {archive.extra[item.field_name]?.value ? (
+                                <div className="ant-upload-item">
+                                  <Image
+                                    preview={{
+                                      src: archive.extra[item.field_name]?.value,
                                     }}
-                                  ></div>
-                                );
-                              },
-                            }}
-                            extra="如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读"
-                          />
-                        </Col>
-                        <Col span={12}>
-                          <ProFormText
-                            name="password"
-                            label="文档密码"
-                            placeholder="可以设置文档密码"
-                            extra="如果你想设置这篇文章为密码查看，可以填写密码。"
-                          />
-                        </Col>
-                        {module.fields?.map((item: any, index: number) => (
-                          <Col span={12} key={index}>
-                            {item.type === 'text' ? (
-                              <ProFormText
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                                required={item.required ? true : false}
-                                placeholder={item.content && '默认值：' + item.content}
-                              />
-                            ) : item.type === 'number' ? (
-                              <ProFormDigit
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                                required={item.required ? true : false}
-                                placeholder={item.content && '默认值：' + item.content}
-                              />
-                            ) : item.type === 'textarea' ? (
-                              <ProFormTextArea
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                                required={item.required ? true : false}
-                                placeholder={item.content && '默认值：' + item.content}
-                              />
-                            ) : item.type === 'radio' ? (
-                              <ProFormRadio.Group
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                                request={async () => {
-                                  const tmpData = item.content.split('\n');
-                                  const data = [];
-                                  for (const item1 of tmpData) {
-                                    data.push({ label: item1, value: item1 });
-                                  }
-                                  return data;
-                                }}
-                              />
-                            ) : item.type === 'checkbox' ? (
-                              <ProFormCheckbox.Group
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                                request={async () => {
-                                  const tmpData = item.content.split('\n');
-                                  const data = [];
-                                  for (const item1 of tmpData) {
-                                    data.push({ label: item1, value: item1 });
-                                  }
-                                  return data;
-                                }}
-                              />
-                            ) : item.type === 'select' ? (
-                              <ProFormSelect
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                                request={async () => {
-                                  const tmpData = item.content.split('\n');
-                                  const data = [];
-                                  for (const item1 of tmpData) {
-                                    data.push({ label: item1, value: item1 });
-                                  }
-                                  return data;
-                                }}
-                              />
-                            ) : item.type === 'image' ? (
-                              <ProFormText
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                              >
-                                {archive.extra[item.field_name]?.value ? (
+                                    src={archive.extra[item.field_name]?.value}
+                                  />
+                                  <span
+                                    className="delete"
+                                    onClick={this.handleCleanExtraField.bind(this, item.field_name)}
+                                  >
+                                    <DeleteOutlined />
+                                  </span>
+                                </div>
+                              ) : (
+                                <AttachmentSelect
+                                  onSelect={this.handleUploadExtraField.bind(this, item.field_name)}
+                                  visible={false}
+                                >
                                   <div className="ant-upload-item">
-                                    <Image
-                                      preview={{
-                                        src: archive.extra[item.field_name]?.value,
-                                      }}
-                                      src={archive.extra[item.field_name]?.value}
-                                    />
-                                    <span
-                                      className="delete"
-                                      onClick={this.handleCleanExtraField.bind(
-                                        this,
-                                        item.field_name,
-                                      )}
-                                    >
-                                      <DeleteOutlined />
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <AttachmentSelect
-                                    onSelect={this.handleUploadExtraField.bind(
-                                      this,
-                                      item.field_name,
-                                    )}
-                                    visible={false}
-                                  >
-                                    <div className="ant-upload-item">
-                                      <div className="add">
-                                        <PlusOutlined />
-                                        <div style={{ marginTop: 8 }}>上传</div>
-                                      </div>
+                                    <div className="add">
+                                      <PlusOutlined />
+                                      <div style={{ marginTop: 8 }}>上传</div>
                                     </div>
-                                  </AttachmentSelect>
-                                )}
-                              </ProFormText>
-                            ) : item.type === 'file' ? (
-                              <ProFormText
-                                name={['extra', item.field_name, 'value']}
-                                label={item.name}
-                              >
-                                {archive.extra[item.field_name]?.value ? (
-                                  <div className="ant-upload-item ant-upload-file">
-                                    <span>{archive.extra[item.field_name]?.value}</span>
-                                    <span
-                                      className="delete"
-                                      onClick={this.handleCleanExtraField.bind(
-                                        this,
-                                        item.field_name,
-                                      )}
-                                    >
-                                      <DeleteOutlined />
-                                    </span>
                                   </div>
-                                ) : (
-                                  <AttachmentSelect
-                                    onSelect={this.handleUploadExtraField.bind(
-                                      this,
-                                      item.field_name,
-                                    )}
-                                    visible={false}
+                                </AttachmentSelect>
+                              )}
+                            </ProFormText>
+                          ) : item.type === 'file' ? (
+                            <ProFormText
+                              name={['extra', item.field_name, 'value']}
+                              label={item.name}
+                            >
+                              {archive.extra[item.field_name]?.value ? (
+                                <div className="ant-upload-item ant-upload-file">
+                                  <span>{archive.extra[item.field_name]?.value}</span>
+                                  <span
+                                    className="delete"
+                                    onClick={this.handleCleanExtraField.bind(this, item.field_name)}
                                   >
-                                    <Button>上传</Button>
-                                  </AttachmentSelect>
-                                )}
-                              </ProFormText>
-                            ) : (
-                              ''
-                            )}
-                          </Col>
-                        ))}
-                      </Row>
-                    </Panel>
-                  </Collapse>
+                                    <DeleteOutlined />
+                                  </span>
+                                </div>
+                              ) : (
+                                <AttachmentSelect
+                                  onSelect={this.handleUploadExtraField.bind(this, item.field_name)}
+                                  visible={false}
+                                >
+                                  <Button>上传</Button>
+                                </AttachmentSelect>
+                              )}
+                            </ProFormText>
+                          ) : (
+                            ''
+                          )}
+                        </Col>
+                      ))}
+                    </Row>
+                  </CollapseItem>
                   {contentSetting.editor == 'markdown' ? (
                     <MarkdownEditor
                       className="mb-normal"

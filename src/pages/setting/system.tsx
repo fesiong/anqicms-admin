@@ -276,6 +276,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
             <CollapseItem
               className="mb-normal"
               header="自定义参数"
+              showArrow
               extra={
                 <Button
                   size="small"

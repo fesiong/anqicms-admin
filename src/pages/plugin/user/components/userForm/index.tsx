@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ModalForm,
+  ProFormCheckbox,
   ProFormDatePicker,
   ProFormDigit,
+  ProFormInstance,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-form';
 
-import { message } from 'antd';
-import { pluginGetUserGroups, pluginSaveUserInfo } from '@/services';
+import { Button, Divider, message, Image } from 'antd';
+import {
+  pluginGetUserFieldsSetting,
+  pluginGetUserGroups,
+  pluginGetUserInfo,
+  pluginSaveUserInfo,
+} from '@/services';
 import moment from 'moment';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import AttachmentSelect from '@/components/attachment';
 
 export type UserFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -20,6 +30,25 @@ export type UserFormProps = {
 };
 
 const UserForm: React.FC<UserFormProps> = (props) => {
+  const formRef = useRef<ProFormInstance>();
+  const [userFields, setUserFields] = useState<any[]>([]);
+  const [user, setUser] = useState<any>({});
+  const [fetched, setFetched] = useState<boolean>(false);
+
+  useEffect(() => {
+    pluginGetUserFieldsSetting().then((res) => {
+      setUserFields(res.data?.fields || []);
+    });
+    pluginGetUserInfo({ id: props.user.id }).then((res) => {
+      let data = res.data || {};
+      if (data.expire_time) {
+        data.expire_time = moment(data.expire_time * 1000);
+      }
+      setUser(data);
+      setFetched(true);
+    });
+  }, []);
+
   const onSubmit = async (values: any) => {
     const user = Object.assign(props.user, values);
     const res = await pluginSaveUserInfo(user);
@@ -28,7 +57,29 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     props.onSubmit();
   };
 
-  return (
+  const handleCleanExtraField = (field: string) => {
+    const extra: any = {};
+    extra[field] = { value: '' };
+
+    formRef?.current?.setFieldsValue({ extra });
+
+    delete user.extra[field];
+    setUser(user);
+  };
+
+  const handleUploadExtraField = (field: string, row: any) => {
+    const extra: any = {};
+    extra[field] = { value: row.logo };
+    formRef?.current?.setFieldsValue({ extra });
+    if (!user.extra[field]) {
+      user.extra[field] = {};
+    }
+    user.extra[field].value = row.logo;
+
+    setUser(user);
+  };
+
+  return fetched ? (
     <ModalForm
       width={600}
       title={props.user?.id ? '修改用户' : '添加用户'}
@@ -39,11 +90,8 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           props.onCancel(flag);
         }
       }}
-      request={async () => {
-        const data = props.user;
-        data.expire_time = moment(data.expire_time * 1000);
-        return data;
-      }}
+      formRef={formRef}
+      initialValues={user}
       onFinish={async (values) => {
         onSubmit(values);
       }}
@@ -90,8 +138,120 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           return { [namePath]: moment(value).unix() };
         }}
       />
+      <Divider>额外字段</Divider>
+      {userFields.map((item: any, index: number) =>
+        item.type === 'text' ? (
+          <ProFormText
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+            required={item.required ? true : false}
+            placeholder={item.content && '默认值：' + item.content}
+          />
+        ) : item.type === 'number' ? (
+          <ProFormDigit
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+            required={item.required ? true : false}
+            placeholder={item.content && '默认值：' + item.content}
+          />
+        ) : item.type === 'textarea' ? (
+          <ProFormTextArea
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+            required={item.required ? true : false}
+            placeholder={item.content && '默认值：' + item.content}
+          />
+        ) : item.type === 'radio' ? (
+          <ProFormRadio.Group
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+            request={async () => {
+              const tmpData = item.content.split('\n');
+              const data = [];
+              for (const item1 of tmpData) {
+                data.push({ label: item1, value: item1 });
+              }
+              return data;
+            }}
+          />
+        ) : item.type === 'checkbox' ? (
+          <ProFormCheckbox.Group
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+            request={async () => {
+              const tmpData = item.content.split('\n');
+              const data = [];
+              for (const item1 of tmpData) {
+                data.push({ label: item1, value: item1 });
+              }
+              return data;
+            }}
+          />
+        ) : item.type === 'select' ? (
+          <ProFormSelect
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+            request={async () => {
+              const tmpData = item.content.split('\n');
+              const data = [];
+              for (const item1 of tmpData) {
+                data.push({ label: item1, value: item1 });
+              }
+              return data;
+            }}
+          />
+        ) : item.type === 'image' ? (
+          <ProFormText name={['extra', item.field_name, 'value']} label={item.name}>
+            {user.extra[item.field_name]?.value ? (
+              <div className="ant-upload-item">
+                <Image
+                  preview={{
+                    src: user.extra[item.field_name]?.value,
+                  }}
+                  src={user.extra[item.field_name]?.value}
+                />
+                <span className="delete" onClick={() => handleCleanExtraField(item.field_name)}>
+                  <DeleteOutlined />
+                </span>
+              </div>
+            ) : (
+              <AttachmentSelect
+                onSelect={(row) => handleUploadExtraField(item.field_name, row)}
+                visible={false}
+              >
+                <div className="ant-upload-item">
+                  <div className="add">
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>上传</div>
+                  </div>
+                </div>
+              </AttachmentSelect>
+            )}
+          </ProFormText>
+        ) : item.type === 'file' ? (
+          <ProFormText name={['extra', item.field_name, 'value']} label={item.name}>
+            {user.extra[item.field_name]?.value ? (
+              <div className="ant-upload-item ant-upload-file">
+                <span>{user.extra[item.field_name]?.value}</span>
+                <span className="delete" onClick={() => handleCleanExtraField(item.field_name)}>
+                  <DeleteOutlined />
+                </span>
+              </div>
+            ) : (
+              <AttachmentSelect
+                onSelect={(row) => handleUploadExtraField(item.field_name, row)}
+                visible={false}
+              >
+                <Button>上传</Button>
+              </AttachmentSelect>
+            )}
+          </ProFormText>
+        ) : (
+          ''
+        ),
+      )}
     </ModalForm>
-  );
+  ) : null;
 };
 
 export default UserForm;

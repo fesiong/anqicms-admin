@@ -2,9 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, message, Modal, Space } from 'antd';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { pluginGetUserFieldsSetting, pluginSaveUserFieldsSetting } from '@/services';
+import {
+  pluginGetUserFieldsSetting,
+  pluginSaveUserFieldsSetting,
+  pluginDeleteUserField,
+} from '@/services';
 
-const UserFieldSetting: React.FC = (props) => {
+export type UserFieldSettingProps = {
+  children: React.ReactNode;
+};
+
+const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
   const actionRef = useRef<ActionType>();
   const [visible, setVisible] = useState<boolean>(false);
   const [editVisible, setEditVisible] = useState<boolean>(false);
@@ -20,11 +28,12 @@ const UserFieldSetting: React.FC = (props) => {
     getSetting();
   }, []);
 
-  const handleRemoveItem = (index: number) => {
+  const handleRemoveItem = (record: any, index: number) => {
     Modal.confirm({
       title: '确定要删除该字段吗？',
       content: '你可以在保存之前，通过刷新页面来恢复。',
       onOk: async () => {
+        pluginDeleteUserField({ field_name: record.field_name });
         setting.fields.splice(index, 1);
         setting.fields = [].concat(setting.fields);
         setSetting(setting);
@@ -37,6 +46,9 @@ const UserFieldSetting: React.FC = (props) => {
 
   const handleSaveField = async (values: any) => {
     let exists = false;
+    if (!setting.fields) {
+      setting.fields = [];
+    }
     for (const i in setting.fields) {
       if (setting.fields[i].field_name == values.field_name) {
         exists = true;
@@ -88,21 +100,6 @@ const UserFieldSetting: React.FC = (props) => {
       ),
     },
     {
-      title: '是否必填',
-      dataIndex: 'required',
-
-      valueEnum: {
-        false: {
-          text: '选填',
-          status: 'Default',
-        },
-        true: {
-          text: '必填',
-          status: 'Success',
-        },
-      },
-    },
-    {
       title: '操作',
       dataIndex: 'option',
       render: (_, record, index) => (
@@ -120,7 +117,7 @@ const UserFieldSetting: React.FC = (props) => {
               <a
                 className="text-red"
                 onClick={() => {
-                  handleRemoveItem(index);
+                  handleRemoveItem(record, index);
                 }}
               >
                 删除
@@ -197,7 +194,7 @@ const UserFieldSetting: React.FC = (props) => {
             handleSaveField(values);
           }}
         >
-          <ProFormText name="name" required label="参数名" extra="如：文章作者、类型、内容来源等" />
+          <ProFormText name="name" required label="参数名" extra="如：QQ，微信号等" />
           <ProFormText
             name="field_name"
             label="调用字段"
@@ -218,14 +215,6 @@ const UserFieldSetting: React.FC = (props) => {
               image: '图片',
               file: '文件',
             }}
-          />
-          <ProFormRadio.Group
-            name="required"
-            label="是否必填"
-            options={[
-              { label: '选填', value: false },
-              { label: '必填', value: true },
-            ]}
           />
           <ProFormTextArea
             label="默认值"

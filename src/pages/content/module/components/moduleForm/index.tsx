@@ -336,6 +336,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               text: '单行文本',
               number: '数字',
               textarea: '多行文本',
+              editor: '编辑器',
               radio: '单项选择',
               checkbox: '多项选择',
               select: '下拉选择',

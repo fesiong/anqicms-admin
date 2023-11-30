@@ -79,3 +79,11 @@ export async function pluginSaveUserFieldsSetting(body: any, options?: { [key: s
     options,
   });
 }
+
+export async function pluginDeleteUserField(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/user/field/delete',
+    body,
+    options,
+  });
+}
