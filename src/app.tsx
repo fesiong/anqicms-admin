@@ -131,7 +131,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           }
         }
       }
-      if (initialState?.currentUser?.id != 1) {
+
+      if (initialState?.currentUser?.id != 1 || !initialState?.system?.default_site) {
         for (let i in menuData) {
           if (menuData[i].path == '/website') {
             menuData[i].unaccessible = true;
