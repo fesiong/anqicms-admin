@@ -46,7 +46,7 @@ export function attachPlugin(): BytemdPlugin {
                 item.file_location.indexOf('.webm') != -1
               ) {
                 appendBlock(
-                  `<video controls="controls"><source src="${
+                  `<video controls="controls" controlslist="nodownload" poster=""><source src="${
                     item.logo
                   }" type="video/${item.file_location.substr(
                     item.file_location.lastIndexOf('.') + 1,
