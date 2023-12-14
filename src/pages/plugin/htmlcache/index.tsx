@@ -200,7 +200,6 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startCheckPushStatus = () => {
     clearInterval(pushXhr);
-    getPushStatus();
     pushXhr = setInterval(() => {
       getPushStatus();
     }, 1500);
