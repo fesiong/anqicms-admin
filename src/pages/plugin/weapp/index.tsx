@@ -1,7 +1,7 @@
 import React from 'react';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Card, Divider, message } from 'antd';
+import { Button, Card, Divider, message } from 'antd';
 import { pluginGetWeappConfig, pluginSaveWeappConfig } from '@/services';
 
 const PluginWeapp: React.FC<any> = () => {
@@ -42,6 +42,22 @@ const PluginWeapp: React.FC<any> = () => {
             extra="如果消息加解密方式选择的是明文模式，请不要填写这里，否则会报错"
           />
         </ProForm>
+        <Divider>默认小程序</Divider>
+        <div>
+          <p>
+            安企CMS(AnQiCMS)默认小程序，同时支持百度智能小程序，微信小程序，QQ小程序，支付宝小程序，头条小程序。
+          </p>
+          <p>
+            小程序使用帮助：
+            <a href="https://www.anqicms.com/help-basic/3495.html" target="_blank">
+              https://www.anqicms.com/help-basic/3495.html
+            </a>
+          </p>
+          <p>小程序源码地址：https://github.com/fesiong/anqicms-app/releases</p>
+        </div>
+        <Button onClick={() => window.open('https://github.com/fesiong/anqicms-app/releases')}>
+          下载默认小程序
+        </Button>
       </Card>
     </PageHeaderWrapper>
   );
