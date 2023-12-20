@@ -19,16 +19,19 @@ E.registerMenu('material', MaterialMenu);
 export type WangEditorProps = {
   className: string;
   content: string;
+  field: string;
   setContent: (html: any) => Promise<void>;
   ref: any;
 };
 
 var customSetMode: (mode: boolean) => void;
-var code = '';
+let codes: any = {};
 
 const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   const editorRef = useRef(null);
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
+
+  console.log(props, htmlMode);
 
   useImperativeHandle(ref, () => ({
     setInnerContent: setInnerContent,
@@ -42,9 +45,9 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   };
 
   const onChangeCode = (newCode: string) => {
-    if (code != newCode) {
-      code = newCode;
-      props.setContent(code);
+    if (codes[props.field] != newCode) {
+      codes[props.field] = newCode;
+      props.setContent(codes[props.field]);
     }
   };
 
@@ -113,16 +116,16 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
           setMode: (mode: boolean) => {
             setHtmlMode(mode);
             if (!mode) {
-              editorRef.current?.editor.txt.html(code);
+              editorRef.current?.editor.txt.html(codes[props.field]);
             }
           },
         }}
         onChange={(html) => {
           props.setContent(html);
-          code = html;
+          codes[props.field] = html;
         }}
         onBlur={(html) => {
-          code = html;
+          codes[props.field] = html;
         }}
       />
       <div style={{ display: htmlMode ? 'block' : 'none' }} className="tmp-editor">
@@ -146,7 +149,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             height={563}
             language={'markdown'}
             theme="vs-dark"
-            value={code}
+            value={codes[props.field]}
             options={{
               selectOnLineNumbers: false,
               wordWrap: 'on',

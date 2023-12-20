@@ -507,7 +507,7 @@ export default class ArchiveForm extends React.Component {
                   />
                   <ProFormTextArea name="description" label="文章简介" />
 
-                  <CollapseItem header="其他参数" showArrow key="1">
+                  <CollapseItem header="其他参数" showArrow open key="1">
                     <Row gutter={20}>
                       <Col span={12}>
                         <ProFormText
@@ -657,6 +657,8 @@ export default class ArchiveForm extends React.Component {
                                   className="mb-normal"
                                   setContent={this.setExtraContent.bind(this, item.field_name)}
                                   content={extraContent[item.field_name] || ''}
+                                  key={item.field_name}
+                                  field={item.field_name}
                                   ref={null}
                                 />
                               )}
@@ -777,6 +779,8 @@ export default class ArchiveForm extends React.Component {
                       className="mb-normal"
                       setContent={this.setContent}
                       content={content}
+                      key="content"
+                      field="content"
                       ref={this.editorRef}
                     />
                   )}
