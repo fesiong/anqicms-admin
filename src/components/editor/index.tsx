@@ -31,8 +31,6 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   const editorRef = useRef(null);
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
 
-  console.log(props, htmlMode);
-
   useImperativeHandle(ref, () => ({
     setInnerContent: setInnerContent,
   }));
