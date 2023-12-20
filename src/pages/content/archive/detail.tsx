@@ -33,7 +33,6 @@ import {
 import AiGenerate from '@/components/aiGenerate';
 import MarkdownEditor from '@/components/markdown';
 import CollapseItem from '@/components/collaspeItem';
-const { Panel } = Collapse;
 
 export default class ArchiveForm extends React.Component {
   state: { [key: string]: any } = {
@@ -60,10 +59,6 @@ export default class ArchiveForm extends React.Component {
   editorRef = React.createRef<any>();
 
   componentDidMount = async () => {
-    const res = await getModules();
-    this.setState({
-      modules: res.data || [],
-    });
     try {
       const setting = await getSettingContent();
       this.setState({
@@ -73,53 +68,60 @@ export default class ArchiveForm extends React.Component {
       message.error('网络异常');
       return;
     }
-
-    const moduleId = history.location.query?.module_id || 1;
-    let categoryId = history.location.query?.category_id || 0;
-    const lastCategoryId = getStore('last_category_id') || 0;
-    if (categoryId == 0 && lastCategoryId > 0) {
-      categoryId = lastCategoryId;
-    }
-    let id = history.location.query?.id || 0;
-    if (id == 'new') {
-      id = 0;
-    }
-    if (id > 0) {
-      this.getArchive(Number(id));
-    } else {
-      const copyId = history.location.query?.copyid || 0;
-      if (copyId > 0) {
-        this.getArchive(Number(copyId), true);
-      } else {
-        const archive = getStore('unsaveArchive');
-        if (archive) {
-          console.log('load store');
-          categoryId = archive.category_id;
-          if (archive.category_ids?.length > 0) {
-            categoryId = archive.category_ids[0];
-          }
-          this.setState({
-            archive,
-          });
-        } else {
-          this.setState({
-            archive: { extra: {}, content: '', flag: [], category_ids: [categoryId] },
-          });
+    const res = await getModules();
+    this.setState(
+      {
+        modules: res.data || [],
+      },
+      () => {
+        const moduleId = history.location.query?.module_id || 1;
+        let categoryId = history.location.query?.category_id || 0;
+        const lastCategoryId = getStore('last_category_id') || 0;
+        if (categoryId == 0 && lastCategoryId > 0) {
+          categoryId = lastCategoryId;
         }
-        this.defaultContent = archive?.content || '';
-        this.setState({
-          fetched: true,
-          content: archive?.content || '',
-        });
-      }
-    }
+        let id = history.location.query?.id || 0;
+        if (id == 'new') {
+          id = 0;
+        }
+        if (id > 0) {
+          this.getArchive(Number(id));
+        } else {
+          const copyId = history.location.query?.copyid || 0;
+          if (copyId > 0) {
+            this.getArchive(Number(copyId), true);
+          } else {
+            const archive = getStore('unsaveArchive');
+            if (archive) {
+              console.log('load store');
+              categoryId = archive.category_id;
+              if (archive.category_ids?.length > 0) {
+                categoryId = archive.category_ids[0];
+              }
+              this.setState({
+                archive,
+              });
+            } else {
+              this.setState({
+                archive: { extra: {}, content: '', flag: [], category_ids: [categoryId] },
+              });
+            }
+            this.defaultContent = archive?.content || '';
+            this.setState({
+              fetched: true,
+              content: archive?.content || '',
+            });
+          }
+        }
 
-    if (categoryId > 0) {
-      this.getArchiveCategory(Number(categoryId));
-    } else {
-      // 先默认是文章
-      this.getModule(Number(moduleId));
-    }
+        if (categoryId > 0) {
+          this.getArchiveCategory(Number(categoryId));
+        } else {
+          // 先默认是文章
+          this.getModule(Number(moduleId));
+        }
+      },
+    );
 
     window.addEventListener('beforeunload', this.beforeunload);
   };
@@ -176,7 +178,7 @@ export default class ArchiveForm extends React.Component {
     archive.created_moment = moment(archive.created_time * 1000);
     this.defaultContent = content;
     const module = await this.getModule(archive.module_id);
-    const extraContent: any = {};
+    let extraContent: any = {};
     for (let i in module.fields) {
       if (module.fields[i].type === 'editor') {
         extraContent[module.fields[i].field_name] =
@@ -233,7 +235,7 @@ export default class ArchiveForm extends React.Component {
     this.setState({
       module: module,
     });
-    return this.state.module;
+    return module;
   };
 
   setContent = async (html: string) => {
