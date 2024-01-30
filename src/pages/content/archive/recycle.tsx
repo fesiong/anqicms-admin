@@ -3,11 +3,13 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteArchive, getArchives, recoverArchive } from '@/services';
+import { deleteArchive, getArchiveInfo, getArchives, recoverArchive } from '@/services';
 
 const ArchiveList: React.FC = (props) => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [currentArchive, setCurrentArchive] = useState<any>(null);
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -61,6 +63,14 @@ const ArchiveList: React.FC = (props) => {
     });
   };
 
+  const previewArchive = (item: any) => {
+    setCurrentArchive(item);
+    setVisible(true);
+    getArchiveInfo({ id: item.id }).then((res) => {
+      setCurrentArchive(res.data || {});
+    });
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: '编号',
@@ -74,9 +84,7 @@ const ArchiveList: React.FC = (props) => {
       render: (dom, entity) => {
         return (
           <div style={{ maxWidth: 400 }}>
-            <a href={entity.link} target="_blank">
-              {dom}
-            </a>
+            <a onClick={() => previewArchive(entity)}>{dom}</a>
           </div>
         );
       },
@@ -168,6 +176,18 @@ const ArchiveList: React.FC = (props) => {
           showSizeChanger: true,
         }}
       />
+      <Modal
+        title="文档预览"
+        open={visible}
+        width={1000}
+        onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+      >
+        <h3>{currentArchive?.title}</h3>
+        <div className="article-content">
+          <div dangerouslySetInnerHTML={{ __html: currentArchive?.data?.content }}></div>
+        </div>
+      </Modal>
     </PageContainer>
   );
 };

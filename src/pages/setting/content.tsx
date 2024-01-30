@@ -78,6 +78,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
     values.thumb_width = Number(values.thumb_width);
     values.thumb_height = Number(values.thumb_height);
     values.quality = Number(values.quality);
+    values.use_sort = Number(values.use_sort);
 
     const hide = message.loading('正在提交中', 0);
     saveSettingContent(values)
@@ -169,6 +170,21 @@ const SettingContactFrom: React.FC<any> = (props) => {
                 },
               ]}
               extra="默认不启用多分类支持，启用多分类可能会导致网站加载变慢"
+            />
+            <ProFormRadio.Group
+              name="use_sort"
+              label="启用文档排序"
+              options={[
+                {
+                  value: 0,
+                  label: '不启用',
+                },
+                {
+                  value: 1,
+                  label: '启用',
+                },
+              ]}
+              extra="默认不启用文档排序支持，启用文档可能会导致网站加载变慢"
             />
             <ProFormRadio.Group
               name="use_webp"

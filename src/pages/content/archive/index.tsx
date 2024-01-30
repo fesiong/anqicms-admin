@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Alert, Button, Dropdown, Input, Menu, message, Modal, Select, Space, Tag } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import type { ProColumns, ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {
   ModalForm,
@@ -362,35 +362,36 @@ const ArchiveList: React.FC = (props) => {
     setQuickVisible(true);
   };
 
+  const sortColumn: ProColumnType = {
+    title: '排序',
+    dataIndex: 'sort',
+    hideInSearch: true,
+    sorter: true,
+    tooltip: '数值越大，越靠前',
+    width: 90,
+    render: (_, entity: any, index) => {
+      return (
+        <div>
+          <Input
+            onBlur={(e: any) => {
+              updateSort(index, entity, e.target.value);
+            }}
+            onPressEnter={(e: any) => {
+              updateSort(index, entity, e.target?.value);
+            }}
+            defaultValue={entity.sort}
+          ></Input>
+        </div>
+      );
+    },
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: '编号',
       dataIndex: 'id',
       hideInSearch: true,
       sorter: true,
-    },
-    {
-      title: '排序',
-      dataIndex: 'sort',
-      hideInSearch: true,
-      sorter: true,
-      tooltip: '数值越大，越靠前',
-      width: 90,
-      render: (_, entity, index) => {
-        return (
-          <div>
-            <Input
-              onBlur={(e) => {
-                updateSort(index, entity, e.target.value);
-              }}
-              onPressEnter={(e) => {
-                updateSort(index, entity, e.target.value);
-              }}
-              defaultValue={entity.sort}
-            ></Input>
-          </div>
-        );
-      },
     },
     {
       title: '标题',
@@ -466,6 +467,14 @@ const ArchiveList: React.FC = (props) => {
       sorter: true,
     },
     {
+      title: 'Flag',
+      dataIndex: 'flag',
+      hideInTable: true,
+      renderFormItem: () => {
+        return <ProFormSelect name="flag" valueEnum={Object.assign({ '': '不限' }, flagEnum)} />;
+      },
+    },
+    {
       title: '状态',
       dataIndex: 'status',
       valueEnum: {
@@ -479,16 +488,16 @@ const ArchiveList: React.FC = (props) => {
         },
         2: {
           text: '待发布',
-          status: 'Default',
+          status: 'Warning',
         },
       },
       renderFormItem: () => {
         return (
           <ProFormSelect
             name="status"
+            initialValue={'ok'}
             request={async () => {
               return [
-                { label: '全部', value: '' },
                 { label: '正常', value: 'ok' },
                 { label: '草稿', value: 'draft' },
                 { label: '待发布', value: 'plan' },
@@ -713,7 +722,7 @@ const ArchiveList: React.FC = (props) => {
           }
           return getArchives(params);
         }}
-        columns={columns}
+        columns={contentSetting.use_sort ? (columns.splice(1, 0, sortColumn), columns) : columns}
         rowSelection={{
           preserveSelectedRowKeys: true,
           onChange: (selectedRowKeys) => {
