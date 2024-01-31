@@ -3,7 +3,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
 import { Alert, Card, Modal } from 'antd';
 import './index.less';
-import { getDesignDocs } from '@/services/design';
+import { getDesignDocs } from '@/services';
 
 const DesignDoc: React.FC = () => {
   const actionRef = useRef<ActionType>();

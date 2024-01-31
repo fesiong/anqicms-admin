@@ -85,7 +85,7 @@ const PluginMaterial: React.FC = () => {
     {
       title: '内容',
       dataIndex: 'content',
-      render: (text) => <div style={{ wordBreak: 'break-all' }}>{removeHtmlTag(text)}</div>,
+      render: (text) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
     },
     {
       title: '板块',
@@ -242,7 +242,9 @@ const PluginMaterial: React.FC = () => {
           setPreviewVisible(false);
         }}
       >
-        <div dangerouslySetInnerHTML={{ __html: currentMaterial.content }}></div>
+        <div className="article-content">
+          <div dangerouslySetInnerHTML={{ __html: currentMaterial.content }}></div>
+        </div>
       </Modal>
     </PageContainer>
   );

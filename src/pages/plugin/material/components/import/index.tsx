@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Col, Input, message, Modal, Row, Select, Space, Upload } from 'antd';
+import {
+  Alert,
+  Button,
+  Checkbox,
+  Col,
+  Input,
+  message,
+  Modal,
+  Row,
+  Select,
+  Space,
+  Upload,
+} from 'antd';
 import { ModalForm } from '@ant-design/pro-form';
 import { getWordsCount, removeHtmlTag } from '@/utils';
 import {
@@ -21,6 +33,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
   const [uploadedMaterials, setUploadedMaterials] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [editingContent, setEditingContent] = useState<string>('');
+  const [containHtml, setContainHtml] = useState<boolean>(false);
 
   useEffect(() => {
     getSetting();
@@ -61,12 +74,13 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
     let items: any = str.split('\n');
     let tmp = '';
     for (let item of items) {
-      if(tmp){
-        tmp += "<br/>" + item.trim();
+      if (tmp) {
+        tmp += '<br/>' + item.trim();
       } else {
         tmp += item.trim();
       }
-      if (getWordsCount(item) < 30) {
+      console.log(item, getWordsCount(item));
+      if (getWordsCount(item) < 10) {
         continue;
       }
       let exists = false;
@@ -129,7 +143,10 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
   };
 
   const submitTextarea = () => {
-    let content = removeHtmlTag(editingContent);
+    let content = editingContent;
+    if (!containHtml) {
+      content = removeHtmlTag(editingContent);
+    }
     let count = updateUploadedMaterials(content);
     setShowTextarea(false);
     message.success('已选择个' + count + '片段');
@@ -340,6 +357,24 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
         }}
         onOk={submitTextarea}
       >
+        <Alert
+          className="mb-normal"
+          message={
+            <div>
+              <div>
+                内容素材默认会过滤所有html标签，只保留文字。如果你
+                <span className="text-red">需要</span>保留html标签，请勾选&nbsp;&nbsp;
+                <Checkbox
+                  value={true}
+                  checked={containHtml}
+                  onChange={(e) => setContainHtml(e.target.checked)}
+                >
+                  保留html标签
+                </Checkbox>
+              </div>
+            </div>
+          }
+        />
         <Input.TextArea
           style={{ margin: '10px 0', padding: '10px' }}
           rows={15}

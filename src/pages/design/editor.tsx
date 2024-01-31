@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import MonacoEditor from 'react-monaco-editor';
-import { Button, Card, Col, message, Row, Space, Modal, Tree } from 'antd';
+import MonacoEditor, { monaco } from 'react-monaco-editor';
+import { Button, Card, Col, message, Row, Space, Modal, Tree, Input, Popover } from 'antd';
 import { history } from 'umi';
 import {
   deleteDesignHistoryFile,
@@ -17,8 +17,10 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import moment from 'moment';
 import TemplateCompare from './components/compare';
 import CollapseItem from '@/components/collaspeItem';
+import { getDesignTplHelpers } from '@/services';
 
-var fileType: string = '';
+let fileType: string = '';
+let helperEvent: any;
 
 const DesignEditor: React.FC = () => {
   const [fileInfo, setFileInfo] = useState<any>({});
@@ -34,8 +36,13 @@ const DesignEditor: React.FC = () => {
   const [historyContent, setHistoryContent] = useState<string>('');
   const [tplSelect, setTplSelect] = useState<React.Key[]>([]);
   const [staticSelect, setStaticSelect] = useState<React.Key[]>([]);
+  const [showTplHelper, setShowTplHelper] = useState<boolean>(false);
+  const [tplHelpers, setTplHelpers] = useState<any[]>();
+  const [addCodeVisible, setAddCodeVisible] = useState<boolean>(false);
+  const [addCode, setAddCode] = useState<any>({});
+  const [codeValue, setCodeValue] = useState<string>('');
 
-  var unsave = false;
+  let unsave = false;
 
   useEffect(() => {
     fetchDesignInfo();
@@ -195,8 +202,33 @@ const DesignEditor: React.FC = () => {
   };
 
   const editorDidMount = (editor: any, monaco: any) => {
-    //console.log('editorDidMount', editor);
-    //editor.focus();
+    let showTplHelperAction = editor.createContextKey('showTplHelperAction', true);
+    editor.addAction({
+      // id
+      id: 'tpl-helper',
+      // 该菜单键显示文本
+      label: '模板标签助手',
+      // 控制该菜单键显示
+      precondition: 'showTplHelperAction',
+      // 该菜单键位置
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      // 点击该菜单键后运行
+      run: (event: any) => {
+        // 光标位置
+        helperEvent = event;
+        setShowTplHelper(true);
+        getTplHelpers();
+      },
+    });
+  };
+
+  const getTplHelpers = () => {
+    if (!tplHelpers) {
+      getDesignTplHelpers().then((res: any) => {
+        setTplHelpers(res.data || null);
+      });
+    }
   };
 
   const onChangeCode = (newCode: string) => {
@@ -359,6 +391,37 @@ const DesignEditor: React.FC = () => {
     setHeight(num);
   };
 
+  const handleAddCode = (addCode: any, docLink: string) => {
+    if (docLink) {
+      addCode.link = docLink;
+    }
+    setAddCode(addCode);
+    setCodeValue(addCode.code);
+    setAddCodeVisible(true);
+  };
+
+  const onSubmitAddCode = () => {
+    if (helperEvent) {
+      let position = helperEvent.getPosition();
+      helperEvent?.executeEdits('', [
+        {
+          range: new monaco.Range(
+            position.lineNumber,
+            position.column,
+            position.lineNumber,
+            position.column,
+          ),
+          text: codeValue,
+        },
+      ]);
+
+      helperEvent.focus();
+    }
+
+    setAddCodeVisible(false);
+    setShowTplHelper(false);
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: 'Hash',
@@ -449,6 +512,7 @@ const DesignEditor: React.FC = () => {
                 >
                   查看历史
                 </Button>
+                <div className="text-muted">编辑框内点击右键可以快捷插入模板标签代码</div>
               </Space>
             </div>
           </Col>
@@ -556,6 +620,89 @@ const DesignEditor: React.FC = () => {
           }}
         />
       )}
+      <Modal
+        open={showTplHelper}
+        onCancel={() => {
+          setShowTplHelper(false);
+        }}
+        onOk={() => {
+          setShowTplHelper(false);
+        }}
+        width={800}
+      >
+        {tplHelpers?.map((item: any, index: number) => {
+          return (
+            <div key={index} className="design-helper">
+              <h3 className="helper-header">{item.title}</h3>
+              <Row gutter={16} wrap>
+                {item.docs?.map((doc: any, index2: number) => (
+                  <Col key={index2}>
+                    {doc.docs ? (
+                      <Popover
+                        content={
+                          <div className="helper-popover">
+                            <Row gutter={16} wrap>
+                              {doc.docs.map((child: any, index3: number) => (
+                                <Col key={index3}>
+                                  <span
+                                    className="popover-item link"
+                                    onClick={() => handleAddCode(child, child.link || doc.link)}
+                                  >
+                                    {child.title}
+                                  </span>
+                                </Col>
+                              ))}
+                            </Row>
+                          </div>
+                        }
+                        trigger="click"
+                      >
+                        <span className="helper-item">{doc.title}</span>
+                      </Popover>
+                    ) : (
+                      <span
+                        className="helper-item link"
+                        onClick={() => handleAddCode(doc, doc.link)}
+                      >
+                        {doc.title}
+                      </span>
+                    )}
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          );
+        })}
+      </Modal>
+      <Modal
+        title="代码片段"
+        open={addCodeVisible}
+        onCancel={() => {
+          setAddCodeVisible(false);
+        }}
+        okText="插入"
+        onOk={onSubmitAddCode}
+        width={600}
+      >
+        {(addCode.content || addCode.link) && (
+          <div className="helper-code-desc">
+            {addCode.content && <span>说明：{addCode.content}</span>}
+            {addCode.link && (
+              <a href={addCode.link} target="_blank">
+                查看文档
+              </a>
+            )}
+          </div>
+        )}
+        {addCodeVisible && (
+          <Input.TextArea
+            placeholder="代码片段"
+            rows={10}
+            value={codeValue}
+            onChange={(e) => setCodeValue(e.target.value)}
+          />
+        )}
+      </Modal>
     </PageContainer>
   );
 };

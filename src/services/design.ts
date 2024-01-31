@@ -136,6 +136,14 @@ export async function getDesignDocs(params?: any, options?: { [key: string]: any
   });
 }
 
+export async function getDesignTplHelpers(params?: any, options?: { [key: string]: any }) {
+  return get({
+    url: '/design/helpers',
+    params,
+    options,
+  });
+}
+
 export async function restoreDesignData(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/design/data/restore',
