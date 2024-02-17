@@ -144,6 +144,14 @@ export async function saveSettingCache(body: any, options?: { [key: string]: any
   });
 }
 
+export async function saveSettingMigrateDB(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/setting/migratedb',
+    body,
+    options,
+  });
+}
+
 export async function convertImagetoWebp(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/setting/convert/webp',

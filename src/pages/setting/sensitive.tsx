@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormTextArea } from '@ant-design/pro-form';
+import ProForm, { ProFormInstance, ProFormTextArea } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Button, Card, message, Space, Modal } from 'antd';
 import {
@@ -9,6 +9,7 @@ import {
 } from '@/services/setting';
 
 const SettingSensitiveFrom: React.FC<any> = (props) => {
+  const formRef = React.createRef<ProFormInstance>();
   const [setting, setSetting] = useState<any>([]);
   const [fetched, setFetched] = useState<boolean>(false);
   useEffect(() => {
@@ -42,8 +43,11 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
       title: '确定要同步敏感词列表吗？该操作会从安企CMS官网同步最新的敏感词到本地，并替换',
       onOk: () => {
         syncSettingSensitiveWords({})
-          .then((res) => {
+          .then(async (res) => {
             message.success(res.msg);
+            const res2 = await getSettingSensitiveWords();
+            let setting = res2.data || [];
+            formRef.current?.setFieldsValue({ words: setting.join('\n') });
           })
           .catch((err) => {
             message.success(err.msg || '同步失败');
@@ -63,7 +67,11 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
         }
       >
         {fetched && (
-          <ProForm initialValues={{ words: setting.join('\n') }} onFinish={onSubmit}>
+          <ProForm
+            formRef={formRef}
+            initialValues={{ words: setting.join('\n') }}
+            onFinish={onSubmit}
+          >
             <ProFormTextArea
               fieldProps={{ rows: 20 }}
               name="words"
