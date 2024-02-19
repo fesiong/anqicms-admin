@@ -6,7 +6,6 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { deleteCategory, getCategories, getCategoryInfo, getModules } from '@/services';
 import '../index.less';
-import CategoryForm from '../components/categoryFrom';
 import { history } from 'umi';
 import MultiCategory from '../components/multiCategory';
 
@@ -14,7 +13,6 @@ const ArchiveCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentCategory, setCurrentCategory] = useState<any>({});
-  const [editVisible, setEditVisible] = useState<boolean>(false);
   const [modules, setModules] = useState<any[]>([]);
   const [multiVisible, setMultiVisible] = useState<boolean>(false);
 
@@ -52,18 +50,9 @@ const ArchiveCategory: React.FC = () => {
   };
 
   const handleEditCategory = async (record: any) => {
-    let category: any = null;
-    if (record.id > 0) {
-      const res = await getCategoryInfo({
-        id: record.id,
-      });
-      category = res.data || record;
-    } else {
-      category = record;
-    }
-
-    setCurrentCategory(category);
-    setEditVisible(true);
+    history.push(
+      '/archive/category/detail?id=' + (record.id || 'new') + '&parent_id=' + record.parent_id,
+    );
   };
 
   const handleAddMultiCategory = async (record: any) => {
@@ -248,23 +237,6 @@ const ArchiveCategory: React.FC = () => {
           showSizeChanger: true,
         }}
       />
-      {editVisible && (
-        <CategoryForm
-          visible={editVisible}
-          category={currentCategory}
-          modules={modules}
-          type={1}
-          onCancel={() => {
-            setEditVisible(false);
-          }}
-          onSubmit={async () => {
-            setEditVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }}
-        />
-      )}
       {multiVisible && (
         <MultiCategory
           visible={multiVisible}

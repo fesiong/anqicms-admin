@@ -4,15 +4,13 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { deleteCategory, getCategories, getCategoryInfo } from '@/services/category';
+import { deleteCategory, getCategories } from '@/services/category';
 import '../index.less';
-import PageForm from '../components/pageForm';
+import { history } from 'umi';
 
 const PageCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
-  const [currentCategory, setCurrentCategory] = useState<any>({});
-  const [editVisible, setEditVisible] = useState<boolean>(false);
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -42,13 +40,7 @@ const PageCategory: React.FC = () => {
   };
 
   const handleEditCategory = async (record: any) => {
-    const res = await getCategoryInfo({
-      id: record.id,
-    });
-    const category = res.data || { status: 1 };
-
-    setCurrentCategory(category);
-    setEditVisible(true);
+    history.push('/archive/page/detail?id=' + (record.id || 'new'));
   };
 
   const columns: ProColumns<any>[] = [
@@ -171,22 +163,6 @@ const PageCategory: React.FC = () => {
           showSizeChanger: true,
         }}
       />
-      {editVisible && (
-        <PageForm
-          visible={editVisible}
-          category={currentCategory}
-          type={3}
-          onCancel={() => {
-            setEditVisible(false);
-          }}
-          onSubmit={async () => {
-            setEditVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }}
-        />
-      )}
     </PageContainer>
   );
 };

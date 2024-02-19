@@ -96,6 +96,11 @@
         component: '@/pages/content/category/archive',
       },
       {
+        hideInMenu: true,
+        path: '/archive/category/detail',
+        component: '@/pages/content/category/archive/detail',
+      },
+      {
         path: '/archive/tag',
         name: '文档标签',
         component: '@/pages/content/tag/index',
@@ -104,6 +109,11 @@
         path: '/archive/page',
         name: '单页面管理',
         component: '@/pages/content/category/page',
+      },
+      {
+        hideInMenu: true,
+        path: '/archive/page/detail',
+        component: '@/pages/content/category/page/detail',
       },
       {
         path: '/archive/module',
