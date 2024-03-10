@@ -178,6 +178,16 @@ const PluginPush: React.FC<any> = (props) => {
                   extra="如：https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=sampleapikeyEDECC1EA4AE341CC8B6（注意该APIkey在必应工具右上角的设置中设置）"
                 />
               </Card>
+              <Card size="small" title="谷歌账号密钥JSON" bordered={false}>
+                <ProFormTextArea
+                  name="google_json"
+                  label="JSON内容"
+                  fieldProps={{
+                    rows: 5,
+                  }}
+                  extra="国内无法使用。JSON获取请参考文档：https://www.anqicms.com/google-indexing-help.html"
+                />
+              </Card>
               <Card size="small" title="360/头条等JS自动提交" bordered={false}>
                 <ProTable<any>
                   actionRef={actionRef}

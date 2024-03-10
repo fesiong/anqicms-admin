@@ -57,7 +57,7 @@ const SettingSafeFrom: React.FC<any> = (props) => {
             />
             <ProFormRadio.Group
               name="captcha"
-              label="留言评论验证码"
+              label="登陆/留言/评论验证码"
               options={[
                 {
                   value: 0,
@@ -68,7 +68,7 @@ const SettingSafeFrom: React.FC<any> = (props) => {
                   label: '开启',
                 },
               ]}
-              extra="如需开启验证码，请参考验证码标签使用js调用刷新验证码和提交验证数据"
+              extra="如需开启验证码，请参考验证码标签使用js调用刷新验证码和提交验证数据。开启后，前台用户登录、留言、评论都需要验证码"
             />
             <ProFormText
               name="daily_limit"

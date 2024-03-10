@@ -1,5 +1,5 @@
 import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -8,6 +8,7 @@ import {
   pluginDeleteGuestbook,
   pluginExportGuestbook,
   pluginGetGuestbooks,
+  pluginGetGuestbookSetting,
 } from '@/services/plugin/guestbook';
 import GuestbookForm from './components/guestbookForm';
 import { exportFile } from '@/utils';
@@ -18,6 +19,94 @@ const PluginGuestbook: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentGuestbook, setCurrentGuestbook] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [setting, setSetting] = useState<any>({ fields: [] });
+  const [columns, setColumns] = useState<ProColumns<any>[]>([]);
+
+  useEffect(() => {
+    getSetting();
+  }, []);
+
+  const getSetting = async () => {
+    const res = await pluginGetGuestbookSetting();
+    let setting = res.data || { fields: [] };
+    setSetting(setting);
+    initColumns(setting.fields || []);
+  };
+
+  const initColumns = (fields: any[]) => {
+    let tmpColumns: ProColumns<any>[] = [
+      {
+        title: '时间',
+        width: 160,
+        dataIndex: 'created_time',
+        render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      },
+    ];
+    if (fields.length == 0) {
+      tmpColumns.push(
+        {
+          title: '用户名',
+          width: 100,
+          dataIndex: 'user_name',
+        },
+        {
+          title: '联系方式',
+          width: 160,
+          dataIndex: 'contact',
+        },
+        {
+          title: '留言内容',
+          dataIndex: 'content',
+          render: (text, record) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
+        },
+      );
+    } else {
+      for (let i in fields) {
+        tmpColumns.push({
+          title: fields[i].name,
+          dataIndex: fields[i].field_name,
+        });
+      }
+    }
+    tmpColumns.push(
+      {
+        title: 'IP',
+        dataIndex: 'ip',
+        width: 100,
+      },
+      {
+        title: '操作',
+        width: 150,
+        dataIndex: 'option',
+        valueType: 'option',
+        render: (_, record) => (
+          <Space size={20}>
+            <a
+              key="check"
+              onClick={() => {
+                handlePreview(record);
+              }}
+            >
+              查看
+            </a>
+            <a
+              className="text-red"
+              key="delete"
+              onClick={async () => {
+                await handleRemove([record.id]);
+                setSelectedRowKeys([]);
+                actionRef.current?.reloadAndRest?.();
+              }}
+            >
+              删除
+            </a>
+          </Space>
+        ),
+      },
+    );
+
+    setColumns(tmpColumns);
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -56,64 +145,6 @@ const PluginGuestbook: React.FC = () => {
 
     exportFile(res.data?.header, res.data?.content, 'xls');
   };
-
-  const columns: ProColumns<any>[] = [
-    {
-      title: '时间',
-      width: 160,
-      dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
-    },
-    {
-      title: '用户名',
-      width: 100,
-      dataIndex: 'user_name',
-    },
-    {
-      title: '联系方式',
-      width: 160,
-      dataIndex: 'contact',
-    },
-    {
-      title: '留言内容',
-      dataIndex: 'content',
-      render: (text, record) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
-    },
-    {
-      title: 'IP',
-      dataIndex: 'ip',
-      width: 100,
-    },
-    {
-      title: '操作',
-      width: 150,
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => (
-        <Space size={20}>
-          <a
-            key="check"
-            onClick={() => {
-              handlePreview(record);
-            }}
-          >
-            查看
-          </a>
-          <a
-            className="text-red"
-            key="delete"
-            onClick={async () => {
-              await handleRemove([record.id]);
-              setSelectedRowKeys([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            删除
-          </a>
-        </Space>
-      ),
-    },
-  ];
 
   return (
     <PageContainer>

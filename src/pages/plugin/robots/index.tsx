@@ -6,7 +6,7 @@ import { pluginGetRobots, pluginSaveRobots } from '@/services/plugin/robots';
 import { useModel } from 'umi';
 
 const PluginRobots: React.FC<any> = (props) => {
-  const { initialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
   const [pushSetting, setPushSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
 
@@ -29,14 +29,43 @@ const PluginRobots: React.FC<any> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
+
+  const getFrontUrl = async (link: string) => {
+    let baseUrl = '';
+    if (!initialState.system) {
+      const system = await initialState?.fetchSystemSetting?.();
+      if (system) {
+        await setInitialState((s) => ({
+          ...s,
+          system: system,
+        }));
+      }
+      baseUrl = system?.base_url || '';
+    } else {
+      baseUrl = initialState.system?.base_url || '';
+    }
+
+    return baseUrl + link;
+  };
+
   return (
     <PageHeaderWrapper>
       <Card>
-        <Alert message="Robots是网站告诉搜索引擎蜘蛛哪些页面可以抓取，哪些页面不能抓取的配置" />
+        <Alert
+          message={
+            <div>
+              Robots是网站告诉搜索引擎蜘蛛哪些页面可以抓取，哪些页面不能抓取的配置。Q:{' '}
+              <a href="https://baike.baidu.com/item/robots%E5%8D%8F%E8%AE%AE/2483797">
+                robots.txt文件的格式
+              </a>
+            </div>
+          }
+        />
         <div className="mt-normal">
           {fetched && (
             <ProForm onFinish={onSubmit} initialValues={pushSetting}>
@@ -58,15 +87,16 @@ const PluginRobots: React.FC<any> = (props) => {
             </ProForm>
           )}
         </div>
-              <div className='mt-normal'>
-        <Button
-                    onClick={() => {
-                      window.open(initialState.system?.base_url+'/robots.txt')
-                    }}
-                  >
-                    查看Robots
-                  </Button>
-            </div>
+        <div className="mt-normal">
+          <Button
+            onClick={async () => {
+              let url = await getFrontUrl('/robots.txt');
+              window.open(url);
+            }}
+          >
+            查看Robots
+          </Button>
+        </div>
       </Card>
     </PageHeaderWrapper>
   );

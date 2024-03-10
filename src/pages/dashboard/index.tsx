@@ -322,7 +322,7 @@ const Dashboard: React.FC = () => {
               <Col
                 flex={1}
                 onClick={() => {
-                  handleJump('/content/page');
+                  handleJump('/archive/page');
                 }}
               >
                 <Statistic className="link" title="单页管理" value={data.page_count} />
@@ -330,7 +330,7 @@ const Dashboard: React.FC = () => {
               <Col
                 flex={1}
                 onClick={() => {
-                  handleJump('/content/attachment');
+                  handleJump('/archive/attachment');
                 }}
               >
                 <Statistic className="link" title="图片管理" value={data.attachment_count} />
