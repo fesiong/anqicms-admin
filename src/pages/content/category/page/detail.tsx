@@ -91,10 +91,13 @@ const PageCategoryDetail: React.FC = () => {
       message.error('请填写分类名称');
       return;
     }
-    let res = await saveCategory(category);
-    message.info(res.msg);
-
-    history.goBack();
+    let res = await saveCategory(cat);
+    if (res.code === 0) {
+      message.info(res.msg);
+      history.goBack();
+    } else {
+      message.error(res.msg);
+    }
   };
 
   const handleSelectImages = (row: any) => {

@@ -509,7 +509,7 @@ export default class ArchiveForm extends React.Component {
                   />
                   <ProFormTextArea name="description" label="文章简介" />
 
-                  <CollapseItem header="其他参数" showArrow open key="1">
+                  <CollapseItem header="其他参数" showArrow key="1">
                     <Row gutter={20}>
                       <Col span={12}>
                         <ProFormText

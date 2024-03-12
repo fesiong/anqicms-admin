@@ -1,4 +1,4 @@
-import { message, Image, Card, Row, Col, Button } from 'antd';
+import { message, Image, Card, Row, Col, Button, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProForm, {
@@ -91,10 +91,25 @@ const ArchiveCategoryDetail: React.FC = () => {
       message.error('请填写分类名称');
       return;
     }
-    let res = await saveCategory(category);
-    message.info(res.msg);
-
-    history.goBack();
+    let res = await saveCategory(cat);
+    if (res.code === 0) {
+      message.info(res.msg);
+      history.goBack();
+    } else if (res.msg == 'token duplication') {
+      Modal.confirm({
+        title: '提示',
+        content: 'URL别名“' + cat.url_token + '”已被其它分类占用，请修改为新的别名以防系统出错。',
+        okText: '强制保存',
+        okType: 'danger',
+        cancelText: '返回修改',
+        onOk: () => {
+          cat.force = true;
+          onSubmit(cat);
+        },
+      });
+    } else {
+      message.error(res.msg);
+    }
   };
 
   const handleSelectImages = (row: any) => {
