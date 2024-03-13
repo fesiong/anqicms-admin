@@ -177,7 +177,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
                 name="file"
                 multiple
                 showUploadList={false}
-                accept=".jpg,.jpeg,.png,.gif,.webp"
+                accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
                 customRequest={(e) => {
                   handleUploadImage('pc_thumb', e);
                 }}
@@ -199,7 +199,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
                 name="file"
                 multiple
                 showUploadList={false}
-                accept=".jpg,.jpeg,.png,.gif,.webp"
+                accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
                 customRequest={(e) => {
                   handleUploadImage('mobile_thumb', e);
                 }}
@@ -221,7 +221,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
                 name="file"
                 multiple
                 showUploadList={false}
-                accept=".jpg,.jpeg,.png,.gif,.webp"
+                accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
                 customRequest={(e) => {
                   handleUploadImage('preview_images', e);
                 }}

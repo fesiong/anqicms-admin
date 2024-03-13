@@ -121,7 +121,7 @@ const Footer: React.FC = () => {
             name="file"
             multiple
             showUploadList={false}
-            accept=".jpg,.jpeg,.png,.gif,.webp"
+            accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
             customRequest={(e) => {
               handleUploadImage(e);
             }}

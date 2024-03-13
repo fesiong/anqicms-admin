@@ -156,7 +156,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
                 name="file"
                 className="logo-uploader"
                 showUploadList={false}
-                accept=".jpg,.jpeg,.png,.gif,.webp,.ico"
+                accept=".jpg,.jpeg,.png,.gif,.webp,.ico,.bmp"
                 customRequest={async (e) => handleUploadFavicon(e)}
               >
                 <div className="ant-upload-item">

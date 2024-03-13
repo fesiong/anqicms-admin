@@ -242,7 +242,7 @@ const PluginTitleImage: React.FC<any> = () => {
                       name="file"
                       className="logo-uploader"
                       showUploadList={false}
-                      accept=".jpg,.jpeg,.webp,.png"
+                      accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
                       customRequest={async (e) => handleUploadFile('bg_image', e)}
                     >
                       <Button>上传图片</Button>

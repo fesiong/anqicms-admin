@@ -402,7 +402,7 @@ export default class ImageList extends React.Component {
                   name="file"
                   multiple
                   showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                  accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleUploadImage}
                 >
                   <Button type="primary">上传新资源</Button>
@@ -458,7 +458,7 @@ export default class ImageList extends React.Component {
                     name="file"
                     showUploadList={false}
                     multiple={true}
-                    accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                    accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                     customRequest={this.handleUploadImage}
                   >
                     <Button type="primary">添加新资源</Button>
@@ -544,7 +544,7 @@ export default class ImageList extends React.Component {
                 <Upload
                   name="file"
                   showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                  accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleReplaceAttach}
                 >
                   <Button>替换资源</Button>
