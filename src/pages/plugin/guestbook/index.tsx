@@ -65,6 +65,12 @@ const PluginGuestbook: React.FC = () => {
         tmpColumns.push({
           title: fields[i].name,
           dataIndex: fields[i].field_name,
+          width: fields[i].field_name == 'content' ? 0 : 160,
+          render: (text, record) => (
+            <div style={{ wordBreak: 'break-all' }}>
+              {record.extra_data[fields[i].name] || text}
+            </div>
+          ),
         });
       }
     }
