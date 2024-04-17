@@ -55,6 +55,10 @@ const PluginFinanceCommission: React.FC = () => {
       request={(params) => {
         return pluginGetCommissions(params);
       }}
+      columnsState={{
+        persistenceKey: 'commission-table',
+        persistenceType: 'localStorage',
+      }}
       columns={columns}
       rowSelection={false}
       pagination={{

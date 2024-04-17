@@ -143,6 +143,10 @@ const PluginUser: React.FC = () => {
         request={(params) => {
           return pluginGetUsers(params);
         }}
+        columnsState={{
+          persistenceKey: 'user-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={false}
         pagination={{

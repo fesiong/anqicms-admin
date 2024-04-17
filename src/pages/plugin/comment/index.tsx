@@ -192,6 +192,10 @@ const PluginComment: React.FC = () => {
         request={(params) => {
           return pluginGetComments(params);
         }}
+        columnsState={{
+          persistenceKey: 'comment-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

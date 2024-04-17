@@ -134,6 +134,10 @@ const PluginAiGenerate: React.FC = () => {
             request={(params) => {
               return getAiArticlePlans(params);
             }}
+            columnsState={{
+              persistenceKey: 'ai-article-table',
+              persistenceType: 'localStorage',
+            }}
             columns={columns}
             pagination={{
               showSizeChanger: true,

@@ -209,6 +209,10 @@ const PluginPush: React.FC<any> = (props) => {
                       data: jsCodes,
                     };
                   }}
+                  columnsState={{
+                    persistenceKey: 'push-jscode-table',
+                    persistenceType: 'localStorage',
+                  }}
                   columns={jsColumns}
                   pagination={false}
                 />
@@ -242,6 +246,10 @@ const PluginPush: React.FC<any> = (props) => {
           toolBarRender={false}
           request={(params) => {
             return pluginGetPushLogs(params);
+          }}
+          columnsState={{
+            persistenceKey: 'push-log-table',
+            persistenceType: 'localStorage',
           }}
           columns={columns}
           pagination={{

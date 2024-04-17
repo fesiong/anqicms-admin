@@ -57,7 +57,9 @@ const PluginGuestbook: React.FC = () => {
         {
           title: '留言内容',
           dataIndex: 'content',
-          render: (text, record) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
+          render: (text, record) => (
+            <div style={{ wordBreak: 'break-all', minWidth: 200 }}>{text}</div>
+          ),
         },
       );
     } else {
@@ -67,7 +69,12 @@ const PluginGuestbook: React.FC = () => {
           dataIndex: fields[i].field_name,
           width: fields[i].field_name == 'content' ? 0 : 160,
           render: (text, record) => (
-            <div style={{ wordBreak: 'break-all' }}>
+            <div
+              style={{
+                wordBreak: 'break-all',
+                minWidth: fields[i].field_name == 'content' ? 200 : 50,
+              }}
+            >
               {record.extra_data[fields[i].name] || text}
             </div>
           ),
@@ -198,6 +205,10 @@ const PluginGuestbook: React.FC = () => {
         )}
         request={(params) => {
           return pluginGetGuestbooks(params);
+        }}
+        columnsState={{
+          persistenceKey: 'guestbook-table',
+          persistenceType: 'localStorage',
         }}
         columns={columns}
         rowSelection={{

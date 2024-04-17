@@ -47,6 +47,10 @@ const StatisticDetail: React.FC = () => {
         request={(params) => {
           return getStatisticIncludeInfo(params);
         }}
+        columnsState={{
+          persistenceKey: 'statistic-include-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         pagination={{
           showSizeChanger: true,

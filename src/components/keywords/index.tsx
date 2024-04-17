@@ -43,6 +43,10 @@ const Keywords: React.FC<KeywordsProps> = (props) => {
         request={(params) => {
           return pluginGetKeywords(params);
         }}
+        columnsState={{
+          persistenceKey: 'keywords-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

@@ -138,6 +138,10 @@ const PluginWechatMenu: React.FC<any> = (props) => {
             return pluginGetWechatMenus(params);
           }}
           search={false}
+          columnsState={{
+            persistenceKey: 'wechat-menu-table',
+            persistenceType: 'localStorage',
+          }}
           columns={columns}
           rowSelection={false}
           pagination={{

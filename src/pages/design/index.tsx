@@ -249,6 +249,10 @@ const DesignIndex: React.FC = () => {
         request={(params) => {
           return getDesignList(params);
         }}
+        columnsState={{
+          persistenceKey: 'design-table',
+          persistenceType: 'localStorage',
+        }}
         pagination={false}
         columns={columns}
       />

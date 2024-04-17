@@ -204,6 +204,10 @@ const PluginMaterial: React.FC = () => {
           params.category_id = categoryId;
           return pluginGetMaterials(params);
         }}
+        columnsState={{
+          persistenceKey: 'material-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

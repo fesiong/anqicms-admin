@@ -124,6 +124,10 @@ const PluginFinanceWithdraw: React.FC = () => {
         request={(params) => {
           return pluginGetWithdraws(params);
         }}
+        columnsState={{
+          persistenceKey: 'withdraw-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={false}
         pagination={{

@@ -8,9 +8,9 @@ import {
   getPermissionMenus,
   saveAdminGroupInfo,
 } from '@/services';
-import { Alert, Button, Checkbox, Collapse, Input, message, Modal, Space } from 'antd';
+import { Alert, Button, Checkbox, Collapse, message, Modal, Space } from 'antd';
 import { useModel } from 'umi';
-import { ModalForm, ProFormCheckbox, ProFormRadio, ProFormText } from '@ant-design/pro-form';
+import { ModalForm, ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
 
 const { Panel } = Collapse;
@@ -147,6 +147,10 @@ const AdminGroupList: React.FC = () => {
         search={false}
         request={(params) => {
           return getAdminGroups(params);
+        }}
+        columnsState={{
+          persistenceKey: 'account-group-table',
+          persistenceType: 'localStorage',
         }}
         columns={columns}
         toolBarRender={() => [

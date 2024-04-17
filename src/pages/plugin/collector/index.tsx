@@ -261,6 +261,10 @@ const PluginCollector: React.FC = () => {
             params.collect = true;
             return getArchives(params);
           }}
+          columnsState={{
+            persistenceKey: 'archive-collect-table',
+            persistenceType: 'localStorage',
+          }}
           columns={columns}
           rowSelection={{
             onChange: (selectedRowKeys) => {

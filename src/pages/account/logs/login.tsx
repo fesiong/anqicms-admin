@@ -48,6 +48,10 @@ const AdminLoginLog: React.FC = () => {
         request={(params) => {
           return getAdminLoginLogs(params);
         }}
+        columnsState={{
+          persistenceKey: 'login-logs-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         pagination={{
           showSizeChanger: true,

@@ -119,6 +119,10 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
             params.status = props.status || '';
             return pluginGetHtmlCachePushLogs(params);
           }}
+          columnsState={{
+            persistenceKey: 'html-pushlog-table',
+            persistenceType: 'localStorage',
+          }}
           columns={columns}
           rowSelection={{
             onChange: (selectedRowKeys) => {

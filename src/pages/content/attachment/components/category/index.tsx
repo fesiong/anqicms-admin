@@ -149,6 +149,10 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
             request={(params) => {
               return getAttachmentCategories(params);
             }}
+            columnsState={{
+              persistenceKey: 'attachment-categories-table',
+              persistenceType: 'localStorage',
+            }}
             columns={columns}
             pagination={{
               showSizeChanger: true,

@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import {
+  ModalForm,
+  ProFormCheckbox,
+  ProFormRadio,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-form';
 
 import { pluginGetSendmailSetting, pluginSaveSendmailSetting } from '@/services/plugin/sendmail';
 import { message } from 'antd';
@@ -101,6 +107,17 @@ const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
             <ProFormTextArea name="reply_message" label="自动回复内容" extra="请填写自动回复内容" />
           </>
         )}
+        <ProFormCheckbox.Group
+          name="send_type"
+          label="发送场景"
+          options={[
+            { label: '网站有新留言', value: 1 },
+            { label: '每日网站日报', value: 2 },
+            { label: '网站有新订单', value: 3 },
+            { label: '网站有支付订单', value: 4 },
+          ]}
+          extra="选定后，则会在选定的场景下发送邮件"
+        />
       </ModalForm>
     </>
   );

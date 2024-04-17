@@ -230,6 +230,10 @@ const PluginUserGroup: React.FC = () => {
         request={(params) => {
           return pluginGetBackupList(params);
         }}
+        columnsState={{
+          persistenceKey: 'backup-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={false}
         pagination={{

@@ -299,6 +299,10 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                   success: true,
                 };
               }}
+              columnsState={{
+                persistenceKey: 'module-fields-table',
+                persistenceType: 'localStorage',
+              }}
               columns={columns}
               pagination={false}
             />

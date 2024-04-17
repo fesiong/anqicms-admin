@@ -130,6 +130,10 @@ const PluginFileupload: React.FC = () => {
         request={(params) => {
           return pluginGetUploadFiles(params);
         }}
+        columnsState={{
+          persistenceKey: 'fileupload-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

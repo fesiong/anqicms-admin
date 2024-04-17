@@ -174,6 +174,10 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
               success: true,
             };
           }}
+          columnsState={{
+            persistenceKey: 'user-fields-table',
+            persistenceType: 'localStorage',
+          }}
           columns={columns}
           pagination={false}
         />

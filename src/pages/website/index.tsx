@@ -243,6 +243,10 @@ const WebsiteList: React.FC = () => {
         request={(params) => {
           return getWebsiteList(params);
         }}
+        columnsState={{
+          persistenceKey: 'website-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         toolBarRender={() => [
           initialState?.currentUser?.site_id == 1 && (

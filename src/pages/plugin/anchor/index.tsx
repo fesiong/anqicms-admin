@@ -204,6 +204,10 @@ const PluginAnchor: React.FC = () => {
         request={(params) => {
           return pluginGetAnchors(params);
         }}
+        columnsState={{
+          persistenceKey: 'anchor-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

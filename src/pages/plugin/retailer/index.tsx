@@ -143,6 +143,10 @@ const PluginRetailer: React.FC = () => {
         request={(params) => {
           return pluginGetRetailers(params);
         }}
+        columnsState={{
+          persistenceKey: 'retailer-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={false}
         pagination={{

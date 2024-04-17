@@ -176,6 +176,10 @@ const ModuleList: React.FC = () => {
         request={(params) => {
           return getModules(params);
         }}
+        columnsState={{
+          persistenceKey: 'module-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

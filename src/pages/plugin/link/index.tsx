@@ -201,6 +201,10 @@ const PluginLink: React.FC = () => {
         request={(params) => {
           return pluginGetLinks(params);
         }}
+        columnsState={{
+          persistenceKey: 'friendlink-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

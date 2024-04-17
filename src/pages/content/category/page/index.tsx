@@ -8,6 +8,8 @@ import { deleteCategory, getCategories } from '@/services/category';
 import '../index.less';
 import { history } from 'umi';
 
+let lastParams: any = {};
+
 const PageCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
@@ -151,7 +153,12 @@ const PageCategory: React.FC = () => {
         )}
         request={(params) => {
           params.type = 3;
+          lastParams = params;
           return getCategories(params);
+        }}
+        columnsState={{
+          persistenceKey: 'page-table',
+          persistenceType: 'localStorage',
         }}
         columns={columns}
         rowSelection={{
@@ -161,6 +168,8 @@ const PageCategory: React.FC = () => {
         }}
         pagination={{
           showSizeChanger: true,
+          defaultCurrent: lastParams.current,
+          defaultPageSize: lastParams.pageSize,
         }}
       />
     </PageContainer>

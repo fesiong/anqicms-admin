@@ -149,6 +149,10 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
             request={(params) => {
               return pluginGetMaterialCategories(params);
             }}
+            columnsState={{
+              persistenceKey: 'material-category-table',
+              persistenceType: 'localStorage',
+            }}
             columns={columns}
           />
         </div>

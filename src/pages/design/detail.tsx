@@ -601,6 +601,10 @@ const DesignDetail: React.FC = () => {
             success: true,
           };
         }}
+        columnsState={{
+          persistenceKey: 'design-tpl-files-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         pagination={{
           showSizeChanger: true,
@@ -627,6 +631,10 @@ const DesignDetail: React.FC = () => {
             data: designInfo.static_files || [],
             success: true,
           };
+        }}
+        columnsState={{
+          persistenceKey: 'design-static-files-table',
+          persistenceType: 'localStorage',
         }}
         columns={columnsStatic}
         pagination={{

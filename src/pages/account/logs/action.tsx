@@ -38,6 +38,10 @@ const AdminActionLog: React.FC = () => {
         request={(params) => {
           return getAdminActionLogs(params);
         }}
+        columnsState={{
+          persistenceKey: 'action-logs-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         pagination={{
           showSizeChanger: true,

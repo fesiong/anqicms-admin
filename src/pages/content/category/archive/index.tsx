@@ -9,6 +9,8 @@ import '../index.less';
 import { history } from 'umi';
 import MultiCategory from '../components/multiCategory';
 
+let lastParams: any = {};
+
 const ArchiveCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
@@ -225,7 +227,13 @@ const ArchiveCategory: React.FC = () => {
         )}
         request={(params) => {
           params.type = 1;
+          params.show_type = 1;
+          lastParams = params;
           return getCategories(params);
+        }}
+        columnsState={{
+          persistenceKey: 'category-table',
+          persistenceType: 'localStorage',
         }}
         columns={columns}
         rowSelection={{
@@ -235,6 +243,8 @@ const ArchiveCategory: React.FC = () => {
         }}
         pagination={{
           showSizeChanger: true,
+          defaultCurrent: lastParams.current,
+          defaultPageSize: lastParams.pageSize,
         }}
       />
       {multiVisible && (

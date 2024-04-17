@@ -90,6 +90,10 @@ const PluginSendmail: React.FC = () => {
         request={(params) => {
           return pluginGetSendmails(params);
         }}
+        columnsState={{
+          persistenceKey: 'sendmail-log-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
       />
     </PageContainer>

@@ -136,6 +136,10 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
             request={(params) => {
               return getSettingNavTypes(params);
             }}
+            columnsState={{
+              persistenceKey: 'nav-type-table',
+              persistenceType: 'localStorage',
+            }}
             columns={columns}
           />
         </div>

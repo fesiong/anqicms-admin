@@ -269,6 +269,10 @@ const PluginOrder: React.FC = () => {
         request={(params) => {
           return pluginGetOrders(params);
         }}
+        columnsState={{
+          persistenceKey: 'order-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={false}
         pagination={{

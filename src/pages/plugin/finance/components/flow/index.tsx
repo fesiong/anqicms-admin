@@ -88,6 +88,10 @@ const PluginFinanceFlow: React.FC = () => {
       request={(params) => {
         return pluginGetFinances(params);
       }}
+      columnsState={{
+        persistenceKey: 'finance-table',
+        persistenceType: 'localStorage',
+      }}
       columns={columns}
       rowSelection={false}
       pagination={{

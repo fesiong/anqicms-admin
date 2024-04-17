@@ -185,6 +185,10 @@ const SettingBannerFrom: React.FC<any> = () => {
               }}
               rowKey="name"
               headerTitle={currentType + '分组 Banner 列表'}
+              columnsState={{
+                persistenceKey: 'banner-table',
+                persistenceType: 'localStorage',
+              }}
               columns={columns}
               actionRef={actionRef}
               search={false}

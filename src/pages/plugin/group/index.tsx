@@ -86,6 +86,10 @@ const PluginUserGroup: React.FC = () => {
         request={(params) => {
           return pluginGetUserGroups(params);
         }}
+        columnsState={{
+          persistenceKey: 'user-group-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={false}
         pagination={{

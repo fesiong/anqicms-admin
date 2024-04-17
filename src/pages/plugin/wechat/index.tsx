@@ -131,6 +131,10 @@ const PluginWechatMessage: React.FC<any> = () => {
           return pluginGetWechatMessages(params);
         }}
         search={false}
+        columnsState={{
+          persistenceKey: 'wechat-message-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={false}
         pagination={{

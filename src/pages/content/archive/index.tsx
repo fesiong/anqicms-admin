@@ -46,6 +46,13 @@ const flagEnum: any = {
 let toLanguage = '';
 let updating = false;
 
+let lastParams: any = {
+  module_id: 0,
+  category_id: 0,
+  status: 'ok',
+  flag: '',
+};
+
 const ArchiveList: React.FC = (props) => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
@@ -62,7 +69,9 @@ const ArchiveList: React.FC = (props) => {
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    setModuleId(Number(history.location.query?.module_id || 0));
+    lastParams.module_id = Number(history.location.query?.module_id || 0);
+    lastParams.category_id = Number(history.location.query?.category_id || 0);
+    setModuleId(lastParams.module_id);
     loadModules();
     loadContentSetting();
   }, []);
@@ -422,6 +431,7 @@ const ArchiveList: React.FC = (props) => {
       render: (_: any, entity) => {
         return entity.module_name;
       },
+      initialValue: lastParams.module_id || 0,
     },
     {
       title: '所属分类',
@@ -435,6 +445,7 @@ const ArchiveList: React.FC = (props) => {
           </div>
         );
       },
+      initialValue: lastParams.category_id || 0,
       renderFormItem: (_, { fieldProps }) => {
         return (
           <ProFormSelect
@@ -470,6 +481,7 @@ const ArchiveList: React.FC = (props) => {
       title: 'Flag',
       dataIndex: 'flag',
       hideInTable: true,
+      initialValue: lastParams.flag || '',
       renderFormItem: () => {
         return <ProFormSelect name="flag" valueEnum={Object.assign({ '': '不限' }, flagEnum)} />;
       },
@@ -491,11 +503,11 @@ const ArchiveList: React.FC = (props) => {
           status: 'Warning',
         },
       },
+      initialValue: lastParams.status || 'ok',
       renderFormItem: () => {
         return (
           <ProFormSelect
             name="status"
-            initialValue={'ok'}
             request={async () => {
               return [
                 { label: '正常', value: 'ok' },
@@ -709,17 +721,11 @@ const ArchiveList: React.FC = (props) => {
           </Space>
         )}
         request={(params, sort) => {
-          let categoryId = history.location.query?.category_id || 0;
-          if (Number(categoryId) > 0) {
-            params = Object.assign({ category_id: categoryId }, params);
-          }
-          if (Number(moduleId) > 0) {
-            params = Object.assign({ module_id: moduleId }, params);
-          }
           for (let i in sort) {
             params.sort = i;
             params.order = sort[i] == 'ascend' ? 'asc' : 'desc';
           }
+          lastParams = params;
           return getArchives(params);
         }}
         columns={contentSetting.use_sort ? (columns.splice(1, 0, sortColumn), columns) : columns}
@@ -731,6 +737,8 @@ const ArchiveList: React.FC = (props) => {
         }}
         pagination={{
           showSizeChanger: true,
+          defaultCurrent: lastParams.current,
+          defaultPageSize: lastParams.pageSize,
         }}
       />
       {replaceVisible && (

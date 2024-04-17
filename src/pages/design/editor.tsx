@@ -601,6 +601,10 @@ const DesignEditor: React.FC = () => {
             params.path = fileInfo.path;
             return getDesignFileHistories(params);
           }}
+          columnsState={{
+            persistenceKey: 'design-file-history-table',
+            persistenceType: 'localStorage',
+          }}
           columns={columns}
           pagination={{
             showSizeChanger: true,

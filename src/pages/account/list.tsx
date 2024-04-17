@@ -133,6 +133,10 @@ const AdminList: React.FC = () => {
         request={(params) => {
           return getAdminList(params);
         }}
+        columnsState={{
+          persistenceKey: 'account-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         toolBarRender={() => [
           <Button

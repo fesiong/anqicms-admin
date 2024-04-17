@@ -143,6 +143,10 @@ const ArticleTag: React.FC = () => {
           params.type = 1;
           return getTags(params);
         }}
+        columnsState={{
+          persistenceKey: 'archive-tag-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

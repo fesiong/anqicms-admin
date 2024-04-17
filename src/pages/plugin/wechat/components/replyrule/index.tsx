@@ -120,6 +120,10 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
             return pluginGetWechatReplyRules(params);
           }}
           search={false}
+          columnsState={{
+            persistenceKey: 'wechat-reply-rule-table',
+            persistenceType: 'localStorage',
+          }}
           columns={columns}
           rowSelection={false}
           pagination={{

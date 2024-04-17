@@ -141,6 +141,10 @@ const PluginRedirect: React.FC = () => {
         request={(params) => {
           return pluginGetRedirects(params);
         }}
+        columnsState={{
+          persistenceKey: 'redirect-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {

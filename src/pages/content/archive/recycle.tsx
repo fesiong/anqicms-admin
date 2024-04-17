@@ -166,6 +166,10 @@ const ArchiveList: React.FC = (props) => {
           params.recycle = true;
           return getArchives(params);
         }}
+        columnsState={{
+          persistenceKey: 'archive-recycle-table',
+          persistenceType: 'localStorage',
+        }}
         columns={columns}
         rowSelection={{
           onChange: (selectedRowKeys) => {
