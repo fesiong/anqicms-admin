@@ -40,6 +40,14 @@ export async function pluginSetOrderCanceled(body: any, options?: { [key: string
   });
 }
 
+export async function pluginSetOrderPay(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/order/pay',
+    body,
+    options,
+  });
+}
+
 export async function pluginSetOrderRefund(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/plugin/order/refund',

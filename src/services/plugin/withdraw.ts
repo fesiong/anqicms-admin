@@ -31,3 +31,11 @@ export async function pluginSetWithdrawFinished(body: any, options?: { [key: str
     options,
   });
 }
+
+export async function pluginSetWithdrawApply(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/withdraw/apply',
+    body,
+    options,
+  });
+}

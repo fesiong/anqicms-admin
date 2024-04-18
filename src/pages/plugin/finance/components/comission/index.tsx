@@ -2,10 +2,24 @@ import React, { useRef } from 'react';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
-import { pluginGetCommissions } from '@/services';
+import { pluginGetCommissions, pluginSetWithdrawApply } from '@/services';
+import { Modal, Space, message } from 'antd';
 
 const PluginFinanceCommission: React.FC = () => {
   const actionRef = useRef<ActionType>();
+
+  const handleWithdraw = (record: any) => {
+    Modal.confirm({
+      title: '确定要手动处理提现吗？',
+      content: '这里仅仅是相当于从用户侧申请提现。',
+      onOk: () => {
+        pluginSetWithdrawApply(record).then((res) => {
+          message.info(res.msg);
+          actionRef.current?.reload();
+        });
+      },
+    });
+  };
 
   const columns: ProColumns<any>[] = [
     {
@@ -41,6 +55,25 @@ const PluginFinanceCommission: React.FC = () => {
       render: (_, entity) => {
         return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
+    },
+    {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+        <Space size={20}>
+          {record.amount > 200 && record.status === 0 && (
+            <a
+              key="edit"
+              onClick={() => {
+                handleWithdraw(record);
+              }}
+            >
+              手动提现
+            </a>
+          )}
+        </Space>
+      ),
     },
   ];
 

@@ -239,6 +239,12 @@ const PluginUserGroup: React.FC = () => {
         pagination={{
           showSizeChanger: true,
         }}
+        summary={() => (
+          <div style={{ marginTop: 10 }}>
+            说明：如果备份文件过大，需要下载备份文件，请使用FTP工具等下载备份文件，备份文件在
+            网站根目录/data/backup/ 目录下。
+          </div>
+        )}
       />
     </PageContainer>
   );

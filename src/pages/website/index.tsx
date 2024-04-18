@@ -323,7 +323,11 @@ const WebsiteList: React.FC = () => {
                 />
                 {!userDefault && (
                   <>
-                    <ProFormText name={['mysql', 'host']} label="数据库地址" />
+                    <ProFormText
+                      name={['mysql', 'host']}
+                      label="数据库地址"
+                      placeholder="一般都是127.0.0.1"
+                    />
                     <ProFormDigit
                       name={['mysql', 'port']}
                       label="数据库端口"

@@ -10,6 +10,7 @@ import {
   pluginSetOrderDelivery,
   pluginSetOrderFinished,
   pluginSetOrderRefund,
+  pluginSetOrderPay,
 } from '@/services';
 import {
   ModalForm,
@@ -30,6 +31,7 @@ const PluginOrder: React.FC = () => {
   const [deliverVisible, setDeliverVisible] = useState<boolean>(false);
   const [refundVisible, setRefundVisible] = useState<boolean>(false);
   const [exportVisible, setExportVisible] = useState<boolean>(false);
+  const [payVisible, setPayVisible] = useState<boolean>(false);
 
   const exportOrder = async (values: any) => {
     const hide = message.loading('正在加载', 0);
@@ -104,6 +106,20 @@ const PluginOrder: React.FC = () => {
           actionRef.current?.reload();
         });
       },
+    });
+  };
+
+  const handleSetPay = (record: any) => {
+    setcurrentOrder(record);
+    setPayVisible(true);
+  };
+
+  const saveOrderPaid = async (values: any) => {
+    values.order_id = currentOrder.order_id;
+    pluginSetOrderPay(values).then((res) => {
+      message.info(res.msg);
+      actionRef.current?.reload();
+      setDeliverVisible(false);
     });
   };
 
@@ -232,6 +248,15 @@ const PluginOrder: React.FC = () => {
               }}
             >
               申请退款
+            </a>
+          )}
+          {record.status === 0 && (
+            <a
+              onClick={() => {
+                handleSetPay(record);
+              }}
+            >
+              付款
             </a>
           )}
           <a
@@ -402,6 +427,28 @@ const PluginOrder: React.FC = () => {
           />
           <ProFormDatePicker name="start_date" label="开始日期" width={'lg'} />
           <ProFormDatePicker name="end_date" label="结束日期" width={'lg'} extra="默认今天" />
+        </ModalForm>
+      )}
+      {payVisible && (
+        <ModalForm
+          title="付款处理"
+          visible={payVisible}
+          onVisibleChange={(flag) => {
+            setPayVisible(flag);
+          }}
+          width={480}
+          onFinish={saveOrderPaid}
+        >
+          <ProFormRadio.Group
+            name="pay_way"
+            label="付款方式"
+            options={[
+              {
+                value: 'offline',
+                label: '线下付款',
+              },
+            ]}
+          />
         </ModalForm>
       )}
     </PageContainer>
