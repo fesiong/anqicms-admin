@@ -156,14 +156,14 @@ const PluginFileupload: React.FC = () => {
           setVisible(false);
         }}
       >
-        <Alert message={'说明：只允许上传 txt/htm/html 格式的验证文件'} />
+        <Alert message={'说明：只允许上传 txt/htm/html/xml 格式的验证文件'} />
         <div className="mt-normal">
           <div className="text-center">
             <Upload
               name="file"
               className="logo-uploader"
               showUploadList={false}
-              accept=".txt,.htm,.html"
+              accept=".txt,.htm,.html,.xml"
               customRequest={handleUploadFile}
             >
               <Button type="primary">上传文件</Button>

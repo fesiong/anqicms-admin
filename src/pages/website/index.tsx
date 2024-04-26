@@ -271,6 +271,9 @@ const WebsiteList: React.FC = () => {
           title={editInfo.id > 0 ? '修改站点信息' : '添加新站点'}
           visible={editVisible}
           layout="horizontal"
+          modalProps={{
+            maskClosable: false,
+          }}
           initialValues={editInfo}
           onFinish={onSubmitEdit}
           onVisibleChange={(e) => setEditVisible(e)}

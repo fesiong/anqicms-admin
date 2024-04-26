@@ -7,6 +7,7 @@ import ProTable from '@ant-design/pro-table';
 import {
   ModalForm,
   ProFormCheckbox,
+  ProFormInstance,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
@@ -55,6 +56,7 @@ let lastParams: any = {
 
 const ArchiveList: React.FC = (props) => {
   const actionRef = useRef<ActionType>();
+  const formRef = useRef<ProFormInstance>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [replaceVisible, setReplaceVisible] = useState<boolean>(false);
   const [flagVisible, setFlagVisible] = useState<boolean>(false);
@@ -67,10 +69,9 @@ const ArchiveList: React.FC = (props) => {
   const [contentSetting, setContentSetting] = useState<any>({});
   const [currentArchive, setCurrentArchive] = useState<any>({});
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
+  const [firstFetch, setFirstFetch] = useState<boolean>(false);
 
   useEffect(() => {
-    lastParams.module_id = Number(history.location.query?.module_id || 0);
-    lastParams.category_id = Number(history.location.query?.category_id || 0);
     setModuleId(lastParams.module_id);
     loadModules();
     loadContentSetting();
@@ -89,10 +90,32 @@ const ArchiveList: React.FC = (props) => {
     setModules([{ title: '所有文档', id: 0 }].concat(res.data || []));
   };
 
+  const beforeSearch = (params: any) => {
+    if (!firstFetch) {
+      setFirstFetch(true);
+      lastParams.module_id = Number(history.location.query?.module_id || 0);
+      lastParams.category_id = Number(history.location.query?.category_id || 0);
+      formRef.current?.setFieldsValue(lastParams);
+      params = lastParams;
+    } else {
+      lastParams = params;
+      if (params.module_id != moduleId) {
+        onSelectModule(params.module_id);
+      }
+    }
+
+    return params;
+  };
+
   const onSelectModule = (id: Number) => {
+    lastParams.module_id = id;
     setModuleId(id);
+    formRef.current?.setFieldsValue({
+      module_id: id,
+      category_id: 0,
+    });
     history.replace('/archive/list?module_id=' + id);
-    actionRef.current?.reload();
+    formRef.current?.submit();
   };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
@@ -427,11 +450,26 @@ const ArchiveList: React.FC = (props) => {
     {
       title: '内容模型',
       dataIndex: 'module_id',
-      hideInSearch: true,
       render: (_: any, entity) => {
         return entity.module_name;
       },
-      initialValue: lastParams.module_id || 0,
+      renderFormItem: () => {
+        return (
+          <ProFormSelect
+            name="module_id"
+            request={async () => {
+              let res = await getModules({});
+              const tmpModules = [{ title: '所有文档', id: 0 }]
+                .concat(res.data || [])
+                .map((item: any) => ({
+                  label: item.title,
+                  value: item.id,
+                }));
+              return tmpModules;
+            }}
+          />
+        );
+      },
     },
     {
       title: '所属分类',
@@ -445,7 +483,6 @@ const ArchiveList: React.FC = (props) => {
           </div>
         );
       },
-      initialValue: lastParams.category_id || 0,
       renderFormItem: (_, { fieldProps }) => {
         return (
           <ProFormSelect
@@ -481,7 +518,6 @@ const ArchiveList: React.FC = (props) => {
       title: 'Flag',
       dataIndex: 'flag',
       hideInTable: true,
-      initialValue: lastParams.flag || '',
       renderFormItem: () => {
         return <ProFormSelect name="flag" valueEnum={Object.assign({ '': '不限' }, flagEnum)} />;
       },
@@ -503,7 +539,6 @@ const ArchiveList: React.FC = (props) => {
           status: 'Warning',
         },
       },
-      initialValue: lastParams.status || 'ok',
       renderFormItem: () => {
         return (
           <ProFormSelect
@@ -630,6 +665,11 @@ const ArchiveList: React.FC = (props) => {
           span: 8,
           defaultCollapsed: false,
         }}
+        formRef={formRef}
+        form={{
+          initialValues: lastParams,
+        }}
+        beforeSearchSubmit={beforeSearch}
         toolBarRender={() => [
           <Button
             key="recycle"
