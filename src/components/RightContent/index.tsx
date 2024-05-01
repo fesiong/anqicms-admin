@@ -110,11 +110,12 @@ const GlobalHeaderRight: React.FC = () => {
       <Space className={className}>
         <HeaderSearch placeholder="搜索功能" />
         {anqiUser?.auth_id > 0 ? (
-          <a onClick={showDetail} style={{ color: 'white' }}>
+          <a className="site-info-item" onClick={showDetail} style={{ color: 'white' }}>
             {anqiUser.user_name}
           </a>
         ) : (
           <a
+            className="site-info-item"
             onClick={() => {
               setVisible(true);
             }}
@@ -123,7 +124,12 @@ const GlobalHeaderRight: React.FC = () => {
             绑定安企账号
           </a>
         )}
-        <a href={siteInfo.base_url} target={'_blank'} className="action" style={{ color: 'white' }}>
+        <a
+          href={siteInfo.base_url}
+          target={'_blank'}
+          className="site-info-item action"
+          style={{ color: 'white' }}
+        >
           <GlobalOutlined style={{ marginRight: 5 }} />
           {siteInfo.name || siteInfo.base_url}
         </a>

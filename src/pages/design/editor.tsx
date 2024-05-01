@@ -475,9 +475,9 @@ const DesignEditor: React.FC = () => {
 
   return (
     <PageContainer title={<div>正在编辑: {fileInfo?.path}</div>}>
-      <Card>
+      <Card className="design-editor-card">
         <Row gutter={16}>
-          <Col span={18}>
+          <Col sm={18} xs={24}>
             <div className="code-editor-box" onKeyDown={handleKeyDown}>
               {loaded && (
                 <MonacoEditor
@@ -516,7 +516,7 @@ const DesignEditor: React.FC = () => {
               </Space>
             </div>
           </Col>
-          <Col span={6}>
+          <Col sm={18} xs={24}>
             <CollapseItem
               className="tpl-file-list"
               showArrow={false}

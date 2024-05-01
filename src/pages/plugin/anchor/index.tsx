@@ -14,6 +14,7 @@ import AnchorForm from './components/anchorForm';
 import AnchorSetting from './components/setting';
 import { exportFile } from '@/utils';
 import AnchorImport from './components/import';
+import './index.less';
 
 const PluginAnchor: React.FC = () => {
   const actionRef = useRef<ActionType>();

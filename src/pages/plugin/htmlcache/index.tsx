@@ -271,7 +271,7 @@ const PluginHtmlCache: React.FC<any> = () => {
         {fetched && (
           <ProForm initialValues={setting} onFinish={onSubmit} title="静态页面缓存">
             <Row gutter={16}>
-              <Col span={10}>
+              <Col sm={10} xs={24}>
                 <ProFormRadio.Group
                   name={'open'}
                   label="是否开启静态页面缓存"
@@ -303,7 +303,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                   extra="如果填写0秒，则不缓存"
                 />
               </Col>
-              <Col span={14}>
+              <Col sm={10} xs={24}>
                 <ProFormRadio.Group
                   name="storage_type"
                   label="静态网站服务器"
@@ -468,7 +468,7 @@ const PluginHtmlCache: React.FC<any> = () => {
               ? moment(setting.last_build_time * 1000).format('YYYY-MM-DD')
               : '未手动生成过'}
           </p>
-          <Space size={20}>
+          <Space className="space-wrap" size={20}>
             <Button onClick={() => cleanHtmlCache()}>清理所有缓存</Button>
             <Button onClick={() => startBuild()}>手动生成所有缓存</Button>
             <Button onClick={() => startBuildIndex()}>手动生成首页缓存</Button>
@@ -485,7 +485,7 @@ const PluginHtmlCache: React.FC<any> = () => {
             : '未手动推送过'}
         </p>
         <div>
-          <Space size={20}>
+          <Space className="space-wrap" size={20}>
             <Button onClick={() => startPushAll()}>全量推送静态文件到静态服务器</Button>
             <Button onClick={() => startPushUpdate()}>仅推送更新的文件到静态服务器</Button>
             <Button onClick={() => getPushLog()}>全部推送记录</Button>
@@ -495,7 +495,7 @@ const PluginHtmlCache: React.FC<any> = () => {
         {(status || pushStatus) && (
           <Row gutter={16}>
             {status && (
-              <Col span={12}>
+              <Col sm={12} xs={24}>
                 <div>
                   <Divider>生成进度</Divider>
                   <Space direction="vertical" size={10}>
@@ -536,7 +536,7 @@ const PluginHtmlCache: React.FC<any> = () => {
               </Col>
             )}
             {pushStatus && (
-              <Col span={12}>
+              <Col sm={12} xs={24}>
                 <div>
                   <Divider>推送进度</Divider>
                   <Space direction="vertical" size={10}>

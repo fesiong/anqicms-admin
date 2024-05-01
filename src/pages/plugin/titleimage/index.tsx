@@ -161,9 +161,6 @@ const PluginTitleImage: React.FC<any> = () => {
                         label: '开启',
                       },
                     ]}
-                    fieldProps={{
-                      onChange: changeOpen,
-                    }}
                     extra="开启后，会在文档没有图片的时候，自动给文档h2标签生成图片，并插入到文档中"
                   />
                   <ProFormGroup label="生成图片尺寸">

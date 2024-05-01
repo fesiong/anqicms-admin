@@ -104,7 +104,7 @@ const PluginAiGenerate: React.FC = () => {
     <PageContainer>
       <Card>
         <div className="control">
-          <Space size={20} style={{ width: '100%' }}>
+          <Space className="space-wrap" size={20} style={{ width: '100%' }}>
             <CollectorSetting onCancel={() => {}} key="setting">
               <Button>AI自动写作设置</Button>
             </CollectorSetting>

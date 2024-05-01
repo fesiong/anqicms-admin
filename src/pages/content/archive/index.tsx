@@ -541,15 +541,13 @@ const ArchiveList: React.FC = (props) => {
       },
       renderFormItem: () => {
         return (
-          <ProFormSelect
+          <ProFormRadio.Group
             name="status"
-            request={async () => {
-              return [
-                { label: '正常', value: 'ok' },
-                { label: '草稿', value: 'draft' },
-                { label: '待发布', value: 'plan' },
-              ];
-            }}
+            options={[
+              { label: '正常', value: 'ok' },
+              { label: '草稿', value: 'draft' },
+              { label: '待发布', value: 'plan' },
+            ]}
           />
         );
       },
@@ -662,7 +660,7 @@ const ArchiveList: React.FC = (props) => {
         actionRef={actionRef}
         rowKey="id"
         search={{
-          span: 8,
+          span: { xs: 24, sm: 12, md: 8, lg: 8, xl: 8, xxl: 8 },
           defaultCollapsed: false,
         }}
         formRef={formRef}

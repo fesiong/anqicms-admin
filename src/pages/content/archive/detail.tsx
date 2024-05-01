@@ -480,7 +480,7 @@ export default class ArchiveForm extends React.Component {
               onFinish={this.onSubmit}
             >
               <Row gutter={20}>
-                <Col span={18}>
+                <Col sm={18} xs={24}>
                   <ProFormText name="title" label={module.title_name || '文档标题'} />
                   <ProFormCheckbox.Group
                     name="flag"
@@ -511,7 +511,7 @@ export default class ArchiveForm extends React.Component {
 
                   <CollapseItem header="其他参数" showArrow key="1">
                     <Row gutter={20}>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormText
                           label="原文地址"
                           name="origin_url"
@@ -519,7 +519,7 @@ export default class ArchiveForm extends React.Component {
                           extra="文章的原文地址，默认不用管"
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormText
                           name="seo_title"
                           label="SEO标题"
@@ -527,7 +527,7 @@ export default class ArchiveForm extends React.Component {
                           extra="注意：如果你希望页面的title标签的内容不是文章标题，可以通过SEO标题设置"
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormText
                           name="canonical_url"
                           label="规范的链接"
@@ -535,7 +535,7 @@ export default class ArchiveForm extends React.Component {
                           extra="注意：如果你想将当前的文档指向到另外的页面，才需要在这里填写"
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormText
                           name="fixed_link"
                           label="固定链接"
@@ -543,7 +543,7 @@ export default class ArchiveForm extends React.Component {
                           extra="注意：只有你想把这个文档的链接持久固定，不随伪静态规则改变，才需要填写。 相对链接 / 开头"
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormSelect
                           label="文档模板"
                           showSearch
@@ -569,7 +569,7 @@ export default class ArchiveForm extends React.Component {
                           extra="默认跟随分类的内容模板"
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormDigit
                           label="价格"
                           name="price"
@@ -577,14 +577,14 @@ export default class ArchiveForm extends React.Component {
                           extra="注意，单位是分，比如1元，这里就要填100"
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormDigit
                           label="库存"
                           name="stock"
                           fieldProps={{ precision: 0, addonAfter: '件' }}
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormSelect
                           name="read_level"
                           label="阅读等级"
@@ -610,7 +610,7 @@ export default class ArchiveForm extends React.Component {
                           extra="如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读"
                         />
                       </Col>
-                      <Col span={12}>
+                      <Col sm={12} xs={24}>
                         <ProFormText
                           name="password"
                           label="文档密码"
@@ -619,7 +619,7 @@ export default class ArchiveForm extends React.Component {
                         />
                       </Col>
                       {module.fields?.map((item: any, index: number) => (
-                        <Col span={item.type === 'editor' ? 24 : 12} key={index}>
+                        <Col sm={item.type === 'editor' ? 24 : 12} xs={24} key={index}>
                           {item.type === 'text' ? (
                             <ProFormText
                               name={['extra', item.field_name, 'value']}
@@ -787,7 +787,7 @@ export default class ArchiveForm extends React.Component {
                     />
                   )}
                 </Col>
-                <Col span={6}>
+                <Col sm={6} xs={24}>
                   <div className="mb-normal">
                     <Row gutter={[16, 16]}>
                       <Col span={12}>

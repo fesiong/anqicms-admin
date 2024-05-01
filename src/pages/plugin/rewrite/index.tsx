@@ -30,7 +30,8 @@ const PluginRewrite: React.FC<any> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
@@ -41,7 +42,7 @@ const PluginRewrite: React.FC<any> = (props) => {
           message={
             <div>
               <Row>
-                <Col span={6}>
+                <Col sm={6} xs={24}>
                   <h3>方案1：数字模式</h3>
                   <div>
                     <div>文档详情：{'/{module}/{id}.html'}</div>
@@ -52,7 +53,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                     <div>标签详情：{'/tag/{id}(/{page})'}</div>
                   </div>
                 </Col>
-                <Col span={6}>
+                <Col sm={6} xs={24}>
                   <h3>方案2：命名模式1</h3>
                   <div>
                     <div>文档详情：{'/{module}/{filename}.html'}</div>
@@ -63,7 +64,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                     <div>标签详情：{'/tag/{filename}(/{page})'}</div>
                   </div>
                 </Col>
-                <Col span={6}>
+                <Col sm={6} xs={24}>
                   <h3>方案3：命名模式2</h3>
                   <div>
                     <div>文档详情：{'/{catname}/{id}.html'}</div>
@@ -74,7 +75,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                     <div>标签详情：{'/tag/{id}(/{page})'}</div>
                   </div>
                 </Col>
-                <Col span={6}>
+                <Col sm={6} xs={24}>
                   <h3>方案4：命名模式3</h3>
                   <div>
                     <div>文档详情：{'/{catname}/{filename}.html'}</div>
@@ -147,20 +148,17 @@ const PluginRewrite: React.FC<any> = (props) => {
             />
             <p>
               变量由花括号包裹 <Tag color="blue">{'{}'}</Tag>,如 <Tag color="blue">{'{id}'}</Tag>
-              。可用的变量有:数据ID <Tag color="blue">{'{id}'}</Tag>；
-              文档自定义链接名<Tag color="blue">{'{filename}'}</Tag>；
-              分类自定义链接名<Tag color="blue">{'{catname}'}</Tag>，
-              多级分类自定义链接名<Tag color="blue">{'{multicatname}'}</Tag>{'{multicatname}'}和{'{catname}'}只能使用一个；
-              分类ID<Tag color="blue">{'{catid}'}</Tag>；
-              模型表名 <Tag color="blue">{'{module}'}</Tag>；
-              年 <Tag color="blue">{'{year}'}</Tag>，
-              月 <Tag color="blue">{'{month}'}</Tag>，
-              日 <Tag color="blue">{'{day}'}</Tag>，
-              时 <Tag color="blue">{'{hour}'}</Tag>，
-              分 <Tag color="blue">{'{minute}'}</Tag>，
-              秒 <Tag color="blue">{'{second}'}</Tag>，年月日时分秒只有文档{'(archive)'}可用；
-              分页页码 <Tag color="blue">{'{page}'}</Tag>,分页需放在小括号内,
-              如: <Tag color="blue">{'(/{page})'}</Tag>
+              。可用的变量有:数据ID <Tag color="blue">{'{id}'}</Tag>； 文档自定义链接名
+              <Tag color="blue">{'{filename}'}</Tag>； 分类自定义链接名
+              <Tag color="blue">{'{catname}'}</Tag>， 多级分类自定义链接名
+              <Tag color="blue">{'{multicatname}'}</Tag>
+              {'{multicatname}'}和{'{catname}'}只能使用一个； 分类ID
+              <Tag color="blue">{'{catid}'}</Tag>； 模型表名 <Tag color="blue">{'{module}'}</Tag>；
+              年 <Tag color="blue">{'{year}'}</Tag>， 月 <Tag color="blue">{'{month}'}</Tag>， 日{' '}
+              <Tag color="blue">{'{day}'}</Tag>， 时 <Tag color="blue">{'{hour}'}</Tag>， 分{' '}
+              <Tag color="blue">{'{minute}'}</Tag>， 秒 <Tag color="blue">{'{second}'}</Tag>
+              ，年月日时分秒只有文档{'(archive)'}可用； 分页页码 <Tag color="blue">{'{page}'}</Tag>
+              ,分页需放在小括号内, 如: <Tag color="blue">{'(/{page})'}</Tag>
             </p>
             <div>可直接使用的方案1:</div>
             <Alert

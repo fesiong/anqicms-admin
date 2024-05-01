@@ -117,9 +117,9 @@ const PluginOrder: React.FC = () => {
   const saveOrderPaid = async (values: any) => {
     values.order_id = currentOrder.order_id;
     pluginSetOrderPay(values).then((res) => {
+      setPayVisible(false);
       message.info(res.msg);
       actionRef.current?.reload();
-      setDeliverVisible(false);
     });
   };
 

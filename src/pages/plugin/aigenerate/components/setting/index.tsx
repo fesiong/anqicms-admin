@@ -241,9 +241,8 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               label="AI写作来源"
               options={[
                 { label: '安企CMS官网', value: false },
-                { label: '自备OpenAIKey', value: true },
+                { label: '自备OpenAIKey', value: true, disabled: !setting.api_valid },
               ]}
-              readonly={!setting.api_valid}
               fieldProps={{
                 onChange: (e) => {
                   this.handleChangeUseSelfKey(e);

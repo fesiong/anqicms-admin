@@ -248,9 +248,13 @@ const SettingSystemFrom: React.FC<any> = (props) => {
                   value: 1,
                   label: '闭站',
                 },
+                {
+                  value: 2,
+                  label: '仅蜘蛛可见',
+                },
               ]}
             />
-            {site_close == 1 && (
+            {(site_close == 1 || site_close == 2) && (
               <ProFormTextArea
                 name="site_close_tips"
                 label="闭站提示"

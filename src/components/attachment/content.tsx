@@ -13,6 +13,7 @@ export type AttachmentContentProps = {
 
 const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
   const actionRef = useRef<ActionType>();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
   const [keyword, setKeyword] = useState<string>('');

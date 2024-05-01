@@ -1,4 +1,4 @@
-import { Steps, Card, message, Modal, Space, Alert, Divider, Button, Radio } from 'antd';
+import { Steps, Card, message, Modal, Space, Alert, Divider, Button, Radio, Checkbox } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import './index.less';
@@ -8,6 +8,7 @@ import {
   pluginCreateTransferTask,
   pluginGetTransferTask,
   pluginStartTransferTask,
+  pluginGetTransferModules,
 } from '@/services/plugin/transfer';
 const { Step } = Steps;
 
@@ -16,9 +17,15 @@ var timeingXhr: any = null;
 
 const PluginTransfer: React.FC = () => {
   const formRef = React.createRef<ProFormInstance>();
+  const formRef2 = React.createRef<ProFormInstance>();
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [provider, setProvider] = useState<string>('');
   const [task, setTask] = useState<any>({});
+  const [modules, setModules] = useState<any[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
+  const [moduleIds, setModuleIds] = useState<number[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [moduleFetched, setModuleFetched] = useState<boolean>(false);
 
   useEffect(() => {
     checkTask();
@@ -40,6 +47,24 @@ const PluginTransfer: React.FC = () => {
       },
       provider + '2anqicms.php',
     );
+  };
+
+  const loadModules = () => {
+    pluginGetTransferModules({}).then((res: any) => {
+      if (res.code === 0) {
+        setModules(res.data.modules || []);
+        setTypes(res.data.types || []);
+        setSelectedTypes(res.data.types || []);
+        let tmpIds = [];
+        for (let i in res.data.modules) {
+          tmpIds.push(res.data.modules[i].id);
+        }
+        setModuleIds(tmpIds);
+        setModuleFetched(true);
+      } else {
+        message.error(res.msg);
+      }
+    });
   };
 
   const submitTask = () => {
@@ -71,6 +96,7 @@ const PluginTransfer: React.FC = () => {
         } else {
           message.success('通信成功');
           setTask(res.data);
+          loadModules();
           setCurrentStep(3);
           checkTask();
         }
@@ -79,6 +105,10 @@ const PluginTransfer: React.FC = () => {
         submitting = false;
         hide();
       });
+  };
+
+  const submitTaskModule = () => {
+    setCurrentStep(4);
   };
 
   const checkTask = () => {
@@ -115,7 +145,10 @@ const PluginTransfer: React.FC = () => {
     }
     submitting = true;
     const hide = message.loading('正在执行中', 0);
-    pluginStartTransferTask({})
+    pluginStartTransferTask({
+      module_ids: moduleIds,
+      types: selectedTypes,
+    })
       .then((res) => {
         if (res.code === 0) {
           checkTask();
@@ -140,7 +173,8 @@ const PluginTransfer: React.FC = () => {
           <Step title="第一步" description="选择需要迁移的网站系统" />
           <Step title="第二步" description="下载通信接口文件" />
           <Step title="第三步" description="填写网站通信信息" />
-          <Step title="第四步" description="开始传输网站内容" />
+          <Step title="第四步" description="选择迁移内容" />
+          <Step title="第五步" description="开始传输网站内容" />
         </Steps>
         <div>
           {currentStep == 0 && (
@@ -151,16 +185,20 @@ const PluginTransfer: React.FC = () => {
                 optionType="button"
                 options={[
                   {
-                    value: 'dedecms',
-                    label: 'DedeCMS',
-                  },
-                  {
                     value: 'wordpress',
                     label: 'WordPress',
                   },
                   {
+                    value: 'dedecms',
+                    label: 'DedeCMS',
+                  },
+                  {
                     value: 'pbootcms',
                     label: 'PbootCMS',
+                  },
+                  {
+                    value: 'empire',
+                    label: 'EmpireCMS',
                   },
                 ]}
                 value={provider}
@@ -223,6 +261,52 @@ const PluginTransfer: React.FC = () => {
             </div>
           )}
           {currentStep == 3 && (
+            <div className="step-content">
+              <Divider>选择迁移内容</Divider>
+              <div>
+                <Alert message="默认全部都迁移，你可以选择只迁移其中某部分" />
+                <div style={{ marginTop: '30px' }}>
+                  {moduleFetched && (
+                    <ProForm formRef={formRef2} submitter={false}>
+                      <div>选择迁移内容</div>
+                      <Checkbox.Group
+                        name="types"
+                        options={types.map((item: any) => ({
+                          label: item,
+                          value: item,
+                        }))}
+                        value={selectedTypes}
+                        onChange={(e) => {
+                          setSelectedTypes(e as string[]);
+                        }}
+                      />
+                      <div>选择迁移模型</div>
+                      <Checkbox.Group
+                        name="module_ids"
+                        options={modules.map((item: any) => ({
+                          label: item.title,
+                          value: item.id,
+                        }))}
+                        value={moduleIds}
+                        onChange={(e) => {
+                          setModuleIds(e as number[]);
+                        }}
+                      />
+                    </ProForm>
+                  )}
+                </div>
+              </div>
+              <div className="step-buttons">
+                <Space size={20}>
+                  <Button onClick={() => setCurrentStep(currentStep - 1)}>上一步</Button>
+                  <Button type="primary" onClick={submitTaskModule}>
+                    下一步
+                  </Button>
+                </Space>
+              </div>
+            </div>
+          )}
+          {currentStep == 4 && (
             <div className="step-content">
               <Divider>开始传输网站内容</Divider>
               {task && (

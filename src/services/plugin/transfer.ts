@@ -24,6 +24,14 @@ export async function pluginCreateTransferTask(body: any, options?: { [key: stri
   });
 }
 
+export async function pluginGetTransferModules(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/transfer/modules',
+    body,
+    options,
+  });
+}
+
 export async function pluginStartTransferTask(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/plugin/transfer/start',

@@ -162,7 +162,7 @@ const PageCategoryDetail: React.FC = () => {
             onFinish={onSubmit}
           >
             <Row gutter={20}>
-              <Col span={18}>
+              <Col sm={18} xs={24}>
                 <ProFormText name="title" label="页面名称" />
                 <ProFormTextArea name="description" label="页面简介" />
                 <ProFormText
@@ -211,7 +211,7 @@ const PageCategoryDetail: React.FC = () => {
                   </>
                 )}
               </Col>
-              <Col span={6}>
+              <Col sm={6} xs={24}>
                 <div className="mb-normal">
                   <Row gutter={[16, 16]}>
                     <Col span={12}>

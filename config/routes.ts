@@ -374,6 +374,13 @@
         icon: 'interference',
       },
       {
+        path: '/plugin/watermark',
+        name: '图片添加水印',
+        type: 'content',
+        component: '@/pages/plugin/watermark/index',
+        icon: 'watermark',
+      },
+      {
         component: './404',
       },
     ],

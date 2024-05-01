@@ -278,7 +278,7 @@ const Dashboard: React.FC = () => {
         <StatisticsRow loading={false} data={data} />
       </Suspense>
       <Row gutter={20}>
-        <Col span={18}>
+        <Col sm={18} xs={24}>
           <Card
             title="快捷操作"
             extra={<Button onClick={() => handleJump('/archive/detail')}>去发文章</Button>}
@@ -373,7 +373,7 @@ const Dashboard: React.FC = () => {
             </Card>
           </Suspense>
         </Col>
-        <Col span={6}>
+        <Col sm={6} xs={24}>
           <Card title="登录信息">
             <Row gutter={24}>
               <Col span={12}>

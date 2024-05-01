@@ -174,7 +174,7 @@ const ArchiveCategoryDetail: React.FC = () => {
             onFinish={onSubmit}
           >
             <Row gutter={20}>
-              <Col span={18}>
+              <Col sm={18} xs={24}>
                 <ProFormSelect
                   name="module_id"
                   label="内容模型"
@@ -281,7 +281,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                   </>
                 )}
               </Col>
-              <Col span={6}>
+              <Col sm={6} xs={24}>
                 <div className="mb-normal">
                   <Row gutter={[16, 16]}>
                     <Col span={12}>

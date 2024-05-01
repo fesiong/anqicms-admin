@@ -16,6 +16,14 @@ export async function uploadAttachment(body: any, options?: { [key: string]: any
   });
 }
 
+export async function scanUploadsAttachment(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/attachment/scan',
+    body,
+    options,
+  });
+}
+
 export async function changeAttachmentName(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/attachment/edit',

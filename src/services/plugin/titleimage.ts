@@ -31,3 +31,11 @@ export async function pluginTitleImageUploadFile(body: any, options?: { [key: st
     options,
   });
 }
+
+export async function pluginTitleImageGenerate(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/plugin/titleimage/generate',
+    body,
+    options,
+  });
+}

@@ -27,6 +27,7 @@ import {
   getAttachmentCategories,
   getAttachments,
   uploadAttachment,
+  scanUploadsAttachment,
 } from '@/services/attachment';
 import AttachmentCategory from './components/category';
 import moment from 'moment';
@@ -82,6 +83,21 @@ export default class ImageList extends React.Component {
       this.setState({
         categories: res.data || [],
       });
+    });
+  };
+
+  scanUploadsDir = () => {
+    Modal.confirm({
+      title: '确定要扫描站点的uploads上传目录吗？',
+      content:
+        '扫描站点的uploads上传目录，会自动将目录里的图片同步到数据库，并在当前图片资源列表中显示，如果图片没有缩略图，也会生成缩略图。',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: async () => {
+        scanUploadsAttachment({}).then((res) => {
+          message.info(res.msg || '已提交后台处理，稍后将呈现结果');
+        });
+      },
     });
   };
 
@@ -402,11 +418,12 @@ export default class ImageList extends React.Component {
                   name="file"
                   multiple
                   showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                  accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleUploadImage}
                 >
                   <Button type="primary">上传新资源</Button>
                 </Upload>
+                <Button onClick={() => this.scanUploadsDir()}>扫描Uploads目录</Button>
               </Space>
             </div>
           }
@@ -426,7 +443,7 @@ export default class ImageList extends React.Component {
               ) : total > 0 ? (
                 <Row gutter={[16, 16]} className="image-list">
                   {images?.map((item: any) => (
-                    <Col span={4} key={item.id}>
+                    <Col sm={4} xs={12} key={item.id}>
                       <div className="image-item">
                         <div className="inner">
                           <Checkbox className="checkbox" value={item.id} />
@@ -458,7 +475,7 @@ export default class ImageList extends React.Component {
                     name="file"
                     showUploadList={false}
                     multiple={true}
-                    accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                    accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                     customRequest={this.handleUploadImage}
                   >
                     <Button type="primary">添加新资源</Button>
@@ -544,7 +561,7 @@ export default class ImageList extends React.Component {
                 <Upload
                   name="file"
                   showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                  accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleReplaceAttach}
                 >
                   <Button>替换资源</Button>
