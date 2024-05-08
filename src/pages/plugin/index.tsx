@@ -197,7 +197,7 @@ const PluginIndex: React.FC = () => {
                   (!type || type == inner.type)
                 ) {
                   return (
-                    <Col key={i} span={6}>
+                    <Col key={i} sm={6} xs={12}>
                       <div
                         className="plugin-item"
                         onClick={() => {

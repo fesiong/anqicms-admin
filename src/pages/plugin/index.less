@@ -1,3 +1,5 @@
+@import (reference) '~antd/es/style/themes/index';
+
 .plugin-item {
   display: flex;
   align-items: center;
@@ -24,6 +26,14 @@
     cursor: pointer;
     &.active {
       color: var(--ant-primary-color);
+    }
+  }
+}
+@media (max-width: @screen-xs) {
+  .plugin-item {
+    flex-direction: column;
+    .avatar {
+      margin-right: 0;
     }
   }
 }

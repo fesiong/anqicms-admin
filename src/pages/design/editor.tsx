@@ -516,7 +516,7 @@ const DesignEditor: React.FC = () => {
               </Space>
             </div>
           </Col>
-          <Col sm={18} xs={24}>
+          <Col sm={6} xs={24}>
             <CollapseItem
               className="tpl-file-list"
               showArrow={false}
