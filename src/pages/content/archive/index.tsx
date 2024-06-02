@@ -70,8 +70,6 @@ const ArchiveList: React.FC = (props) => {
   const [currentArchive, setCurrentArchive] = useState<any>({});
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
   const [firstFetch, setFirstFetch] = useState<boolean>(false);
-  const [importVisible, setImportVisible] = useState<boolean>(false);
-  const [importItems, setImportItems] = useState<any[]>([]);
 
   useEffect(() => {
     setModuleId(lastParams.module_id);
