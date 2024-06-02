@@ -69,8 +69,6 @@ const ArchiveCategoryDetail: React.FC = () => {
 
     setCategory(cat);
 
-    console.log(cat);
-
     setContent(cat.content || '');
     setCategoryImages(cat.images || []);
     setCategoryLogo(cat.logo || '');
@@ -112,17 +110,18 @@ const ArchiveCategoryDetail: React.FC = () => {
     }
   };
 
-  const handleSelectImages = (row: any) => {
-    let exists = false;
-
-    for (let i in categoryImages) {
-      if (categoryImages[i] == row.logo) {
-        exists = true;
-        break;
+  const handleSelectImages = (rows: any) => {
+    for (const row of rows) {
+      let exists = false;
+      for (let i in categoryImages) {
+        if (categoryImages[i] == row.logo) {
+          exists = true;
+          break;
+        }
       }
-    }
-    if (!exists) {
-      categoryImages.push(row.logo);
+      if (!exists) {
+        categoryImages.push(row.logo);
+      }
     }
     setCategoryImages([].concat(categoryImages));
     message.success('上传完成');
@@ -323,7 +322,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                         </div>
                       ))
                     : null}
-                  <AttachmentSelect onSelect={handleSelectImages} visible={false}>
+                  <AttachmentSelect onSelect={handleSelectImages} visible={false} multiple={true}>
                     <div className="ant-upload-item">
                       <div className="add">
                         <PlusOutlined />

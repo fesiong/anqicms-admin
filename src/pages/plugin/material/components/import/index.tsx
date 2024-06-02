@@ -79,7 +79,6 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       } else {
         tmp += item.trim();
       }
-      console.log(item, getWordsCount(item));
       if (getWordsCount(item) < 10) {
         continue;
       }

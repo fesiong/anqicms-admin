@@ -6,13 +6,15 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import './index.less';
 import { deleteTag, getTags } from '@/services/tag';
-import TagForm from './components/tagFrom';
+import TagForm from './components/tagForm';
+import BatchForm from './components/batchForm';
 
 const ArticleTag: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentTag, setCurrentTag] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [batchVisible, setBatchVisible] = useState<boolean>(false);
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -44,6 +46,10 @@ const ArticleTag: React.FC = () => {
   const handleEditTag = async (record: any) => {
     setCurrentTag(record);
     setEditVisible(true);
+  };
+
+  const handleAddTags = () => {
+    setBatchVisible(true);
   };
 
   const columns: ProColumns<any>[] = [
@@ -113,6 +119,15 @@ const ArticleTag: React.FC = () => {
         search={false}
         toolBarRender={() => [
           <Button
+            type="default"
+            key="add2"
+            onClick={() => {
+              handleAddTags();
+            }}
+          >
+            批量添加标签
+          </Button>,
+          <Button
             type="primary"
             key="add"
             onClick={() => {
@@ -167,6 +182,20 @@ const ArticleTag: React.FC = () => {
           }}
           onSubmit={async () => {
             setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }}
+        />
+      )}
+      {batchVisible && (
+        <BatchForm
+          visible={batchVisible}
+          onCancel={() => {
+            setBatchVisible(false);
+          }}
+          onSubmit={async () => {
+            setBatchVisible(false);
             if (actionRef.current) {
               actionRef.current.reload();
             }

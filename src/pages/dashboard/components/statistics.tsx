@@ -2,6 +2,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Space, Statistic, Tooltip } from 'antd';
 
 import { ChartCard, Field } from './Charts';
+import { Link } from 'umi';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -13,26 +14,37 @@ const topColResponsiveProps = {
 };
 
 const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => (
-
   <Row gutter={24}>
     <Col {...topColResponsiveProps}>
       <ChartCard
         bordered={false}
         title="文档量"
         action={
-          <Tooltip title="包括各个模型文档">
+          <Tooltip title="包括各个模型已发布文档、待发布、草稿箱的文档">
             <InfoCircleOutlined />
           </Tooltip>
         }
-        total={data.archive_count?.total}
-        footer={<Space>
-          <Field label="上周" value={data.archive_count?.last_week} />
-          <Field label="待发布" value={data.archive_count?.un_release} />
-          <Field label="今日" value={data.archive_count?.today} />
-        </Space>}
+        total={
+          data.archive_count?.total +
+          '/' +
+          data.archive_count?.un_release +
+          '/' +
+          data.archive_count?.draft
+        }
+        footer={
+          <Space>
+            <Field label="上周" value={data.archive_count?.last_week} />
+            <Field label="今日" value={data.archive_count?.today} />
+            <Link to={'/archive/list?status=plan'}>
+              <Field label="待发布" value={data.archive_count?.un_release} />
+            </Link>
+            <Link to={'/archive/list?status=draft'}>
+              <Field label="草稿" value={data.archive_count?.draft} />
+            </Link>
+          </Space>
+        }
         contentHeight={46}
-      >
-      </ChartCard>
+      ></ChartCard>
     </Col>
 
     <Col {...topColResponsiveProps}>
@@ -89,15 +101,15 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => (
         }
         contentHeight={82}
       >
-        <Row style={{textAlign: 'center'}}>
+        <Row style={{ textAlign: 'center' }}>
           <Col flex={1}>
-          <Statistic title='百度' value={data.include_count?.baidu_count} />
+            <Statistic title="百度" value={data.include_count?.baidu_count} />
           </Col>
           <Col flex={1}>
-          <Statistic title='搜狗' value={data.include_count?.sogou_count} />
+            <Statistic title="搜狗" value={data.include_count?.sogou_count} />
           </Col>
           <Col flex={1}>
-          <Statistic title='搜搜' value={data.include_count?.so_count} />
+            <Statistic title="搜搜" value={data.include_count?.so_count} />
           </Col>
           {/* <Col flex={1}>
           <Statistic title='必应' value={data.include_count?.bing_count} />
@@ -106,7 +118,7 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => (
           <Statistic title='谷歌' value={data.include_count?.google_count} />
           </Col> */}
         </Row>
-        </ChartCard>
+      </ChartCard>
     </Col>
   </Row>
 );

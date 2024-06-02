@@ -70,6 +70,8 @@ const ArchiveList: React.FC = (props) => {
   const [currentArchive, setCurrentArchive] = useState<any>({});
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
   const [firstFetch, setFirstFetch] = useState<boolean>(false);
+  const [importVisible, setImportVisible] = useState<boolean>(false);
+  const [importItems, setImportItems] = useState<any[]>([]);
 
   useEffect(() => {
     setModuleId(lastParams.module_id);
@@ -95,6 +97,7 @@ const ArchiveList: React.FC = (props) => {
       setFirstFetch(true);
       lastParams.module_id = Number(history.location.query?.module_id || 0);
       lastParams.category_id = Number(history.location.query?.category_id || 0);
+      lastParams.status = history.location.query?.status || 'ok';
       formRef.current?.setFieldsValue(lastParams);
       params = lastParams;
     } else {

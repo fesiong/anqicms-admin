@@ -60,17 +60,19 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
     props.onSubmit();
   };
 
-  const handleSelectImages = (row: any) => {
-    let exists = false;
+  const handleSelectImages = (rows: any) => {
+    for (const row of rows) {
+      let exists = false;
 
-    for (let i in categoryImages) {
-      if (categoryImages[i] == row.logo) {
-        exists = true;
-        break;
+      for (let i in categoryImages) {
+        if (categoryImages[i] == row.logo) {
+          exists = true;
+          break;
+        }
       }
-    }
-    if (!exists) {
-      categoryImages.push(row.logo);
+      if (!exists) {
+        categoryImages.push(row.logo);
+      }
     }
     setCategoryImages([].concat(categoryImages));
     message.success('上传完成');
@@ -284,7 +286,7 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
                 </div>
               ))
             : null}
-          <AttachmentSelect onSelect={handleSelectImages} visible={false}>
+          <AttachmentSelect onSelect={handleSelectImages} visible={false} multiple={true}>
             <div className="ant-upload-item">
               <div className="add">
                 <PlusOutlined />

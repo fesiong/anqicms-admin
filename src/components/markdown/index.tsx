@@ -39,38 +39,38 @@ export function attachPlugin(): BytemdPlugin {
                 item.file_location.indexOf('.svg') != -1
               ) {
                 // img
-                appendBlock(`![${item.file_name}](${item.logo})`);
+                return `![${item.file_name}](${item.logo})`;
               } else if (
                 item.file_location.indexOf('.mp4') != -1 ||
                 item.file_location.indexOf('.ogg') != -1 ||
                 item.file_location.indexOf('.webm') != -1
               ) {
-                appendBlock(
-                  `<video controls="controls" controlslist="nodownload" poster=""><source src="${
-                    item.logo
-                  }" type="video/${item.file_location.substr(
-                    item.file_location.lastIndexOf('.') + 1,
-                  )}">您的浏览器不支持 video 标签。</video>`,
-                );
+                return `<video controls="controls" controlslist="nodownload" poster=""><source src="${
+                  item.logo
+                }" type="video/${item.file_location.substr(
+                  item.file_location.lastIndexOf('.') + 1,
+                )}">您的浏览器不支持 video 标签。</video>`;
               } else if (
                 item.file_location.indexOf('.mp3') != -1 ||
                 item.file_location.indexOf('.wav') != -1
               ) {
-                appendBlock(
-                  `<audio src="${item.logo}" controls="controls"><source src="${
-                    item.logo
-                  }" type="audio/${item.file_location.substr(
-                    item.file_location.lastIndexOf('.') + 1,
-                  )}">你的编辑器不支持 audio 标签</audio>`,
-                );
+                return `<audio src="${item.logo}" controls="controls"><source src="${
+                  item.logo
+                }" type="audio/${item.file_location.substr(
+                  item.file_location.lastIndexOf('.') + 1,
+                )}">你的编辑器不支持 audio 标签</audio>`;
               } else {
-                appendBlock(`[${item.file_name}](${item.logo})`);
+                return `[${item.file_name}](${item.logo})`;
               }
-              editor.focus();
             };
 
-            Attachment.show().then((res) => {
-              useImage(res);
+            Attachment.show(true).then((res: any) => {
+              let addon = [];
+              for (let i in res) {
+                addon.push(useImage(res[i]));
+              }
+              appendBlock(addon.join('\n'));
+              editor.focus();
             });
 
             editor.focus();

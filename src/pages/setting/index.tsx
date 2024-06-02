@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
+import ProForm, { ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, message } from 'antd';
 import { getSettingIndex, saveSettingIndex } from '@/services/setting';
@@ -24,7 +24,8 @@ const SettingIndexFrom: React.FC<any> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(() => {
+      })
+      .finally(() => {
         hide();
       });
   };
@@ -45,7 +46,7 @@ const SettingIndexFrom: React.FC<any> = (props) => {
                 </div>
               }
             />
-            <ProFormText name="seo_description" label="首页描述" width="lg" />
+            <ProFormTextArea name="seo_description" label="首页描述" width="lg" />
           </ProForm>
         )}
       </Card>

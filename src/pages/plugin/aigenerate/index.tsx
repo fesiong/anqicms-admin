@@ -57,7 +57,6 @@ const PluginAiGenerate: React.FC = () => {
     {
       title: '关键词',
       dataIndex: 'keyword',
-      hideInSearch: true,
     },
     {
       title: '标题',
@@ -130,13 +129,17 @@ const PluginAiGenerate: React.FC = () => {
           <ProTable<any>
             actionRef={actionRef}
             rowKey="id"
-            search={false}
             request={(params) => {
               return getAiArticlePlans(params);
             }}
             columnsState={{
               persistenceKey: 'ai-article-table',
               persistenceType: 'localStorage',
+            }}
+            form={{
+              initialValues: {
+                keyword: history.location.query?.keyword || '',
+              },
             }}
             columns={columns}
             pagination={{

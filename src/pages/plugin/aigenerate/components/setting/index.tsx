@@ -25,7 +25,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     setting: {},
     tmpInput: {},
     insertImage: 0,
-    use_self_key: false,
+    aiEngine: '',
   };
 
   componentDidMount() {
@@ -44,7 +44,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         setting: setting,
         fetched: true,
         insertImage: setting.insert_image,
-        use_self_key: setting.use_self_key,
+        aiEngine: setting.ai_engine || '',
       });
     });
   }
@@ -148,17 +148,28 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
-  handleSelectLogo = (row: any) => {
+  handleSelectLogo = (rows: any) => {
     const { setting } = this.state;
-    setting['images'].push(row.logo);
+    for (const row of rows) {
+      let exists = false;
+      for (let i in setting['images']) {
+        if (setting['images'][i] == row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        setting['images'].push(row.logo);
+      }
+    }
     this.setState({
       setting,
     });
   };
 
-  handleChangeUseSelfKey = (e: any) => {
+  handleChangeAiEngine = (e: any) => {
     this.setState({
-      use_self_key: e.target.value,
+      aiEngine: e.target.value,
     });
   };
 
@@ -184,7 +195,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
   };
 
   render() {
-    const { visible, fetched, setting, tmpInput, insertImage, use_self_key } = this.state;
+    const { visible, fetched, setting, tmpInput, insertImage, aiEngine } = this.state;
 
     return (
       <>
@@ -237,20 +248,21 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               extra="可以定义所有AI写作文章的统一要求，不超过200字符。 默认留空即可"
             />
             <ProFormRadio.Group
-              name="use_self_key"
+              name="ai_engine"
               label="AI写作来源"
               options={[
-                { label: '安企CMS官网', value: false },
-                { label: '自备OpenAIKey', value: true, disabled: !setting.api_valid },
+                { label: '安企CMS官网', value: '' },
+                { label: '自备OpenAIKey', value: 'openai', disabled: !setting.api_valid },
+                { label: '星火大模型', value: 'spark' },
               ]}
               fieldProps={{
                 onChange: (e) => {
-                  this.handleChangeUseSelfKey(e);
+                  this.handleChangeAiEngine(e);
                 },
               }}
               extra={
                 <div>
-                  <span>声明：仅有使用安企CMS搭建的海外网站可选自备OpenAIKey</span>
+                  <span>声明：仅有使用安企CMS搭建的海外网站可选自备OpenAIKey。</span>
                   <Tag
                     style={{ marginLeft: 10 }}
                     className="link"
@@ -261,7 +273,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 </div>
               }
             />
-            {use_self_key && (
+            {aiEngine == 'openai' && (
               <ProFormText
                 label="OpenAI Keys"
                 extra={
@@ -304,6 +316,29 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   />
                 </Input.Group>
               </ProFormText>
+            )}
+            {aiEngine == 'spark' && (
+              <>
+                <div className="mb-normal">
+                  星火大模型API申请地址：
+                  <a href="https://xinghuo.xfyun.cn/sparkapi?ch=gjp" target="_blank">
+                    https://xinghuo.xfyun.cn/sparkapi?ch=gjp
+                  </a>
+                </div>
+                <ProFormRadio.Group
+                  name={['spark', 'version']}
+                  label="星火模型版本"
+                  options={[
+                    { label: 'Spark Lite(免费)', value: '1.5' },
+                    { label: 'Spark V2.0', value: '2.0' },
+                    { label: 'Spark Pro', value: '3.0' },
+                    { label: 'Spark3.5 Max', value: '3.5' },
+                  ]}
+                />
+                <ProFormText name={['spark', 'app_id']} label="星火APPID" />
+                <ProFormText name={['spark', 'api_secret']} label="星火APISecret" />
+                <ProFormText name={['spark', 'api_key']} label="星火APIKey" />
+              </>
             )}
             <ProFormSelect
               label="默认发布文章分类"
@@ -354,9 +389,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             </ProForm.Group>
             <ProFormRadio.Group
               name="insert_image"
-              label="采集图片处理"
+              label="文章图片处理"
               options={[
-                { label: '不处理', value: 0 },
+                { label: '默认', value: 0 },
                 { label: '自定义插入图片', value: 2 },
               ]}
               fieldProps={{
@@ -390,7 +425,11 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                       <div className="image-item">
                         <div className="inner">
                           <div className="link">
-                            <AttachmentSelect onSelect={this.handleSelectLogo} visible={false}>
+                            <AttachmentSelect
+                              onSelect={this.handleSelectLogo}
+                              visible={false}
+                              multiple={true}
+                            >
                               <div className="ant-upload-item">
                                 <div className="add">
                                   <PlusOutlined />

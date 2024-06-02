@@ -56,11 +56,14 @@ const Login: React.FC = () => {
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     const anqiUser = await initialState?.fetchAnqiUser?.();
+    // 补充 system setting
+    const system = await initialState?.fetchSystemSetting?.();
     if (userInfo) {
       await setInitialState((s) => ({
         ...s,
         currentUser: userInfo,
         anqiUser: anqiUser,
+        system: system,
       }));
     }
   };

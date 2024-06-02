@@ -41,6 +41,12 @@
   word-break: break-all;
   background: #f1f1f1;
   border: 1px solid #eee;
+  .checkbox {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+  }
   .inner {
     position: absolute;
     display: flex;
@@ -106,6 +112,8 @@
     margin-top: 0 !important;
   }
   .ant-modal-confirm-btns {
-    display: none;
+    margin-top: 0 !important;
+    padding-right: 20px;
+    padding-bottom: 20px;
   }
 }

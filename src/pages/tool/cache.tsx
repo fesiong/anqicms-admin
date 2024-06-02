@@ -118,7 +118,7 @@ const ToolCacheForm: React.FC<any> = (props) => {
                     label: '内存缓存',
                   },
                 ]}
-                extra="默认自动处理，服务器内存小于2G的采用文件缓存，大于等于2G的采用内存缓存"
+                extra="默认自动处理，服务器内存小于等于1G的采用文件缓存，大于1G的采用内存缓存"
               />
             </ProForm>
           )}

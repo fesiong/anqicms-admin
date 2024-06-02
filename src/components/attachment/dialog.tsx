@@ -4,13 +4,17 @@ import AttachmentContent from './content';
 
 const Attachment = () => {};
 
-Attachment.show = () => {
+Attachment.show = (multiple?: boolean) => {
   let p = new Promise((res, rej) => {
+    let selectedKeys: any[] = [];
     let close: () => void;
     const onSelect = (val: any) => {
-      close();
-
-      res(val);
+      if (!multiple) {
+        close();
+        res(val);
+      } else {
+        selectedKeys = val;
+      }
     };
 
     const onCancel = () => {
@@ -18,18 +22,27 @@ Attachment.show = () => {
       rej();
     };
 
+    const onSubmit = () => {
+      if (multiple) {
+        res(selectedKeys);
+      }
+      close();
+    };
+
     const { destroy } = Modal.info({
       icon: null,
       maskClosable: true,
       width: 800,
       wrapClassName: 'attachment-dialog',
-      okButtonProps: { style: { display: 'none' } },
-      content: <AttachmentContent onSelect={onSelect} onCancel={() => onCancel()} />,
+      okText: '确定',
+      content: (
+        <AttachmentContent onSelect={onSelect} onCancel={() => onCancel()} multiple={multiple} />
+      ),
       onCancel: () => {
         onCancel();
       },
       onOk: () => {
-        onCancel();
+        onSubmit();
       },
     });
     close = destroy;

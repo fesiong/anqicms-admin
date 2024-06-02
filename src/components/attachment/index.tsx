@@ -8,19 +8,32 @@ export type AttachmentProps = {
   onCancel?: (row?: any) => void;
   visible?: boolean;
   manual?: boolean;
+  multiple?: boolean;
   children?: React.ReactNode;
 };
 
 const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
 
   const useDetail = (row: any) => {
-    props.onSelect(row);
-    visibleControl(false);
+    if (!props.multiple) {
+      props.onSelect(row);
+      visibleControl(false);
+    } else {
+      setSelectedRowKeys(row);
+    }
   };
 
   const visibleControl = (flag: boolean) => {
     props.manual ? (props.onCancel ? props.onCancel(flag) : null) : setVisible(flag);
+  };
+
+  const onSubmit = () => {
+    if (props.multiple) {
+      props.onSelect(selectedRowKeys);
+    }
+    visibleControl(false);
   };
 
   return (
@@ -41,10 +54,11 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
           visibleControl(false);
         }}
         onOk={() => {
-          visibleControl(false);
+          onSubmit();
         }}
       >
         <AttachmentContent
+          multiple={props.multiple}
           onSelect={(e: any) => {
             useDetail(e);
           }}

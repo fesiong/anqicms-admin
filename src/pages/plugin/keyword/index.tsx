@@ -14,6 +14,7 @@ import KeywordImport from './components/import';
 import { collectCollectorArticle, digCollectorKeyword, collectAiGenerateArticle } from '@/services';
 import KeywordForm from './components/keywordForm';
 import KeywordSetting from './components/setting';
+import { Link } from 'umi';
 
 const PluginKeyword: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -162,6 +163,9 @@ const PluginKeyword: React.FC = () => {
           >
             编辑
           </a>
+          <Link key="view" to={'/plugin/aigenerate?keyword=' + record.title}>
+            查看AI文章
+          </Link>
           <a
             className="text-red"
             key="delete"

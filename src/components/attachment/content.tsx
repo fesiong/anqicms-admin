@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, message, Image, Avatar, Upload, Select, Space, Input, Card } from 'antd';
+import { Button, message, Image, Avatar, Upload, Select, Space, Input, Card, Checkbox } from 'antd';
 import { ActionType } from '@ant-design/pro-table';
 import ProList from '@ant-design/pro-list';
 import { getAttachmentCategories, getAttachments, uploadAttachment } from '@/services/attachment';
@@ -9,6 +9,7 @@ import { CloseOutlined } from '@ant-design/icons';
 export type AttachmentContentProps = {
   onSelect: (row?: any) => void;
   onCancel?: () => void;
+  multiple?: boolean;
 };
 
 const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
@@ -33,6 +34,10 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
         message.info(res.msg);
       } else {
         message.info(res.msg || '上传成功');
+        if (props.multiple) {
+          setSelectedRowKeys([]);
+          props.onSelect([]);
+        }
         actionRef.current?.reload();
       }
     });
@@ -40,6 +45,10 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
 
   const handleChangeCategory = (e: any) => {
     setCategoryId(e);
+    if (props.multiple) {
+      setSelectedRowKeys([]);
+      props.onSelect([]);
+    }
     actionRef.current?.reload();
   };
 
@@ -49,7 +58,16 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
 
   const handleSearch = (kw: any) => {
     setKeyword(kw);
+    if (props.multiple) {
+      setSelectedRowKeys([]);
+      props.onSelect([]);
+    }
     actionRef.current?.reload();
+  };
+
+  const onChangeSelect = (e: any) => {
+    setSelectedRowKeys(e);
+    props.onSelect(e);
   };
 
   return (
@@ -75,6 +93,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
           >
             <Button type="primary">上传新文件</Button>
           </Upload>
+          {selectedRowKeys.length > 0 && <span>已选{selectedRowKeys.length}个</span>}
         </Space>
         {typeof props.onCancel == 'function' && (
           <a className="close" onClick={() => props.onCancel?.()}>
@@ -82,62 +101,69 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
           </a>
         )}
       </div>
-      <ProList<any>
-        actionRef={actionRef}
-        className="material-table"
-        rowKey="id"
-        request={(params) => {
-          params.category_id = categoryId;
-          params.q = keyword;
-          return getAttachments(params);
-        }}
-        grid={{ gutter: 16, column: 6 }}
-        pagination={{
-          defaultPageSize: 18,
-        }}
-        showActions="hover"
-        showExtra="hover"
-        search={false}
-        rowClassName="image-row"
-        metas={{
-          content: {
-            search: false,
-            render: (_: any, row: any) => {
-              return (
-                <div className="image-item">
-                  <div className="inner" title={row.file_name}>
-                    {row.thumb ? (
-                      <Image
-                        className="img"
-                        preview={{
-                          src: row.logo,
+      <Checkbox.Group
+        onChange={onChangeSelect}
+        value={selectedRowKeys}
+        style={{ display: 'block' }}
+      >
+        <ProList<any>
+          actionRef={actionRef}
+          className="material-table"
+          rowKey="id"
+          request={(params) => {
+            params.category_id = categoryId;
+            params.q = keyword;
+            return getAttachments(params);
+          }}
+          grid={{ gutter: 16, column: 6 }}
+          pagination={{
+            defaultPageSize: 18,
+          }}
+          showActions="hover"
+          showExtra="hover"
+          search={false}
+          rowClassName="image-row"
+          metas={{
+            content: {
+              search: false,
+              render: (_: any, row: any) => {
+                return (
+                  <div className="image-item">
+                    {props.multiple && <Checkbox className="checkbox" value={row} />}
+                    <div className="inner" title={row.file_name}>
+                      {row.thumb ? (
+                        <Image
+                          className="img"
+                          preview={{
+                            src: row.logo,
+                          }}
+                          src={row.thumb}
+                          alt={row.file_name}
+                        />
+                      ) : (
+                        <a href={row.logo} target={'_blank'}>
+                          <Avatar className="default-img" size={100}>
+                            {row.file_location.substring(row.file_location.lastIndexOf('.'))}
+                          </Avatar>
+                        </a>
+                      )}
+                      <div className="info name">{row.file_name}</div>
+                      <div
+                        className="info link"
+                        onClick={() => {
+                          useDetail(row);
                         }}
-                        src={row.thumb}
-                        alt={row.file_name}
-                      />
-                    ) : (
-                      <a href={row.logo} target={'_blank'}>
-                        <Avatar className="default-img" size={100}>
-                          {row.file_location.substring(row.file_location.lastIndexOf('.'))}
-                        </Avatar>
-                      </a>
-                    )}
-                    <div className="info name">{row.file_name}</div>
-                    <div
-                      className="info link"
-                      onClick={() => {
-                        useDetail(row);
-                      }}
-                    >
-                      点击使用
+                      >
+                        点击使用
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Checkbox.Group>
     </div>
   );
 };

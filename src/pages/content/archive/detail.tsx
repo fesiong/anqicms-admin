@@ -252,20 +252,22 @@ export default class ArchiveForm extends React.Component {
     });
   };
 
-  handleSelectImages = (row: any) => {
+  handleSelectImages = (rows: any) => {
     const { archive } = this.state;
-    let exists = false;
     if (!archive.images) {
       archive.images = [];
     }
-    for (const i in archive.images) {
-      if (archive.images[i] == row.logo) {
-        exists = true;
-        break;
+    for (const row of rows) {
+      let exists = false;
+      for (const i in archive.images) {
+        if (archive.images[i] == row.logo) {
+          exists = true;
+          break;
+        }
       }
-    }
-    if (!exists) {
-      archive.images.push(row.logo);
+      if (!exists) {
+        archive.images.push(row.logo);
+      }
     }
     this.setState({
       archive,
@@ -892,7 +894,11 @@ export default class ArchiveForm extends React.Component {
                             </div>
                           ))
                         : null}
-                      <AttachmentSelect onSelect={this.handleSelectImages} visible={false}>
+                      <AttachmentSelect
+                        onSelect={this.handleSelectImages}
+                        visible={false}
+                        multiple={true}
+                      >
                         <div className="ant-upload-item">
                           <div className="add">
                             <PlusOutlined />

@@ -137,9 +137,20 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
-  handleSelectLogo = (row: any) => {
+  handleSelectLogo = (rows: any) => {
     const { setting } = this.state;
-    setting['images'].push(row.logo);
+    for (const row of rows) {
+      let exists = false;
+      for (let i in setting['images']) {
+        if (setting['images'][i] == row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        setting['images'].push(row.logo);
+      }
+    }
     this.setState({
       setting,
     });
@@ -368,7 +379,11 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                       <div className="image-item">
                         <div className="inner">
                           <div className="link">
-                            <AttachmentSelect onSelect={this.handleSelectLogo} visible={false}>
+                            <AttachmentSelect
+                              onSelect={this.handleSelectLogo}
+                              visible={false}
+                              multiple={true}
+                            >
                               <div className="ant-upload-item">
                                 <div className="add">
                                   <PlusOutlined />

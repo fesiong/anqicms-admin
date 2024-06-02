@@ -39,7 +39,12 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   }
 
   const handleSelectImages = (e: any) => {
-    editorRef.current?.editor.cmd.do('insertHTML', `<img src="${e.logo}" alt="${e.file_name}"/>`);
+    for (let i in e) {
+      editorRef.current?.editor.cmd.do(
+        'insertHTML',
+        `<img src="${e[i].logo}" alt="${e[i].file_name}"/>`,
+      );
+    }
   };
 
   const onChangeCode = (newCode: string) => {
@@ -86,7 +91,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
           uploadImgAccept: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
           // 上传图片处理
           uploadImgFromMedia: () => {
-            Attachment.show().then((res) => {
+            Attachment.show(true).then((res) => {
               handleSelectImages(res);
             });
           },
