@@ -14,6 +14,7 @@ export type AiGenerateProps = {
   onSubmit: (values: any) => Promise<void>;
   visible: boolean;
   title: string;
+  editor?: string;
 };
 
 let xhr: any = null;
@@ -134,15 +135,19 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       }
       setAiFinished(true);
       if (res.data) {
-        if (!tmpContent) {
+        if (!tmpContent && props.editor !== 'markdown') {
           tmpContent += '<p>';
         }
-        tmpContent += res.data.replace(/\n+/g, '</p>\n<p>');
+        if (props.editor == 'markdown') {
+          tmpContent += res.data;
+        } else {
+          tmpContent += res.data.replace(/\n+/g, '</p>\n<p>');
+        }
         setAiContent(tmpContent);
       }
 
       if (res.msg == 'finished') {
-        if (tmpContent) {
+        if (tmpContent && props.editor !== 'markdown') {
           tmpContent += '</p>';
           setAiContent(tmpContent);
         }
@@ -207,7 +212,13 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
         <Divider />
         <div
           className="article-detail"
-          dangerouslySetInnerHTML={{ __html: aiContent || 'AI生成结果将会在这里显示' }}
+          dangerouslySetInnerHTML={{
+            __html: aiContent
+              ? props.editor == 'markdown'
+                ? aiContent.replace(/\n+/g, '</p>\n<p>')
+                : aiContent
+              : 'AI生成结果将会在这里显示',
+          }}
         ></div>
       </ProForm>
     </Modal>

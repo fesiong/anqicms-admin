@@ -957,6 +957,7 @@ export default class ArchiveForm extends React.Component {
           <AiGenerate
             visible={aiVisible}
             title={aiTitle}
+            editor={contentSetting.editor}
             onCancel={this.onHideAiGenerate}
             onSubmit={this.onFinishAiGenerate}
           />

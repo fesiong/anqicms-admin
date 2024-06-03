@@ -61,7 +61,6 @@ const ArticleTag: React.FC = () => {
     {
       title: '名称',
       dataIndex: 'title',
-      hideInSearch: true,
       render: (dom, entity) => {
         return (
           <a href={entity.link} target="_blank">
@@ -116,7 +115,6 @@ const ArticleTag: React.FC = () => {
         headerTitle="文章标签列表"
         actionRef={actionRef}
         rowKey="id"
-        search={false}
         toolBarRender={() => [
           <Button
             type="default"

@@ -89,7 +89,8 @@ const ArchiveCategory: React.FC = () => {
     {
       title: '分类名称',
       dataIndex: 'title',
-      hideInSearch: true,
+      //hideInSearch: true,
+      filters: true,
       render: (dom, entity) => {
         return (
           <>
@@ -188,7 +189,6 @@ const ArchiveCategory: React.FC = () => {
         headerTitle="文档分类列表"
         actionRef={actionRef}
         rowKey="id"
-        search={false}
         toolBarRender={() => [
           <Button
             key="add"

@@ -53,7 +53,24 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
   };
 
   const useDetail = (row: any) => {
-    props.onSelect(row);
+    if (props.multiple) {
+      let exist = false;
+      let tmpKeys = [];
+      for (let i in selectedRowKeys) {
+        if (selectedRowKeys[i].id === row.id) {
+          exist = true;
+        } else {
+          tmpKeys.push(selectedRowKeys[i]);
+        }
+      }
+      if (!exist) {
+        tmpKeys.push(row);
+      }
+      setSelectedRowKeys(tmpKeys);
+      props.onSelect(tmpKeys);
+    } else {
+      props.onSelect(row);
+    }
   };
 
   const handleSearch = (kw: any) => {

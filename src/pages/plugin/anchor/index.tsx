@@ -71,22 +71,31 @@ const PluginAnchor: React.FC = () => {
   const columns: ProColumns<any>[] = [
     {
       title: 'ID',
+      hideInSearch: true,
       dataIndex: 'id',
     },
     {
       title: '锚文本',
       dataIndex: 'title',
+      fieldProps(form, config) {
+        return {
+          placeholder: '搜索锚文本或锚文本链接',
+        };
+      },
     },
     {
       title: '锚文本链接',
+      hideInSearch: true,
       dataIndex: 'link',
     },
     {
       title: '权重',
+      hideInSearch: true,
       dataIndex: 'weight',
     },
     {
       title: '替换次数',
+      hideInSearch: true,
       dataIndex: 'replace_count',
     },
     {
@@ -133,7 +142,6 @@ const PluginAnchor: React.FC = () => {
         headerTitle="锚文本管理"
         actionRef={actionRef}
         rowKey="id"
-        search={false}
         toolBarRender={() => [
           <Button
             type="primary"

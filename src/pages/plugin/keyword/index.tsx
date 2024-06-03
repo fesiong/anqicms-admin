@@ -115,6 +115,7 @@ const PluginKeyword: React.FC = () => {
   const columns: ProColumns<any>[] = [
     {
       title: 'ID',
+      hideInSearch: true,
       dataIndex: 'id',
     },
     {
@@ -123,14 +124,17 @@ const PluginKeyword: React.FC = () => {
     },
     {
       title: '层级',
+      hideInSearch: true,
       dataIndex: 'level',
     },
     {
       title: '文章分类ID',
+      hideInSearch: true,
       dataIndex: 'category_id',
     },
     {
       title: '已采集文章',
+      hideInSearch: true,
       dataIndex: 'article_count',
     },
     {
@@ -188,7 +192,6 @@ const PluginKeyword: React.FC = () => {
         headerTitle="关键词库管理"
         actionRef={actionRef}
         rowKey="id"
-        search={false}
         toolBarRender={() => [
           <Button
             type="primary"

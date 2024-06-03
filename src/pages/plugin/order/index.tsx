@@ -126,13 +126,12 @@ const PluginOrder: React.FC = () => {
   const columns: ProColumns<any>[] = [
     {
       title: '订单ID',
-      dataIndex: 'id',
-      hideInSearch: true,
+      dataIndex: 'order_id',
     },
     {
       title: '购买用户',
       dataIndex: 'user.user_name',
-      hideInSearch: true,
+      key: 'user_name',
       render: (dom: any, entity) => {
         return entity.user?.user_name || '-';
       },
@@ -277,6 +276,9 @@ const PluginOrder: React.FC = () => {
         headerTitle="订单管理"
         actionRef={actionRef}
         rowKey="id"
+        search={{
+          span: { xs: 24, sm: 12, md: 8, lg: 8, xl: 6, xxl: 6 },
+        }}
         toolBarRender={() => [
           <Button
             key="export"

@@ -77,6 +77,7 @@ const PluginUserGroup: React.FC = () => {
         headerTitle="用户组VIP管理"
         actionRef={actionRef}
         rowKey="id"
+        search={false}
         toolBarRender={() => [
           <Button type="primary" key="add" onClick={() => handleEditGroup({})}>
             添加用户组
