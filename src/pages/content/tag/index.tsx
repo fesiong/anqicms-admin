@@ -30,9 +30,8 @@ const ArticleTag: React.FC = () => {
           }
           hide();
           message.success('删除成功');
-          if (actionRef.current) {
-            actionRef.current.reload();
-          }
+          setSelectedRowKeys([]);
+          actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
@@ -96,10 +95,8 @@ const ArticleTag: React.FC = () => {
           <a
             className="text-red"
             key="delete"
-            onClick={async () => {
-              await handleRemove([record.id]);
-              setSelectedRowKeys([]);
-              actionRef.current?.reloadAndRest?.();
+            onClick={() => {
+              handleRemove([record.id]);
             }}
           >
             删除
@@ -139,10 +136,8 @@ const ArticleTag: React.FC = () => {
           <Space>
             <Button
               size={'small'}
-              onClick={async () => {
-                await handleRemove(selectedRowKeys);
-                setSelectedRowKeys([]);
-                actionRef.current?.reloadAndRest?.();
+              onClick={() => {
+                handleRemove(selectedRowKeys);
               }}
             >
               批量删除

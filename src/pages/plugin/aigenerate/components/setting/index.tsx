@@ -239,6 +239,15 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 { label: '英文', value: 'en' },
               ]}
             />
+            <ProFormRadio.Group
+              name="double_title"
+              label="生成双标题"
+              options={[
+                { label: '否', value: false },
+                { label: '是', value: true },
+              ]}
+              extra="仅中文支持，标题生成格式：主标题(副标题)"
+            />
             <ProFormTextArea
               name="demand"
               label="写作统一要求"

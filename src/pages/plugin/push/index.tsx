@@ -68,6 +68,7 @@ const PluginPush: React.FC<any> = (props) => {
       onOk: async () => {
         jsCodes.splice(index, 1);
         setJsCodes([].concat(...jsCodes));
+        actionRef.current?.reloadAndRest?.();
       },
     });
   };
@@ -134,9 +135,8 @@ const PluginPush: React.FC<any> = (props) => {
           <a
             className="text-red"
             key="delete"
-            onClick={async () => {
-              await handleRemoveJs(index);
-              actionRef.current?.reloadAndRest?.();
+            onClick={() => {
+              handleRemoveJs(index);
             }}
           >
             删除

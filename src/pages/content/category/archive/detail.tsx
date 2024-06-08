@@ -65,7 +65,7 @@ const ArchiveCategoryDetail: React.FC = () => {
       }
       cat.module_id = moduleId;
     }
-    changeModule(moduleId);
+    changeModule(moduleId, modRes.data);
 
     setCategory(cat);
 
@@ -143,8 +143,11 @@ const ArchiveCategoryDetail: React.FC = () => {
     setCategoryLogo('');
   };
 
-  const changeModule = (e: any) => {
-    for (let item of modules) {
+  const changeModule = (e: any, tmpModels?: any) => {
+    if (tmpModels == undefined) {
+      tmpModels = modules;
+    }
+    for (let item of tmpModels) {
       if (item.id == e) {
         setCurrentModule(item);
         break;

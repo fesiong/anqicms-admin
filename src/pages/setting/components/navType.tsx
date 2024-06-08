@@ -85,9 +85,8 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
           <a
             className="text-red"
             key="delete"
-            onClick={async () => {
-              await handleRemove(record);
-              actionRef.current?.reloadAndRest?.();
+            onClick={() => {
+              handleRemove(record);
             }}
           >
             删除

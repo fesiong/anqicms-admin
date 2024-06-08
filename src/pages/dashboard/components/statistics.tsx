@@ -25,21 +25,21 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => (
           </Tooltip>
         }
         total={
-          data.archive_count?.total +
+          (data.archive_count?.total || 0) +
           '/' +
-          data.archive_count?.un_release +
+          (data.archive_count?.un_release || 0) +
           '/' +
-          data.archive_count?.draft
+          (data.archive_count?.draft || 0)
         }
         footer={
           <Space>
-            <Field label="上周" value={data.archive_count?.last_week} />
-            <Field label="今日" value={data.archive_count?.today} />
+            <Field label="上周" value={data.archive_count?.last_week || 0} />
+            <Field label="今日" value={data.archive_count?.today || 0} />
             <Link to={'/archive/list?status=plan'}>
-              <Field label="待发布" value={data.archive_count?.un_release} />
+              <Field label="待发布" value={data.archive_count?.un_release || 0} />
             </Link>
             <Link to={'/archive/list?status=draft'}>
-              <Field label="草稿" value={data.archive_count?.draft} />
+              <Field label="草稿" value={data.archive_count?.draft || 0} />
             </Link>
           </Space>
         }

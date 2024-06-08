@@ -30,9 +30,8 @@ const PluginFileupload: React.FC = () => {
           }
           hide();
           message.success('删除成功');
-          if (actionRef.current) {
-            actionRef.current.reload();
-          }
+          setSelectedRowKeys([]);
+          actionRef.current?.reloadAndRest?.();
         } catch (error) {
           hide();
           message.error('删除失败');
@@ -80,10 +79,8 @@ const PluginFileupload: React.FC = () => {
           <a
             className="text-red"
             key="delete"
-            onClick={async () => {
-              await handleRemove([record.hash]);
-              setSelectedRowKeys([]);
-              actionRef.current?.reloadAndRest?.();
+            onClick={() => {
+              handleRemove([record.hash]);
             }}
           >
             删除
@@ -114,10 +111,8 @@ const PluginFileupload: React.FC = () => {
           <Space>
             <Button
               size={'small'}
-              onClick={async () => {
-                await handleRemove(selectedRowKeys);
-                setSelectedRowKeys([]);
-                actionRef.current?.reloadAndRest?.();
+              onClick={() => {
+                handleRemove(selectedRowKeys);
               }}
             >
               批量删除

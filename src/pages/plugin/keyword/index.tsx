@@ -29,15 +29,14 @@ const PluginKeyword: React.FC = () => {
         const hide = message.loading('正在删除', 0);
         if (!selectedRowKeys) return true;
         try {
-          for (let item of selectedRowKeys) {
-            await pluginDeleteKeyword({
-              id: item,
-            });
-          }
+          await pluginDeleteKeyword({
+            ids: selectedRowKeys,
+          });
           hide();
           message.success('删除成功');
+          setSelectedRowKeys([]);
           if (actionRef.current) {
-            actionRef.current.reload();
+            actionRef.current.reloadAndRest?.();
           }
           return true;
         } catch (error) {
@@ -55,9 +54,13 @@ const PluginKeyword: React.FC = () => {
   };
 
   const handleExportKeyword = async () => {
-    let res = await pluginExportKeyword();
-
-    exportFile(res.data?.header, res.data?.content, 'csv');
+    Modal.confirm({
+      title: '确定要导出全部关键词吗？',
+      onOk: async () => {
+        let res = await pluginExportKeyword();
+        exportFile(res.data?.header, res.data?.content, 'csv');
+      },
+    });
   };
 
   const handleDigKeyword = async () => {
@@ -108,6 +111,22 @@ const PluginKeyword: React.FC = () => {
           .finally(() => {
             hide();
           });
+      },
+    });
+  };
+
+  const cleanupKeywords = () => {
+    Modal.confirm({
+      title: '确定要对这清空全部关键词吗？',
+      content: '该操作会删除所有的关键词，并且不可恢复，请谨慎操作',
+      onOk: async () => {
+        const hide = message.loading('正在删除', 0);
+        await pluginDeleteKeyword({
+          all: true,
+        });
+        hide();
+        message.success('删除成功');
+        actionRef.current?.reloadAndRest?.();
       },
     });
   };
@@ -174,9 +193,7 @@ const PluginKeyword: React.FC = () => {
             className="text-red"
             key="delete"
             onClick={async () => {
-              await handleRemove([record.id]);
-              setSelectedRowKeys([]);
-              actionRef.current?.reloadAndRest?.();
+              handleRemove([record.id]);
             }}
           >
             删除
@@ -240,13 +257,14 @@ const PluginKeyword: React.FC = () => {
           <Space>
             <Button
               size={'small'}
-              onClick={async () => {
-                await handleRemove(selectedRowKeys);
-                setSelectedRowKeys([]);
-                actionRef.current?.reloadAndRest?.();
+              onClick={() => {
+                handleRemove(selectedRowKeys);
               }}
             >
               批量删除
+            </Button>
+            <Button size={'small'} onClick={cleanupKeywords}>
+              清空关键词库
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
               取消选择

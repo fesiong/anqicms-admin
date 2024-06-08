@@ -156,7 +156,7 @@ const ArchiveList: React.FC = (props) => {
         message.success(res.msg);
         setFlagVisible(false);
         setSelectedRowKeys([]);
-        actionRef.current?.reloadAndRest?.();
+        actionRef.current?.reload?.();
       })
       .finally(() => {
         hide();
@@ -227,7 +227,7 @@ const ArchiveList: React.FC = (props) => {
         message.success(res.msg);
         setCategoryVisible(false);
         setSelectedRowKeys([]);
-        actionRef.current?.reloadAndRest?.();
+        actionRef.current?.reload?.();
       })
       .finally(() => {
         hide();
@@ -292,7 +292,7 @@ const ArchiveList: React.FC = (props) => {
         })
           .then((res) => {
             if (res.code === 0) {
-              actionRef.current?.reloadAndRest?.();
+              actionRef.current?.reload?.();
             }
             message.info(res.msg);
           })
@@ -314,7 +314,7 @@ const ArchiveList: React.FC = (props) => {
         })
           .then((res) => {
             if (res.code === 0) {
-              actionRef.current?.reloadAndRest?.();
+              actionRef.current?.reload?.();
             }
             message.info(res.msg);
           })
@@ -921,7 +921,7 @@ const ArchiveList: React.FC = (props) => {
           archive={currentArchive}
           visible={quickVisible}
           onSubmit={async () => {
-            actionRef.current?.reloadAndRest?.();
+            actionRef.current?.reload?.();
             setQuickVisible(false);
           }}
           onCancel={() => setQuickVisible(false)}
