@@ -1,15 +1,12 @@
-import React from 'react';
-import {
-  ModalForm,
-  ProFormText,
-} from '@ant-design/pro-form';
-import { Tag } from 'antd';
 import { pluginSaveRedirect } from '@/services/plugin/redirect';
+import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { Tag } from 'antd';
+import React from 'react';
 
 export type RedirectFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   editingRedirect: any;
 };
 
@@ -26,9 +23,9 @@ const RedirectForm: React.FC<RedirectFormProps> = (props) => {
       width={800}
       title={props.editingRedirect?.id ? '编辑链接' : '添加链接'}
       initialValues={props.editingRedirect}
-      visible={props.visible}
+      open={props.open}
       //layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -37,8 +34,24 @@ const RedirectForm: React.FC<RedirectFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="from_url" label="源链接" extra={<div className='mt-normal'>可以是绝对地址<Tag>http(https)</Tag>开头，或相对地址<Tag>/</Tag>开头的链接</div>} />
-      <ProFormText name="to_url" label="跳转链接" extra={<div className='mt-normal'>可以是绝对地址<Tag>http(https)</Tag>开头，或相对地址<Tag>/</Tag>开头的链接</div>} />
+      <ProFormText
+        name="from_url"
+        label="源链接"
+        extra={
+          <div className="mt-normal">
+            可以是绝对地址<Tag>http(https)</Tag>开头，或相对地址<Tag>/</Tag>开头的链接
+          </div>
+        }
+      />
+      <ProFormText
+        name="to_url"
+        label="跳转链接"
+        extra={
+          <div className="mt-normal">
+            可以是绝对地址<Tag>http(https)</Tag>开头，或相对地址<Tag>/</Tag>开头的链接
+          </div>
+        }
+      />
     </ModalForm>
   );
 };

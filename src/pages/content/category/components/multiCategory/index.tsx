@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { ModalForm, ProFormInstance, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form';
-
 import { getCategories, saveCategory } from '@/services';
+import {
+  ModalForm,
+  ProFormInstance,
+  ProFormSelect,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
-export type CategoryFormProps = {
+export type MultiCategoryProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
   type: number;
-  visible: boolean;
+  open: boolean;
   category: any;
   modules: any[];
 };
 
-const CategoryForm: React.FC<CategoryFormProps> = (props) => {
+const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
   const [currentModule, setCurrentModule] = useState<any>({});
+  const intl = useIntl();
 
   useEffect(() => {
     let moduleId = props.category?.module_id || 1;
@@ -60,11 +66,11 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
     <ModalForm
       formRef={formRef}
       width={600}
-      title={'批量添加分类'}
+      title={intl.formatMessage({ id: 'content.category.batch-add' })}
       initialValues={props.category}
-      visible={props.visible}
+      open={props.open}
       layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -74,7 +80,7 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
       }}
     >
       <ProFormSelect
-        label="内容模型"
+        label={intl.formatMessage({ id: 'content.module.name' })}
         name="module_id"
         width="lg"
         request={async () => {
@@ -92,7 +98,7 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
         }}
       />
       <ProFormSelect
-        label="上级分类"
+        label={intl.formatMessage({ id: 'content.category.top' })}
         name="parent_id"
         width="lg"
         request={async () => {
@@ -113,7 +119,9 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
             }
             categories = tmpCategory;
           }
-          categories = [{ id: 0, title: '顶级分类', spacer: '' }].concat(categories);
+          categories = [
+            { id: 0, title: intl.formatMessage({ id: 'content.category.top' }), spacer: '' },
+          ].concat(categories);
           return categories;
         }}
         readonly={props.category?.id || props.category?.module_id > 0 ? false : true}
@@ -122,7 +130,7 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
             label: 'title',
             value: 'id',
           },
-          optionItemRender(item) {
+          optionItemRender(item: any) {
             return (
               <div dangerouslySetInnerHTML={{ __html: (item.spacer || '') + item.title }}></div>
             );
@@ -132,21 +140,25 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
       <ProFormTextArea
         name="inputs"
         width="lg"
-        label="批量分类名称"
-        placeholder="如：使用帮助|help"
+        label={intl.formatMessage({ id: 'content.category.batch-name' })}
+        placeholder={intl.formatMessage({ id: 'content.category.batch-name.placeholder' })}
         fieldProps={{
           rows: 10,
         }}
         extra={
           <div>
-            <div>可以批量输入分类名称，一行一个。</div>
-            <div>如需自定义分类URL别名，请用竖线|与分类名称隔开。 如：</div>
+            <div>
+              <FormattedMessage id="content.category.batch-name.tips1" />
+            </div>
+            <div>
+              <FormattedMessage id="content.category.batch-name.tips2" />
+            </div>
             <div>
               <code>
                 <div>
-                  使用帮助|help
+                  <FormattedMessage id="content.category.batch-name.tips3" />
                   <br />
-                  文档中心
+                  <FormattedMessage id="content.category.batch-name.tips4" />
                 </div>
               </code>
             </div>
@@ -157,4 +169,4 @@ const CategoryForm: React.FC<CategoryFormProps> = (props) => {
   );
 };
 
-export default CategoryForm;
+export default MultiCategory;

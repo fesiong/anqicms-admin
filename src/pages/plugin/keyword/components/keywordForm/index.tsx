@@ -1,17 +1,12 @@
-import React from 'react';
-import {
-  ModalForm,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
-import { pluginSaveKeyword } from '@/services/plugin/keyword';
 import { getCategories } from '@/services/category';
+import { pluginSaveKeyword } from '@/services/plugin/keyword';
+import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import React from 'react';
 
 export type KeywordFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   editingKeyword: any;
 };
 
@@ -28,9 +23,9 @@ const KeywordForm: React.FC<KeywordFormProps> = (props) => {
       width={800}
       title={props.editingKeyword?.id ? '编辑关键词' : '添加关键词'}
       initialValues={props.editingKeyword}
-      visible={props.visible}
+      open={props.open}
       //layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -64,7 +59,7 @@ const KeywordForm: React.FC<KeywordFormProps> = (props) => {
             label: 'title',
             value: 'id',
           },
-          optionItemRender(item) {
+          optionItemRender(item: any) {
             return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
           },
         }}

@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import { Card, message } from 'antd';
-import './index.less';
 import { anqiDownloadTemplate } from '@/services';
-import { history, useModel } from 'umi';
+import { PageContainer } from '@ant-design/pro-components';
+import { history, useIntl, useModel } from '@umijs/max';
+import { Card, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import './index.less';
 
 const DesignMarket: React.FC = () => {
   const { initialState } = useModel('@@initialState');
   const actionRef = useRef(null);
   const [height, setHeight] = useState(0);
+  const intl = useIntl();
 
   useEffect(() => {
     getHeight();
@@ -24,7 +25,7 @@ const DesignMarket: React.FC = () => {
   const receiveDownload = (e: any) => {
     const data = e.data || {};
     if (data.action == 'download') {
-      const hide = message.loading('正在下载中...', 0);
+      const hide = message.loading(intl.formatMessage({ id: 'design.market.downloading' }), 0);
       anqiDownloadTemplate({
         template_id: Number(data.id),
       })

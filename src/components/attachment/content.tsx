@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, message, Image, Avatar, Upload, Select, Space, Input, Card, Checkbox } from 'antd';
-import { ActionType } from '@ant-design/pro-table';
-import ProList from '@ant-design/pro-list';
 import { getAttachmentCategories, getAttachments, uploadAttachment } from '@/services/attachment';
-import './index.less';
 import { CloseOutlined } from '@ant-design/icons';
+import { ActionType, ProList } from '@ant-design/pro-components';
+import { Avatar, Button, Checkbox, Image, Input, Select, Space, Upload, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import './index.less';
 
 export type AttachmentContentProps = {
   onSelect: (row?: any) => void;

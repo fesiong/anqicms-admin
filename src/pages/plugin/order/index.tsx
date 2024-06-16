@@ -1,27 +1,28 @@
-import { AutoComplete, Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import {
   pluginExportOrder,
   pluginGetOrders,
   pluginOrderApplyRefund,
   pluginSetOrderDelivery,
   pluginSetOrderFinished,
-  pluginSetOrderRefund,
   pluginSetOrderPay,
+  pluginSetOrderRefund,
 } from '@/services';
+import { exportFile } from '@/utils';
 import {
+  ActionType,
   ModalForm,
+  PageContainer,
+  ProColumns,
   ProFormDatePicker,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-} from '@ant-design/pro-form';
-import moment from 'moment';
+  ProTable,
+} from '@ant-design/pro-components';
+import { AutoComplete, Button, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
 import OrderForm from './components/orderForm';
-import { exportFile } from '@/utils';
 import OrderSetting from './setting';
 
 const PluginOrder: React.FC = () => {
@@ -36,10 +37,10 @@ const PluginOrder: React.FC = () => {
   const exportOrder = async (values: any) => {
     const hide = message.loading('正在加载', 0);
     if (values.start_date) {
-      values.start_time = moment(values.start_date).unix();
+      values.start_time = dayjs(values.start_date).unix();
     }
     if (values.start_date) {
-      values.end_time = moment(values.end_date).unix() + 86400;
+      values.end_time = dayjs(values.end_date).unix() + 86400;
     }
     pluginExportOrder(values)
       .then((res) => {
@@ -149,7 +150,7 @@ const PluginOrder: React.FC = () => {
       dataIndex: 'created_time',
       hideInSearch: true,
       render: (_, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
@@ -158,7 +159,7 @@ const PluginOrder: React.FC = () => {
       hideInSearch: true,
       render: (_, entity) => {
         return entity.paid_time > 0
-          ? moment(entity.paid_time * 1000).format('YYYY-MM-DD HH:mm')
+          ? dayjs(entity.paid_time * 1000).format('YYYY-MM-DD HH:mm')
           : '-';
       },
     },
@@ -288,7 +289,7 @@ const PluginOrder: React.FC = () => {
           >
             导出订单
           </Button>,
-          <OrderSetting key="setting">
+          <OrderSetting key="setting" onCancel={() => {}}>
             <Button>订单设置</Button>
           </OrderSetting>,
         ]}
@@ -308,7 +309,7 @@ const PluginOrder: React.FC = () => {
       />
       {editVisible && (
         <OrderForm
-          visible={editVisible}
+          open={editVisible}
           order={currentOrder}
           onCancel={() => {
             setEditVisible(false);
@@ -322,8 +323,8 @@ const PluginOrder: React.FC = () => {
         <ModalForm
           title="发货处理"
           width={480}
-          visible={deliverVisible}
-          onVisibleChange={(flag) => {
+          open={deliverVisible}
+          onOpenChange={(flag) => {
             setDeliverVisible(flag);
           }}
           onFinish={saveOrderDeliver}
@@ -380,8 +381,8 @@ const PluginOrder: React.FC = () => {
       {refundVisible && (
         <ModalForm
           title="退款处理"
-          visible={refundVisible}
-          onVisibleChange={(flag) => {
+          open={refundVisible}
+          onOpenChange={(flag) => {
             setRefundVisible(flag);
           }}
           onFinish={saveOrderRefund}
@@ -406,8 +407,8 @@ const PluginOrder: React.FC = () => {
         <ModalForm
           title="导出订单选项"
           width={480}
-          visible={exportVisible}
-          onVisibleChange={(flag) => {
+          open={exportVisible}
+          onOpenChange={(flag) => {
             setExportVisible(flag);
           }}
           onFinish={exportOrder}
@@ -434,8 +435,8 @@ const PluginOrder: React.FC = () => {
       {payVisible && (
         <ModalForm
           title="付款处理"
-          visible={payVisible}
-          onVisibleChange={(flag) => {
+          open={payVisible}
+          onOpenChange={(flag) => {
             setPayVisible(flag);
           }}
           width={480}

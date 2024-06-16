@@ -1,12 +1,16 @@
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
-import moment from 'moment';
-import RetailerSetting from './components/setting';
 import { pluginGetRetailers, pluginSaveRetailer } from '@/services/plugin/retailer';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumns,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
+import RetailerSetting from './components/setting';
 
 const PluginRetailer: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -87,7 +91,7 @@ const PluginRetailer: React.FC = () => {
       dataIndex: 'created_time',
       hideInSearch: true,
       render: (_, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
@@ -156,8 +160,8 @@ const PluginRetailer: React.FC = () => {
       {editVisible && (
         <ModalForm
           title="填写用户ID，设置分销员"
-          visible={editVisible}
-          onVisibleChange={(flag) => {
+          open={editVisible}
+          onOpenChange={(flag) => {
             setEditVisible(flag);
           }}
           onFinish={setUserRetailer}
@@ -168,8 +172,8 @@ const PluginRetailer: React.FC = () => {
       {realnameVisible && (
         <ModalForm
           title="修改真实姓名"
-          visible={realnameVisible}
-          onVisibleChange={(flag) => {
+          open={realnameVisible}
+          onOpenChange={(flag) => {
             setRealnameVisible(flag);
           }}
           onFinish={setRealname}

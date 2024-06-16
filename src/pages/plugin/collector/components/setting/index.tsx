@@ -1,20 +1,25 @@
-import React from 'react';
-import ProForm, {
+import AttachmentSelect from '@/components/attachment';
+import { getCategories } from '@/services/category';
+import { getCollectorSetting, saveCollectorSetting } from '@/services/collector';
+import { PlusOutlined } from '@ant-design/icons';
+import {
   ModalForm,
+  ProForm,
   ProFormDigit,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-} from '@ant-design/pro-form';
+} from '@ant-design/pro-components';
+import { FormattedMessage, injectIntl } from '@umijs/max';
+import { Col, Image, Input, Row, Space, Tag, message } from 'antd';
+import React from 'react';
+import { IntlShape } from 'react-intl';
 import './index.less';
-import { Input, message, Space, Tag, Image, Row, Col } from 'antd';
-import { getCollectorSetting, saveCollectorSetting } from '@/services/collector';
-import { getCategories } from '@/services/category';
-import AttachmentSelect from '@/components/attachment';
-import { PlusOutlined } from '@ant-design/icons';
 
 export type CollectorSettingProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
+  intl: IntlShape;
 };
 
 class CollectorSetting extends React.Component<CollectorSettingProps> {
@@ -71,7 +76,10 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     const { setting } = this.state;
     const postData = Object.assign(setting, values);
 
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(
+      this.props.intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveCollectorSetting(postData)
       .then((res) => {
         message.info(res.msg);
@@ -171,11 +179,11 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         {fetched && (
           <ModalForm
             width={800}
-            title={'采集和AI改写设置'}
+            title={this.props.intl.formatMessage({ id: 'plugin.collector.setting' })}
             initialValues={setting}
-            visible={visible}
+            open={visible}
             //layout="horizontal"
-            onVisibleChange={(flag) => {
+            onOpenChange={(flag) => {
               this.handleSetVisible(flag);
               if (!flag) {
                 this.props.onCancel(flag);
@@ -187,54 +195,71 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
           >
             <ProFormRadio.Group
               name="auto_collect"
-              label="是否自动采集"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.auto-collect' })}
               options={[
-                { label: '否', value: false },
-                { label: '自动按计划采集', value: true },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.auto-collect.no' }),
+                  value: false,
+                },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.auto-collect.yes' }),
+                  value: true,
+                },
               ]}
             />
             <ProFormRadio.Group
               name="language"
-              label="采集文章语种"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.language' })}
               options={[
-                { label: '中文', value: 'zh' },
-                { label: '英文', value: 'en' },
+                {
+                  label: this.props.intl.formatMessage({ id: 'content.translate.zh-cn' }),
+                  value: 'zh',
+                },
+                {
+                  label: this.props.intl.formatMessage({ id: 'content.translate.en' }),
+                  value: 'en',
+                },
               ]}
             />
             <ProFormRadio.Group
               name="collect_mode"
-              label="采集模式"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.mode' })}
               options={[
-                { label: '文章采集', value: 0 },
-                { label: '问答组合', value: 1 },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.mode.article' }),
+                  value: 0,
+                },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.mode.ask' }),
+                  value: 1,
+                },
               ]}
               extra={
                 <div>
-                  文章采集模式，会按原文采集整篇文章；问答组合模式，会从搜索问答列表中采集并组合成文章。
+                  <FormattedMessage id="plugin.collector.mode.description" />
                 </div>
               }
             />
             <ProFormText
               name="from_website"
-              label="自定义来源"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.source' })}
               placeholder="如：https://cn.bing.com/search?q=%s"
               extra={
                 <div>
-                  文章采集可用，注意自定义来源格式必须是一个搜索列表，搜索的关键词用<Tag>%s</Tag>
-                  表示，如搜索链接是：<Tag>https://cn.bing.com/search?q=安企CMS</Tag>，则将
-                  <Tag>安企CMS</Tag>替换为<Tag>%s</Tag>后为：
-                  <Tag>https://cn.bing.com/search?q=%s</Tag>
+                  <FormattedMessage id="plugin.collector.source.description" />
                 </div>
               }
             />
             <ProFormSelect
-              label="默认发布文章分类"
+              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.default-category' })}
               name="category_id"
               required
               extra={
                 <div>
-                  如果关键词没设置分类，则采集到的文章默认会被归类到这个分类下,
-                  <span className="text-red">必须设置一个分类否则无法正常采集</span>
+                  <FormattedMessage id="plugin.collector.category.description" />
+                  <span className="text-red">
+                    <FormattedMessage id="plugin.collector.category.notice" />
+                  </span>
                 </div>
               }
               request={async () => {
@@ -246,107 +271,163 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   label: 'title',
                   value: 'id',
                 },
-                optionItemRender(item) {
+                optionItemRender(item: any) {
                   return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
                 },
               }}
             />
             <ProFormRadio.Group
               name="save_type"
-              label="文章处理方式"
+              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.save-type' })}
               options={[
-                { label: '存入草稿箱', value: 0 },
-                { label: '正常发布', value: 1 },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.aigenerate.save-type.draft' }),
+                  value: 0,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.save-type.release',
+                  }),
+                  value: 1,
+                },
               ]}
             />
             <ProFormDigit
               name="title_min_length"
-              label="标题最少字数"
-              placeholder="默认10个字"
-              extra="采集文章的时候，标题字数少于指定的字数，则不会采集"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.min-title' })}
+              placeholder={this.props.intl.formatMessage({
+                id: 'plugin.collector.min-title.placeholder',
+              })}
+              extra={this.props.intl.formatMessage({
+                id: 'plugin.collector.min-title.description',
+              })}
             />
             <ProFormDigit
               name="content_min_length"
-              label="内容最少字数"
-              placeholder="默认400个字"
-              extra="采集文章的时候，文章内容字数少于指定的字数，则不会采集"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.min-content' })}
+              placeholder={this.props.intl.formatMessage({
+                id: 'plugin.collector.min-content.placeholder',
+              })}
+              extra={this.props.intl.formatMessage({
+                id: 'plugin.collector.min-content.description',
+              })}
             />
             <ProFormRadio.Group
               name="auto_pseudo"
-              label="是否AI改写"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.pseudo' })}
               options={[
-                { label: '否', value: false },
-                { label: '进行AI改写', value: true },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.pseudo.no' }),
+                  value: false,
+                },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.pseudo.yes' }),
+                  value: true,
+                },
               ]}
-              extra="AI改写只支持文章采集和问答组合。需要付费。"
+              extra={this.props.intl.formatMessage({ id: 'plugin.collector.pseudo.description' })}
             />
             <ProFormRadio.Group
               name="auto_translate"
-              label="是否翻译"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.translate' })}
               options={[
-                { label: '否', value: false },
-                { label: '进行翻译', value: true },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.translate.no' }),
+                  value: false,
+                },
+                {
+                  label: this.props.intl.formatMessage({ id: 'plugin.collector.translate.yes' }),
+                  value: true,
+                },
               ]}
-              extra="翻译需要付费。注意：AI改写和翻译不能同时启用，否则结果会出错"
+              extra={this.props.intl.formatMessage({
+                id: 'plugin.collector.translate.description',
+              })}
             />
             <ProFormSelect
-              label="翻译目标语言"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.to-language' })}
               name="to_language"
-              extra="选择自动翻译后有效"
+              extra={this.props.intl.formatMessage({
+                id: 'plugin.collector.to-language.description',
+              })}
               valueEnum={{
-                en: '英语',
-                'zh-CN': '简体中文',
-                'zh-TW': '繁体中文',
-                vi: '越南语',
-                id: '印尼语',
-                hi: '印地语',
-                it: '意大利语',
-                el: '希腊语',
-                es: '西班牙语',
-                pt: '葡萄牙语',
-                sr: '塞尔维亚语',
-                my: '缅甸语',
-                bn: '孟加拉语',
-                th: '泰语',
-                tr: '土耳其语',
-                ja: '日语',
-                lo: '老挝语',
-                ko: '韩语',
-                ru: '俄语',
-                fr: '法语',
-                de: '德语',
-                fa: '波斯语',
-                ar: '阿拉伯语',
-                ms: '马来语',
+                en: this.props.intl.formatMessage({ id: 'content.translate.en' }),
+                'zh-CN': this.props.intl.formatMessage({ id: 'content.translate.zh-cn' }),
+                'zh-TW': this.props.intl.formatMessage({ id: 'content.translate.zh-tw' }),
+                vi: this.props.intl.formatMessage({ id: 'content.translate.vi' }),
+                id: this.props.intl.formatMessage({ id: 'content.translate.id' }),
+                hi: this.props.intl.formatMessage({ id: 'content.translate.hi' }),
+                it: this.props.intl.formatMessage({ id: 'content.translate.it' }),
+                el: this.props.intl.formatMessage({ id: 'content.translate.el' }),
+                es: this.props.intl.formatMessage({ id: 'content.translate.es' }),
+                pt: this.props.intl.formatMessage({ id: 'content.translate.pt' }),
+                sr: this.props.intl.formatMessage({ id: 'content.translate.sr' }),
+                my: this.props.intl.formatMessage({ id: 'content.translate.my' }),
+                bn: this.props.intl.formatMessage({ id: 'content.translate.bn' }),
+                th: this.props.intl.formatMessage({ id: 'content.translate.th' }),
+                tr: this.props.intl.formatMessage({ id: 'content.translate.tr' }),
+                ja: this.props.intl.formatMessage({ id: 'content.translate.ja' }),
+                lo: this.props.intl.formatMessage({ id: 'content.translate.lo' }),
+                ko: this.props.intl.formatMessage({ id: 'content.translate.ko' }),
+                ru: this.props.intl.formatMessage({ id: 'content.translate.ru' }),
+                fr: this.props.intl.formatMessage({ id: 'content.translate.fr' }),
+                de: this.props.intl.formatMessage({ id: 'content.translate.de' }),
+                fa: this.props.intl.formatMessage({ id: 'content.translate.fa' }),
+                ar: this.props.intl.formatMessage({ id: 'content.translate.ar' }),
+                ms: this.props.intl.formatMessage({ id: 'content.translate.ms' }),
               }}
             />
             <ProForm.Group>
               <ProFormDigit
                 name="start_hour"
-                label="每天开始时间"
-                placeholder="默认8点开始"
-                extra="请填写0-23的数字，0表示不限"
+                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.start-time' })}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.start-time.placeholder',
+                })}
+                extra={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.start-time.description',
+                })}
               />
               <ProFormDigit
                 name="end_hour"
-                label="每天结束时间"
-                placeholder="默认22点结束"
-                extra="请填写0-23的数字，0表示不限"
+                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.end-time' })}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.end-time.placeholder',
+                })}
+                extra={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.end-time.description',
+                })}
               />
               <ProFormDigit
                 name="daily_limit"
-                label="每日采集限额"
-                placeholder="默认1000"
-                extra="每日最大发布文章量，0表示不限"
+                label={this.props.intl.formatMessage({ id: 'plugin.collector.daily-limit' })}
+                extra={this.props.intl.formatMessage({
+                  id: 'plugin.collector.daily-limit.description',
+                })}
               />
             </ProForm.Group>
             <ProFormRadio.Group
               name="insert_image"
-              label="采集图片处理"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.insert-image' })}
               options={[
-                { label: '移除图片', value: 0 },
-                { label: '保留原图片', value: 1 },
-                { label: '自定义插入图片', value: 2 },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.collector.insert-image.remove',
+                  }),
+                  value: 0,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.collector.insert-image.contain',
+                  }),
+                  value: 1,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.insert-image.diy',
+                  }),
+                  value: 2,
+                },
               ]}
               fieldProps={{
                 onChange: (e) => {
@@ -355,7 +436,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }}
             />
             {insertImage == 2 && (
-              <ProFormText label="供插入的图片列表">
+              <ProFormText
+                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.insert-image.list' })}
+              >
                 <div className="insert-image">
                   <Row gutter={[16, 16]} className="image-list">
                     {setting.images?.map((item: any, index: number) => (
@@ -368,7 +451,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                                 className="close"
                                 onClick={this.handleRemove.bind(this, 'images', index)}
                               >
-                                移除
+                                <FormattedMessage id="setting.system.delete" />
                               </span>
                             </div>
                           </div>
@@ -381,13 +464,15 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                           <div className="link">
                             <AttachmentSelect
                               onSelect={this.handleSelectLogo}
-                              visible={false}
+                              open={false}
                               multiple={true}
                             >
                               <div className="ant-upload-item">
                                 <div className="add">
                                   <PlusOutlined />
-                                  <div style={{ marginTop: 8 }}>上传</div>
+                                  <div style={{ marginTop: 8 }}>
+                                    <FormattedMessage id="setting.system.upload" />
+                                  </div>
                                 </div>
                               </div>
                             </AttachmentSelect>
@@ -400,16 +485,22 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               </ProFormText>
             )}
             <ProFormText
-              label="标题排除词"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.title-exclude' })}
               fieldProps={{
                 value: tmpInput.title_exclude || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'title_exclude'),
                 onPressEnter: this.handleAddField.bind(this, 'title_exclude'),
-                suffix: <a onClick={this.handleAddField.bind(this, 'title_exclude')}>按回车添加</a>,
+                suffix: (
+                  <a onClick={this.handleAddField.bind(this, 'title_exclude')}>
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                  </a>
+                ),
               }}
               extra={
                 <div>
-                  <div className="text-muted">采集文章的时候，标题出现这些关键词，则不会采集</div>
+                  <div className="text-muted">
+                    <FormattedMessage id="plugin.collector.title-exclude.tips" />
+                  </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
                       {setting.title_exclude?.map((tag: any, index: number) => (
@@ -429,19 +520,21 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }
             />
             <ProFormText
-              label="标题开头排除词"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.title-prefix' })}
               fieldProps={{
                 value: tmpInput.title_exclude_prefix || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'title_exclude_prefix'),
                 onPressEnter: this.handleAddField.bind(this, 'title_exclude_prefix'),
                 suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'title_exclude_prefix')}>按回车添加</a>
+                  <a onClick={this.handleAddField.bind(this, 'title_exclude_prefix')}>
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                  </a>
                 ),
               }}
               extra={
                 <div>
                   <div className="text-muted">
-                    采集文章的时候，标题开头出现这些关键词，则不会采集
+                    <FormattedMessage id="plugin.collector.title-prefix.tips" />
                   </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
@@ -462,19 +555,21 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }
             />
             <ProFormText
-              label="标题结尾排除词"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.title-suffix' })}
               fieldProps={{
                 value: tmpInput.title_exclude_suffix || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'title_exclude_suffix'),
                 onPressEnter: this.handleAddField.bind(this, 'title_exclude_suffix'),
                 suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'title_exclude_suffix')}>按回车添加</a>
+                  <a onClick={this.handleAddField.bind(this, 'title_exclude_suffix')}>
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                  </a>
                 ),
               }}
               extra={
                 <div>
                   <div className="text-muted">
-                    采集文章的时候，标题结尾出现这些关键词，则不会采集
+                    <FormattedMessage id="plugin.collector.title-suffix.tips" />
                   </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
@@ -495,19 +590,21 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }
             />
             <ProFormText
-              label="内容忽略行"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.content-exclude-line' })}
               fieldProps={{
                 value: tmpInput.content_exclude_line || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'content_exclude_line'),
                 onPressEnter: this.handleAddField.bind(this, 'content_exclude_line'),
                 suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'content_exclude_line')}>按回车添加</a>
+                  <a onClick={this.handleAddField.bind(this, 'content_exclude_line')}>
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                  </a>
                 ),
               }}
               extra={
                 <div>
                   <div className="text-muted">
-                    采集文章的时候，内容出现这些词的那一行，将会被移除
+                    <FormattedMessage id="plugin.collector.content-exclude-line.tips" />
                   </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
@@ -528,16 +625,22 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }
             />
             <ProFormText
-              label="链接忽略"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.link-exclude' })}
               fieldProps={{
                 value: tmpInput.link_exclude || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'link_exclude'),
                 onPressEnter: this.handleAddField.bind(this, 'link_exclude'),
-                suffix: <a onClick={this.handleAddField.bind(this, 'link_exclude')}>按回车添加</a>,
+                suffix: (
+                  <a onClick={this.handleAddField.bind(this, 'link_exclude')}>
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                  </a>
+                ),
               }}
               extra={
                 <div>
-                  <div className="text-muted">采集文章的时候，链接出现这些关键词的，则不会采集</div>
+                  <div className="text-muted">
+                    <FormattedMessage id="plugin.collector.link-exclude.tips" />
+                  </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
                       {setting.link_exclude?.map((tag: any, index: number) => (
@@ -557,18 +660,22 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }
             />
             <ProFormText
-              label="内容排除"
+              label={this.props.intl.formatMessage({ id: 'plugin.collector.content-exclude' })}
               fieldProps={{
                 value: tmpInput.content_exclude || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'content_exclude'),
                 onPressEnter: this.handleAddField.bind(this, 'content_exclude'),
                 suffix: (
-                  <a onClick={this.handleAddField.bind(this, 'content_exclude')}>按回车添加</a>
+                  <a onClick={this.handleAddField.bind(this, 'content_exclude')}>
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                  </a>
                 ),
               }}
               extra={
                 <div>
-                  <div className="text-muted">采集文章的时候，内容出现这些词，则整篇文章都丢弃</div>
+                  <div className="text-muted">
+                    <FormattedMessage id="plugin.collector.content-exclude.tips" />
+                  </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
                       {setting.content_exclude?.map((tag: any, index: number) => (
@@ -588,55 +695,52 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }
             />
             <ProFormText
-              label="内容替换"
+              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.replace' })}
               extra={
                 <div>
                   <div className="text-muted">
-                    <p>编辑需要替换的关键词对，会在发布文章的时候自动执行替换。</p>
                     <p>
-                      替换规则支持正则表达式，如果你对正则表达式熟悉，并且通过普通文本无法达成替换需求的，可以尝试使用正则表达式规则来完成替换。
+                      <FormattedMessage id="plugin.aigenerate.replace.tips1" />
                     </p>
                     <p>
-                      正则表达式规则为：由 <Tag>{'{'}</Tag>开始，并以 <Tag>{'}'}</Tag>
-                      结束，中间书写规则代码，如{' '}
-                      <Tag>
-                        {'{'}[0-9]+{'}'}
-                      </Tag>{' '}
-                      代表匹配连续的数字。
+                      <FormattedMessage id="plugin.aigenerate.replace.tips2" />
                     </p>
                     <p>
-                      内置部分规则，可以快速使用，已内置的有：
+                      <FormattedMessage id="plugin.aigenerate.replace.tips3" />
+                    </p>
+                    <p>
+                      <FormattedMessage id="plugin.aigenerate.replace.rules" />
                       <Tag>
-                        {'{'}邮箱地址{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.email" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}日期{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.date" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}时间{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.time" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}电话号码{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.cellphone" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}QQ号{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.qq" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}微信号{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.wechat" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}网址{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.website" />
                       </Tag>
                     </p>
                     <div>
                       <span className="text-red">*</span>{' '}
-                      注意：正则表达式规则书写不当很容易造成错误的替换效果，如微信号规则，会同时影响到邮箱地址、网址的完整性。请谨慎使用。
+                      <FormattedMessage id="plugin.aigenerate.replace.notice" />
                     </div>
                   </div>
                   <div className="tag-lists">
@@ -644,8 +748,13 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                       {setting.content_replace?.map((tag: any, index: number) => (
                         <span className="edit-tag" key={index}>
                           <span className="key">{tag.from}</span>
-                          <span className="divide">替换为</span>
-                          <span className="value">{tag.to || '空'}</span>
+                          <span className="divide">
+                            <FormattedMessage id="plugin.aigenerate.replace.to" />
+                          </span>
+                          <span className="value">
+                            {tag.to ||
+                              this.props.intl.formatMessage({ id: 'plugin.aigenerate.empty' })}
+                          </span>
                           <span
                             className="close"
                             onClick={this.handleRemove.bind(this, 'content_replace', index)}
@@ -666,14 +775,18 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   onChange={this.handleChangeTmpInput.bind(this, 'from')}
                   onPressEnter={this.handleAddField.bind(this, 'content_replace')}
                 />
-                <span className="input-divide">替换为</span>
+                <span className="input-divide">
+                  <FormattedMessage id="plugin.aigenerate.replace.to" />
+                </span>
                 <Input
                   style={{ width: '50%' }}
                   value={tmpInput.to || ''}
                   onChange={this.handleChangeTmpInput.bind(this, 'to')}
                   onPressEnter={this.handleAddField.bind(this, 'content_replace')}
                   suffix={
-                    <a onClick={this.handleAddField.bind(this, 'content_replace')}>按回车添加</a>
+                    <a onClick={this.handleAddField.bind(this, 'content_replace')}>
+                      <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                    </a>
                   }
                 />
               </Input.Group>
@@ -685,4 +798,4 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
   }
 }
 
-export default CollectorSetting;
+export default injectIntl(CollectorSetting);

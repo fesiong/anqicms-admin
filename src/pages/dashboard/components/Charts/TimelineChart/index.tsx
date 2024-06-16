@@ -1,8 +1,8 @@
 import { Axis, Chart, Geom, Legend, Tooltip } from 'bizcharts';
 
 import DataSet from '@antv/data-set';
-import React from 'react';
 import Slider from 'bizcharts-plugin-slider';
+import React from 'react';
 import autoHeight from '../autoHeight';
 import styles from './index.less';
 
@@ -64,7 +64,7 @@ const TimelineChart: React.FC<TimelineChartProps> = (props) => {
     .transform({
       type: 'map',
       callback(row: { y1: string; y2: string }) {
-        const newRow = { ...row };
+        const newRow: any = { ...row };
         newRow[titleMap.y1] = row.y1;
         newRow[titleMap.y2] = row.y2;
         return newRow;

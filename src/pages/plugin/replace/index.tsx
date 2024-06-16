@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import ProForm, { ProFormInstance, ProFormCheckbox } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, Divider, Input, message, Modal, Space, Tag } from 'antd';
-import './index.less';
-import { PlusOutlined } from '@ant-design/icons';
 import { pluginReplaceValues } from '@/services';
+import { PlusOutlined } from '@ant-design/icons';
+import {
+  PageContainer,
+  ProForm,
+  ProFormCheckbox,
+  ProFormInstance,
+} from '@ant-design/pro-components';
+import { Alert, Button, Card, Divider, Input, Modal, Space, Tag, message } from 'antd';
+import React, { useState } from 'react';
+import './index.less';
 
 const PluginReplace: React.FC<any> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
@@ -79,7 +83,7 @@ const PluginReplace: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           message={
@@ -218,7 +222,7 @@ const PluginReplace: React.FC<any> = (props) => {
           </ProForm>
         </div>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

@@ -1,13 +1,12 @@
-import React from 'react';
-import { ModalForm, ProFormDigit, ProFormText } from '@ant-design/pro-form';
-
-import { Divider, message } from 'antd';
 import { pluginSaveUserGroupInfo } from '@/services';
+import { ModalForm, ProFormDigit, ProFormText } from '@ant-design/pro-components';
+import { Divider, message } from 'antd';
+import React from 'react';
 
 export type UserGroupFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   group: any;
 };
 
@@ -25,9 +24,9 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
       width={600}
       title={props.group?.id ? '修改用户组' : '添加用户组'}
       initialValues={props.group}
-      visible={props.visible}
+      open={props.open}
       layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }

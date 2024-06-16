@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, {
+import {
+  getCategories,
+  getModules,
+  pluginGetTimefactorSetting,
+  pluginSaveTimefactorSetting,
+} from '@/services';
+import {
+  PageContainer,
+  ProForm,
   ProFormCheckbox,
   ProFormDigit,
-  ProFormSelect,
   ProFormRadio,
-} from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+  ProFormSelect,
+} from '@ant-design/pro-components';
 import { Alert, Card, message } from 'antd';
-import { pluginGetTimefactorSetting, pluginSaveTimefactorSetting } from '@/services';
-import { getCategories, getModules } from '@/services';
+import React, { useEffect, useState } from 'react';
 
 const PluginTimeFactor: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>({});
@@ -85,7 +90,7 @@ const PluginTimeFactor: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           message={
@@ -208,7 +213,7 @@ const PluginTimeFactor: React.FC<any> = () => {
           </div>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormCheckbox, ProFormRadio } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Card, message } from 'antd';
 import { getModules, pluginGetFulltextConfig, pluginSaveFulltextConfig } from '@/services';
+import { PageContainer, ProForm, ProFormCheckbox, ProFormRadio } from '@ant-design/pro-components';
+import { Alert, Card, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const PluginFulltext: React.FC<any> = () => {
   const [modules, setModules] = useState<any[]>([]);
@@ -33,7 +32,7 @@ const PluginFulltext: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           style={{ marginBottom: 20 }}
@@ -66,7 +65,7 @@ const PluginFulltext: React.FC<any> = () => {
           <ProFormCheckbox.Group name={'modules'} label="开启的模型" options={modules} />
         </ProForm>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

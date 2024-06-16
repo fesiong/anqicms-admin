@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, {
-  ProFormRadio,
-  ProFormText,
-  ProFormInstance,
-  ProFormCheckbox,
-  ProFormSelect,
-} from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, message, Space } from 'antd';
-import { pluginBuildSitemap, pluginGetSitemap, pluginSaveSitemap } from '@/services/plugin/sitemap';
-import moment from 'moment';
 import { getCategories, getModules } from '@/services';
+import { pluginBuildSitemap, pluginGetSitemap, pluginSaveSitemap } from '@/services/plugin/sitemap';
+import {
+  PageContainer,
+  ProForm,
+  ProFormInstance,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { Alert, Button, Card, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
 
 const PluginSitemap: React.FC<any> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
@@ -58,7 +58,7 @@ const PluginSitemap: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           message={
@@ -152,7 +152,7 @@ const PluginSitemap: React.FC<any> = (props) => {
                   readonly
                   label="上次生成时间"
                   fieldProps={{
-                    value: moment(sitemapSetting.updated_time * 1000).format('YYYY-MM-DD HH:mm'),
+                    value: dayjs(sitemapSetting.updated_time * 1000).format('YYYY-MM-DD HH:mm'),
                   }}
                 />
                 <Space size={20}>
@@ -177,7 +177,7 @@ const PluginSitemap: React.FC<any> = (props) => {
           </div>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

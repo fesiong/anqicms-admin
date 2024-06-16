@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, message, Space, Upload } from 'antd';
 import { pluginGetPayConfig, pluginPayUploadFile, pluginSavePayConfig } from '@/services';
+import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
+import { Button, Card, Space, Upload, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 
 const PluginPay: React.FC<any> = () => {
@@ -51,7 +50,7 @@ const PluginPay: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         {fetched && (
           <ProForm title="支付配置" layout="vertical" initialValues={setting} onFinish={onSubmit}>
@@ -148,7 +147,7 @@ const PluginPay: React.FC<any> = () => {
           </ProForm>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

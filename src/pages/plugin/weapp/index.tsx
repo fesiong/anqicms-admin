@@ -1,8 +1,7 @@
-import React from 'react';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, Divider, message } from 'antd';
 import { pluginGetWeappConfig, pluginSaveWeappConfig } from '@/services';
+import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
+import { Button, Card, Divider, message } from 'antd';
+import React from 'react';
 
 const PluginWeapp: React.FC<any> = () => {
   const onSubmit = async (values: any) => {
@@ -20,7 +19,7 @@ const PluginWeapp: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <ProForm
           request={async () => {
@@ -59,7 +58,7 @@ const PluginWeapp: React.FC<any> = () => {
           下载默认小程序
         </Button>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

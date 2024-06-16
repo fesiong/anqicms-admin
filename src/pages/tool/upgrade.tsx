@@ -1,14 +1,15 @@
+import { anqiRestart, checkVersion, getVersion, upgradeVersion } from '@/services';
+import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, message, Modal } from 'antd';
-import { checkVersion, getVersion, upgradeVersion, anqiRestart } from '@/services';
 
 var loading = false;
 
 const ToolUpgradeForm: React.FC<any> = (props) => {
   const [setting, setSetting] = useState<any>(null);
   const [newVersion, setNewVersion] = useState<any>(null);
+  const intl = useIntl();
   useEffect(() => {
     getSetting();
   }, []);
@@ -29,17 +30,17 @@ const ToolUpgradeForm: React.FC<any> = (props) => {
       return;
     }
     Modal.confirm({
-      title: '确定要升级到最新版吗？',
+      title: intl.formatMessage({ id: 'tool.confirm-upgrade' }),
       onOk: () => {
         loading = true;
-        const hide = message.loading('正在升级中,请勿刷新页面', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'tool.upgrading' }), 0);
         upgradeVersion({ version: newVersion.version })
           .then((res) => {
             Modal.info({
               content: res.msg,
-              okText: '重启运行新版',
+              okText: intl.formatMessage({ id: 'tool.confirm-restart' }),
               onOk() {
-                const hide2 = message.loading('正在重新启动中', 0);
+                const hide2 = message.loading(intl.formatMessage({ id: 'tool.restarting' }), 0);
                 anqiRestart({})
                   .then(() => {})
                   .catch(() => {})
@@ -65,25 +66,33 @@ const ToolUpgradeForm: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         {setting && (
-          <ProForm submitter={false} title="系统升级">
+          <ProForm submitter={false} title={intl.formatMessage({ id: 'menu.upgrade' })}>
             <ProFormText
               name="old_version"
               fieldProps={{
                 value: setting.version,
               }}
-              label="当前版本"
+              label={intl.formatMessage({ id: 'tool.version' })}
               width="lg"
               readonly
             />
             {newVersion ? (
               <div>
-                <ProFormText label="最新版本" width="lg" readonly>
+                <ProFormText
+                  label={intl.formatMessage({ id: 'tool.new-version' })}
+                  width="lg"
+                  readonly
+                >
                   <div className="text-primary">{newVersion.version}</div>
                 </ProFormText>
-                <ProFormText label="版本说明" width="lg" readonly>
+                <ProFormText
+                  label={intl.formatMessage({ id: 'tool.version.description' })}
+                  width="lg"
+                  readonly
+                >
                   <div
                     className="elem-quote"
                     dangerouslySetInnerHTML={{ __html: newVersion.description }}
@@ -91,23 +100,23 @@ const ToolUpgradeForm: React.FC<any> = (props) => {
                 </ProFormText>
                 <div className="mt-normal">
                   <Button type="primary" onClick={upgradeSubmit}>
-                    升级到最新版
+                    <FormattedMessage id="tool.upgrade-to-new" />
                   </Button>
                 </div>
               </div>
             ) : (
               <div>
-                你的系统已经是最新版。如果不确定，你可以访问{' '}
+                <FormattedMessage id="tool.version.tips.before" />{' '}
                 <a href="https://www.anqicms.com/download" target={'_blank'}>
                   https://www.anqicms.com/download
                 </a>{' '}
-                获取最新版
+                <FormattedMessage id="tool.version.tips.after" />
               </div>
             )}
           </ProForm>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

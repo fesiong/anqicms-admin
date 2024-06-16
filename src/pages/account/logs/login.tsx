@@ -1,39 +1,39 @@
-import React, { useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import { getAdminLoginLogs } from '@/services';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import dayjs from 'dayjs';
+import React, { useRef } from 'react';
 
 const AdminLoginLog: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const intl = useIntl();
 
   const columns: ProColumns<any>[] = [
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'account.time' }),
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: 'IP',
       dataIndex: 'ip',
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '失败',
+          text: intl.formatMessage({ id: 'website.logs.failure' }),
           status: 'Default',
         },
         1: {
-          text: '正常',
+          text: intl.formatMessage({ id: 'website.logs.success' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '用户名',
+      title: intl.formatMessage({ id: 'account.base.username' }),
       dataIndex: 'user_name',
     },
   ];
@@ -41,7 +41,7 @@ const AdminLoginLog: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="后台登录记录"
+        headerTitle={intl.formatMessage({ id: 'account.logs.login-record' })}
         rowKey="id"
         actionRef={actionRef}
         search={false}

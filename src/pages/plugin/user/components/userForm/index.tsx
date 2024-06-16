@@ -1,4 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import AttachmentSelect from '@/components/attachment';
+import {
+  pluginGetUserFieldsSetting,
+  pluginGetUserGroups,
+  pluginGetUserInfo,
+  pluginSaveUserInfo,
+} from '@/services';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
   ProFormCheckbox,
@@ -9,23 +16,15 @@ import {
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-form';
-
-import { Button, Divider, message, Image } from 'antd';
-import {
-  pluginGetUserFieldsSetting,
-  pluginGetUserGroups,
-  pluginGetUserInfo,
-  pluginSaveUserInfo,
-} from '@/services';
-import moment from 'moment';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import AttachmentSelect from '@/components/attachment';
+} from '@ant-design/pro-components';
+import { Button, Divider, Image, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type UserFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   user: any;
 };
 
@@ -42,7 +41,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     pluginGetUserInfo({ id: props.user.id }).then((res) => {
       let data = res.data || {};
       if (data.expire_time) {
-        data.expire_time = moment(data.expire_time * 1000);
+        data.expire_time = dayjs(data.expire_time * 1000);
       }
       setUser(data);
       setFetched(true);
@@ -83,9 +82,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     <ModalForm
       width={600}
       title={props.user?.id ? '修改用户' : '添加用户'}
-      visible={props.visible}
+      open={props.open}
       layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -135,7 +134,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         extra="到期后，用户组会回滚到第一个分组"
         width="lg"
         transform={(value, namePath) => {
-          return { [namePath]: moment(value).unix() };
+          return { [namePath]: dayjs(value).unix() };
         }}
       />
       <Divider>额外字段</Divider>
@@ -217,7 +216,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             ) : (
               <AttachmentSelect
                 onSelect={(row) => handleUploadExtraField(item.field_name, row)}
-                visible={false}
+                open={false}
               >
                 <div className="ant-upload-item">
                   <div className="add">
@@ -240,7 +239,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             ) : (
               <AttachmentSelect
                 onSelect={(row) => handleUploadExtraField(item.field_name, row)}
-                visible={false}
+                open={false}
               >
                 <Button>上传</Button>
               </AttachmentSelect>

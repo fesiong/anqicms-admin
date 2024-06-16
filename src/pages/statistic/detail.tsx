@@ -1,14 +1,13 @@
-import React, { useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import { getStatisticInfo } from '@/services/statistic';
-import { useModel } from 'umi';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { useIntl, useModel } from '@umijs/max';
+import dayjs from 'dayjs';
+import React, { useRef } from 'react';
 
 const StatisticDetail: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const { initialState } = useModel('@@initialState');
+  const intl = useIntl();
 
   const openLink = (text: string) => {
     window.open((initialState?.system?.base_url || '') + text);
@@ -16,16 +15,16 @@ const StatisticDetail: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'account.time' }),
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '域名',
+      title: intl.formatMessage({ id: 'statistic.host' }),
       dataIndex: 'host',
     },
     {
-      title: '访问地址',
+      title: intl.formatMessage({ id: 'statistic.url' }),
       dataIndex: 'url',
       width: 200,
       ellipsis: true,
@@ -40,22 +39,22 @@ const StatisticDetail: React.FC = () => {
       dataIndex: 'ip',
     },
     {
-      title: '设备',
+      title: intl.formatMessage({ id: 'statistic.device' }),
       dataIndex: 'device',
       width: 100,
     },
     {
-      title: '蜘蛛',
+      title: intl.formatMessage({ id: 'statistic.spider-name' }),
       dataIndex: 'spider',
       width: 80,
     },
     {
-      title: '状态码',
+      title: intl.formatMessage({ id: 'statistic.http-code' }),
       dataIndex: 'http_code',
       width: 80,
     },
     {
-      title: '请求UA',
+      title: intl.formatMessage({ id: 'statistic.user-agent' }),
       dataIndex: 'user_agent',
       width: 300,
       ellipsis: true,
@@ -65,7 +64,7 @@ const StatisticDetail: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="浏览详细记录"
+        headerTitle={intl.formatMessage({ id: 'statistic.traffic.detail' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}

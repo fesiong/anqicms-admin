@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, message, Modal, Space, Table, Tag, Tooltip } from 'antd';
-import { pluginGetImportApiSetting, pluginUpdateApiToken } from '@/services';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import ProCard from '@ant-design/pro-card';
-import { history } from 'umi';
-import { downloadFile } from '@/utils';
-import './index.less';
 import trainImg from '@/images/train.png';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
+import { pluginGetImportApiSetting, pluginUpdateApiToken } from '@/services';
+import { downloadFile } from '@/utils';
+import { ModalForm, PageContainer, ProCard, ProFormText } from '@ant-design/pro-components';
+import { history } from '@umijs/max';
+import { Alert, Button, Card, Modal, Space, Table, Tag, Tooltip, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import './index.less';
 
 const PluginImportApi: React.FC<any> = () => {
   const [tokenVidible, setTokenVisible] = useState<boolean>(false);
@@ -61,7 +59,7 @@ const PluginImportApi: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           message={
@@ -417,9 +415,9 @@ const PluginImportApi: React.FC<any> = () => {
           zIndex: 100,
         }}
         title={'重置导入Token'}
-        visible={tokenVidible}
+        open={tokenVidible}
         layout="horizontal"
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           setTokenVisible(flag);
         }}
         onFinish={handleUpdateToken}
@@ -431,7 +429,7 @@ const PluginImportApi: React.FC<any> = () => {
           extra="Token一般由数字、字母组合构成，长于10位，小于128位"
         />
       </ModalForm>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 export default PluginImportApi;

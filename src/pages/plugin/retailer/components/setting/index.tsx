@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { ModalForm, ProFormRadio } from '@ant-design/pro-form';
-import { message } from 'antd';
 import { pluginGetRetailerConfig, pluginSaveRetailerConfig } from '@/services/plugin/retailer';
+import { ModalForm, ProFormRadio } from '@ant-design/pro-components';
+import { message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const RetailerSetting: React.FC<any> = (props) => {
   const [setting, setSetting] = useState<any>(null);
@@ -48,9 +48,9 @@ const RetailerSetting: React.FC<any> = (props) => {
       {fetched && (
         <ModalForm
           title="分销配置"
-          visible={visible}
+          open={visible}
           initialValues={setting}
-          onVisibleChange={(flag) => {
+          onOpenChange={(flag) => {
             setVisible(flag);
           }}
           onFinish={onSubmit}

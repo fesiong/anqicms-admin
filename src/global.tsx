@@ -1,6 +1,6 @@
+import { useIntl } from '@umijs/max';
 import { Button, message, notification } from 'antd';
 import defaultSettings from '../config/defaultSettings';
-
 const { pwa } = defaultSettings;
 const isHttps = document.location.protocol === 'https:';
 
@@ -22,7 +22,7 @@ const clearCache = () => {
 if (pwa) {
   // Notify user if offline now
   window.addEventListener('sw.offline', () => {
-    message.warning('当前处于离线状态');
+    message.warning(useIntl().formatMessage({ id: 'app.pwa.offline' }));
   });
 
   // Pop up a prompt on the page asking the user if they want to use the latest version
@@ -57,16 +57,16 @@ if (pwa) {
       <Button
         type="primary"
         onClick={() => {
-          notification.close(key);
+          notification.destroy(key);
           reloadSW();
         }}
       >
-        刷新
+        {useIntl().formatMessage({ id: 'app.pwa.serviceworker.updated.ok' })}
       </Button>
     );
     notification.open({
-      message: '有新内容',
-      description: '请点击“刷新”按钮或者手动刷新页面',
+      message: useIntl().formatMessage({ id: 'app.pwa.serviceworker.updated' }),
+      description: useIntl().formatMessage({ id: 'app.pwa.serviceworker.updated.hint' }),
       btn,
       key,
       onClose: async () => null,

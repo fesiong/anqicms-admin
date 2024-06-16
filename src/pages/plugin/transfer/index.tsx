@@ -1,15 +1,14 @@
-import { Steps, Card, message, Modal, Space, Alert, Divider, Button, Radio, Checkbox } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import './index.less';
-import { downloadFile } from '@/utils';
-import ProForm, { ProFormInstance, ProFormText } from '@ant-design/pro-form';
 import {
   pluginCreateTransferTask,
+  pluginGetTransferModules,
   pluginGetTransferTask,
   pluginStartTransferTask,
-  pluginGetTransferModules,
 } from '@/services/plugin/transfer';
+import { downloadFile } from '@/utils';
+import { PageContainer, ProForm, ProFormInstance, ProFormText } from '@ant-design/pro-components';
+import { Alert, Button, Card, Checkbox, Divider, Modal, Radio, Space, Steps, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import './index.less';
 const { Step } = Steps;
 
 var submitting = false;

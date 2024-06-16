@@ -1,8 +1,3 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import {
   deleteWebsiteInfo,
   getDesignList,
@@ -11,17 +6,23 @@ import {
   getWebsiteList,
   saveWebsiteInfo,
 } from '@/services';
-import { Button, message, Modal, RadioChangeEvent, Space, Tag, Collapse, Checkbox } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import {
+  ActionType,
   ModalForm,
+  PageContainer,
+  ProColumns,
   ProFormCheckbox,
   ProFormDigit,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-} from '@ant-design/pro-form';
-import { PlusOutlined } from '@ant-design/icons';
-import { useModel } from 'umi';
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl, useModel } from '@umijs/max';
+import { Button, Checkbox, Collapse, Modal, RadioChangeEvent, Space, Tag, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
 const { Panel } = Collapse;
 
 let submiting = false;
@@ -33,6 +34,7 @@ const WebsiteList: React.FC = () => {
   const [editInfo, setEditInfo] = useState<any>({});
   const [siteInfo, setSiteInfo] = useState<any>({});
   const inputRef = useRef<any>();
+  const intl = useIntl();
 
   useEffect(() => {
     initSiteInfo();
@@ -79,7 +81,7 @@ const WebsiteList: React.FC = () => {
       return;
     }
     submiting = true;
-    const hide = message.loading('提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     values.status = Number(values.status);
     const postData = Object.assign(editInfo, values);
     saveWebsiteInfo(postData)
@@ -100,21 +102,23 @@ const WebsiteList: React.FC = () => {
 
   const handleRemove = (record: any) => {
     if (record.id == 1) {
-      message.error('该站点不能删除');
+      message.error(intl.formatMessage({ id: 'website.cannot-delete' }));
       return;
     }
     if (submiting) {
       return;
     }
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
       content: (
         <div>
-          <div className="mb-normal">请谨慎操作！是否同时删除数据库和站点文件？</div>
+          <div className="mb-normal">
+            <FormattedMessage id="website.delete.tips" />
+          </div>
           <div style={{ padding: '10px 0' }}>
             <div>
               <Checkbox ref={inputRef} value={true}>
-                同时删除数据库和文件
+                <FormattedMessage id="website.delete.all" />
               </Checkbox>
             </div>
           </div>
@@ -122,7 +126,7 @@ const WebsiteList: React.FC = () => {
       ),
       onOk: async () => {
         submiting = true;
-        const hide = message.loading('正在删除中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'website.delete.deleting' }), 0);
         const removeFile = inputRef.current?.input?.checked || false;
         deleteWebsiteInfo({
           id: record.id,
@@ -150,11 +154,11 @@ const WebsiteList: React.FC = () => {
       dataIndex: 'id',
     },
     {
-      title: '站点名称',
+      title: intl.formatMessage({ id: 'setting.system.site-name' }),
       dataIndex: 'name',
     },
     {
-      title: '主域名',
+      title: intl.formatMessage({ id: 'setting.system.base-url' }),
       dataIndex: 'base_url',
       render: (text) => (
         <a href={text as string} target="_blank">
@@ -163,36 +167,38 @@ const WebsiteList: React.FC = () => {
       ),
     },
     {
-      title: '站点路径',
+      title: intl.formatMessage({ id: 'website.root-path' }),
       dataIndex: 'root_path',
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({ id: 'website.create-time' }),
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '关闭',
+          text: intl.formatMessage({ id: 'setting.content.notenable' }),
           status: 'Default',
         },
         1: {
-          text: '正常',
+          text: intl.formatMessage({ id: 'setting.content.enable' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
           {record.id === siteInfo.id ? (
-            <Tag>当前站点</Tag>
+            <Tag>
+              <FormattedMessage id="website.current" />
+            </Tag>
           ) : (
             <a
               key="edit"
@@ -200,7 +206,7 @@ const WebsiteList: React.FC = () => {
                 visitSystem(record);
               }}
             >
-              访问后台
+              <FormattedMessage id="website.visit-backend" />
             </a>
           )}
           {initialState?.currentUser?.site_id == 1 && (
@@ -211,10 +217,12 @@ const WebsiteList: React.FC = () => {
                   handleEdit(record);
                 }}
               >
-                修改
+                <FormattedMessage id="setting.action.edit" />
               </a>
               {record.id === 1 ? (
-                <Tag>默认站点</Tag>
+                <Tag>
+                  <FormattedMessage id="website.default" />
+                </Tag>
               ) : (
                 <a
                   className="text-red"
@@ -223,7 +231,7 @@ const WebsiteList: React.FC = () => {
                     await handleRemove(record);
                   }}
                 >
-                  删除
+                  <FormattedMessage id="setting.system.delete" />
                 </a>
               )}
             </>
@@ -236,7 +244,7 @@ const WebsiteList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="站点列表"
+        headerTitle={intl.formatMessage({ id: 'website.list' })}
         rowKey="id"
         actionRef={actionRef}
         search={false}
@@ -257,7 +265,7 @@ const WebsiteList: React.FC = () => {
                 handleEdit({ mysql: { use_default: true }, initialed: false, status: 1 });
               }}
             >
-              <PlusOutlined /> 添加新站点
+              <PlusOutlined /> <FormattedMessage id="website.add" />
             </Button>
           ),
         ]}
@@ -268,55 +276,61 @@ const WebsiteList: React.FC = () => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={editInfo.id > 0 ? '修改站点信息' : '添加新站点'}
-          visible={editVisible}
+          title={
+            editInfo.id > 0
+              ? intl.formatMessage({ id: 'website.edit' })
+              : intl.formatMessage({ id: 'website.add' })
+          }
+          open={editVisible}
           layout="horizontal"
           modalProps={{
             maskClosable: false,
           }}
           initialValues={editInfo}
           onFinish={onSubmitEdit}
-          onVisibleChange={(e) => setEditVisible(e)}
+          onOpenChange={(e) => setEditVisible(e)}
         >
-          {editInfo.id > 0 && <ProFormDigit name="id" label="站点ID" readonly />}
-          <ProFormText name="name" label="站点名称" />
+          {editInfo.id > 0 && (
+            <ProFormDigit name="id" label={intl.formatMessage({ id: 'website.id' })} readonly />
+          )}
+          <ProFormText name="name" label={intl.formatMessage({ id: 'website.name' })} />
           <ProFormText
             name="root_path"
-            label="站点根目录"
+            label={intl.formatMessage({ id: 'website.root-path' })}
             disabled={editInfo.id === 1}
-            placeholder="服务器实际路径，如：/www/wwwroot/anqicms.com"
-            extra="正常运行的站点请勿更改，否则会导致站点异常"
+            placeholder={intl.formatMessage({ id: 'website.root-path.placeholder' })}
+            extra={intl.formatMessage({ id: 'website.root-path.description' })}
           />
           <ProFormText
             name="base_url"
-            label="站点网址"
-            placeholder="如：http://www.anqicms.com"
-            extra="需要能正常访问，请在宝塔或Nnginx中添加对应站点"
+            label={intl.formatMessage({ id: 'setting.system.base-url' })}
+            placeholder={intl.formatMessage({ id: 'website.base-url.placeholder' })}
+            extra={intl.formatMessage({ id: 'website.base-url.description' })}
           />
-          <ProFormText name="admin_user" label="管理员账号" />
+          <ProFormText name="admin_user" label={intl.formatMessage({ id: 'website.admin-user' })} />
           <ProFormText.Password
             name="admin_password"
-            label="管理员密码"
-            placeholder="不修改请留空，新建站点必须填写6位以上"
+            label={intl.formatMessage({ id: 'website.admin-password' })}
+            placeholder={intl.formatMessage({ id: 'website.admin-password.description' })}
           />
           {editInfo.id != 1 && (
             <Collapse defaultActiveKey={editInfo.id > 0 ? [] : [1]} ghost>
-              <Panel header="数据库信息 (正常运行的站点请勿更改，否则会导致站点异常)" key="1">
+              <Panel header={intl.formatMessage({ id: 'website.db.header' })} key="1">
                 <ProFormText
                   name={['mysql', 'database']}
-                  label="数据库名称"
-                  placeholder="新的数据名称，如：anqicms2"
+                  label={intl.formatMessage({ id: 'website.db.database' })}
+                  placeholder={intl.formatMessage({ id: 'website.db.database.description' })}
                 />
                 <ProFormRadio.Group
-                  label="数据库信息复用"
+                  label={intl.formatMessage({ id: 'website.db.use-default' })}
                   name={['mysql', 'use_default']}
                   options={[
                     {
-                      label: '新账号',
+                      label: intl.formatMessage({ id: 'website.db.use-default.new' }),
                       value: false,
                     },
                     {
-                      label: '复用默认数据库账号信息',
+                      label: intl.formatMessage({ id: 'website.db.use-default.default' }),
                       value: true,
                     },
                   ]}
@@ -328,22 +342,28 @@ const WebsiteList: React.FC = () => {
                   <>
                     <ProFormText
                       name={['mysql', 'host']}
-                      label="数据库地址"
-                      placeholder="一般都是127.0.0.1"
+                      label={intl.formatMessage({ id: 'website.db.host' })}
+                      placeholder={intl.formatMessage({ id: 'website.db.host.description' })}
                     />
                     <ProFormDigit
                       name={['mysql', 'port']}
-                      label="数据库端口"
-                      placeholder="一般是3306"
+                      label={intl.formatMessage({ id: 'website.db.port' })}
+                      placeholder={intl.formatMessage({ id: 'website.db.port.description' })}
                     />
-                    <ProFormText name={['mysql', 'user']} label="数据库用户名" />
-                    <ProFormText name={['mysql', 'password']} label="数据库密码" />
+                    <ProFormText
+                      name={['mysql', 'user']}
+                      label={intl.formatMessage({ id: 'website.db.user' })}
+                    />
+                    <ProFormText
+                      name={['mysql', 'password']}
+                      label={intl.formatMessage({ id: 'website.db.password' })}
+                    />
                   </>
                 )}
                 {!editInfo.id && (
                   <>
                     <ProFormSelect
-                      label="选择使用的模板"
+                      label={intl.formatMessage({ id: 'website.db.template' })}
                       showSearch
                       name="template"
                       request={async () => {
@@ -360,12 +380,12 @@ const WebsiteList: React.FC = () => {
                           value: 'package',
                         },
                       }}
-                      extra="新添加的站点将启用选择的模板"
+                      extra={intl.formatMessage({ id: 'website.db.template.description' })}
                     />
                     <ProFormCheckbox
                       name="preview_data"
-                      label="安装演示数据"
-                      extra="勾选后，将安装默认演示数据"
+                      label={intl.formatMessage({ id: 'website.db.preview-data' })}
+                      extra={intl.formatMessage({ id: 'website.db.preview-data.description' })}
                     />
                   </>
                 )}
@@ -373,15 +393,15 @@ const WebsiteList: React.FC = () => {
             </Collapse>
           )}
           <ProFormRadio.Group
-            label="站点状态"
+            label={intl.formatMessage({ id: 'website.status' })}
             name="status"
             options={[
               {
-                label: '关闭',
+                label: intl.formatMessage({ id: 'setting.content.notenable' }),
                 value: 0,
               },
               {
-                label: '正常',
+                label: intl.formatMessage({ id: 'setting.content.enable' }),
                 value: 1,
               },
             ]}

@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, Divider, message, Upload } from 'antd';
 import { pluginGetStorage, pluginSaveStorage, pluginStorageUploadFile } from '@/services';
+import {
+  PageContainer,
+  ProForm,
+  ProFormDigit,
+  ProFormRadio,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { Alert, Button, Card, Divider, Upload, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const PluginStorage: React.FC<any> = (props) => {
   const [pushSetting, setPushSetting] = useState<any>({});
@@ -55,7 +60,7 @@ const PluginStorage: React.FC<any> = (props) => {
       });
   };
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert message="资源存储方式的切换不会自动同步之前已经上传的资源，一般不建议在使用中切换存储方式。" />
         <div className="center-mid-card">
@@ -227,7 +232,7 @@ const PluginStorage: React.FC<any> = (props) => {
           )}
         </div>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

@@ -1,13 +1,11 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { pluginCheckLink, pluginDeleteLink, pluginGetLinks } from '@/services/plugin/link';
-import moment from 'moment';
-import LinkForm from './components/linkForm';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
 import LinkApi from './components/api';
+import LinkForm from './components/linkForm';
 
 const PluginLink: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -111,7 +109,7 @@ const PluginLink: React.FC = () => {
           <div>
             <span>{getStatusText(text)}</span>
             <span> / </span>
-            <span>{moment(record.checked_time * 1000).format('YYYY-MM-DD HH:mm')}</span>
+            <span>{dayjs(record.checked_time * 1000).format('YYYY-MM-DD HH:mm')}</span>
           </div>
         );
       },
@@ -119,7 +117,7 @@ const PluginLink: React.FC = () => {
     {
       title: '添加时间',
       dataIndex: 'created_time',
-      render: (_, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (_, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: '操作',
@@ -212,7 +210,7 @@ const PluginLink: React.FC = () => {
       />
       {editVisible && (
         <LinkForm
-          visible={editVisible}
+          open={editVisible}
           editingLink={currentLink}
           onCancel={() => {
             setEditVisible(false);

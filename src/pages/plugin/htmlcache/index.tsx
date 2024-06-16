@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Card, message, Divider, Modal, Button, Space, Row, Col, Upload } from 'antd';
 import {
+  pluginBuildHtmlArchiveCache,
   pluginBuildHtmlCache,
+  pluginBuildHtmlCategoryCache,
+  pluginBuildHtmlIndexCache,
+  pluginBuildHtmlTagCache,
   pluginCleanHtmlCache,
   pluginGetBuildHtmlCacheStatus,
   pluginGetHtmlCache,
-  pluginSaveHtmlCache,
-  pluginHtmlCacheUploadFile,
-  pluginBuildHtmlIndexCache,
-  pluginBuildHtmlCategoryCache,
-  pluginBuildHtmlArchiveCache,
-  pluginBuildHtmlTagCache,
-  pluginHtmlCachePush,
   pluginGetHtmlCachePushStatus,
+  pluginHtmlCachePush,
+  pluginHtmlCacheUploadFile,
+  pluginSaveHtmlCache,
 } from '@/services';
-import moment from 'moment';
+import {
+  PageContainer,
+  ProForm,
+  ProFormDigit,
+  ProFormRadio,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { Alert, Button, Card, Col, Divider, Modal, Row, Space, Upload, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
 import HtmlPushLog from './components/pushLog';
 
 let xhr: any = null;
@@ -240,7 +245,7 @@ const PluginHtmlCache: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           style={{ marginBottom: 20 }}
@@ -465,7 +470,7 @@ const PluginHtmlCache: React.FC<any> = () => {
           <p>
             上次手动生成时间：
             {setting.last_build_time > 0
-              ? moment(setting.last_build_time * 1000).format('YYYY-MM-DD')
+              ? dayjs(setting.last_build_time * 1000).format('YYYY-MM-DD')
               : '未手动生成过'}
           </p>
           <Space className="space-wrap" size={20}>
@@ -481,7 +486,7 @@ const PluginHtmlCache: React.FC<any> = () => {
         <p>
           上次手动推送时间：
           {setting.last_push_time > 0
-            ? moment(setting.last_push_time * 1000).format('YYYY-MM-DD')
+            ? dayjs(setting.last_push_time * 1000).format('YYYY-MM-DD')
             : '未手动推送过'}
         </p>
         <div>
@@ -502,14 +507,14 @@ const PluginHtmlCache: React.FC<any> = () => {
                     <div className="field-item">
                       <div className="field-label">开始时间：</div>
                       <div className="field-value">
-                        {moment(status.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                        {dayjs(status.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                       </div>
                     </div>
                     <div className="field-item">
                       <div className="field-label">完成时间：</div>
                       <div className="field-value">
                         {status.finished_time > 0
-                          ? moment(status.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+                          ? dayjs(status.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
                           : '未完成'}
                       </div>
                     </div>
@@ -543,14 +548,14 @@ const PluginHtmlCache: React.FC<any> = () => {
                     <div className="field-item">
                       <div className="field-label">开始时间：</div>
                       <div className="field-value">
-                        {moment(pushStatus.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                        {dayjs(pushStatus.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                       </div>
                     </div>
                     <div className="field-item">
                       <div className="field-label">完成时间：</div>
                       <div className="field-value">
                         {pushStatus.finished_time > 0
-                          ? moment(pushStatus.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+                          ? dayjs(pushStatus.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
                           : '未完成'}
                       </div>
                     </div>
@@ -585,7 +590,7 @@ const PluginHtmlCache: React.FC<any> = () => {
       </Card>
       {logVisible && (
         <HtmlPushLog
-          visible={logVisible}
+          open={logVisible}
           status={logStatus}
           storageUrl={setting.storage_url}
           onCancel={() => {
@@ -593,7 +598,7 @@ const PluginHtmlCache: React.FC<any> = () => {
           }}
         />
       )}
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

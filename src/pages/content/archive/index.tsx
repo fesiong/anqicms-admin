@@ -1,22 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Alert, Button, Dropdown, Input, Menu, message, Modal, Select, Space, Tag } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType, ProColumnType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import {
-  ModalForm,
-  ProFormCheckbox,
-  ProFormInstance,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
-} from '@ant-design/pro-form';
-import { getCategories } from '@/services/category';
-import moment from 'moment';
-import { history } from 'umi';
 import ReplaceKeywords from '@/components/replaceKeywords';
-import './index.less';
 import {
   anqiAiPseudoArchive,
   anqiTranslateArchive,
@@ -31,18 +13,28 @@ import {
   updateArchivesStatus,
   updateArchivesTime,
 } from '@/services';
+import { getCategories } from '@/services/category';
+import { PlusOutlined } from '@ant-design/icons';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumnType,
+  ProColumns,
+  ProFormCheckbox,
+  ProFormInstance,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Alert, Button, Dropdown, Input, Menu, Modal, Select, Space, Tag, message } from 'antd';
+import dayjs from 'dayjs';
+import { parse } from 'querystring';
+import React, { useEffect, useRef, useState } from 'react';
+import './index.less';
 import QuickEditForm from './quickEdit';
-
-const flagEnum: any = {
-  h: '头条[h]',
-  c: '推荐[c]',
-  f: '幻灯[f]',
-  a: '特荐[a]',
-  s: '滚动[s]',
-  b: '加粗[b]',
-  p: '图片[p]',
-  j: '跳转[j]',
-};
 
 let toLanguage = '';
 let updating = false;
@@ -65,11 +57,23 @@ const ArchiveList: React.FC = (props) => {
   const [timeVisible, setTimeVisible] = useState<boolean>(false);
   const [releaseVisible, setReleaseVisible] = useState<boolean>(false);
   const [modules, setModules] = useState<any[]>([]);
-  const [moduleId, setModuleId] = useState<Number>(0);
+  const [moduleId, setModuleId] = useState<number>(0);
   const [contentSetting, setContentSetting] = useState<any>({});
   const [currentArchive, setCurrentArchive] = useState<any>({});
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
   const [firstFetch, setFirstFetch] = useState<boolean>(false);
+  const intl = useIntl();
+
+  const flagEnum: any = {
+    h: intl.formatMessage({ id: 'content.flag.h' }),
+    c: intl.formatMessage({ id: 'content.flag.c' }),
+    f: intl.formatMessage({ id: 'content.flag.f' }),
+    a: intl.formatMessage({ id: 'content.flag.a' }),
+    s: intl.formatMessage({ id: 'content.flag.s' }),
+    b: intl.formatMessage({ id: 'content.flag.b' }),
+    p: intl.formatMessage({ id: 'content.flag.p' }),
+    j: intl.formatMessage({ id: 'content.flag.j' }),
+  };
 
   useEffect(() => {
     setModuleId(lastParams.module_id);
@@ -87,15 +91,18 @@ const ArchiveList: React.FC = (props) => {
 
   const loadModules = async () => {
     let res = await getModules({});
-    setModules([{ title: '所有文档', id: 0 }].concat(res.data || []));
+    setModules(
+      [{ title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 }].concat(res.data || []),
+    );
   };
 
   const beforeSearch = (params: any) => {
     if (!firstFetch) {
       setFirstFetch(true);
-      lastParams.module_id = Number(history.location.query?.module_id || 0);
-      lastParams.category_id = Number(history.location.query?.category_id || 0);
-      lastParams.status = history.location.query?.status || 'ok';
+      const searchParams = parse(window.location.search) || {};
+      lastParams.module_id = Number(searchParams.module_id || 0);
+      lastParams.category_id = Number(searchParams.category_id || 0);
+      lastParams.status = searchParams.status || 'ok';
       formRef.current?.setFieldsValue(lastParams);
       params = lastParams;
     } else {
@@ -108,7 +115,7 @@ const ArchiveList: React.FC = (props) => {
     return params;
   };
 
-  const onSelectModule = (id: Number) => {
+  const onSelectModule = (id: number) => {
     lastParams.module_id = id;
     setModuleId(id);
     formRef.current?.setFieldsValue({
@@ -121,9 +128,9 @@ const ArchiveList: React.FC = (props) => {
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的文档吗？',
+      title: intl.formatMessage({ id: 'content.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -132,14 +139,14 @@ const ArchiveList: React.FC = (props) => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
 
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -147,7 +154,7 @@ const ArchiveList: React.FC = (props) => {
   };
 
   const handleSetFlag = async (values: any) => {
-    const hide = message.loading('正在处理', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     updateArchivesFlag({
       flag: values.flag.join(','),
       ids: selectedRowKeys,
@@ -164,7 +171,7 @@ const ArchiveList: React.FC = (props) => {
   };
 
   const handleSetStatus = async (values: any) => {
-    const hide = message.loading('正在处理', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     updateArchivesStatus({
       status: Number(values.status),
       ids: selectedRowKeys,
@@ -181,7 +188,7 @@ const ArchiveList: React.FC = (props) => {
   };
 
   const handleSetTime = async (values: any) => {
-    const hide = message.loading('正在处理', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     updateArchivesTime({
       time: Number(values.time),
       ids: selectedRowKeys,
@@ -214,10 +221,10 @@ const ArchiveList: React.FC = (props) => {
       }
     }
     if (categoryId == 0) {
-      message.error('请选择分类');
+      message.error(intl.formatMessage({ id: 'content.category.required' }));
       return;
     }
-    const hide = message.loading('正在处理', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     updateArchivesCategory({
       category_id: categoryId,
       category_ids: categoryIds,
@@ -244,48 +251,60 @@ const ArchiveList: React.FC = (props) => {
 
   const handleTranslateArchive = async (record: any) => {
     Modal.confirm({
-      title: '确定要翻译选中的文档吗？',
+      title: intl.formatMessage({ id: 'content.translate.confirm' }),
       content: (
         <div>
-          <Alert className="mb-normal" message="需要使用文档翻译服务，请先绑定安企账号。"></Alert>
-          <div className="">请选择翻译目标语言</div>
+          <Alert
+            className="mb-normal"
+            message={intl.formatMessage({ id: 'content.translate.tips' })}
+          ></Alert>
+          <div className="">
+            <FormattedMessage id="content.translate.select-language" />
+          </div>
           <Select
             style={{ width: '100%' }}
             onChange={(e) => {
               toLanguage = e;
             }}
             options={[
-              { label: '请选择', value: '', disabled: true },
-              { label: '英语', value: 'en' },
-              { label: '简体中文', value: 'zh-CN' },
-              { label: '繁体中文', value: 'zh-TW' },
-              { label: '越南语', value: 'vi' },
-              { label: '印尼语', value: 'id' },
-              { label: '印地语', value: 'hi' },
-              { label: '意大利语', value: 'it' },
-              { label: '希腊语', value: 'el' },
-              { label: '西班牙语', value: 'es' },
-              { label: '葡萄牙语', value: 'pt' },
-              { label: '塞尔维亚语', value: 'sr' },
-              { label: '缅甸语', value: 'my' },
-              { label: '孟加拉语', value: 'bn' },
-              { label: '泰语', value: 'th' },
-              { label: '土耳其语', value: 'tr' },
-              { label: '日语', value: 'ja' },
-              { label: '老挝语', value: 'lo' },
-              { label: '韩语', value: 'ko' },
-              { label: '俄语', value: 'ru' },
-              { label: '法语', value: 'fr' },
-              { label: '德语', value: 'de' },
-              { label: '波斯语', value: 'fa' },
-              { label: '阿拉伯语', value: 'ar' },
-              { label: '马来语', value: 'ms' },
+              {
+                label: intl.formatMessage({ id: 'content.translate.select' }),
+                value: '',
+                disabled: true,
+              },
+              { label: intl.formatMessage({ id: 'content.translate.en' }), value: 'en' },
+              { label: intl.formatMessage({ id: 'content.translate.zh-cn' }), value: 'zh-CN' },
+              { label: intl.formatMessage({ id: 'content.translate.zh-tw' }), value: 'zh-TW' },
+              { label: intl.formatMessage({ id: 'content.translate.vi' }), value: 'vi' },
+              { label: intl.formatMessage({ id: 'content.translate.id' }), value: 'id' },
+              { label: intl.formatMessage({ id: 'content.translate.hi' }), value: 'hi' },
+              { label: intl.formatMessage({ id: 'content.translate.it' }), value: 'it' },
+              { label: intl.formatMessage({ id: 'content.translate.el' }), value: 'el' },
+              { label: intl.formatMessage({ id: 'content.translate.es' }), value: 'es' },
+              { label: intl.formatMessage({ id: 'content.translate.pt' }), value: 'pt' },
+              { label: intl.formatMessage({ id: 'content.translate.sr' }), value: 'sr' },
+              { label: intl.formatMessage({ id: 'content.translate.my' }), value: 'my' },
+              { label: intl.formatMessage({ id: 'content.translate.bn' }), value: 'bn' },
+              { label: intl.formatMessage({ id: 'content.translate.th' }), value: 'th' },
+              { label: intl.formatMessage({ id: 'content.translate.tr' }), value: 'tr' },
+              { label: intl.formatMessage({ id: 'content.translate.ja' }), value: 'ja' },
+              { label: intl.formatMessage({ id: 'content.translate.lo' }), value: 'lo' },
+              { label: intl.formatMessage({ id: 'content.translate.ko' }), value: 'ko' },
+              { label: intl.formatMessage({ id: 'content.translate.ru' }), value: 'ru' },
+              { label: intl.formatMessage({ id: 'content.translate.fr' }), value: 'fr' },
+              { label: intl.formatMessage({ id: 'content.translate.de' }), value: 'de' },
+              { label: intl.formatMessage({ id: 'content.translate.fa' }), value: 'fa' },
+              { label: intl.formatMessage({ id: 'content.translate.ar' }), value: 'ar' },
+              { label: intl.formatMessage({ id: 'content.translate.ms' }), value: 'ms' },
             ]}
           />
         </div>
       ),
       onOk: async () => {
-        const hide = message.loading('正在翻译', 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.translate.translating' }),
+          0,
+        );
         anqiTranslateArchive({
           id: record.id,
           to_language: toLanguage,
@@ -305,10 +324,10 @@ const ArchiveList: React.FC = (props) => {
 
   const handleAiPseudoArchive = async (record: any) => {
     Modal.confirm({
-      title: '确定要AI改写选中的文档吗？',
-      content: '需要使用文档AI改写服务，请先绑定安企账号。',
+      title: intl.formatMessage({ id: 'content.pseudo.confirm' }),
+      content: intl.formatMessage({ id: 'content.pseudo.content' }),
       onOk: async () => {
-        const hide = message.loading('正在处理中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         anqiAiPseudoArchive({
           id: record.id,
         })
@@ -342,14 +361,14 @@ const ArchiveList: React.FC = (props) => {
     }
     value = parseInt(value);
     if (isNaN(value)) {
-      message.error('请填写大于0的数字');
+      message.error(intl.formatMessage({ id: 'content.sort.required' }));
       return;
     }
     if (value == record.sort) {
       return;
     }
     if (value < 0) {
-      message.error('请填写大于0的数字');
+      message.error(intl.formatMessage({ id: 'content.sort.required' }));
       return;
     }
     updating = true;
@@ -371,7 +390,7 @@ const ArchiveList: React.FC = (props) => {
       return;
     }
     updating = true;
-    const hide = message.loading('正在处理', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     updateArchivesReleasePlan({
       daily_limit: Number(values.daily_limit),
       start_hour: Number(values.start_hour),
@@ -396,11 +415,11 @@ const ArchiveList: React.FC = (props) => {
   };
 
   const sortColumn: ProColumnType = {
-    title: '排序',
+    title: intl.formatMessage({ id: 'content.sort.name' }),
     dataIndex: 'sort',
     hideInSearch: true,
     sorter: true,
-    tooltip: '数值越大，越靠前',
+    tooltip: intl.formatMessage({ id: 'content.sort.tips' }),
     width: 90,
     render: (_, entity: any, index) => {
       return (
@@ -421,13 +440,13 @@ const ArchiveList: React.FC = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: 'ID',
       dataIndex: 'id',
       hideInSearch: true,
       sorter: true,
     },
     {
-      title: '标题',
+      title: intl.formatMessage({ id: 'content.title.name' }),
       dataIndex: 'title',
       render: (dom, entity) => {
         return (
@@ -449,7 +468,7 @@ const ArchiveList: React.FC = (props) => {
       },
     },
     {
-      title: '内容模型',
+      title: intl.formatMessage({ id: 'content.module.name' }),
       dataIndex: 'module_id',
       render: (_: any, entity) => {
         return entity.module_name;
@@ -460,7 +479,9 @@ const ArchiveList: React.FC = (props) => {
             name="module_id"
             request={async () => {
               let res = await getModules({});
-              const tmpModules = [{ title: '所有文档', id: 0 }]
+              const tmpModules = [
+                { title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 },
+              ]
                 .concat(res.data || [])
                 .map((item: any) => ({
                   label: item.title,
@@ -473,7 +494,7 @@ const ArchiveList: React.FC = (props) => {
       },
     },
     {
-      title: '所属分类',
+      title: intl.formatMessage({ id: 'content.category.name' }),
       dataIndex: 'category_titles',
       render: (_: any, entity) => {
         return (
@@ -490,18 +511,27 @@ const ArchiveList: React.FC = (props) => {
             name="category_id"
             request={async () => {
               let res = await getCategories({ type: 1 });
-              const categories = [{ spacer: '', title: '所有分类', id: 0, status: 1 }]
+              const categories = [
+                {
+                  spacer: '',
+                  title: intl.formatMessage({ id: 'content.category.all' }),
+                  id: 0,
+                  status: 1,
+                },
+              ]
                 .concat(res.data || [])
                 .map((cat: any) => ({
                   spacer: cat.spacer,
-                  label: cat.title + (cat.status == 1 ? '' : '(隐藏)'),
+                  label:
+                    cat.title +
+                    (cat.status == 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
                   value: cat.id,
                 }));
               return categories;
             }}
             fieldProps={{
               ...fieldProps,
-              optionItemRender(item) {
+              optionItemRender(item: any) {
                 return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}></div>;
               },
             }}
@@ -510,7 +540,7 @@ const ArchiveList: React.FC = (props) => {
       },
     },
     {
-      title: '浏览',
+      title: intl.formatMessage({ id: 'content.views.name' }),
       dataIndex: 'views',
       hideInSearch: true,
       sorter: true,
@@ -520,23 +550,31 @@ const ArchiveList: React.FC = (props) => {
       dataIndex: 'flag',
       hideInTable: true,
       renderFormItem: () => {
-        return <ProFormSelect name="flag" valueEnum={Object.assign({ '': '不限' }, flagEnum)} />;
+        return (
+          <ProFormSelect
+            name="flag"
+            valueEnum={Object.assign(
+              { '': intl.formatMessage({ id: 'content.unlimit' }) },
+              flagEnum,
+            )}
+          />
+        );
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '草稿',
+          text: intl.formatMessage({ id: 'content.status.draft' }),
           status: 'Default',
         },
         1: {
-          text: '正常',
+          text: intl.formatMessage({ id: 'content.status.normal' }),
           status: 'Success',
         },
         2: {
-          text: '待发布',
+          text: intl.formatMessage({ id: 'content.status.plan' }),
           status: 'Warning',
         },
       },
@@ -545,29 +583,29 @@ const ArchiveList: React.FC = (props) => {
           <ProFormRadio.Group
             name="status"
             options={[
-              { label: '正常', value: 'ok' },
-              { label: '草稿', value: 'draft' },
-              { label: '待发布', value: 'plan' },
+              { label: intl.formatMessage({ id: 'content.status.normal' }), value: 'ok' },
+              { label: intl.formatMessage({ id: 'content.status.draft' }), value: 'draft' },
+              { label: intl.formatMessage({ id: 'content.status.plan' }), value: 'plan' },
             ]}
           />
         );
       },
     },
     {
-      title: '发布/更新时间',
+      title: intl.formatMessage({ id: 'content.create-update-time' }),
       hideInSearch: true,
       dataIndex: 'created_time',
       render: (_, record) => {
         return (
           <div>
-            <div>{moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
-            <div>{moment(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+            <div>{dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+            <div>{dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
           </div>
         );
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -578,9 +616,11 @@ const ArchiveList: React.FC = (props) => {
               handleEditArchive(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
-          <a onClick={() => handleQuickEdit(record)}>快速编辑</a>
+          <a onClick={() => handleQuickEdit(record)}>
+            <FormattedMessage id="content.action.quick-edit" />
+          </a>
 
           <Dropdown
             overlay={
@@ -591,9 +631,9 @@ const ArchiveList: React.FC = (props) => {
                     onClick={() => {
                       handleTranslateArchive(record);
                     }}
-                    title="将内容翻译成英文/中文"
+                    title={intl.formatMessage({ id: 'content.action.translate.tips' })}
                   >
-                    翻译
+                    <FormattedMessage id="content.action.translate" />
                   </a>
                 </Menu.Item>
                 <Menu.Item>
@@ -602,9 +642,9 @@ const ArchiveList: React.FC = (props) => {
                     onClick={() => {
                       handleAiPseudoArchive(record);
                     }}
-                    title="AI改写这篇文章"
+                    title={intl.formatMessage({ id: 'content.action.aipseudo.tips' })}
                   >
-                    AI 改写
+                    <FormattedMessage id="content.action.aipseudo" />
                   </a>
                 </Menu.Item>
                 <Menu.Item>
@@ -613,9 +653,9 @@ const ArchiveList: React.FC = (props) => {
                     onClick={() => {
                       handleCopyArchive(record);
                     }}
-                    title="复制文本新发一篇"
+                    title={intl.formatMessage({ id: 'content.action.copy.tips' })}
                   >
-                    复制
+                    <FormattedMessage id="content.action.copy" />
                   </a>
                 </Menu.Item>
                 <Menu.Item danger>
@@ -626,14 +666,16 @@ const ArchiveList: React.FC = (props) => {
                       await handleRemove([record.id]);
                     }}
                   >
-                    删除
+                    <FormattedMessage id="setting.system.delete" />
                   </a>
                 </Menu.Item>
               </Menu>
             }
             key="more"
           >
-            <a>更多</a>
+            <a>
+              <FormattedMessage id="content.action.more" />
+            </a>
           </Dropdown>
         </Space>
       ),
@@ -676,7 +718,7 @@ const ArchiveList: React.FC = (props) => {
               history.push('/archive/recycle');
             }}
           >
-            回收站
+            <FormattedMessage id="content.recycle.name" />
           </Button>,
           <Button
             key="replace"
@@ -684,7 +726,7 @@ const ArchiveList: React.FC = (props) => {
               setReplaceVisible(true);
             }}
           >
-            批量替换关键词
+            <FormattedMessage id="content.replace.name" />
           </Button>,
           <Button
             type="primary"
@@ -697,7 +739,7 @@ const ArchiveList: React.FC = (props) => {
               }
             }}
           >
-            <PlusOutlined /> 添加文档
+            <PlusOutlined /> <FormattedMessage id="content.new-archive" />
           </Button>,
         ]}
         columnsState={{
@@ -712,7 +754,7 @@ const ArchiveList: React.FC = (props) => {
                 await setFlagVisible(true);
               }}
             >
-              批量更改Flag
+              <FormattedMessage id="content.option.change-flag" />
             </Button>
             <Button
               size={'small'}
@@ -720,7 +762,7 @@ const ArchiveList: React.FC = (props) => {
                 await setCategoryVisible(true);
               }}
             >
-              批量更改分类
+              <FormattedMessage id="content.option.change-category" />
             </Button>
             <Button
               size={'small'}
@@ -728,7 +770,7 @@ const ArchiveList: React.FC = (props) => {
                 await setTimeVisible(true);
               }}
             >
-              刷新时间
+              <FormattedMessage id="content.option.reflash-time" />
             </Button>
             <Button
               size={'small'}
@@ -736,7 +778,7 @@ const ArchiveList: React.FC = (props) => {
                 await setStatusVisible(true);
               }}
             >
-              批量更新状态
+              <FormattedMessage id="content.option.update-status" />
             </Button>
             <Button
               size={'small'}
@@ -744,7 +786,7 @@ const ArchiveList: React.FC = (props) => {
                 await setReleaseVisible(true);
               }}
             >
-              批量定时发布
+              <FormattedMessage id="content.option.plan-send" />
             </Button>
             <Button
               size={'small'}
@@ -752,10 +794,10 @@ const ArchiveList: React.FC = (props) => {
                 await handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-selec" />
             </Button>
           </Space>
         )}
@@ -782,7 +824,7 @@ const ArchiveList: React.FC = (props) => {
       />
       {replaceVisible && (
         <ReplaceKeywords
-          visible={replaceVisible}
+          open={replaceVisible}
           onCancel={() => {
             setReplaceVisible(false);
           }}
@@ -791,22 +833,22 @@ const ArchiveList: React.FC = (props) => {
       {flagVisible && (
         <ModalForm
           width={480}
-          title="请选择新的推荐属性"
-          visible={flagVisible}
+          title={intl.formatMessage({ id: 'content.flag.select' })}
+          open={flagVisible}
           onFinish={handleSetFlag}
-          onVisibleChange={(e) => setFlagVisible(e)}
+          onOpenChange={(e) => setFlagVisible(e)}
         >
           <ProFormCheckbox.Group
             name="flag"
             valueEnum={{
-              h: '头条[h]',
-              c: '推荐[c]',
-              f: '幻灯[f]',
-              a: '特荐[a]',
-              s: '滚动[s]',
-              b: '加粗[b]',
-              p: '图片[p]',
-              j: '跳转[j]',
+              h: intl.formatMessage({ id: 'content.flag.h' }),
+              c: intl.formatMessage({ id: 'content.flag.c' }),
+              f: intl.formatMessage({ id: 'content.flag.f' }),
+              a: intl.formatMessage({ id: 'content.flag.a' }),
+              s: intl.formatMessage({ id: 'content.flag.s' }),
+              b: intl.formatMessage({ id: 'content.flag.b' }),
+              p: intl.formatMessage({ id: 'content.flag.p' }),
+              j: intl.formatMessage({ id: 'content.flag.j' }),
             }}
           />
         </ModalForm>
@@ -814,16 +856,16 @@ const ArchiveList: React.FC = (props) => {
       {statusVisible && (
         <ModalForm
           width={480}
-          title="请选择新的状态"
-          visible={statusVisible}
+          title={intl.formatMessage({ id: 'content.status.select' })}
+          open={statusVisible}
           onFinish={handleSetStatus}
-          onVisibleChange={(e) => setStatusVisible(e)}
+          onOpenChange={(e) => setStatusVisible(e)}
         >
           <ProFormRadio.Group
             name="status"
             valueEnum={{
-              0: '草稿',
-              1: '正常',
+              0: intl.formatMessage({ id: 'content.status.draft' }),
+              1: intl.formatMessage({ id: 'content.status.normal' }),
             }}
           />
         </ModalForm>
@@ -831,19 +873,19 @@ const ArchiveList: React.FC = (props) => {
       {timeVisible && (
         <ModalForm
           width={480}
-          title="请选择新的文档时间"
-          visible={timeVisible}
+          title={intl.formatMessage({ id: 'content.time.select' })}
+          open={timeVisible}
           onFinish={handleSetTime}
-          onVisibleChange={(e) => setTimeVisible(e)}
+          onOpenChange={(e) => setTimeVisible(e)}
         >
           <ProFormRadio.Group
             name="time"
             initialValue={1}
             valueEnum={{
-              1: '更新所选文档的发布时间(首发时间)',
-              2: '更新所选文章的最后编辑时间(更新时间)',
-              3: '更新所有文档的发布时间(首发时间)',
-              4: '更新所有文章的最后编辑时间(更新时间)',
+              1: intl.formatMessage({ id: 'content.time.create-time' }),
+              2: intl.formatMessage({ id: 'content.time.update-time' }),
+              3: intl.formatMessage({ id: 'content.time.create-time-all' }),
+              4: intl.formatMessage({ id: 'content.time.update-time-all' }),
             }}
           />
         </ModalForm>
@@ -851,24 +893,26 @@ const ArchiveList: React.FC = (props) => {
       {categoryVisible && (
         <ModalForm
           width={480}
-          title="请选择转移到的分类"
-          visible={categoryVisible}
+          title={intl.formatMessage({ id: 'content.category.select' })}
+          open={categoryVisible}
           onFinish={handleSetCategory}
-          onVisibleChange={(e) => setCategoryVisible(e)}
+          onOpenChange={(e) => setCategoryVisible(e)}
         >
           <ProFormSelect
             name="category_ids"
             request={async () => {
               let res = await getCategories({ type: 1 });
-              return [{ spacer: '', title: '请选择', id: 0 }].concat(res.data || []);
+              return [
+                { spacer: '', title: intl.formatMessage({ id: 'content.please-select' }), id: 0 },
+              ].concat(res.data || []);
             }}
             fieldProps={{
-              mode: contentSetting.multi_category == 1 ? 'multiple' : '',
+              mode: contentSetting.multi_category == 1 ? 'multiple' : undefined,
               fieldNames: {
                 label: 'title',
                 value: 'id',
               },
-              optionItemRender(item) {
+              optionItemRender(item: any) {
                 return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
               },
             }}
@@ -878,48 +922,52 @@ const ArchiveList: React.FC = (props) => {
       {releaseVisible && (
         <ModalForm
           width={480}
-          title="定时发布任务"
-          visible={releaseVisible}
+          title={intl.formatMessage({ id: 'content.plan.name' })}
+          open={releaseVisible}
           onFinish={handleSetReleasePlan}
-          onVisibleChange={(e) => setReleaseVisible(e)}
+          onOpenChange={(e) => setReleaseVisible(e)}
         >
           <Alert
             className="mb-normal"
             message={
               <div>
-                <div>只有草稿箱的文档会被定时发布，选择正常文章不会发生改变</div>
                 <div>
-                  你选择了 <span className="text-red">{selectedRowKeys.length}</span> 篇文档
+                  <FormattedMessage id="content.plan.tips" />
+                </div>
+                <div>
+                  <FormattedMessage id="content.plan.tips.before" />{' '}
+                  <span className="text-red">{selectedRowKeys.length}</span>{' '}
+                  <FormattedMessage id="content.plan.tips.after" />
                 </div>
               </div>
             }
           ></Alert>
           <ProFormText
             name="daily_limit"
-            label="每天数量"
-            placeholder="填整数，不填则当天发完"
-            addonAfter="篇"
+            label={intl.formatMessage({ id: 'content.plan.daily-limit' })}
+            placeholder={intl.formatMessage({ id: 'content.plan.daily-limit.placeholder' })}
+            addonAfter={intl.formatMessage({ id: 'content.plan.daily-limit.suffix' })}
           />
           <ProFormText
             name="start_hour"
             initialValue={8}
-            label="每天开始时间"
-            placeholder="默认8点"
-            addonAfter="时"
+            label={intl.formatMessage({ id: 'content.plan.start-hour' })}
+            placeholder={intl.formatMessage({ id: 'content.plan.start-hour.placeholder' })}
+            addonAfter={intl.formatMessage({ id: 'content.plan.start-hour.suffix' })}
           />
           <ProFormText
             name="end_hour"
             initialValue={20}
-            label="每天结束时间"
-            placeholder="默认20点"
-            addonAfter="时"
+            label={intl.formatMessage({ id: 'content.plan.end-hour' })}
+            placeholder={intl.formatMessage({ id: 'content.plan.end-hour.placeholder' })}
+            addonAfter={intl.formatMessage({ id: 'content.plan.start-hour.suffix' })}
           />
         </ModalForm>
       )}
       {quickVisible && (
         <QuickEditForm
           archive={currentArchive}
-          visible={quickVisible}
+          open={quickVisible}
           onSubmit={async () => {
             actionRef.current?.reload?.();
             setQuickVisible(false);

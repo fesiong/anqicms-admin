@@ -1,13 +1,18 @@
-import React, { useRef, useState } from 'react';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Modal, message, Space, Button } from 'antd';
 import { pluginDeleteWechatMessage, pluginGetWechatMessages } from '@/services';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import WechatSetting from './components/setting';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumns,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
 import WechatMenu from './components/menu';
 import WechatReplyRule from './components/replyrule';
-import moment from 'moment';
+import WechatSetting from './components/setting';
 
 const PluginWechatMessage: React.FC<any> = () => {
   const actionRef = useRef<ActionType>();
@@ -55,7 +60,7 @@ const PluginWechatMessage: React.FC<any> = () => {
       dataIndex: 'created_time',
       width: 150,
       render: (_, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
@@ -77,7 +82,7 @@ const PluginWechatMessage: React.FC<any> = () => {
       width: 150,
       render: (_, entity) => {
         return entity.reply_time > 0
-          ? moment(entity.reply_time * 1000).format('YYYY-MM-DD HH:mm')
+          ? dayjs(entity.reply_time * 1000).format('YYYY-MM-DD HH:mm')
           : '-';
       },
     },
@@ -110,7 +115,7 @@ const PluginWechatMessage: React.FC<any> = () => {
   ];
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <ProTable<any>
         headerTitle="微信公众号管理"
         actionRef={actionRef}
@@ -143,7 +148,7 @@ const PluginWechatMessage: React.FC<any> = () => {
       />
       {editVisible && (
         <ModalForm
-          visible={editVisible}
+          open={editVisible}
           initialValues={currentMessage}
           onValuesChange={(flag) => {
             setEditVisible(flag);
@@ -154,7 +159,7 @@ const PluginWechatMessage: React.FC<any> = () => {
           <ProFormText
             label="时间"
             width="lg"
-            initialValue={moment(currentMessage.created_time * 1000).format('YYYY-MM-DD HH:mm')}
+            initialValue={dayjs(currentMessage.created_time * 1000).format('YYYY-MM-DD HH:mm')}
             readonly
           />
           <ProFormText name="openid" label="OPENID" width="lg" readonly />
@@ -162,7 +167,7 @@ const PluginWechatMessage: React.FC<any> = () => {
           <ProFormText name="reply" label="回复内容" width="lg" extra="如果你想回复，在这里输入" />
         </ModalForm>
       )}
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

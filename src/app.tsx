@@ -1,24 +1,17 @@
-import type { MenuDataItem, Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
-import { RunTimeLayoutConfig } from 'umi';
-import { history } from 'umi';
-import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { getAdminInfo } from './services/admin';
+import RightContent from '@/components/RightContent';
 import { LinkOutlined } from '@ant-design/icons';
+import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-components';
+import { FormattedMessage, RunTimeLayoutConfig, history } from '@umijs/max';
+import { parse } from 'query-string';
 import defaultSettings from '../config/defaultSettings';
 import HeaderContent from './components/headerContent';
-import { getSettingSystem } from './services/setting';
+import { getAdminInfo } from './services/admin';
 import { getAnqiInfo } from './services/anqi';
-import { parse } from 'query-string';
+import { getSettingSystem } from './services/setting';
 import { setSessionStore } from './utils/store';
 
 const loginPath = '/login';
-
-/** 获取用户信息比较慢的时候会展示一个 loading */
-export const initialStateConfig = {
-  loading: <PageLoading />,
-};
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -71,7 +64,7 @@ export async function getInitialState(): Promise<{
       fetchUserInfo,
       fetchAnqiUser,
       currentUser,
-      settings: defaultSettings,
+      settings: defaultSettings as Partial<LayoutSettings>,
       system: system,
       anqiUser: anqiUser,
     };
@@ -80,7 +73,7 @@ export async function getInitialState(): Promise<{
     fetchSystemSetting,
     fetchUserInfo,
     fetchAnqiUser,
-    settings: defaultSettings,
+    settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
 
@@ -105,7 +98,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     links: [
       <a href="https://www.anqicms.com/" target="_blank">
         <LinkOutlined />
-        <span>安企CMS(AnqiCMS)</span>
+        <span>
+          <FormattedMessage id="app.links.anqicms" />
+        </span>
       </a>,
     ],
     headerContentRender: () => <HeaderContent />,

@@ -1,25 +1,24 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { deleteModule, getModules } from '@/services';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import ModuleForm from './components/moduleForm';
-import { history } from 'umi';
 
 const ModuleList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [currentModule, setCurrentModule] = useState<any>({});
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的模型吗？',
-      content: '该模型下的分类、文档也会一并被删除，请谨慎操作。',
+      title: intl.formatMessage({ id: 'content.module.delete.confirm' }),
+      content: intl.formatMessage({ id: 'content.module.delete.content' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -28,13 +27,13 @@ const ModuleList: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -52,53 +51,53 @@ const ModuleList: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: 'ID',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '模型名称',
+      title: intl.formatMessage({ id: 'content.module.title' }),
       dataIndex: 'title',
     },
     {
-      title: '模型表名',
+      title: intl.formatMessage({ id: 'content.module.field' }),
       dataIndex: 'table_name',
     },
     {
-      title: '标题名称',
+      title: intl.formatMessage({ id: 'content.module.title-name' }),
       dataIndex: 'title_name',
       hideInSearch: true,
     },
     {
-      title: '模型',
+      title: intl.formatMessage({ id: 'content.module.issystem' }),
       dataIndex: 'is_system',
       hideInSearch: true,
       valueEnum: {
         0: {
-          text: '自定义',
+          text: intl.formatMessage({ id: 'content.module.issystem.no' }),
         },
         1: {
-          text: '系统',
+          text: intl.formatMessage({ id: 'content.module.issystem.yes' }),
         },
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'content.category.status' }),
       dataIndex: 'status',
       hideInSearch: true,
       valueEnum: {
         0: {
-          text: '未启用',
+          text: intl.formatMessage({ id: 'content.category.status.hide' }),
           status: 'Default',
         },
         1: {
-          text: '正常',
+          text: intl.formatMessage({ id: 'content.category.status.ok' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -109,7 +108,7 @@ const ModuleList: React.FC = () => {
               handleShowArchive(record);
             }}
           >
-            文档列表
+            <FormattedMessage id="menu.archive.list" />
           </a>
           <a
             key="edit"
@@ -117,7 +116,7 @@ const ModuleList: React.FC = () => {
               handleEditModule(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           {record.is_system == 0 && (
             <a
@@ -127,7 +126,7 @@ const ModuleList: React.FC = () => {
                 handleRemove([record.id]);
               }}
             >
-              删除
+              <FormattedMessage id="setting.system.delete" />
             </a>
           )}
         </Space>
@@ -138,7 +137,7 @@ const ModuleList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="内容模型列表"
+        headerTitle={intl.formatMessage({ id: 'menu.archive.module' })}
         actionRef={actionRef}
         rowKey="id"
         search={{}}
@@ -150,7 +149,7 @@ const ModuleList: React.FC = () => {
               handleEditModule({});
             }}
           >
-            <PlusOutlined /> 添加模型
+            <PlusOutlined /> <FormattedMessage id="content.module.add" />
           </Button>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
@@ -161,10 +160,10 @@ const ModuleList: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
@@ -187,7 +186,7 @@ const ModuleList: React.FC = () => {
       />
       {editVisible && (
         <ModuleForm
-          visible={editVisible}
+          open={editVisible}
           module={currentModule}
           type={1}
           onCancel={() => {

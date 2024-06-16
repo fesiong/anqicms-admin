@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Divider, message, Modal, Space } from 'antd';
 import {
   anqiAiGenerateStream,
   anqiAiGenerateStreamData,
   getAnqiInfo,
   getCollectCombineArticle,
 } from '@/services';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
+import { ProForm, ProFormText } from '@ant-design/pro-components';
+import { Button, Divider, Modal, Space, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 
 export type AiGenerateProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (values: any) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   title: string;
   editor?: string;
 };
@@ -168,7 +168,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
           </div>
         </div>
       }
-      visible={props.visible}
+      open={props.open}
       onCancel={() => {
         props.onCancel();
       }}

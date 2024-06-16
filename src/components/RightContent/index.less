@@ -1,7 +1,3 @@
-@import (reference) '~antd/es/style/themes/index';
-
-@pro-header-hover-bg: rgba(0, 0, 0, 0.025);
-
 .menu {
   :global(.anticon) {
     margin-right: 8px;
@@ -14,24 +10,25 @@
 .right {
   display: flex;
   float: right;
-  height: 48px;
+  height: 56px;
   margin-left: auto;
   overflow: hidden;
   .action {
     display: flex;
     align-items: center;
-    height: 48px;
+    height: 56px;
     padding: 0 12px;
+    color: #252a3d;
     cursor: pointer;
     transition: all 0.3s;
     > span {
       vertical-align: middle;
     }
     &:hover {
-      background: @pro-header-hover-bg;
+      background-color: rgba(0, 0, 0, 0.025);
     }
     &:global(.opened) {
-      background: @pro-header-hover-bg;
+      background-color: rgba(0, 0, 0, 0.025);
     }
   }
   .search {
@@ -41,30 +38,14 @@
     }
   }
   .account {
-    .avatar {
-      margin-right: 8px;
-      color: @primary-color;
-      vertical-align: top;
-      background: rgba(255, 255, 255, 0.5);
-    }
+    height: 56px;
   }
 }
 .restart {
   padding: 0 12px;
-  color: #fff;
   cursor: pointer;
   &:hover {
-    background-color: #252a3d;
-  }
-}
-.dark {
-  .action {
-    &:hover {
-      background: #252a3d;
-    }
-    &:global(.opened) {
-      background: #252a3d;
-    }
+    color: #252a3d;
   }
 }
 .order-control {
@@ -130,7 +111,7 @@
   flex: 1;
 }
 
-@media only screen and (max-width: @screen-md) {
+@media only screen and (max-width: 768px) {
   :global(.ant-divider-vertical) {
     vertical-align: unset;
   }
@@ -142,17 +123,14 @@
     top: 0;
     right: 12px;
     .account {
-      .avatar {
-        margin-right: 0;
-      }
     }
     .search {
       display: none;
     }
   }
 }
-@media (max-width: @screen-xs) {
+@media (max-width: 480px) {
   .site-info-item {
-    display: none;
+    display: none !important;
   }
 }

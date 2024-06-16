@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { pluginGetSendmailSetting, pluginTestSendmail } from '@/services/plugin/sendmail';
+import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import React, { useEffect, useState } from 'react';
 
-import moment from 'moment';
 import { Button, Image, message } from 'antd';
+import dayjs from 'dayjs';
 
 export type GuestbookFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   editingGuestbook: any;
 };
 
@@ -64,9 +64,9 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
         width={600}
         title={'查看留言'}
         initialValues={props.editingGuestbook}
-        visible={props.visible}
+        open={props.open}
         layout="horizontal"
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           if (!flag) {
             props.onCancel(flag);
           }
@@ -116,7 +116,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
         <ProFormText name="refer" label="来源" readonly />
         <ProFormText
           fieldProps={{
-            value: moment(props.editingGuestbook.created_time * 1000).format('YYYY-MM-DD HH:mm:ss'),
+            value: dayjs(props.editingGuestbook.created_time * 1000).format('YYYY-MM-DD HH:mm:ss'),
           }}
           label="评论时间"
           readonly
@@ -125,9 +125,9 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
       <ModalForm
         width={550}
         title={'回复邮件'}
-        visible={replyVisible}
+        open={replyVisible}
         layout="horizontal"
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           setReplyVisible(flag);
         }}
         onFinish={onSubmitReply}

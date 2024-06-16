@@ -1,19 +1,25 @@
-import React, { useRef, useState } from 'react';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import {
   pluginGetWithdraws,
   pluginSetWithdrawApproval,
   pluginSetWithdrawFinished,
 } from '@/services';
-import { ModalForm, ProFormRadio } from '@ant-design/pro-form';
-import { message, Modal, Space } from 'antd';
+import {
+  ActionType,
+  ModalForm,
+  ProColumns,
+  ProFormRadio,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
 
 const PluginFinanceWithdraw: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentInfo, setCurrentInfo] = useState<boolean>(false);
   const [withdrawVisible, setWithdrawVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleSetApproval = (record: any) => {
     setCurrentInfo(record);
@@ -29,8 +35,8 @@ const PluginFinanceWithdraw: React.FC = () => {
 
   const setWithdrawFinished = async (record: any) => {
     Modal.confirm({
-      title: '确定要手动处理完成提现吗？',
-      content: '如果你线下打款给用户了，可以在这里点击完成',
+      title: intl.formatMessage({ id: 'plugin.finance.withdraw.finish.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.finance.withdraw.finish.content' }),
       onOk: () => {
         pluginSetWithdrawFinished(record).then((res) => {
           message.info(res.msg);
@@ -42,47 +48,47 @@ const PluginFinanceWithdraw: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '用户',
+      title: intl.formatMessage({ id: 'plugin.comment.user-name' }),
       dataIndex: 'user_name',
     },
     {
-      title: '提现金额',
+      title: intl.formatMessage({ id: 'plugin.finance.withdraw.amount' }),
       dataIndex: 'amount',
       render: (dom: any) => {
         return dom / 100;
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '等待处理',
+          text: intl.formatMessage({ id: 'plugin.finance.withdraw.status.waiting' }),
         },
         1: {
-          text: '已同意',
+          text: intl.formatMessage({ id: 'plugin.finance.withdraw.status.agree' }),
         },
         2: {
-          text: '已提现',
+          text: intl.formatMessage({ id: 'plugin.finance.withdraw.status.finish' }),
         },
       },
     },
     {
-      title: '申请时间',
+      title: intl.formatMessage({ id: 'plugin.finance.withdraw.apply-time' }),
       dataIndex: 'created_time',
       render: (_, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
-      title: '成功时间',
+      title: intl.formatMessage({ id: 'plugin.finance.withdraw.success-time' }),
       dataIndex: 'success_time',
       render: (_, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -94,7 +100,7 @@ const PluginFinanceWithdraw: React.FC = () => {
                 handleSetApproval(record);
               }}
             >
-              同意提现
+              <FormattedMessage id="plugin.finance.withdraw.agree" />
             </a>
           )}
           {record.status == 1 && (
@@ -104,7 +110,7 @@ const PluginFinanceWithdraw: React.FC = () => {
                 setWithdrawFinished(record);
               }}
             >
-              完成提现
+              <FormattedMessage id="plugin.finance.withdraw.finish" />
             </a>
           )}
         </Space>
@@ -115,7 +121,7 @@ const PluginFinanceWithdraw: React.FC = () => {
   return (
     <>
       <ProTable<any>
-        headerTitle="提现管理"
+        headerTitle={intl.formatMessage({ id: 'plugin.finance.withdraw.name' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
@@ -136,20 +142,20 @@ const PluginFinanceWithdraw: React.FC = () => {
       />
       {withdrawVisible && (
         <ModalForm
-          title="提现申请处理"
-          visible={withdrawVisible}
-          onVisibleChange={(flag) => {
+          title={intl.formatMessage({ id: 'plugin.finance.withdraw.apply' })}
+          open={withdrawVisible}
+          onOpenChange={(flag) => {
             setWithdrawVisible(flag);
           }}
           onFinish={saveWithdrawApproval}
         >
           <ProFormRadio.Group
             name="status"
-            label="提现申请"
+            label={intl.formatMessage({ id: 'plugin.finance.withdraw.apply' })}
             options={[
               {
                 value: 1,
-                label: '同意',
+                label: intl.formatMessage({ id: 'plugin.finance.withdraw.agree' }),
               },
             ]}
           />

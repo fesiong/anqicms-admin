@@ -1,21 +1,21 @@
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { deleteArchive, getArchiveInfo, getArchives, recoverArchive } from '@/services';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 const ArchiveList: React.FC = (props) => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [currentArchive, setCurrentArchive] = useState<any>(null);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的文档吗？',
+      title: intl.formatMessage({ id: 'content.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -24,13 +24,13 @@ const ArchiveList: React.FC = (props) => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -39,9 +39,9 @@ const ArchiveList: React.FC = (props) => {
 
   const handleRecover = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要恢复选中的文档吗？',
+      title: intl.formatMessage({ id: 'content.recover.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在恢复', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.recover.recovering' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -50,13 +50,13 @@ const ArchiveList: React.FC = (props) => {
             });
           }
           hide();
-          message.success('恢复成功');
+          message.success(intl.formatMessage({ id: 'content.recover.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('恢复失败');
+          message.error(intl.formatMessage({ id: 'content.recover.failure' }));
           return true;
         }
       },
@@ -73,12 +73,12 @@ const ArchiveList: React.FC = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: 'ID',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '标题',
+      title: intl.formatMessage({ id: 'content.title.name' }),
       dataIndex: 'title',
       hideInSearch: true,
       render: (dom, entity) => {
@@ -98,12 +98,12 @@ const ArchiveList: React.FC = (props) => {
       },
     },
     {
-      title: '内容模型',
+      title: intl.formatMessage({ id: 'content.module.name' }),
       dataIndex: 'module_name',
       hideInSearch: true,
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -115,7 +115,7 @@ const ArchiveList: React.FC = (props) => {
               await handleRecover([record.id]);
             }}
           >
-            恢复
+            <FormattedMessage id="content.action.recover" />
           </a>
           <a
             className="text-red"
@@ -124,7 +124,7 @@ const ArchiveList: React.FC = (props) => {
               await handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -134,7 +134,7 @@ const ArchiveList: React.FC = (props) => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="文档回收站"
+        headerTitle={intl.formatMessage({ id: 'content.recycle.name' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
@@ -147,7 +147,7 @@ const ArchiveList: React.FC = (props) => {
                 await handleRecover(selectedRowKeys);
               }}
             >
-              批量恢复
+              <FormattedMessage id="content.option.batch-recover" />
             </Button>
             <Button
               size={'small'}
@@ -155,10 +155,10 @@ const ArchiveList: React.FC = (props) => {
                 await handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
@@ -181,7 +181,7 @@ const ArchiveList: React.FC = (props) => {
         }}
       />
       <Modal
-        title="文档预览"
+        title={intl.formatMessage({ id: 'content.preview' })}
         open={visible}
         width={1000}
         onOk={() => setVisible(false)}

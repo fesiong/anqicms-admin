@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormRadio } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Card, message } from 'antd';
 import { pluginGetInterferenceConfig, pluginSaveInterferenceConfig } from '@/services';
+import { PageContainer, ProForm, ProFormRadio } from '@ant-design/pro-components';
+import { Card, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 
 const PluginInterference: React.FC<any> = () => {
@@ -34,7 +33,7 @@ const PluginInterference: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         {fetched && (
           <ProForm
@@ -87,7 +86,7 @@ const PluginInterference: React.FC<any> = () => {
           </ProForm>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

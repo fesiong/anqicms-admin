@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Card, message } from 'antd';
 import { getSettingSafe, saveSettingSafe } from '@/services';
+import {
+  PageContainer,
+  ProForm,
+  ProFormRadio,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import { Card, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const SettingSafeFrom: React.FC<any> = (props) => {
   const [setting, setSetting] = useState<any>(null);
+  const intl = useIntl();
   useEffect(() => {
     getSetting();
   }, []);
@@ -22,7 +29,7 @@ const SettingSafeFrom: React.FC<any> = (props) => {
     values.daily_limit = Number(values.daily_limit);
     values.content_limit = Number(values.content_limit);
     values.interval_limit = Number(values.interval_limit);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveSettingSafe(values)
       .then((res) => {
         message.success(res.msg);
@@ -36,117 +43,122 @@ const SettingSafeFrom: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         {setting && (
-          <ProForm initialValues={setting} onFinish={onSubmit} title="内容安全设置">
+          <ProForm
+            initialValues={setting}
+            onFinish={onSubmit}
+            title={intl.formatMessage({ id: 'menu.setting.safe' })}
+          >
             <ProFormRadio.Group
               name="admin_captcha_off"
-              label="后台访问验证码"
+              label={intl.formatMessage({ id: 'setting.safe.admin-captcha' })}
               options={[
                 {
                   value: 0,
-                  label: '开启',
+                  label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
                 {
                   value: 1,
-                  label: '关闭',
+                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
                 },
               ]}
-              extra="为了你的网站安全，建议开启后台验证码"
+              extra={intl.formatMessage({ id: 'setting.safe.admin-captcha.description' })}
             />
             <ProFormRadio.Group
               name="captcha"
-              label="登陆/留言/评论验证码"
+              label={intl.formatMessage({ id: 'setting.safe.captcha' })}
               options={[
                 {
                   value: 0,
-                  label: '关闭',
+                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
                 },
                 {
                   value: 1,
-                  label: '开启',
+                  label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
               ]}
-              extra="如需开启验证码，请参考验证码标签使用js调用刷新验证码和提交验证数据。开启后，前台用户登录、留言、评论都需要验证码"
+              extra={intl.formatMessage({ id: 'setting.safe.captcha.description' })}
             />
             <ProFormText
               name="daily_limit"
-              label="同IP每日提交限制"
+              label={intl.formatMessage({ id: 'setting.safe.daily-limit' })}
               width="lg"
-              fieldProps={{ suffix: '次' }}
-              extra="0表示不限制"
+              fieldProps={{
+                suffix: intl.formatMessage({ id: 'setting.safe.daily-limit.suffix' }),
+              }}
+              extra={intl.formatMessage({ id: 'setting.safe.daily-limit.description' })}
             />
             <ProFormText
               name="content_limit"
-              label="提交留言内容至少"
+              label={intl.formatMessage({ id: 'setting.safe.content-limit' })}
               width="lg"
-              fieldProps={{ suffix: '字' }}
-              extra="0表示不限制"
+              fieldProps={{
+                suffix: intl.formatMessage({ id: 'setting.safe.content-limit.suffix' }),
+              }}
+              extra={intl.formatMessage({ id: 'setting.safe.daily-limit.description' })}
             />
             <ProFormText
               name="interval_limit"
-              label="留言提交间隔"
+              label={intl.formatMessage({ id: 'setting.safe.interval-limit' })}
               width="lg"
-              fieldProps={{ suffix: '秒' }}
-              extra="0表示不限制"
+              fieldProps={{
+                suffix: intl.formatMessage({ id: 'setting.safe.interval-limit.suffix' }),
+              }}
+              extra={intl.formatMessage({ id: 'setting.safe.daily-limit.description' })}
             />
             <ProFormTextArea
               name="content_forbidden"
-              label="留言敏感词过滤"
+              label={intl.formatMessage({ id: 'setting.safe.content-forbidden' })}
               width="lg"
-              extra="一行一个，提交的留言、评论内容包含有这些词的将会被拒绝。"
+              extra={intl.formatMessage({ id: 'setting.safe.content-forbidden.description' })}
             />
             <ProFormTextArea
               name="ua_forbidden"
-              label="限制UserAgent"
+              label={intl.formatMessage({ id: 'setting.safe.ua-forbidden' })}
               width="lg"
-              extra="一行一个，使用这些UserAgent访问的链接将会被拒绝。"
+              extra={intl.formatMessage({ id: 'setting.safe.ua-forbidden.description' })}
             />
             <ProFormTextArea
               name="ip_forbidden"
-              label="限制IP地址"
+              label={intl.formatMessage({ id: 'setting.safe.ip-forbidden' })}
               width="lg"
-              extra={
-                <div>
-                  一行一个，使用这些IP访问的链接将会被拒绝。ip支持的格式：单个IP:
-                  192.168.0.1，某个IP段: 192.168.0.0/16
-                </div>
-              }
+              extra={intl.formatMessage({ id: 'setting.safe.ip-forbidden.description' })}
             />
             <ProFormRadio.Group
               name="api_open"
-              label="开放API接口"
+              label={intl.formatMessage({ id: 'setting.safe.api-open' })}
               options={[
                 {
                   value: 0,
-                  label: '关闭',
+                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
                 },
                 {
                   value: 1,
-                  label: '开放',
+                  label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
               ]}
-              extra="开放后，才能请求API地址。文档导入接口不受限制"
+              extra={intl.formatMessage({ id: 'setting.safe.api-open.description' })}
             />
             <ProFormRadio.Group
               name="api_publish"
-              label="API发布结果"
+              label={intl.formatMessage({ id: 'setting.safe.api-publish' })}
               options={[
                 {
                   value: 0,
-                  label: '进入草稿箱',
+                  label: intl.formatMessage({ id: 'setting.safe.api-publish.draft' }),
                 },
                 {
                   value: 1,
-                  label: '正常发布',
+                  label: intl.formatMessage({ id: 'setting.safe.api-publish.normal' }),
                 },
               ]}
             />
           </ProForm>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

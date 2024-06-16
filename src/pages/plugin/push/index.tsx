@@ -1,10 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ProForm, { ProFormTextArea, ProFormText, ModalForm } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, message, Modal, Space, Tag } from 'antd';
 import { pluginGetPush, pluginGetPushLogs, pluginSavePush } from '@/services/plugin/push';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import moment from 'moment';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumns,
+  ProForm,
+  ProFormText,
+  ProFormTextArea,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Alert, Button, Card, Modal, Space, Tag, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
 
 const PluginPush: React.FC<any> = (props) => {
   const actionRef = useRef<ActionType>();
@@ -82,7 +89,7 @@ const PluginPush: React.FC<any> = (props) => {
       title: '时间',
       width: 160,
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: '搜索引擎',
@@ -147,7 +154,7 @@ const PluginPush: React.FC<any> = (props) => {
   ];
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           message={
@@ -232,7 +239,7 @@ const PluginPush: React.FC<any> = (props) => {
       <Modal
         title="查看最近推送记录"
         width={900}
-        visible={logVisible}
+        open={logVisible}
         onCancel={() => {
           setLogVisible(false);
         }}
@@ -259,9 +266,9 @@ const PluginPush: React.FC<any> = (props) => {
       </Modal>
       {editCodeVisible && (
         <ModalForm
-          visible={editCodeVisible}
+          open={editCodeVisible}
           onFinish={handleSaveEditJs}
-          onVisibleChange={(flag) => {
+          onOpenChange={(flag) => {
             setEditCodeVisible(flag);
           }}
           initialValues={jsCodes[currentIndex]}
@@ -277,7 +284,7 @@ const PluginPush: React.FC<any> = (props) => {
           />
         </ModalForm>
       )}
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

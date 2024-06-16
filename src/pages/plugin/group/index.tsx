@@ -1,9 +1,7 @@
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { pluginDeleteUserGroup, pluginGetUserGroups } from '@/services';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import UserGroupForm from './components/groupForm';
 
 const PluginUserGroup: React.FC = () => {
@@ -99,7 +97,7 @@ const PluginUserGroup: React.FC = () => {
       />
       {editVisible && (
         <UserGroupForm
-          visible={editVisible}
+          open={editVisible}
           group={currentGroup}
           onCancel={() => {
             setEditVisible(false);

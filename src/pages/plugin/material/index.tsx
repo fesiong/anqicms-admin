@@ -1,19 +1,15 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space, Select } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-
-import { removeHtmlTag } from '@/utils';
-import MaterialImport from './components/import';
 import {
   pluginDeleteMaterial,
   pluginGetMaterialCategories,
   pluginGetMaterials,
 } from '@/services/plugin/material';
-import MaterialForm from './components/materialForm';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Modal, Select, Space, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import MaterialCategory from './components/category';
+import MaterialImport from './components/import';
+import MaterialForm from './components/materialForm';
 
 const PluginMaterial: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -215,7 +211,7 @@ const PluginMaterial: React.FC = () => {
       />
       {editVisible && (
         <MaterialForm
-          visible={editVisible}
+          open={editVisible}
           editingMaterial={currentMaterial}
           onCancel={() => {
             setEditVisible(false);
@@ -230,7 +226,7 @@ const PluginMaterial: React.FC = () => {
       )}
       <Modal
         title="内容预览"
-        visible={previewVisible}
+        open={previewVisible}
         width={800}
         cancelText="关闭"
         okText={false}

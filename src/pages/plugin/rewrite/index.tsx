@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormTextArea, ProFormRadio } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Card, Col, message, Radio, Row, Space, Tag } from 'antd';
 import { pluginGetRewrite, pluginSaveRewrite } from '@/services/plugin/rewrite';
+import { PageContainer, ProForm, ProFormTextArea } from '@ant-design/pro-components';
+import { Alert, Card, Col, Radio, Row, Space, Tag, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const PluginRewrite: React.FC<any> = (props) => {
   const [rewriteMode, setRewriteMode] = useState<any>({});
@@ -36,7 +35,7 @@ const PluginRewrite: React.FC<any> = (props) => {
       });
   };
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           message={
@@ -247,7 +246,7 @@ const PluginRewrite: React.FC<any> = (props) => {
           </Card>
         </div>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

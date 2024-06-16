@@ -1,20 +1,20 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Row, Col, Statistic, Tabs, Tooltip, Button } from 'antd';
-import './index.less';
-import StatisticsRow from './components/statistics';
 import {
+  checkVersion,
   getDashboardInfo,
   getStatisticInclude,
   getStatisticSpider,
   getStatisticSummary,
   getStatisticTraffic,
-  checkVersion,
 } from '@/services';
-import { history, useModel } from 'umi';
-import { Line } from '@ant-design/plots';
-import moment from 'moment';
 import { getStore, setStore } from '@/utils/store';
+import { Line } from '@ant-design/plots';
+import { PageContainer } from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
+import { Button, Card, Col, Row, Statistic, Tabs, Tooltip } from 'antd';
+import dayjs from 'dayjs';
+import React, { Suspense, useEffect, useState } from 'react';
+import StatisticsRow from './components/statistics';
+import './index.less';
 
 const { TabPane } = Tabs;
 
@@ -27,6 +27,7 @@ const Dashboard: React.FC = () => {
   const [infoData, setInfoData] = useState<any>({});
   const [newVersion, setNewVersion] = useState<any>(null);
   const [showGuide, setShowGuide] = useState<boolean>(false);
+  const intl = useIntl();
 
   const getSetting = async () => {
     getStatisticSummary().then((res) => {
@@ -66,7 +67,7 @@ const Dashboard: React.FC = () => {
 
   const handlePreview = async () => {
     let baseUrl = '';
-    if (!initialState.system) {
+    if (!initialState?.system) {
       const system = await initialState?.fetchSystemSetting?.();
       if (system) {
         await setInitialState((s) => ({
@@ -76,7 +77,7 @@ const Dashboard: React.FC = () => {
       }
       baseUrl = system?.base_url || '';
     } else {
-      baseUrl = initialState.system?.base_url || '';
+      baseUrl = initialState?.system?.base_url || '';
     }
     window.open(baseUrl);
     return;
@@ -132,138 +133,148 @@ const Dashboard: React.FC = () => {
         <Suspense fallback={null}>
           <Card className="guide-card" style={{ marginBottom: 24 }}>
             <div className="guide-header">
-              <h1>欢迎使用安企CMS(AnQiCMS)</h1>
-              <p>我们准备了几个链接供你开始使用！</p>
+              <h1>
+                <FormattedMessage id="dashboard.guide.welcome" />
+              </h1>
+              <p>
+                <FormattedMessage id="dashboard.guide.description" />
+              </p>
               <span className="guild-close" onClick={handleCloseGuide}>
-                关闭
+                <FormattedMessage id="component.close" />
               </span>
             </div>
             <Row gutter={16}>
               <Col flex={1}>
                 <div className="guide-start">
-                  <h2>开始使用</h2>
+                  <h2>
+                    <FormattedMessage id="dashboard.guide.welcome" />
+                  </h2>
                   <div className="main-start">
                     <Button
                       size="large"
                       type="primary"
                       onClick={() => handleJump('/setting/system')}
                     >
-                      自定义您的站点
+                      <FormattedMessage id="dashboard.guide.system" />
                     </Button>
                   </div>
                   <div>
-                    或
+                    <FormattedMessage id="dashboard.guide.or" />
                     <span className="link" onClick={() => handleJump('/design/index')}>
-                      调整模板设计
+                      <FormattedMessage id="dashboard.guide.design" />
                     </span>
-                    ，
+                    <FormattedMessage id="dashboard.guide.comma" />
                     <a className="link" href="https://www.anqicms.com/help" target="_blank">
-                      查看使用帮助
+                      <FormattedMessage id="dashboard.guide.help" />
                     </a>
                   </div>
                 </div>
               </Col>
               <Col flex={1}>
                 <div className="guide-start">
-                  <h2>接下来</h2>
+                  <h2>
+                    <FormattedMessage id="dashboard.guide.next" />
+                  </h2>
                   <ul className="guide-list">
                     <li className="link" onClick={() => handleJump('/archive/category')}>
-                      添加一个文档分类
+                      <FormattedMessage id="dashboard.guide.new-category" />
                     </li>
                     <li className="link" onClick={() => handleJump('/archive/detail')}>
-                      撰写一篇新文档
+                      <FormattedMessage id="dashboard.guide.new-archive" />
                     </li>
                     <li className="link" onClick={() => handleJump('/archive/page')}>
-                      添加“关于”页面
+                      <FormattedMessage id="dashboard.guide.new-page" />
                     </li>
                     <li className="link" onClick={() => handleJump('/setting/tdk')}>
-                      设置首页TDK
+                      <FormattedMessage id="dashboard.guide.tdk" />
                     </li>
                     <li className="link" onClick={handlePreview}>
-                      查看站点
+                      <FormattedMessage id="dashboard.guide.preview" />
                     </li>
                   </ul>
                 </div>
               </Col>
               <Col flex={1}>
                 <div className="guide-start">
-                  <h2>新站点操作指南</h2>
+                  <h2>
+                    <FormattedMessage id="dashboard.guide.step" />
+                  </h2>
                   <Row>
                     <Col flex={1}>
                       <ul className="guide-list split">
                         <li>
-                          1. 修改
+                          1. <FormattedMessage id="dashboard.guide.step.change" />
                           <span className="link" onClick={() => handleJump('/setting/system')}>
-                            全局设置
+                            <FormattedMessage id="menu.setting.system" />
                           </span>
-                          站点信息；
+                          <FormattedMessage id="dashboard.guide.step.website" />
                         </li>
                         <li>
-                          2. 修改
+                          2. <FormattedMessage id="dashboard.guide.step.change" />
                           <span className="link" onClick={() => handleJump('/setting/content')}>
-                            内容设置
+                            <FormattedMessage id="menu.setting.content" />
                           </span>
-                          图片设置；
+                          <FormattedMessage id="dashboard.guide.step.website" />
                         </li>
                         <li>
-                          3. 修改
+                          3. <FormattedMessage id="dashboard.guide.step.change" />
                           <span className="link" onClick={() => handleJump('/setting/tdk')}>
-                            首页TDK
+                            <FormattedMessage id="menu.setting.tdk" />
                           </span>
-                          设置；
+                          <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          4. 创建
+                          4. <FormattedMessage id="dashboard.guide.step.create" />
                           <span className="link" onClick={() => handleJump('/archive/category')}>
-                            文档分类
+                            <FormattedMessage id="menu.archive.category" />
                           </span>
                           ；{' '}
                         </li>
                         <li>
                           5.{' '}
                           <span className="link" onClick={() => handleJump('/archive/page')}>
-                            添加
+                            <FormattedMessage id="dashboard.guide.step.create" />
                           </span>
-                          “关于”、“联系我们”页面；
+                          <FormattedMessage id="dashboard.guide.step.page" />
                         </li>
                       </ul>
                     </Col>
                     <Col flex={1}>
                       <ul className="guide-list split">
                         <li>
-                          6. 修改
+                          6. <FormattedMessage id="dashboard.guide.step.change" />
                           <span className="link" onClick={() => handleJump('/setting/nav')}>
-                            导航设置
+                            <FormattedMessage id="menu.setting.nav" />
                           </span>
-                          ；
+                          <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          7. 修改
+                          7. <FormattedMessage id="dashboard.guide.step.change" />
                           <span className="link" onClick={() => handleJump('/plugin/rewrite')}>
-                            伪静态规则
+                            <FormattedMessage id="menu.plugin.rewrite" />
                           </span>
-                          伪静态规则；
+                          <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          8. 修改
+                          8. <FormattedMessage id="dashboard.guide.step.change" />
                           <span className="link" onClick={() => handleJump('/plugin/robots')}>
-                            站点Robots
+                            <FormattedMessage id="menu.plugin.robots" />
                           </span>
-                          .txt；
+                          <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          9. 修改
+                          9. <FormattedMessage id="dashboard.guide.step.change" />
                           <span className="link" onClick={() => handleJump('/plugin/sitemap')}>
-                            Sitemap
+                            <FormattedMessage id="menu.plugin.sitemap" />
                           </span>
-                          配置；
+                          <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
                           10.{' '}
                           <span className="link" onClick={() => handleJump('/archive/detail')}>
-                            发布文章
+                            <FormattedMessage id="dashboard.guide.step.publish" />
                           </span>
-                          。
+                          <FormattedMessage id="dashboard.guide.step.dot" />
                         </li>
                       </ul>
                     </Col>
@@ -280,8 +291,12 @@ const Dashboard: React.FC = () => {
       <Row gutter={20}>
         <Col sm={18} xs={24}>
           <Card
-            title="快捷操作"
-            extra={<Button onClick={() => handleJump('/archive/detail')}>去发文章</Button>}
+            title={intl.formatMessage({ id: 'dashboard.quick' })}
+            extra={
+              <Button onClick={() => handleJump('/archive/detail')}>
+                <FormattedMessage id="dashboard.guide.step.publish" />
+              </Button>
+            }
           >
             <Row gutter={16}>
               {data.archive_counts?.map((item: any, index: number) => (
@@ -301,7 +316,11 @@ const Dashboard: React.FC = () => {
                   handleJump('/archive/category');
                 }}
               >
-                <Statistic className="link" title="文档分类" value={data.category_count} />
+                <Statistic
+                  className="link"
+                  title={intl.formatMessage({ id: 'menu.archive.category' })}
+                  value={data.category_count}
+                />
               </Col>
               <Col
                 flex={1}
@@ -309,7 +328,11 @@ const Dashboard: React.FC = () => {
                   handleJump('/plugin/friendlink');
                 }}
               >
-                <Statistic className="link" title="友情链接" value={data.link_count} />
+                <Statistic
+                  className="link"
+                  title={intl.formatMessage({ id: 'menu.plugin.friendlink' })}
+                  value={data.link_count}
+                />
               </Col>
               <Col
                 flex={1}
@@ -317,7 +340,11 @@ const Dashboard: React.FC = () => {
                   handleJump('/plugin/guestbook');
                 }}
               >
-                <Statistic className="link" title="网站留言" value={data.guestbook_count} />
+                <Statistic
+                  className="link"
+                  title={intl.formatMessage({ id: 'menu.plugin.guestbook' })}
+                  value={data.guestbook_count}
+                />
               </Col>
               <Col
                 flex={1}
@@ -325,7 +352,11 @@ const Dashboard: React.FC = () => {
                   handleJump('/archive/page');
                 }}
               >
-                <Statistic className="link" title="单页管理" value={data.page_count} />
+                <Statistic
+                  className="link"
+                  title={intl.formatMessage({ id: 'menu.archive.page' })}
+                  value={data.page_count}
+                />
               </Col>
               <Col
                 flex={1}
@@ -333,7 +364,11 @@ const Dashboard: React.FC = () => {
                   handleJump('/archive/attachment');
                 }}
               >
-                <Statistic className="link" title="图片管理" value={data.attachment_count} />
+                <Statistic
+                  className="link"
+                  title={intl.formatMessage({ id: 'menu.archive.attachment' })}
+                  value={data.attachment_count}
+                />
               </Col>
               <Col
                 flex={1}
@@ -341,7 +376,11 @@ const Dashboard: React.FC = () => {
                   handleJump('/design/index');
                 }}
               >
-                <Statistic className="link" title="模板设计" value={data.template_count} />
+                <Statistic
+                  className="link"
+                  title={intl.formatMessage({ id: 'menu.design' })}
+                  value={data.template_count}
+                />
               </Col>
             </Row>
           </Card>
@@ -353,17 +392,20 @@ const Dashboard: React.FC = () => {
             >
               <div className="statistic-card">
                 <Tabs size="large" tabBarStyle={{ marginBottom: 24 }}>
-                  <TabPane tab="访问量" key="traffic">
+                  <TabPane tab={intl.formatMessage({ id: 'menu.statistic.traffic' })} key="traffic">
                     <div className="statistic-bar">
                       <Line {...trafficConfig} />
                     </div>
                   </TabPane>
-                  <TabPane tab="蜘蛛爬行" key="spider">
+                  <TabPane tab={intl.formatMessage({ id: 'menu.statistic.spider' })} key="spider">
                     <div className="statistic-bar">
                       <Line {...spiderConfig} />
                     </div>
                   </TabPane>
-                  <TabPane tab="网站收录" key="include">
+                  <TabPane
+                    tab={intl.formatMessage({ id: 'menu.statistic.includes' })}
+                    key="include"
+                  >
                     <div className="statistic-bar">
                       <Line {...includeConfig} />
                     </div>
@@ -374,14 +416,16 @@ const Dashboard: React.FC = () => {
           </Suspense>
         </Col>
         <Col sm={6} xs={24}>
-          <Card title="登录信息">
+          <Card title={intl.formatMessage({ id: 'dashboard.login-info' })}>
             <Row gutter={24}>
               <Col span={12}>
                 <div className="info-card">
-                  <div className="title">本次登录</div>
+                  <div className="title">
+                    <FormattedMessage id="dashboard.login-info.this-time" />
+                  </div>
                   <p>
                     {infoData.now_login
-                      ? moment(infoData.now_login.created_time * 1000).format('MM-DD HH:mm')
+                      ? dayjs(infoData.now_login.created_time * 1000).format('MM-DD HH:mm')
                       : '-'}
                   </p>
                   <div>{infoData.now_login?.ip}</div>
@@ -389,10 +433,12 @@ const Dashboard: React.FC = () => {
               </Col>
               <Col span={12}>
                 <div className="info-card">
-                  <div className="title">上次登录</div>
+                  <div className="title">
+                    <FormattedMessage id="dashboard.login-info.last-time" />
+                  </div>
                   <p>
                     {infoData.last_login
-                      ? moment(infoData.last_login.created_time * 1000).format('MM-DD HH:mm')
+                      ? dayjs(infoData.last_login.created_time * 1000).format('MM-DD HH:mm')
                       : '-'}
                   </p>
                   <div>{infoData.last_login?.ip}</div>
@@ -400,29 +446,38 @@ const Dashboard: React.FC = () => {
               </Col>
             </Row>
           </Card>
-          <Card style={{ marginTop: '24px' }} title="网站信息">
+          <Card
+            style={{ marginTop: '24px' }}
+            title={intl.formatMessage({ id: 'dashboard.web-info' })}
+          >
             <Row gutter={[16, 24]}>
               <Col span={12}>
                 <div className="info-card">
-                  <div className="title">网站名称</div>
+                  <div className="title">
+                    <FormattedMessage id="setting.system.site-name" />
+                  </div>
                   <div>{infoData.system?.site_name}</div>
                 </div>
               </Col>
               <Col span={12}>
                 <div className="info-card">
-                  <div className="title">网站类型</div>
+                  <div className="title">
+                    <FormattedMessage id="setting.system.template-type" />
+                  </div>
                   <div>
                     {infoData.system?.template_type == 2
-                      ? '电脑+手机'
+                      ? intl.formatMessage({ id: 'setting.system.template-type.pc-m' })
                       : infoData.system?.template_type == 1
-                      ? '代码适配'
-                      : '自适应'}
+                      ? intl.formatMessage({ id: 'setting.system.template-type.code' })
+                      : intl.formatMessage({ id: 'setting.system.template-type.auto' })}
                   </div>
                 </div>
               </Col>
               <Col span={24}>
                 <div className="info-card">
-                  <div className="title">网站地址</div>
+                  <div className="title">
+                    <FormattedMessage id="setting.system.base-url" />
+                  </div>
                   <div>{infoData.system?.base_url}</div>
                 </div>
               </Col>
@@ -430,29 +485,34 @@ const Dashboard: React.FC = () => {
           </Card>
           <Card
             style={{ marginTop: '24px' }}
-            title="软件信息"
+            title={intl.formatMessage({ id: 'dashboard.soft-info' })}
             extra={
               newVersion && (
-                <Tooltip title="点击前往系统升级">
+                <Tooltip title={intl.formatMessage({ id: 'dashboard.soft-info.click-to-upgrade' })}>
                   <span onClick={() => handleJump('/tool/upgrade')} className="new-version-tips">
-                    发现新版：<span className="version">{newVersion.version}</span>
+                    <FormattedMessage id="dashboard.soft-info.new-version" />
+                    <span className="version">{newVersion.version}</span>
                   </span>
                 </Tooltip>
               )
             }
           >
-            <p>软件版本：{infoData.version}</p>
-            <p>占用内存：{(infoData.memory_usage / 1024 / 1024).toFixed(1)} MB</p>
             <p>
-              官网地址：
+              <FormattedMessage id="dashboard.soft-info.version" />
+              {infoData.version}
+            </p>
+            <p>
+              <FormattedMessage id="dashboard.soft-info.memory-usage" />
+              {(infoData.memory_usage / 1024 / 1024).toFixed(1)} MB
+            </p>
+            <p>
+              <FormattedMessage id="dashboard.soft-info.official-web" />
               <a href="https://www.anqicms.com/" target={'_blank'} rel="noreferrer">
                 https://www.anqicms.com
               </a>
             </p>
             <div>
-              安企内容管理系统(AnqiCMS)，是一款使用 GoLang
-              开发的企业站内容管理系统，它部署简单，软件安全，界面优雅，小巧，执行速度飞快，使用
-              AnqiCMS 搭建的网站可以防止众多安全问题发生。
+              <FormattedMessage id="dashboard.soft-info.description" />
             </div>
           </Card>
         </Col>

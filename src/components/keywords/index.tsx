@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Modal } from 'antd';
-import ProTable, { ProColumns } from '@ant-design/pro-table';
 import { pluginGetKeywords } from '@/services/plugin/keyword';
+import { ProColumns, ProTable } from '@ant-design/pro-components';
+import { Modal } from 'antd';
+import React, { useState } from 'react';
 
 export type KeywordsProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (values: string[]) => Promise<void>;
-  visible: boolean;
+  open: boolean;
 };
 
 const Keywords: React.FC<KeywordsProps> = (props) => {
@@ -23,7 +23,7 @@ const Keywords: React.FC<KeywordsProps> = (props) => {
     <Modal
       width={600}
       title="选择关键词"
-      visible={props.visible}
+      open={props.open}
       onCancel={() => {
         props.onCancel();
       }}

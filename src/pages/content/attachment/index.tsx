@@ -1,40 +1,45 @@
 import {
-  Pagination,
-  Button,
-  Space,
-  Row,
-  Col,
-  Image,
-  Modal,
-  message,
-  Checkbox,
-  Select,
-  Empty,
-  Upload,
-  Card,
-  Avatar,
-  Input,
-  Alert,
-} from 'antd';
-import React from 'react';
-import './index.less';
-import { LoadingOutlined } from '@ant-design/icons';
-import { PageContainer } from '@ant-design/pro-layout';
-import {
   changeAttachmentCategory,
   changeAttachmentName,
   deleteAttachment,
   getAttachmentCategories,
   getAttachments,
-  uploadAttachment,
   scanUploadsAttachment,
+  uploadAttachment,
 } from '@/services/attachment';
-import AttachmentCategory from './components/category';
-import moment from 'moment';
 import { sizeFormat } from '@/utils';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
+import { LoadingOutlined } from '@ant-design/icons';
+import { ModalForm, PageContainer, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage } from '@umijs/max';
+import {
+  Alert,
+  Avatar,
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Empty,
+  Image,
+  Input,
+  Modal,
+  Pagination,
+  Row,
+  Select,
+  Space,
+  Upload,
+  message,
+} from 'antd';
+import dayjs from 'dayjs';
+import React from 'react';
+import { IntlShape } from 'react-intl';
+import AttachmentCategory from './components/category';
+import './index.less';
 
-export default class ImageList extends React.Component {
+export type intlProps = {
+  intl: IntlShape;
+};
+
+class ImageList extends React.Component<intlProps> {
   state: { [key: string]: any } = {
     images: [],
     fetched: false,
@@ -88,21 +93,23 @@ export default class ImageList extends React.Component {
 
   scanUploadsDir = () => {
     Modal.confirm({
-      title: '确定要扫描站点的uploads上传目录吗？',
-      content:
-        '扫描站点的uploads上传目录，会自动将目录里的图片同步到数据库，并在当前图片资源列表中显示，如果图片没有缩略图，也会生成缩略图。',
-      okText: '确认',
-      cancelText: '取消',
+      title: this.props.intl.formatMessage({ id: 'content.attachment.scan.confirm' }),
+      content: this.props.intl.formatMessage({ id: 'content.attachment.scan.content' }),
       onOk: async () => {
         scanUploadsAttachment({}).then((res) => {
-          message.info(res.msg || '已提交后台处理，稍后将呈现结果');
+          message.info(
+            res.msg || this.props.intl.formatMessage({ id: 'content.attachment.scan.success' }),
+          );
         });
       },
     });
   };
 
   handleUploadImage = (e: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(
+      this.props.intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     const { categoryId } = this.state;
     let formData = new FormData();
     formData.append('file', e.file);
@@ -112,7 +119,9 @@ export default class ImageList extends React.Component {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || '上传成功');
+          message.info(
+            res.msg || this.props.intl.formatMessage({ id: 'setting.system.upload-success' }),
+          );
           this.getImageList();
         }
       })
@@ -123,11 +132,8 @@ export default class ImageList extends React.Component {
 
   handleDeleteImage = () => {
     Modal.confirm({
-      title: '确定要删除选中的图片吗？',
-      content:
-        '删除后，调用这个资源的文档和页面，或出现图片资源加载404错误，请确保没有地方引用这个资源再进行删除操作。',
-      okText: '确认',
-      cancelText: '取消',
+      title: this.props.intl.formatMessage({ id: 'content.attachment.delete.image.confirm' }),
+      content: this.props.intl.formatMessage({ id: 'content.attachment.delete.content' }),
       onOk: async () => {
         const { selectedIds } = this.state;
         for (let id of selectedIds) {
@@ -211,7 +217,7 @@ export default class ImageList extends React.Component {
     const { tmpCategoryId, categories } = this.state;
     Modal.confirm({
       icon: '',
-      title: '移动到新分类',
+      title: this.props.intl.formatMessage({ id: 'content.attachment.move-to-category' }),
       content: (
         <div>
           <Select
@@ -219,7 +225,9 @@ export default class ImageList extends React.Component {
             onChange={this.handleSetTmpCategoryId}
             style={{ width: 200 }}
           >
-            <Select.Option value={0}>未分类</Select.Option>
+            <Select.Option value={0}>
+              <FormattedMessage id="content.attachment.unclassified" />
+            </Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.title}
@@ -278,7 +286,9 @@ export default class ImageList extends React.Component {
       if (res.code !== 0) {
         message.info(res.msg);
       } else {
-        message.info(res.msg || '修改成功');
+        message.info(
+          res.msg || this.props.intl.formatMessage({ id: 'content.attachment.edit.success' }),
+        );
         this.setState({
           currentAttach: currentAttach,
         });
@@ -291,7 +301,7 @@ export default class ImageList extends React.Component {
   handleRemoveAttach = () => {
     const { currentAttach } = this.state;
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: this.props.intl.formatMessage({ id: 'content.attachment.delete.confirm' }),
       onOk: () => {
         this.setState(
           {
@@ -315,7 +325,9 @@ export default class ImageList extends React.Component {
       if (res.code !== 0) {
         message.info(res.msg);
       } else {
-        message.info(res.msg || '替换成功');
+        message.info(
+          res.msg || this.props.intl.formatMessage({ id: 'content.attachment.replace.success' }),
+        );
         this.setState({
           currentAttach: Object.assign(currentAttach, res.data || {}),
         });
@@ -365,17 +377,17 @@ export default class ImageList extends React.Component {
       <PageContainer>
         <Card
           className="image-page"
-          title="图片资源管理"
+          title={this.props.intl.formatMessage({ id: 'menu.archive.attachment' })}
           extra={
             <div className="meta">
               <Space size={16}>
                 {selectedIds.length > 0 && (
                   <>
                     <Button className="btn-gray" onClick={this.handleUpdateToCategory}>
-                      移动到新分类
+                      <FormattedMessage id="content.attachment.move-to-category" />
                     </Button>
                     <Button className="btn-gray" onClick={this.handleDeleteImage}>
-                      批量删除图片
+                      <FormattedMessage id="content.attachment.batch-delete" />
                     </Button>
                   </>
                 )}
@@ -384,16 +396,23 @@ export default class ImageList extends React.Component {
                   onChange={this.onCheckAllChange}
                   checked={selectedAll}
                 >
-                  全部选中
+                  <FormattedMessage id="content.attachment.select-all" />
                 </Checkbox>
-                <span>筛选</span>
-                <Input.Search placeholder="输入文件名关键词搜索" onSearch={this.handleSearch} />
+                <span>
+                  <FormattedMessage id="content.attachment.filter" />
+                </span>
+                <Input.Search
+                  placeholder={this.props.intl.formatMessage({ id: 'content.attachment.search' })}
+                  onSearch={this.handleSearch}
+                />
                 <Select
                   defaultValue={categoryId}
                   style={{ width: 120 }}
                   onChange={this.handleChangeCategory}
                 >
-                  <Select.Option value={0}>全部资源</Select.Option>
+                  <Select.Option value={0}>
+                    <FormattedMessage id="content.attachment.all-source" />
+                  </Select.Option>
                   {categories.map((item: any) => (
                     <Select.Option key={item.id} value={item.id}>
                       {item.title}
@@ -411,7 +430,7 @@ export default class ImageList extends React.Component {
                       //todo
                     }}
                   >
-                    分类管理
+                    <FormattedMessage id="content.attachment.category.manage" />
                   </Button>
                 </AttachmentCategory>
                 <Upload
@@ -421,9 +440,13 @@ export default class ImageList extends React.Component {
                   accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleUploadImage}
                 >
-                  <Button type="primary">上传新资源</Button>
+                  <Button type="primary">
+                    <FormattedMessage id="content.attachment.upload" />
+                  </Button>
                 </Upload>
-                <Button onClick={() => this.scanUploadsDir()}>扫描Uploads目录</Button>
+                <Button onClick={() => this.scanUploadsDir()}>
+                  <FormattedMessage id="content.attachment.scan.name" />
+                </Button>
               </Space>
             </div>
           }
@@ -438,7 +461,7 @@ export default class ImageList extends React.Component {
                 <Empty
                   className="empty-normal"
                   image={<LoadingOutlined style={{ fontSize: '72px' }} />}
-                  description="加载中..."
+                  description={this.props.intl.formatMessage({ id: 'content.attachment.loading' })}
                 ></Empty>
               ) : total > 0 ? (
                 <Row gutter={[16, 16]} className="image-list">
@@ -470,7 +493,10 @@ export default class ImageList extends React.Component {
                   ))}
                 </Row>
               ) : (
-                <Empty className="empty-normal" description="资源夹空空如也">
+                <Empty
+                  className="empty-normal"
+                  description={this.props.intl.formatMessage({ id: 'content.attachment.empty' })}
+                >
                   <Upload
                     name="file"
                     showUploadList={false}
@@ -478,7 +504,9 @@ export default class ImageList extends React.Component {
                     accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                     customRequest={this.handleUploadImage}
                   >
-                    <Button type="primary">添加新资源</Button>
+                    <Button type="primary">
+                      <FormattedMessage id="content.attachment.upload" />
+                    </Button>
                   </Upload>
                 </Empty>
               )}
@@ -497,10 +525,10 @@ export default class ImageList extends React.Component {
         </Card>
         <Modal
           width={900}
-          title={'查看资源详情'}
+          title={this.props.intl.formatMessage({ id: 'content.attachment.detail' })}
           onCancel={this.hideAttachDetail}
           onOk={this.hideAttachDetail}
-          visible={detailVisible}
+          open={detailVisible}
         >
           <div className="attachment-detail">
             <div className="preview">
@@ -525,11 +553,15 @@ export default class ImageList extends React.Component {
             <div className="detail">
               <div className="info">
                 <div className="item">
-                  <div className="name">文件名(ALT):</div>
+                  <div className="name">
+                    <FormattedMessage id="content.attachment.alt" />:
+                  </div>
                   <div className="value">{currentAttach.file_name}</div>
                 </div>
                 <div className="item">
-                  <div className="name">文件类型:</div>
+                  <div className="name">
+                    <FormattedMessage id="content.attachment.type" />:
+                  </div>
                   <div className="value">
                     {currentAttach.file_location?.substring(
                       currentAttach.file_location?.lastIndexOf('.'),
@@ -537,23 +569,31 @@ export default class ImageList extends React.Component {
                   </div>
                 </div>
                 <div className="item">
-                  <div className="name">上传于:</div>
+                  <div className="name">
+                    <FormattedMessage id="content.attachment.upload-at" />:
+                  </div>
                   <div className="value">
-                    {moment(currentAttach.updated_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                    {dayjs(currentAttach.updated_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                   </div>
                 </div>
                 <div className="item">
-                  <div className="name">文件大小:</div>
+                  <div className="name">
+                    <FormattedMessage id="content.attachment.size" />:
+                  </div>
                   <div className="value">{sizeFormat(currentAttach.file_size)}</div>
                 </div>
                 {currentAttach.width > 0 && (
                   <div className="item">
-                    <div className="name">分辨率:</div>
+                    <div className="name">
+                      <FormattedMessage id="content.attachment.ratio" />:
+                    </div>
                     <div className="value">{currentAttach.width + '×' + currentAttach.height}</div>
                   </div>
                 )}
                 <div className="item">
-                  <div className="name">资源地址:</div>
+                  <div className="name">
+                    <FormattedMessage id="content.attachment.address" />:
+                  </div>
                   <div className="value">{currentAttach.logo}</div>
                 </div>
               </div>
@@ -564,21 +604,33 @@ export default class ImageList extends React.Component {
                   accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
                   customRequest={this.handleReplaceAttach}
                 >
-                  <Button>替换资源</Button>
+                  <Button>
+                    <FormattedMessage id="content.attachment.replace.name" />
+                  </Button>
                 </Upload>
-                <Button onClick={this.handleModifyName}>修改文件名</Button>
-                <Button onClick={this.handleRemoveAttach}>删除</Button>
+                <Button onClick={this.handleModifyName}>
+                  <FormattedMessage id="content.attachment.edit" />
+                </Button>
+                <Button onClick={this.handleRemoveAttach}>
+                  <FormattedMessage id="setting.system.delete" />
+                </Button>
                 <Button danger onClick={this.hideAttachDetail}>
-                  关闭
+                  <FormattedMessage id="setting.action.close" />
                 </Button>
               </Space>
               <div className="tips">
-                <p>相关说明：</p>
-                <div>1、替换资源时，资源的URL地址不变，资源大小变为新资源的。</div>
+                <p>
+                  <FormattedMessage id="content.attachment.explain" />:
+                </p>
                 <div>
-                  2、为避免页面受大图影响，当图片过大时，自动按设置的图片大小进行同比例缩小。
+                  <FormattedMessage id="content.attachment.explain.tips1" />
                 </div>
-                <div>4、资源上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。</div>
+                <div>
+                  <FormattedMessage id="content.attachment.explain.tips2" />
+                </div>
+                <div>
+                  <FormattedMessage id="content.attachment.explain.tips3" />
+                </div>
               </div>
             </div>
           </div>
@@ -586,15 +638,17 @@ export default class ImageList extends React.Component {
         {editVisible && (
           <ModalForm
             width={600}
-            title="修改文件名(ALT)"
-            visible={editVisible}
+            title={this.props.intl.formatMessage({ id: 'content.attachment.edit' })}
+            open={editVisible}
             initialValues={currentAttach}
             layout="horizontal"
             onFinish={this.onSubmitEdit}
-            onVisibleChange={(e) => this.changeModifyName(e)}
+            onOpenChange={(e) => this.changeModifyName(e)}
           >
             <div className="mb-normal">
-              <Alert message="请填写新的文件名" />
+              <Alert
+                message={this.props.intl.formatMessage({ id: 'content.attachment.alt.alert' })}
+              />
             </div>
             <ProFormText name="file_name" />
           </ModalForm>
@@ -603,3 +657,5 @@ export default class ImageList extends React.Component {
     );
   }
 }
+
+export default ImageList;

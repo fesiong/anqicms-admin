@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, {
-  ModalForm,
-  ProFormDigit,
-  ProFormGroup,
-  ProFormRadio,
-  ProFormText,
-} from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, Col, message, Modal, Row, Tooltip, Upload } from 'antd';
 import {
   pluginGetTitleImageConfig,
   pluginSaveTitleImageConfig,
   pluginTitleImagePreview,
   pluginTitleImageUploadFile,
 } from '@/services';
-import './index.less';
+import {
+  ModalForm,
+  PageContainer,
+  ProForm,
+  ProFormDigit,
+  ProFormGroup,
+  ProFormRadio,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { Button, Card, Col, Modal, Row, Tooltip, Upload, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
+import './index.less';
 
 const PluginTitleImage: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
@@ -118,7 +119,7 @@ const PluginTitleImage: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Row gutter={16}>
           <Col span={12}>
@@ -295,7 +296,7 @@ const PluginTitleImage: React.FC<any> = () => {
       </Card>
       <ModalForm
         title="设置预览文字"
-        visible={visible}
+        open={visible}
         modalProps={{
           onCancel: () => setVisible(false),
         }}
@@ -303,7 +304,7 @@ const PluginTitleImage: React.FC<any> = () => {
       >
         <ProFormText name="text" />
       </ModalForm>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

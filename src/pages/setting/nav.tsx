@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import {
-  ModalForm,
-  ProFormText,
-  ProFormSelect,
-  ProFormRadio,
-  ProFormDigit,
-} from '@ant-design/pro-form';
-import ProList from '@ant-design/pro-list';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, message, Modal, Space, Tag } from 'antd';
 import {
   deleteSettingNav,
-  getSettingNav,
-  saveSettingNav,
+  getArchives,
   getCategories,
   getModules,
+  getSettingNav,
   getSettingNavTypes,
-  getArchives,
+  saveSettingNav,
 } from '@/services';
+import {
+  ModalForm,
+  PageContainer,
+  ProFormDigit,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+  ProList,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Modal, Space, Tag, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import NavTypes from './components/navType';
 
 const SettingNavFrom: React.FC<any> = (props) => {
@@ -32,6 +33,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
   const [typeId, setTypeId] = useState<number>(1);
   const [archives, setArchives] = useState<any[]>([]);
   const [defaultTitle, setDefaultTitle] = useState<string>('');
+  const intl = useIntl();
 
   useEffect(() => {
     getNavList(typeId);
@@ -68,14 +70,14 @@ const SettingNavFrom: React.FC<any> = (props) => {
     let options = [
       {
         value: 0,
-        label: '首页',
+        label: intl.formatMessage({ id: 'setting.nav.home' }),
       },
     ];
 
     for (let item of modules) {
       options.push({
         value: item.id,
-        label: item.title + '首页',
+        label: item.title + intl.formatMessage({ id: 'setting.nav.home' }),
       });
     }
 
@@ -90,7 +92,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
 
   const removeNav = (row: any) => {
     Modal.confirm({
-      title: '确定要删除该导航吗',
+      title: intl.formatMessage({ id: 'setting.nav.confirm-delete' }),
       onOk: () => {
         deleteSettingNav(row).then((res) => {
           message.success(res.msg);
@@ -112,7 +114,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
     if (!values.title) {
       values.title = defaultTitle;
     }
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveSettingNav(values)
       .then((res) => {
         message.success(res.msg);
@@ -147,7 +149,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card
         title={
           <div>
@@ -168,7 +170,9 @@ const SettingNavFrom: React.FC<any> = (props) => {
                   getNavTypes();
                 }}
               >
-                <Button>导航类别管理</Button>
+                <Button>
+                  <FormattedMessage id="setting.nav.types" />
+                </Button>
               </NavTypes>
             </Space>
           </div>
@@ -176,10 +180,14 @@ const SettingNavFrom: React.FC<any> = (props) => {
       >
         <ProList<any>
           toolBarRender={() => {
-            return [<Button onClick={handleShowAddNav}>添加导航</Button>];
+            return [
+              <Button onClick={handleShowAddNav}>
+                <FormattedMessage id="setting.nav.add" />
+              </Button>,
+            ];
           }}
           rowKey="name"
-          headerTitle="导航列表"
+          headerTitle={intl.formatMessage({ id: 'setting.nav.list' })}
           dataSource={navs}
           showActions="hover"
           showExtra="hover"
@@ -200,12 +208,16 @@ const SettingNavFrom: React.FC<any> = (props) => {
                     {row.sub_title && <Tag>{row.sub_title}</Tag>}
                     <Tag color="blue">
                       {row.nav_type == 2
-                        ? '外链: ' + row.link
+                        ? intl.formatMessage({ id: 'setting.nav.outlink' }) + ': ' + row.link
                         : row.nav_type == 3
-                        ? '文档: ' + row.page_id
+                        ? intl.formatMessage({ id: 'setting.nav.archive' }) + ': ' + row.page_id
                         : row.nav_type == 1
-                        ? '分类/页面: ' + row.page_id
-                        : '内置: ' + (row.page_id > 0 ? getModuleName(row.page_id) : '首页')}
+                        ? intl.formatMessage({ id: 'setting.nav.category' }) + ': ' + row.page_id
+                        : intl.formatMessage({ id: 'setting.nav.internal' }) +
+                          ': ' +
+                          (row.page_id > 0
+                            ? getModuleName(row.page_id)
+                            : intl.formatMessage({ id: 'setting.nav.home' }))}
                     </Tag>
                   </Space>
                 );
@@ -215,14 +227,14 @@ const SettingNavFrom: React.FC<any> = (props) => {
               render: (text: any, row: any) => [
                 row.parent_id == 0 && (
                   <a onClick={() => editNav({ parent_id: row.id })} key="link">
-                    添加下级
+                    <FormattedMessage id="setting.nav.children.add" />
                   </a>
                 ),
                 <a onClick={() => editNav(row)} key="link">
-                  编辑
+                  <FormattedMessage id="setting.action.edit" />
                 </a>,
                 <a onClick={() => removeNav(row)} key="warning">
-                  删除
+                  <FormattedMessage id="setting.system.delete" />
                 </a>,
               ],
             },
@@ -231,8 +243,8 @@ const SettingNavFrom: React.FC<any> = (props) => {
       </Card>
       {modalVisible && (
         <ModalForm
-          title="导航设置"
-          visible={modalVisible}
+          title={intl.formatMessage({ id: 'menu.setting.nav' })}
+          open={modalVisible}
           modalProps={{
             onCancel: () => setModalVisible(false),
           }}
@@ -242,7 +254,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
           <ProFormSelect
             name="parent_id"
             width="lg"
-            label="上级导航"
+            label={intl.formatMessage({ id: 'setting.nav.parent' })}
             fieldProps={{
               fieldNames: {
                 label: 'title',
@@ -252,7 +264,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
             request={async () => {
               let newNavs = [
                 {
-                  title: '顶级导航',
+                  title: intl.formatMessage({ id: 'setting.nav.top' }),
                   id: 0,
                 },
               ];
@@ -271,12 +283,26 @@ const SettingNavFrom: React.FC<any> = (props) => {
               return newNavs;
             }}
           />
-          <ProFormText name="title" label="显示名称" width="lg" extra="在导航上显示的名称" />
-          <ProFormText name="sub_title" label="子标题名称" width="lg" extra="导航名称下方的小字" />
-          <ProFormText name="description" label="导航描述" width="lg" />
+          <ProFormText
+            name="title"
+            label={intl.formatMessage({ id: 'setting.nav.title' })}
+            width="lg"
+            extra={intl.formatMessage({ id: 'setting.nav.title.description' })}
+          />
+          <ProFormText
+            name="sub_title"
+            label={intl.formatMessage({ id: 'setting.nav.subtitle' })}
+            width="lg"
+            extra={intl.formatMessage({ id: 'setting.nav.subtitle.description' })}
+          />
+          <ProFormText
+            name="description"
+            label={intl.formatMessage({ id: 'setting.nav.description' })}
+            width="lg"
+          />
           <ProFormRadio.Group
             name="nav_type"
-            label="链接类型"
+            label={intl.formatMessage({ id: 'setting.nav.type' })}
             fieldProps={{
               onChange: (e: any) => {
                 setNavType(e.target.value);
@@ -285,38 +311,44 @@ const SettingNavFrom: React.FC<any> = (props) => {
             options={[
               {
                 value: 0,
-                label: '内置',
+                label: intl.formatMessage({ id: 'setting.nav.internal' }),
               },
               {
                 value: 1,
-                label: '分类/页面',
+                label: intl.formatMessage({ id: 'setting.nav.category' }),
               },
               {
                 value: 3,
-                label: '文档',
+                label: intl.formatMessage({ id: 'setting.nav.archive' }),
               },
               {
                 value: 2,
-                label: '外链',
+                label: intl.formatMessage({ id: 'setting.nav.outlink' }),
               },
             ]}
           />
           {nav_type == 0 && (
-            <ProFormRadio.Group name="page_id" label="内置导航" options={innerOptions} />
+            <ProFormRadio.Group
+              name="page_id"
+              label={intl.formatMessage({ id: 'setting.nav.internal.name' })}
+              options={innerOptions}
+            />
           )}
           {nav_type == 1 && (
             <ProFormSelect
               name="page_id"
               width="lg"
-              label="选择分类/页面"
+              label={intl.formatMessage({ id: 'setting.nav.select-page' })}
               options={categories.map((cat: any) => ({
                 spacer: cat.spacer,
-                label: cat.title + (cat.status == 1 ? '' : '(隐藏)'),
+                label:
+                  cat.title +
+                  (cat.status == 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
                 value: cat.id,
                 disabled: cat.status != 1,
               }))}
               fieldProps={{
-                optionItemRender(item) {
+                optionItemRender(item: any) {
                   return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}></div>;
                 },
                 onChange: (_, a: any) => {
@@ -329,7 +361,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
             <ProFormSelect
               name="page_id"
               width="lg"
-              label="选择文档"
+              label={intl.formatMessage({ id: 'setting.nav.select-archive' })}
               showSearch
               options={archives.map((a: any) => ({ label: a.title, value: a.id }))}
               fieldProps={{
@@ -345,20 +377,20 @@ const SettingNavFrom: React.FC<any> = (props) => {
           {nav_type == 2 && (
             <ProFormText
               name="link"
-              label="填写链接"
+              label={intl.formatMessage({ id: 'setting.nav.link' })}
               width="lg"
-              extra="连接使用http或https开头，如： https://www.anqicms.com/"
+              extra={intl.formatMessage({ id: 'setting.nav.link.description' })}
             />
           )}
           <ProFormDigit
             name="sort"
-            label="显示顺序"
+            label={intl.formatMessage({ id: 'setting.nav.sort' })}
             width="lg"
-            extra="值越小，排序越靠前，默认99"
+            extra={intl.formatMessage({ id: 'setting.nav.sort.description' })}
           />
         </ModalForm>
       )}
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

@@ -1,16 +1,16 @@
-import E from 'wangeditor';
-import ReactWEditor from 'wangeditor-for-react';
-import { useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import { uploadAttachment } from '@/services';
 import config from '@/services/config';
 import { getStore } from '@/utils/store';
-import MonacoEditor from 'react-monaco-editor';
-import './index.less';
-import { message, Tooltip } from 'antd';
-import { HtmlMenu } from './html/menu';
-import { MaterialMenu } from './material/menu';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { uploadAttachment } from '@/services';
+import { Tooltip, message } from 'antd';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import MonacoEditor from 'react-monaco-editor';
+import E from 'wangeditor';
+import ReactWEditor from 'wangeditor-for-react';
 import Attachment from '../attachment/dialog';
+import { HtmlMenu } from './html/menu';
+import './index.less';
+import { MaterialMenu } from './material/menu';
 
 // 注册。要在创建编辑器之前注册
 E.registerMenu('html', HtmlMenu);

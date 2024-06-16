@@ -1,11 +1,12 @@
-import React from 'react';
-import { ModalForm, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-form';
-import './index.less';
-import { Input, message, Space, Tag } from 'antd';
 import { getKeywordSetting, saveKeywordSetting } from '@/services';
+import { ModalForm, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-components';
+import { Input, Space, Tag, message } from 'antd';
+import React from 'react';
+import './index.less';
 
 export type KeywordSettingProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
 };
 
 class KeywordSetting extends React.Component<KeywordSettingProps> {
@@ -120,9 +121,9 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
             width={800}
             title={'关键词拓词设置'}
             initialValues={setting}
-            visible={visible}
+            open={visible}
             //layout="horizontal"
-            onVisibleChange={(flag) => {
+            onOpenChange={(flag) => {
               this.handleSetVisible(flag);
               if (!flag) {
                 this.props.onCancel(flag);

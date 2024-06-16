@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { Button, Input, message, Modal, Space } from 'antd';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { deleteSettingNavType, getSettingNavTypes, saveSettingNavType } from '@/services';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Input, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 export type navTypesProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
 };
 
 const NavTypes: React.FC<navTypesProps> = (props) => {
@@ -107,7 +108,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
         {props.children}
       </div>
       <Modal
-        visible={visible}
+        open={visible}
         title={
           <Button
             type="primary"
@@ -144,7 +145,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
         </div>
       </Modal>
       <Modal
-        visible={editVisbile}
+        open={editVisbile}
         title={editingType.id ? '重命名类别：' + editingType.title : '新增导航类别'}
         width={480}
         zIndex={2000}

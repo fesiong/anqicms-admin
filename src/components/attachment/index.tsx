@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
 import { Modal } from 'antd';
-import './index.less';
+import React, { useState } from 'react';
 import AttachmentContent from './content';
+import './index.less';
 
 export type AttachmentProps = {
   onSelect: (row?: any) => void;
   onCancel?: (row?: any) => void;
-  visible?: boolean;
+  open?: boolean;
   manual?: boolean;
   multiple?: boolean;
   children?: React.ReactNode;
@@ -49,7 +49,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
       <Modal
         className="material-modal"
         width={800}
-        visible={props.manual ? props.visible : visible}
+        open={props.manual ? props.open : visible}
         onCancel={() => {
           visibleControl(false);
         }}

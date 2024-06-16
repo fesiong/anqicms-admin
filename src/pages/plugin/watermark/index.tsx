@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormRadio, ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, Col, message, Modal, Row, Slider, Tooltip, Upload } from 'antd';
 import {
   pluginGetWatermarkConfig,
   pluginSaveWatermarkConfig,
@@ -9,8 +5,11 @@ import {
   pluginWatermarkPreview,
   pluginWatermarkUploadFile,
 } from '@/services';
-import './index.less';
+import { PageContainer, ProForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
+import { Button, Card, Col, Modal, Row, Slider, Tooltip, Upload, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
+import './index.less';
 
 let loading = false;
 
@@ -134,7 +133,7 @@ const PluginWatermark: React.FC<any> = () => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Row gutter={16}>
           <Col sm={12} xs={24}>
@@ -330,7 +329,7 @@ const PluginWatermark: React.FC<any> = () => {
           </Col>
         </Row>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

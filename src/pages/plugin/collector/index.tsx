@@ -1,82 +1,26 @@
-import { Alert, Button, Card, message, Modal, Space } from 'antd';
-import React, { useRef, useState } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import { history } from 'umi';
-import CollectorSetting from './components/setting';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import ReplaceKeywords from '@/components/replaceKeywords';
-import { deleteArchive, releaseArchive, getArchives, startCollectorArticle } from '@/services';
-import moment from 'moment';
+import { getArchives, startCollectorArticle } from '@/services';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Alert, Button, Card, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
+import CollectorSetting from './components/setting';
 
 const PluginCollector: React.FC = () => {
   const actionRef = useRef<ActionType>();
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [replaceVisible, setReplaceVisible] = useState<boolean>(false);
-
-  const handlePublish = async (selectedRowKeys: any[]) => {
-    Modal.confirm({
-      title: '确定要发布选中的文档吗？',
-      content: '只有文章在草稿箱中，才会被成功发布',
-      onOk: async () => {
-        if (!selectedRowKeys) return true;
-        const hide = message.loading('正在提交中', 0);
-        try {
-          for (let item of selectedRowKeys) {
-            await releaseArchive({
-              id: item,
-            });
-          }
-          hide();
-          message.success('发布成功');
-          setSelectedRowKeys([]);
-          actionRef.current?.reloadAndRest?.();
-
-          return true;
-        } catch (error) {
-          hide();
-          message.error('发布失败');
-          return true;
-        }
-      },
-    });
-  };
-
-  const handleRemove = async (selectedRowKeys: any[]) => {
-    Modal.confirm({
-      title: '确定要删除选中的文档吗？',
-      onOk: async () => {
-        if (!selectedRowKeys) return true;
-        const hide = message.loading('正在删除', 0);
-        try {
-          for (let item of selectedRowKeys) {
-            await deleteArchive({
-              id: item,
-            });
-          }
-          hide();
-          message.success('删除成功');
-          setSelectedRowKeys([]);
-          actionRef.current?.reloadAndRest?.();
-
-          return true;
-        } catch (error) {
-          hide();
-          message.error('删除失败');
-          return true;
-        }
-      },
-    });
-  };
+  const intl = useIntl();
 
   const startToCollect = () => {
     Modal.confirm({
-      title: '确定要开始采集吗？',
-      content: '这将马上开始执行一次采集任务操作',
+      title: intl.formatMessage({ id: 'plugin.collector.start.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.aigenerate.start.description' }),
       onOk: async () => {
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         startCollectorArticle()
           .then((res) => {
-            message.success(res.msg || '执行成功');
+            message.success(res.msg);
             actionRef.current?.reloadAndRest?.();
           })
           .finally(() => {
@@ -92,12 +36,12 @@ const PluginCollector: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: 'ID',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '标题',
+      title: intl.formatMessage({ id: 'content.title.name' }),
       dataIndex: 'title',
       hideInSearch: true,
       render: (dom, entity) => {
@@ -120,72 +64,55 @@ const PluginCollector: React.FC = () => {
       },
     },
     {
-      title: '内容模型',
+      title: intl.formatMessage({ id: 'content.module.name' }),
       dataIndex: 'module_name',
       hideInSearch: true,
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       hideInSearch: true,
       valueEnum: {
         0: {
-          text: '草稿',
+          text: intl.formatMessage({ id: 'content.status.draft' }),
           status: 'Default',
         },
         1: {
-          text: '正常',
+          text: intl.formatMessage({ id: 'content.status.normal' }),
           status: 'Success',
         },
         2: {
-          text: '待发布',
-          status: 'Default',
+          text: intl.formatMessage({ id: 'content.status.plan' }),
+          status: 'Warning',
         },
       },
     },
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'content.create-update-time' }),
       hideInSearch: true,
       dataIndex: 'created_time',
-      render: (item) => {
-        if (`${item}` === '0') {
-          return false;
-        }
-        return moment((item as number) * 1000).format('YYYY-MM-DD HH:mm');
+      render: (_, record) => {
+        return (
+          <div>
+            <div>{dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+            <div>{dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+          </div>
+        );
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-          {record.status == 0 && (
-            <a
-              key="recover"
-              onClick={async () => {
-                await handlePublish([record.id]);
-              }}
-            >
-              发布
-            </a>
-          )}
           <a
             key="delete"
             onClick={async () => {
               handleEditArchive(record);
             }}
           >
-            编辑
-          </a>
-          <a
-            className="text-red"
-            key="delete"
-            onClick={async () => {
-              await handleRemove([record.id]);
-            }}
-          >
-            删除
+            <FormattedMessage id="setting.action.edit" />
           </a>
         </Space>
       ),
@@ -197,7 +124,9 @@ const PluginCollector: React.FC = () => {
       <Card>
         <Alert
           message={
-            <div>采集文章需要先设置核心关键词，请检查“关键词库管理”功能，并添加相应的关键词。</div>
+            <div>
+              <FormattedMessage id="plugin.collector.tips" />
+            </div>
           }
         />
 
@@ -207,7 +136,9 @@ const PluginCollector: React.FC = () => {
           search={false}
           toolBarRender={() => [
             <CollectorSetting onCancel={() => {}} key="setting">
-              <Button>采集和AI改写设置</Button>
+              <Button>
+                <FormattedMessage id="plugin.collector.setting" />
+              </Button>
             </CollectorSetting>,
             <Button
               key="keywords"
@@ -215,7 +146,7 @@ const PluginCollector: React.FC = () => {
                 startToCollect();
               }}
             >
-              手动开始采集
+              <FormattedMessage id="plugin.collector.start" />
             </Button>,
             <Button
               key="keywords"
@@ -223,7 +154,7 @@ const PluginCollector: React.FC = () => {
                 history.push('/plugin/keyword');
               }}
             >
-              关键词库管理
+              <FormattedMessage id="menu.plugin.keyword" />
             </Button>,
             <Button
               key="replace"
@@ -231,32 +162,9 @@ const PluginCollector: React.FC = () => {
                 setReplaceVisible(true);
               }}
             >
-              批量替换关键词
+              <FormattedMessage id="plugin.collector.replace" />
             </Button>,
           ]}
-          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-            <Space>
-              <Button
-                size={'small'}
-                onClick={async () => {
-                  await handlePublish(selectedRowKeys);
-                }}
-              >
-                批量发布
-              </Button>
-              <Button
-                size={'small'}
-                onClick={async () => {
-                  await handleRemove(selectedRowKeys);
-                }}
-              >
-                批量删除
-              </Button>
-              <Button type="link" size={'small'} onClick={onCleanSelected}>
-                取消选择
-              </Button>
-            </Space>
-          )}
           request={(params) => {
             params.collect = true;
             return getArchives(params);
@@ -266,18 +174,13 @@ const PluginCollector: React.FC = () => {
             persistenceType: 'localStorage',
           }}
           columns={columns}
-          rowSelection={{
-            onChange: (selectedRowKeys) => {
-              setSelectedRowKeys(selectedRowKeys);
-            },
-          }}
           pagination={{
             showSizeChanger: true,
           }}
         />
       </Card>
       <ReplaceKeywords
-        visible={replaceVisible}
+        open={replaceVisible}
         onCancel={() => {
           setReplaceVisible(false);
         }}

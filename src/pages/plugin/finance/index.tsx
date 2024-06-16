@@ -1,29 +1,32 @@
-import React from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import { Card, Tabs } from 'antd';
-import PluginFinanceFlow from './components/flow';
+import React from 'react';
 import PluginFinanceCommission from './components/comission';
+import PluginFinanceFlow from './components/flow';
 import PluginFinanceWithdraw from './components/withdraw';
 
 const { TabPane } = Tabs;
 
 const PluginFinance: React.FC<any> = () => {
+  const intl = useIntl();
+
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Tabs tabPosition={'left'}>
-          <TabPane tab="收支记录" key="1">
+          <TabPane tab={intl.formatMessage({ id: 'plugin.finance.flow' })} key="1">
             <PluginFinanceFlow />
           </TabPane>
-          <TabPane tab="佣金管理" key="2">
+          <TabPane tab={intl.formatMessage({ id: 'plugin.finance.commission' })} key="2">
             <PluginFinanceCommission />
           </TabPane>
-          <TabPane tab="提现管理" key="3">
+          <TabPane tab={intl.formatMessage({ id: 'plugin.finance.withdraw.name' })} key="3">
             <PluginFinanceWithdraw />
           </TabPane>
         </Tabs>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

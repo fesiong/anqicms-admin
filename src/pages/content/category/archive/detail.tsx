@@ -1,14 +1,6 @@
-import { message, Image, Card, Row, Col, Button, Modal } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import ProForm, {
-  ProFormDigit,
-  ProFormInstance,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
+import AttachmentSelect from '@/components/attachment';
+import WangEditor from '@/components/editor';
+import MarkdownEditor from '@/components/markdown';
 import {
   getCategories,
   getCategoryInfo,
@@ -17,12 +9,22 @@ import {
   getSettingContent,
   saveCategory,
 } from '@/services';
-import '../index.less';
-import { history } from 'umi';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import WangEditor from '@/components/editor';
-import AttachmentSelect from '@/components/attachment';
-import MarkdownEditor from '@/components/markdown';
+import {
+  PageContainer,
+  ProForm,
+  ProFormDigit,
+  ProFormInstance,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Button, Card, Col, Image, Modal, Row, message } from 'antd';
+import { parse } from 'querystring';
+import React, { useEffect, useRef, useState } from 'react';
+import '../index.less';
 
 const categoryType = 1;
 
@@ -37,17 +39,18 @@ const ArchiveCategoryDetail: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [category, setCategory] = useState<any>({ status: 1 });
   const [modules, setModules] = useState<any[]>([]);
+  const intl = useIntl();
 
   useEffect(() => {
     initData();
   }, []);
 
   const initData = async () => {
-    let id = history.location.query?.id || 0;
+    let id = (parse(window.location.search) || {}).id || 0;
     if (id == 'new') {
       id = 0;
     }
-    let parent_id = Number(history.location.query?.parent_id || 0);
+    let parent_id = Number((parse(window.location.search) || {}).parent_id || 0);
 
     let modRes = await getModules();
     setModules(modRes.data || []);
@@ -56,7 +59,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     });
     let cat = catRes.data || { status: 1, parent_id: parent_id };
     let moduleId = cat.module_id || 1;
-    if (Number(parent_id) > 0) {
+    if (parent_id > 0) {
       let parentRes = await getCategoryInfo({
         id: parent_id,
       });
@@ -86,20 +89,24 @@ const ArchiveCategoryDetail: React.FC = () => {
     cat.images = categoryImages;
     cat.logo = categoryLogo;
     if (cat.title == '') {
-      message.error('请填写分类名称');
+      message.error(intl.formatMessage({ id: 'content.category.input.required' }));
       return;
     }
     let res = await saveCategory(cat);
     if (res.code === 0) {
       message.info(res.msg);
-      history.goBack();
+      history.back();
     } else if (res.msg == 'token duplication') {
       Modal.confirm({
-        title: '提示',
-        content: 'URL别名“' + cat.url_token + '”已被其它分类占用，请修改为新的别名以防系统出错。',
-        okText: '强制保存',
+        content:
+          intl.formatMessage({ id: 'content.url-token.name' }) +
+          '"' +
+          cat.url_token +
+          '"' +
+          intl.formatMessage({ id: 'content.url-token.dublicate.tips' }),
+        okText: intl.formatMessage({ id: 'content.submit.ok-force' }),
         okType: 'danger',
-        cancelText: '返回修改',
+        cancelText: intl.formatMessage({ id: 'content.submit.cancel' }),
         onOk: () => {
           cat.force = true;
           onSubmit(cat);
@@ -124,7 +131,7 @@ const ArchiveCategoryDetail: React.FC = () => {
       }
     }
     setCategoryImages([].concat(categoryImages));
-    message.success('上传完成');
+    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
   };
 
   const handleCleanImages = (index: number, e: any) => {
@@ -135,7 +142,7 @@ const ArchiveCategoryDetail: React.FC = () => {
 
   const handleSelectLogo = (row: any) => {
     setCategoryLogo(row.logo);
-    message.success('上传完成');
+    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
   };
 
   const handleCleanLogo = (e: any) => {
@@ -166,7 +173,13 @@ const ArchiveCategoryDetail: React.FC = () => {
   };
 
   return (
-    <PageContainer title={(category.id > 0 ? '修改' : '添加') + '分类'}>
+    <PageContainer
+      title={
+        category.id > 0
+          ? intl.formatMessage({ id: 'content.category.edit' })
+          : intl.formatMessage({ id: 'content.category.new' })
+      }
+    >
       <Card onKeyDown={handleKeyDown}>
         {loaded && (
           <ProForm
@@ -179,7 +192,7 @@ const ArchiveCategoryDetail: React.FC = () => {
               <Col sm={18} xs={24}>
                 <ProFormSelect
                   name="module_id"
-                  label="内容模型"
+                  label={intl.formatMessage({ id: 'content.module.name' })}
                   width="lg"
                   request={async () => {
                     return modules;
@@ -196,7 +209,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                   }}
                 />
                 <ProFormSelect
-                  label="上级分类"
+                  label={intl.formatMessage({ id: 'content.category.parent' })}
                   name="parent_id"
                   width="lg"
                   request={async () => {
@@ -217,7 +230,13 @@ const ArchiveCategoryDetail: React.FC = () => {
                       }
                       categories = tmpCategory;
                     }
-                    categories = [{ id: 0, title: '顶级分类', spacer: '' }].concat(categories);
+                    categories = [
+                      {
+                        id: 0,
+                        title: intl.formatMessage({ id: 'content.category.top' }),
+                        spacer: '',
+                      },
+                    ].concat(categories);
                     return categories;
                   }}
                   readonly={category.id || category.module_id > 0 ? false : true}
@@ -226,7 +245,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                       label: 'title',
                       value: 'id',
                     },
-                    optionItemRender(item) {
+                    optionItemRender(item: any) {
                       return (
                         <div
                           dangerouslySetInnerHTML={{ __html: (item.spacer || '') + item.title }}
@@ -235,29 +254,39 @@ const ArchiveCategoryDetail: React.FC = () => {
                     },
                   }}
                 />
-                <ProFormText name="title" label="分类名称" />
-                <ProFormTextArea name="description" label="分类简介" />
+                <ProFormText
+                  name="title"
+                  label={intl.formatMessage({ id: 'content.category.title' })}
+                />
+                <ProFormTextArea
+                  name="description"
+                  label={intl.formatMessage({ id: 'content.category.description' })}
+                />
                 <ProFormText
                   name="seo_title"
-                  label="SEO标题"
-                  placeholder="默认为页面名称，无需填写"
-                  extra="注意：如果你希望页面的title标签的内容不是页面名称，可以通过SEO标题设置"
+                  label={intl.formatMessage({ id: 'content.seo-title.name' })}
+                  placeholder={intl.formatMessage({ id: 'content.category.seo-title.placeholder' })}
+                  extra={intl.formatMessage({ id: 'content.category.seo-title.description' })}
                 />
-                <ProFormText name="keywords" label="关键词" extra="你可以单独设置关键词" />
+                <ProFormText
+                  name="keywords"
+                  label={intl.formatMessage({ id: 'content.keywords.name' })}
+                  extra={intl.formatMessage({ id: 'content.keywords.description' })}
+                />
                 <ProFormRadio.Group
                   name="status"
-                  label="显示状态"
+                  label={intl.formatMessage({ id: 'content.category.status' })}
                   options={[
                     {
                       value: 0,
-                      label: '隐藏',
+                      label: intl.formatMessage({ id: 'content.category.status.hide' }),
                     },
                     {
                       value: 1,
-                      label: '显示',
+                      label: intl.formatMessage({ id: 'content.category.status.ok' }),
                     },
                   ]}
-                  extra="设置隐藏后，前台不会出现这个分类，隐藏分类下的文档也不会显示"
+                  extra={intl.formatMessage({ id: 'content.category.status.description' })}
                 />
                 {loaded && (
                   <>
@@ -276,6 +305,8 @@ const ArchiveCategoryDetail: React.FC = () => {
                         setContent={async (html: string) => {
                           setContent(html);
                         }}
+                        key="content"
+                        field="content"
                         ref={editorRef}
                         content={content}
                       />
@@ -294,22 +325,26 @@ const ArchiveCategoryDetail: React.FC = () => {
                           onSubmit(formRef.current?.getFieldsValue());
                         }}
                       >
-                        提交
+                        <FormattedMessage id="content.submit.ok" />
                       </Button>
                     </Col>
                     <Col span={12}>
                       <Button
                         block
                         onClick={() => {
-                          history.goBack();
+                          history.back();
                         }}
                       >
-                        返回
+                        <FormattedMessage id="design.back" />
                       </Button>
                     </Col>
                   </Row>
                 </div>
-                <Card className="aside-card" size="small" title="Banner图">
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.category.banner' })}
+                >
                   {categoryImages.length
                     ? categoryImages.map((item: string, index: number) => (
                         <div className="ant-upload-item" key={index}>
@@ -325,16 +360,22 @@ const ArchiveCategoryDetail: React.FC = () => {
                         </div>
                       ))
                     : null}
-                  <AttachmentSelect onSelect={handleSelectImages} visible={false} multiple={true}>
+                  <AttachmentSelect onSelect={handleSelectImages} open={false} multiple={true}>
                     <div className="ant-upload-item">
                       <div className="add">
                         <PlusOutlined />
-                        <div style={{ marginTop: 8 }}>上传</div>
+                        <div style={{ marginTop: 8 }}>
+                          <FormattedMessage id="setting.system.upload" />
+                        </div>
                       </div>
                     </div>
                   </AttachmentSelect>
                 </Card>
-                <Card className="aside-card" size="small" title="缩略图">
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.category.thumb' })}
+                >
                   {categoryLogo ? (
                     <div className="ant-upload-item">
                       <Image
@@ -348,33 +389,55 @@ const ArchiveCategoryDetail: React.FC = () => {
                       </span>
                     </div>
                   ) : (
-                    <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
+                    <AttachmentSelect onSelect={handleSelectLogo} open={false}>
                       <div className="ant-upload-item">
                         <div className="add">
                           <PlusOutlined />
-                          <div style={{ marginTop: 8 }}>上传</div>
+                          <div style={{ marginTop: 8 }}>
+                            <FormattedMessage id="setting.system.upload" />
+                          </div>
                         </div>
                       </div>
                     </AttachmentSelect>
                   )}
                 </Card>
-                <Card className="aside-card" size="small" title="URL别名">
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.url-token.name' })}
+                >
                   <ProFormText
                     name="url_token"
-                    placeholder="默认会自动生成，无需填写"
-                    extra="注意：URL别名只能填写字母、数字和下划线，不能带空格"
+                    placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+                    extra={intl.formatMessage({ id: 'content.url-token.tips' })}
                   />
                 </Card>
-                <Card className="aside-card" size="small" title="显示顺序">
-                  <ProFormDigit name="sort" extra={'默认99，数字越小越靠前'} />
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.category.sort' })}
+                >
+                  <ProFormDigit
+                    name="sort"
+                    extra={intl.formatMessage({ id: 'content.category.sort.description' })}
+                  />
                 </Card>
-                <Card className="aside-card" size="small" title="分类模板">
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.category.template' })}
+                >
                   <ProFormSelect
                     showSearch
                     name="template"
                     request={async () => {
                       const res = await getDesignTemplateFiles({});
-                      const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+                      const data = [
+                        {
+                          path: '',
+                          remark: intl.formatMessage({ id: 'content.default-template' }),
+                        },
+                      ].concat(res.data || []);
                       for (const i in data) {
                         if (!data[i].remark) {
                           data[i].remark = data[i].path;
@@ -390,32 +453,50 @@ const ArchiveCategoryDetail: React.FC = () => {
                         value: 'path',
                       },
                     }}
-                    extra={<div>分类默认值：{currentModule.table_name}/list.html</div>}
+                    extra={
+                      <div>
+                        <FormattedMessage id="content.category.default" />:{' '}
+                        {currentModule.table_name}/list.html
+                      </div>
+                    }
                   />
                 </Card>
-                <Card className="aside-card" size="small" title="模板应用到子分类">
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.category.inherit' })}
+                >
                   <ProFormRadio.Group
                     name="is_inherit"
                     options={[
                       {
                         value: 0,
-                        label: '不应用',
+                        label: intl.formatMessage({ id: 'content.category.inherit.false' }),
                       },
                       {
                         value: 1,
-                        label: '应用',
+                        label: intl.formatMessage({ id: 'content.category.inherit.true' }),
                       },
                     ]}
-                    extra="如果设置了自定义分类模板，可以选择应用到所有子分类，或者仅对当前分类生效"
+                    extra={intl.formatMessage({ id: 'content.category.inherit.description' })}
                   />
                 </Card>
-                <Card className="aside-card" size="small" title="文档模板">
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.archive-template.name' })}
+                >
                   <ProFormSelect
                     showSearch
                     name="detail_template"
                     request={async () => {
                       const res = await getDesignTemplateFiles({});
-                      const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+                      const data = [
+                        {
+                          path: '',
+                          remark: intl.formatMessage({ id: 'content.default-template' }),
+                        },
+                      ].concat(res.data || []);
                       for (const i in data) {
                         if (!data[i].remark) {
                           data[i].remark = data[i].path;
@@ -431,7 +512,12 @@ const ArchiveCategoryDetail: React.FC = () => {
                         value: 'path',
                       },
                     }}
-                    extra={<div>文档模板默认值：{currentModule.table_name}/detail.html</div>}
+                    extra={
+                      <div>
+                        <FormattedMessage id="content.category.default" />:{' '}
+                        {currentModule.table_name}/detail.html
+                      </div>
+                    }
                   />
                 </Card>
               </Col>

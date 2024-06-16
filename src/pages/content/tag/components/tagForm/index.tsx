@@ -1,21 +1,18 @@
-import React from 'react';
-import {
-  ModalForm,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
-
 import { saveTag } from '@/services/tag';
+import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import React from 'react';
 
 export type TagFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
   type: number;
-  visible: boolean;
+  open: boolean;
   tag: any;
 };
 
 const TagForm: React.FC<TagFormProps> = (props) => {
+  const intl = useIntl();
 
   const onSubmit = async (values: any) => {
     let tag = Object.assign(props.tag, values);
@@ -28,11 +25,15 @@ const TagForm: React.FC<TagFormProps> = (props) => {
   return (
     <ModalForm
       width={800}
-      title={props.tag?.id ? '编辑标签' : '添加标签'}
+      title={
+        props.tag?.id
+          ? intl.formatMessage({ id: 'content.tags.edit' })
+          : intl.formatMessage({ id: 'content.tags.add' })
+      }
       initialValues={props.tag}
-      visible={props.visible}
+      open={props.open}
       layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -41,31 +42,34 @@ const TagForm: React.FC<TagFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="title" label="标签名称" />
+      <ProFormText name="title" label={intl.formatMessage({ id: 'content.tags.name' })} />
       <ProFormText
         name="first_letter"
-        label="索引字母"
-        placeholder="默认会自动生成，无需填写"
-        extra="注意：只能填写A-Z中任意一个"
+        label={intl.formatMessage({ id: 'content.tags.first-letter.name' })}
+        placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+        extra={intl.formatMessage({ id: 'content.tags.first-letter.description' })}
       />
       <ProFormText
         name="url_token"
-        label="自定义URL"
-        placeholder="默认会自动生成，无需填写"
-        extra="注意：自定义URL只能填写字母、数字和下划线，不能带空格"
+        label={intl.formatMessage({ id: 'content.url-token.name' })}
+        placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+        extra={intl.formatMessage({ id: 'content.url-token.tips' })}
       />
       <ProFormText
         name="seo_title"
-        label="SEO标题"
-        placeholder="默认为标签名称，无需填写"
-        extra="注意：如果你希望页面的title标签的内容不是标签名称，可以通过SEO标题设置"
+        label={intl.formatMessage({ id: 'content.seo-title.name' })}
+        placeholder={intl.formatMessage({ id: 'content.tags.seo-title.placeholder' })}
+        extra={intl.formatMessage({ id: 'content.tags.seo-title.description' })}
       />
       <ProFormText
         name="keywords"
-        label="标签关键词"
-        extra="你可以单独设置关键词"
+        label={intl.formatMessage({ id: 'content.keywords.name' })}
+        extra={intl.formatMessage({ id: 'content.keywords.description' })}
       />
-      <ProFormTextArea name="description" label="标签简介" />
+      <ProFormTextArea
+        name="description"
+        label={intl.formatMessage({ id: 'content.description.name' })}
+      />
     </ModalForm>
   );
 };

@@ -1,10 +1,8 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { pluginDeleteRedirect, pluginGetRedirects } from '@/services/plugin/redirect';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import RedirectImport from './components/import';
 import RedirectForm from './components/redirectForm';
 
@@ -152,7 +150,7 @@ const PluginRedirect: React.FC = () => {
       />
       {editVisible && (
         <RedirectForm
-          visible={editVisible}
+          open={editVisible}
           editingRedirect={currentRedirect}
           onCancel={() => {
             setEditVisible(false);

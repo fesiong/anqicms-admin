@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, Col, message, Modal, Row } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { getSettingContact, saveSettingContact } from '@/services/setting';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
+import { getSettingContact, saveSettingContact } from '@/services/setting';
+import { PlusOutlined } from '@ant-design/icons';
+import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Col, Modal, Row, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const SettingContactFrom: React.FC<any> = (props) => {
   const [setting, setSetting] = useState<any>(null);
   const [qrcode, setQrcode] = useState<string>('');
   const [extraFields, setExtraFields] = useState<any[]>([]);
+  const intl = useIntl();
   useEffect(() => {
     getSetting();
   }, []);
@@ -25,13 +26,13 @@ const SettingContactFrom: React.FC<any> = (props) => {
 
   const handleSelectLogo = (row: any) => {
     setQrcode(row.logo);
-    message.success('上传完成');
+    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
   };
 
   const handleRemoveLogo = (e: any) => {
     e.stopPropagation();
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
       onOk: async () => {
         setQrcode('');
       },
@@ -40,7 +41,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
 
   const onSubmit = async (values: any) => {
     values.qrcode = qrcode;
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveSettingContact(values)
       .then((res) => {
         message.success(res.msg);
@@ -54,36 +55,66 @@ const SettingContactFrom: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         {setting && (
-          <ProForm initialValues={setting} onFinish={onSubmit} title="联系方式设置">
-            <ProFormText name="user_name" label="联系人" width="lg" />
-            <ProFormText name="cellphone" label="联系电话" width="lg" />
-            <ProFormText name="address" label="联系地址" width="lg" />
-            <ProFormText name="email" label="联系邮箱" width="lg" />
-            <ProFormText name="wechat" label="微信号" width="lg" />
-            <ProFormText label="微信二维码" width="lg" extra="微信二维码">
-              <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
+          <ProForm
+            initialValues={setting}
+            onFinish={onSubmit}
+            title={intl.formatMessage({ id: 'menu.setting.contact' })}
+          >
+            <ProFormText
+              name="user_name"
+              label={intl.formatMessage({ id: 'setting.contact.username' })}
+              width="lg"
+            />
+            <ProFormText
+              name="cellphone"
+              label={intl.formatMessage({ id: 'setting.contact.cellphone' })}
+              width="lg"
+            />
+            <ProFormText
+              name="address"
+              label={intl.formatMessage({ id: 'setting.contact.address' })}
+              width="lg"
+            />
+            <ProFormText
+              name="email"
+              label={intl.formatMessage({ id: 'setting.contact.email' })}
+              width="lg"
+            />
+            <ProFormText
+              name="wechat"
+              label={intl.formatMessage({ id: 'setting.contact.wechat' })}
+              width="lg"
+            />
+            <ProFormText label={intl.formatMessage({ id: 'setting.contact.qrcode' })} width="lg">
+              <AttachmentSelect onSelect={handleSelectLogo} open={false}>
                 <div className="ant-upload-item">
                   {qrcode ? (
                     <>
                       <img src={qrcode} style={{ width: '100%' }} />
                       <a className="delete" onClick={handleRemoveLogo}>
-                        删除
+                        <FormattedMessage id="setting.system.delete" />
                       </a>
                     </>
                   ) : (
                     <div className="add">
                       <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>上传</div>
+                      <div style={{ marginTop: 8 }}>
+                        <FormattedMessage id="setting.system.upload" />
+                      </div>
                     </div>
                   )}
                 </div>
               </AttachmentSelect>
             </ProFormText>
 
-            <CollapseItem header="更多设置" showArrow key="0">
+            <CollapseItem
+              header={intl.formatMessage({ id: 'setting.contact.more' })}
+              showArrow
+              key="0"
+            >
               <ProFormText name="qq" label="QQ" width="lg" />
               <ProFormText name="whats_app" label="WhatsApp" width="lg" />
               <ProFormText name="facebook" label="Facebook" width="lg" />
@@ -97,7 +128,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
 
             <CollapseItem
               className="mb-normal"
-              header="自定义参数"
+              header={intl.formatMessage({ id: 'setting.system.diy-params' })}
               showArrow
               extra={
                 <Button
@@ -108,7 +139,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
                     setExtraFields([].concat(extraFields));
                   }}
                 >
-                  添加参数
+                  <FormattedMessage id="setting.system.add-param" />
                 </Button>
               }
               key="1"
@@ -118,29 +149,33 @@ const SettingContactFrom: React.FC<any> = (props) => {
                   <Col span={8}>
                     <ProFormText
                       name={['extra_fields', index, 'name']}
-                      label="参数名"
+                      label={intl.formatMessage({ id: 'setting.system.param-name' })}
                       required={true}
                       width="lg"
-                      extra="保存后会转换成驼峰命名，可通过该名称调用"
+                      extra={intl.formatMessage({ id: 'setting.system.param-name-description' })}
                     />
                   </Col>
                   <Col span={8}>
                     <ProFormText
                       name={['extra_fields', index, 'value']}
-                      label="参数值"
+                      label={intl.formatMessage({ id: 'setting.system.param-value' })}
                       required={true}
                       width="lg"
                     />
                   </Col>
                   <Col span={6}>
-                    <ProFormText name={['extra_fields', index, 'remark']} label="备注" width="lg" />
+                    <ProFormText
+                      name={['extra_fields', index, 'remark']}
+                      label={intl.formatMessage({ id: 'setting.system.remark' })}
+                      width="lg"
+                    />
                   </Col>
                   <Col span={2}>
                     <Button
                       style={{ marginTop: '30px' }}
                       onClick={() => {
                         Modal.confirm({
-                          title: '确定要删除这个参数吗？',
+                          title: intl.formatMessage({ id: 'setting.system.confirm-delete-param' }),
                           onOk: () => {
                             extraFields.splice(index, 1);
                             setExtraFields([].concat(extraFields));
@@ -148,7 +183,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
                         });
                       }}
                     >
-                      删除
+                      <FormattedMessage id="setting.system.delete" />
                     </Button>
                   </Col>
                 </Row>
@@ -157,7 +192,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
           </ProForm>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

@@ -1,11 +1,9 @@
-@import (reference) '~antd/es/style/themes/index';
-
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  background: @layout-body-background;
+  background: #f0f2f5;
 }
 
 .lang {
@@ -23,7 +21,7 @@
   padding: 32px 0;
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: 768px) {
   .container {
     background-image: url('https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg');
     background-repeat: no-repeat;
@@ -45,7 +43,7 @@
   transition: color 0.3s;
 
   &:hover {
-    color: @primary-color;
+    color: #1890ff;
   }
 }
 

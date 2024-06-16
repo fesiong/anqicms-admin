@@ -1,13 +1,12 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import './index.less';
 import { deleteTag, getTags } from '@/services/tag';
-import TagForm from './components/tagForm';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import BatchForm from './components/batchForm';
+import TagForm from './components/tagForm';
+import './index.less';
 
 const ArticleTag: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -15,12 +14,13 @@ const ArticleTag: React.FC = () => {
   const [currentTag, setCurrentTag] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [batchVisible, setBatchVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的文章标签吗？',
+      title: intl.formatMessage({ id: 'content.tags.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -29,13 +29,13 @@ const ArticleTag: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -53,12 +53,12 @@ const ArticleTag: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: 'ID',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '名称',
+      title: intl.formatMessage({ id: 'content.tags.name' }),
       dataIndex: 'title',
       render: (dom, entity) => {
         return (
@@ -69,17 +69,17 @@ const ArticleTag: React.FC = () => {
       },
     },
     {
-      title: '索引',
+      title: intl.formatMessage({ id: 'content.tags.first-letter.name' }),
       dataIndex: 'first_letter',
       hideInSearch: true,
     },
     {
-      title: '描述',
+      title: intl.formatMessage({ id: 'content.description.name' }),
       dataIndex: 'description',
       hideInSearch: true,
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -90,7 +90,7 @@ const ArticleTag: React.FC = () => {
               handleEditTag(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -99,7 +99,7 @@ const ArticleTag: React.FC = () => {
               handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -109,7 +109,7 @@ const ArticleTag: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="文章标签列表"
+        headerTitle={intl.formatMessage({ id: 'menu.archive.tag' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
@@ -120,7 +120,7 @@ const ArticleTag: React.FC = () => {
               handleAddTags();
             }}
           >
-            批量添加标签
+            <FormattedMessage id="content.tags.batch-add" />
           </Button>,
           <Button
             type="primary"
@@ -129,7 +129,7 @@ const ArticleTag: React.FC = () => {
               handleEditTag({});
             }}
           >
-            <PlusOutlined /> 添加标签
+            <PlusOutlined /> <FormattedMessage id="content.tags.add" />
           </Button>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
@@ -140,10 +140,10 @@ const ArticleTag: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
@@ -167,7 +167,7 @@ const ArticleTag: React.FC = () => {
       />
       {editVisible && (
         <TagForm
-          visible={editVisible}
+          open={editVisible}
           tag={currentTag}
           type={1}
           onCancel={() => {
@@ -183,7 +183,7 @@ const ArticleTag: React.FC = () => {
       )}
       {batchVisible && (
         <BatchForm
-          visible={batchVisible}
+          open={batchVisible}
           onCancel={() => {
             setBatchVisible(false);
           }}

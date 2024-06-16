@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react';
-import { Button, Input, message, Modal, Space } from 'antd';
 import {
   pluginDeleteMaterialCategory,
   pluginGetMaterialCategories,
   pluginSaveMaterialCategory,
 } from '@/services/plugin/material';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Input, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 export type MaterialCategoryProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
 };
 
 const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
@@ -119,7 +120,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
         {props.children}
       </div>
       <Modal
-        visible={visible}
+        open={visible}
         title={
           <Button
             type="primary"
@@ -157,7 +158,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
         </div>
       </Modal>
       <Modal
-        visible={editVisbile}
+        open={editVisbile}
         title={editingCategory.id ? '重命名板块：' + editingCategory.title : '新增板块'}
         width={480}
         zIndex={2000}

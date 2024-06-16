@@ -1,20 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import {
-  Button,
-  Space,
-  Modal,
-  message,
-  Image,
-  Upload,
-  Tooltip,
-  Checkbox,
-  Input,
-  Avatar,
-} from 'antd';
-import {
+  UploadDesignFileInfo,
   backupDesignData,
   copyDesignFileInfo,
   deleteDesignFileInfo,
@@ -22,19 +7,36 @@ import {
   restoreDesignData,
   saveDesignFileInfo,
   saveDesignInfo,
-  UploadDesignFileInfo,
 } from '@/services';
-import { history, useModel } from 'umi';
-import moment from 'moment';
+import { downloadFile, sizeFormat } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
 import {
+  ActionType,
   ModalForm,
+  PageContainer,
+  ProColumns,
   ProFormInstance,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-} from '@ant-design/pro-form';
-import { downloadFile, sizeFormat } from '@/utils';
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  Image,
+  Input,
+  Modal,
+  Space,
+  Tooltip,
+  Upload,
+  message,
+} from 'antd';
+import dayjs from 'dayjs';
+import { parse } from 'querystring';
+import React, { useEffect, useRef, useState } from 'react';
 import TemplateShare from './components/share';
 import './index.less';
 
@@ -54,6 +56,7 @@ const DesignDetail: React.FC = () => {
   const [templateDirs, setTemplateDirs] = useState<any[]>([]);
   const [detailVisible, setDetailVisible] = useState<boolean>(false);
   const [tempDirs, setTempDirs] = useState<any[]>([]);
+  const intl = useIntl();
 
   const inputRef = useRef<any>();
   const inputRef2 = useRef<any>();
@@ -65,7 +68,7 @@ const DesignDetail: React.FC = () => {
   }, []);
 
   const fetchDesignInfo = async () => {
-    const packageName = history.location.query?.package;
+    const packageName = (parse(window.location.search) || {}).package || '';
     getDesignInfo({
       package: packageName,
     })
@@ -110,7 +113,7 @@ const DesignDetail: React.FC = () => {
       })
       .catch((err) => {
         console.log(err);
-        message.error('获取模板信息出错');
+        message.error(intl.formatMessage({ id: 'design.editor.get.error' }));
       });
   };
 
@@ -134,7 +137,7 @@ const DesignDetail: React.FC = () => {
 
   const handleRemove = (type: string, info: any) => {
     Modal.confirm({
-      title: '确定要删除这个文件吗？',
+      title: intl.formatMessage({ id: 'design.detail.confirm-delete' }),
       onOk: () => {
         deleteDesignFileInfo({
           package: designInfo.package,
@@ -154,17 +157,21 @@ const DesignDetail: React.FC = () => {
 
   const handleCopy = (type: string, info: any) => {
     Modal.confirm({
-      title: '请填写复制后的文件名',
+      title: intl.formatMessage({ id: 'design.detail.confirm-copy' }),
       content: (
         <div>
           <div style={{ padding: '10px 0' }}>
-            <div>新的文件名：</div>
+            <div>
+              <FormattedMessage id="design.detail.new-name" />
+            </div>
             <div>
               <Input ref={inputRef} defaultValue={info.path} />
             </div>
           </div>
           <div style={{ padding: '10px 0' }}>
-            <div>新的文件备注：</div>
+            <div>
+              <FormattedMessage id="design.detail.new-remark" />
+            </div>
             <div>
               <Input ref={inputRef2} defaultValue={info.remark} />
             </div>
@@ -174,7 +181,7 @@ const DesignDetail: React.FC = () => {
       onOk: () => {
         const newPath = inputRef.current?.input?.value;
         if (!newPath || newPath == info.path) {
-          message.error('新文件名与被复制的文件名一致，请重新修改');
+          message.error(intl.formatMessage({ id: 'design.detail.name-duplicate' }));
           return false;
         }
         const remark = inputRef2.current?.input?.value;
@@ -213,10 +220,10 @@ const DesignDetail: React.FC = () => {
       values.path = values.rename_path;
     }
     if (values.path.trim() == '') {
-      message.error('文件名不能为空');
+      message.error(intl.formatMessage({ id: 'design.detail.name-required' }));
       return;
     }
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     values.package = designInfo.package;
     values.type = addFileType;
 
@@ -246,7 +253,7 @@ const DesignDetail: React.FC = () => {
 
   const handleDownload = () => {
     Modal.confirm({
-      title: '确定要打包下载该模板吗？',
+      title: intl.formatMessage({ id: 'design.detail.confirm-download' }),
       onOk: async () => {
         downloadFile(
           '/design/download',
@@ -263,10 +270,14 @@ const DesignDetail: React.FC = () => {
     let values = formRef.current?.getFieldsValue();
     let savePath = values.path || '';
     Modal.confirm({
-      title: '确定要上传文件吗？',
-      content: `你上传的文件将存放到${
-        addFileType == 'static' ? '资源' : '模板'
-      }目录：${savePath} 中。`,
+      title: intl.formatMessage({ id: 'design.detail.confirm-upload' }),
+      content:
+        intl.formatMessage({ id: 'design.detail.confirm-upload.content-before' }) +
+        (addFileType == 'static'
+          ? intl.formatMessage({ id: 'design.static.name' })
+          : intl.formatMessage({ id: 'design.tempalte.name' })) +
+        intl.formatMessage({ id: 'design.detail.confirm-upload.directory' }) +
+        `${savePath}`,
       onOk: async () => {
         let formData = new FormData();
         formData.append('file', e.file);
@@ -274,13 +285,13 @@ const DesignDetail: React.FC = () => {
         formData.append('type', addFileType);
         formData.append('path', savePath);
 
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         UploadDesignFileInfo(formData)
           .then((res) => {
             if (res.code !== 0) {
               message.info(res.msg);
             } else {
-              message.info(res.msg || '上传成功');
+              message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
               setAddVisible(false);
               fetchDesignInfo();
             }
@@ -302,13 +313,13 @@ const DesignDetail: React.FC = () => {
     formData.append('type', addFileType);
     formData.append('path', replacePath);
 
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     UploadDesignFileInfo(formData)
       .then((res) => {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || '上传成功');
+          message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
           setAddVisible(false);
           setDetailVisible(false);
           actionRef.current?.reload();
@@ -336,17 +347,26 @@ const DesignDetail: React.FC = () => {
       if (e.lastIndexOf('/') !== e.length - 1) {
         e = e + '/';
       }
-      setTempDirs([{ label: '新建目录：' + e, value: e }]);
+      setTempDirs([
+        { label: intl.formatMessage({ id: 'design.detail.new-directory' }) + ': ' + e, value: e },
+      ]);
     }
   };
 
   const handleRestoreDesignData = () => {
     Modal.confirm({
-      title: '确定要安装该模板的演示数据吗？',
+      title: intl.formatMessage({ id: 'design.data.confirm-install' }),
       content: (
         <div>
-          <p>该安装操作将会用模板的演示数据覆盖，请谨慎操作。</p>
-          <p>在执行安装演示数据前，建议先备份网站原有数据。</p>
+          <p>
+            <FormattedMessage id="design.data.tips1" />
+          </p>
+          <p>
+            <FormattedMessage id="design.data.tips2" />
+          </p>
+          <p>
+            <FormattedMessage id="design.data.tips3" />
+          </p>
           <div>
             <Checkbox
               value={true}
@@ -355,13 +375,13 @@ const DesignDetail: React.FC = () => {
               }}
             >
               <span className="text-red">*</span>
-              自动执行备份
+              <FormattedMessage id="design.data.auto-backup" />
             </Checkbox>
           </div>
         </div>
       ),
       onOk: () => {
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         restoreDesignData({ package: designInfo.package, auto_backup: autoBackup })
           .then((res) => {
             message.info(res.msg);
@@ -375,17 +395,24 @@ const DesignDetail: React.FC = () => {
 
   const handleBackupDesignData = () => {
     Modal.confirm({
-      title: '确定要给当前模板增加初始化数据吗？',
+      title: intl.formatMessage({ id: 'design.detail.backup-data' }),
       content: (
         <div>
-          <p>该操作旨在给当前模板增加一份用于模板初始化的演示数据。</p>
+          <p>
+            <FormattedMessage id="design.detail.backup-data.tips" />
+          </p>
           {designInfo.preview_data && (
-            <p>该模板已经存在演示数据，如果再次执行，旧的演示数据将会被覆盖。</p>
+            <p>
+              <FormattedMessage id="design.detail.backup-data.cover.tips" />
+            </p>
           )}
         </div>
       ),
       onOk: async () => {
-        const hide = message.loading('正在执行备份中', 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'design.detail.backup-data.doing' }),
+          0,
+        );
         backupDesignData({ package: designInfo.package })
           .then((res) => {
             message.info(res.msg);
@@ -399,11 +426,11 @@ const DesignDetail: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '名称',
+      title: intl.formatMessage({ id: 'design.data.name' }),
       dataIndex: 'path',
       render: (text: any, record: any) => (
         <a
-          title="点击编辑"
+          title={intl.formatMessage({ id: 'design.click-to-edit' })}
           onClick={() => {
             handleShowEdit('template', record);
           }}
@@ -413,24 +440,24 @@ const DesignDetail: React.FC = () => {
       ),
     },
     {
-      title: '备注',
+      title: intl.formatMessage({ id: 'design.remark' }),
       dataIndex: 'remark',
       width: 200,
     },
     {
-      title: '大小',
+      title: intl.formatMessage({ id: 'design.size' }),
       dataIndex: 'size',
       width: 150,
       render: (text: any, record: any) => <div>{sizeFormat(text)}</div>,
     },
     {
-      title: '修改时间',
+      title: intl.formatMessage({ id: 'design.update-time' }),
       dataIndex: 'last_mod',
       width: 200,
-      render: (text: any) => moment((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text: any) => dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       key: 'action',
       width: 100,
       render: (text: any, record: any) => (
@@ -441,7 +468,7 @@ const DesignDetail: React.FC = () => {
               handleAddRemark('template', record);
             }}
           >
-            +备注/重命名
+            <FormattedMessage id="design.detail.rename" />
           </Button>
           <Button
             type="link"
@@ -449,7 +476,7 @@ const DesignDetail: React.FC = () => {
               handleCopy('template', record);
             }}
           >
-            复制一份
+            <FormattedMessage id="design.detail.make-copy" />
           </Button>
           <Button
             danger
@@ -458,7 +485,7 @@ const DesignDetail: React.FC = () => {
               handleRemove('template', record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </Button>
         </Space>
       ),
@@ -467,11 +494,11 @@ const DesignDetail: React.FC = () => {
 
   const columnsStatic: ProColumns<any>[] = [
     {
-      title: '名称',
+      title: intl.formatMessage({ id: 'design.data.name' }),
       dataIndex: 'path',
       render: (text: any, record: any) => (
         <a
-          title="点击编辑"
+          title={intl.formatMessage({ id: 'design.click-to-edit' })}
           onClick={() => {
             handleShowEdit('static', record);
           }}
@@ -481,24 +508,24 @@ const DesignDetail: React.FC = () => {
       ),
     },
     {
-      title: '备注',
+      title: intl.formatMessage({ id: 'design.remark' }),
       dataIndex: 'remark',
       width: 200,
     },
     {
-      title: '大小',
+      title: intl.formatMessage({ id: 'design.size' }),
       dataIndex: 'size',
       width: 150,
       render: (text: any, record: any) => <div>{sizeFormat(text)}</div>,
     },
     {
-      title: '修改时间',
+      title: intl.formatMessage({ id: 'design.update-time' }),
       dataIndex: 'last_mod',
       width: 200,
-      render: (text: any) => moment((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text: any) => dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       key: 'action',
       width: 100,
       render: (text: any, record: any) => (
@@ -509,7 +536,7 @@ const DesignDetail: React.FC = () => {
               handleAddRemark('static', record);
             }}
           >
-            +备注/重命名
+            <FormattedMessage id="design.detail.rename" />
           </Button>
           <Button
             type="link"
@@ -517,7 +544,7 @@ const DesignDetail: React.FC = () => {
               handleCopy('static', record);
             }}
           >
-            复制一份
+            <FormattedMessage id="design.detail.make-copy" />
           </Button>
           <Button
             danger
@@ -526,7 +553,7 @@ const DesignDetail: React.FC = () => {
               handleRemove('static', record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </Button>
         </Space>
       ),
@@ -538,9 +565,11 @@ const DesignDetail: React.FC = () => {
     (designInfo.template_id == 0 || designInfo.auth_id == anqiUser?.auth_id);
 
   return (
-    <PageContainer title={designInfo.name + ' 文件管理'}>
+    <PageContainer
+      title={designInfo.name + intl.formatMessage({ id: 'design.detail.file-manage' })}
+    >
       <ProTable<any>
-        headerTitle="模板文件管理"
+        headerTitle={intl.formatMessage({ id: 'design.tempalte.name' })}
         actionRef={actionRef}
         rowKey="path"
         search={false}
@@ -552,7 +581,7 @@ const DesignDetail: React.FC = () => {
               handleAddFile('template');
             }}
           >
-            <PlusOutlined /> 添加新文件
+            <PlusOutlined /> <FormattedMessage id="design.detail.new-file" />
           </Button>,
           <Button
             key="edit"
@@ -560,7 +589,7 @@ const DesignDetail: React.FC = () => {
               setVisible(true);
             }}
           >
-            修改模板信息
+            <FormattedMessage id="design.detail.template.edit" />
           </Button>,
           <Button
             key="download"
@@ -568,20 +597,28 @@ const DesignDetail: React.FC = () => {
               handleDownload();
             }}
           >
-            打包下载模板
+            <FormattedMessage id="design.detail.template.download" />
           </Button>,
           designInfo.status == 1 && (
             <Button key="backup" onClick={handleBackupDesignData}>
-              备份模板数据
+              <FormattedMessage id="design.detail.template.backup" />
             </Button>
           ),
           designInfo.preview_data && designInfo.status == 1 && (
-            <Tooltip title="安装该模板的演示数据" key="restore">
-              <Button onClick={handleRestoreDesignData}>初始化模板数据</Button>
+            <Tooltip
+              title={intl.formatMessage({ id: 'design.data.install.example' })}
+              key="restore"
+            >
+              <Button onClick={handleRestoreDesignData}>
+                <FormattedMessage id="design.detail.template.restore" />
+              </Button>
             </Tooltip>
           ),
           (canShare || !anqiUser || anqiUser?.auth_id == 0) && (
-            <Tooltip title="将模板上架到AnqiCMS模板市场" key="share">
+            <Tooltip
+              title={intl.formatMessage({ id: 'design.detail.template.tomarket' })}
+              key="share"
+            >
               <TemplateShare
                 designInfo={designInfo}
                 canShare={canShare}
@@ -590,7 +627,9 @@ const DesignDetail: React.FC = () => {
                   actionRef.current?.reload();
                 }}
               >
-                <Button>分享上架模板</Button>
+                <Button>
+                  <FormattedMessage id="design.detail.template.share" />
+                </Button>
               </TemplateShare>
             </Tooltip>
           ),
@@ -611,7 +650,7 @@ const DesignDetail: React.FC = () => {
         }}
       />
       <ProTable<any>
-        headerTitle="资源文件"
+        headerTitle={intl.formatMessage({ id: 'design.static.name' })}
         actionRef={staticActionRef}
         rowKey="path"
         search={false}
@@ -623,7 +662,7 @@ const DesignDetail: React.FC = () => {
               handleAddFile('static');
             }}
           >
-            <PlusOutlined /> 添加新资源
+            <PlusOutlined /> <FormattedMessage id="design.detail.new-static" />
           </Button>,
         ]}
         request={async () => {
@@ -644,9 +683,14 @@ const DesignDetail: React.FC = () => {
       {addVisible && (
         <ModalForm
           width={600}
-          title={'添加新' + (addFileType == 'static' ? '资源' : '模板') + '文件'}
+          title={
+            intl.formatMessage({ id: 'design.detail.addnew' }) +
+            (addFileType == 'static'
+              ? intl.formatMessage({ id: 'design.static.name' })
+              : intl.formatMessage({ id: 'design.tempalte.name' }))
+          }
           formRef={formRef}
-          visible={addVisible}
+          open={addVisible}
           modalProps={{
             onCancel: () => {
               setAddVisible(false);
@@ -658,7 +702,7 @@ const DesignDetail: React.FC = () => {
           }}
         >
           <ProFormSelect
-            label="存放目录"
+            label={intl.formatMessage({ id: 'design.detail.save-path' })}
             showSearch
             name="path"
             width="lg"
@@ -669,14 +713,16 @@ const DesignDetail: React.FC = () => {
             }}
             options={tempDirs}
           />
-          <ProFormText name="tpl" label="模板文件">
+          <ProFormText name="tpl" label={intl.formatMessage({ id: 'design.tempalte.name' })}>
             <Upload name="file" showUploadList={false} customRequest={handleUploadTemplate}>
-              <Button type="primary">选择文件</Button>
+              <Button type="primary">
+                <FormattedMessage id="design.detail.select-file" />
+              </Button>
             </Upload>
           </ProFormText>
           <div>
             <p>
-              说明：只能上传模板文件(.html)、和资源文件(css,js,图片,字体等)，以及zip的文件。如果上传zip,会自动解压到当前目录。
+              <FormattedMessage id="design.detail.upload-tips" />
             </p>
           </div>
         </ModalForm>
@@ -684,8 +730,8 @@ const DesignDetail: React.FC = () => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentFile.path + '修改文件'}
-          visible={editVisible}
+          title={currentFile.path + intl.formatMessage({ id: 'design.detail.edit-file' })}
+          open={editVisible}
           modalProps={{
             onCancel: () => {
               setEditVisible(false);
@@ -697,15 +743,15 @@ const DesignDetail: React.FC = () => {
             handleSaveFile(values);
           }}
         >
-          <ProFormText name="path" label="文件名" />
-          <ProFormText name="remark" label="备注" />
+          <ProFormText name="path" label={intl.formatMessage({ id: 'design.detail.file-name' })} />
+          <ProFormText name="remark" label={intl.formatMessage({ id: 'design.remark' })} />
         </ModalForm>
       )}
       {visible && (
         <ModalForm
           width={600}
-          title={'修改模板'}
-          visible={visible}
+          title={intl.formatMessage({ id: 'design.detail.template.edit' })}
+          open={visible}
           modalProps={{
             onCancel: () => {
               setVisible(false);
@@ -717,23 +763,26 @@ const DesignDetail: React.FC = () => {
             handleSaveInfo(values);
           }}
         >
-          <ProFormText name="name" label="模板名称" />
+          <ProFormText
+            name="name"
+            label={intl.formatMessage({ id: 'design.detail.template-name' })}
+          />
           <ProFormRadio.Group
             name="template_type"
-            label="模板类型"
-            extra="自适应类型模板只有一个域名和一套模板；代码适配类型有一个域名和2套模板，电脑端和手机端访问同一个域名会展示不同模板；电脑+手机类型需要2个域名和2套模板，访问电脑域名展示电脑模板，访问手机域名展示手机模板。"
+            label={intl.formatMessage({ id: 'design.detail.template-type' })}
+            extra={intl.formatMessage({ id: 'design.detail.template-type.description' })}
             options={[
               {
                 value: 0,
-                label: '自适应',
+                label: intl.formatMessage({ id: 'setting.system.template-type.auto' }),
               },
               {
                 value: 1,
-                label: '代码适配',
+                label: intl.formatMessage({ id: 'setting.system.template-type.code' }),
               },
               {
                 value: 2,
-                label: '电脑+手机',
+                label: intl.formatMessage({ id: 'setting.system.template-type.pc-m' }),
               },
             ]}
           />
@@ -741,10 +790,10 @@ const DesignDetail: React.FC = () => {
       )}
       <Modal
         width={900}
-        title={'查看资源详情'}
+        title={intl.formatMessage({ id: 'design.detail.static-detail' })}
         onCancel={() => setDetailVisible(false)}
         onOk={() => setDetailVisible(false)}
-        visible={detailVisible}
+        open={detailVisible}
       >
         <div className="attachment-detail">
           <div className="preview">
@@ -783,27 +832,37 @@ const DesignDetail: React.FC = () => {
           <div className="detail">
             <div className="info">
               <div className="item">
-                <div className="name">文件路径:</div>
+                <div className="name">
+                  <FormattedMessage id="design.detail.path" />:
+                </div>
                 <div className="value">{currentFile.path}</div>
               </div>
               <div className="item">
-                <div className="name">文件类型:</div>
+                <div className="name">
+                  <FormattedMessage id="design.detail.type" />:
+                </div>
                 <div className="value">
                   {currentFile.path?.substring(currentFile.path?.lastIndexOf('.'))}
                 </div>
               </div>
               <div className="item">
-                <div className="name">最近修改:</div>
+                <div className="name">
+                  <FormattedMessage id="design.update-time" />:
+                </div>
                 <div className="value">
-                  {moment(currentFile.last_mod * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                  {dayjs(currentFile.last_mod * 1000).format('YYYY-MM-DD HH:mm:ss')}
                 </div>
               </div>
               <div className="item">
-                <div className="name">文件大小:</div>
+                <div className="name">
+                  <FormattedMessage id="design.size" />:
+                </div>
                 <div className="value">{sizeFormat(currentFile.size)}</div>
               </div>
               <div className="item">
-                <div className="name">备注:</div>
+                <div className="name">
+                  <FormattedMessage id="design.remark" />:
+                </div>
                 <div className="value">{currentFile.remark}</div>
               </div>
             </div>
@@ -814,30 +873,38 @@ const DesignDetail: React.FC = () => {
                 accept={currentFile.path?.substring(currentFile.path?.lastIndexOf('.'))}
                 customRequest={handleReplaceFile}
               >
-                <Button>替换文件</Button>
+                <Button>
+                  <FormattedMessage id="design.detail.replace" />
+                </Button>
               </Upload>
               <Button
                 onClick={() => {
                   handleAddRemark('template', currentFile);
                 }}
               >
-                修改文件名
+                <FormattedMessage id="design.detail.update-name" />
               </Button>
               <Button
                 onClick={() => {
                   handleRemove('template', currentFile);
                 }}
               >
-                删除
+                <FormattedMessage id="setting.system.delete" />
               </Button>
               <Button danger onClick={() => setDetailVisible(false)}>
-                关闭
+                <FormattedMessage id="setting.action.close" />
               </Button>
             </Space>
             <div className="tips">
-              <p>相关说明：</p>
-              <div>1、替换图片时，图片的URL地址不变，图片大小变为新图片的。</div>
-              <div>2、图片上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。</div>
+              <p>
+                <FormattedMessage id="design.detail.tips.name" />
+              </p>
+              <div>
+                <FormattedMessage id="design.detail.tips1" />
+              </div>
+              <div>
+                <FormattedMessage id="design.detail.tips2" />
+              </div>
             </div>
           </div>
         </div>

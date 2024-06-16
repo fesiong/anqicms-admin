@@ -1,8 +1,8 @@
-import { extend } from 'umi-request';
-import config from './config';
-import { getSessionStore, getStore } from '../utils/store';
+import { history } from '@umijs/max';
 import { message } from 'antd';
-import { history } from 'umi';
+import { extend } from 'umi-request';
+import { getSessionStore, getStore } from '../utils/store';
+import config from './config';
 const request = extend({
   prefix: config.baseUrl,
   timeout: 150000,

@@ -1,9 +1,9 @@
-import ProList from '@ant-design/pro-list';
 import { pluginGetMaterialCategories, pluginGetMaterials } from '@/services/plugin/material';
-import { Modal, Space, Tag } from 'antd';
-import './index.less';
 import { FileSearchOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import { ProList } from '@ant-design/pro-components';
+import { Modal, Space, Tag } from 'antd';
 import E from 'wangeditor';
+import './index.less';
 const { $, BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = E;
 
 //【注意】需要把自定义的 Element 引入到最外层的 custom-types.d.ts
@@ -29,7 +29,7 @@ export class MaterialMenu extends BtnMenu {
 
   clickHandler = async () => {
     let res = await pluginGetMaterialCategories();
-    let categories = (res.data || []).reduce((pre: Object, cur: any) => {
+    let categories = (res.data || []).reduce((pre: any, cur: any) => {
       pre[cur.id] = cur.title;
       return pre;
     }, []);

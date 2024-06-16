@@ -1,7 +1,8 @@
 import { anqiSendFeedback, anqiUpload } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
-import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { Alert, message, Upload } from 'antd';
+import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Alert, Upload, message } from 'antd';
 import { useState } from 'react';
 import './index.less';
 
@@ -10,6 +11,7 @@ const Footer: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
   const currentYear = new Date().getFullYear();
+  const intl = useIntl();
 
   const handleFeedback = async (values: any) => {
     if (loading) {
@@ -18,11 +20,11 @@ const Footer: React.FC = () => {
     loading = true;
     const postData = Object.assign({}, values);
     postData.images = images;
-    const hide = message.loading('正在提交', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'component.footer.submitting' }), 0);
     anqiSendFeedback(postData)
       .then((res) => {
         if (res.code === 0) {
-          message.info(res.msg || '已提交');
+          message.info(res.msg || intl.formatMessage({ id: 'component.footer.submitted' }));
           setVisible(false);
         } else {
           message.info(res.msg);
@@ -35,7 +37,7 @@ const Footer: React.FC = () => {
   };
 
   const handleUploadImage = (e: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'component.footer.submitting' }), 0);
 
     let formData = new FormData();
     formData.append('file', e.file);
@@ -44,7 +46,7 @@ const Footer: React.FC = () => {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || '上传成功');
+          message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
           images.push(res.data.logo);
           setImages(([] as string[]).concat(...images));
         }
@@ -56,13 +58,15 @@ const Footer: React.FC = () => {
 
   return (
     <div className="anqi-footer">
-      <span>© {currentYear} 安企CMS(anqicms.com)</span>
+      <span>
+        © {currentYear} <FormattedMessage id="component.footer.copyright" />
+      </span>
       <a href="https://www.anqicms.com/help" target="_blank">
-        使用帮助
+        <FormattedMessage id="component.footer.help" />
       </a>
       <span>|</span>
       <a href="https://www.anqicms.com/manual" target="_blank">
-        模板标签手册
+        <FormattedMessage id="component.footer.template-manual" />
       </a>
       <span>|</span>
       <a
@@ -71,14 +75,14 @@ const Footer: React.FC = () => {
           setVisible(true);
         }}
       >
-        意见反馈&需求提议
+        <FormattedMessage id="component.footer.feedback" />
       </a>
       <ModalForm
-        visible={visible}
+        open={visible}
         width={600}
-        title="意见反馈&需求提议"
+        title={intl.formatMessage({ id: 'component.footer.feedback' })}
         layout="horizontal"
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           setVisible(flag);
         }}
         onFinish={handleFeedback}
@@ -87,11 +91,11 @@ const Footer: React.FC = () => {
           className="mb-normal"
           description={
             <div>
-              系统会将您所反馈的内容创建为一个社区帖子，您可以从{' '}
+              <FormattedMessage id="component.footer.feedback.tips-before" />
               <a href="https://www.anqicms.com/" target="_blank">
                 AnqiCMS
-              </a>{' '}
-              网站上查看我们的回复。
+              </a>
+              <FormattedMessage id="component.footer.feedback.tips-after" />
             </div>
           }
         />
@@ -99,24 +103,33 @@ const Footer: React.FC = () => {
           name="type"
           required
           width="lg"
-          label="反馈类型"
+          label={intl.formatMessage({ id: 'component.footer.feedback.type' })}
           valueEnum={{
-            BUG: 'BUG',
-            建议: '建议',
-            咨询: '咨询',
+            bug: intl.formatMessage({ id: 'component.footer.feedback.bug' }),
+            suggest: intl.formatMessage({ id: 'component.footer.feedback.suggest' }),
+            consult: intl.formatMessage({ id: 'component.footer.feedback.consult' }),
           }}
         />
-        <ProFormText name="title" required label="标题" width="lg" />
+        <ProFormText
+          name="title"
+          required
+          label={intl.formatMessage({ id: 'component.footer.feedback.title' })}
+          width="lg"
+        />
         <ProFormTextArea
           name="content"
           required
-          label="问题描述"
+          label={intl.formatMessage({ id: 'component.footer.feedback.description' })}
           width="lg"
           fieldProps={{
             rows: 6,
           }}
         />
-        <ProFormText required label="问题截图" width="lg">
+        <ProFormText
+          required
+          label={intl.formatMessage({ id: 'component.footer.feedback.screenshot' })}
+          width="lg"
+        >
           <Upload
             name="file"
             multiple
@@ -129,7 +142,9 @@ const Footer: React.FC = () => {
             <div className="ant-upload-item">
               <div className="add">
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>上传</div>
+                <div style={{ marginTop: 8 }}>
+                  <FormattedMessage id="component.footer.upload" />
+                </div>
               </div>
             </div>
           </Upload>

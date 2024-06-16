@@ -1,12 +1,19 @@
-import React, { useRef, useState } from 'react';
-import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { message, Modal, Space, Button } from 'antd';
 import {
   pluginDeleteWechatReplyRule,
   pluginGetWechatReplyRules,
   pluginSaveWechatReplyRule,
 } from '@/services';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import {
+  ActionType,
+  ModalForm,
+  ProColumns,
+  ProFormRadio,
+  ProFormText,
+  ProFormTextArea,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 const PluginWechatReplyRule: React.FC<any> = (props) => {
   const actionRef = useRef<ActionType>();
@@ -101,7 +108,7 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
       </div>
       <Modal
         width={1000}
-        visible={visible}
+        open={visible}
         onCancel={() => {
           setVisible(false);
         }}
@@ -135,9 +142,9 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
         <ModalForm
           title="编辑规则"
           width={600}
-          visible={editVisible}
+          open={editVisible}
           initialValues={currentRule}
-          onVisibleChange={(flag) => {
+          onOpenChange={(flag) => {
             setEditVisible(flag);
           }}
           onFinish={handleFinishedEdit}

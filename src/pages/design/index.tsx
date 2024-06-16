@@ -1,29 +1,34 @@
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import { Button, Space, Modal, message, Upload, Tooltip, Checkbox } from 'antd';
 import {
-  deleteDesignInfo,
-  getDesignList,
   UploadDesignInfo,
   activeDesignInfo,
+  deleteDesignInfo,
+  getDesignList,
   restoreDesignData,
 } from '@/services';
-import { history } from 'umi';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumns,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Button, Checkbox, Modal, Space, Tooltip, Upload, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 let autoBackup = false;
 let autoCleanup = false;
 const DesignIndex: React.FC = () => {
   const [addVisible, setAddVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
+  const intl = useIntl();
 
   const handleUseTemplate = (template: any) => {
     Modal.confirm({
-      title: '确定要启用这套设计模板吗？',
+      title: intl.formatMessage({ id: 'design.confirm-enable' }),
       onOk: () => {
-        const hide = message.loading('正在切换模板', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'design.switching-template' }), 0);
         activeDesignInfo({ package: template.package });
         setTimeout(() => {
           hide();
@@ -43,13 +48,13 @@ const DesignIndex: React.FC = () => {
 
   const handleRemove = (packageName: string) => {
     if (packageName == 'default') {
-      message.error('默认模板不能删除');
+      message.error(intl.formatMessage({ id: 'design.cannot-delete' }));
       return;
     }
     Modal.confirm({
-      title: '确定要删除这套设计模板吗？',
+      title: intl.formatMessage({ id: 'design.confirm-delete' }),
       onOk: () => {
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         deleteDesignInfo({ package: packageName })
           .then((res) => {
             message.info(res.msg);
@@ -65,13 +70,13 @@ const DesignIndex: React.FC = () => {
   const handleUploadZip = (e: any) => {
     const formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     UploadDesignInfo(formData)
       .then((res) => {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || '上传成功');
+          message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
           setAddVisible(false);
           actionRef.current?.reload();
         }
@@ -83,13 +88,19 @@ const DesignIndex: React.FC = () => {
 
   const handleRestoreDesignData = (record: any) => {
     Modal.confirm({
-      title: '确定要安装该模板的演示数据吗？',
+      title: intl.formatMessage({ id: 'design.confirm-install-data' }),
       width: 480,
       content: (
         <div>
-          <p>该安装操作将会用模板的演示数据覆盖，请谨慎操作。</p>
-          <p>你可以选择在初始化模板数据时自动清空原站点数据。</p>
-          <p>在执行安装演示数据前，建议先备份网站原有数据。</p>
+          <p>
+            <FormattedMessage id="design.data.tips1" />
+          </p>
+          <p>
+            <FormattedMessage id="design.data.tips2" />
+          </p>
+          <p>
+            <FormattedMessage id="design.data.tips3" />
+          </p>
           <div>
             <Checkbox
               value={true}
@@ -98,7 +109,7 @@ const DesignIndex: React.FC = () => {
               }}
             >
               <span className="text-red">*</span>
-              自动执行备份
+              <FormattedMessage id="design.data.auto-backup" />
             </Checkbox>
             <Checkbox
               value={true}
@@ -110,13 +121,13 @@ const DesignIndex: React.FC = () => {
               }}
             >
               <span className="text-red">*</span>
-              自动清空原站点数据
+              <FormattedMessage id="design.data.auto-clean" />
             </Checkbox>
           </div>
         </div>
       ),
       onOk: () => {
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         restoreDesignData({
           package: record.package,
           auto_backup: autoBackup,
@@ -135,42 +146,42 @@ const DesignIndex: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '名称',
+      title: intl.formatMessage({ id: 'design.data.name' }),
       dataIndex: 'name',
     },
     {
-      title: '文件夹',
+      title: intl.formatMessage({ id: 'design.data.package' }),
       dataIndex: 'package',
     },
     {
-      title: '类型',
+      title: intl.formatMessage({ id: 'setting.system.template-type' }),
       dataIndex: 'template_type',
       valueEnum: {
-        0: '自适应',
-        1: '代码适配',
-        2: '电脑+手机',
+        0: intl.formatMessage({ id: 'setting.system.template-type.auto' }),
+        1: intl.formatMessage({ id: 'setting.system.template-type.code' }),
+        2: intl.formatMessage({ id: 'setting.system.template-type.pc-m' }),
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '未启用',
+          text: intl.formatMessage({ id: 'design.data.notenable' }),
           status: 'Default',
         },
         1: {
-          text: '已启用',
+          text: intl.formatMessage({ id: 'design.data.enable' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'account.time' }),
       dataIndex: 'created',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       key: 'action',
       width: 300,
       render: (_, record: any) => (
@@ -182,18 +193,18 @@ const DesignIndex: React.FC = () => {
                 handleUseTemplate(record);
               }}
             >
-              启用
+              <FormattedMessage id="design.data.enable.action" />
             </Button>
           )}
           {record.preview_data && record.status == 1 && (
-            <Tooltip title="安装该模板的演示数据">
+            <Tooltip title={intl.formatMessage({ id: 'design.data.install.example' })}>
               <Button
                 type="link"
                 onClick={() => {
                   handleRestoreDesignData(record);
                 }}
               >
-                初始化
+                <FormattedMessage id="design.data.initial" />
               </Button>
             </Tooltip>
           )}
@@ -203,7 +214,7 @@ const DesignIndex: React.FC = () => {
               handleManage(record);
             }}
           >
-            管理
+            <FormattedMessage id="design.data.manage" />
           </Button>
           <Button
             type="link"
@@ -211,7 +222,7 @@ const DesignIndex: React.FC = () => {
               handleShowEdit(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </Button>
           {record.package !== 'default' && (
             <Button
@@ -221,7 +232,7 @@ const DesignIndex: React.FC = () => {
                 handleRemove(record.package);
               }}
             >
-              删除
+              <FormattedMessage id="setting.system.delete" />
             </Button>
           )}
         </Space>
@@ -232,7 +243,7 @@ const DesignIndex: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="设计模板列表"
+        headerTitle={intl.formatMessage({ id: 'design.list' })}
         toolBarRender={() => [
           <Button
             key="upload"
@@ -240,7 +251,7 @@ const DesignIndex: React.FC = () => {
               setAddVisible(true);
             }}
           >
-            上传新模板
+            <FormattedMessage id="design.upload" />
           </Button>,
         ]}
         actionRef={actionRef}
@@ -259,8 +270,8 @@ const DesignIndex: React.FC = () => {
       {addVisible && (
         <ModalForm
           width={600}
-          title={'上传模板'}
-          visible={addVisible}
+          title={intl.formatMessage({ id: 'design.upload' })}
+          open={addVisible}
           modalProps={{
             onCancel: () => {
               setAddVisible(false);
@@ -271,20 +282,20 @@ const DesignIndex: React.FC = () => {
             setAddVisible(false);
           }}
         >
-          <ProFormText name="tpl" label="模板压缩包">
+          <ProFormText name="tpl" label={intl.formatMessage({ id: 'design.package.zip' })}>
             <Upload
               name="file"
               showUploadList={false}
               accept=".zip"
               customRequest={handleUploadZip}
             >
-              <Button type="primary">选择Zip压缩包</Button>
+              <Button type="primary">
+                <FormattedMessage id="design.package.zip.select" />
+              </Button>
             </Upload>
           </ProFormText>
           <div>
-            <p>
-              说明：只能上传从我的模板详情打包下载的模板，或设计市场的模板，本地制作的模板，请通过我的模板详情打包下载来制作成压缩包。
-            </p>
+            <p>{intl.formatMessage({ id: 'design.package.zip.tips' })}</p>
           </div>
         </ModalForm>
       )}

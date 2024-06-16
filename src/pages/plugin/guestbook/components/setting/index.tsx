@@ -1,10 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, Col, Input, message, Modal, Row, Space } from 'antd';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { pluginGetGuestbookSetting, pluginSaveGuestbookSetting } from '@/services/plugin/guestbook';
+import {
+  ActionType,
+  ModalForm,
+  ProColumns,
+  ProFormRadio,
+  ProFormText,
+  ProFormTextArea,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, Col, Input, Modal, Row, Space, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 
-const GuestbookSetting: React.FC = (props) => {
+export type GuestbookSettingProps = {
+  children?: React.ReactNode;
+};
+
+const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
   const actionRef = useRef<ActionType>();
   const [visible, setVisible] = useState<boolean>(false);
   const [editVisible, setEditVisible] = useState<boolean>(false);
@@ -152,7 +163,7 @@ const GuestbookSetting: React.FC = (props) => {
       <Modal
         width={800}
         title="网站留言设置"
-        visible={visible}
+        open={visible}
         onCancel={() => {
           setVisible(false);
         }}
@@ -209,7 +220,7 @@ const GuestbookSetting: React.FC = (props) => {
         <ModalForm
           width={600}
           title={currentField.name ? currentField.name + '修改字段' : '添加字段'}
-          visible={editVisible}
+          open={editVisible}
           modalProps={{
             onCancel: () => {
               setEditVisible(false);

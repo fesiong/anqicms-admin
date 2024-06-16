@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Input, message, Modal, Space, Tag } from 'antd';
-import './index.less';
 import { getCollectorSetting, replaceCollectorArticle } from '@/services/collector';
 import { PlusOutlined } from '@ant-design/icons';
+import { Alert, Button, Input, Modal, Space, Tag, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import './index.less';
 
 export type ReplaceKeywordsProps = {
   onCancel: (flag?: boolean) => void;
-  visible: boolean;
+  open: boolean;
 };
 
 const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
@@ -126,7 +126,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
           </Button>
         </Space>
       }
-      visible={props.visible}
+      open={props.open}
       onCancel={() => {
         props.onCancel();
       }}

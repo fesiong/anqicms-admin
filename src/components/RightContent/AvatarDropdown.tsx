@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
-import { GroupOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
-import { history, useModel } from 'umi';
-import { stringify } from 'querystring';
-import HeaderDropdown from '../HeaderDropdown';
-import styles from './index.less';
-import type { MenuInfo } from 'rc-menu/lib/interface';
 import { removeStore } from '@/utils/store';
+import { GroupOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
+import { history, useModel } from '@umijs/max';
+import { Menu, Spin } from 'antd';
+import { stringify } from 'querystring';
+import type { MenuInfo } from 'rc-menu/lib/interface';
+import React, { useCallback } from 'react';
+import HeaderDropdown from '../HeaderDropdown';
+import './index.less';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -16,8 +16,9 @@ export type GlobalHeaderRightProps = {
  * 退出登录，并且将当前的 url 保存
  */
 const loginOut = async () => {
-  const { query = {}, search, pathname } = history.location;
-  const { redirect } = query;
+  const { search, pathname } = history.location;
+  const urlParams = new URL(window.location.href).searchParams;
+  const redirect = urlParams.get('redirect') || '';
   removeStore('adminToken');
   // Note: There may be security issues, please note
   if (window.location.pathname !== '/login' && !redirect) {
@@ -51,7 +52,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   );
 
   const loading = (
-    <span className={`${styles.action} ${styles.account}`}>
+    <span className={`action account`}>
       <Spin
         size="small"
         style={{
@@ -73,7 +74,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   }
 
   const menuHeaderDropdown = (
-    <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
+    <Menu className="menu" selectedKeys={[]} onClick={onMenuClick}>
       {menu && (
         <Menu.Item key="">
           <UserOutlined />
@@ -98,9 +99,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   );
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
-      <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={<UserOutlined />} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.user_name}</span>
+      <span className={`action account`}>
+        <span className={`name anticon`}>{currentUser.user_name}</span>
       </span>
     </HeaderDropdown>
   );

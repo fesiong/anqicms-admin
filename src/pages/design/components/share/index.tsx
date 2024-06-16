@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { message, Modal, RadioChangeEvent, Upload } from 'antd';
+import { anqiShareTemplate, anqiUpload } from '@/services';
+import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
   ProFormDigit,
@@ -7,9 +7,10 @@ import {
   ProFormRadio,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-form';
-import { anqiShareTemplate, anqiUpload } from '@/services';
-import { PlusOutlined } from '@ant-design/icons';
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Modal, RadioChangeEvent, Upload, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 export type TemplateShareProps = {
   children: any;
@@ -26,18 +27,19 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [onlyTemplate, setOnlyTemplate] = useState<boolean>(false);
   const formRef = useRef<ProFormInstance>();
+  const intl = useIntl();
 
   const confirmShareTemplate = async (values: any) => {
     Modal.confirm({
       title:
         props.templateId > 0
-          ? '确定要替换模板市场对应的模板吗？'
-          : '确定要将该模板上架到模板市场吗？',
+          ? intl.formatMessage({ id: 'design.share.confirm-replace' })
+          : intl.formatMessage({ id: 'design.share.confirm-new' }),
       content: (
         <div>
           {props.templateId > 0
-            ? '该模板已经上架模板市场，现在提交则会更新模板市场对应模板到当前版本。'
-            : '您的模板将上架到模板市场供用户选择使用。'}
+            ? intl.formatMessage({ id: 'design.share.confirm-replace.content' })
+            : intl.formatMessage({ id: 'design.share.confirm-new.content' })}
         </div>
       ),
       onOk: async () => {
@@ -53,7 +55,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
 
         anqiShareTemplate(postData).then((res) => {
           if (res.code === 0) {
-            message.info(res.msg || '提交成功');
+            message.info(res.msg || intl.formatMessage({ id: 'setting.system.submit-success' }));
             setVisible(false);
             props.onFinished?.();
           } else {
@@ -65,7 +67,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
   };
 
   const handleUploadImage = (field: string, e: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
 
     let formData = new FormData();
     formData.append('file', e.file);
@@ -74,7 +76,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || '上传成功');
+          message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
           if (field == 'pc_thumb') {
             setPcThumb(res.data.logo);
           } else if (field == 'mobile_thumb') {
@@ -99,7 +101,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
       <div
         onClick={() => {
           if (!props.canShare) {
-            message.info('请先登录AnqiCMS官网账号');
+            message.info(intl.formatMessage({ id: 'design.share.nologin' }));
             return;
           }
           formRef.current?.setFieldsValue(props.designInfo);
@@ -110,8 +112,8 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
       </div>
       <ModalForm
         width={800}
-        title={'上架模板到设计市场'}
-        visible={visible}
+        title={intl.formatMessage({ id: 'design.share.share' })}
+        open={visible}
         formRef={formRef}
         modalProps={{
           onCancel: () => {
@@ -123,56 +125,71 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
           confirmShareTemplate(values);
         }}
       >
-        <ProFormText name="name" label="模板名称" extra="例如：机械设备模板" />
+        <ProFormText
+          name="name"
+          label={intl.formatMessage({ id: 'design.detail.template-name' })}
+          extra={intl.formatMessage({ id: 'design.detail.template-name.example' })}
+        />
         {props.templateId > 0 && (
           <ProFormRadio.Group
             name="only_template"
             initialValue={false}
-            label="进更新模板"
+            label={intl.formatMessage({ id: 'design.share.only-template' })}
             options={[
               {
                 value: false,
-                label: '更新全部',
+                label: intl.formatMessage({ id: 'design.share.only-template.no' }),
               },
               {
                 value: true,
-                label: '仅更新模板',
+                label: intl.formatMessage({ id: 'design.share.only-template.yes' }),
               },
             ]}
             fieldProps={{
               onChange: handleChangeOption,
             }}
-            extra="已经在模板市场的模板，可以只更新模板文件"
+            extra={intl.formatMessage({ id: 'design.share.only-template.tips' })}
           />
         )}
-        <ProFormText name="version" label="模板版本" placeholder="如：1.0.0" />
+        <ProFormText
+          name="version"
+          label={intl.formatMessage({ id: 'design.share.version' })}
+          placeholder={intl.formatMessage({ id: 'design.share.version.placeholder' })}
+        />
         {!onlyTemplate && (
           <>
             <ProFormDigit
               name="price"
-              label="模板售价"
-              addonAfter="元"
-              extra="如免费分享，则不需设置。设置售价后，有用户购买模板，您将获得80%的实际销售收益"
+              label={intl.formatMessage({ id: 'design.share.price' })}
+              addonAfter={intl.formatMessage({ id: 'design.share.price.suffix' })}
+              extra={intl.formatMessage({ id: 'design.share.price.description' })}
             />
             <ProFormRadio.Group
               name="auto_backup"
-              label="演示数据"
+              label={intl.formatMessage({ id: 'design.share.example-data' })}
               options={[
                 {
                   value: 0,
-                  label: '不处理',
+                  label: intl.formatMessage({ id: 'design.share.example-data.no' }),
                 },
                 {
                   value: 1,
-                  label: '自动备份演示数据',
+                  label: intl.formatMessage({ id: 'design.share.example-data.yes' }),
                 },
               ]}
-              extra="模板携带演示数据效果更好"
+              extra={intl.formatMessage({ id: 'design.share.example-data.description' })}
             />
-            <ProFormText name="author" label="模板作者" />
-            <ProFormText name="homepage" label="作者主页" />
-            <ProFormTextArea fieldProps={{ rows: 10 }} name="description" label="模板介绍" />
-            <ProFormText label="PC端截图">
+            <ProFormText name="author" label={intl.formatMessage({ id: 'design.share.author' })} />
+            <ProFormText
+              name="homepage"
+              label={intl.formatMessage({ id: 'design.share.homepage' })}
+            />
+            <ProFormTextArea
+              fieldProps={{ rows: 10 }}
+              name="description"
+              label={intl.formatMessage({ id: 'design.share.description' })}
+            />
+            <ProFormText label={intl.formatMessage({ id: 'design.share.thumb.pc' })}>
               <Upload
                 name="file"
                 multiple
@@ -188,13 +205,15 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
                   ) : (
                     <div className="add">
                       <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>上传</div>
+                      <div style={{ marginTop: 8 }}>
+                        <FormattedMessage id="setting.system.upload" />
+                      </div>
                     </div>
                   )}
                 </div>
               </Upload>
             </ProFormText>
-            <ProFormText label="移动端截图">
+            <ProFormText label={intl.formatMessage({ id: 'design.share.thumb.m' })}>
               <Upload
                 name="file"
                 multiple
@@ -210,13 +229,18 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
                   ) : (
                     <div className="add">
                       <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>上传</div>
+                      <div style={{ marginTop: 8 }}>
+                        <FormattedMessage id="setting.system.upload" />
+                      </div>
                     </div>
                   )}
                 </div>
               </Upload>
             </ProFormText>
-            <ProFormText label="模板预览图片" extra="建议上传模板全幅页面截图，不少于3张。">
+            <ProFormText
+              label={intl.formatMessage({ id: 'design.share.preview' })}
+              extra={intl.formatMessage({ id: 'design.share.preview.description' })}
+            >
               <Upload
                 name="file"
                 multiple
@@ -229,7 +253,9 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
                 <div className="ant-upload-item">
                   <div className="add">
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>上传</div>
+                    <div style={{ marginTop: 8 }}>
+                      <FormattedMessage id="setting.system.upload" />
+                    </div>
                   </div>
                 </div>
               </Upload>

@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { Button, Input, message, Modal, Space } from 'antd';
 import {
   deleteAttachmentCategory,
   getAttachmentCategories,
   saveAttachmentCategory,
 } from '@/services/attachment';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Input, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 export type AttachmentCategoryProps = {
   onCancel: (flag?: boolean) => void;
@@ -18,6 +19,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
   const [editVisbile, setEditVisible] = useState<boolean>(false);
   const [editingCategory, setEditingCategory] = useState<any>({});
   const [editingInput, setEditingInput] = useState<string>('');
+  const intl = useIntl();
 
   const handleAddCategory = () => {
     setEditingCategory({});
@@ -33,7 +35,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
 
   const handleRemove = async (record: any) => {
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'content.attachment.delete.confirm' }),
       onOk: async () => {
         let res = await deleteAttachmentCategory(record);
 
@@ -44,7 +46,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
   };
 
   const handleSaveCategory = () => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveAttachmentCategory({
       id: editingCategory.id,
       title: editingInput,
@@ -73,16 +75,16 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
       width: 60,
     },
     {
-      title: '分类名称',
+      title: intl.formatMessage({ id: 'content.category.title' }),
       dataIndex: 'title',
     },
     {
-      title: '资源数量',
+      title: intl.formatMessage({ id: 'content.source.count' }),
       dataIndex: 'attach_count',
       width: 80,
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 120,
@@ -94,7 +96,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
               handleEditCategory(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -103,7 +105,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
               handleRemove(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -120,7 +122,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
         {props.children}
       </div>
       <Modal
-        visible={visible}
+        open={visible}
         title={
           <Button
             type="primary"
@@ -128,7 +130,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
               handleAddCategory();
             }}
           >
-            新增分类
+            <FormattedMessage id="content.category.new" />
           </Button>
         }
         width={600}
@@ -140,7 +142,7 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
       >
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <ProTable<any>
-            headerTitle="内容素材管理"
+            headerTitle={intl.formatMessage({ id: 'content.attachment.category.manage' })}
             actionRef={actionRef}
             rowKey="id"
             search={false}
@@ -160,12 +162,14 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
         </div>
       </Modal>
       <Modal
-        visible={editVisbile}
-        title={editingCategory.id ? '重命名分类：' + editingCategory.title : '新增分类'}
+        open={editVisbile}
+        title={
+          editingCategory.id
+            ? intl.formatMessage({ id: 'content.category.rename' }) + ':' + editingCategory.title
+            : intl.formatMessage({ id: 'content.category.new' })
+        }
         width={480}
         zIndex={2000}
-        okText="确认"
-        cancelText="取消"
         maskClosable={false}
         onOk={handleSaveCategory}
         onCancel={() => {
@@ -173,7 +177,9 @@ const AttachmentCategory: React.FC<AttachmentCategoryProps> = (props) => {
         }}
       >
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-          <div>请填写分类名称: </div>
+          <div>
+            <FormattedMessage id="content.attachment.alt.alert" />:{' '}
+          </div>
           <Input
             size="large"
             value={editingInput}

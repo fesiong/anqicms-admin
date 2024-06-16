@@ -1,14 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ActionType } from '@ant-design/pro-table';
-import { Alert, Card, Modal } from 'antd';
-import './index.less';
 import { getDesignDocs } from '@/services';
+import { ActionType, PageContainer } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Alert, Card, Modal } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import './index.less';
 
 const DesignDoc: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [templateDocs, setTemplateDocs] = useState<any[]>([]);
   const [currentDoc, setCurrentDoc] = useState<any>({});
+  const intl = useIntl();
 
   useEffect(() => {
     fetchTemplateDocs();
@@ -38,7 +39,7 @@ const DesignDoc: React.FC = () => {
       onOk: (close) => {
         return close();
       },
-      cancelText: '查看：' + doc.link,
+      cancelText: intl.formatMessage({ id: 'design.view' }) + ': ' + doc.link,
       onCancel: (close) => {
         window.open(doc.link);
         close();
@@ -52,7 +53,7 @@ const DesignDoc: React.FC = () => {
         <Alert
           message={
             <div>
-              更详细的模板使用文档，请查看：
+              <FormattedMessage id="design.doc.tips" />
               <a href="https://www.anqicms.com/manual" target={'_blank'}>
                 https://www.anqicms.com/manual
               </a>

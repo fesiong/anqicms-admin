@@ -1,10 +1,10 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Input } from 'antd';
-import useMergedState from 'rc-util/es/hooks/useMergedState';
+import { history } from '@umijs/max';
+import { AutoComplete, Input, InputRef } from 'antd';
 import type { AutoCompleteProps } from 'antd/es/auto-complete';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React, { useEffect, useRef, useState } from 'react';
 import routes from '../../../config/routes';
-import { history } from 'umi';
 
 import classNames from 'classnames';
 import styles from './index.less';
@@ -12,18 +12,18 @@ import styles from './index.less';
 export type HeaderSearchProps = {
   onSearch?: (value?: string) => void;
   onChange?: (value?: string) => void;
-  onVisibleChange?: (b: boolean) => void;
+  onOpenChange?: (b: boolean) => void;
   className?: string;
   placeholder?: string;
   options?: AutoCompleteProps['options'];
-  defaultVisible?: boolean;
-  visible?: boolean;
+  defaultOpen?: boolean;
+  open?: boolean;
   defaultValue?: string;
   value?: string;
 };
 
 const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
-  const { className, defaultValue, onVisibleChange, placeholder, defaultVisible } = props;
+  const { className, defaultValue, onOpenChange, placeholder, defaultOpen } = props;
 
   const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
 
@@ -31,16 +31,16 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
     matchOptions('');
   }, []);
 
-  const inputRef = useRef<Input | null>(null);
+  const inputRef = useRef<InputRef | null>(null);
 
   const [value, setValue] = useMergedState<string | undefined>(defaultValue, {
     value: props.value,
     onChange: props.onChange,
   });
 
-  const [searchMode, setSearchMode] = useMergedState(defaultVisible ?? false, {
-    value: props.visible,
-    onChange: onVisibleChange,
+  const [searchMode, setSearchMode] = useMergedState(defaultOpen ?? false, {
+    value: props.open,
+    onChange: onOpenChange,
   });
 
   const onChangeValue = (value: string) => {
@@ -98,8 +98,8 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
       }}
       onTransitionEnd={({ propertyName }) => {
         if (propertyName === 'width' && !searchMode) {
-          if (onVisibleChange) {
-            onVisibleChange(searchMode);
+          if (onOpenChange) {
+            onOpenChange(searchMode);
           }
         }
       }}

@@ -1,85 +1,86 @@
-import React, { useRef } from 'react';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import { pluginGetFinances } from '@/services/plugin/finance';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import dayjs from 'dayjs';
+import React, { useRef } from 'react';
 
 const PluginFinanceFlow: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const intl = useIntl();
 
   const columns: ProColumns<any>[] = [
     {
-      title: '用户',
+      title: intl.formatMessage({ id: 'plugin.comment.user-name' }),
       dataIndex: 'user_name',
     },
     {
-      title: '资金方向',
+      title: intl.formatMessage({ id: 'plugin.comment.direction' }),
       dataIndex: 'direction',
       valueEnum: {
         1: {
-          text: '进账',
+          text: intl.formatMessage({ id: 'plugin.finance.direction.in' }),
         },
         2: {
-          text: '出账',
+          text: intl.formatMessage({ id: 'plugin.finance.direction.out' }),
         },
       },
     },
     {
-      title: '金额',
+      title: intl.formatMessage({ id: 'plugin.finance.amount' }),
       dataIndex: 'amount',
       render: (dom: any) => {
         return dom / 100;
       },
     },
     {
-      title: '变化后金额',
+      title: intl.formatMessage({ id: 'plugin.finance.after-amount' }),
       dataIndex: 'after_amount',
       render: (dom: any) => {
         return dom / 100;
       },
     },
     {
-      title: '资金类型',
+      title: intl.formatMessage({ id: 'plugin.finance.type' }),
       dataIndex: 'action',
       valueEnum: {
         1: {
-          text: '出售',
+          text: intl.formatMessage({ id: 'plugin.finance.sale' }),
         },
         2: {
-          text: '购买',
+          text: intl.formatMessage({ id: 'plugin.finance.buy' }),
         },
         3: {
-          text: '退款',
+          text: intl.formatMessage({ id: 'plugin.finance.refund' }),
         },
         4: {
-          text: '充值',
+          text: intl.formatMessage({ id: 'plugin.finance.charge' }),
         },
         5: {
-          text: '提现',
+          text: intl.formatMessage({ id: 'plugin.finance.withdraw' }),
         },
         6: {
-          text: '推广',
+          text: intl.formatMessage({ id: 'plugin.finance.spread' }),
         },
         7: {
-          text: '返现',
+          text: intl.formatMessage({ id: 'plugin.finance.cashback' }),
         },
         8: {
-          text: '佣金',
+          text: intl.formatMessage({ id: 'plugin.finance.commission' }),
         },
       },
     },
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'plugin.finance.time' }),
       dataIndex: 'created_time',
       render: (_, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
   ];
 
   return (
     <ProTable<any>
-      headerTitle="收支记录"
+      headerTitle={intl.formatMessage({ id: 'plugin.finance.flow' })}
       actionRef={actionRef}
       rowKey="id"
       search={false}

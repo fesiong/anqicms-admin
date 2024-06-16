@@ -1,24 +1,25 @@
-import { Button, Card, message, Modal, Space } from 'antd';
+import { getAiArticlePlans, startCollectorArticle } from '@/services';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Button, Card, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import { parse } from 'querystring';
 import React, { useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import { history } from 'umi';
 import CollectorSetting from './components/setting';
-import { startCollectorArticle, getAiArticlePlans } from '@/services';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import moment from 'moment';
 
 const PluginAiGenerate: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const intl = useIntl();
 
   const startToCollect = () => {
     Modal.confirm({
-      title: '确定要开始采集吗？',
-      content: '这将马上开始执行一次采集任务操作',
+      title: intl.formatMessage({ id: 'plugin.aigenerate.start.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.aigenerate.start.description' }),
       onOk: async () => {
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         startCollectorArticle()
           .then((res) => {
-            message.success(res.msg || '执行成功');
+            message.success(res.msg);
           })
           .finally(() => {
             hide();
@@ -29,72 +30,72 @@ const PluginAiGenerate: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: 'ID',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '类型',
+      title: intl.formatMessage({ id: 'plugin.aigenerate.type' }),
       dataIndex: 'type',
       valueEnum: {
         0: {
-          text: '未定义',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.type.undefine' }),
         },
         1: {
-          text: 'AI生成',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.type.generate' }),
         },
         2: {
-          text: '翻译',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.type.translate' }),
         },
         3: {
-          text: 'AI改写',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.type.pseudo' }),
         },
         4: {
-          text: '自媒体改写',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.type.media' }),
         },
       },
     },
     {
-      title: '关键词',
+      title: intl.formatMessage({ id: 'content.keywords.name' }),
       dataIndex: 'keyword',
     },
     {
-      title: '标题',
+      title: intl.formatMessage({ id: 'content.title.name' }),
       dataIndex: 'title',
       hideInSearch: true,
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'plugin.aigenerate.status' }),
       dataIndex: 'status',
       hideInSearch: true,
       valueEnum: {
         0: {
-          text: '未处理',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.waiting' }),
           status: 'Default',
         },
         1: {
-          text: '进行中',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.doing' }),
           status: 'Default',
         },
         2: {
-          text: '已完成',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.finish' }),
           status: 'Success',
         },
         4: {
-          text: '出错',
+          text: intl.formatMessage({ id: 'plugin.aigenerate.error' }),
           status: 'Default',
         },
       },
     },
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'plugin.aigenerate.time' }),
       hideInSearch: true,
       dataIndex: 'created_time',
       render: (item) => {
         if (`${item}` === '0') {
           return false;
         }
-        return moment((item as number) * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs((item as number) * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
   ];
@@ -105,7 +106,9 @@ const PluginAiGenerate: React.FC = () => {
         <div className="control">
           <Space className="space-wrap" size={20} style={{ width: '100%' }}>
             <CollectorSetting onCancel={() => {}} key="setting">
-              <Button>AI自动写作设置</Button>
+              <Button>
+                <FormattedMessage id="plugin.aigenerate.setting" />
+              </Button>
             </CollectorSetting>
             <Button
               key="keywords"
@@ -113,7 +116,7 @@ const PluginAiGenerate: React.FC = () => {
                 startToCollect();
               }}
             >
-              手动开始AI写作
+              <FormattedMessage id="plugin.aigenerate.start" />
             </Button>
             <Button
               key="keywords"
@@ -121,7 +124,7 @@ const PluginAiGenerate: React.FC = () => {
                 history.push('/plugin/keyword');
               }}
             >
-              关键词库管理
+              <FormattedMessage id="menu.plugin.keyword" />
             </Button>
           </Space>
         </div>
@@ -138,7 +141,7 @@ const PluginAiGenerate: React.FC = () => {
             }}
             form={{
               initialValues: {
-                keyword: history.location.query?.keyword || '',
+                keyword: (parse(window.location.search) || {}).keyword || '',
               },
             }}
             columns={columns}
@@ -148,12 +151,18 @@ const PluginAiGenerate: React.FC = () => {
           />
         </div>
         <div className="mt-normal">
-          <p>AI自动写作，会调用AI写作接口写作，需要付费。</p>
           <p>
-            AI自动写作会自动调用关键词库中的关键词来完成写作，每一个关键词写作一篇文章。请保证关键词库中的文章数量足够。
+            <FormattedMessage id="plugin.aigenerate.tips1" />
           </p>
-          <p>AI自动写作和文章采集功能共用关键词库，关键词已采集过文章的话，不再用来AI写作。</p>
-          <p>生成的文章会自动进入到内容管理里。</p>
+          <p>
+            <FormattedMessage id="plugin.aigenerate.tips2" />
+          </p>
+          <p>
+            <FormattedMessage id="plugin.aigenerate.tips3" />
+          </p>
+          <p>
+            <FormattedMessage id="plugin.aigenerate.tips4" />
+          </p>
         </div>
       </Card>
     </PageContainer>

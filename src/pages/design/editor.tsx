@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import MonacoEditor, { monaco } from 'react-monaco-editor';
-import { Button, Card, Col, message, Row, Space, Modal, Tree, Input, Popover } from 'antd';
-import { history } from 'umi';
+import CollapseItem from '@/components/collaspeItem';
+import { getDesignTplHelpers } from '@/services';
 import {
   deleteDesignHistoryFile,
   getDesignFileHistories,
@@ -12,12 +9,15 @@ import {
   restoreDesignFileInfo,
   saveDesignFileInfo,
 } from '@/services/design';
-import './index.less';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import moment from 'moment';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Button, Card, Col, Input, Modal, Popover, Row, Space, Tree, message } from 'antd';
+import dayjs from 'dayjs';
+import { parse } from 'querystring';
+import React, { useEffect, useRef, useState } from 'react';
+import MonacoEditor, { monaco } from 'react-monaco-editor';
 import TemplateCompare from './components/compare';
-import CollapseItem from '@/components/collaspeItem';
-import { getDesignTplHelpers } from '@/services';
+import './index.less';
 
 let fileType: string = '';
 let helperEvent: any;
@@ -41,6 +41,7 @@ const DesignEditor: React.FC = () => {
   const [addCodeVisible, setAddCodeVisible] = useState<boolean>(false);
   const [addCode, setAddCode] = useState<any>({});
   const [codeValue, setCodeValue] = useState<string>('');
+  const intl = useIntl();
 
   let unsave = false;
 
@@ -55,15 +56,15 @@ const DesignEditor: React.FC = () => {
   }, []);
 
   const fetchDesignInfo = async () => {
-    const packageName = history.location.query?.package;
+    const packageName = (parse(window.location.search) || {}).package || '';
     getDesignInfo({
       package: packageName,
     })
       .then((res) => {
         setDesignInfo(res.data);
 
-        var path = history.location.query?.path || '';
-        var type = history.location.query?.type || '';
+        var path = (parse(window.location.search) || {}).path || '';
+        var type = (parse(window.location.search) || {}).type || '';
         fileType = type + '';
 
         if (path == '' && res.data.tpl_files?.length > 0) {
@@ -178,12 +179,12 @@ const DesignEditor: React.FC = () => {
         fetchDesignFileInfo(path);
       })
       .catch(() => {
-        message.error('获取模板信息出错');
+        message.error(intl.formatMessage({ id: 'design.editor.get.error' }));
       });
   };
 
   const fetchDesignFileInfo = async (path: any) => {
-    const packageName = history.location.query?.package;
+    const packageName = (parse(window.location.search) || {}).package || '';
     setLoaded(false);
     getDesignFileInfo({
       package: packageName,
@@ -197,7 +198,7 @@ const DesignEditor: React.FC = () => {
         actionRef.current?.reload();
       })
       .catch(() => {
-        message.error('获取模板信息出错');
+        message.error(intl.formatMessage({ id: 'design.editor.get.error' }));
       });
   };
 
@@ -207,7 +208,7 @@ const DesignEditor: React.FC = () => {
       // id
       id: 'tpl-helper',
       // 该菜单键显示文本
-      label: '模板标签助手',
+      label: intl.formatMessage({ id: 'design.editor.helper' }),
       // 控制该菜单键显示
       precondition: 'showTplHelperAction',
       // 该菜单键位置
@@ -244,7 +245,7 @@ const DesignEditor: React.FC = () => {
     fileInfo.update_content = true;
     fileInfo.type = fileType;
     unsave = false;
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveDesignFileInfo(fileInfo)
       .then((res) => {
         message.info(res.msg);
@@ -258,8 +259,8 @@ const DesignEditor: React.FC = () => {
   const handleEditFile = (type: string, info: any) => {
     if (unsave) {
       Modal.confirm({
-        title: '你有未保存的代码，确定要编辑新文件吗？',
-        content: '这么做将会导致未保存的代码丢失。',
+        title: intl.formatMessage({ id: 'design.editor.confirm-giveup' }),
+        content: intl.formatMessage({ id: 'design.editor.confirm-giveup.content' }),
         onOk: () => {
           fileType = type;
           fetchDesignFileInfo(info.path);
@@ -295,10 +296,10 @@ const DesignEditor: React.FC = () => {
 
   const handleRestore = (info: any) => {
     Modal.confirm({
-      title: '确定要恢复到指定时间的版本吗？',
-      content: '这么做将会导致未保存的代码丢失。',
+      title: intl.formatMessage({ id: 'design.editor.confirm-restore' }),
+      content: intl.formatMessage({ id: 'design.editor.confirm-restore.content' }),
       onOk: () => {
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         restoreDesignFileInfo({
           hash: info.hash,
           package: designInfo.package,
@@ -318,9 +319,9 @@ const DesignEditor: React.FC = () => {
 
   const deleteHistoryFile = (info: any) => {
     Modal.confirm({
-      title: '确定要删除这个历史记录吗？',
+      title: intl.formatMessage({ id: 'design.editor.history.confirm-delete' }),
       onOk: () => {
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         deleteDesignHistoryFile({
           hash: info.hash,
           package: designInfo.package,
@@ -350,14 +351,14 @@ const DesignEditor: React.FC = () => {
   const handleGoBack = () => {
     if (unsave) {
       Modal.confirm({
-        title: '你有未保存的代码，确定要返回吗？',
-        content: '这么做将会导致未保存的代码丢失。',
+        title: intl.formatMessage({ id: 'design.editor.confirm-goback' }),
+        content: intl.formatMessage({ id: 'design.editor.confirm-giveup.content' }),
         onOk: () => {
-          history.goBack();
+          history.back();
         },
       });
     } else {
-      history.goBack();
+      history.back();
     }
   };
 
@@ -428,17 +429,17 @@ const DesignEditor: React.FC = () => {
       dataIndex: 'hash',
     },
     {
-      title: '大小',
+      title: intl.formatMessage({ id: 'design.size' }),
       dataIndex: 'size',
       render: (text: any, record: any) => <div>{getSize(text)}</div>,
     },
     {
-      title: '修改时间',
+      title: intl.formatMessage({ id: 'design.update-time' }),
       dataIndex: 'last_mod',
-      render: (text: any) => moment((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text: any) => dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       key: 'action',
       width: 110,
       render: (text: any, record: any) => (
@@ -449,7 +450,7 @@ const DesignEditor: React.FC = () => {
               handleCompare(record);
             }}
           >
-            对比
+            <FormattedMessage id="design.compare" />
           </Button>
           <Button
             type="link"
@@ -457,7 +458,7 @@ const DesignEditor: React.FC = () => {
               handleRestore(record);
             }}
           >
-            恢复
+            <FormattedMessage id="design.restore" />
           </Button>
           <Button
             danger
@@ -466,7 +467,7 @@ const DesignEditor: React.FC = () => {
               deleteHistoryFile(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </Button>
         </Space>
       ),
@@ -474,7 +475,13 @@ const DesignEditor: React.FC = () => {
   ];
 
   return (
-    <PageContainer title={<div>正在编辑: {fileInfo?.path}</div>}>
+    <PageContainer
+      title={
+        <div>
+          <FormattedMessage id="design.editing" />: {fileInfo?.path}
+        </div>
+      }
+    >
       <Card className="design-editor-card">
         <Row gutter={16}>
           <Col sm={18} xs={24}>
@@ -502,17 +509,21 @@ const DesignEditor: React.FC = () => {
                     handleSave();
                   }}
                 >
-                  保存
+                  <FormattedMessage id="design.save" />
                 </Button>
-                <Button onClick={handleGoBack}>返回</Button>
+                <Button onClick={handleGoBack}>
+                  <FormattedMessage id="design.back" />
+                </Button>
                 <Button
                   onClick={() => {
                     setShowHistory(true);
                   }}
                 >
-                  查看历史
+                  <FormattedMessage id="design.history.view" />
                 </Button>
-                <div className="text-muted">编辑框内点击右键可以快捷插入模板标签代码</div>
+                <div className="text-muted">
+                  <FormattedMessage id="design.editor.tips" />
+                </div>
               </Space>
             </div>
           </Col>
@@ -521,7 +532,7 @@ const DesignEditor: React.FC = () => {
               className="tpl-file-list"
               showArrow={false}
               open
-              header="模板文件"
+              header={intl.formatMessage({ id: 'design.tempalte.name' })}
               key="1"
             >
               <Tree
@@ -549,7 +560,12 @@ const DesignEditor: React.FC = () => {
                 treeData={tplFiles}
               />
             </CollapseItem>
-            <CollapseItem className="tpl-file-list" showArrow={false} header="资源文件" key="2">
+            <CollapseItem
+              className="tpl-file-list"
+              showArrow={false}
+              header={intl.formatMessage({ id: 'design.static.name' })}
+              key="2"
+            >
               <Tree
                 showLine={true}
                 showIcon={false}
@@ -580,8 +596,8 @@ const DesignEditor: React.FC = () => {
         </Row>
       </Card>
       <Modal
-        title="文件历史"
-        visible={showHistory}
+        title={intl.formatMessage({ id: 'design.history.name' })}
+        open={showHistory}
         onCancel={() => {
           setShowHistory(false);
         }}
@@ -591,7 +607,7 @@ const DesignEditor: React.FC = () => {
         width={800}
       >
         <ProTable<any>
-          headerTitle="设计文件管理"
+          headerTitle={intl.formatMessage({ id: 'design.manage.name' })}
           actionRef={actionRef}
           rowKey="path"
           search={false}
@@ -613,7 +629,7 @@ const DesignEditor: React.FC = () => {
       </Modal>
       {showDiff && (
         <TemplateCompare
-          visible={showDiff}
+          open={showDiff}
           originCode={historyContent}
           language={getLanguage(fileInfo?.path || '')}
           versionCode={code}
@@ -679,28 +695,32 @@ const DesignEditor: React.FC = () => {
         })}
       </Modal>
       <Modal
-        title="代码片段"
+        title={intl.formatMessage({ id: 'design.segment.name' })}
         open={addCodeVisible}
         onCancel={() => {
           setAddCodeVisible(false);
         }}
-        okText="插入"
+        okText={intl.formatMessage({ id: 'design.insert' })}
         onOk={onSubmitAddCode}
         width={600}
       >
         {(addCode.content || addCode.link) && (
           <div className="helper-code-desc">
-            {addCode.content && <span>说明：{addCode.content}</span>}
+            {addCode.content && (
+              <span>
+                <FormattedMessage id="design.explain" />: {addCode.content}
+              </span>
+            )}
             {addCode.link && (
               <a href={addCode.link} target="_blank">
-                查看文档
+                <FormattedMessage id="design.view-doc" />
               </a>
             )}
           </div>
         )}
         {addCodeVisible && (
           <Input.TextArea
-            placeholder="代码片段"
+            placeholder={intl.formatMessage({ id: 'design.segment.name' })}
             rows={10}
             value={codeValue}
             onChange={(e) => setCodeValue(e.target.value)}

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
-import { message, Divider, Tag } from 'antd';
 import { pluginGetWechatConfig, pluginSaveWechatConfig } from '@/services';
+import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { Divider, Tag, message } from 'antd';
+import React, { useState } from 'react';
 
 const PluginWechatSetting: React.FC<any> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -32,12 +32,12 @@ const PluginWechatSetting: React.FC<any> = (props) => {
       </div>
       <ModalForm
         width={600}
-        visible={visible}
+        open={visible}
         request={async () => {
           const res = await pluginGetWechatConfig();
           return res.data || null;
         }}
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           setVisible(flag);
         }}
         onFinish={onSubmit}

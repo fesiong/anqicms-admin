@@ -1,13 +1,20 @@
-import React, { useRef, useState } from 'react';
-import { ModalForm, ProFormDigit, ProFormSelect, ProFormText } from '@ant-design/pro-form';
-import { message, Modal, Space, Button } from 'antd';
 import {
   pluginDeleteWechatMenu,
   pluginGetWechatMenus,
   pluginSaveWechatMenu,
   pluginSyncWechatMenu,
 } from '@/services';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import {
+  ActionType,
+  ModalForm,
+  ProColumns,
+  ProFormDigit,
+  ProFormSelect,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 
 const PluginWechatMenu: React.FC<any> = (props) => {
   const actionRef = useRef<ActionType>();
@@ -115,7 +122,7 @@ const PluginWechatMenu: React.FC<any> = (props) => {
       </div>
       <Modal
         width={1000}
-        visible={visible}
+        open={visible}
         onCancel={() => {
           setVisible(false);
         }}
@@ -153,9 +160,9 @@ const PluginWechatMenu: React.FC<any> = (props) => {
         <ModalForm
           title="编辑菜单"
           width={600}
-          visible={editVisible}
+          open={editVisible}
           initialValues={currentMenu}
-          onVisibleChange={(flag) => {
+          onOpenChange={(flag) => {
             setEditVisible(flag);
           }}
           onFinish={handleFinishedEdit}

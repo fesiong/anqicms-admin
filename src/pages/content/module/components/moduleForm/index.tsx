@@ -1,14 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, Col, Input, message, Modal, Radio, Row, Space, Tag } from 'antd';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { deleteModuleField, getModuleInfo, saveModule } from '@/services';
+import {
+  ActionType,
+  ModalForm,
+  ProColumns,
+  ProFormRadio,
+  ProFormText,
+  ProFormTextArea,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Col, Input, Modal, Radio, Row, Space, Tag, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type ModuleFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
   type: number;
-  visible: boolean;
+  open: boolean;
   module: any;
 };
 
@@ -20,6 +28,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
   const [currentField, setCurrentField] = useState<any>({});
   const [setting, setSetting] = useState<any>({ fields: [] });
   const [fetched, setFetched] = useState<boolean>(false);
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -36,8 +45,8 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
 
   const handleRemoveItem = (record: any, index: number) => {
     Modal.confirm({
-      title: '确定要删除该字段吗？',
-      content: '对应的文档内该字段内容也会被删除',
+      title: intl.formatMessage({ id: 'content.module.field.delete.confirm' }),
+      content: intl.formatMessage({ id: 'content.module.field.delete.content' }),
       onOk: async () => {
         deleteModuleField({ id: props.module.id, field_name: record.field_name });
         setting.fields.splice(index, 1);
@@ -53,7 +62,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
   const handleSaveField = async (values: any) => {
     let reg = /^[a-z][0-9a-z_]+$/;
     if (!values.field_name || !reg.test(values.field_name)) {
-      message.error('调用字段必须是英文字母');
+      message.error(intl.formatMessage({ id: 'content.module.field.error' }));
       return;
     }
     let exists = false;
@@ -87,7 +96,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
       return;
     }
     submitting = true;
-    let hide = message.loading('正在提交中', 0);
+    let hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveModule(setting)
       .then((res) => {
         if (res.code === 0) {
@@ -109,40 +118,44 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '参数名称',
+      title: intl.formatMessage({ id: 'content.module.field.name' }),
       dataIndex: 'name',
     },
     {
-      title: '调用字段',
+      title: intl.formatMessage({ id: 'content.module.field.field-name' }),
       dataIndex: 'field_name',
     },
     {
-      title: '字段类型',
+      title: intl.formatMessage({ id: 'content.module.field.type' }),
       dataIndex: 'type',
       render: (text: any, record) => (
         <div>
-          <span>{record.is_system ? '(内置)' : ''}</span>
+          <span>
+            {record.is_system
+              ? intl.formatMessage({ id: 'content.module.field.type.built-in' })
+              : ''}
+          </span>
           <span>{text}</span>
         </div>
       ),
     },
     {
-      title: '是否必填',
+      title: intl.formatMessage({ id: 'content.module.field.isrequired' }),
       dataIndex: 'required',
 
       valueEnum: {
         false: {
-          text: '选填',
+          text: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
           status: 'Default',
         },
         true: {
-          text: '必填',
+          text: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       render: (text: any, record, index) => (
         <Space size={20}>
@@ -154,7 +167,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                   setEditVisible(true);
                 }}
               >
-                编辑
+                <FormattedMessage id="setting.action.edit" />
               </a>
               <a
                 className="text-red"
@@ -162,7 +175,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                   handleRemoveItem(record, index);
                 }}
               >
-                删除
+                <FormattedMessage id="setting.system.delete" />
               </a>
             </>
           )}
@@ -175,13 +188,11 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
     <>
       <Modal
         width={800}
-        title="模型设置"
-        visible={props.visible}
+        title={intl.formatMessage({ id: 'content.module.setting' })}
+        open={props.open}
         onCancel={() => {
           props.onCancel();
         }}
-        cancelText="关闭"
-        okText="保存"
         onOk={() => {
           handleSaveSetting();
         }}
@@ -191,7 +202,9 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
             <div>
               <Row gutter={16}>
                 <Col>
-                  <div style={{ lineHeight: '32px', width: '120px' }}>模型名称:</div>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.module.title" />:
+                  </div>
                 </Col>
                 <Col flex={1}>
                   <Input
@@ -205,7 +218,9 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               </Row>
               <Row className="mt-normal" gutter={16}>
                 <Col>
-                  <div style={{ lineHeight: '32px', width: '120px' }}>模型表名:</div>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.module.field" />:
+                  </div>
                 </Col>
                 <Col flex={1}>
                   <Input
@@ -215,12 +230,16 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                       handleChangeInput('table_name', e);
                     }}
                   />
-                  <div className="text-muted">仅支持英文小写字母。</div>
+                  <div className="text-muted">
+                    <FormattedMessage id="content.module.field.description" />
+                  </div>
                 </Col>
               </Row>
               <Row className="mt-normal" gutter={16}>
                 <Col>
-                  <div style={{ lineHeight: '32px', width: '120px' }}>URL别名:</div>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.url-token.name" />:
+                  </div>
                 </Col>
                 <Col flex={1}>
                   <Input
@@ -231,13 +250,17 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                     }}
                   />
                   <div className="text-muted">
-                    仅支持英文小写字母，伪静态规则定义的 <Tag>{'{module}'}</Tag>调用。
+                    <FormattedMessage id="content.module.url-token.tips.before" />{' '}
+                    <Tag>{'{module}'}</Tag>
+                    <FormattedMessage id="content.module.url-token.tips.after" />
                   </div>
                 </Col>
               </Row>
               <Row className="mt-normal" gutter={16}>
                 <Col>
-                  <div style={{ lineHeight: '32px', width: '120px' }}>标题名称:</div>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.module.title-name" />:
+                  </div>
                 </Col>
                 <Col flex={1}>
                   <Input
@@ -247,12 +270,16 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                       handleChangeInput('title_name', e);
                     }}
                   />
-                  <div className="text-muted">显示在发布文档的时候的标题提示位置。</div>
+                  <div className="text-muted">
+                    <FormattedMessage id="content.module.title-name.description" />
+                  </div>
                 </Col>
               </Row>
               <Row className="mt-normal" gutter={16}>
                 <Col>
-                  <div style={{ lineHeight: '32px', width: '120px' }}>显示状态:</div>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.category.status" />:
+                  </div>
                 </Col>
                 <Col flex={1}>
                   <Radio.Group
@@ -264,11 +291,11 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                     options={[
                       {
                         value: 0,
-                        label: '未启用',
+                        label: intl.formatMessage({ id: 'content.category.status.hide' }),
                       },
                       {
                         value: 1,
-                        label: '正常',
+                        label: intl.formatMessage({ id: 'content.category.status.ok' }),
                       },
                     ]}
                   />
@@ -288,7 +315,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                     setEditVisible(true);
                   }}
                 >
-                  新增字段
+                  <FormattedMessage id="content.module.field.add" />
                 </Button>,
               ]}
               tableAlertRender={false}
@@ -312,8 +339,12 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentField.name ? currentField.name + '修改字段' : '添加字段'}
-          visible={editVisible}
+          title={
+            currentField.name
+              ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' })
+              : intl.formatMessage({ id: 'content.module.field.add' })
+          }
+          open={editVisible}
           modalProps={{
             onCancel: () => {
               setEditVisible(false);
@@ -325,61 +356,84 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
             handleSaveField(values);
           }}
         >
-          <ProFormText name="name" required label="参数名" extra="如：文章作者、类型、内容来源等" />
+          <ProFormText
+            name="name"
+            required
+            label={intl.formatMessage({ id: 'content.module.field.name' })}
+            extra={intl.formatMessage({ id: 'content.module.field.name.description' })}
+          />
           <ProFormText
             name="field_name"
-            label="调用字段"
+            label={intl.formatMessage({ id: 'content.module.field.field-name' })}
             disabled={currentField.field_name ? true : false}
-            extra="英文字母开头，只能填写字母和数字，默认为参数名称的拼音"
+            extra={intl.formatMessage({ id: 'content.module.field.field-name.description' })}
           />
           <ProFormRadio.Group
             name="type"
-            label="字段类型"
+            label={intl.formatMessage({ id: 'content.module.field.type' })}
             disabled={currentField.field_name ? true : false}
             valueEnum={{
-              text: '单行文本',
-              number: '数字',
-              textarea: '多行文本',
-              editor: '编辑器',
-              radio: '单项选择',
-              checkbox: '多项选择',
-              select: '下拉选择',
-              image: '图片',
-              file: '文件',
+              text: intl.formatMessage({ id: 'content.module.field.type.text' }),
+              number: intl.formatMessage({ id: 'content.module.field.type.number' }),
+              textarea: intl.formatMessage({ id: 'content.module.field.type.textarea' }),
+              editor: intl.formatMessage({ id: 'content.module.field.type.editor' }),
+              radio: intl.formatMessage({ id: 'content.module.field.type.radio' }),
+              checkbox: intl.formatMessage({ id: 'content.module.field.type.checkbox' }),
+              select: intl.formatMessage({ id: 'content.module.field.type.select' }),
+              image: intl.formatMessage({ id: 'content.module.field.type.image' }),
+              file: intl.formatMessage({ id: 'content.module.field.type.file' }),
             }}
           />
           <ProFormRadio.Group
             name="required"
-            label="是否必填"
+            label={intl.formatMessage({ id: 'content.module.field.isrequired' })}
             options={[
-              { label: '选填', value: false },
-              { label: '必填', value: true },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
+                value: false,
+              },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
+                value: true,
+              },
             ]}
           />
           <ProFormRadio.Group
             name="follow_level"
-            label="阅读等级"
+            label={intl.formatMessage({ id: 'content.read-level.name' })}
             options={[
-              { label: '始终显示', value: false },
-              { label: '跟随文档阅读等级', value: true },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.level.none' }),
+                value: false,
+              },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.level.follow' }),
+                value: true,
+              },
             ]}
           />
           <ProFormRadio.Group
             name="is_filter"
-            label="作为筛选参数"
+            label={intl.formatMessage({ id: 'content.module.field.isfilter' })}
             options={[
-              { label: '否', value: false },
-              { label: '是', value: true },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.isfilter.no' }),
+                value: false,
+              },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.isfilter.yes' }),
+                value: true,
+              },
             ]}
-            extra="只有字段类型是单选、多选、下拉类型并且不是跟随文档阅读等级的时候，才有效"
+            extra={intl.formatMessage({ id: 'content.module.field.isfilter.description' })}
           />
           <ProFormTextArea
-            label="默认值"
+            label={intl.formatMessage({ id: 'content.param.default' })}
             name="content"
             fieldProps={{
               rows: 4,
             }}
-            extra="单选、多选、下拉的多个值，一行一个。"
+            extra={intl.formatMessage({ id: 'content.module.field.default.description' })}
           />
         </ModalForm>
       )}

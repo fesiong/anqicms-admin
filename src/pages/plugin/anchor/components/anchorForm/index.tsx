@@ -1,16 +1,18 @@
-import React from 'react';
-import { ModalForm, ProFormDigit, ProFormText } from '@ant-design/pro-form';
-
 import { pluginSaveAnchor } from '@/services/plugin/anchor';
+import { ModalForm, ProFormDigit, ProFormText } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import React from 'react';
 
 export type AnchorFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   editingAnchor: any;
 };
 
 const AnchorForm: React.FC<AnchorFormProps> = (props) => {
+  const intl = useIntl();
+
   const onSubmit = async (values: any) => {
     let editingAnchor = Object.assign(props.editingAnchor, values);
     let res = await pluginSaveAnchor(editingAnchor);
@@ -21,11 +23,15 @@ const AnchorForm: React.FC<AnchorFormProps> = (props) => {
   return (
     <ModalForm
       width={800}
-      title={props.editingAnchor?.id ? '编辑锚文本' : '添加锚文本'}
+      title={
+        props.editingAnchor?.id
+          ? intl.formatMessage({ id: 'plugin.anchor.edit' })
+          : intl.formatMessage({ id: 'plugin.anchor.new' })
+      }
       initialValues={props.editingAnchor}
-      visible={props.visible}
+      open={props.open}
       //layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -34,16 +40,16 @@ const AnchorForm: React.FC<AnchorFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="title" label="锚文本名称" />
+      <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.anchor.title' })} />
       <ProFormText
         name="link"
-        label="锚文本链接"
-        extra={'支持相对链接和绝对连接，如：/a/123.html 或 https://www.anqicms.com/'}
+        label={intl.formatMessage({ id: 'plugin.anchor.link' })}
+        extra={intl.formatMessage({ id: 'plugin.anchor.link.description' })}
       />
       <ProFormDigit
         name="weight"
-        label="锚文本权重"
-        extra={'请输入数字，0-9，数字越大，权重越高，高权重拥有优先替换权'}
+        label={intl.formatMessage({ id: 'plugin.anchor.weight' })}
+        extra={intl.formatMessage({ id: 'plugin.anchor.weight.description' })}
       />
     </ModalForm>
   );

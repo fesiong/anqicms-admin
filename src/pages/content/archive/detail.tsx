@@ -1,40 +1,47 @@
-import React from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import ProForm, {
+import AiGenerate from '@/components/aiGenerate';
+import AttachmentSelect from '@/components/attachment';
+import CollapseItem from '@/components/collaspeItem';
+import WangEditor from '@/components/editor';
+import Keywords from '@/components/keywords';
+import MarkdownEditor from '@/components/markdown';
+import {
+  deleteArchiveImage,
+  getArchiveInfo,
+  getCategories,
+  getCategoryInfo,
+  getDesignTemplateFiles,
+  getModules,
+  getSettingContent,
+  pluginGetUserGroups,
+  saveArchive,
+} from '@/services';
+import { getTags } from '@/services/tag';
+import { getStore, removeStore, setStore } from '@/utils/store';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  PageContainer,
+  ProForm,
+  ProFormCheckbox,
+  ProFormDateTimePicker,
+  ProFormDigit,
+  ProFormInstance,
+  ProFormRadio,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
-  ProFormRadio,
-  ProFormDigit,
-  ProFormCheckbox,
-  ProFormInstance,
-  ProFormDateTimePicker,
-} from '@ant-design/pro-form';
-import { message, Collapse, Card, Row, Col, Image, Modal, Button } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import WangEditor from '@/components/editor';
-import Keywords from '@/components/keywords';
-import { history } from 'umi';
-import { getTags } from '@/services/tag';
-import moment from 'moment';
-import { getStore, removeStore, setStore } from '@/utils/store';
-import AttachmentSelect from '@/components/attachment';
-import {
-  getArchiveInfo,
-  saveArchive,
-  getCategories,
-  getCategoryInfo,
-  getModules,
-  pluginGetUserGroups,
-  getDesignTemplateFiles,
-  deleteArchiveImage,
-  getSettingContent,
-} from '@/services';
-import AiGenerate from '@/components/aiGenerate';
-import MarkdownEditor from '@/components/markdown';
-import CollapseItem from '@/components/collaspeItem';
+} from '@ant-design/pro-components';
+import { FormattedMessage, history, injectIntl } from '@umijs/max';
+import { Button, Card, Col, Image, Modal, Row, message } from 'antd';
+import dayjs from 'dayjs';
+import { parse } from 'querystring';
+import React from 'react';
+import { IntlShape } from 'react-intl';
 
-export default class ArchiveForm extends React.Component {
+export type intlProps = {
+  intl: IntlShape;
+};
+
+class ArchiveForm extends React.Component<intlProps> {
   state: { [key: string]: any } = {
     fetched: false,
     archive: { extra: {}, content: '', flag: [] },
@@ -65,7 +72,7 @@ export default class ArchiveForm extends React.Component {
         contentSetting: setting.data || {},
       });
     } catch (err) {
-      message.error('网络异常');
+      message.error(this.props.intl.formatMessage({ id: 'content.networt.error' }));
       return;
     }
     const res = await getModules();
@@ -74,20 +81,21 @@ export default class ArchiveForm extends React.Component {
         modules: res.data || [],
       },
       () => {
-        const moduleId = history.location.query?.module_id || 1;
-        let categoryId = history.location.query?.category_id || 0;
+        const searchParams = parse(window.location.search) || {};
+        const moduleId = searchParams.module_id || 1;
+        let categoryId = Number(searchParams.category_id || 0);
+        const copyId = Number(searchParams.copyid || 0);
         const lastCategoryId = getStore('last_category_id') || 0;
         if (categoryId == 0 && lastCategoryId > 0) {
           categoryId = lastCategoryId;
         }
-        let id = history.location.query?.id || 0;
+        let id: any = searchParams.id || 0;
         if (id == 'new') {
           id = 0;
         }
         if (id > 0) {
           this.getArchive(Number(id));
         } else {
-          const copyId = history.location.query?.copyid || 0;
           if (copyId > 0) {
             this.getArchive(Number(copyId), true);
           } else {
@@ -139,7 +147,7 @@ export default class ArchiveForm extends React.Component {
       setStore('unsaveArchive', archive);
     }
     if (this.state.content != '' && this.state.content != this.defaultContent) {
-      const confirmationMessage = '你有尚未保存的内容，直接离开会导致内容丢失，确定要离开吗？';
+      const confirmationMessage = this.props.intl.formatMessage({ id: 'content.confirm-giveup' });
       (e || window.event).returnValue = confirmationMessage;
       return confirmationMessage;
     }
@@ -175,7 +183,7 @@ export default class ArchiveForm extends React.Component {
     }
     let content = archive.data?.content || '';
     archive.flag = archive.flag?.split(',') || [];
-    archive.created_moment = moment(archive.created_time * 1000);
+    archive.created_moment = dayjs(archive.created_time * 1000);
     this.defaultContent = content;
     const module = await this.getModule(archive.module_id);
     let extraContent: any = {};
@@ -272,7 +280,7 @@ export default class ArchiveForm extends React.Component {
     this.setState({
       archive,
     });
-    message.success('上传完成');
+    message.success(this.props.intl.formatMessage({ id: 'setting.system.upload-success' }));
   };
 
   handleCleanLogo = (index: number, e: any) => {
@@ -361,12 +369,15 @@ export default class ArchiveForm extends React.Component {
       }
     }
     if (categoryId == 0) {
-      message.error('请选择文档分类');
+      message.error(this.props.intl.formatMessage({ id: 'content.category.required' }));
       return;
     }
     postData.category_id = categoryId;
     postData.category_ids = categoryIds;
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(
+      this.props.intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     postData.content = content;
     if (typeof postData.flag === 'object') {
       postData.flag = postData.flag.join(',');
@@ -378,9 +389,9 @@ export default class ArchiveForm extends React.Component {
         // 提示
         Modal.confirm({
           title: res.msg,
-          content: '是否需要继续提交？',
-          cancelText: '返回修改',
-          okText: '强制提交',
+          content: this.props.intl.formatMessage({ id: 'setting.submit.confirm' }),
+          cancelText: this.props.intl.formatMessage({ id: 'setting.submit.cancel' }),
+          okText: this.props.intl.formatMessage({ id: 'setting.submit.ok-force' }),
           onOk: () => {
             values.force_save = true;
             this.onSubmit(values);
@@ -393,7 +404,7 @@ export default class ArchiveForm extends React.Component {
       removeStore('unsaveArchive');
       this.submitted = true;
       message.success(res.msg);
-      history.goBack();
+      history.back();
     }
   };
 
@@ -472,7 +483,13 @@ export default class ArchiveForm extends React.Component {
       contentSetting,
     } = this.state;
     return (
-      <PageContainer title={(archive.id > 0 ? '修改' : '添加') + '文档'}>
+      <PageContainer
+        title={
+          archive.id > 0
+            ? this.props.intl.formatMessage({ id: 'content.archive.edit' })
+            : this.props.intl.formatMessage({ id: 'content.archive.add' })
+        }
+      >
         <Card onKeyDown={this.handleKeyDown}>
           {fetched && (
             <ProForm
@@ -483,76 +500,116 @@ export default class ArchiveForm extends React.Component {
             >
               <Row gutter={20}>
                 <Col sm={18} xs={24}>
-                  <ProFormText name="title" label={module.title_name || '文档标题'} />
+                  <ProFormText
+                    name="title"
+                    label={
+                      module.title_name ||
+                      this.props.intl.formatMessage({ id: 'content.title.name' })
+                    }
+                  />
                   <ProFormCheckbox.Group
                     name="flag"
-                    label="推荐属性"
+                    label={this.props.intl.formatMessage({ id: 'content.flag.name' })}
                     valueEnum={{
-                      h: '头条[h]',
-                      c: '推荐[c]',
-                      f: '幻灯[f]',
-                      a: '特荐[a]',
-                      s: '滚动[s]',
-                      b: '加粗[b]',
-                      p: '图片[p]',
-                      j: '跳转[j]',
+                      h: this.props.intl.formatMessage({ id: 'content.flag.h' }),
+                      c: this.props.intl.formatMessage({ id: 'content.flag.c' }),
+                      f: this.props.intl.formatMessage({ id: 'content.flag.f' }),
+                      a: this.props.intl.formatMessage({ id: 'content.flag.a' }),
+                      s: this.props.intl.formatMessage({ id: 'content.flag.s' }),
+                      b: this.props.intl.formatMessage({ id: 'content.flag.b' }),
+                      p: this.props.intl.formatMessage({ id: 'content.flag.p' }),
+                      j: this.props.intl.formatMessage({ id: 'content.flag.j' }),
                     }}
                   />
                   <ProFormText
                     name="keywords"
-                    label="文章关键词"
+                    label={this.props.intl.formatMessage({ id: 'content.keywords.name' })}
                     fieldProps={{
                       suffix: (
                         <span className="link" onClick={this.handleChooseKeywords}>
-                          选择关键词
+                          <FormattedMessage id="content.keywords.select" />
                         </span>
                       ),
                     }}
                   />
-                  <ProFormTextArea name="description" label="文章简介" />
+                  <ProFormTextArea
+                    name="description"
+                    label={this.props.intl.formatMessage({ id: 'content.description.name' })}
+                  />
 
-                  <CollapseItem header="其他参数" showArrow key="1">
+                  <CollapseItem
+                    header={this.props.intl.formatMessage({ id: 'content.param.other' })}
+                    showArrow
+                    key="1"
+                  >
                     <Row gutter={20}>
                       <Col sm={12} xs={24}>
                         <ProFormText
-                          label="原文地址"
+                          label={this.props.intl.formatMessage({ id: 'content.origin-url.name' })}
                           name="origin_url"
-                          placeholder="默认不用填写"
-                          extra="文章的原文地址，默认不用管"
+                          placeholder={this.props.intl.formatMessage({
+                            id: 'content.field.default',
+                          })}
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.origin-url.description',
+                          })}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="seo_title"
-                          label="SEO标题"
-                          placeholder="默认为文章标题，无需填写"
-                          extra="注意：如果你希望页面的title标签的内容不是文章标题，可以通过SEO标题设置"
+                          label={this.props.intl.formatMessage({ id: 'content.seo-title.name' })}
+                          placeholder={this.props.intl.formatMessage({
+                            id: 'content.seo-title.placeholder',
+                          })}
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.seo-title.description',
+                          })}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="canonical_url"
-                          label="规范的链接"
-                          placeholder="默认是文档链接，无需填写"
-                          extra="注意：如果你想将当前的文档指向到另外的页面，才需要在这里填写"
+                          label={this.props.intl.formatMessage({
+                            id: 'content.canonical-url.name',
+                          })}
+                          placeholder={this.props.intl.formatMessage({
+                            id: 'content.canonical-url.placeholder',
+                          })}
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.canonical-url.description',
+                          })}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="fixed_link"
-                          label="固定链接"
-                          placeholder="默认是文档链接，无需填写"
-                          extra="注意：只有你想把这个文档的链接持久固定，不随伪静态规则改变，才需要填写。 相对链接 / 开头"
+                          label={this.props.intl.formatMessage({ id: 'fixed-link.name' })}
+                          placeholder={this.props.intl.formatMessage({
+                            id: 'content.canonical-url.placeholder',
+                          })}
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.fixed-link.description',
+                          })}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormSelect
-                          label="文档模板"
+                          label={this.props.intl.formatMessage({
+                            id: 'content.archive-template.name',
+                          })}
                           showSearch
                           name="template"
                           request={async () => {
                             const res = await getDesignTemplateFiles({});
-                            const data = [{ path: '', remark: '默认模板' }].concat(res.data || []);
+                            const data = [
+                              {
+                                path: '',
+                                remark: this.props.intl.formatMessage({
+                                  id: 'content.default-template',
+                                }),
+                              },
+                            ].concat(res.data || []);
                             for (const i in data) {
                               if (!data[i].remark) {
                                 data[i].remark = data[i].path;
@@ -568,38 +625,58 @@ export default class ArchiveForm extends React.Component {
                               value: 'path',
                             },
                           }}
-                          extra="默认跟随分类的内容模板"
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.archive-template.description',
+                          })}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormDigit
-                          label="价格"
+                          label={this.props.intl.formatMessage({ id: 'content.price.name' })}
                           name="price"
-                          fieldProps={{ precision: 0, addonAfter: '分' }}
-                          extra="注意，单位是分，比如1元，这里就要填100"
+                          fieldProps={{
+                            precision: 0,
+                            addonAfter: this.props.intl.formatMessage({
+                              id: 'content.price.suffix',
+                            }),
+                          }}
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.papriceram.description',
+                          })}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormDigit
-                          label="库存"
+                          label={this.props.intl.formatMessage({ id: 'content.stock.name' })}
                           name="stock"
-                          fieldProps={{ precision: 0, addonAfter: '件' }}
+                          fieldProps={{
+                            precision: 0,
+                            addonAfter: this.props.intl.formatMessage({
+                              id: 'content.stock.suffix',
+                            }),
+                          }}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormSelect
                           name="read_level"
-                          label="阅读等级"
+                          label={this.props.intl.formatMessage({ id: 'content.read-level.name' })}
                           request={async () => {
                             const res = await pluginGetUserGroups({});
-                            return [{ level: 0, title: '不限制', id: 0 }].concat(res.data || []);
+                            return [
+                              {
+                                level: 0,
+                                title: this.props.intl.formatMessage({ id: 'content.unlimit' }),
+                                id: 0,
+                              },
+                            ].concat(res.data || []);
                           }}
                           fieldProps={{
                             fieldNames: {
                               label: 'title',
                               value: 'level',
                             },
-                            optionItemRender(item) {
+                            optionItemRender(item: any) {
                               return (
                                 <div
                                   dangerouslySetInnerHTML={{
@@ -609,15 +686,21 @@ export default class ArchiveForm extends React.Component {
                               );
                             },
                           }}
-                          extra="如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读"
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.read-level.description',
+                          })}
                         />
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="password"
-                          label="文档密码"
-                          placeholder="可以设置文档密码"
-                          extra="如果你想设置这篇文章为密码查看，可以填写密码。"
+                          label={this.props.intl.formatMessage({ id: 'content.password.name' })}
+                          placeholder={this.props.intl.formatMessage({
+                            id: 'content.password.placeholder',
+                          })}
+                          extra={this.props.intl.formatMessage({
+                            id: 'content.password.description',
+                          })}
                         />
                       </Col>
                       {module.fields?.map((item: any, index: number) => (
@@ -627,27 +710,43 @@ export default class ArchiveForm extends React.Component {
                               name={['extra', item.field_name, 'value']}
                               label={item.name}
                               required={item.required ? true : false}
-                              placeholder={item.content && '默认值：' + item.content}
+                              placeholder={
+                                item.content &&
+                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
+                                  item.content
+                              }
                             />
                           ) : item.type === 'number' ? (
                             <ProFormDigit
                               name={['extra', item.field_name, 'value']}
                               label={item.name}
                               required={item.required ? true : false}
-                              placeholder={item.content && '默认值：' + item.content}
+                              placeholder={
+                                item.content &&
+                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
+                                  item.content
+                              }
                             />
                           ) : item.type === 'textarea' ? (
                             <ProFormTextArea
                               name={['extra', item.field_name, 'value']}
                               label={item.name}
                               required={item.required ? true : false}
-                              placeholder={item.content && '默认值：' + item.content}
+                              placeholder={
+                                item.content &&
+                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
+                                  item.content
+                              }
                             />
                           ) : item.type === 'editor' ? (
                             <ProFormText
                               label={item.name}
                               required={item.required ? true : false}
-                              extra={item.content && '默认值：' + item.content}
+                              extra={
+                                item.content &&
+                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
+                                  item.content
+                              }
                             >
                               {contentSetting.editor == 'markdown' ? (
                                 <MarkdownEditor
@@ -729,12 +828,14 @@ export default class ArchiveForm extends React.Component {
                               ) : (
                                 <AttachmentSelect
                                   onSelect={this.handleUploadExtraField.bind(this, item.field_name)}
-                                  visible={false}
+                                  open={false}
                                 >
                                   <div className="ant-upload-item">
                                     <div className="add">
                                       <PlusOutlined />
-                                      <div style={{ marginTop: 8 }}>上传</div>
+                                      <div style={{ marginTop: 8 }}>
+                                        <FormattedMessage id="setting.system.upload" />
+                                      </div>
                                     </div>
                                   </div>
                                 </AttachmentSelect>
@@ -758,9 +859,11 @@ export default class ArchiveForm extends React.Component {
                               ) : (
                                 <AttachmentSelect
                                   onSelect={this.handleUploadExtraField.bind(this, item.field_name)}
-                                  visible={false}
+                                  open={false}
                                 >
-                                  <Button>上传</Button>
+                                  <Button>
+                                    <FormattedMessage id="setting.system.upload" />
+                                  </Button>
                                 </AttachmentSelect>
                               )}
                             </ProFormText>
@@ -800,7 +903,7 @@ export default class ArchiveForm extends React.Component {
                             this.onSubmit(this.formRef.current?.getFieldsValue());
                           }}
                         >
-                          提交
+                          <FormattedMessage id="content.submit.ok" />
                         </Button>
                       </Col>
                       <Col span={12}>
@@ -812,7 +915,7 @@ export default class ArchiveForm extends React.Component {
                             this.onSubmit(values);
                           }}
                         >
-                          存草稿
+                          <FormattedMessage id="content.submit.draft" />
                         </Button>
                       </Col>
                       <Col span={12}>
@@ -822,38 +925,46 @@ export default class ArchiveForm extends React.Component {
                             this.aiGenerateArticle();
                           }}
                         >
-                          AI写作
+                          <FormattedMessage id="content.submit.aigenerate" />
                         </Button>
                       </Col>
                       <Col span={12}>
                         <Button
                           block
                           onClick={() => {
-                            history.goBack();
+                            history.back();
                           }}
                         >
-                          返回
+                          <FormattedMessage id="design.back" />
                         </Button>
                       </Col>
                     </Row>
                   </div>
-                  <Card className="aside-card" size="small" title="所属分类">
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({ id: 'content.category.name' })}
+                  >
                     <ProFormSelect
                       //label="所属分类"
                       showSearch
                       name="category_ids"
                       width="lg"
-                      mode={contentSetting.multi_category == 1 ? 'multiple' : ''}
+                      mode={contentSetting.multi_category == 1 ? 'multiple' : 'single'}
                       request={async () => {
                         const res = await getCategories({ type: 1 });
                         const categories = (res.data || []).map((cat: any) => ({
                           spacer: cat.spacer,
-                          label: cat.title + (cat.status == 1 ? '' : '(隐藏)'),
+                          label:
+                            cat.title +
+                            (cat.status == 1
+                              ? ''
+                              : this.props.intl.formatMessage({ id: 'setting.nav.hide' })),
                           value: cat.id,
                         }));
                         if (categories.length == 0) {
                           Modal.error({
-                            title: '请先创建分类，再来发布文档',
+                            title: this.props.intl.formatMessage({ id: 'content.category.error' }),
                             onOk: () => {
                               history.push('/archive/category');
                             },
@@ -871,10 +982,18 @@ export default class ArchiveForm extends React.Component {
                         },
                         onChange: this.onChangeSelectCategory,
                       }}
-                      extra={<div>内容模型：{module.title}</div>}
+                      extra={
+                        <div>
+                          <FormattedMessage id="content.module.name" />: {module.title}
+                        </div>
+                      }
                     />
                   </Card>
-                  <Card className="aside-card" size="small" title="文章图片">
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({ id: 'content.images.name' })}
+                  >
                     <ProFormText>
                       {archive.images?.length
                         ? archive.images.map((item: string, index: number) => (
@@ -896,49 +1015,69 @@ export default class ArchiveForm extends React.Component {
                         : null}
                       <AttachmentSelect
                         onSelect={this.handleSelectImages}
-                        visible={false}
+                        open={false}
                         multiple={true}
                       >
                         <div className="ant-upload-item">
                           <div className="add">
                             <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>上传</div>
+                            <div style={{ marginTop: 8 }}>
+                              <FormattedMessage id="setting.system.upload" />
+                            </div>
                           </div>
                         </div>
                       </AttachmentSelect>
                     </ProFormText>
                   </Card>
-                  <Card className="aside-card" size="small" title="URL别名">
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({ id: 'content.url-token.name' })}
+                  >
                     <ProFormText
                       name="url_token"
-                      placeholder="默认会自动生成，无需填写"
-                      extra="注意：URL别名只能填写字母、数字和下划线，不能带空格"
+                      placeholder={this.props.intl.formatMessage({
+                        id: 'content.url-token.placeholder',
+                      })}
+                      extra={this.props.intl.formatMessage({ id: 'content.url-token.tips' })}
                     />
                   </Card>
-                  <Card className="aside-card" size="small" title="发布时间">
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({ id: 'content.create-time.name' })}
+                  >
                     <ProFormDateTimePicker
                       name="created_moment"
-                      placeholder="默认会自动生成，无需填写"
-                      extra="如果你选择的是未来的时间，则会被放入到待发布列表，等待时间到了才会正式发布"
+                      placeholder={this.props.intl.formatMessage({
+                        id: 'content.url-token.placeholder',
+                      })}
+                      extra={this.props.intl.formatMessage({
+                        id: 'content.create-time.description',
+                      })}
                       transform={(value) => {
                         return {
-                          created_time: value ? moment(value).unix() : 0,
+                          created_time: value ? dayjs(value).unix() : 0,
                         };
                       }}
                     />
                   </Card>
-                  <Card className="aside-card" size="small" title="Tag标签">
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({ id: 'content.tag.name' })}
+                  >
                     <ProFormSelect
                       mode="tags"
                       name="tags"
                       valueEnum={searchedTags}
-                      placeholder="可以输入或选择标签，多个标签可用,分隔"
+                      placeholder={this.props.intl.formatMessage({ id: 'content.tag.placeholder' })}
                       fieldProps={{
                         tokenSeparators: [',', '，'],
                         onInputKeyDown: this.onChangeTagInput,
                         onFocus: this.onChangeTagInput,
                       }}
-                      extra="可以输入或选择标签，多个标签可用,分隔"
+                      extra={this.props.intl.formatMessage({ id: 'content.tag.placeholder' })}
                     />
                   </Card>
                 </Col>
@@ -948,14 +1087,14 @@ export default class ArchiveForm extends React.Component {
         </Card>
         {keywordsVisible && (
           <Keywords
-            visible={keywordsVisible}
+            open={keywordsVisible}
             onCancel={this.handleHideKeywords}
             onSubmit={this.handleSelectedKeywords}
           />
         )}
         {aiVisible && (
           <AiGenerate
-            visible={aiVisible}
+            open={aiVisible}
             title={aiTitle}
             editor={contentSetting.editor}
             onCancel={this.onHideAiGenerate}
@@ -966,3 +1105,5 @@ export default class ArchiveForm extends React.Component {
     );
   }
 }
+
+export default injectIntl(ArchiveForm);

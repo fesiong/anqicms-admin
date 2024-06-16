@@ -1,6 +1,6 @@
-import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
-import React from 'react';
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
+import React from 'react';
 import styles from './index.less';
 
 export type TrendProps = {
@@ -9,6 +9,7 @@ export type TrendProps = {
   style?: React.CSSProperties;
   reverseColor?: boolean;
   className?: string;
+  children?: React.ReactNode;
 };
 
 const Trend: React.FC<TrendProps> = ({

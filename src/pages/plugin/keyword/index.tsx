@@ -1,20 +1,18 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import { collectAiGenerateArticle, collectCollectorArticle, digCollectorKeyword } from '@/services';
 import {
   pluginDeleteKeyword,
   pluginExportKeyword,
   pluginGetKeywords,
 } from '@/services/plugin/keyword';
 import { exportFile } from '@/utils';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Link } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import KeywordImport from './components/import';
-import { collectCollectorArticle, digCollectorKeyword, collectAiGenerateArticle } from '@/services';
 import KeywordForm from './components/keywordForm';
 import KeywordSetting from './components/setting';
-import { Link } from 'umi';
 
 const PluginKeyword: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -290,7 +288,7 @@ const PluginKeyword: React.FC = () => {
       />
       {editVisible && (
         <KeywordForm
-          visible={editVisible}
+          open={editVisible}
           editingKeyword={currentKeyword}
           onCancel={() => {
             setEditVisible(false);

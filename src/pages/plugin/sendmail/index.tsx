@@ -1,14 +1,12 @@
-import { Button, message, Alert } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import {
-  pluginGetSendmails,
   pluginGetSendmailSetting,
+  pluginGetSendmails,
   pluginTestSendmail,
 } from '@/services/plugin/sendmail';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Alert, Button, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
 import SendmailSetting from './components/setting';
 
 const PluginSendmail: React.FC = () => {
@@ -38,7 +36,7 @@ const PluginSendmail: React.FC = () => {
       title: '发送时间',
       width: 160,
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: '收件人',

@@ -1,14 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { Button, Modal, Space, Tooltip } from 'antd';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { pluginGetHtmlCachePushLogs, pluginHtmlCachePush } from '@/services';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Modal, Space, Tooltip } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
 
 export type PushLogProps = {
   storageUrl: string;
   status: string;
-  visible: boolean;
+  open: boolean;
   onCancel: () => void;
 };
 
@@ -28,7 +28,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       title: '时间',
       dataIndex: 'created_time',
       render: (item) => {
-        return moment((item as number) * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs((item as number) * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
@@ -90,7 +90,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       <Modal
         width={1000}
         title={'推送记录'}
-        visible={props.visible}
+        open={props.open}
         onCancel={props.onCancel}
         footer={null}
       >

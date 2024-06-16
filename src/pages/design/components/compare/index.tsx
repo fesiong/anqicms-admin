@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import { useIntl } from '@umijs/max';
 import { Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { MonacoDiffEditor } from 'react-monaco-editor';
 
 export type TemplateCompareProps = {
   originCode: string;
   versionCode: string;
   language: string;
-  visible: boolean;
+  open: boolean;
   onFinished?: (code: string) => void;
   onCancel: () => void;
 };
 
 const TemplateCompare: React.FC<TemplateCompareProps> = (props) => {
   const [code, setCode] = useState<string>(``);
+  const intl = useIntl();
 
   useEffect(() => {
     setCode(props.versionCode);
@@ -35,8 +37,8 @@ const TemplateCompare: React.FC<TemplateCompareProps> = (props) => {
 
   return (
     <Modal
-      title="文件历史"
-      visible={props.visible}
+      title={intl.formatMessage({ id: 'design.history.name' })}
+      open={props.open}
       onCancel={() => {
         props.onCancel();
       }}

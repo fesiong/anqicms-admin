@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Alert, Button, Card, message, Upload } from 'antd';
-import { ModalForm } from '@ant-design/pro-form';
-import { exportFile } from '@/utils';
 import { pluginImportRedirect } from '@/services/plugin/redirect';
+import { exportFile } from '@/utils';
+import { ModalForm } from '@ant-design/pro-components';
+import { Alert, Button, Card, message, Upload } from 'antd';
+import React, { useState } from 'react';
 
 export type RedirectImportProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
 };
 
 const RedirectImport: React.FC<RedirectImportProps> = (props) => {
@@ -13,7 +14,7 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
 
   const handleDownloadExample = () => {
     const header = ['from_url', 'to_url'];
-    const content = [['/old.html', "/new.html"]];
+    const content = [['/old.html', '/new.html']];
 
     exportFile(header, content, 'csv');
   };
@@ -22,13 +23,15 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
     let formData = new FormData();
     formData.append('file', e.file);
     const hide = message.loading('正在处理中', 0);
-    pluginImportRedirect(formData).then((res) => {
-      message.success(res.msg);
-      setVisible(false);
-      props.onCancel();
-    }).finally(() => {
-      hide();
-    });
+    pluginImportRedirect(formData)
+      .then((res) => {
+        message.success(res.msg);
+        setVisible(false);
+        props.onCancel();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   return (
@@ -43,7 +46,7 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
       <ModalForm
         width={600}
         title={'批量导入301链接'}
-        visible={visible}
+        open={visible}
         modalProps={{
           onCancel: () => {
             setVisible(false);

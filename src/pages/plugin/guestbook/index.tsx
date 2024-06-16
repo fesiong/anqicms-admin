@@ -1,17 +1,15 @@
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import {
   pluginDeleteGuestbook,
   pluginExportGuestbook,
   pluginGetGuestbooks,
   pluginGetGuestbookSetting,
 } from '@/services/plugin/guestbook';
-import GuestbookForm from './components/guestbookForm';
 import { exportFile } from '@/utils';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, message, Modal, Space } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
+import GuestbookForm from './components/guestbookForm';
 import GuestbookSetting from './components/setting';
 
 const PluginGuestbook: React.FC = () => {
@@ -39,7 +37,7 @@ const PluginGuestbook: React.FC = () => {
         title: '时间',
         width: 160,
         dataIndex: 'created_time',
-        render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+        render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
       },
     ];
     if (fields.length == 0) {
@@ -217,7 +215,7 @@ const PluginGuestbook: React.FC = () => {
       />
       {editVisible && (
         <GuestbookForm
-          visible={editVisible}
+          open={editVisible}
           editingGuestbook={currentGuestbook}
           onCancel={() => {
             setEditVisible(false);

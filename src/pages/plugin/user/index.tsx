@@ -1,13 +1,16 @@
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { pluginDeleteUserInfo, pluginGetUserGroups, pluginGetUsers } from '@/services';
-import { ProFormSelect } from '@ant-design/pro-form';
-import moment from 'moment';
-import UserForm from './components/userForm';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProFormSelect,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
 import UserFieldSetting from './components/setting';
+import UserForm from './components/userForm';
 
 const PluginUser: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -98,7 +101,7 @@ const PluginUser: React.FC = () => {
       dataIndex: 'created_time',
       hideInSearch: true,
       render: (dom: any, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
@@ -155,7 +158,7 @@ const PluginUser: React.FC = () => {
       />
       {editVisible && (
         <UserForm
-          visible={editVisible}
+          open={editVisible}
           user={currentUser}
           onCancel={() => {
             setEditVisible(false);

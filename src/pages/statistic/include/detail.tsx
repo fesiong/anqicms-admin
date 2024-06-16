@@ -1,37 +1,37 @@
-import React, { useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import { getStatisticIncludeInfo } from '@/services';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import dayjs from 'dayjs';
+import React, { useRef } from 'react';
 
 const StatisticDetail: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const intl = useIntl();
 
   const columns: ProColumns<any>[] = [
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'account.time' }),
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '百度收录',
+      title: intl.formatMessage({ id: 'statistic.indexing.baidu' }),
       dataIndex: 'baidu_count',
     },
     {
-      title: '搜索收录',
+      title: intl.formatMessage({ id: 'statistic.indexing.sogou' }),
       dataIndex: 'sogou_count',
     },
     {
-      title: '搜搜收录',
+      title: intl.formatMessage({ id: 'statistic.indexing.so' }),
       dataIndex: 'so_count',
     },
     {
-      title: '必应收录',
+      title: intl.formatMessage({ id: 'statistic.indexing.bing' }),
       dataIndex: 'bing_count',
     },
     {
-      title: '谷歌收录',
+      title: intl.formatMessage({ id: 'statistic.indexing.google' }),
       dataIndex: 'google_count',
       width: 80,
     },
@@ -40,7 +40,7 @@ const StatisticDetail: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="收录详细记录"
+        headerTitle={intl.formatMessage({ id: 'statistic.indexing.detail' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}

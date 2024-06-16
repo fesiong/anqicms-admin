@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
-import { ModalForm, ProFormTextArea } from '@ant-design/pro-form';
-
 import { saveTag } from '@/services/tag';
+import { ModalForm, ProFormTextArea } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import { message } from 'antd';
+import React, { useState } from 'react';
 
 export type BatchFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
 };
 
 const BatchForm: React.FC<BatchFormProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const intl = useIntl();
 
   const onSubmit = async (values: any) => {
     if (loading) {
       return;
     }
     setLoading(true);
-    let done = message.loading('正在添加标签...', 0);
+    let done = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     let tags = values.tags.split('\n');
     for (let i in tags) {
       if (tags[i].length == 0) {
@@ -36,15 +37,15 @@ const BatchForm: React.FC<BatchFormProps> = (props) => {
   return (
     <ModalForm
       width={600}
-      title={'批量添加标签（一行一个）'}
-      visible={props.visible}
+      title={intl.formatMessage({ id: 'content.tag.batch-add' })}
+      open={props.open}
       layout="horizontal"
       modalProps={{
         okButtonProps: {
           loading: loading,
         },
       }}
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -55,8 +56,8 @@ const BatchForm: React.FC<BatchFormProps> = (props) => {
     >
       <ProFormTextArea
         name="tags"
-        label="标签列表"
-        placeholder="请按照一行一个标签来填写"
+        label={intl.formatMessage({ id: 'content.tags.name' })}
+        placeholder={intl.formatMessage({ id: 'content.tags.placeholder' })}
         fieldProps={{ rows: 15 }}
       />
     </ModalForm>

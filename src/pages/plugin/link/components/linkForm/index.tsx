@@ -1,19 +1,18 @@
-import React from 'react';
+import CollapseItem from '@/components/collaspeItem';
+import { pluginSaveLink } from '@/services/plugin/link';
 import {
   ModalForm,
   ProFormDigit,
   ProFormRadio,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-form';
-
-import { pluginSaveLink } from '@/services/plugin/link';
-import CollapseItem from '@/components/collaspeItem';
+} from '@ant-design/pro-components';
+import React from 'react';
 
 export type LinkFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   editingLink: any;
 };
 
@@ -30,9 +29,9 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
       width={800}
       title={props.editingLink?.id ? '编辑友情链接' : '添加友情链接'}
       initialValues={props.editingLink}
-      visible={props.visible}
+      open={props.open}
       //layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }

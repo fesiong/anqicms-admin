@@ -1,24 +1,23 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { deleteCategory, getCategories } from '@/services/category';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import '../index.less';
-import { history } from 'umi';
 
 let lastParams: any = {};
 
 const PageCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的单页面吗？',
+      title: intl.formatMessage({ id: 'content.page.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -27,13 +26,13 @@ const PageCategory: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -46,17 +45,17 @@ const PageCategory: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: 'ID',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '排序',
+      title: intl.formatMessage({ id: 'content.sort.name' }),
       dataIndex: 'sort',
       hideInSearch: true,
     },
     {
-      title: '页面名称',
+      title: intl.formatMessage({ id: 'content.page.name' }),
       dataIndex: 'title',
       hideInSearch: true,
       render: (dom, entity) => {
@@ -71,27 +70,27 @@ const PageCategory: React.FC = () => {
       },
     },
     {
-      title: '模板名称',
+      title: intl.formatMessage({ id: 'content.page.template.name' }),
       dataIndex: 'template',
       hideInSearch: true,
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'content.category.status' }),
       dataIndex: 'status',
       hideInSearch: true,
       valueEnum: {
         0: {
-          text: '隐藏',
+          text: intl.formatMessage({ id: 'content.category.status.hide' }),
           status: 'Default',
         },
         1: {
-          text: '显示',
+          text: intl.formatMessage({ id: 'content.category.status.ok' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -102,7 +101,7 @@ const PageCategory: React.FC = () => {
               handleEditCategory(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -111,7 +110,7 @@ const PageCategory: React.FC = () => {
               handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -121,7 +120,7 @@ const PageCategory: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="单页面列表"
+        headerTitle={intl.formatMessage({ id: 'menu.archive.page' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
@@ -133,7 +132,7 @@ const PageCategory: React.FC = () => {
               handleEditCategory({ status: 1 });
             }}
           >
-            <PlusOutlined /> 添加单页面
+            <PlusOutlined /> <FormattedMessage id="content.page.new" />
           </Button>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
@@ -144,10 +143,10 @@ const PageCategory: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}

@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import {
+  pluginGetMaterialCategories,
+  pluginMaterialConvertFile,
+  pluginMaterialImport,
+} from '@/services/plugin/material';
+import { getWordsCount, removeHtmlTag } from '@/utils';
+import { CloseCircleOutlined } from '@ant-design/icons';
+import { ModalForm } from '@ant-design/pro-components';
 import {
   Alert,
   Button,
   Checkbox,
   Col,
   Input,
-  message,
   Modal,
   Row,
   Select,
   Space,
   Upload,
+  message,
 } from 'antd';
-import { ModalForm } from '@ant-design/pro-form';
-import { getWordsCount, removeHtmlTag } from '@/utils';
-import {
-  pluginGetMaterialCategories,
-  pluginMaterialConvertFile,
-  pluginMaterialImport,
-} from '@/services/plugin/material';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 
 export type MaterialImportProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
 };
 
 const MaterialImport: React.FC<MaterialImportProps> = (props) => {
@@ -212,7 +213,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       <ModalForm
         width={800}
         title={'批量添加素材'}
-        visible={visible}
+        open={visible}
         modalProps={{
           onCancel: () => {
             setVisible(false);
@@ -347,7 +348,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       </ModalForm>
       <Modal
         title="请在这里粘贴文章内容"
-        visible={showTextarea}
+        open={showTextarea}
         width={800}
         okText="解析内容"
         onCancel={() => {

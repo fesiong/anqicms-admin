@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { message } from 'antd';
-import { ModalForm, ProFormDigit, ProFormRadio } from '@ant-design/pro-form';
 import { pluginGetAnchorSetting, pluginSaveAnchorSetting } from '@/services/plugin/anchor';
+import { ModalForm, ProFormDigit, ProFormRadio } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import { message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
-const AnchorSetting: React.FC = (props) => {
+export type AnchorProps = {
+  children?: React.ReactNode;
+};
+
+const AnchorSetting: React.FC<AnchorProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [fetched, setFetched] = useState<boolean>(false);
   const [setting, setSetting] = useState<any>({});
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -43,8 +49,8 @@ const AnchorSetting: React.FC = (props) => {
       {fetched && (
         <ModalForm
           width={600}
-          title={'锚文本设置'}
-          visible={visible}
+          title={intl.formatMessage({ id: 'plugin.anchor.setting' })}
+          open={visible}
           modalProps={{
             onCancel: () => {
               setVisible(false);
@@ -58,26 +64,26 @@ const AnchorSetting: React.FC = (props) => {
         >
           <ProFormDigit
             name="anchor_density"
-            label="锚文本密度"
-            extra="例如：每100字替换一个锚文本，就填写100，默认100"
+            label={intl.formatMessage({ id: 'plugin.anchor.density' })}
+            extra={intl.formatMessage({ id: 'plugin.anchor.density.description' })}
           />
           <ProFormRadio.Group
             name="replace_way"
-            label="替换方式"
+            label={intl.formatMessage({ id: 'plugin.anchor.replace-way' })}
             options={[
-              { label: '自动替换', value: 1 },
-              { label: '手动替换', value: 0 },
+              { label: intl.formatMessage({ id: 'plugin.anchor.replace-way.auto' }), value: 1 },
+              { label: intl.formatMessage({ id: 'plugin.anchor.replace-way.manual' }), value: 0 },
             ]}
-            extra="内容替换锚文本的方式"
+            extra={intl.formatMessage({ id: 'plugin.anchor.replace-way.description' })}
           />
           <ProFormRadio.Group
             name="keyword_way"
-            label="提取方式"
+            label={intl.formatMessage({ id: 'plugin.anchor.extract' })}
             options={[
-              { label: '自动提取', value: 1 },
-              { label: '手动提取', value: 0 },
+              { label: intl.formatMessage({ id: 'plugin.anchor.extract.auto' }), value: 1 },
+              { label: intl.formatMessage({ id: 'plugin.anchor.extract.manual' }), value: 0 },
             ]}
-            extra="选择从内容的关键词标签里提取锚文本关键词的方式"
+            extra={intl.formatMessage({ id: 'plugin.anchor.extract.description' })}
           />
         </ModalForm>
       )}

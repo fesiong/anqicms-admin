@@ -1,21 +1,25 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { ProLayoutProps } from '@ant-design/pro-components';
 
-const Settings: LayoutSettings & {
+const Settings: ProLayoutProps & {
   pwa?: boolean;
   logo?: string;
 } = {
   navTheme: 'light',
   // 拂晓蓝
-  primaryColor: '#1890ff',
+  colorPrimary: '#1890ff',
   layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '安企CMS',
-  logo: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAqFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8j1z1tAAAAN3RSTlMA+gb4CvTxDum/QzIl7rMT25mPH3JdPeXi34J7dWtmLBvGrEYW08xTS+vLqJ2ITji5Vy+ioZUqTQNsDAAAAmVJREFUWMPtllmTojAUhSVsYVU2QVlEcVfcWjv//5+N1RYkpJOmM/MyD543Qp1w7s1XlwzeeusnDa1TkWXF6Tb8G7du+uudjJ6S4T4Donbl5GoIyxf120fSjjRT0G/uUUdzwSZsR6irVMw/pv3QEqt/jii5ilD/H7RfKoQCVA6iNLGFAiwQrQ8his472i9vhCqYIlqrUsS/pBASxnirUnZRjD3sZGCs366p7/np9aZz/AEJIY2xnRlQepEBjYx9tpGMeBiX05FE0jVKSyYEPIzNuUQDaowHtGYxB2MQJei7kiu9QShxMI52iCUYUWPQ4GBcxYitxOxi7LAxDvaIp3nwC4xBLSGepJrEeM3G2Iq7nm4Rs36Ma7KpXrEpjuSRTHsxXq5wSw5f3wPWAsfYL/swNnGw+7Cp9oBTjvswDnFLMf+f+Gt5H8YeUS6WjxvdgzFwm2e1IjY4tXkPPRgrl+bZsci/j9bmBDyM76BJQLWr29oFeO3o8KbxR1tS065uaz0+xvQbA0+3IQ6c8TF+aSO3mfBFJWwX1W3fNLYn7ZoT6q8jL2C7Ngo4GF+awQsOeFF1o1lgV3cNLx0BG2P1io+cTCfDSUI+axUH44WOB5WL+DoobIwnZxKamOtPzmyMnc60BJnM8as5G2MtBN1p++AMtXXJxBjmCn3p9dgZ5If+xXUHY2m9Bd8vvumOvUOt0BAkdTBgCFSGzO2CobbFr6cz7t09ukDGDvGT2NIMj65huF4+Xv54AbPyo7EaTWIId85TmqpK7b8FKAr41S1uWAb25+xmPXUeV5vcv6SDf5NuD976D/QHZhs+zNCJu3wAAAAASUVORK5CYII=',
+  title: 'site.title',
+  logo: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAASFBMVEUAAAABZf8AZf8BZf8BZf8BZf8AZP8AZP8AZf8AZP8AZf8BZP8AZP8BZf8BZP8BZf8AZf8BZf8AZf8AZv8AZP8AZP8BZP8BZf9/EyIJAAAAF3RSTlMA9RDg65t/IkM4LspyvrSOaKtMGlVd04/Ly7sAAAHfSURBVFjD7ZZJdsQgDERbiMkYMJ6a+980nZGAwIRkk0XX0rb0iuKDfHvqqSsxswUpw2bYr6r1MnOIDwGf7Xj95iEmLaPlSkD8JtCD9XqOmWY2aB9jLjlWP5X1fBpb/xwL+bEViFgqjAXIy3pUQw1WYkCMJUgMwDHUQBID933oBJAtGMR4A7ICPbyHbYyZOeQiFnk0D7hKEFKMlXX8k01n63t7QmxhvMu8Ocr9AgKKsabpOnpEDLYwPjFSISHExgbGJ4818bOAwDUw1hjrQt3FODvgVPP+E4yX2JbsYFxES4Wmg3FhAEU4gsDMQg/j/Z4aruZ9u9fsmw7GOhkT7BPL1AGmHsY2RapqyIUexqKa+JKC7mHss0hp4msPY1+dLxN8+exgfPMkrjzatXcbCxJXbli0MS7fOFY7d7J3Gx/w5ckmA+nh1sSYAsbth4fAy6hFDQIKCPjTKKUFlFErrEdI3QFHBGqUYrx+C8zHtlZWxxini4lPvzN4fVtaYrDYF0ufZ2Li6kqkGPNAhraAugPBKmuct8rYl7zeYSEQoFT1we+gmUJ6BbM0zX+P0/PGbNm1Fd45L+zELn9fpiDcHRH5m+ChGKNTH29JbVWM7UqZV00P6SMsTt7+JqZuT/0DvQA1ZYV3fzevuwAAAABJRU5ErkJggg==',
   pwa: false,
   iconfontUrl: '',
+  token: {
+    // 参见ts声明，demo 见文档，通过token 修改样式
+    //https://procomponents.ant.design/components/layout#%E9%80%9A%E8%BF%87-token-%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F
+  },
 };
 
 export default Settings;

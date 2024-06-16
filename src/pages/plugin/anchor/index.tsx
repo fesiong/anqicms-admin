@@ -1,19 +1,18 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import {
   pluginDeleteAnchor,
   pluginExportAnchor,
   pluginGetAnchors,
   pluginReplaceAnchor,
 } from '@/services/plugin/anchor';
-import AnchorForm from './components/anchorForm';
-import AnchorSetting from './components/setting';
 import { exportFile } from '@/utils';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useRef, useState } from 'react';
+import AnchorForm from './components/anchorForm';
 import AnchorImport from './components/import';
+import AnchorSetting from './components/setting';
 import './index.less';
 
 const PluginAnchor: React.FC = () => {
@@ -21,12 +20,13 @@ const PluginAnchor: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentAnchor, setCurrentAnchor] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的锚文本吗？',
+      title: intl.formatMessage({ id: 'plugin.anchor.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -35,13 +35,13 @@ const PluginAnchor: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -74,31 +74,31 @@ const PluginAnchor: React.FC = () => {
       dataIndex: 'id',
     },
     {
-      title: '锚文本',
+      title: intl.formatMessage({ id: 'plugin.anchor.title' }),
       dataIndex: 'title',
       fieldProps(form, config) {
         return {
-          placeholder: '搜索锚文本或锚文本链接',
+          placeholder: intl.formatMessage({ id: 'plugin.anchor.title.placeholder' }),
         };
       },
     },
     {
-      title: '锚文本链接',
+      title: intl.formatMessage({ id: 'plugin.anchor.link' }),
       hideInSearch: true,
       dataIndex: 'link',
     },
     {
-      title: '权重',
+      title: intl.formatMessage({ id: 'plugin.anchor.weight' }),
       hideInSearch: true,
       dataIndex: 'weight',
     },
     {
-      title: '替换次数',
+      title: intl.formatMessage({ id: 'plugin.anchor.replace-count' }),
       hideInSearch: true,
       dataIndex: 'replace_count',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -109,7 +109,7 @@ const PluginAnchor: React.FC = () => {
               handleReplaceAnchor(record);
             }}
           >
-            替换
+            <FormattedMessage id="plugin.anchor.replace" />
           </a>
           <a
             key="edit"
@@ -117,7 +117,7 @@ const PluginAnchor: React.FC = () => {
               handleEditAnchor(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -126,7 +126,7 @@ const PluginAnchor: React.FC = () => {
               handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -136,7 +136,7 @@ const PluginAnchor: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="锚文本管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.anchor' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
@@ -147,7 +147,7 @@ const PluginAnchor: React.FC = () => {
               handleEditAnchor({});
             }}
           >
-            <PlusOutlined /> 添加锚文本
+            <PlusOutlined /> <FormattedMessage id="plugin.anchor.new" />
           </Button>,
           <Button
             key="export"
@@ -155,7 +155,7 @@ const PluginAnchor: React.FC = () => {
               handleExportAnchor();
             }}
           >
-            导出锚文本
+            <FormattedMessage id="plugin.anchor.export" />
           </Button>,
           <AnchorImport
             onCancel={() => {
@@ -168,7 +168,7 @@ const PluginAnchor: React.FC = () => {
                 //todo
               }}
             >
-              导入锚文本
+              <FormattedMessage id="plugin.anchor.import" />
             </Button>
           </AnchorImport>,
           <Button
@@ -177,7 +177,7 @@ const PluginAnchor: React.FC = () => {
               handleReplaceAnchor({});
             }}
           >
-            批量更新锚文本
+            <FormattedMessage id="plugin.anchor.batch-update" />
           </Button>,
           <AnchorSetting>
             <Button
@@ -186,7 +186,7 @@ const PluginAnchor: React.FC = () => {
                 //todo
               }}
             >
-              锚文本设置
+              <FormattedMessage id="plugin.anchor.setting" />
             </Button>
           </AnchorSetting>,
         ]}
@@ -198,10 +198,10 @@ const PluginAnchor: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
@@ -224,7 +224,7 @@ const PluginAnchor: React.FC = () => {
       />
       {editVisible && (
         <AnchorForm
-          visible={editVisible}
+          open={editVisible}
           editingAnchor={currentAnchor}
           onCancel={() => {
             setEditVisible(false);

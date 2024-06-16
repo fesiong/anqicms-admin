@@ -1,18 +1,21 @@
-import React from 'react';
-import { message, Card } from 'antd';
-import { GridContent } from '@ant-design/pro-layout';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { useModel, useRequest } from 'umi';
-import { getAdminInfo, saveAdmin } from '@/services/admin';
+import { saveAdmin } from '@/services/admin';
+import { GridContent, ProForm, ProFormText } from '@ant-design/pro-components';
+import { useIntl, useModel } from '@umijs/max';
+import { Card, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 import styles from './index.less';
 
 const AccountSetting: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
+  const [currentUser, setCurrentUser] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(true);
+  const intl = useIntl();
 
-  const { data: currentUser, loading } = useRequest(() => {
-    return getAdminInfo();
-  });
+  useEffect(() => {
+    setCurrentUser(initialState?.currentUser || {});
+    setLoading(false);
+  }, []);
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -21,16 +24,17 @@ const AccountSetting: React.FC = () => {
         ...s,
         currentUser: userInfo,
       }));
+      setCurrentUser(userInfo);
     }
   };
 
   const handleFinish = async (values: any) => {
     values = Object.assign(initialState?.currentUser || {}, values);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveAdmin(values)
       .then(async (res) => {
         if (res.code === 0) {
-          message.success('更新基本信息成功');
+          message.success(intl.formatMessage({ id: 'account.base.success' }));
           await fetchUserInfo();
         } else {
           message.error(res.msg);
@@ -42,7 +46,7 @@ const AccountSetting: React.FC = () => {
   };
   return (
     <GridContent>
-      <Card title="管理员密码修改" bordered={false}>
+      <Card title={intl.formatMessage({ id: 'account.base.change-password' })} bordered={false}>
         <div className={styles.baseView}>
           {loading ? null : (
             <>
@@ -57,7 +61,7 @@ const AccountSetting: React.FC = () => {
                       },
                     },
                     submitButtonProps: {
-                      children: '更新基本信息',
+                      children: intl.formatMessage({ id: 'account.base.update' }),
                     },
                   }}
                   initialValues={currentUser}
@@ -66,21 +70,25 @@ const AccountSetting: React.FC = () => {
                   <ProFormText
                     width="md"
                     name="user_name"
-                    label="用户名"
+                    label={intl.formatMessage({ id: 'account.base.username' })}
                     rules={[
                       {
                         required: true,
-                        message: '请输入管理员用户名!',
+                        message: intl.formatMessage({ id: 'account.base.required' }),
                       },
                     ]}
                   />
                   <ProFormText.Password
                     width="md"
                     name="old_password"
-                    label="当前密码"
-                    placeholder="如果想改密码，请输入当前密码"
+                    label={intl.formatMessage({ id: 'account.base.password' })}
+                    placeholder={intl.formatMessage({ id: 'account.base.password.description' })}
                   />
-                  <ProFormText.Password width="md" name="password" label="新密码" />
+                  <ProFormText.Password
+                    width="md"
+                    name="password"
+                    label={intl.formatMessage({ id: 'account.base.password.new' })}
+                  />
                 </ProForm>
               </div>
             </>

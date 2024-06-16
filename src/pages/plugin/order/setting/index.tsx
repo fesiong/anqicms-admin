@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import { pluginGetOrderSetting, pluginSaveOrderSetting } from '@/services';
+import { ModalForm, ProFormDigit, ProFormRadio } from '@ant-design/pro-components';
 import { message } from 'antd';
-import { ModalForm, ProFormDigit, ProFormRadio } from '@ant-design/pro-form';
-import { pluginSaveOrderSetting, pluginGetOrderSetting } from '@/services';
+import React, { useState } from 'react';
 
-const OrderSetting: React.FC = (props) => {
+export type OrderSettingProps = {
+  onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
+};
+
+const OrderSetting: React.FC<OrderSettingProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleSaveSetting = async (values: any) => {
@@ -29,13 +34,13 @@ const OrderSetting: React.FC = (props) => {
       <ModalForm
         width={600}
         title={'订单设置'}
-        visible={visible}
+        open={visible}
         // modalProps={{
         //   onCancel: () => {
         //     setVisible(false);
         //   },
         // }}
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           setVisible(flag);
         }}
         request={async () => {

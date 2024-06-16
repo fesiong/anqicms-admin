@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormInstance, ProFormTextArea } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, Card, message, Space, Modal } from 'antd';
 import {
   getSettingSensitiveWords,
   saveSettingSensitiveWords,
   syncSettingSensitiveWords,
 } from '@/services/setting';
+import {
+  PageContainer,
+  ProForm,
+  ProFormInstance,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Modal, Space, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const SettingSensitiveFrom: React.FC<any> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
   const [setting, setSetting] = useState<any>([]);
   const [fetched, setFetched] = useState<boolean>(false);
+  const intl = useIntl();
   useEffect(() => {
     getSetting();
   }, []);
@@ -24,7 +30,7 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     const text = values.words.split('\n');
     saveSettingSensitiveWords(text)
       .then((res) => {
@@ -40,7 +46,7 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
 
   const syncSensitive = () => {
     Modal.confirm({
-      title: '确定要同步敏感词列表吗？该操作会从安企CMS官网同步最新的敏感词到本地，并替换',
+      title: intl.formatMessage({ id: 'setting.system.confirm-sync' }),
       onOk: () => {
         syncSettingSensitiveWords({})
           .then(async (res) => {
@@ -50,19 +56,21 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
             formRef.current?.setFieldsValue({ words: setting.join('\n') });
           })
           .catch((err) => {
-            message.success(err.msg || '同步失败');
+            message.success(err.msg || intl.formatMessage({ id: 'setting.system.sync-failure' }));
           });
       },
     });
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card
-        title="敏感词设置"
+        title={intl.formatMessage({ id: 'menu.setting.sensitive' })}
         extra={
           <Space size={20}>
-            <Button onClick={syncSensitive}>同步敏感词</Button>
+            <Button onClick={syncSensitive}>
+              <FormattedMessage id="setting.sensitive.sync" />
+            </Button>
           </Space>
         }
       >
@@ -75,14 +83,14 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
             <ProFormTextArea
               fieldProps={{ rows: 20 }}
               name="words"
-              label="敏感词列表"
-              placeholder={'注意，一行一个。'}
-              extra="敏感词请一行填写一个。"
+              label={intl.formatMessage({ id: 'setting.sensitive.sync.list' })}
+              placeholder={intl.formatMessage({ id: 'setting.sensitive.sync.placeholder' })}
+              extra={intl.formatMessage({ id: 'setting.sensitive.sync.description' })}
             />
           </ProForm>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

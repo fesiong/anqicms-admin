@@ -1,8 +1,8 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Space, Statistic, Tooltip } from 'antd';
 
+import { Link, useIntl } from '@umijs/max';
 import { ChartCard, Field } from './Charts';
-import { Link } from 'umi';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -13,55 +13,74 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
-const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => (
-  <Row gutter={24}>
-    <Col {...topColResponsiveProps}>
-      <ChartCard
-        bordered={false}
-        title="文档量"
-        action={
-          <Tooltip title="包括各个模型已发布文档、待发布、草稿箱的文档">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total={
-          (data.archive_count?.total || 0) +
-          '/' +
-          (data.archive_count?.un_release || 0) +
-          '/' +
-          (data.archive_count?.draft || 0)
-        }
-        footer={
-          <Space>
-            <Field label="上周" value={data.archive_count?.last_week || 0} />
-            <Field label="今日" value={data.archive_count?.today || 0} />
-            <Link to={'/archive/list?status=plan'}>
-              <Field label="待发布" value={data.archive_count?.un_release || 0} />
-            </Link>
-            <Link to={'/archive/list?status=draft'}>
-              <Field label="草稿" value={data.archive_count?.draft || 0} />
-            </Link>
-          </Space>
-        }
-        contentHeight={46}
-      ></ChartCard>
-    </Col>
+const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => {
+  const intl = useIntl();
+  return (
+    <Row gutter={24}>
+      <Col {...topColResponsiveProps}>
+        <ChartCard
+          bordered={false}
+          title={intl.formatMessage({ id: 'dashboard.component.archive.count' })}
+          action={
+            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.archive.count.tips' })}>
+              <InfoCircleOutlined />
+            </Tooltip>
+          }
+          total={
+            (data.archive_count?.total || 0) +
+            '/' +
+            (data.archive_count?.un_release || 0) +
+            '/' +
+            (data.archive_count?.draft || 0)
+          }
+          footer={
+            <Space>
+              <Field
+                label={intl.formatMessage({ id: 'dashboard.component.lastweek' })}
+                value={data.archive_count?.last_week || 0}
+              />
+              <Field
+                label={intl.formatMessage({ id: 'dashboard.component.today' })}
+                value={data.archive_count?.today || 0}
+              />
+              <Link to={'/archive/list?status=plan'}>
+                <Field
+                  label={intl.formatMessage({ id: 'dashboard.component.unrelease' })}
+                  value={data.archive_count?.un_release || 0}
+                />
+              </Link>
+              <Link to={'/archive/list?status=draft'}>
+                <Field
+                  label={intl.formatMessage({ id: 'dashboard.component.draft' })}
+                  value={data.archive_count?.draft || 0}
+                />
+              </Link>
+            </Space>
+          }
+          contentHeight={46}
+        ></ChartCard>
+      </Col>
 
-    <Col {...topColResponsiveProps}>
-      <ChartCard
-        bordered={false}
-        loading={loading}
-        title="一周访问量"
-        action={
-          <Tooltip title="网页访问数据">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total={data.traffic_count?.total}
-        footer={<Field label="今日访问" value={data.traffic_count?.today} />}
-        contentHeight={46}
-      >
-        {/* <TinyArea
+      <Col {...topColResponsiveProps}>
+        <ChartCard
+          bordered={false}
+          loading={loading}
+          title={intl.formatMessage({ id: 'dashboard.component.week-traffic' })}
+          action={
+            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.traffic-description' })}>
+              <InfoCircleOutlined />
+            </Tooltip>
+          }
+          total={data.traffic_count?.total}
+          footer={
+            <Field
+              label={intl.formatMessage({ id: 'dashboard.component.today-visit' })}
+              value={data.traffic_count?.today}
+            />
+          }
+          contentHeight={46}
+        >
+          {/* <TinyArea
           color="#975FE4"
           xField="x"
           height={46}
@@ -70,57 +89,75 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => (
           smooth
           data={visitData}
         /> */}
-      </ChartCard>
-    </Col>
-    <Col {...topColResponsiveProps}>
-      <ChartCard
-        bordered={false}
-        loading={loading}
-        title="一周蜘蛛访问"
-        action={
-          <Tooltip title="蜘蛛访问记录">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        total={data.spider_count?.total}
-        footer={<Field label="今日访问" value={data.spider_count?.today} />}
-        contentHeight={46}
-      >
-        {/* <TinyColumn xField="x" height={46} forceFit yField="y" data={visitData} /> */}
-      </ChartCard>
-    </Col>
-    <Col {...topColResponsiveProps}>
-      <ChartCard
-        bordered={false}
-        loading={loading}
-        title="收录情况"
-        action={
-          <Tooltip title="搜索引擎收录情况">
-            <InfoCircleOutlined />
-          </Tooltip>
-        }
-        contentHeight={82}
-      >
-        <Row style={{ textAlign: 'center' }}>
-          <Col flex={1}>
-            <Statistic title="百度" value={data.include_count?.baidu_count} />
-          </Col>
-          <Col flex={1}>
-            <Statistic title="搜狗" value={data.include_count?.sogou_count} />
-          </Col>
-          <Col flex={1}>
-            <Statistic title="搜搜" value={data.include_count?.so_count} />
-          </Col>
-          {/* <Col flex={1}>
-          <Statistic title='必应' value={data.include_count?.bing_count} />
-          </Col>
-          <Col flex={1}>
-          <Statistic title='谷歌' value={data.include_count?.google_count} />
-          </Col> */}
-        </Row>
-      </ChartCard>
-    </Col>
-  </Row>
-);
+        </ChartCard>
+      </Col>
+      <Col {...topColResponsiveProps}>
+        <ChartCard
+          bordered={false}
+          loading={loading}
+          title={intl.formatMessage({ id: 'dashboard.component.week-spider' })}
+          action={
+            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.spider-description' })}>
+              <InfoCircleOutlined />
+            </Tooltip>
+          }
+          total={data.spider_count?.total}
+          footer={
+            <Field
+              label={intl.formatMessage({ id: 'dashboard.component.today-visit' })}
+              value={data.spider_count?.today}
+            />
+          }
+          contentHeight={46}
+        >
+          {/* <TinyColumn xField="x" height={46} forceFit yField="y" data={visitData} /> */}
+        </ChartCard>
+      </Col>
+      <Col {...topColResponsiveProps}>
+        <ChartCard
+          bordered={false}
+          loading={loading}
+          title={intl.formatMessage({ id: 'dashboard.component.indexing' })}
+          action={
+            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.indexing-description' })}>
+              <InfoCircleOutlined />
+            </Tooltip>
+          }
+          contentHeight={82}
+        >
+          <Row style={{ textAlign: 'center' }}>
+            <Col flex={1}>
+              <Statistic
+                title={intl.formatMessage({ id: 'dashboard.component.baidu' })}
+                value={data.include_count?.baidu_count}
+              />
+            </Col>
+            <Col flex={1}>
+              <Statistic
+                title={intl.formatMessage({ id: 'dashboard.component.sogou' })}
+                value={data.include_count?.sogou_count}
+              />
+            </Col>
+            {/* <Col flex={1}>
+              <Statistic title={intl.formatMessage({ id: 'dashboard.component.soso' })} value={data.include_count?.so_count} />
+            </Col> */}
+            <Col flex={1}>
+              <Statistic
+                title={intl.formatMessage({ id: 'dashboard.component.bing' })}
+                value={data.include_count?.bing_count}
+              />
+            </Col>
+            <Col flex={1}>
+              <Statistic
+                title={intl.formatMessage({ id: 'dashboard.component.google' })}
+                value={data.include_count?.google_count}
+              />
+            </Col>
+          </Row>
+        </ChartCard>
+      </Col>
+    </Row>
+  );
+};
 
 export default StatisticsRow;

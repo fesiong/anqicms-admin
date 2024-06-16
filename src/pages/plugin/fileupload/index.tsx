@@ -1,26 +1,26 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Modal, Space, Alert, Upload } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import {
   pluginDeleteFile,
   pluginGetUploadFiles,
   pluginUploadFile,
 } from '@/services/plugin/fileupload';
+import { PlusOutlined } from '@ant-design/icons';
+import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Alert, Button, Modal, Space, Upload, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
 
 const PluginFileupload: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的文件吗？',
+      title: intl.formatMessage({ id: 'plugin.fileupload.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -29,12 +29,12 @@ const PluginFileupload: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
         }
       },
     });
@@ -43,7 +43,7 @@ const PluginFileupload: React.FC = () => {
   const handleUploadFile = (e: any) => {
     let formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -57,24 +57,24 @@ const PluginFileupload: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '文件名',
+      title: intl.formatMessage({ id: 'design.detail.file-name' }),
       dataIndex: 'file_name',
     },
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'plugin.fileupload.create-time' }),
       width: 200,
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 180,
       render: (_, record) => (
         <Space size={20}>
           <a key="edit" target="_blank" href={record.link}>
-            查看
+            <FormattedMessage id="plugin.fileupload.view" />
           </a>
           <a
             className="text-red"
@@ -83,7 +83,7 @@ const PluginFileupload: React.FC = () => {
               handleRemove([record.hash]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -93,7 +93,7 @@ const PluginFileupload: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="验证文件上传管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.fileupload' })}
         actionRef={actionRef}
         rowKey="hash"
         search={false}
@@ -104,7 +104,7 @@ const PluginFileupload: React.FC = () => {
               setVisible(true);
             }}
           >
-            <PlusOutlined /> 上传新文件
+            <PlusOutlined /> <FormattedMessage id="plugin.fileupload.upload.name" />
           </Button>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
@@ -115,10 +115,10 @@ const PluginFileupload: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-selec" />
             </Button>
           </Space>
         )}
@@ -139,10 +139,9 @@ const PluginFileupload: React.FC = () => {
       />
 
       <Modal
-        title="上传新文件"
-        visible={visible}
+        title={intl.formatMessage({ id: 'plugin.fileupload.upload.name' })}
+        open={visible}
         width={800}
-        cancelText="关闭"
         okText={false}
         onCancel={() => {
           setVisible(false);
@@ -151,7 +150,7 @@ const PluginFileupload: React.FC = () => {
           setVisible(false);
         }}
       >
-        <Alert message={'说明：只允许上传 txt/htm/html/xml 格式的验证文件'} />
+        <Alert message={intl.formatMessage({ id: 'plugin.fileupload.upload.support' })} />
         <div className="mt-normal">
           <div className="text-center">
             <Upload
@@ -161,7 +160,9 @@ const PluginFileupload: React.FC = () => {
               accept=".txt,.htm,.html,.xml"
               customRequest={handleUploadFile}
             >
-              <Button type="primary">上传文件</Button>
+              <Button type="primary">
+                <FormattedMessage id="plugin.fileupload.upload.btn" />
+              </Button>
             </Upload>
           </div>
         </div>

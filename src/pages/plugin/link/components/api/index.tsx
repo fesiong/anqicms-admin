@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, message, Modal, Space, Table, Tag, Tooltip } from 'antd';
 import { pluginGetImportApiSetting, pluginUpdateApiToken } from '@/services';
+import { ModalForm, ProCard, ProFormText } from '@ant-design/pro-components';
+import { history } from '@umijs/max';
+import { Alert, Button, Modal, Space, Table, Tag, Tooltip, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import ProCard from '@ant-design/pro-card';
-import { history } from 'umi';
 import './index.less';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
 
 const PluginLinkApi: React.FC<any> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -60,7 +59,7 @@ const PluginLinkApi: React.FC<any> = (props) => {
       <Modal
         width={1000}
         zIndex={10}
-        visible={visible}
+        open={visible}
         onCancel={() => {
           setVisible(false);
         }}
@@ -482,9 +481,9 @@ const PluginLinkApi: React.FC<any> = (props) => {
           zIndex: 100,
         }}
         title={'重置友情链接Token'}
-        visible={tokenVidible}
+        open={tokenVidible}
         layout="horizontal"
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           setTokenVisible(flag);
         }}
         onFinish={handleUpdateToken}

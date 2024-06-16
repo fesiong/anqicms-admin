@@ -1,19 +1,26 @@
-import React, { useRef, useState } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import { deleteAdminInfo, getAdminGroups, getAdminList, saveAdmin } from '@/services';
-import { Button, message, Modal, Space } from 'antd';
-import { useModel } from 'umi';
-import { ModalForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumns,
+  ProFormRadio,
+  ProFormSelect,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl, useModel } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef, useState } from 'react';
 
 const AdminList: React.FC = () => {
   const { initialState } = useModel('@@initialState');
   const actionRef = useRef<ActionType>();
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [editInfo, setEditInfo] = useState<any>({});
+  const intl = useIntl();
 
   const { currentUser } = initialState;
 
@@ -42,11 +49,11 @@ const AdminList: React.FC = () => {
 
   const handleRemove = (record: any) => {
     if (currentUser.id == record.id || record.id == 1) {
-      message.error('该管理员不能删除');
+      message.error(intl.formatMessage({ id: 'account.list.cannot-delete' }));
       return;
     }
     Modal.confirm({
-      title: '确定要删除该管理员吗？',
+      title: intl.formatMessage({ id: 'account.list.confirm-delete' }),
       onOk: () => {
         deleteAdminInfo({
           id: record.id,
@@ -64,39 +71,39 @@ const AdminList: React.FC = () => {
       dataIndex: 'id',
     },
     {
-      title: '账号',
+      title: intl.formatMessage({ id: 'account.base.username' }),
       dataIndex: 'user_name',
     },
     {
-      title: '分组',
+      title: intl.formatMessage({ id: 'account.base.group' }),
       dataIndex: 'group.title',
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({ id: 'account.list.create-time' }),
       dataIndex: 'created_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '最近登录',
+      title: intl.formatMessage({ id: 'account.list.login-time' }),
       dataIndex: 'login_time',
-      render: (text, record) => moment(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '停用',
+          text: intl.formatMessage({ id: 'setting.content.notenable' }),
           status: 'Default',
         },
         1: {
-          text: '正常',
+          text: intl.formatMessage({ id: 'setting.content.enable' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -107,7 +114,7 @@ const AdminList: React.FC = () => {
               handleEdit(record);
             }}
           >
-            修改
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -116,7 +123,7 @@ const AdminList: React.FC = () => {
               await handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -126,7 +133,7 @@ const AdminList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="管理员列表"
+        headerTitle={intl.formatMessage({ id: 'account.list.name' })}
         rowKey="id"
         actionRef={actionRef}
         search={false}
@@ -146,29 +153,33 @@ const AdminList: React.FC = () => {
               handleEdit({});
             }}
           >
-            <PlusOutlined /> 添加管理员
+            <PlusOutlined /> <FormattedMessage id="account.list.add" />
           </Button>,
         ]}
       />
       {editVisible && (
         <ModalForm
           width={480}
-          title="调整管理员"
-          visible={editVisible}
+          title={intl.formatMessage({ id: 'account.list.edit' })}
+          open={editVisible}
           initialValues={editInfo}
           onFinish={onSubmitEdit}
-          onVisibleChange={(e) => setEditVisible(e)}
+          onOpenChange={(e) => setEditVisible(e)}
         >
-          <ProFormText name="user_name" label="账号" width="lg" />
+          <ProFormText
+            name="user_name"
+            label={intl.formatMessage({ id: 'account.base.username' })}
+            width="lg"
+          />
           <ProFormText.Password
             name="password"
-            label="密码"
+            label={intl.formatMessage({ id: 'account.list.password' })}
             width="lg"
-            placeholder="不修改请留空"
+            placeholder={intl.formatMessage({ id: 'account.list.password.placeholder' })}
           />
           <ProFormSelect
             name="group_id"
-            label="分组"
+            label={intl.formatMessage({ id: 'account.base.group' })}
             request={async () => {
               const res = await getAdminGroups({});
               return res.data || [];
@@ -181,11 +192,11 @@ const AdminList: React.FC = () => {
             }}
           />
           <ProFormRadio.Group
-            label="账号状态"
+            label={intl.formatMessage({ id: 'website.status' })}
             name="status"
             valueEnum={{
-              0: '停用',
-              1: '正常',
+              0: intl.formatMessage({ id: 'setting.content.notenable' }),
+              1: intl.formatMessage({ id: 'setting.content.enable' }),
             }}
           />
         </ModalForm>

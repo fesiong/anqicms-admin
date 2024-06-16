@@ -15,7 +15,7 @@ export class HtmlMenu extends BtnMenu {
   }
 
   clickHandler = () => {
-    const { setMode, customSetMode } = this.editor.config;
+    const { setMode, customSetMode } = this.editor.config as any;
     if (setMode) {
       setMode(!this.htmlMode);
     }

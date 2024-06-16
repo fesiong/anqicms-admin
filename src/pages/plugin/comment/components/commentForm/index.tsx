@@ -1,22 +1,19 @@
-import React from 'react';
-import {
-  ModalForm,
-  ProFormRadio,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-form';
-
-import moment from 'moment';
 import { pluginSaveComment } from '@/services/plugin/comment';
+import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import dayjs from 'dayjs';
+import React from 'react';
 
 export type CommentFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   editingComment: any;
 };
 
 const CommentForm: React.FC<CommentFormProps> = (props) => {
+  const intl = useIntl();
+
   const onSubmit = async (values: any) => {
     let editingLink = Object.assign(props.editingComment, values);
     let res = await pluginSaveComment(editingLink);
@@ -27,11 +24,15 @@ const CommentForm: React.FC<CommentFormProps> = (props) => {
   return (
     <ModalForm
       width={600}
-      title={props.editingComment?.id ? '编辑评论' : '添加评论'}
+      title={
+        props.editingComment?.id
+          ? intl.formatMessage({ id: 'plugin.comment.edit' })
+          : intl.formatMessage({ id: 'plugin.comment.new' })
+      }
       initialValues={props.editingComment}
-      visible={props.visible}
+      open={props.open}
       //layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -41,30 +42,40 @@ const CommentForm: React.FC<CommentFormProps> = (props) => {
       }}
     >
       <ProFormText name="id" label="ID" disabled />
-      <ProFormRadio.Group
+      <ProFormText
+        name="item_title"
+        label={intl.formatMessage({ id: 'plugin.comment.item-title' })}
         disabled
-        name="item_type"
-        label="类型"
-        options={[
-          { value: 'article', label: '文章' },
-          { value: 'product', label: '产品' },
-        ]}
       />
-      <ProFormText name="item_title" label="名称" disabled />
       <ProFormText
         fieldProps={{
-          value: moment(props.editingComment.created_time * 1000).format('YYYY-MM-DD HH:mm:ss'),
+          value: dayjs(props.editingComment.created_time * 1000).format('YYYY-MM-DD HH:mm:ss'),
         }}
-        label="评论时间"
+        label={intl.formatMessage({ id: 'plugin.comment.time' })}
         disabled
       />
-      <ProFormText name="ip" label="评论IP" />
+      <ProFormText name="ip" label={intl.formatMessage({ id: 'plugin.comment.ip' })} />
       {props.editingComment.parent_id > 0 && props.editingComment.parent && (
-        <ProFormTextArea name={['parent', 'content']} label="上级评论" />
+        <ProFormTextArea
+          name={['parent', 'content']}
+          label={intl.formatMessage({ id: 'plugin.comment.parent' })}
+        />
       )}
-      {props.editingComment.user_id > 0 && <ProFormText name="user_id" label="用户ID" disabled />}
-      <ProFormText name="user_name" label="用户名" />
-      <ProFormTextArea name="content" label="评论内容" />
+      {props.editingComment.user_id > 0 && (
+        <ProFormText
+          name="user_id"
+          label={intl.formatMessage({ id: 'plugin.comment.user-id' })}
+          disabled
+        />
+      )}
+      <ProFormText
+        name="user_name"
+        label={intl.formatMessage({ id: 'plugin.comment.user-name' })}
+      />
+      <ProFormTextArea
+        name="content"
+        label={intl.formatMessage({ id: 'plugin.comment.content' })}
+      />
     </ModalForm>
   );
 };

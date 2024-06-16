@@ -1,5 +1,3 @@
-@import '~antd/es/style/variable.less';
-
 html,
 body,
 #root {
@@ -39,7 +37,7 @@ ol {
   color: #f30;
 }
 .text-primary {
-  color: @primary-color;
+  color: #1890ff;
 }
 .link {
   cursor: pointer;
@@ -66,11 +64,15 @@ ol {
   line-height: 1.6;
   background-color: #e6f7ff;
   border: 0;
-  border-left: 5px solid @primary-color;
+  border-left: 5px solid #1890ff;
   border-radius: 0 2px 2px 0;
   pre {
     margin: 0;
   }
+}
+.ant-pro-page-container-children-container,
+.ant-pro-page-container .ant-pro-page-container-warp-page-header {
+  padding-inline: 24px !important;
 }
 
 .logo-uploader {
@@ -191,7 +193,7 @@ ol {
 .ant-form-item-extra {
   word-break: break-all;
 }
-@media (max-width: @screen-xs) {
+@media (max-width: 480px) {
   .ant-table {
     width: 100%;
     overflow-x: auto;
@@ -208,6 +210,14 @@ ol {
   }
   .ant-pro-page-container-children-content {
     margin: 12px !important;
+  }
+  .ant-pro-page-container-children-container,
+  .ant-pro-page-container .ant-pro-page-container-warp-page-header {
+    padding-inline: 12px !important;
+  }
+  .ant-pro-page-container .ant-pro-page-container-warp-page-header {
+    padding-block-start: 0px !important;
+    padding-block-end: 8px !important;
   }
 }
 .center-mid-card {

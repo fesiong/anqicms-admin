@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import ProForm, { ProFormTextArea } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, message } from 'antd';
 import { pluginGetRobots, pluginSaveRobots } from '@/services/plugin/robots';
-import { useModel } from 'umi';
+import { PageContainer, ProForm, ProFormTextArea } from '@ant-design/pro-components';
+import { useModel } from '@umijs/max';
+import { Alert, Button, Card, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const PluginRobots: React.FC<any> = (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -37,7 +36,7 @@ const PluginRobots: React.FC<any> = (props) => {
 
   const getFrontUrl = async (link: string) => {
     let baseUrl = '';
-    if (!initialState.system) {
+    if (!initialState?.system) {
       const system = await initialState?.fetchSystemSetting?.();
       if (system) {
         await setInitialState((s) => ({
@@ -54,7 +53,7 @@ const PluginRobots: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card>
         <Alert
           message={
@@ -98,7 +97,7 @@ const PluginRobots: React.FC<any> = (props) => {
           </Button>
         </div>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

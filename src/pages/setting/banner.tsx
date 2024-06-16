@@ -1,11 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ModalForm, ProFormSelect, ProFormText } from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Button, message, Modal, Space, Image, Card, Divider, Input, InputRef } from 'antd';
-import { deleteSettingBanner, getSettingBanners, saveSettingBanner } from '@/services';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import AttachmentSelect from '@/components/attachment';
+import { deleteSettingBanner, getSettingBanners, saveSettingBanner } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumns,
+  ProFormSelect,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Divider, Image, Input, InputRef, Modal, Space, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 
 const SettingBannerFrom: React.FC<any> = () => {
   const actionRef = useRef<ActionType>();
@@ -13,6 +20,7 @@ const SettingBannerFrom: React.FC<any> = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [banners, setBanners] = useState<any[]>([]);
   const [currentType, setCurrentType] = useState<string>('default');
+  const intl = useIntl();
 
   const [name, setName] = useState('');
   const inputRef = useRef<InputRef>(null);
@@ -24,7 +32,7 @@ const SettingBannerFrom: React.FC<any> = () => {
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
     if (!name) {
-      message.error('请填写分组名称');
+      message.error(intl.formatMessage({ id: 'setting.banner.name.require' }));
       return;
     }
     setBanners([...banners, { type: name, list: [] }]);
@@ -59,7 +67,7 @@ const SettingBannerFrom: React.FC<any> = () => {
 
   const removeBanner = (row: any) => {
     Modal.confirm({
-      title: '确定要删除该Banner吗',
+      title: intl.formatMessage({ id: 'setting.banner.confirm-delete' }),
       onOk: () => {
         deleteSettingBanner(row).then((res) => {
           message.success(res.msg);
@@ -88,7 +96,7 @@ const SettingBannerFrom: React.FC<any> = () => {
 
   const onBannerSubmit = async (values: any) => {
     values = Object.assign(editingBanner, values);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveSettingBanner(values)
       .then((res) => {
         message.success(res.msg);
@@ -106,7 +114,7 @@ const SettingBannerFrom: React.FC<any> = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '图片',
+      title: intl.formatMessage({ id: 'setting.banner.logo' }),
       dataIndex: 'logo',
       width: 800,
       render: (_, record) => (
@@ -116,19 +124,28 @@ const SettingBannerFrom: React.FC<any> = () => {
       ),
     },
     {
-      title: '名称/链接',
+      title: intl.formatMessage({ id: 'setting.banner.name-link' }),
       dataIndex: 'link',
       width: 800,
       render: (_, record) => (
         <div>
-          <div>链接：{record.link}</div>
-          <div>ALT：{record.alt}</div>
-          <div>简介：{record.description}</div>
+          <div>
+            <FormattedMessage id="setting.banner.link" />
+            {record.link}
+          </div>
+          <div>
+            <FormattedMessage id="setting.banner.alt" />
+            {record.alt}
+          </div>
+          <div>
+            <FormattedMessage id="setting.banner.description" />
+            {record.description}
+          </div>
         </div>
       ),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 180,
@@ -140,7 +157,7 @@ const SettingBannerFrom: React.FC<any> = () => {
               editBanner(record);
             }}
           >
-            修改
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -149,7 +166,7 @@ const SettingBannerFrom: React.FC<any> = () => {
               removeBanner(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -157,7 +174,7 @@ const SettingBannerFrom: React.FC<any> = () => {
   ];
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <Card
         title={
           <div>
@@ -181,10 +198,14 @@ const SettingBannerFrom: React.FC<any> = () => {
           item.type == currentType ? (
             <ProTable
               toolBarRender={() => {
-                return [<Button onClick={handleShowAdd}>添加</Button>];
+                return [
+                  <Button onClick={handleShowAdd}>
+                    <FormattedMessage id="setting.action.add" />
+                  </Button>,
+                ];
               }}
               rowKey="name"
-              headerTitle={currentType + '分组 Banner 列表'}
+              headerTitle={currentType + intl.formatMessage({ id: 'setting.banner.group-list' })}
               columnsState={{
                 persistenceKey: 'banner-table',
                 persistenceType: 'localStorage',
@@ -200,8 +221,8 @@ const SettingBannerFrom: React.FC<any> = () => {
         {modalVisible && (
           <ModalForm
             width={600}
-            title="幻灯片"
-            visible={modalVisible}
+            title={intl.formatMessage({ id: 'setting.banner.banner' })}
+            open={modalVisible}
             modalProps={{
               onCancel: () => setModalVisible(false),
             }}
@@ -210,7 +231,7 @@ const SettingBannerFrom: React.FC<any> = () => {
           >
             <ProFormSelect
               name="type"
-              label="幻灯片分组"
+              label={intl.formatMessage({ id: 'setting.banner.group' })}
               options={banners.map((a: any) => ({ label: a.type, value: a.type }))}
               fieldProps={{
                 dropdownRender: (menu) => (
@@ -219,46 +240,54 @@ const SettingBannerFrom: React.FC<any> = () => {
                     <Divider style={{ margin: '8px 0' }} />
                     <Space style={{ padding: '0 8px 4px' }}>
                       <Input
-                        placeholder="请填写分组名"
+                        placeholder={intl.formatMessage({ id: 'setting.banner.group.placeholder' })}
                         ref={inputRef}
                         value={name}
                         onChange={onNameChange}
                         onKeyDown={(e) => e.stopPropagation()}
                       />
                       <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
-                        添加分组
+                        {intl.formatMessage({ id: 'setting.banner.group.add' })}
                       </Button>
                     </Space>
                   </>
                 ),
               }}
             />
-            <ProFormText label="选择图片" extra="幻灯片图片">
-              <AttachmentSelect onSelect={handleSelectLogo} visible={false}>
+            <ProFormText label={intl.formatMessage({ id: 'setting.banner.logo-name' })}>
+              <AttachmentSelect onSelect={handleSelectLogo} open={false}>
                 <div className="ant-upload-item">
                   {editingBanner.logo ? (
                     <>
                       <img src={editingBanner.logo} style={{ width: '100%' }} />
                       <a className="delete" onClick={handleRemoveLogo}>
-                        删除
+                        <FormattedMessage id="setting.system.delete" />
                       </a>
                     </>
                   ) : (
                     <div className="add">
                       <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>上传</div>
+                      <div style={{ marginTop: 8 }}>
+                        <FormattedMessage id="setting.system.upload" />
+                      </div>
                     </div>
                   )}
                 </div>
               </AttachmentSelect>
             </ProFormText>
-            <ProFormText name="link" label="链接地址" />
-            <ProFormText name="alt" label="ALT" />
-            <ProFormText name="description" label="介绍" />
+            <ProFormText
+              name="link"
+              label={intl.formatMessage({ id: 'setting.banner.link-name' })}
+            />
+            <ProFormText name="alt" label={intl.formatMessage({ id: 'setting.banner.alt-name' })} />
+            <ProFormText
+              name="description"
+              label={intl.formatMessage({ id: 'setting.banner.description-name' })}
+            />
           </ModalForm>
         )}
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

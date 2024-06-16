@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
   ModalForm,
   ProFormCheckbox,
@@ -6,25 +5,27 @@ import {
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-form';
+} from '@ant-design/pro-components';
+import React, { useEffect, useState } from 'react';
 
 import { getArchiveInfo, getCategories, getSettingContent, getTags, saveArchive } from '@/services';
-import { message, Row, Col, Modal } from 'antd';
-import { history } from 'umi';
-import moment from 'moment';
+import { history, useIntl } from '@umijs/max';
+import { Col, Modal, Row, message } from 'antd';
+import dayjs from 'dayjs';
 
-export type CategoryFormProps = {
+export type QuickEditFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   archive: any;
 };
 
-const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
+const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
   const [searchedTags, setSearchedTags] = useState<any>({});
   const [contentSetting, setContentSetting] = useState<any>({});
   const [archive, setArchive] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const intl = useIntl();
 
   useEffect(() => {
     getArchive(props.archive.id);
@@ -39,7 +40,7 @@ const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
     });
     const data = res.data || { extra: {}, flag: null };
     data.flag = data.flag?.split(',') || [];
-    data.created_moment = moment(data.created_time * 1000);
+    data.created_moment = dayjs(data.created_time * 1000);
     setArchive(data);
     setFetched(true);
   };
@@ -47,7 +48,7 @@ const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
   const onSubmit = async (values: any) => {
     let postData = Object.assign(archive, values);
     if (postData.title == '') {
-      message.error('请填写标题');
+      message.error(intl.formatMessage({ id: 'content.title.required' }));
       return;
     }
     let categoryIds = [];
@@ -66,7 +67,7 @@ const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
       }
     }
     if (categoryId == 0) {
-      message.error('请选择文档分类');
+      message.error(intl.formatMessage({ id: 'content.category.required' }));
       return;
     }
     postData.category_id = categoryId;
@@ -78,7 +79,7 @@ const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
     postData.content = archive.data?.content || '';
     // 标记为快速保存
     postData.quick_save = true;
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     const res = await saveArchive(postData);
     hide();
     if (res.code != 0) {
@@ -109,11 +110,11 @@ const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
     fetched && (
       <ModalForm
         width={900}
-        title={'快速编辑'}
+        title={intl.formatMessage({ id: 'content.action.quick-edit' })}
         initialValues={archive}
-        visible={props.visible}
+        open={props.open}
         layout="vertical"
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           if (!flag) {
             props.onCancel(flag);
           }
@@ -124,37 +125,43 @@ const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
       >
         <Row gutter={16}>
           <Col span={12}>
-            <ProFormText name="title" label={'文档标题'} />
-            <ProFormText name="keywords" label="文档关键词" />
-            <ProFormTextArea name="description" label="文档简介" />
+            <ProFormText name="title" label={intl.formatMessage({ id: 'content.title.name' })} />
+            <ProFormText
+              name="keywords"
+              label={intl.formatMessage({ id: 'content.keywords.name' })}
+            />
+            <ProFormTextArea
+              name="description"
+              label={intl.formatMessage({ id: 'content.description.name' })}
+            />
             <ProFormCheckbox.Group
               name="flag"
-              label="推荐属性"
+              label={intl.formatMessage({ id: 'content.flag.name' })}
               valueEnum={{
-                h: '头条[h]',
-                c: '推荐[c]',
-                f: '幻灯[f]',
-                a: '特荐[a]',
-                s: '滚动[s]',
-                b: '加粗[b]',
-                p: '图片[p]',
-                j: '跳转[j]',
+                h: intl.formatMessage({ id: 'content.flag.h' }),
+                c: intl.formatMessage({ id: 'content.flag.c' }),
+                f: intl.formatMessage({ id: 'content.flag.f' }),
+                a: intl.formatMessage({ id: 'content.flag.a' }),
+                s: intl.formatMessage({ id: 'content.flag.s' }),
+                b: intl.formatMessage({ id: 'content.flag.b' }),
+                p: intl.formatMessage({ id: 'content.flag.p' }),
+                j: intl.formatMessage({ id: 'content.flag.j' }),
               }}
             />
           </Col>
           <Col span={12}>
             <ProFormSelect
-              label="所属分类"
+              label={intl.formatMessage({ id: 'content.category.name' })}
               showSearch
               name="category_ids"
               width="lg"
-              mode={contentSetting.multi_category == 1 ? 'multiple' : ''}
+              mode={contentSetting.multi_category == 1 ? 'multiple' : 'single'}
               request={async () => {
                 const res = await getCategories({ type: 1 });
                 const categories = res.data || [];
                 if (categories.length == 0) {
                   Modal.error({
-                    title: '请先创建分类，再来发布文档',
+                    title: intl.formatMessage({ id: 'content.category.error' }),
                     onOk: () => {
                       history.push('/archive/category');
                     },
@@ -167,37 +174,38 @@ const QuickEditForm: React.FC<CategoryFormProps> = (props) => {
                   label: 'title',
                   value: 'id',
                 },
-                optionItemRender(item) {
+                optionItemRender(item: any) {
                   return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
                 },
               }}
             />
             <ProFormSelect
-              label="Tag标签"
+              label={intl.formatMessage({ id: 'content.tag.name' })}
               mode="tags"
               name="tags"
               valueEnum={searchedTags}
-              placeholder="可以输入或选择标签，多个标签可用,分隔"
+              placeholder={intl.formatMessage({ id: 'content.tag.placeholder' })}
               fieldProps={{
                 tokenSeparators: [',', '，'],
                 onInputKeyDown: onChangeTagInput,
                 onFocus: onChangeTagInput,
               }}
-              extra="可以输入或选择标签，多个标签可用,分隔"
+              extra={intl.formatMessage({ id: 'content.tag.placeholder' })}
             />
             <ProFormText
-              label="URL别名"
+              label={intl.formatMessage({ id: 'content.url-token.name' })}
               name="url_token"
-              placeholder="默认会自动生成，无需填写"
-              extra="注意：URL别名只能填写字母、数字和下划线，不能带空格"
+              placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+              extra={intl.formatMessage({ id: 'content.url-token.tips' })}
             />
             <ProFormDateTimePicker
               name="created_moment"
-              placeholder="默认会自动生成，无需填写"
-              extra="如果你选择的是未来的时间，则会被放入到待发布列表，等待时间到了才会正式发布"
+              label={intl.formatMessage({ id: 'content.create-time.name' })}
+              placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+              extra={intl.formatMessage({ id: 'content.create-time.description' })}
               transform={(value) => {
                 return {
-                  created_time: value ? moment(value).unix() : 0,
+                  created_time: value ? dayjs(value).unix() : 0,
                 };
               }}
             />

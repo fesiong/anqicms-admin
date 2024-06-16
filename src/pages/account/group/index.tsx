@@ -1,17 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import {
   deleteAdminGroupInfo,
   getAdminGroups,
   getPermissionMenus,
   saveAdminGroupInfo,
 } from '@/services';
-import { Alert, Button, Checkbox, Collapse, message, Modal, Space } from 'antd';
-import { useModel } from 'umi';
-import { ModalForm, ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
+import {
+  ActionType,
+  ModalForm,
+  PageContainer,
+  ProColumns,
+  ProFormRadio,
+  ProFormText,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl, useModel } from '@umijs/max';
+import { Alert, Button, Checkbox, Collapse, Modal, Space, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 
 const { Panel } = Collapse;
 
@@ -22,6 +27,7 @@ const AdminGroupList: React.FC = () => {
   const [editInfo, setEditInfo] = useState<any>({});
   const [permissionGroups, setPermissionGroups] = useState<any[]>([]);
   const [permissions, setPermissions] = useState<any[]>([]);
+  const intl = useIntl();
 
   const { currentUser } = initialState;
 
@@ -72,11 +78,11 @@ const AdminGroupList: React.FC = () => {
 
   const handleRemove = (record: any) => {
     if (currentUser.group_id == record.id || record.id == 1) {
-      message.error('该管理分组不能删除');
+      message.error(intl.formatMessage({ id: 'account.group.cannot-delete' }));
       return;
     }
     Modal.confirm({
-      title: '确定要删除该分组吗？',
+      title: intl.formatMessage({ id: 'account.group.confirm-delete' }),
       onOk: () => {
         deleteAdminGroupInfo({
           id: record.id,
@@ -93,25 +99,25 @@ const AdminGroupList: React.FC = () => {
       dataIndex: 'id',
     },
     {
-      title: '分组名称',
+      title: intl.formatMessage({ id: 'account.group.title' }),
       dataIndex: 'title',
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '停用',
+          text: intl.formatMessage({ id: 'setting.content.notenable' }),
           status: 'Default',
         },
         1: {
-          text: '正常',
+          text: intl.formatMessage({ id: 'setting.content.enable' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -122,7 +128,7 @@ const AdminGroupList: React.FC = () => {
               handleEdit(record);
             }}
           >
-            修改
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -131,7 +137,7 @@ const AdminGroupList: React.FC = () => {
               await handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -141,7 +147,7 @@ const AdminGroupList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="管理员分组列表"
+        headerTitle={intl.formatMessage({ id: 'account.group.list' })}
         rowKey="id"
         actionRef={actionRef}
         search={false}
@@ -161,34 +167,42 @@ const AdminGroupList: React.FC = () => {
               handleEdit({});
             }}
           >
-            <PlusOutlined /> 添加分组
+            <PlusOutlined /> <FormattedMessage id="account.group.add" />
           </Button>,
         ]}
       />
       {editVisible && (
         <ModalForm
           width={1000}
-          title="调整分组"
-          visible={editVisible}
+          title={intl.formatMessage({ id: 'account.group.edit' })}
+          open={editVisible}
           initialValues={editInfo}
           layout="horizontal"
           onFinish={onSubmitEdit}
-          onVisibleChange={(e) => setEditVisible(e)}
+          onOpenChange={(e) => setEditVisible(e)}
         >
           <div className="mb-normal">
-            <Alert message="超级管理员拥有所有权限，并不受权限分配影响" />
+            <Alert message={intl.formatMessage({ id: 'account.group.tips' })} />
           </div>
-          <ProFormText name="title" label="分组名称" width="lg" />
-          <ProFormText name="description" label="备注信息" width="lg" />
+          <ProFormText
+            name="title"
+            label={intl.formatMessage({ id: 'account.group.title' })}
+            width="lg"
+          />
+          <ProFormText
+            name="description"
+            label={intl.formatMessage({ id: 'account.group.remark' })}
+            width="lg"
+          />
           <ProFormRadio.Group
-            label="账号状态"
+            label={intl.formatMessage({ id: 'website.status' })}
             name="status"
             valueEnum={{
-              0: '停用',
-              1: '正常',
+              0: intl.formatMessage({ id: 'setting.content.notenable' }),
+              1: intl.formatMessage({ id: 'setting.content.enable' }),
             }}
           />
-          <ProFormText label="分组权限">
+          <ProFormText label={intl.formatMessage({ id: 'account.group.permission' })}>
             <Collapse defaultActiveKey={'0'}>
               {permissionGroups.map((group: any, index: number) => (
                 <Panel header={group.name} key={index}>

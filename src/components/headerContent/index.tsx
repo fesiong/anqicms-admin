@@ -1,14 +1,18 @@
+import { history, useModel } from '@umijs/max';
 import { Menu } from 'antd';
 import React from 'react';
-import { history, useModel } from 'umi';
-import './index.less';
 import routes from '../../../config/routes';
+import './index.less';
 
 const GlobalHeaderContent: React.FC = (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');
 
   const getSelectKey = () => {
-    const selectPath = history.location.pathname;
+    let selectPath = history.location.pathname;
+    if (selectPath.indexOf('/system') === 0) {
+      // 截取/system 之后的字符
+      selectPath = selectPath.substring(7);
+    }
     for (let i in routes) {
       if (routes[i].path && selectPath.indexOf(routes[i].path) === 0) {
         return i;
@@ -82,7 +86,7 @@ const GlobalHeaderContent: React.FC = (props) => {
 
   return (
     <div className="header-nav">
-      <Menu onClick={onClickMenu} selectedKeys={[selectKey]} theme={'dark'} mode="horizontal">
+      <Menu onClick={onClickMenu} selectedKeys={[selectKey]} mode="horizontal">
         {routes.map((item, index) => {
           if (!item.hideInTop && item.name && !item.unaccessible) {
             return <Menu.Item key={index}>{item.name}</Menu.Item>;

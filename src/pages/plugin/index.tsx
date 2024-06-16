@@ -1,10 +1,11 @@
+import { PageContainer } from '@ant-design/pro-components';
+import { history, useModel } from '@umijs/max';
+import { Card, Col, Row } from 'antd';
 import React, { useState } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Row, Col } from 'antd';
-import './index.less';
 import routes from '../../../config/routes';
-import { history, useModel } from 'umi';
+import './index.less';
 
+import icon_ai from '@/images/icon_ai.png';
 import icon_anchor from '@/images/icon_anchor.png';
 import icon_backup from '@/images/icon_backup.png';
 import icon_collector from '@/images/icon_collector.png';
@@ -15,7 +16,9 @@ import icon_friendlink from '@/images/icon_friendlink.png';
 import icon_fulltext from '@/images/icon_fulltext.png';
 import icon_group from '@/images/icon_group.png';
 import icon_guestbook from '@/images/icon_guestbook.png';
+import icon_htmlcache from '@/images/icon_htmlcache.png';
 import icon_importapi from '@/images/icon_importapi.png';
+import icon_interference from '@/images/icon_interference.png';
 import icon_keyword from '@/images/icon_keyword.png';
 import icon_material from '@/images/icon_material.png';
 import icon_order from '@/images/icon_order.png';
@@ -29,16 +32,13 @@ import icon_robots from '@/images/icon_robots.png';
 import icon_sendmail from '@/images/icon_sendmail.png';
 import icon_sitemap from '@/images/icon_sitemap.png';
 import icon_storage from '@/images/icon_storage.png';
+import icon_timefactor from '@/images/icon_timefactor.png';
+import icon_titleimage from '@/images/icon_titleimage.png';
 import icon_transfer from '@/images/icon_transfer.png';
 import icon_user from '@/images/icon_user.png';
+import icon_watermark from '@/images/icon_watermark.png';
 import icon_weapp from '@/images/icon_weapp.png';
 import icon_wechat from '@/images/icon_wechat.png';
-import icon_titleimage from '@/images/icon_titleimage.png';
-import icon_htmlcache from '@/images/icon_htmlcache.png';
-import icon_ai from '@/images/icon_ai.png';
-import icon_timefactor from '@/images/icon_timefactor.png';
-import icon_interference from '@/images/icon_interference.png';
-import icon_watermark from '@/images/icon_watermark.png';
 
 const PluginIndex: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');

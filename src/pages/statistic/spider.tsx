@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { StatisticCard } from '@ant-design/pro-card';
-import { Line } from '@ant-design/plots';
 import { getStatisticSpider } from '@/services/statistic';
+import { Line } from '@ant-design/plots';
+import { PageContainer, StatisticCard } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import React, { useEffect, useState } from 'react';
 
 const StatisticSpider: React.FC<any> = (props) => {
   const [data, setData] = useState<any[]>([]);
+  const intl = useIntl();
 
   useEffect(() => {
     asyncFetch();
@@ -40,13 +41,13 @@ const StatisticSpider: React.FC<any> = (props) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <PageContainer>
       <StatisticCard
-        title="蜘蛛统计"
-        tip="这里统计的是蜘蛛爬取的次数，具体可以查看详情记录"
+        title={intl.formatMessage({ id: 'statistic.spider' })}
+        tooltip={intl.formatMessage({ id: 'statistic.spider.tips' })}
         chart={<Line {...config} />}
       />
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
 

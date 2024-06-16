@@ -1,17 +1,18 @@
-import React, { useRef } from 'react';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 import { pluginGetCommissions, pluginSetWithdrawApply } from '@/services';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useRef } from 'react';
 
 const PluginFinanceCommission: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const intl = useIntl();
 
   const handleWithdraw = (record: any) => {
     Modal.confirm({
-      title: '确定要手动处理提现吗？',
-      content: '这里仅仅是相当于从用户侧申请提现。',
+      title: intl.formatMessage({ id: 'plugin.finance.withdraw.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.finance.withdraw.confirm.content' }),
       onOk: () => {
         pluginSetWithdrawApply(record).then((res) => {
           message.info(res.msg);
@@ -23,41 +24,41 @@ const PluginFinanceCommission: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '用户',
+      title: intl.formatMessage({ id: 'plugin.comment.user-name' }),
       dataIndex: 'user_name',
     },
     {
-      title: '金额',
+      title: intl.formatMessage({ id: 'plugin.finance.amount' }),
       dataIndex: 'amount',
       render: (dom: any) => {
         return dom / 100;
       },
     },
     {
-      title: '归属订单',
+      title: intl.formatMessage({ id: 'plugin.finance.order-id' }),
       dataIndex: 'order_id',
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'website.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '未提现',
+          text: intl.formatMessage({ id: 'plugin.finance.status.unwithdraw' }),
         },
         1: {
-          text: '已提现',
+          text: intl.formatMessage({ id: 'plugin.finance.status.withdraw' }),
         },
       },
     },
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'plugin.finance.time' }),
       dataIndex: 'created_time',
       render: (_, entity) => {
-        return moment(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
+        return dayjs(entity.created_time * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -69,7 +70,7 @@ const PluginFinanceCommission: React.FC = () => {
                 handleWithdraw(record);
               }}
             >
-              手动提现
+              <FormattedMessage id="plugin.finance.withdraw" />
             </a>
           )}
         </Space>
@@ -79,7 +80,7 @@ const PluginFinanceCommission: React.FC = () => {
 
   return (
     <ProTable<any>
-      headerTitle="佣金管理"
+      headerTitle={intl.formatMessage({ id: 'plugin.finance.commission' })}
       actionRef={actionRef}
       rowKey="id"
       search={false}

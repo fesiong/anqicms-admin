@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import { pluginGetSendmailSetting, pluginSaveSendmailSetting } from '@/services/plugin/sendmail';
 import {
   ModalForm,
   ProFormCheckbox,
   ProFormRadio,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-form';
-
-import { pluginGetSendmailSetting, pluginSaveSendmailSetting } from '@/services/plugin/sendmail';
+} from '@ant-design/pro-components';
 import { message } from 'antd';
+import React, { useState } from 'react';
 
 export type SendmailSettingProps = {
   onCancel: (flag?: boolean) => void;
+  children?: React.ReactNode;
 };
 
 const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
@@ -49,9 +49,9 @@ const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
           setAutoReply(res.data?.auto_reply || false);
           return res.data;
         }}
-        visible={visible}
+        open={visible}
         layout="horizontal"
-        onVisibleChange={(flag) => {
+        onOpenChange={(flag) => {
           setVisible(flag);
           if (!flag) {
             props.onCancel(flag);

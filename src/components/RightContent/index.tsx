@@ -1,18 +1,18 @@
-import { Button, message, Modal, Space } from 'antd';
+import { anqiLogin, anqiRestart, checkAnqiInfo, getSiteInfo } from '@/services';
 import {
   GlobalOutlined,
   LockOutlined,
   QuestionCircleOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import { LoginForm, ProFormText } from '@ant-design/pro-components';
+import { SelectLang as UmiSelectLang, useModel } from '@umijs/max';
+import { Button, Modal, Space, message } from 'antd';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import { useModel } from 'umi';
+import HeaderSearch from '../HeaderSearch';
 import Avatar from './AvatarDropdown';
 import './index.less';
-import { LoginForm, ProFormText } from '@ant-design/pro-form';
-import { anqiLogin, anqiRestart, checkAnqiInfo, getSiteInfo } from '@/services';
-import moment from 'moment';
-import HeaderSearch from '../HeaderSearch';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -43,7 +43,7 @@ const GlobalHeaderRight: React.FC = () => {
   let className = 'right';
   const anqiUser = initialState.anqiUser;
 
-  if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
+  if ((navTheme === 'realDark' && layout === 'top') || layout === 'mix') {
     className = `right  dark`;
   }
 
@@ -110,26 +110,20 @@ const GlobalHeaderRight: React.FC = () => {
       <Space className={className}>
         <HeaderSearch placeholder="搜索功能" />
         {anqiUser?.auth_id > 0 ? (
-          <a className="site-info-item" onClick={showDetail} style={{ color: 'white' }}>
+          <span className="site-info-item action" onClick={showDetail}>
             {anqiUser.user_name}
-          </a>
+          </span>
         ) : (
           <a
-            className="site-info-item"
+            className="site-info-item action"
             onClick={() => {
               setVisible(true);
             }}
-            style={{ color: 'white' }}
           >
             绑定安企账号
           </a>
         )}
-        <a
-          href={siteInfo.base_url}
-          target={'_blank'}
-          className="site-info-item action"
-          style={{ color: 'white' }}
-        >
+        <a href={siteInfo.base_url} target={'_blank'} className="site-info-item action">
           <GlobalOutlined style={{ marginRight: 5 }} />
           {siteInfo.name || siteInfo.base_url}
         </a>
@@ -142,6 +136,7 @@ const GlobalHeaderRight: React.FC = () => {
         >
           <QuestionCircleOutlined />
         </span>
+        <UmiSelectLang />
         <Avatar menu />
         <div className="restart" onClick={confirmRestart}>
           重启
@@ -149,7 +144,7 @@ const GlobalHeaderRight: React.FC = () => {
       </Space>
 
       <Modal
-        visible={visible}
+        open={visible}
         onCancel={() => {
           setVisible(false);
         }}
@@ -211,7 +206,7 @@ const GlobalHeaderRight: React.FC = () => {
         </LoginForm>
       </Modal>
       <Modal
-        visible={detailVisible}
+        open={detailVisible}
         onCancel={() => {
           setDetailVisible(false);
         }}
@@ -234,7 +229,7 @@ const GlobalHeaderRight: React.FC = () => {
               </div>
               <div className="item">
                 <label>VIP有效期：</label>
-                <div>{moment(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}</div>
+                <div>{dayjs(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}</div>
               </div>
               <div className="item">
                 <label>AI写作剩余额度：</label>
@@ -334,7 +329,7 @@ const GlobalHeaderRight: React.FC = () => {
         </div>
       </Modal>
       <Modal
-        visible={orderVisible}
+        open={orderVisible}
         onCancel={() => {
           setOrderVisible(false);
         }}

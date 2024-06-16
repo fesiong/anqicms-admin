@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
-import moment from 'moment';
-import { Divider } from 'antd';
 import { pluginGetOrderInfo } from '@/services';
+import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { Divider } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
 
 export type OrderFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   order: any;
 };
 
@@ -60,9 +60,9 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
     <ModalForm
       width={900}
       title={'订单信息'}
-      visible={props.visible}
+      open={props.open}
       layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -86,14 +86,14 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
         name="created_time"
         label="下单时间"
         readonly
-        initialValue={moment(order.created_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
+        initialValue={dayjs(order.created_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
       />
       <ProFormText
         name="created_time"
         label="支付时间"
         readonly
         initialValue={
-          order.paid_time > 0 ? moment(order.paid_time * 1000).format('YYYY-MM-DD HH:mm:ss') : '-'
+          order.paid_time > 0 ? dayjs(order.paid_time * 1000).format('YYYY-MM-DD HH:mm:ss') : '-'
         }
       />
       <ProFormText
@@ -102,7 +102,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
         readonly
         initialValue={
           order.deliver_time > 0
-            ? moment(order.deliver_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+            ? dayjs(order.deliver_time * 1000).format('YYYY-MM-DD HH:mm:ss')
             : '-'
         }
       />
@@ -112,7 +112,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
         readonly
         initialValue={
           order.finished_time > 0
-            ? moment(order.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+            ? dayjs(order.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
             : '-'
         }
       />

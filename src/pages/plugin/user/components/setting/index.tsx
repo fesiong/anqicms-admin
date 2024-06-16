@@ -1,12 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, message, Modal, Space } from 'antd';
-import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
-import { ModalForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import {
+  pluginDeleteUserField,
   pluginGetUserFieldsSetting,
   pluginSaveUserFieldsSetting,
-  pluginDeleteUserField,
 } from '@/services';
+import {
+  ActionType,
+  ModalForm,
+  ProColumns,
+  ProFormRadio,
+  ProFormText,
+  ProFormTextArea,
+  ProTable,
+} from '@ant-design/pro-components';
+import { Button, Modal, Space, message } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type UserFieldSettingProps = {
   children: React.ReactNode;
@@ -141,7 +148,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
       <Modal
         width={800}
         title="用户附加字段设置"
-        visible={visible}
+        open={visible}
         onCancel={() => {
           setVisible(false);
         }}
@@ -186,7 +193,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
         <ModalForm
           width={600}
           title={currentField.name ? currentField.name + '修改字段' : '添加字段'}
-          visible={editVisible}
+          open={editVisible}
           modalProps={{
             onCancel: () => {
               setEditVisible(false);

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { ModalForm, ProFormSelect } from '@ant-design/pro-form';
-import { pluginGetMaterialCategories, pluginSaveMaterial } from '@/services/plugin/material';
 import WangEditor from '@/components/editor';
+import { pluginGetMaterialCategories, pluginSaveMaterial } from '@/services/plugin/material';
+import { ModalForm, ProFormSelect } from '@ant-design/pro-components';
+import React, { useState } from 'react';
 
 export type MaterialFormProps = {
   onCancel: (flag?: boolean) => void;
   onSubmit: (flag?: boolean) => Promise<void>;
-  visible: boolean;
+  open: boolean;
   editingMaterial: any;
 };
 
@@ -26,9 +26,9 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
       width={800}
       title={'编辑内容素材'}
       initialValues={props.editingMaterial}
-      visible={props.visible}
+      open={props.open}
       //layout="horizontal"
-      onVisibleChange={(flag) => {
+      onOpenChange={(flag) => {
         if (!flag) {
           props.onCancel(flag);
         }
@@ -50,7 +50,7 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
             label: 'title',
             value: 'id',
           },
-          optionItemRender(item) {
+          optionItemRender(item: any) {
             return item.title;
           },
         }}
@@ -60,6 +60,8 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
         setContent={async (html: string) => {
           setContent(html);
         }}
+        key="content"
+        field="content"
         content={props.editingMaterial.content}
       />
     </ModalForm>
