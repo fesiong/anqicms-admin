@@ -12,6 +12,7 @@ import { getCollectorSetting, saveCollectorSetting } from '@/services/collector'
 import { getCategories } from '@/services/category';
 import AttachmentSelect from '@/components/attachment';
 import { PlusOutlined } from '@ant-design/icons';
+import { getAttachmentCategories } from '@/services';
 
 export type CollectorSettingProps = {
   onCancel: (flag?: boolean) => void;
@@ -229,11 +230,12 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             />
             <ProFormSelect
               label="默认发布文章分类"
-              name="category_id"
+              name="category_ids"
+              mode="multiple"
               required
               extra={
                 <div>
-                  如果关键词没设置分类，则采集到的文章默认会被归类到这个分类下,
+                  如果关键词没设置分类，则采集到的文章默认会被随机归类到其中一个分类下,
                   <span className="text-red">必须设置一个分类否则无法正常采集</span>
                 </div>
               }
@@ -347,6 +349,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 { label: '移除图片', value: 0 },
                 { label: '保留原图片', value: 1 },
                 { label: '自定义插入图片', value: 2 },
+                { label: '插入指定分类图片', value: 3 },
               ]}
               fieldProps={{
                 onChange: (e) => {
@@ -398,6 +401,33 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   </Row>
                 </div>
               </ProFormText>
+            )}
+            {insertImage == 3 && (
+              <ProFormSelect
+                label="默认发布文章分类"
+                name="image_category_id"
+                required
+                extra={
+                  <div>
+                    会自动从指定的图片资源分类中选择图片。如果选择尝试关键词匹配图片名称，则会尝试将文章关键词和图片名称进行匹配，如果匹配成功则使用图片。
+                  </div>
+                }
+                request={async () => {
+                  const res = await getAttachmentCategories();
+                  const data = (res.data || []).concat(
+                    { id: 0, title: '未分类图片' },
+                    { id: -1, title: '全部图片' },
+                    { id: -2, title: '尝试关键词匹配图片名称' },
+                  );
+                  return data;
+                }}
+                fieldProps={{
+                  fieldNames: {
+                    label: 'title',
+                    value: 'id',
+                  },
+                }}
+              />
             )}
             <ProFormText
               label="标题排除词"

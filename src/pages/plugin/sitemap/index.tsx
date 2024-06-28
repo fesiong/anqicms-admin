@@ -3,7 +3,6 @@ import ProForm, {
   ProFormRadio,
   ProFormText,
   ProFormInstance,
-  ProFormCheckbox,
   ProFormSelect,
 } from '@ant-design/pro-form';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
@@ -17,16 +16,16 @@ const PluginSitemap: React.FC<any> = (props) => {
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     const res = await pluginGetSitemap();
     let setting = res.data || {};
     setSitemapSetting(setting);
     setFetched(true);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const onSubmit = async (values: any) => {
     const hide = message.loading('正在提交中', 0);

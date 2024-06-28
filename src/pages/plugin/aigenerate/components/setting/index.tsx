@@ -9,7 +9,12 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import './index.less';
 import { Input, message, Space, Tag, Image, Row, Col } from 'antd';
-import { getAiGenerateSetting, saveAiGenerateSetting, checkOpenAIApi } from '@/services';
+import {
+  getAiGenerateSetting,
+  saveAiGenerateSetting,
+  checkOpenAIApi,
+  getAttachmentCategories,
+} from '@/services';
 import { getCategories } from '@/services/category';
 import AttachmentSelect from '@/components/attachment';
 import { PlusOutlined } from '@ant-design/icons';
@@ -246,7 +251,19 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 { label: '否', value: false },
                 { label: '是', value: true },
               ]}
-              extra="仅中文支持，标题生成格式：主标题(副标题)"
+              extra="仅中文支持"
+            />
+            <ProFormRadio.Group
+              name="double_split"
+              label="双标题方式"
+              options={[
+                { label: '主标题(副标题)', value: 0 },
+                { label: '主标题-副标题', value: 1 },
+                { label: '主标题？副标题', value: 2 },
+                { label: '主标题，副标题', value: 3 },
+                { label: '主标题：副标题', value: 4 },
+                { label: '随机', value: 5 },
+              ]}
             />
             <ProFormTextArea
               name="demand"
@@ -351,9 +368,15 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             )}
             <ProFormSelect
               label="默认发布文章分类"
-              name="category_id"
+              name="category_ids"
+              mode="multiple"
               required
-              extra="如果关键词没设置分类，则采集到的文章默认会被归类到这个分类下,必须设置一个分类否则无法正常采集"
+              extra={
+                <div>
+                  如果关键词没设置分类，则采集到的文章默认会被随机归类到其中一个分类下,
+                  <span className="text-red">必须设置一个分类否则无法正常采集</span>
+                </div>
+              }
               request={async () => {
                 const res = await getCategories({ type: 1 });
                 return res.data || [];
@@ -402,6 +425,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               options={[
                 { label: '默认', value: 0 },
                 { label: '自定义插入图片', value: 2 },
+                { label: '插入指定分类图片', value: 3 },
               ]}
               fieldProps={{
                 onChange: (e) => {
@@ -453,6 +477,33 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   </Row>
                 </div>
               </ProFormText>
+            )}
+            {insertImage == 3 && (
+              <ProFormSelect
+                label="默认发布文章分类"
+                name="image_category_id"
+                required
+                extra={
+                  <div>
+                    会自动从指定的图片资源分类中选择图片。如果选择尝试关键词匹配图片名称，则会尝试将文章关键词和图片名称进行匹配，如果匹配成功则使用图片。
+                  </div>
+                }
+                request={async () => {
+                  const res = await getAttachmentCategories();
+                  const data = (res.data || []).concat(
+                    { id: 0, title: '未分类图片' },
+                    { id: -1, title: '全部图片' },
+                    { id: -2, title: '尝试关键词匹配图片名称' },
+                  );
+                  return data;
+                }}
+                fieldProps={{
+                  fieldNames: {
+                    label: 'title',
+                    value: 'id',
+                  },
+                }}
+              />
             )}
             <ProFormText
               label="内容替换"
