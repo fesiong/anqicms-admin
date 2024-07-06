@@ -480,7 +480,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             )}
             {insertImage == 3 && (
               <ProFormSelect
-                label="默认发布文章分类"
+                label="图片分类"
                 name="image_category_id"
                 required
                 extra={
