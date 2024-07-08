@@ -7,7 +7,14 @@ export default {
   'plugin.aigenerate.isopen.yes': '自动按计划写作',
   'plugin.aigenerate.language': '写作文章语种',
   'plugin.aigenerate.double-title': '生成双标题',
-  'plugin.aigenerate.double-title.description': '仅中文支持，标题生成格式：主标题(副标题)',
+  'plugin.aigenerate.double-title.description': '仅中文支持',
+  'plugin.aigenerate.double-split': '双标题方式',
+  'plugin.aigenerate.double-split.bracket': '主标题(副标题)',
+  'plugin.aigenerate.double-split.line': '主标题-副标题',
+  'plugin.aigenerate.double-split.question': '主标题？副标题',
+  'plugin.aigenerate.double-split.comma': '主标题，副标题',
+  'plugin.aigenerate.double-split.colon': '主标题：副标题',
+  'plugin.aigenerate.double-split.random': '随机',
   'plugin.aigenerate.demand': '写作统一要求',
   'plugin.aigenerate.demand.description':
     '可以定义所有AI写作文章的统一要求，不超过200字符。 默认留空即可',
@@ -26,7 +33,7 @@ export default {
   'plugin.aigenerate.spark.version': '星火大模型版本',
   'plugin.aigenerate.default-category': '默认发布文章分类',
   'plugin.aigenerate.default-category.description':
-    '如果关键词没设置分类，则采集到的文章默认会被归类到这个分类下,必须设置一个分类否则无法正常保存文章',
+    '如果关键词没设置分类，则采集到的文章默认会被随机归类到其中一个分类下,必须设置一个分类否则无法正常采集',
   'plugin.aigenerate.save-type': '文章处理方式',
   'plugin.aigenerate.save-type.draft': '存入草稿箱',
   'plugin.aigenerate.save-type.release': '正常发布',
@@ -41,6 +48,7 @@ export default {
   'plugin.aigenerate.insert-image': '文章图片处理',
   'plugin.aigenerate.insert-image.default': '默认',
   'plugin.aigenerate.insert-image.diy': '自定义插入图片',
+  'plugin.aigenerate.insert-image.category': '自定义插入图片',
   'plugin.aigenerate.insert-image.list': '供插入的图片列表',
   'plugin.aigenerate.replace': '内容替换',
   'plugin.aigenerate.replace.tips1': '编辑需要替换的关键词对，会在发布文档的时候自动执行替换。',
@@ -63,6 +71,12 @@ export default {
   'plugin.aigenerate.start': '手动开始AI写作',
   'plugin.aigenerate.start.confirm': '确定要开始AI写作吗？',
   'plugin.aigenerate.start.description': '这将马上开始执行一次AI写作任务操作',
+  'plugin.aigenerate.image.category': '图片分类',
+  'plugin.aigenerate.image.category.description':
+    '会自动从指定的图片资源分类中选择图片。如果选择尝试关键词匹配图片名称，则会尝试将文章关键词和图片名称进行匹配，如果匹配成功则使用图片。',
+  'plugin.aigenerate.image.category.default': '未分类图片',
+  'plugin.aigenerate.image.category.all': '全部图片',
+  'plugin.aigenerate.image.category.match': '尝试关键词匹配图片名称',
   'plugin.aigenerate.type': '类型',
   'plugin.aigenerate.type.undefine': '未定义',
   'plugin.aigenerate.type.generate': 'AI生成',
@@ -249,7 +263,8 @@ export default {
   'plugin.finance.withdraw.finish': '完成提现',
   'plugin.finance.withdraw.name': '提现管理',
   'plugin.finance.withdraw.apply': '提现申请',
-  'plugin.fulltext.tips': '开启全文搜索后，可以搜索文档内容。但是全文搜索会占用大量的服务器内存，如果你的服务器内存较小，不建议开启全文搜索。',
+  'plugin.fulltext.tips':
+    '开启全文搜索后，可以搜索文档内容。但是全文搜索会占用大量的服务器内存，如果你的服务器内存较小，不建议开启全文搜索。',
   'plugin.fulltext.open.name': '是否开启全文搜索',
   'plugin.fulltext.open.false': '关闭',
   'plugin.fulltext.open.true': '开启',
@@ -263,19 +278,25 @@ export default {
   'plugin.group.description': '介绍',
   'plugin.group.level': '分组等级',
   'plugin.group.level.suffix': '级',
-  'plugin.group.level.description': '比如普通会员为0级，中级会员为1级，高级会员为2级，核心会员为3级等，填数字',
+  'plugin.group.level.description':
+    '比如普通会员为0级，中级会员为1级，高级会员为2级，核心会员为3级等，填数字',
   'plugin.group.price': '用户组价格',
   'plugin.group.price.suffix': '分',
-  'plugin.group.price.description': '购买该用户组VIP需要支付的价钱，注意，单位是分，比如1元，这里就要填100',
+  'plugin.group.price.description':
+    '购买该用户组VIP需要支付的价钱，注意，单位是分，比如1元，这里就要填100',
   'plugin.group.expire_day': '用户组有效期',
   'plugin.group.expire_day.suffix': '天',
-  'plugin.group.expire_day.description': '购买VIP后，多少天内有效，1年请填365，过期后，会返回到第一个用户组',
+  'plugin.group.expire_day.description':
+    '购买VIP后，多少天内有效，1年请填365，过期后，会返回到第一个用户组',
   'plugin.group.share_reward': '用户组有效期',
-  'plugin.group.share_reward.description': '建议设置5%-20，不能设置小数点。佣金比例优先级: 商品设置的佣金比例>用户组佣金比例>默认佣金比例',
+  'plugin.group.share_reward.description':
+    '建议设置5%-20，不能设置小数点。佣金比例优先级: 商品设置的佣金比例>用户组佣金比例>默认佣金比例',
   'plugin.group.parent_reward': '邀请奖励比例',
-  'plugin.group.parent_reward.description': '建议设置1%-5%，不能设置小数点。上级佣金比例。分销员a邀请b成为分销员，b就为a的下家，当b成功推广一笔订单时，b可以获得分销佣金，a只获得邀请奖励',
+  'plugin.group.parent_reward.description':
+    '建议设置1%-5%，不能设置小数点。上级佣金比例。分销员a邀请b成为分销员，b就为a的下家，当b成功推广一笔订单时，b可以获得分销佣金，a只获得邀请奖励',
   'plugin.group.discount': '用户折扣',
-  'plugin.group.discount.description': '建议设置90%-100%，用户通过分销员分享的链接来到页面后，下单可以享受的折扣价',
+  'plugin.group.discount.description':
+    '建议设置90%-100%，用户通过分销员分享的链接来到页面后，下单可以享受的折扣价',
   'plugin.group.permission': '分销权限设置',
   'plugin.group.delete.confirm': '确定要删除该条数据吗？',
   'plugin.guestbook.reply.required': '请先进行邮件提醒设置，在功能里搜“邮件提醒”',
@@ -311,13 +332,17 @@ export default {
   'plugin.htmlcache.generate.category.confirm': '确定要生成栏目的静态缓存吗？',
   'plugin.htmlcache.generate.archive.confirm': '确定要生成文档的静态缓存吗？',
   'plugin.htmlcache.generate.tag.confirm': '确定要生成标签的静态缓存吗？',
-  'plugin.htmlcache.clean.confirm': '确定要清理全站的静态缓存吗？如果缓存文件很多，可能需要花费较长时间。',
-  'plugin.htmlcache.clean.confirm.content': '该操作进清理服务器本地缓存文件，无法清理静态服务器文件',
+  'plugin.htmlcache.clean.confirm':
+    '确定要清理全站的静态缓存吗？如果缓存文件很多，可能需要花费较长时间。',
+  'plugin.htmlcache.clean.confirm.content':
+    '该操作进清理服务器本地缓存文件，无法清理静态服务器文件',
   'plugin.htmlcache.clean.success': '清理成功',
   'plugin.htmlcache.push.all.confirm': '确定要全量推送静态文件到静态服务器吗？',
-  'plugin.htmlcache.push.all.confirm.content': '仅当配置了静态服务器后可用，全量推送需要耗时较长时间，如未进行全局改动可以使用增量推送。',
+  'plugin.htmlcache.push.all.confirm.content':
+    '仅当配置了静态服务器后可用，全量推送需要耗时较长时间，如未进行全局改动可以使用增量推送。',
   'plugin.htmlcache.push.addon.confirm': '确定要增量推送静态文件到静态服务器吗？',
-  'plugin.htmlcache.push.addon.confirm.content': '仅当配置了静态服务器后可用，增量推送仅会推送更新的的静态缓存文件。',
+  'plugin.htmlcache.push.addon.confirm.content':
+    '仅当配置了静态服务器后可用，增量推送仅会推送更新的的静态缓存文件。',
   'plugin.htmlcache.isopen': '是否开启静态页面缓存',
   'plugin.htmlcache.index-time': '首页缓存时间',
   'plugin.htmlcache.index-time.suffix': '秒',
@@ -338,7 +363,8 @@ export default {
   'plugin.htmlcache.aliyun.endpoint.placeholder': '例如：http://oss-cn-hangzhou.aliyuncs.com',
   'plugin.htmlcache.aliyun.bucket-name': '阿里云存储桶名称',
   'plugin.htmlcache.tencent.bucket-url': '腾讯云存储桶地址',
-  'plugin.htmlcache.tencent.bucket-url.placeholder': '例如：https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
+  'plugin.htmlcache.tencent.bucket-url.placeholder':
+    '例如：https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
   'plugin.htmlcache.qiniu.bucket-name': '七牛云存储桶名称',
   'plugin.htmlcache.qiniu.bucket-name.placeholder': '例如：anqicms',
   'plugin.htmlcache.qiniu.region': '七牛云存储区域',
@@ -392,10 +418,14 @@ export default {
   'plugin.htmlcache.build.error-count': '错误数量：',
   'plugin.htmlcache.build.error-msg': '错误信息：',
   'plugin.htmlcache.push.process': '推送进度',
-  'plugin.htmlcache.description.1': '开启静态页面缓存后，会将首页、列表页、详情页缓存起来，加快网站的打开速度，但会需要更多的服务器空间来存储缓存文件。',
-  'plugin.htmlcache.description.2': '如果需要启用静态网站，则需要模板类型为自适应模板才行。开启静态网站需要填写静态网站服务器信息，通信成功后系统会自动传输静态页面到静态网站服务器。',
-  'plugin.htmlcache.description.3': '启用静态网站前，<span className="text-red">需要先开启静态页面缓存</span>。启用静态网站后，搜索、留言、评论、301跳转等需要提交数据到后台的功能，均会失效，网站仅有展示效果。',
-  'plugin.htmlcache.description.4': '启用静态网站后，以下的操作不会自动重新生成，需要手动执行静态页面生成操作：<span className="text-red">调整了模板（修改模板、启用模板）</span>、<span className="text-red">修改后台设置（全局设置、内容设置、联系方式、导航等）</span>、<span className="text-red">修改了伪静态规则</span>、<span className="text-red">其它影响全局的改动</span>',
+  'plugin.htmlcache.description.1':
+    '开启静态页面缓存后，会将首页、列表页、详情页缓存起来，加快网站的打开速度，但会需要更多的服务器空间来存储缓存文件。',
+  'plugin.htmlcache.description.2':
+    '如果需要启用静态网站，则需要模板类型为自适应模板才行。开启静态网站需要填写静态网站服务器信息，通信成功后系统会自动传输静态页面到静态网站服务器。',
+  'plugin.htmlcache.description.3':
+    '启用静态网站前，<span className="text-red">需要先开启静态页面缓存</span>。启用静态网站后，搜索、留言、评论、301跳转等需要提交数据到后台的功能，均会失效，网站仅有展示效果。',
+  'plugin.htmlcache.description.4':
+    '启用静态网站后，以下的操作不会自动重新生成，需要手动执行静态页面生成操作：<span className="text-red">调整了模板（修改模板、启用模板）</span>、<span className="text-red">修改后台设置（全局设置、内容设置、联系方式、导航等）</span>、<span className="text-red">修改了伪静态规则</span>、<span className="text-red">其它影响全局的改动</span>',
   'plugin.importapi.token.required': '请填写Token，128字符以内',
   'plugin.importapi.token.confirm': '确定要更新Token吗？',
   'plugin.importapi.token.confirm.content': '更新后，原Token失效，请使用新api地址操作。',
@@ -418,27 +448,34 @@ export default {
   'plugin.importapi.field.description': '文档简介',
   'plugin.importapi.field.url-token': '自定义URL别名，仅支持数字、英文字母',
   'plugin.importapi.field.images': '文章组图，可以设置最多9张图片。',
-  'plugin.importapi.field.logo': '文档的缩略图，可以是绝对地址，如: https://www.anqicms.com/logo.png 或相对地址，如: /logo.png',
-  'plugin.importapi.field.publish-time': '格式：2006-01-02 15:04:05  文档的发布时间，可以是未来的时间，如果是未来的时间，则文档会在等到时间到了才正式发布。',
+  'plugin.importapi.field.logo':
+    '文档的缩略图，可以是绝对地址，如: https://www.anqicms.com/logo.png 或相对地址，如: /logo.png',
+  'plugin.importapi.field.publish-time':
+    '格式：2006-01-02 15:04:05  文档的发布时间，可以是未来的时间，如果是未来的时间，则文档会在等到时间到了才正式发布。',
   'plugin.importapi.field.tag': '文档Tag标签，多个tag用英文逗号分隔,例如：aaa,bbb,ccc',
   'plugin.importapi.field.diy': '其他自定义字段',
-  'plugin.importapi.field.diy.remark': '如果你还传了其他自定义字段，并且文档表中存在该字段，则也支持。',
-  'plugin.importapi.field.draft': '是否存入到草稿，支持的值有：false|true，填写true时，则发布的文档会保存到草稿',
-  'plugin.importapi.field.cover': '当相同标题、ID文档存在时是否覆盖，支持的值有：false|true，填写true时，则会覆盖成最新的内容，设置为false时，则会提示错误',
+  'plugin.importapi.field.diy.remark':
+    '如果你还传了其他自定义字段，并且文档表中存在该字段，则也支持。',
+  'plugin.importapi.field.draft':
+    '是否存入到草稿，支持的值有：false|true，填写true时，则发布的文档会保存到草稿',
+  'plugin.importapi.field.cover':
+    '当相同标题、ID文档存在时是否覆盖，支持的值有：false|true，填写true时，则会覆盖成最新的内容，设置为false时，则会提示错误',
   'plugin.importapi.return-type': '返回格式：',
   'plugin.importapi.return-example.success': '正确结果示例：',
   'plugin.importapi.return-example.failure': '错误结果示例：',
   'plugin.importapi.category-api': '获取分类接口',
   'plugin.importapi.category-api.fields': 'POST表单 / Query Params 字段：',
   'plugin.importapi.category-api.fields.empty': '无',
-  'plugin.importapi.category-api.module-id': '要获取的分类的模型ID，填数字，支持的值：0=全部，1,2...对应模型ID',
+  'plugin.importapi.category-api.module-id':
+    '要获取的分类的模型ID，填数字，支持的值：0=全部，1,2...对应模型ID',
   'plugin.importapi.train-mopdule': '火车头发布模块',
   'plugin.importapi.train-mopdule.url': '网站地址：',
   'plugin.importapi.train-mopdule.token': '全局变量：',
   'plugin.importapi.train-mopdule.download': '模块下载：',
   'plugin.importapi.train-mopdule.download.text': '点击下载',
   'plugin.importapi.train-mopdule.support-version': '支持版本：',
-  'plugin.importapi.train-mopdule.support-version.text': '支持火车头采集器9.0以上版本导入发布模块使用',
+  'plugin.importapi.train-mopdule.support-version.text':
+    '支持火车头采集器9.0以上版本导入发布模块使用',
   'plugin.importapi.train-mopdule.example': '配置示例：',
   'plugin.importapi.token.reset': '重置Token',
   'plugin.importapi.token.new': '新的Token',
@@ -476,9 +513,11 @@ export default {
   'plugin.keyword.dig-setting.max-count.placeholder': '默认100000',
   'plugin.keyword.dig-setting.language': '关键词语种',
   'plugin.keyword.dig-setting.title-exclude': '关键词排除词',
-  'plugin.keyword.dig-setting.title-exclude.description': '拓词的时候，关键词中出现这些关键词，则不会采集',
+  'plugin.keyword.dig-setting.title-exclude.description':
+    '拓词的时候，关键词中出现这些关键词，则不会采集',
   'plugin.keyword.dig-setting.replace': '关键词替换',
-  'plugin.keyword.dig-setting.replace.tips1': '编辑需要替换的关键词对，会在拓词的时候自动执行替换。',
+  'plugin.keyword.dig-setting.replace.tips1':
+    '编辑需要替换的关键词对，会在拓词的时候自动执行替换。',
   'plugin.keyword.delete.confirm': '确定要删除选中的关键词吗？',
   'plugin.keyword.export.confirm': '确定要导出全部关键词吗？',
   'plugin.keyword.collect.confirm': '确定要对这个关键词执行采集操作吗？',
@@ -558,7 +597,8 @@ export default {
   'plugin.material.import.merge-to-next': '向下合并',
   'plugin.material.import.paste.title': '请在这里粘贴文章内容',
   'plugin.material.import.paste.analysis': '解析内容',
-  'plugin.material.import.paste.description': '内容素材默认会过滤所有html标签，只保留文字。如果你需要保留html标签，请勾选',
+  'plugin.material.import.paste.description':
+    '内容素材默认会过滤所有html标签，只保留文字。如果你需要保留html标签，请勾选',
   'plugin.material.import.paste.description.btn': '保留html标签',
   'plugin.material.edit': '编辑内容素材',
   'plugin.material.add': '添加素材',
@@ -609,7 +649,8 @@ export default {
   'plugin.order.setting.progress': '订单处理方式',
   'plugin.order.setting.progress.yes': '正常交易流程',
   'plugin.order.setting.progress.no': '交易直接完成',
-  'plugin.order.setting.progress.description': '正常交易需要用户确认收货或到期完成订单，交易直接完成是用户支付后，订单即完成交易',
+  'plugin.order.setting.progress.description':
+    '正常交易需要用户确认收货或到期完成订单，交易直接完成是用户支付后，订单即完成交易',
   'plugin.order.setting.auto-finish': '订单自动完成',
   'plugin.order.setting.auto-finish.placeholder': '默认10天',
   'plugin.order.setting.auto-finish.suffix': '天',
@@ -673,20 +714,25 @@ export default {
   'plugin.push.result': '推送结果',
   'plugin.push.name': '名称',
   'plugin.push.code': '代码',
-  'plugin.push.tips': '搜索引擎推送功能支持百度搜索、必应搜索的主动推送，其他搜索引擎虽然没有主动推送功能，但部分搜索引擎依然可以使用JS推送。',
+  'plugin.push.tips':
+    '搜索引擎推送功能支持百度搜索、必应搜索的主动推送，其他搜索引擎虽然没有主动推送功能，但部分搜索引擎依然可以使用JS推送。',
   'plugin.push.view-log': '查看最近推送记录',
   'plugin.push.baidu': '百度搜索主动推送',
   'plugin.push.bing': '必应搜索主动推送',
   'plugin.push.api-link': '推送接口地址',
-  'plugin.push.baidu.api-link.description': '如：http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DTHpH8Xn99BrJLBY',
-  'plugin.push.bing.api-link.description': '如：http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DT如：https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=sampleapikeyEDECC1EA4AE341CC8B6（注意该APIkey在必应工具右上角的设置中设置）',
+  'plugin.push.baidu.api-link.description':
+    '如：http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DTHpH8Xn99BrJLBY',
+  'plugin.push.bing.api-link.description':
+    '如：http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DT如：https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=sampleapikeyEDECC1EA4AE341CC8B6（注意该APIkey在必应工具右上角的设置中设置）',
   'plugin.push.google': '谷歌账号密钥JSON',
   'plugin.push.google.json': 'JSON内容',
-  'plugin.push.google.description': '国内无法使用。JSON获取请参考文档：https://www.anqicms.com/google-indexing-help.html',
+  'plugin.push.google.description':
+    '国内无法使用。JSON获取请参考文档：https://www.anqicms.com/google-indexing-help.html',
   'plugin.push.other-js': '360/头条等JS自动提交',
   'plugin.push.other-js.add': '添加JS代码',
   'plugin.push.other-js.tips1': '可以放置百度JS自动提交、360自动收录、头条自动收录等JS代码。',
-  'plugin.push.other-js.tips2': '这些代码需要在模板中手动调用，请在公共的模板结尾添加 `{{- pluginJsCode|safe }}` 代码来调用。',
+  'plugin.push.other-js.tips2':
+    '这些代码需要在模板中手动调用，请在公共的模板结尾添加 `{{- pluginJsCode|safe }}` 代码来调用。',
   'plugin.push.other-js.tips3': '留言/评论等弹窗，会自动加载这些JS代码。',
   'plugin.push.other-js.name': '代码名称',
   'plugin.push.other-js.name.placeholder': '如：百度统计',
@@ -702,7 +748,8 @@ export default {
   'plugin.redirect.add': '添加链接',
   'plugin.redirect.from-url': '源链接',
   'plugin.redirect.to-url': '跳转链接',
-  'plugin.redirect.from-url.description': '可以是绝对地址 `http(https)` 开头，或相对地址 `/` 开头的链接',
+  'plugin.redirect.from-url.description':
+    '可以是绝对地址 `http(https)` 开头，或相对地址 `/` 开头的链接',
   'plugin.redirect.delete.confirm': '确定要删除选中的链接吗？',
   'plugin.replace.add.required': '请填写替换源关键词',
   'plugin.replace.place.required': '请选择替换位置',
@@ -723,7 +770,8 @@ export default {
   'plugin.replace.place.attachment': '图片资源',
   'plugin.retailer.setting': '分销配置',
   'plugin.retailer.allow-self': '分销员自购分佣',
-  'plugin.retailer.allow-self.description': '如果开启自购分佣，则分销员自己购买分销商品，可以获得对应的佣金，如果关闭，则分销员自己购买分销商品，无法获得佣金。如果自动成为分销员的话，不要开启自购分佣',
+  'plugin.retailer.allow-self.description':
+    '如果开启自购分佣，则分销员自己购买分销商品，可以获得对应的佣金，如果关闭，则分销员自己购买分销商品，无法获得佣金。如果自动成为分销员的话，不要开启自购分佣',
   'plugin.retailer.allow-self.no': '关闭',
   'plugin.retailer.allow-self.yes': '开启',
   'plugin.retailer.become-retailer': '成为分销员方式',
@@ -753,20 +801,25 @@ export default {
   'plugin.rewrite.formula2': '方案2：命名模式1（英文或拼音）',
   'plugin.rewrite.formula3': '方案3：命名模式2（英文或拼音+数字）',
   'plugin.rewrite.formula4': '方案4：命名模式3（英文或拼音）',
-  'plugin.rewrite.formula5': '方案5：自定义模式（高级模式，请谨慎使用，若设置不当，会导致前端页面打不开）',
+  'plugin.rewrite.formula5':
+    '方案5：自定义模式（高级模式，请谨慎使用，若设置不当，会导致前端页面打不开）',
   'plugin.rewrite.setting': '伪静态方案设置',
   'plugin.rewrite.setting.select': '选择伪静态方案',
   'plugin.rewrite.setting.diy': '自定义伪静态规则',
   'plugin.rewrite.setting.diy.explain': '自定义伪静态规则说明',
-  'plugin.rewrite.setting.diy.tips': '请复制下面的规则到输入框里修改,一共6行,分别是文档详情、文档列表、模型首页、页面、标签列表、标签详情。===和前面部分不可修改。',
-  'plugin.rewrite.variable.tips': '变量由花括号包裹 `{}` ,如 `{id}` 。可用的变量有:数据ID `{id}` ； 文档自定义链接名 `{filename}` ； 分类自定义链接名 `{catname}` ， 多级分类自定义链接名 `{multicatname}` , `{multicatname}` 和 `{catname}` 只能使用一个； 分类ID `{catid}` ； 模型表名 `{module}` ；年 `{year}` ， 月 `{month}` ， 日 `{day}` ， 时 `{hour}` ， 分 `{minute}` ， 秒 `{second}` ，年月日时分秒只有文档(archive)可用； 分页页码 `{page}` ,分页需放在小括号内, 如: `(/{page})` 。',
+  'plugin.rewrite.setting.diy.tips':
+    '请复制下面的规则到输入框里修改,一共6行,分别是文档详情、文档列表、模型首页、页面、标签列表、标签详情。===和前面部分不可修改。',
+  'plugin.rewrite.variable.tips':
+    '变量由花括号包裹 `{}` ,如 `{id}` 。可用的变量有:数据ID `{id}` ； 文档自定义链接名 `{filename}` ； 分类自定义链接名 `{catname}` ， 多级分类自定义链接名 `{multicatname}` , `{multicatname}` 和 `{catname}` 只能使用一个； 分类ID `{catid}` ； 模型表名 `{module}` ；年 `{year}` ， 月 `{month}` ， 日 `{day}` ， 时 `{hour}` ， 分 `{minute}` ， 秒 `{second}` ，年月日时分秒只有文档(archive)可用； 分页页码 `{page}` ,分页需放在小括号内, 如: `(/{page})` 。',
   'plugin.rewrite.formula.direct1': '可直接使用的方案1',
   'plugin.rewrite.formula.direct2': '可直接使用的方案2',
   'plugin.rewrite.formula.direct3': '可直接使用的方案3',
-  'plugin.robots.tips.before': 'Robots是网站告诉搜索引擎蜘蛛哪些页面可以抓取，哪些页面不能抓取的配置。Q:',
+  'plugin.robots.tips.before':
+    'Robots是网站告诉搜索引擎蜘蛛哪些页面可以抓取，哪些页面不能抓取的配置。Q:',
   'plugin.robots.tips.after': 'robots.txt文件的格式',
   'plugin.robots.content': 'Robots内容',
-  'plugin.robots.content.tips1': '1、robots.txt可以告诉百度您网站的哪些页面可以被抓取，哪些页面不可以被抓取。',
+  'plugin.robots.content.tips1':
+    '1、robots.txt可以告诉百度您网站的哪些页面可以被抓取，哪些页面不可以被抓取。',
   'plugin.robots.content.tips2': '2、您可以通过Robots工具来创建、校验、更新您的robots.txt文件。',
   'plugin.robots.view': '查看Robots',
   'plugin.sendmail.setting': '邮件设置',
@@ -775,18 +828,21 @@ export default {
   'plugin.sendmail.use-ssl': '使用SSL/TLS',
   'plugin.sendmail.use-ssl.no': '不使用',
   'plugin.sendmail.port': 'SMTP端口',
-  'plugin.sendmail.port.description': '默认服务器端口为 25，使用 SSL 协议默认端口为 465, TLS 协议默认端口为 587 ，详细参数请询问邮箱服务商',
+  'plugin.sendmail.port.description':
+    '默认服务器端口为 25，使用 SSL 协议默认端口为 465, TLS 协议默认端口为 587 ，详细参数请询问邮箱服务商',
   'plugin.sendmail.account': 'SMTP帐户',
   'plugin.sendmail.account.description': '默认是邮箱账号，如您的QQ邮箱，如123456@qq.com',
   'plugin.sendmail.password': 'SMTP密码',
   'plugin.sendmail.password.description': '在邮箱设置中生成的授权码。',
   'plugin.sendmail.recipient': '收件人邮箱',
   'plugin.sendmail.recipient.required': '请先进行邮件设置',
-  'plugin.sendmail.recipient.description': '默认发送给发件人，如果需要发送给其他人，请在这里填写，多个收件人请使用英文逗号`,`分开。',
+  'plugin.sendmail.recipient.description':
+    '默认发送给发件人，如果需要发送给其他人，请在这里填写，多个收件人请使用英文逗号`,`分开。',
   'plugin.sendmail.auto-reply': '自动回复客户',
   'plugin.sendmail.auto-reply.no': '不回复',
   'plugin.sendmail.auto-reply.yes': '自动回复',
-  'plugin.sendmail.auto-reply.description': '如果开启了自动回复客户，则在客户留言的时候，自动给客户填写的邮箱发送一封自动回复邮件。',
+  'plugin.sendmail.auto-reply.description':
+    '如果开启了自动回复客户，则在客户留言的时候，自动给客户填写的邮箱发送一封自动回复邮件。',
   'plugin.sendmail.auto-reply.title': '自动回复标题',
   'plugin.sendmail.auto-reply.title.description': '请填写自动回复标题',
   'plugin.sendmail.auto-reply.message': '自动回复内容',
@@ -803,8 +859,10 @@ export default {
   'plugin.sendmail.status': '发送状态',
   'plugin.sendmail.tips': '邮件提醒可以将网站的留言通过邮件发送到你的邮箱里。',
   'plugin.sendmail.test.send': '发送测试邮件',
-  'plugin.sitemap.tips1': '现在各大搜索引擎的sitemap提交，都已支持txt格式的sitemap，并且txt的sitemap文件大小相比于xml的sitemap文件更小，因此建议使用txt格式的Sitemap。',
-  'plugin.sitemap.tips2': '由于各个搜索引擎的sitemap提交，都限制了5万条或10M大小，因此本sitemap功能，将按照5万条一个sitemap文件的数量生成。',
+  'plugin.sitemap.tips1':
+    '现在各大搜索引擎的sitemap提交，都已支持txt格式的sitemap，并且txt的sitemap文件大小相比于xml的sitemap文件更小，因此建议使用txt格式的Sitemap。',
+  'plugin.sitemap.tips2':
+    '由于各个搜索引擎的sitemap提交，都限制了5万条或10M大小，因此本sitemap功能，将按照5万条一个sitemap文件的数量生成。',
   'plugin.sitemap.type': 'Sitemap格式',
   'plugin.sitemap.auto-build': 'Sitemap生成方法',
   'plugin.sitemap.auto-build.manual': '手动',
@@ -823,7 +881,8 @@ export default {
   'plugin.sitemap.last-time': '上次生成时间',
   'plugin.sitemap.build': '手动生成Sitemap',
   'plugin.sitemap.view': '查看Sitemap',
-  'plugin.storage.tips': '资源存储方式的切换不会自动同步之前已经上传的资源，一般不建议在使用中切换存储方式。',
+  'plugin.storage.tips':
+    '资源存储方式的切换不会自动同步之前已经上传的资源，一般不建议在使用中切换存储方式。',
   'plugin.storage.base': '基本配置',
   'plugin.storage.type': '存储方式',
   'plugin.storage.type.local': '本地存储',
@@ -836,7 +895,8 @@ export default {
   'plugin.timefactor.types.required': '请至少选择一个更新类型',
   'plugin.timefactor.start-day.required': '触发更新的时间不能为0',
   'plugin.timefactor.end-day.error': '更新结果时间不能早于更新触发时间',
-  'plugin.timefactor.tips': '文档时间因子-定时发布功能提供定时更新文档时间的能力。可以设置某些文档定时自动更新为最新的时间，对草稿中的文档按设定的时间定时发布。<br />程序会每小时尝试检查更新一次。',
+  'plugin.timefactor.tips':
+    '文档时间因子-定时发布功能提供定时更新文档时间的能力。可以设置某些文档定时自动更新为最新的时间，对草稿中的文档按设定的时间定时发布。<br />程序会每小时尝试检查更新一次。',
   'plugin.timefactor.setting': '文档时间因子-定时发布设置',
   'plugin.timefactor.open': '是否启用旧文档时间更新',
   'plugin.timefactor.open.no': '否',
@@ -877,9 +937,11 @@ export default {
   'plugin.titleimage.open': '标题自动配图配置',
   'plugin.titleimage.open.no': '关闭',
   'plugin.titleimage.open.yes': '开启',
-  'plugin.titleimage.open.description': '启用后，会在文档没有图片的时候，自动生成一张包含文档标题的图片作为文档缩略图图片',
+  'plugin.titleimage.open.description':
+    '启用后，会在文档没有图片的时候，自动生成一张包含文档标题的图片作为文档缩略图图片',
   'plugin.titleimage.draw-sub': '是否生成文档二级标题配图',
-  'plugin.titleimage.draw-sub.description': '开启后，会在文档没有图片的时候，自动给文档h2标签生成图片，并插入到文档中',
+  'plugin.titleimage.draw-sub.description':
+    '开启后，会在文档没有图片的时候，自动给文档h2标签生成图片，并插入到文档中',
   'plugin.titleimage.size': '生成图片尺寸',
   'plugin.titleimage.width': '像素宽',
   'plugin.titleimage.width.placeholder': '是否生成文默认800档二级标题配图',
@@ -895,7 +957,8 @@ export default {
   'plugin.titleimage.noise.yes': '添加',
   'plugin.titleimage.noise.description': '只有使用默认背景才生效',
   'plugin.titleimage.bg-image': '自定义背景',
-  'plugin.titleimage.bg-image.description': '你可以自定义背景，不上传自定义背景则系统会自动生成一个纯色背景',
+  'plugin.titleimage.bg-image.description':
+    '你可以自定义背景，不上传自定义背景则系统会自动生成一个纯色背景',
   'plugin.titleimage.bg-image.upload': '上传图片',
   'plugin.titleimage.font': '自定义字体',
   'plugin.titleimage.font.upload': '上传.ttf字体',
@@ -907,7 +970,8 @@ export default {
   'plugin.transfer.signal.error': '通信错误',
   'plugin.transfer.signal.success': '通信成功',
   'plugin.transfer.transfering': '正在执行中',
-  'plugin.transfer.tips': '目前支持 DedeCMS / WordPress / PbootCMS / EmpireCMS 的网站内容迁移到 anqicms 中。',
+  'plugin.transfer.tips':
+    '目前支持 DedeCMS / WordPress / PbootCMS / EmpireCMS 的网站内容迁移到 anqicms 中。',
   'plugin.transfer.step1': '第一步',
   'plugin.transfer.step2': '第二步',
   'plugin.transfer.step3': '第三步',
@@ -921,8 +985,10 @@ export default {
   'plugin.transfer.step.prev': '上一步',
   'plugin.transfer.step.next': '下一步',
   'plugin.transfer.step.download': '下载',
-  'plugin.transfer.step2.tips': '请把下载的文件上传到你的网站的根目录下。下载并放置到你的网站根目录后，点击下一步继续操作。',
-  'plugin.transfer.step3.tips': '每个网站只能配置一个Token，如果你提示错误了，请手动删除网站根目录下的 anqicms.config.php 才能再次配置。',
+  'plugin.transfer.step2.tips':
+    '请把下载的文件上传到你的网站的根目录下。下载并放置到你的网站根目录后，点击下一步继续操作。',
+  'plugin.transfer.step3.tips':
+    '每个网站只能配置一个Token，如果你提示错误了，请手动删除网站根目录下的 anqicms.config.php 才能再次配置。',
   'plugin.transfer.base-url': '网站地址',
   'plugin.transfer.base-url.placeholder': 'http或https开头的网址',
   'plugin.transfer.token': '通信token',
@@ -994,9 +1060,11 @@ export default {
   'plugin.weapp.server-url': '服务器地址',
   'plugin.weapp.token': '服务号Token',
   'plugin.weapp.encoding-aes-key': '服务号EncodingAESKey',
-  'plugin.weapp.encoding-aes-key.description': '如果消息加解密方式选择的是明文模式，请不要填写这里，否则会报错',
+  'plugin.weapp.encoding-aes-key.description':
+    '如果消息加解密方式选择的是明文模式，请不要填写这里，否则会报错',
   'plugin.weapp.default': '默认小程序',
-  'plugin.weapp.default.tips': '安企CMS(AnQiCMS)默认小程序，同时支持百度智能小程序，微信小程序，QQ小程序，支付宝小程序，头条小程序。',
+  'plugin.weapp.default.tips':
+    '安企CMS(AnQiCMS)默认小程序，同时支持百度智能小程序，微信小程序，QQ小程序，支付宝小程序，头条小程序。',
   'plugin.weapp.default.help': '小程序使用帮助：',
   'plugin.weapp.default.source': '小程序源码地址：https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': '下载默认小程序',
@@ -1009,7 +1077,8 @@ export default {
   'plugin.wechat.menu.type.click': '文本菜单',
   'plugin.wechat.menu.type.view': '链接菜单',
   'plugin.wechat.menu.value': '值',
-  'plugin.wechat.menu.value.description': '文本菜单请填写文字，链接菜单请填写url地址，不超过128字符',
+  'plugin.wechat.menu.value.description':
+    '文本菜单请填写文字，链接菜单请填写url地址，不超过128字符',
   'plugin.wechat.menu': '微信菜单',
   'plugin.wechat.menu.tips': '注意：一级菜单最多3个，每个一级菜单的二级菜单最多5个。',
   'plugin.wechat.menu.submit': '更新公众号菜单',
@@ -1024,7 +1093,8 @@ export default {
   'plugin.wechat.reply.time': '回复时间',
   'plugin.wechat.reply.default': '默认回复',
   'plugin.wechat.reply.default.yes': '是',
-  'plugin.wechat.reply.default.description': '选择为默认回复后，如果未匹配到关键词，则会回复这条内容',
+  'plugin.wechat.reply.default.description':
+    '选择为默认回复后，如果未匹配到关键词，则会回复这条内容',
   'plugin.wechat.reply.default.set-no': '不是',
   'plugin.wechat.reply.default.set-yes': '设为默认',
   'plugin.wechat.reply.rule': '自动回复规则',
@@ -1044,4 +1114,9 @@ export default {
   'plugin.wechat.auto-reply.setting': '自动回复设置',
   'plugin.wechat.menu.setting': '菜单设置',
   'plugin.wechat.official.setting': '公众号设置',
+  'plugin.type.all': '全部功能',
+  'plugin.type.normal': '常用功能',
+  'plugin.type.archive': '文档功能',
+  'plugin.type.user-mall': '用户/商城',
+  'plugin.type.system': '系统功能',
 };

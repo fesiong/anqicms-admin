@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+import React, { useEffect, useState } from 'react';
+import ProForm, {
+  ProFormRadio,
+  ProFormText,
+  ProFormInstance,
+  ProFormSelect,
+} from '@ant-design/pro-form';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { Alert, Button, Card, message, Space } from 'antd';
+import { pluginBuildSitemap, pluginGetSitemap, pluginSaveSitemap } from '@/services/plugin/sitemap';
+import moment from 'moment';
+>>>>>>> main
 import { getCategories, getModules } from '@/services';
 import { pluginBuildSitemap, pluginGetSitemap, pluginSaveSitemap } from '@/services/plugin/sitemap';
 import {
@@ -17,7 +31,10 @@ const PluginSitemap: React.FC<any> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+<<<<<<< HEAD
   const intl = useIntl();
+=======
+>>>>>>> main
 
   const getSetting = async () => {
     const res = await pluginGetSitemap();

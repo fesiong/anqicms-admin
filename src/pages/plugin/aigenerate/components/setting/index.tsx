@@ -1,5 +1,10 @@
 import AttachmentSelect from '@/components/attachment';
-import { checkOpenAIApi, getAiGenerateSetting, saveAiGenerateSetting } from '@/services';
+import {
+  checkOpenAIApi,
+  getAiGenerateSetting,
+  getAttachmentCategories,
+  saveAiGenerateSetting,
+} from '@/services';
 import { getCategories } from '@/services/category';
 import { PlusOutlined } from '@ant-design/icons';
 import {
@@ -367,6 +372,50 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 id: 'plugin.aigenerate.double-title.description',
               })}
             />
+            <ProFormRadio.Group
+              name="double_split"
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.double-split',
+              })}
+              options={[
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.double-split.bracket',
+                  }),
+                  value: 0,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.double-split.line',
+                  }),
+                  value: 1,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.double-split.question',
+                  }),
+                  value: 2,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.double-split.comma',
+                  }),
+                  value: 3,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.double-split.colon',
+                  }),
+                  value: 4,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.double-split.random',
+                  }),
+                  value: 5,
+                },
+              ]}
+            />
             <ProFormTextArea
               name="demand"
               label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.demand' })}
@@ -492,7 +541,8 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             )}
             <ProFormSelect
               label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.default-category' })}
-              name="category_id"
+              name="category_ids"
+              mode="multiple"
               required
               extra={this.props.intl.formatMessage({
                 id: 'plugin.aigenerate.default-category.description',
@@ -569,6 +619,12 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   }),
                   value: 2,
                 },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.insert-image.category',
+                  }),
+                  value: 3,
+                },
               ]}
               fieldProps={{
                 onChange: (e) => {
@@ -624,6 +680,46 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   </Row>
                 </div>
               </ProFormText>
+            )}
+            {insertImage == 3 && (
+              <ProFormSelect
+                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.image.category' })}
+                name="image_category_id"
+                required
+                extra={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.image.category.description',
+                })}
+                request={async () => {
+                  const res = await getAttachmentCategories();
+                  const data = (res.data || []).concat(
+                    {
+                      id: 0,
+                      title: this.props.intl.formatMessage({
+                        id: 'plugin.aigenerate.image.category.default',
+                      }),
+                    },
+                    {
+                      id: -1,
+                      title: this.props.intl.formatMessage({
+                        id: 'plugin.aigenerate.image.category.all',
+                      }),
+                    },
+                    {
+                      id: -2,
+                      title: this.props.intl.formatMessage({
+                        id: 'plugin.aigenerate.image.category.match',
+                      }),
+                    },
+                  );
+                  return data;
+                }}
+                fieldProps={{
+                  fieldNames: {
+                    label: 'title',
+                    value: 'id',
+                  },
+                }}
+              />
             )}
             <ProFormText
               label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.replace' })}
