@@ -1,6 +1,7 @@
 import { getCategories } from '@/services/category';
 import { pluginSaveKeyword } from '@/services/plugin/keyword';
 import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import React from 'react';
 
 export type KeywordFormProps = {
@@ -11,6 +12,7 @@ export type KeywordFormProps = {
 };
 
 const KeywordForm: React.FC<KeywordFormProps> = (props) => {
+  const intl = useIntl();
   const onSubmit = async (values: any) => {
     let editingKeyword = Object.assign(props.editingKeyword, values);
     let res = await pluginSaveKeyword(editingKeyword);
@@ -21,7 +23,7 @@ const KeywordForm: React.FC<KeywordFormProps> = (props) => {
   return (
     <ModalForm
       width={800}
-      title={props.editingKeyword?.id ? '编辑关键词' : '添加关键词'}
+      title={props.editingKeyword?.id ? intl.formatMessage({ id: 'plugin.keyword.edit' }) : intl.formatMessage({ id: 'plugin.keyword.add' })}
       initialValues={props.editingKeyword}
       open={props.open}
       //layout="horizontal"
@@ -35,19 +37,19 @@ const KeywordForm: React.FC<KeywordFormProps> = (props) => {
       }}
     >
       {props.editingKeyword?.id > 0 ? (
-        <ProFormText name="title" label="关键词名称" />
+        <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.keyword.title' })} />
       ) : (
         <ProFormTextArea
           fieldProps={{
             rows: 5,
           }}
           name="title"
-          label="关键词名称"
-          placeholder={'支持批量添加，一行一个关键词'}
+          label={intl.formatMessage({ id: 'plugin.keyword.title' })}
+          placeholder={intl.formatMessage({ id: 'plugin.keyword.title.placeholder' })}
         />
       )}
       <ProFormSelect
-        label="文章分类"
+        label={intl.formatMessage({ id: 'plugin.keyword.archive-category' })}
         name="category_id"
         width="lg"
         request={async () => {

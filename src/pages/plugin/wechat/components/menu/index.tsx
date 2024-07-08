@@ -13,6 +13,7 @@ import {
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 
@@ -21,10 +22,11 @@ const PluginWechatMenu: React.FC<any> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [currentMenu, setCurrentMenu] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleDelete = (row: any) => {
     Modal.confirm({
-      title: '确定要删除该条菜单吗？',
+      title: intl.formatMessage({ id: 'plugin.wechat.menu.delete.confirm' }),
       onOk: () => {
         pluginDeleteWechatMenu(row).then((res) => {
           message.info(res.msg);
@@ -48,14 +50,14 @@ const PluginWechatMenu: React.FC<any> = (props) => {
         setEditVisible(false);
       })
       .catch(() => {
-        message.info('提交出错');
+        message.info(intl.formatMessage({ id: 'plugin.wechat.menu.submit.error' }));
       });
   };
 
   const handleSyncMenu = () => {
     Modal.confirm({
-      title: '确定要更新公众号菜单吗？',
-      content: '该操作将会将新设置的菜单同步到微信服务器。',
+      title: intl.formatMessage({ id: 'plugin.wechat.menu.submit.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.wechat.menu.submit.content' }),
       onOk: () => {
         pluginSyncWechatMenu({}).then((res) => {
           message.info(res.msg);
@@ -67,27 +69,27 @@ const PluginWechatMenu: React.FC<any> = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '菜单名称',
+      title: intl.formatMessage({ id: 'plugin.wechat.menu.name' }),
       dataIndex: 'name',
     },
     {
-      title: '类型',
+      title: intl.formatMessage({ id: 'plugin.wechat.menu.type' }),
       dataIndex: 'type',
       valueEnum: {
         click: {
-          text: '文本菜单',
+          text: intl.formatMessage({ id: 'plugin.wechat.menu.type.click' }),
         },
         view: {
-          text: '链接菜单',
+          text: intl.formatMessage({ id: 'plugin.wechat.menu.type.view' }),
         },
       },
     },
     {
-      title: '值',
+      title: intl.formatMessage({ id: 'plugin.wechat.menu.value' }),
       dataIndex: 'value',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -97,14 +99,14 @@ const PluginWechatMenu: React.FC<any> = (props) => {
               handleDelete(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
           <a
             onClick={() => {
               handleEdit(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
         </Space>
       ),
@@ -127,18 +129,18 @@ const PluginWechatMenu: React.FC<any> = (props) => {
           setVisible(false);
         }}
         footer={null}
-        title="微信菜单"
+        title={intl.formatMessage({ id: 'plugin.wechat.menu' })}
       >
         <ProTable<any>
           actionRef={actionRef}
           rowKey="id"
-          headerTitle={<div>注意：一级菜单最多3个，每个一级菜单的二级菜单最多5个。</div>}
+          headerTitle={<div><FormattedMessage id="plugin.wechat.menu.tips" /></div>}
           toolBarRender={() => [
             <Button key="add" onClick={() => handleSyncMenu()}>
-              更新公众号菜单
+              <FormattedMessage id="plugin.wechat.menu.submit" />
             </Button>,
             <Button type="primary" key="add" onClick={() => handleEdit({})}>
-              添加菜单
+              <FormattedMessage id="plugin.wechat.menu.add" />
             </Button>,
           ]}
           request={(params) => {
@@ -158,7 +160,7 @@ const PluginWechatMenu: React.FC<any> = (props) => {
       </Modal>
       {editVisible && (
         <ModalForm
-          title="编辑菜单"
+          title={intl.formatMessage({ id: 'plugin.wechat.menu.edit' })}
           width={600}
           open={editVisible}
           initialValues={currentMenu}
@@ -171,7 +173,7 @@ const PluginWechatMenu: React.FC<any> = (props) => {
             name="parent_id"
             request={async () => {
               const res = await pluginGetWechatMenus({});
-              return [{ name: '顶级菜单', id: 0 }].concat(res.data || []);
+              return [{ name: intl.formatMessage({ id: 'plugin.wechat.menu.top' }), id: 0 }].concat(res.data || []);
             }}
             fieldProps={{
               fieldNames: {
@@ -184,21 +186,21 @@ const PluginWechatMenu: React.FC<any> = (props) => {
             name="type"
             valueEnum={{
               click: {
-                text: '文本菜单',
+                text: intl.formatMessage({ id: 'plugin.wechat.menu.type.click' }),
               },
               view: {
-                text: '链接菜单',
+                text: intl.formatMessage({ id: 'plugin.wechat.menu.type.view' }),
               },
             }}
           />
-          <ProFormText name="name" label="菜单名称" width="lg" />
+          <ProFormText name="name" label={intl.formatMessage({ id: 'plugin.wechat.menu.name' })} width="lg" />
           <ProFormText
             name="value"
-            label="值"
+            label={intl.formatMessage({ id: 'plugin.wechat.menu.value' })}
             width="lg"
-            extra="文本菜单请填写文字，链接菜单请填写url地址，不超过128字符"
+            extra={intl.formatMessage({ id: 'plugin.wechat.menu.value.description' })}
           />
-          <ProFormDigit name="sort" label="排序" width="lg" extra="数值越小，排序越靠前" />
+          <ProFormDigit name="sort" label={intl.formatMessage({ id: 'content.sort.name' })} width="lg" extra={intl.formatMessage({ id: 'plugin.wechat.sort.description' })} />
         </ModalForm>
       )}
     </>

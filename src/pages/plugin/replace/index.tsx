@@ -9,6 +9,7 @@ import {
 import { Alert, Button, Card, Divider, Input, Modal, Space, Tag, message } from 'antd';
 import React, { useState } from 'react';
 import './index.less';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginReplace: React.FC<any> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
@@ -18,6 +19,7 @@ const PluginReplace: React.FC<any> = (props) => {
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
+  const intl = useIntl();
 
   const handleRemove = (index: number) => {
     keywords.splice(index, 1);
@@ -34,7 +36,7 @@ const PluginReplace: React.FC<any> = (props) => {
 
   const handleEditInputConfirm = () => {
     if (!fromValue) {
-      message.error('请填写替换源关键词');
+      message.error(intl.formatMessage({ id: 'plugin.replace.add.required' }));
       return;
     }
     let tag: any = {
@@ -55,19 +57,19 @@ const PluginReplace: React.FC<any> = (props) => {
 
   const onSubmit = async (values: any) => {
     if (!values.places || values.places.length == 0) {
-      message.error('请选择替换位置');
+      message.error(intl.formatMessage({ id: 'plugin.replace.place.required' }));
       return;
     }
     if (keywords.length == 0) {
-      message.error('请添加替换规则');
+      message.error(intl.formatMessage({ id: 'plugin.replace.keyword.required' }));
       return;
     }
     Modal.confirm({
-      title: '确定要执行全站替换操作吗？',
+      title: intl.formatMessage({ id: 'plugin.replace.confirm' }),
       onOk: () => {
         const postData = Object.assign({}, values);
         postData.keywords = keywords;
-        const hide = message.loading('正在提交中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
         pluginReplaceValues(postData)
           .then((res) => {
             message.success(res.msg);
@@ -89,51 +91,46 @@ const PluginReplace: React.FC<any> = (props) => {
           message={
             <div>
               <p>
-                替换规则支持正则表达式，如果你对正则表达式熟悉，并且通过普通文本无法达成替换需求的，可以尝试使用正则表达式规则来完成替换。
+                <FormattedMessage id="plugin.aigenerate.replace.tips2" />
               </p>
               <p>
-                正则表达式规则为：由 <Tag>{'{'}</Tag>开始，并以 <Tag>{'}'}</Tag>
-                结束，中间书写规则代码，如{' '}
-                <Tag>
-                  {'{'}[0-9]+{'}'}
-                </Tag>{' '}
-                代表匹配连续的数字。
+                <FormattedMessage id="plugin.aigenerate.replace.tips3" />
               </p>
               <p>
-                内置部分规则，可以快速使用，已内置的有：
+                <FormattedMessage id="plugin.aigenerate.replace.rules" />
                 <Tag>
-                  {'{'}邮箱地址{'}'}
+                  <FormattedMessage id="plugin.aigenerate.replace.rule.email" />
                 </Tag>
                 、
                 <Tag>
-                  {'{'}日期{'}'}
+                  <FormattedMessage id="plugin.aigenerate.replace.rule.date" />
                 </Tag>
                 、
                 <Tag>
-                  {'{'}时间{'}'}
+                  <FormattedMessage id="plugin.aigenerate.replace.rule.time" />
                 </Tag>
                 、
                 <Tag>
-                  {'{'}电话号码{'}'}
+                  <FormattedMessage id="plugin.aigenerate.replace.rule.cellphone" />
                 </Tag>
                 、
                 <Tag>
-                  {'{'}QQ号{'}'}
+                  <FormattedMessage id="plugin.aigenerate.replace.rule.qq" />
                 </Tag>
                 、
                 <Tag>
-                  {'{'}微信号{'}'}
+                  <FormattedMessage id="plugin.aigenerate.replace.rule.wechat" />
                 </Tag>
                 、
                 <Tag>
-                  {'{'}网址{'}'}
+                  <FormattedMessage id="plugin.aigenerate.replace.rule.website" />
                 </Tag>
               </p>
               <p className="text-red">
                 <span className="text-red">*</span>{' '}
-                注意：正则表达式规则书写不当很容易造成错误的替换效果，如微信号规则，会同时影响到邮箱地址、网址的完整性。请谨慎使用。
+                <FormattedMessage id="plugin.aigenerate.replace.notice" />
                 <br />
-                全站替换是高级操作，有可能会出现替换错误，建议在替换前，先执行内容备份。
+                <FormattedMessage id="plugin.replace.tips" />
               </p>
             </div>
           }
@@ -142,29 +139,29 @@ const PluginReplace: React.FC<any> = (props) => {
         <div className="mt-normal">
           <ProForm onFinish={onSubmit} layout="horizontal" formRef={formRef}>
             <Card size="small" bordered={false}>
-              <Divider orientation={'left'}>替换位置</Divider>
+              <Divider orientation={'left'}><FormattedMessage id="plugin.replace.place" /></Divider>
               <ProFormCheckbox.Group
                 name="places"
                 options={[
-                  { value: 'setting', label: '后台设置' },
-                  { value: 'archive', label: '文档' },
-                  { value: 'category', label: '分类页面' },
-                  { value: 'tag', label: '标签Tag' },
-                  { value: 'anchor', label: '锚文本' },
-                  { value: 'keyword', label: '关键词' },
-                  { value: 'comment', label: '评论' },
-                  { value: 'attachment', label: '图片资源' },
+                  { value: 'setting', label: intl.formatMessage({ id: 'plugin.replace.place.setting' }) },
+                  { value: 'archive', label: intl.formatMessage({ id: 'plugin.replace.place.archive' }) },
+                  { value: 'category', label: intl.formatMessage({ id: 'plugin.replace.place.category' }) },
+                  { value: 'tag', label: intl.formatMessage({ id: 'plugin.replace.place.tag' }) },
+                  { value: 'anchor', label: intl.formatMessage({ id: 'plugin.replace.place.anchor' }) },
+                  { value: 'keyword', label: intl.formatMessage({ id: 'plugin.replace.place.keyword' }) },
+                  { value: 'comment', label: intl.formatMessage({ id: 'plugin.replace.place.comment' }) },
+                  { value: 'attachment', label: intl.formatMessage({ id: 'plugin.replace.place.attachment' }) },
                 ]}
               />
-              <ProFormCheckbox label="是否替换标签内容" name="replace_tag" />
-              <Divider orientation={'left'}>替换规则</Divider>
+              <ProFormCheckbox label={intl.formatMessage({ id: 'plugin.replace.replace-tag' })} name="replace_tag" />
+              <Divider orientation={'left'}><FormattedMessage id="plugin.replace.keyword" /></Divider>
               <div className="tag-lists">
                 <Space size={[12, 12]} wrap>
                   {keywords.map((tag: any, index: number) => (
                     <div className="edit-tag" key={index}>
                       <span className="key">{tag.from}</span>
-                      <span className="divide">替换为</span>
-                      <span className="value">{tag.to || '空'}</span>
+                      <span className="divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
+                      <span className="value">{tag.to || intl.formatMessage({ id: 'plugin.aigenerate.empty' })}</span>
                       <span
                         className="close"
                         onClick={() => {
@@ -177,7 +174,7 @@ const PluginReplace: React.FC<any> = (props) => {
                   ))}
                   {!inputVisible && (
                     <Button className="site-tag-plus" onClick={showInput}>
-                      <PlusOutlined /> 新增替换规则
+                      <PlusOutlined /> <FormattedMessage id="plugin.replace.add" />
                     </Button>
                   )}
                 </Space>
@@ -194,7 +191,7 @@ const PluginReplace: React.FC<any> = (props) => {
                       handleEditInputConfirm();
                     }}
                   />
-                  <span className="input-divide">替换为</span>
+                  <span className="input-divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
                   <Input
                     style={{ width: '35%' }}
                     value={toValue}
@@ -211,7 +208,7 @@ const PluginReplace: React.FC<any> = (props) => {
                     }}
                     style={{ width: '15%', minWidth: '90px' }}
                   >
-                    回车添加
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
                   </Button>
                 </Input.Group>
               )}

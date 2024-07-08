@@ -24,6 +24,7 @@ import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import OrderForm from './components/orderForm';
 import OrderSetting from './setting';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginOrder: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -33,9 +34,10 @@ const PluginOrder: React.FC = () => {
   const [refundVisible, setRefundVisible] = useState<boolean>(false);
   const [exportVisible, setExportVisible] = useState<boolean>(false);
   const [payVisible, setPayVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const exportOrder = async (values: any) => {
-    const hide = message.loading('正在加载', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'plugin.order.loading' }), 0);
     if (values.start_date) {
       values.start_time = dayjs(values.start_date).unix();
     }
@@ -81,8 +83,8 @@ const PluginOrder: React.FC = () => {
 
   const handleSetFinished = (record: any) => {
     Modal.confirm({
-      title: '确定要手动完成订单吗？',
-      content: '该操作不可逆。',
+      title: intl.formatMessage({ id: 'plugin.order.finish.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.order.finish.content' }),
       onOk: () => {
         pluginSetOrderFinished(record).then((res) => {
           message.info(res.msg);
@@ -99,8 +101,8 @@ const PluginOrder: React.FC = () => {
 
   const handleApplyRefund = (record: any) => {
     Modal.confirm({
-      title: '确定要对这笔订单申请退款吗？',
-      content: '退款后，资金会原路返回。',
+      title: intl.formatMessage({ id: 'plugin.order.apply-refund.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.order.apply-refund.content' }),
       onOk: () => {
         pluginOrderApplyRefund(record).then((res) => {
           message.info(res.msg);
@@ -126,11 +128,11 @@ const PluginOrder: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '订单ID',
+      title: intl.formatMessage({ id: 'plugin.order.order-id' }),
       dataIndex: 'order_id',
     },
     {
-      title: '购买用户',
+      title: intl.formatMessage({ id: 'plugin.order.buy.user-name' }),
       dataIndex: 'user.user_name',
       key: 'user_name',
       render: (dom: any, entity) => {
@@ -138,7 +140,7 @@ const PluginOrder: React.FC = () => {
       },
     },
     {
-      title: '订单金额',
+      title: intl.formatMessage({ id: 'plugin.order.order-amount' }),
       dataIndex: 'amount',
       hideInSearch: true,
       render: (dom: any) => {
@@ -146,7 +148,7 @@ const PluginOrder: React.FC = () => {
       },
     },
     {
-      title: '创建时间',
+      title: intl.formatMessage({ id: 'plugin.order.create-time' }),
       dataIndex: 'created_time',
       hideInSearch: true,
       render: (_, entity) => {
@@ -154,7 +156,7 @@ const PluginOrder: React.FC = () => {
       },
     },
     {
-      title: '支付时间',
+      title: intl.formatMessage({ id: 'plugin.order.pay-time' }),
       dataIndex: 'paid_time',
       hideInSearch: true,
       render: (_, entity) => {
@@ -164,30 +166,30 @@ const PluginOrder: React.FC = () => {
       },
     },
     {
-      title: '状态',
+      title: intl.formatMessage({ id: 'plugin.order.status' }),
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '待支付',
+          text: intl.formatMessage({ id: 'plugin.order.status.wait' }),
         },
         1: {
-          text: '待发货',
+          text: intl.formatMessage({ id: 'plugin.order.status.paid' }),
         },
         2: {
-          text: '待收货',
+          text: intl.formatMessage({ id: 'plugin.order.status.delivery' }),
         },
         3: {
-          text: '已完成',
+          text: intl.formatMessage({ id: 'plugin.order.status.finished' }),
           status: 'Success',
         },
         8: {
-          text: '退款中',
+          text: intl.formatMessage({ id: 'plugin.order.status.refunding' }),
         },
         9: {
-          text: '已退款',
+          text: intl.formatMessage({ id: 'plugin.order.status.refunded' }),
         },
         '-1': {
-          text: '订单关闭',
+          text: intl.formatMessage({ id: 'plugin.order.status.closed' }),
         },
       },
       renderFormItem: () => {
@@ -196,12 +198,12 @@ const PluginOrder: React.FC = () => {
             name="status"
             request={async () => {
               return [
-                { label: '全部', value: '' },
-                { label: '待支付', value: 'waiting' },
-                { label: '待发货', value: 'paid' },
-                { label: '待收货', value: 'delivery' },
-                { label: '已完成', value: 'finished' },
-                { label: '退款中', value: 'refunding' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.all' }), value: '' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.wait' }), value: 'waiting' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.paid' }), value: 'paid' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.delivery' }), value: 'delivery' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.finished' }), value: 'finished' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.refunding' }), value: 'refunding' },
               ];
             }}
           />
@@ -209,7 +211,7 @@ const PluginOrder: React.FC = () => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -220,7 +222,7 @@ const PluginOrder: React.FC = () => {
                 handleSetDelivery(record);
               }}
             >
-              发货
+              <FormattedMessage id="plugin.order.delivery" />
             </a>
           )}
           {record.status == 2 && (
@@ -229,7 +231,7 @@ const PluginOrder: React.FC = () => {
                 handleSetFinished(record);
               }}
             >
-              完成订单
+              <FormattedMessage id="plugin.order.finish-order" />
             </a>
           )}
           {record.status == 8 && (
@@ -238,7 +240,7 @@ const PluginOrder: React.FC = () => {
                 handleSetRefund(record);
               }}
             >
-              处理退款
+              <FormattedMessage id="plugin.order.refund-process" />
             </a>
           )}
           {(record.status == 1 || record.status == 2 || record.status == 3) && (
@@ -247,7 +249,7 @@ const PluginOrder: React.FC = () => {
                 handleApplyRefund(record);
               }}
             >
-              申请退款
+              <FormattedMessage id="plugin.order.apply-refund" />
             </a>
           )}
           {record.status === 0 && (
@@ -256,7 +258,7 @@ const PluginOrder: React.FC = () => {
                 handleSetPay(record);
               }}
             >
-              付款
+              <FormattedMessage id="plugin.order.pay" />
             </a>
           )}
           <a
@@ -264,7 +266,7 @@ const PluginOrder: React.FC = () => {
               handleEditOrder(record);
             }}
           >
-            查看
+              <FormattedMessage id="plugin.order.view" />
           </a>
         </Space>
       ),
@@ -274,7 +276,7 @@ const PluginOrder: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="订单管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.order' })}
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -287,10 +289,10 @@ const PluginOrder: React.FC = () => {
               setExportVisible(true);
             }}
           >
-            导出订单
+            <FormattedMessage id="plugin.order.export" />
           </Button>,
           <OrderSetting key="setting" onCancel={() => {}}>
-            <Button>订单设置</Button>
+            <Button><FormattedMessage id="plugin.order.setting" /></Button>
           </OrderSetting>,
         ]}
         tableAlertOptionRender={false}
@@ -321,7 +323,7 @@ const PluginOrder: React.FC = () => {
       )}
       {deliverVisible && (
         <ModalForm
-          title="发货处理"
+          title={intl.formatMessage({ id: 'plugin.order.delivery-process' })}
           width={480}
           open={deliverVisible}
           onOpenChange={(flag) => {
@@ -329,58 +331,58 @@ const PluginOrder: React.FC = () => {
           }}
           onFinish={saveOrderDeliver}
         >
-          <ProFormText name="express_company" label="快递公司">
+          <ProFormText name="express_company" label={intl.formatMessage({ id: 'plugin.order.express-company' })}>
             <AutoComplete
               options={[
                 {
                   value: '',
-                  label: '无',
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.empty' }),
                 },
                 {
-                  value: '顺丰快递',
-                  label: '顺丰快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.sf' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.sf' }),
                 },
                 {
-                  value: '邮政快递',
-                  label: '邮政快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.ems' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.ems' }),
                 },
                 {
-                  value: '京东快递',
-                  label: '京东快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.jd' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.jd' }),
                 },
                 {
-                  value: '申通快递',
-                  label: '申通快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.sto' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.sto' }),
                 },
                 {
-                  value: '圆通快递',
-                  label: '圆通快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.yto' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.yto' }),
                 },
                 {
-                  value: '中通快递',
-                  label: '中通快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.zto' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.zto' }),
                 },
                 {
-                  value: '韵达快递',
-                  label: '韵达快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.yunda' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.yunda' }),
                 },
                 {
-                  value: '极兔快递',
-                  label: '极兔快递',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.jitu' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.jitu' }),
                 },
                 {
-                  value: '百世汇通',
-                  label: '百世汇通',
+                  value: intl.formatMessage({ id: 'plugin.order.express-company.baishi' }),
+                  label: intl.formatMessage({ id: 'plugin.order.express-company.baishi' }),
                 },
               ]}
             />
           </ProFormText>
-          <ProFormText name="tracking_number" label="快递单号" />
+          <ProFormText name="tracking_number" label={intl.formatMessage({ id: 'plugin.order.tracking-number' })} />
         </ModalForm>
       )}
       {refundVisible && (
         <ModalForm
-          title="退款处理"
+          title={intl.formatMessage({ id: 'plugin.order.refund-process' })}
           open={refundVisible}
           onOpenChange={(flag) => {
             setRefundVisible(flag);
@@ -389,15 +391,15 @@ const PluginOrder: React.FC = () => {
         >
           <ProFormRadio.Group
             name="status"
-            label="退款"
+            label={intl.formatMessage({ id: 'plugin.order.refund' })}
             options={[
               {
                 value: 0,
-                label: '不同意退款',
+                label: intl.formatMessage({ id: 'plugin.order.refund.disagree' }),
               },
               {
                 value: 1,
-                label: '同意退款',
+                label: intl.formatMessage({ id: 'plugin.order.refund.agree' }),
               },
             ]}
           />
@@ -405,7 +407,7 @@ const PluginOrder: React.FC = () => {
       )}
       {exportVisible && (
         <ModalForm
-          title="导出订单选项"
+          title={intl.formatMessage({ id: 'plugin.order.export' })}
           width={480}
           open={exportVisible}
           onOpenChange={(flag) => {
@@ -415,26 +417,26 @@ const PluginOrder: React.FC = () => {
         >
           <ProFormSelect
             name="status"
-            label="导出订单内容"
+            label={intl.formatMessage({ id: 'plugin.order.export.status' })}
             initialValue={'paid'}
             request={async () => {
               return [
-                { label: '全部', value: '' },
-                { label: '待支付', value: 'waiting' },
-                { label: '待发货', value: 'paid' },
-                { label: '待收货', value: 'delivery' },
-                { label: '已完成', value: 'finished' },
-                { label: '退款中', value: 'refunding' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.all' }), value: '' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.wait' }), value: 'waiting' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.paid' }), value: 'paid' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.delivery' }), value: 'delivery' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.finished' }), value: 'finished' },
+                { label: intl.formatMessage({ id: 'plugin.order.status.refunding' }), value: 'refunding' },
               ];
             }}
           />
-          <ProFormDatePicker name="start_date" label="开始日期" width={'lg'} />
-          <ProFormDatePicker name="end_date" label="结束日期" width={'lg'} extra="默认今天" />
+          <ProFormDatePicker name="start_date" label={intl.formatMessage({ id: 'plugin.order.export.start-date' })} width={'lg'} />
+          <ProFormDatePicker name="end_date" label={intl.formatMessage({ id: 'plugin.order.export.end-date' })} width={'lg'} extra={intl.formatMessage({ id: 'plugin.order.export.end-date.description' })} />
         </ModalForm>
       )}
       {payVisible && (
         <ModalForm
-          title="付款处理"
+          title={intl.formatMessage({ id: 'plugin.order.pay-process' })}
           open={payVisible}
           onOpenChange={(flag) => {
             setPayVisible(flag);
@@ -444,11 +446,11 @@ const PluginOrder: React.FC = () => {
         >
           <ProFormRadio.Group
             name="pay_way"
-            label="付款方式"
+            label={intl.formatMessage({ id: 'plugin.order.pay-way' })}
             options={[
               {
                 value: 'offline',
-                label: '线下付款',
+                label: intl.formatMessage({ id: 'plugin.order.pay-way.offline' }),
               },
             ]}
           />

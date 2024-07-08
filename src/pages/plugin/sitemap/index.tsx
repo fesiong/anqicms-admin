@@ -8,6 +8,7 @@ import {
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
@@ -16,10 +17,7 @@ const PluginSitemap: React.FC<any> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
-
-  useEffect(() => {
-    getSetting();
-  }, []);
+  const intl = useIntl();
 
   const getSetting = async () => {
     const res = await pluginGetSitemap();
@@ -28,8 +26,12 @@ const PluginSitemap: React.FC<any> = (props) => {
     setFetched(true);
   };
 
+  useEffect(() => {
+    getSetting();
+  }, []);
+
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSaveSitemap(values)
       .then((res) => {
         message.success(res.msg);
@@ -44,7 +46,7 @@ const PluginSitemap: React.FC<any> = (props) => {
 
   const rebuildSitemap = () => {
     let values = formRef.current?.getFieldsValue();
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginBuildSitemap(values)
       .then((res) => {
         message.info(res.msg);
@@ -64,11 +66,10 @@ const PluginSitemap: React.FC<any> = (props) => {
           message={
             <div>
               <div>
-                现在各大搜索引擎的sitemap提交，都已支持txt格式的sitemap，并且txt的sitemap文件大小相比于xml的sitemap文件更小，因此建议使用
-                txt格式的Sitemap。
+                <FormattedMessage id="plugin.sitemap.tips1" />
               </div>
               <div>
-                由于各个搜索引擎的sitemap提交，都限制了5万条或10M大小，因此本sitemap功能，将按照5万条一个sitemap文件的数量生成。
+                <FormattedMessage id="plugin.sitemap.tips2" />
               </div>
             </div>
           }
@@ -76,10 +77,10 @@ const PluginSitemap: React.FC<any> = (props) => {
         {fetched && (
           <div className="mt-normal">
             <ProForm onFinish={onSubmit} initialValues={sitemapSetting} formRef={formRef}>
-              <Card size="small" title="Sitemap设置" bordered={false}>
+              <Card size="small" title={intl.formatMessage({ id: 'menu.plugin.sitemap' })} bordered={false}>
                 <ProFormRadio.Group
                   name="type"
-                  label="Sitemap格式"
+                  label={intl.formatMessage({ id: 'plugin.sitemap.type' })}
                   options={[
                     { value: 'txt', label: 'txt' },
                     { value: 'xml', label: 'xml' },
@@ -87,23 +88,23 @@ const PluginSitemap: React.FC<any> = (props) => {
                 />
                 <ProFormRadio.Group
                   name="auto_build"
-                  label="Sitemap生成方法"
+                  label={intl.formatMessage({ id: 'plugin.sitemap.auto-build' })}
                   options={[
-                    { value: 0, label: '手动' },
-                    { value: 1, label: '自动' },
+                    { value: 0, label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.manual' }) },
+                    { value: 1, label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.auto' }) },
                   ]}
                 />
                 <ProFormRadio.Group
                   name="exclude_tag"
-                  label="文档标签生成Sitemap"
+                  label={intl.formatMessage({ id: 'plugin.sitemap.exclude-tag' })}
                   options={[
-                    { value: false, label: '生成' },
-                    { value: true, label: '不生成' },
+                    { value: false, label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.no' }) },
+                    { value: true, label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.yes' }) },
                   ]}
                 />
                 <ProFormSelect
                   name={'exclude_module_ids'}
-                  label="排除的文档模型"
+                  label={intl.formatMessage({ id: 'plugin.sitemap.exculde-module' })}
                   mode="multiple"
                   request={async () => {
                     let res = await getModules({});
@@ -113,11 +114,11 @@ const PluginSitemap: React.FC<any> = (props) => {
                     }));
                     return tmpModules;
                   }}
-                  placeholder={'如果你想排除某些文档模型，可以在这里选择'}
+                  placeholder={intl.formatMessage({ id: 'plugin.sitemap.exculde-module.description' })}
                 />
                 <ProFormSelect
                   name={'exclude_category_ids'}
-                  label="排除的分类"
+                  label={intl.formatMessage({ id: 'plugin.sitemap.exculde-category' })}
                   mode="multiple"
                   request={async () => {
                     let res = await getCategories({ type: 1 });
@@ -127,11 +128,11 @@ const PluginSitemap: React.FC<any> = (props) => {
                     }));
                     return tmpData;
                   }}
-                  placeholder={'如果你想排除某些分类，可以在这里选择'}
+                  placeholder={intl.formatMessage({ id: 'plugin.sitemap.exculde-category.description' })}
                 />
                 <ProFormSelect
                   name={'exclude_page_ids'}
-                  label="排除的单页"
+                  label={intl.formatMessage({ id: 'plugin.sitemap.exculde-page' })}
                   mode="multiple"
                   request={async () => {
                     let res = await getCategories({ type: 3 });
@@ -141,16 +142,16 @@ const PluginSitemap: React.FC<any> = (props) => {
                     }));
                     return tmpData;
                   }}
-                  placeholder={'如果你想排除某些单页，可以在这里选择'}
+                  placeholder={intl.formatMessage({ id: 'plugin.sitemap.exculde-page.description' })}
                 />
               </Card>
             </ProForm>
             <div className="mt-normal">
-              <Card size="small" title="手动操作" bordered={false}>
-                <div>提示：修改Sitemap配置后，请手动生成Sitemap，让配置生效。</div>
+              <Card size="small" title={intl.formatMessage({ id: 'plugin.sitemap.action' })} bordered={false}>
+                <div><FormattedMessage id="plugin.sitemap.action.tips" /></div>
                 <ProFormText
                   readonly
-                  label="上次生成时间"
+                  label={intl.formatMessage({ id: 'plugin.sitemap.last-time' })}
                   fieldProps={{
                     value: dayjs(sitemapSetting.updated_time * 1000).format('YYYY-MM-DD HH:mm'),
                   }}
@@ -162,14 +163,14 @@ const PluginSitemap: React.FC<any> = (props) => {
                       rebuildSitemap();
                     }}
                   >
-                    手动生成Sitemap
+                    <FormattedMessage id="plugin.sitemap.build" />
                   </Button>
                   <Button
                     onClick={() => {
                       window.open(sitemapSetting.sitemap_url);
                     }}
                   >
-                    查看Sitemap
+                    <FormattedMessage id="plugin.sitemap.view" />
                   </Button>
                 </Space>
               </Card>

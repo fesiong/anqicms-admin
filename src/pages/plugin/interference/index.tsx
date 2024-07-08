@@ -3,10 +3,12 @@ import { PageContainer, ProForm, ProFormRadio } from '@ant-design/pro-components
 import { Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
+import { useIntl } from '@umijs/max';
 
 const PluginInterference: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [fetched, setFetched] = useState<boolean>(false);
+  const intl = useIntl();
 
   const getSetting = async () => {
     const res = await pluginGetInterferenceConfig();
@@ -19,7 +21,7 @@ const PluginInterference: React.FC<any> = () => {
   }, []);
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSaveInterferenceConfig(Object.assign(setting, values))
       .then((res) => {
         message.success(res.msg);
@@ -37,50 +39,50 @@ const PluginInterference: React.FC<any> = () => {
       <Card>
         {fetched && (
           <ProForm
-            title="防采集干扰码配置"
+            title={intl.formatMessage({ id: 'menu.plugin.interference' })}
             layout="vertical"
             initialValues={setting}
             onFinish={onSubmit}
           >
             <ProFormRadio.Group
               name="open"
-              label="开启防采集干扰码"
-              extra="只有开启了功能，下面的设置才有效。"
+              label={intl.formatMessage({ id: 'plugin.interference.isopen' })}
+              extra={intl.formatMessage({ id: 'plugin.interference.isopen.description' })}
               options={[
-                { value: false, label: '关闭' },
-                { value: true, label: '开启' },
+                { value: false, label: intl.formatMessage({ id: 'plugin.interference.isopen.no' }) },
+                { value: true, label: intl.formatMessage({ id: 'plugin.interference.isopen.yes' }) },
               ]}
             />
             <ProFormRadio.Group
               name="mode"
-              label="防干扰模式"
+              label={intl.formatMessage({ id: 'plugin.interference.mode' })}
               options={[
-                { value: 0, label: '添加随机Class' },
-                { value: 1, label: '添加随机隐藏文字' },
+                { value: 0, label: intl.formatMessage({ id: 'plugin.interference.mode.class' }) },
+                { value: 1, label: intl.formatMessage({ id: 'plugin.interference.mode.text' }) },
               ]}
             />
             <ProFormRadio.Group
               name="disable_selection"
-              label="禁用文字选中"
+              label={intl.formatMessage({ id: 'plugin.interference.disable-selection' })}
               options={[
-                { value: false, label: '不禁用' },
-                { value: true, label: '禁用' },
+                { value: false, label: intl.formatMessage({ id: 'plugin.interference.disable-selection.no' }) },
+                { value: true, label: intl.formatMessage({ id: 'plugin.interference.disable-selection.yes' }) },
               ]}
             />
             <ProFormRadio.Group
               name="disable_copy"
-              label="禁用复制"
+              label={intl.formatMessage({ id: 'plugin.interference.disable-copy' })}
               options={[
-                { value: false, label: '不禁用' },
-                { value: true, label: '禁用' },
+                { value: false, label: intl.formatMessage({ id: 'plugin.interference.disable-selection.no' }) },
+                { value: true, label: intl.formatMessage({ id: 'plugin.interference.disable-selection.yes' }) },
               ]}
             />
             <ProFormRadio.Group
               name="disable_right_click"
-              label="禁用鼠标右键点击"
+              label={intl.formatMessage({ id: 'plugin.interference.disable-right-click' })}
               options={[
-                { value: false, label: '不禁用' },
-                { value: true, label: '禁用' },
+                { value: false, label: intl.formatMessage({ id: 'plugin.interference.disable-selection.no' }) },
+                { value: true, label: intl.formatMessage({ id: 'plugin.interference.disable-selection.yes' }) },
               ]}
             />
           </ProForm>

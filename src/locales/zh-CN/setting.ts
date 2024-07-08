@@ -3,6 +3,7 @@ export default {
   'setting.action.edit': '修改',
   'setting.action.add': '添加',
   'setting.action.close': '关闭',
+  'setting.action.view': '查看',
   'setting.system.upload-success': '上传完成',
   'setting.system.confirm-delete-ico': '确定要删除Ico图标吗？',
   'setting.system.submitting': '正在提交',

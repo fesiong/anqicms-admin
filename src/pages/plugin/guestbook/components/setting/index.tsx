@@ -8,6 +8,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Col, Input, Modal, Row, Space, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -22,6 +23,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
   const [currentField, setCurrentField] = useState<any>({});
   const [setting, setSetting] = useState<any>({ fields: [] });
   const [fetched, setFetched] = useState<boolean>(false);
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -36,8 +38,8 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
 
   const handleRemoveItem = (index: number) => {
     Modal.confirm({
-      title: '确定要删除该字段吗？',
-      content: '你可以在保存之前，通过刷新页面来恢复。',
+      title: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm.content' }),
       onOk: async () => {
         setting.fields.splice(index, 1);
         setting.fields = [].concat(setting.fields);
@@ -89,40 +91,40 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '参数名称',
+      title: intl.formatMessage({ id: 'content.module.field.name' }),
       dataIndex: 'name',
     },
     {
-      title: '调用字段',
+      title: intl.formatMessage({ id: 'content.module.field.field-name' }),
       dataIndex: 'field_name',
     },
     {
-      title: '字段类型',
+      title: intl.formatMessage({ id: 'content.module.field.type' }),
       dataIndex: 'type',
       render: (text: any, record) => (
         <div>
-          <span>{record.is_system ? '(内置)' : ''}</span>
+          <span>{record.is_system ? 'content.module.field.type.built-in' : ''}</span>
           <span>{text}</span>
         </div>
       ),
     },
     {
-      title: '是否必填',
+      title: intl.formatMessage({ id: 'content.module.field.isrequired' }),
       dataIndex: 'required',
 
       valueEnum: {
         false: {
-          text: '选填',
+          text: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
           status: 'Default',
         },
         true: {
-          text: '必填',
+          text: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
           status: 'Success',
         },
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       render: (text: any, record, index) => (
         <Space size={20}>
@@ -133,7 +135,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
                 setEditVisible(true);
               }}
             >
-              编辑
+              <FormattedMessage id="setting.action.edit" />
             </a>
             {!record.is_system && (
               <a
@@ -142,7 +144,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
                   handleRemoveItem(index);
                 }}
               >
-                删除
+                <FormattedMessage id="setting.system.delete" />
               </a>
             )}
           </>
@@ -162,12 +164,11 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
       </div>
       <Modal
         width={800}
-        title="网站留言设置"
+        title={intl.formatMessage({ id: 'plugin.guestbook.setting' })}
         open={visible}
         onCancel={() => {
           setVisible(false);
         }}
-        okText="保存"
         onOk={() => {
           handleSaveSetting();
         }}
@@ -175,16 +176,16 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
         {fetched && (
           <Row gutter={16}>
             <Col>
-              <div style={{ lineHeight: '32px' }}>留言成功提示:</div>
+              <div style={{ lineHeight: '32px' }}><FormattedMessage id="plugin.guestbook.return-message" /></div>
             </Col>
             <Col flex={1}>
               <Input
                 name="return_message"
                 defaultValue={setting.return_message}
-                placeholder={'默认：感谢您的留言！'}
+                placeholder={intl.formatMessage({ id: 'plugin.guestbook.return-message.placeholder' })}
                 onChange={handleChangeReturnMessage}
               />
-              <div className="text-muted">用户提交留言后看到的提示。例如：感谢您的留言！</div>
+              <div className="text-muted"><FormattedMessage id="plugin.guestbook.return-message.description" /></div>
             </Col>
           </Row>
         )}
@@ -201,7 +202,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
                 setEditVisible(true);
               }}
             >
-              新增字段
+              <FormattedMessage id="content.module.field.add" />
             </Button>,
           ]}
           tableAlertRender={false}
@@ -219,7 +220,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentField.name ? currentField.name + '修改字段' : '添加字段'}
+          title={currentField.name ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' }) : intl.formatMessage({ id: 'content.module.field.add' })}
           open={editVisible}
           modalProps={{
             onCancel: () => {
@@ -232,43 +233,43 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
             handleSaveField(values);
           }}
         >
-          <ProFormText name="name" required label="参数名" extra="如：文章作者、类型、内容来源等" />
+          <ProFormText name="name" required label={intl.formatMessage({ id: 'content.module.field.name' })} extra={intl.formatMessage({ id: 'content.module.field.name.description' })} />
           <ProFormText
             name="field_name"
-            label="调用字段"
+            label={intl.formatMessage({ id: 'content.module.field.field-name' })}
             disabled={currentField.field_name ? true : false}
-            extra="英文字母开头，只能填写字母和数字，默认为参数名称的拼音"
+            extra={intl.formatMessage({ id: 'content.module.field.field-name.description' })}
           />
           <ProFormRadio.Group
             name="type"
-            label="字段类型"
+            label={intl.formatMessage({ id: 'content.module.field.type' })}
             disabled={currentField.field_name ? true : false}
             valueEnum={{
-              text: '单行文本',
-              number: '数字',
-              textarea: '多行文本',
-              radio: '单项选择',
-              checkbox: '多项选择',
-              select: '下拉选择',
-              image: '图片',
-              file: '文件',
+              text: intl.formatMessage({ id: 'content.module.field.type.text' }),
+              number: intl.formatMessage({ id: 'content.module.field.type.number' }),
+              textarea: intl.formatMessage({ id: 'content.module.field.type.textarea' }),
+              radio: intl.formatMessage({ id: 'content.module.field.type.radio' }),
+              checkbox: intl.formatMessage({ id: 'content.module.field.type.checkbox' }),
+              select: intl.formatMessage({ id: 'content.module.field.type.select' }),
+              image: intl.formatMessage({ id: 'content.module.field.type.image' }),
+              file: intl.formatMessage({ id: 'content.module.field.type.file' }),
             }}
           />
           <ProFormRadio.Group
             name="required"
-            label="是否必填"
+            label={intl.formatMessage({ id: 'content.module.field.isrequired' })}
             options={[
-              { label: '选填', value: false },
-              { label: '必填', value: true },
+              { label: intl.formatMessage({ id: 'content.module.field.isrequired.no' }), value: false },
+              { label: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }), value: true },
             ]}
           />
           <ProFormTextArea
-            label="默认值"
+            label={intl.formatMessage({ id: 'content.category.default' })}
             name="content"
             fieldProps={{
               rows: 4,
             }}
-            extra="单选、多选、下拉的多个值，一行一个。"
+            extra={intl.formatMessage({ id: 'content.module.field.default.description' })}
           />
         </ModalForm>
       )}

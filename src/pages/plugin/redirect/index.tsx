@@ -5,18 +5,20 @@ import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import RedirectImport from './components/import';
 import RedirectForm from './components/redirectForm';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginRedirect: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentRedirect, setCurrentRedirect] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的链接吗？',
+      title: intl.formatMessage({ id: 'plugin.redirect.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -25,13 +27,13 @@ const PluginRedirect: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -49,15 +51,15 @@ const PluginRedirect: React.FC = () => {
       dataIndex: 'id',
     },
     {
-      title: '源链接',
+      title: intl.formatMessage({ id: 'plugin.redirect.from-url' }),
       dataIndex: 'from_url',
     },
     {
-      title: '跳转链接',
+      title: intl.formatMessage({ id: 'plugin.redirect.to-url' }),
       dataIndex: 'to_url',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -68,7 +70,7 @@ const PluginRedirect: React.FC = () => {
               handleEditRedirect(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -77,7 +79,7 @@ const PluginRedirect: React.FC = () => {
               handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -87,7 +89,7 @@ const PluginRedirect: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="301跳转管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.redirect' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
@@ -99,7 +101,7 @@ const PluginRedirect: React.FC = () => {
               handleEditRedirect({});
             }}
           >
-            <PlusOutlined /> 添加链接
+            <PlusOutlined /> <FormattedMessage id="plugin.redirect.add" />
           </Button>,
           <RedirectImport
             onCancel={() => {
@@ -112,7 +114,7 @@ const PluginRedirect: React.FC = () => {
                 //todo
               }}
             >
-              导入链接
+              <FormattedMessage id="plugin.redirect.import" />
             </Button>
           </RedirectImport>,
         ]}
@@ -124,10 +126,10 @@ const PluginRedirect: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}

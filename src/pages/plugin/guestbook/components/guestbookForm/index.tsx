@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, Image, message } from 'antd';
 import dayjs from 'dayjs';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 export type GuestbookFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -16,6 +17,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
   const [sendMailSetting, setSendMailSetting] = useState<any>({});
   const [replyVisible, setReplyVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const intl = useIntl();
 
   useEffect(() => {
     getSendMailSetting();
@@ -28,7 +30,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
 
   const replyEmail = () => {
     if (!sendMailSetting.recipient && !sendMailSetting.account) {
-      message.error('请先进行邮件提醒设置，在功能里搜“邮件提醒”');
+      message.error(intl.formatMessage({ id: 'plugin.guestbook.reply.required' }));
       return;
     }
     setReplyVisible(true);
@@ -41,7 +43,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
     setLoading(true);
     if (!values.message || !values.subject) {
       setLoading(false);
-      message.error('请填写邮件标题和邮件内容');
+      message.error(intl.formatMessage({ id: 'plugin.guestbook.replysubmit.required' }));
       return;
     }
     let res = await pluginTestSendmail({
@@ -51,7 +53,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
     });
     setLoading(false);
     if (res.code === 0) {
-      message.success('邮件发送成功');
+      message.success(intl.formatMessage({ id: 'plugin.guestbook.replysubmit.success' }));
       setReplyVisible(false);
     } else {
       message.error(res.msg);
@@ -62,7 +64,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
     <>
       <ModalForm
         width={600}
-        title={'查看留言'}
+        title={intl.formatMessage({ id: 'plugin.guestbook.view' })}
         initialValues={props.editingGuestbook}
         open={props.open}
         layout="horizontal"
@@ -76,18 +78,18 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
         }}
       >
         <ProFormText name="id" label="ID" readonly />
-        <ProFormText name="user_name" label="用户名" readonly />
+        <ProFormText name="user_name" label={intl.formatMessage({ id: 'plugin.guestbook.user-name' })} readonly />
         <ProFormText
           name="contact"
-          label="联系方式"
+          label={intl.formatMessage({ id: 'plugin.guestbook.contact' })}
           readonly
           extra={
             props.editingGuestbook.contact?.indexOf('@') !== -1 && (
-              <Button onClick={replyEmail}>回复邮件</Button>
+              <Button onClick={replyEmail}><FormattedMessage id="plugin.guestbook.reply" /></Button>
             )
           }
         />
-        <ProFormTextArea name="content" label="留言内容" readonly />
+        <ProFormTextArea name="content" label={intl.formatMessage({ id: 'plugin.guestbook.content' })} readonly />
         {Object.keys(props.editingGuestbook.extra_data || {}).map((key: string, index: number) => (
           <ProFormText
             key={index}
@@ -105,7 +107,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
                   props.editingGuestbook.extra_data[key].indexOf('.gif') !== -1 ? (
                     <Image width={200} src={props.editingGuestbook.extra_data[key]} />
                   ) : (
-                    '点击预览'
+                    intl.formatMessage({ id: 'plugin.guestbook.click-preview' })
                   )}
                 </a>
               )
@@ -113,18 +115,18 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
           />
         ))}
         <ProFormText name="ip" label="IP" readonly />
-        <ProFormText name="refer" label="来源" readonly />
+        <ProFormText name="refer" label={intl.formatMessage({ id: 'plugin.guestbook.refer' })} readonly />
         <ProFormText
           fieldProps={{
             value: dayjs(props.editingGuestbook.created_time * 1000).format('YYYY-MM-DD HH:mm:ss'),
           }}
-          label="评论时间"
+          label={intl.formatMessage({ id: 'plugin.guestbook.create-time' })}
           readonly
         />
       </ModalForm>
       <ModalForm
         width={550}
-        title={'回复邮件'}
+        title={intl.formatMessage({ id: 'plugin.guestbook.reply' })}
         open={replyVisible}
         layout="horizontal"
         onOpenChange={(flag) => {
@@ -132,8 +134,8 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
         }}
         onFinish={onSubmitReply}
       >
-        <ProFormText name="subject" label="邮件标题" />
-        <ProFormTextArea name="message" label="邮件内容" />
+        <ProFormText name="subject" label={intl.formatMessage({ id: 'plugin.guestbook.reply.subject' })} />
+        <ProFormTextArea name="message" label={intl.formatMessage({ id: 'plugin.guestbook.reply.message' })} />
       </ModalForm>
     </>
   );

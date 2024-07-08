@@ -1,5 +1,6 @@
 import { pluginGetOrderInfo } from '@/services';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Divider } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +15,7 @@ export type OrderFormProps = {
 const OrderForm: React.FC<OrderFormProps> = (props) => {
   const [order, setOrder] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const intl = useIntl();
 
   const getOrderDetail = async () => {
     const res = await pluginGetOrderInfo({
@@ -31,25 +33,25 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
     let text = '';
     switch (status) {
       case 0:
-        text = '待付款';
+        text = intl.formatMessage({ id: 'plugin.order.status.wait' });
         break;
       case 1:
-        text = '待发货';
+        text = intl.formatMessage({ id: 'plugin.order.status.paid' });
         break;
       case 2:
-        text = '待收货';
+        text = intl.formatMessage({ id: 'plugin.order.status.delivery' });
         break;
       case 3:
-        text = '已成功';
+        text = intl.formatMessage({ id: 'plugin.order.status.finished' });
         break;
       case 8:
-        text = '退款中';
+        text = intl.formatMessage({ id: 'plugin.order.status.refunding' });
         break;
       case 9:
-        text = '已退款';
+        text = intl.formatMessage({ id: 'plugin.order.status.refunded' });
         break;
       case -1:
-        text = '订单关闭';
+        text = intl.formatMessage({ id: 'plugin.order.status.closed' });
         break;
     }
 
@@ -59,7 +61,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
   return fetched ? (
     <ModalForm
       width={900}
-      title={'订单信息'}
+      title={intl.formatMessage({ id: 'plugin.order.detail' })}
       open={props.open}
       layout="horizontal"
       onOpenChange={(flag) => {
@@ -71,26 +73,26 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
     >
       <ProFormText
         name="type"
-        label="订单类型"
+        label={intl.formatMessage({ id: 'plugin.order.type' })}
         readonly
-        initialValue={order.type == 'vip' ? 'VIP' : '商品'}
+        initialValue={order.type == 'vip' ? intl.formatMessage({id: 'plugin.order.type.vip'}) : intl.formatMessage({ id: 'plugin.order.type.goods' })}
       />
-      <ProFormText name="order_id" label="订单ID" readonly initialValue={order.order_id} />
+      <ProFormText name="order_id" label={intl.formatMessage({ id: 'plugin.order.order-id' })} readonly initialValue={order.order_id} />
       <ProFormText
         name="status"
-        label="订单状态"
+        label={intl.formatMessage({ id: 'plugin.order.status' })}
         readonly
         initialValue={getStatusText(order.status)}
       />
       <ProFormText
         name="created_time"
-        label="下单时间"
+        label={intl.formatMessage({ id: 'plugin.order.create-time' })}
         readonly
         initialValue={dayjs(order.created_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
       />
       <ProFormText
         name="created_time"
-        label="支付时间"
+        label={intl.formatMessage({ id: 'plugin.order.pay-time' })}
         readonly
         initialValue={
           order.paid_time > 0 ? dayjs(order.paid_time * 1000).format('YYYY-MM-DD HH:mm:ss') : '-'
@@ -98,7 +100,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
       />
       <ProFormText
         name="created_time"
-        label="发货时间"
+        label={intl.formatMessage({ id: 'plugin.order.deliver-time' })}
         readonly
         initialValue={
           order.deliver_time > 0
@@ -108,7 +110,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
       />
       <ProFormText
         name="created_time"
-        label="完成时间"
+        label={intl.formatMessage({ id: 'plugin.order.finished-time' })}
         readonly
         initialValue={
           order.finished_time > 0
@@ -116,28 +118,27 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
             : '-'
         }
       />
-      <ProFormText name="payment_id" label="交易号" readonly initialValue={order.payment_id} />
-      <ProFormText name="payment_id" label="交易号" readonly initialValue={order.payment_id} />
-      <ProFormText name="terrace_id" label="商户流水号" readonly initialValue={order.terrace_id} />
-      <ProFormText name="amount" label="支付总价" readonly initialValue={order.amount / 100} />
+      <ProFormText name="payment_id" label={intl.formatMessage({ id: 'plugin.order.payment-id' })} readonly initialValue={order.payment_id} />
+      <ProFormText name="terrace_id" label={intl.formatMessage({ id: 'plugin.order.terrace-id' })} readonly initialValue={order.terrace_id} />
+      <ProFormText name="amount" label={intl.formatMessage({ id: 'plugin.order.pay-amount' })} readonly initialValue={order.amount / 100} />
       <ProFormText
         name="amount"
-        label="原始总价"
+        label={intl.formatMessage({ id: 'plugin.order.origin-amount' })}
         readonly
         initialValue={order.origin_amount / 100}
       />
-      <ProFormText name="user" label="订购用户" readonly initialValue={order.user?.user_name} />
+      <ProFormText name="user" label={intl.formatMessage({ id: 'plugin.order.buy.user-name' })} readonly initialValue={order.user?.user_name} />
       {order.share_user_id > 0 && (
         <>
           <ProFormText
             name="user"
-            label="分销用户"
+            label={intl.formatMessage({ id: 'plugin.order.share.user-name' })}
             readonly
             initialValue={order.share_user?.user_name}
           />
           <ProFormText
             name="user"
-            label="分销佣金"
+            label={intl.formatMessage({ id: 'plugin.order.share.amount' })}
             readonly
             initialValue={order.share_amount / 100}
           />
@@ -147,54 +148,54 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
         <>
           <ProFormText
             name="user"
-            label="分销上级用户"
+            label={intl.formatMessage({ id: 'plugin.order.share.parent.user-name' })}
             readonly
             initialValue={order.parent_user?.user_name}
           />
           <ProFormText
             name="user"
-            label="上级奖励佣金"
+            label={intl.formatMessage({ id: 'plugin.order.share.parent.amount' })}
             readonly
             initialValue={order.share_parent_amount / 100}
           />
         </>
       )}
-      <ProFormText name="remark" label="订单备注" readonly initialValue={order.remark} />
+      <ProFormText name="remark" label={intl.formatMessage({ id: 'plugin.order.remark' })} readonly initialValue={order.remark} />
       <Divider />
       {order.type == 'vip' ? (
         <div>
-          <div>购买VIP</div>
+          <div><FormattedMessage id="plugin.order.vip" /></div>
           {order.details?.map((item: any, index: number) => (
             <div key={index}>
-              <ProFormText name="title" label="名称" readonly initialValue={item.group?.title} />
-              <ProFormText name="amount" label="单价" readonly initialValue={item.price / 100} />
+              <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.order.detail.title' })} readonly initialValue={item.group?.title} />
+              <ProFormText name="amount" label={intl.formatMessage({ id: 'plugin.order.detail.price' })} readonly initialValue={item.price / 100} />
             </div>
           ))}
         </div>
       ) : (
         <div>
-          <div>订购商品</div>
+          <div><FormattedMessage id="plugin.order.goods" /></div>
           {order.details?.map((item: any, index: number) => (
             <div key={index}>
-              <ProFormText name="title" label="名称" readonly initialValue={item.goods?.title} />
-              <ProFormText name="amount" label="单价" readonly initialValue={order.price / 100} />
-              <ProFormText name="amount" label="订购数量" readonly initialValue={item.quantity} />
-              <ProFormText name="amount" label="总价" readonly initialValue={item.amount / 100} />
+              <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.order.detail.title' })} readonly initialValue={item.goods?.title} />
+              <ProFormText name="amount" label={intl.formatMessage({ id: 'plugin.order.detail.price' })} readonly initialValue={order.price / 100} />
+              <ProFormText name="amount" label={intl.formatMessage({ id: 'plugin.order.detail.quantity' })} readonly initialValue={item.quantity} />
+              <ProFormText name="amount" label={intl.formatMessage({ id: 'plugin.order.detail.amount' })} readonly initialValue={item.amount / 100} />
             </div>
           ))}
         </div>
       )}
       <Divider />
-      <ProFormText name="name" label="收件人" readonly initialValue={order.order_address?.name} />
+      <ProFormText name="name" label={intl.formatMessage({ id: 'plugin.order.recipient.name' })} readonly initialValue={order.order_address?.name} />
       <ProFormText
         name="phone"
-        label="收件电话"
+        label={intl.formatMessage({ id: 'plugin.order.recipient.contact' })}
         readonly
         initialValue={order.order_address?.phone}
       />
       <ProFormText
         name="address_info"
-        label="收件地址"
+        label={intl.formatMessage({ id: 'plugin.order.recipient.address' })}
         readonly
         initialValue={
           order.order_address?.province +

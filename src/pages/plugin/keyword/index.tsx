@@ -7,7 +7,7 @@ import {
 import { exportFile } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { Link } from '@umijs/max';
+import { FormattedMessage, Link, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import KeywordImport from './components/import';
@@ -19,19 +19,20 @@ const PluginKeyword: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentKeyword, setCurrentKeyword] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的关键词吗？',
+      title: intl.formatMessage({ id: 'plugin.keyword.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           await pluginDeleteKeyword({
             ids: selectedRowKeys,
           });
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           if (actionRef.current) {
             actionRef.current.reloadAndRest?.();
@@ -39,7 +40,7 @@ const PluginKeyword: React.FC = () => {
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -53,7 +54,7 @@ const PluginKeyword: React.FC = () => {
 
   const handleExportKeyword = async () => {
     Modal.confirm({
-      title: '确定要导出全部关键词吗？',
+      title: intl.formatMessage({ id: 'plugin.keyword.export.confirm' }),
       onOk: async () => {
         let res = await pluginExportKeyword();
         exportFile(res.data?.header, res.data?.content, 'csv');
@@ -68,9 +69,9 @@ const PluginKeyword: React.FC = () => {
 
   const handleCollectArticle = (keyword: any) => {
     Modal.confirm({
-      title: '确定要对这个关键词执行采集操作吗？',
+      title: intl.formatMessage({ id: 'plugin.keyword.collect.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在采集中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'plugin.keyword.collect.doing' }), 0);
         collectCollectorArticle(keyword)
           .then((res) => {
             if (res.code !== 0) {
@@ -91,10 +92,10 @@ const PluginKeyword: React.FC = () => {
 
   const handleAiGenerateArticle = (keyword: any) => {
     Modal.confirm({
-      title: '确定要对这个关键词执行AI写作操作吗？',
-      content: 'AI自动写作需要付费，请确保已绑定安企账号。',
+      title: 'plugin.keyword.aigenerate.confirm',
+      content: 'plugin.keyword.aigenerate.content',
       onOk: async () => {
-        const hide = message.loading('正在生成中', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'plugin.keyword.aigenerate.doing' }), 0);
         collectAiGenerateArticle(keyword)
           .then((res) => {
             if (res.code !== 0) {
@@ -115,15 +116,15 @@ const PluginKeyword: React.FC = () => {
 
   const cleanupKeywords = () => {
     Modal.confirm({
-      title: '确定要对这清空全部关键词吗？',
-      content: '该操作会删除所有的关键词，并且不可恢复，请谨慎操作',
+      title: intl.formatMessage({ id: 'plugin.keyword.cleanup.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.keyword.cleanup.content' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         await pluginDeleteKeyword({
           all: true,
         });
         hide();
-        message.success('删除成功');
+        message.success(intl.formatMessage({ id: 'content.delete.success' }));
         actionRef.current?.reloadAndRest?.();
       },
     });
@@ -136,26 +137,26 @@ const PluginKeyword: React.FC = () => {
       dataIndex: 'id',
     },
     {
-      title: '关键词',
+      title: intl.formatMessage({ id: 'plugin.keyword.title' }),
       dataIndex: 'title',
     },
     {
-      title: '层级',
+      title: intl.formatMessage({ id: 'plugin.keyword.level' }),
       hideInSearch: true,
       dataIndex: 'level',
     },
     {
-      title: '文章分类ID',
+      title: intl.formatMessage({ id: 'plugin.keyword.archive-category-id' }),
       hideInSearch: true,
       dataIndex: 'category_id',
     },
     {
-      title: '已采集文章',
+      title: intl.formatMessage({ id: 'plugin.keyword.article-count' }),
       hideInSearch: true,
       dataIndex: 'article_count',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -166,7 +167,7 @@ const PluginKeyword: React.FC = () => {
               handleCollectArticle(record);
             }}
           >
-            手动采集
+            <FormattedMessage id="plugin.keyword.collect" />
           </a>
           <a
             key="collect"
@@ -174,7 +175,7 @@ const PluginKeyword: React.FC = () => {
               handleAiGenerateArticle(record);
             }}
           >
-            AI写作
+            <FormattedMessage id="plugin.keyword.aigenerate" />
           </a>
           <a
             key="edit"
@@ -182,10 +183,10 @@ const PluginKeyword: React.FC = () => {
               handleEditKeyword(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <Link key="view" to={'/plugin/aigenerate?keyword=' + record.title}>
-            查看AI文章
+            <FormattedMessage id="plugin.keyword.aigenerate.view-archive" />
           </Link>
           <a
             className="text-red"
@@ -194,7 +195,7 @@ const PluginKeyword: React.FC = () => {
               handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -204,7 +205,7 @@ const PluginKeyword: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="关键词库管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.keyword' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
@@ -215,7 +216,7 @@ const PluginKeyword: React.FC = () => {
               handleEditKeyword({});
             }}
           >
-            <PlusOutlined /> 添加关键词
+            <PlusOutlined /> <FormattedMessage id="plugin.keyword.add" />
           </Button>,
           <Button
             key="export"
@@ -223,7 +224,7 @@ const PluginKeyword: React.FC = () => {
               handleExportKeyword();
             }}
           >
-            导出关键词
+            <FormattedMessage id="plugin.keyword.export" />
           </Button>,
           <KeywordImport
             onCancel={() => {
@@ -236,7 +237,7 @@ const PluginKeyword: React.FC = () => {
                 //todo
               }}
             >
-              导入关键词
+              <FormattedMessage id="plugin.keyword.import" />
             </Button>
           </KeywordImport>,
           <Button
@@ -245,10 +246,10 @@ const PluginKeyword: React.FC = () => {
               handleDigKeyword();
             }}
           >
-            手动拓词
+            <FormattedMessage id="plugin.keyword.manual-dig" />
           </Button>,
           <KeywordSetting onCancel={() => {}} key="setting">
-            <Button>拓词设置</Button>
+            <Button><FormattedMessage id="plugin.keyword.dig-setting" /></Button>
           </KeywordSetting>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
@@ -259,13 +260,13 @@ const PluginKeyword: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button size={'small'} onClick={cleanupKeywords}>
-              清空关键词库
+              <FormattedMessage id="plugin.keyword.cleanup" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}

@@ -12,6 +12,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -25,6 +26,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [currentField, setCurrentField] = useState<any>({});
   const [setting, setSetting] = useState<any>({ fields: [] });
+  const intl = useIntl();
 
   const getSetting = async () => {
     const res = await pluginGetUserFieldsSetting();
@@ -37,8 +39,8 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
 
   const handleRemoveItem = (record: any, index: number) => {
     Modal.confirm({
-      title: '确定要删除该字段吗？',
-      content: '你可以在保存之前，通过刷新页面来恢复。',
+      title: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm.content' }),
       onOk: async () => {
         pluginDeleteUserField({ field_name: record.field_name });
         setting.fields.splice(index, 1);
@@ -89,25 +91,25 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '参数名称',
+      title: intl.formatMessage({ id: 'content.module.field.name' }),
       dataIndex: 'name',
     },
     {
-      title: '调用字段',
+      title: intl.formatMessage({ id: 'content.module.field.field-name' }),
       dataIndex: 'field_name',
     },
     {
-      title: '字段类型',
+      title: intl.formatMessage({ id: 'content.module.field.type' }),
       dataIndex: 'type',
       render: (text: any, record) => (
         <div>
-          <span>{record.is_system ? '(内置)' : ''}</span>
+          <span>{record.is_system ? 'content.module.field.type.built-in' : ''}</span>
           <span>{text}</span>
         </div>
       ),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       render: (_, record, index) => (
         <Space size={20}>
@@ -118,7 +120,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
                 setEditVisible(true);
               }}
             >
-              编辑
+              <FormattedMessage id="setting.action.edit" />
             </a>
             {!record.is_system && (
               <a
@@ -127,7 +129,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
                   handleRemoveItem(record, index);
                 }}
               >
-                删除
+                <FormattedMessage id="setting.system.delete" />
               </a>
             )}
           </>
@@ -147,12 +149,11 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
       </div>
       <Modal
         width={800}
-        title="用户附加字段设置"
+        title={intl.formatMessage({ id: 'plugin.user.setting' })}
         open={visible}
         onCancel={() => {
           setVisible(false);
         }}
-        okText="保存"
         onOk={() => {
           handleSaveSetting();
         }}
@@ -170,7 +171,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
                 setEditVisible(true);
               }}
             >
-              新增字段
+              <FormattedMessage id="content.module.field.add" />
             </Button>,
           ]}
           tableAlertRender={false}
@@ -192,7 +193,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentField.name ? currentField.name + '修改字段' : '添加字段'}
+          title={currentField.name ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' }) : intl.formatMessage({ id: 'content.module.field.add' })}
           open={editVisible}
           modalProps={{
             onCancel: () => {
@@ -205,35 +206,35 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
             handleSaveField(values);
           }}
         >
-          <ProFormText name="name" required label="参数名" extra="如：QQ，微信号等" />
+          <ProFormText name="name" required label={intl.formatMessage({ id: 'content.module.field.name' })} extra={intl.formatMessage({ id: 'plugin.user.setting.name.description' })} />
           <ProFormText
             name="field_name"
-            label="调用字段"
+            label={intl.formatMessage({ id: 'content.module.field.field-name' })}
             disabled={currentField.field_name ? true : false}
-            extra="英文字母开头，只能填写字母和数字，默认为参数名称的拼音"
+            extra={intl.formatMessage({ id: 'content.module.field.field-name.description' })}
           />
           <ProFormRadio.Group
             name="type"
-            label="字段类型"
+            label={intl.formatMessage({ id: 'content.module.field.type' })}
             disabled={currentField.field_name ? true : false}
             valueEnum={{
-              text: '单行文本',
-              number: '数字',
-              textarea: '多行文本',
-              radio: '单项选择',
-              checkbox: '多项选择',
-              select: '下拉选择',
-              image: '图片',
-              file: '文件',
+              text: intl.formatMessage({ id: 'content.module.field.type.text' }),
+              number: intl.formatMessage({ id: 'content.module.field.type.number' }),
+              textarea: intl.formatMessage({ id: 'content.module.field.type.textarea' }),
+              radio: intl.formatMessage({ id: 'content.module.field.type.radio' }),
+              checkbox: intl.formatMessage({ id: 'content.module.field.type.checkbox' }),
+              select: intl.formatMessage({ id: 'content.module.field.type.select' }),
+              image: intl.formatMessage({ id: 'content.module.field.type.image' }),
+              file: intl.formatMessage({ id: 'content.module.field.type.file' }),
             }}
           />
           <ProFormTextArea
-            label="默认值"
+            label={intl.formatMessage({ id: 'content.param.default' })}
             name="content"
             fieldProps={{
               rows: 4,
             }}
-            extra="单选、多选、下拉的多个值，一行一个。"
+            extra={intl.formatMessage({ id: 'content.module.field.default.description' })}
           />
         </ModalForm>
       )}

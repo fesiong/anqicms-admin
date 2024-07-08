@@ -6,6 +6,7 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Divider, Upload, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -13,6 +14,7 @@ const PluginStorage: React.FC<any> = (props) => {
   const [pushSetting, setPushSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
   const [storageType, setStorageType] = useState<string>('local');
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -34,7 +36,7 @@ const PluginStorage: React.FC<any> = (props) => {
     const formData = new FormData();
     formData.append('file', e.file);
     formData.append('name', field);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginStorageUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -47,7 +49,7 @@ const PluginStorage: React.FC<any> = (props) => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSaveStorage(values)
       .then((res) => {
         message.success(res.msg);
@@ -62,157 +64,157 @@ const PluginStorage: React.FC<any> = (props) => {
   return (
     <PageContainer>
       <Card>
-        <Alert message="资源存储方式的切换不会自动同步之前已经上传的资源，一般不建议在使用中切换存储方式。" />
+        <Alert message={intl.formatMessage({ id: 'plugin.storage.tips' })} />
         <div className="center-mid-card">
           {fetched && (
             <ProForm onFinish={onSubmit} initialValues={pushSetting}>
-              <Divider>基本配置</Divider>
+              <Divider><FormattedMessage id="plugin.storage.base" /></Divider>
               <ProFormRadio.Group
                 name="storage_type"
-                label="存储方式"
+                label={intl.formatMessage({ id: 'plugin.storage.type' })}
                 fieldProps={{
                   onChange: changeStorageType,
                 }}
                 options={[
                   {
                     value: 'local',
-                    label: '本地存储',
+                    label: intl.formatMessage({ id: 'plugin.storage.type.local' }),
                   },
                   {
                     value: 'aliyun',
-                    label: '阿里云存储',
+                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.aliyun' }),
                   },
                   {
                     value: 'tencent',
-                    label: '腾讯云存储',
+                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.tencent' }),
                   },
                   {
                     value: 'qiniu',
-                    label: '七牛云存储',
+                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.qiniu' }),
                   },
                   {
                     value: 'upyun',
-                    label: '又拍云存储',
+                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.upyun' }),
                   },
                   {
                     value: 'ftp',
-                    label: 'FTP存储',
+                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ftp' }),
                   },
                   {
                     value: 'ssh',
-                    label: 'SFTP(SSH)存储',
+                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ssh' }),
                   },
                 ]}
               />
-              <ProFormText name="storage_url" label="资源地址" placeholder="" />
+              <ProFormText name="storage_url" label={intl.formatMessage({ id: 'plugin.storage.url' })} placeholder="" />
               <div className={storageType == 'local' ? 'hidden' : ''}>
                 <ProFormRadio.Group
                   name="keep_local"
-                  label="本地存档"
+                  label={intl.formatMessage({ id: 'plugin.storage.keep-local' })}
                   options={[
                     {
                       value: false,
-                      label: '不保留',
+                      label: intl.formatMessage({ id: 'plugin.storage.keep-local.no' }),
                     },
                     {
                       value: true,
-                      label: '保留',
+                      label: intl.formatMessage({ id: 'plugin.storage.keep-local.yes' }),
                     },
                   ]}
-                  extra="使用云存储的时候，可以选择保留本地存档"
+                  extra={intl.formatMessage({ id: 'plugin.storage.keep-local.description' })}
                 />
               </div>
               <div className={storageType != 'aliyun' ? 'hidden' : ''}>
-                <Divider>阿里云存储</Divider>
+                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.aliyun" /></Divider>
                 <ProFormText
                   name="aliyun_endpoint"
-                  label="阿里云节点"
-                  placeholder="例如：http://oss-cn-hangzhou.aliyuncs.com"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint' })}
+                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint.placeholder' })}
                 />
-                <ProFormText name="aliyun_access_key_id" label="阿里云AccessKeyId" placeholder="" />
+                <ProFormText name="aliyun_access_key_id" label="AccessKeyId" placeholder="" />
                 <ProFormText
                   name="aliyun_access_key_secret"
-                  label="阿里云AccessKeySecret"
+                  label="AccessKeySecret"
                   placeholder=""
                 />
-                <ProFormText name="aliyun_bucket_name" label="阿里云存储桶名称" placeholder="" />
+                <ProFormText name="aliyun_bucket_name" label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })} placeholder="" />
               </div>
               <div className={storageType != 'tencent' ? 'hidden' : ''}>
-                <Divider>腾讯云存储</Divider>
-                <ProFormText name="tencent_secret_id" label="腾讯云SecretId" placeholder="" />
-                <ProFormText name="tencent_secret_key" label="腾讯云SecretKey" placeholder="" />
+                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.tencent" /></Divider>
+                <ProFormText name="tencent_secret_id" label="SecretId" placeholder="" />
+                <ProFormText name="tencent_secret_key" label="SecretKey" placeholder="" />
                 <ProFormText
                   name="tencent_bucket_url"
-                  label="腾讯云存储桶地址"
-                  placeholder="例如：https://aa-1257021234.cos.ap-guangzhou.myqcloud.com"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url' })}
+                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url.placeholder' })}
                 />
               </div>
               <div className={storageType != 'qiniu' ? 'hidden' : ''}>
-                <Divider>七牛云存储</Divider>
-                <ProFormText name="qiniu_access_key" label="七牛云AccessKey" placeholder="" />
-                <ProFormText name="qiniu_secret_key" label="七牛云SecretKey" placeholder="" />
+                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.qiniu" /></Divider>
+                <ProFormText name="qiniu_access_key" label="AccessKey" placeholder="" />
+                <ProFormText name="qiniu_secret_key" label="SecretKey" placeholder="" />
                 <ProFormText
                   name="qiniu_bucket"
-                  label="七牛云存储桶名称"
-                  placeholder="例如：anqicms"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name' })}
+                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name.placeholder' })}
                 />
                 <ProFormRadio.Group
                   name="qiniu_region"
-                  label="七牛云存储区域"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region' })}
                   options={[
                     {
                       value: 'z0',
-                      label: '华东',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z0' }),
                     },
                     {
                       value: 'z1',
-                      label: '华北',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z1' }),
                     },
                     {
                       value: 'z2',
-                      label: '华南',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z2' }),
                     },
                     {
                       value: 'na0',
-                      label: '北美',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.na0' }),
                     },
                     {
                       value: 'as0',
-                      label: '东南亚',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.as0' }),
                     },
                     {
                       value: 'cn-east-2',
-                      label: '华东-浙江2',
+                      label: 'plugin.htmlcache.qiniu.region.cn-east2',
                     },
                     {
                       value: 'fog-cn-east-1',
-                      label: '雾存储华东区',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.fog-cn-east1' }),
                     },
                   ]}
                 />
               </div>
               <div className={storageType != 'upyun' ? 'hidden' : ''}>
-                <Divider>又拍云存储</Divider>
-                <ProFormText name="upyun_operator" label="又拍云操作员" placeholder="" />
-                <ProFormText name="upyun_password" label="又拍云操作员密码" placeholder="" />
-                <ProFormText name="upyun_bucket" label="又拍云存服务名称" placeholder="" />
+                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.upyun" /></Divider>
+                <ProFormText name="upyun_operator" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })} placeholder="" />
+                <ProFormText name="upyun_password" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })} placeholder="" />
+                <ProFormText name="upyun_bucket" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })} placeholder="" />
               </div>
               <div className={storageType != 'ftp' ? 'hidden' : ''}>
-                <Divider>FTP存储</Divider>
-                <p>注意：经测试，宝塔自带的PureFtp无法正常使用。</p>
-                <ProFormText name="ftp_host" label="FTP IP地址" placeholder="" />
-                <ProFormDigit name="ftp_port" label="FTP 端口" placeholder="" />
-                <ProFormText name="ftp_username" label="FTP 用户名" placeholder="" />
-                <ProFormText name="ftp_password" label="FTP 密码" placeholder="" />
-                <ProFormText name="ftp_webroot" label="FTP 上传根目录" placeholder="" />
+                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ftp" /></Divider>
+                <p><FormattedMessage id="plugin.htmlcache.ftp.tips" /></p>
+                <ProFormText name="ftp_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })} placeholder="" />
+                <ProFormDigit name="ftp_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })} placeholder="" />
+                <ProFormText name="ftp_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })} placeholder="" />
+                <ProFormText name="ftp_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })} placeholder="" />
+                <ProFormText name="ftp_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })} placeholder="" />
               </div>
               <div className={storageType != 'ssh' ? 'hidden' : ''}>
-                <Divider>SFTP(SSH)存储</Divider>
-                <ProFormText name="ssh_host" label="SSH IP地址" placeholder="" />
-                <ProFormDigit name="ssh_port" label="SSH 端口" placeholder="" />
-                <ProFormText name="ssh_username" label="SSH 用户名" placeholder="" />
-                <ProFormText name="ssh_password" label="SSH 密码" placeholder="" />
-                <ProFormText label="或SSH 密钥" extra="如果你的SSH服务器是使用密钥登录，请上传">
+                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ssh" /></Divider>
+                <ProFormText name="ssh_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })} placeholder="" />
+                <ProFormDigit name="ssh_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })} placeholder="" />
+                <ProFormText name="ssh_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })} placeholder="" />
+                <ProFormText name="ssh_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })} placeholder="" />
+                <ProFormText label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })} extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}>
                   <Upload
                     name="file"
                     className="logo-uploader"
@@ -220,13 +222,13 @@ const PluginStorage: React.FC<any> = (props) => {
                     accept=".crt,.pem,.key"
                     customRequest={async (e) => handleUploadFile('ssh_private_key', e)}
                   >
-                    <Button type="primary">上传文件</Button>
+                    <Button type="primary"><FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" /></Button>
                   </Upload>
                   {pushSetting.ssh_private_key && (
                     <div className="upload-file">{pushSetting.ssh_private_key}</div>
                   )}
                 </ProFormText>
-                <ProFormText name="ssh_webroot" label="SSH 上传根目录" placeholder="" />
+                <ProFormText name="ssh_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })} placeholder="" />
               </div>
             </ProForm>
           )}

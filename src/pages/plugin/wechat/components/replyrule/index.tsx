@@ -12,6 +12,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 
@@ -20,10 +21,11 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [currentRule, setCurrentRule] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleDelete = (row: any) => {
     Modal.confirm({
-      title: '确定要删除该条数据吗？',
+      title: intl.formatMessage({ id: 'plugin.wechat.reply.delete.confirm' }),
       onOk: () => {
         pluginDeleteWechatReplyRule(row).then((res) => {
           message.info(res.msg);
@@ -47,25 +49,25 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
         setEditVisible(false);
       })
       .catch(() => {
-        message.info('提交出错');
+        message.info(intl.formatMessage({ id: 'plugin.wechat.menu.submit.error' }));
       });
   };
 
   const columns: ProColumns<any>[] = [
     {
-      title: '关键词',
+      title: intl.formatMessage({ id: 'plugin.wechat.reply.keyword' }),
       dataIndex: 'keyword',
     },
     {
-      title: '回复内容',
+      title: intl.formatMessage({ id: 'plugin.wechat.reply.content' }),
       dataIndex: 'content',
     },
     {
-      title: '默认回复',
+      title: intl.formatMessage({ id: 'plugin.wechat.reply.default' }),
       dataIndex: 'is_default',
       valueEnum: {
         1: {
-          text: '是',
+          text: intl.formatMessage({ id: 'plugin.wechat.reply.default.yes' }),
         },
         0: {
           text: '-',
@@ -73,7 +75,7 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -83,14 +85,14 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
               handleEdit(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             onClick={() => {
               handleDelete(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -113,14 +115,14 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
           setVisible(false);
         }}
         footer={null}
-        title="自动回复规则"
+        title={intl.formatMessage({ id: 'plugin.wechat.reply.rule' })}
       >
         <ProTable<any>
           actionRef={actionRef}
           rowKey="id"
           toolBarRender={() => [
             <Button type="primary" key="add" onClick={() => handleEdit({})}>
-              添加规则
+              <FormattedMessage id="plugin.wechat.reply.rule.add" />
             </Button>,
           ]}
           request={(params) => {
@@ -140,7 +142,7 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
       </Modal>
       {editVisible && (
         <ModalForm
-          title="编辑规则"
+          title={intl.formatMessage({ id: 'plugin.wechat.reply.rule.edit' })}
           width={600}
           open={editVisible}
           initialValues={currentRule}
@@ -149,16 +151,16 @@ const PluginWechatReplyRule: React.FC<any> = (props) => {
           }}
           onFinish={handleFinishedEdit}
         >
-          <ProFormText name="keyword" label="关键词" width="lg" extra="用户发送触发关键词" />
-          <ProFormTextArea name="content" label="回复内容" width="lg" />
+          <ProFormText name="keyword" label={intl.formatMessage({ id: 'plugin.wechat.reply.keyword' })} width="lg" extra={intl.formatMessage({ id: 'plugin.wechat.reply.keyword.description' })} />
+          <ProFormTextArea name="content" label={intl.formatMessage({ id: 'plugin.wechat.reply.content' })} width="lg" />
           <ProFormRadio.Group
             name="is_default"
-            label="默认回复"
+            label={intl.formatMessage({ id: 'plugin.wechat.reply.default' })}
             width="lg"
-            extra="选择为默认回复后，如果未匹配到关键词，则会回复这条内容"
+            extra={intl.formatMessage({ id: 'plugin.wechat.reply.default.description' })}
             valueEnum={{
-              0: '不是',
-              1: '设为默认',
+              0: intl.formatMessage({ id: 'plugin.wechat.reply.default.set-no' }),
+              1: intl.formatMessage({ id: 'plugin.wechat.reply.default.set-yes' }),
             }}
           />
         </ModalForm>

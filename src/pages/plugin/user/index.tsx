@@ -11,12 +11,14 @@ import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import UserFieldSetting from './components/setting';
 import UserForm from './components/userForm';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginUser: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentUser, setCurrentUser] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [userGroups, setUserGroups] = useState<any[]>([]);
+  const intl = useIntl();
 
   const getUserGroups = () => {
     pluginGetUserGroups().then((res) => {
@@ -35,7 +37,7 @@ const PluginUser: React.FC = () => {
 
   const handleDelete = (row: any) => {
     Modal.confirm({
-      title: '确定要删除该条数据吗？',
+      title: intl.formatMessage({ id: 'plugin.user.delete.confirm' }),
       onOk: () => {
         pluginDeleteUserInfo(row).then((res) => {
           message.info(res.msg);
@@ -52,28 +54,28 @@ const PluginUser: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '用户ID',
+      title: intl.formatMessage({ id: 'plugin.retailer.user-id' }),
       dataIndex: 'id',
     },
     {
-      title: '用户名',
+      title: intl.formatMessage({ id: 'plugin.user.user-name' }),
       dataIndex: 'user_name',
     },
     {
-      title: '手机',
+      title: intl.formatMessage({ id: 'plugin.user.phone' }),
       dataIndex: 'phone',
     },
     {
-      title: '邮箱',
+      title: intl.formatMessage({ id: 'plugin.user.email' }),
       hideInSearch: true,
       dataIndex: 'email',
     },
     {
-      title: '真实姓名',
+      title: intl.formatMessage({ id: 'plugin.user.real-name' }),
       dataIndex: 'real_name',
     },
     {
-      title: '用户组',
+      title: intl.formatMessage({ id: 'plugin.user.group' }),
       dataIndex: 'group_id',
       render: (_, entity) => {
         return entity.group?.title;
@@ -83,7 +85,7 @@ const PluginUser: React.FC = () => {
           <ProFormSelect
             name="group_id"
             request={async () => {
-              return [{ title: '所有分组', id: 0 }].concat(userGroups || []);
+              return [{ title: intl.formatMessage({ id: 'plugin.user.group.all' }), id: 0 }].concat(userGroups || []);
             }}
             fieldProps={{
               fieldNames: {
@@ -97,7 +99,7 @@ const PluginUser: React.FC = () => {
       },
     },
     {
-      title: '加入时间',
+      title: intl.formatMessage({ id: 'plugin.retailer.create-time' }),
       dataIndex: 'created_time',
       hideInSearch: true,
       render: (dom: any, entity) => {
@@ -105,7 +107,7 @@ const PluginUser: React.FC = () => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -116,14 +118,14 @@ const PluginUser: React.FC = () => {
               handleEditUser(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             onClick={() => {
               handleDelete(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -133,13 +135,13 @@ const PluginUser: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="用户管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.user' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button onClick={handleAddUser}>添加用户</Button>,
+          <Button onClick={handleAddUser}><FormattedMessage id="plugin.user.add" /></Button>,
           <UserFieldSetting key="setting">
-            <Button>用户附加字段设置</Button>
+            <Button><FormattedMessage id="plugin.user.setting" /></Button>
           </UserFieldSetting>,
         ]}
         tableAlertOptionRender={false}

@@ -1,6 +1,7 @@
 import { pluginImportRedirect } from '@/services/plugin/redirect';
 import { exportFile } from '@/utils';
 import { ModalForm } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, message, Upload } from 'antd';
 import React, { useState } from 'react';
 
@@ -11,6 +12,7 @@ export type RedirectImportProps = {
 
 const RedirectImport: React.FC<RedirectImportProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleDownloadExample = () => {
     const header = ['from_url', 'to_url'];
@@ -22,7 +24,7 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
   const handleUploadFile = (e: any) => {
     let formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading('正在处理中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginImportRedirect(formData)
       .then((res) => {
         message.success(res.msg);
@@ -45,7 +47,7 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
       </div>
       <ModalForm
         width={600}
-        title={'批量导入301链接'}
+        title={intl.formatMessage({ id: 'plugin.redirect.import' })}
         open={visible}
         modalProps={{
           onCancel: () => {
@@ -57,14 +59,14 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
           setVisible(false);
         }}
       >
-        <Alert message={'说明：只支持csv格式的文件上传并导入'} />
+        <Alert message={intl.formatMessage({ id: 'plugin.redirect.import.tips' })} />
         <div className="mt-normal">
-          <Card size="small" title="第一步，下载csv模板文件" bordered={false}>
+          <Card size="small" title={intl.formatMessage({ id: 'plugin.redirect.import.step1' })} bordered={false}>
             <div className="text-center">
-              <Button onClick={handleDownloadExample}>下载csv模板文件</Button>
+              <Button onClick={handleDownloadExample}><FormattedMessage id="plugin.redirect.import.step1.download" /></Button>
             </div>
           </Card>
-          <Card size="small" title="第二步，上传csv文件" bordered={false}>
+          <Card size="small" title={intl.formatMessage({ id: 'plugin.redirect.import.step2' })} bordered={false}>
             <div className="text-center">
               <Upload
                 name="file"
@@ -73,7 +75,7 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
                 accept=".csv"
                 customRequest={handleUploadFile}
               >
-                <Button type="primary">上传csv文件</Button>
+                <Button type="primary"><FormattedMessage id="plugin.redirect.import.step2.upload" /></Button>
               </Upload>
             </div>
           </Card>

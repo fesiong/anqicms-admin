@@ -21,6 +21,7 @@ import {
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 export type MaterialImportProps = {
   onCancel: (flag?: boolean) => void;
@@ -35,6 +36,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
   const [categories, setCategories] = useState<any[]>([]);
   const [editingContent, setEditingContent] = useState<string>('');
   const [containHtml, setContainHtml] = useState<boolean>(false);
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -56,7 +58,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
 
   const handleUploadArticle = (e: any) => {
     //需要先上传
-    const hide = message.loading('正在处理中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     let formData = new FormData();
     formData.append('file', e.file);
     formData.append('remove_tag', 'true');
@@ -64,7 +66,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       .then((res) => {
         let count = updateUploadedMaterials(res.data);
 
-        message.success('已选择个' + count + '片段');
+        message.success(intl.formatMessage({ id: 'plugin.material.import.selected' }) + count + intl.formatMessage({ id: 'plugin.material.import.segment' }));
       })
       .finally(() => {
         hide();
@@ -106,9 +108,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
 
   const handleClearUpload = () => {
     Modal.confirm({
-      title: '确定要清除已选择上传的内容素材吗',
-      cancelText: '取消',
-      okText: '确定',
+      title: intl.formatMessage({ id: 'plugin.material.import.clear' }),
       onOk: () => {
         setUploadedMaterials([]);
       },
@@ -117,9 +117,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
 
   const handleRemoveUploadedFragment = (index: number) => {
     Modal.confirm({
-      title: '确定要删除选中的内容素材吗？',
-      cancelText: '取消',
-      okText: '确定',
+      title: intl.formatMessage({ id: 'plugin.material.delete.confirm' }),
       onOk: () => {
         uploadedMaterials.splice(index, 1);
         setUploadedMaterials([].concat(...uploadedMaterials));
@@ -149,7 +147,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
     }
     let count = updateUploadedMaterials(content);
     setShowTextarea(false);
-    message.success('已选择个' + count + '片段');
+    message.success(intl.formatMessage({ id: 'plugin.material.import.selected' }) + count + intl.formatMessage({ id: 'plugin.material.import.segment' }));
   };
 
   const handleSubmitImport = () => {
@@ -164,12 +162,12 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       Modal.confirm({
         title: (
           <span>
-            你选择的素材中，有 <span className="text-red">{noCategoryId}</span>{' '}
-            个素材未选择板块，是否要继续提交？
+            <FormattedMessage id="plugin.material.import.submit.tips.before" /> <span className="text-red">{noCategoryId}</span>{' '}
+            <FormattedMessage id="plugin.material.import.submit.tips.after" />
           </span>
         ),
         onOk: () => {
-          const hide = message.loading('正在处理中', 0);
+          const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
           pluginMaterialImport({ materials: uploadedMaterials })
             .then((res) => {
               message.success(res.msg);
@@ -177,7 +175,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
               props.onCancel();
             })
             .catch((err) => {
-              message.error('上传错误，请稍后重试');
+              message.error(intl.formatMessage({ id: 'plugin.material.import.upload-error' }));
             })
             .finally(() => {
               hide();
@@ -185,7 +183,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
         },
       });
     } else {
-      const hide = message.loading('正在处理中', 0);
+      const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
       pluginMaterialImport({ materials: uploadedMaterials })
         .then((res) => {
           message.success(res.msg);
@@ -193,7 +191,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
           props.onCancel();
         })
         .catch((err) => {
-          message.error('上传错误，请稍后重试');
+          message.error(intl.formatMessage({ id: 'plugin.material.import.upload-error' }));
         })
         .finally(() => {
           hide();
@@ -212,7 +210,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       </div>
       <ModalForm
         width={800}
-        title={'批量添加素材'}
+        title={intl.formatMessage({ id: 'plugin.material.import.batch-add' })}
         open={visible}
         modalProps={{
           onCancel: () => {
@@ -224,22 +222,22 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
           handleSubmitImport();
         }}
       >
-        <Alert message="说明：可以上传存放在txt或html的文章。" />
+        <Alert message={intl.formatMessage({ id: 'plugin.material.import.batch-add.tips' })} />
         <div className="mt-normal">
           <Row className="input-field-item">
             <Col flex={0} className="field-label">
-              默认导入到：
+              <FormattedMessage id="plugin.material.import.default-category" />
             </Col>
             <Col flex={1} className="field-value">
               <Select
                 className="large-selecter"
-                placeholder="选择要导入的板块"
+                placeholder={intl.formatMessage({ id: 'plugin.material.import.default-category.placeholder' })}
                 onChange={handleSelectCategory}
                 allowClear
                 value={currentCategoryId}
                 style={{ width: '150px' }}
               >
-                <Select.Option value={0}>全部</Select.Option>
+                <Select.Option value={0}><FormattedMessage id="plugin.material.import.default-category.all" /></Select.Option>
                 {categories?.map((category: any) => (
                   <Select.Option key={category.id} value={category.id}>
                     {category.title}
@@ -251,7 +249,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
         </div>
         <Row className="input-field-item">
           <Col flex={0} className="field-label">
-            选&nbsp;择&nbsp;上&nbsp;传：
+            <FormattedMessage id="plugin.material.import.select-file" />
           </Col>
           <Col className="field-label">
             <div>
@@ -262,7 +260,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                 showUploadList={false}
                 customRequest={handleUploadArticle}
               >
-                <Button>选择Txt或html文章文件</Button>
+                <Button><FormattedMessage id="plugin.material.import.select-file.btn" /></Button>
               </Upload>
             </div>
           </Col>
@@ -274,7 +272,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                   setShowTextarea(true);
                 }}
               >
-                或点击粘贴文本
+                <FormattedMessage id="plugin.material.import.paste" />
               </Button>
             </div>
           </Col>
@@ -282,7 +280,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
             <div>
               {uploadedMaterials.length > 0 && (
                 <>
-                  <span className="ml-normal">已选择段落素材：{uploadedMaterials.length}个</span>
+                  <span className="ml-normal"><FormattedMessage id="plugin.material.import.selected.count" />{uploadedMaterials.length}</span>
                   <span className="ml-normal">
                     <Button
                       size="small"
@@ -290,7 +288,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                         handleClearUpload();
                       }}
                     >
-                      清除
+                      <FormattedMessage id="plugin.material.import.paste.clear" />
                     </Button>
                   </span>
                 </>
@@ -317,7 +315,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                   <Space direction="vertical">
                     <Select
                       className="large-selecter"
-                      placeholder="选择板块"
+                      placeholder={intl.formatMessage({ id: 'plugin.material.import.category.select' })}
                       onChange={(e) => {
                         handleSelectInnerCategory(index, e);
                       }}
@@ -325,7 +323,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                       value={item.category_id}
                       style={{ width: '150px' }}
                     >
-                      <Select.Option value={0}>全部</Select.Option>
+                      <Select.Option value={0}><FormattedMessage id="plugin.material.import.default-category.all" /></Select.Option>
                       {categories?.map((category: any) => (
                         <Select.Option key={category.id} value={category.id}>
                           {category.title}
@@ -337,7 +335,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                         mergeToNext(index);
                       }}
                     >
-                      向下合并
+                      <FormattedMessage id="plugin.material.import.merge-to-next" />
                     </Button>
                   </Space>
                 </Col>
@@ -347,10 +345,10 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
         </div>
       </ModalForm>
       <Modal
-        title="请在这里粘贴文章内容"
+        title={intl.formatMessage({ id: 'plugin.material.import.paste.title' })}
         open={showTextarea}
         width={800}
-        okText="解析内容"
+        okText={intl.formatMessage({ id: 'plugin.material.import.paste.analysis' })}
         onCancel={() => {
           setShowTextarea(false);
           setEditingContent('');
@@ -362,14 +360,13 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
           message={
             <div>
               <div>
-                内容素材默认会过滤所有html标签，只保留文字。如果你
-                <span className="text-red">需要</span>保留html标签，请勾选&nbsp;&nbsp;
+                <FormattedMessage id="plugin.material.import.paste.description" />
                 <Checkbox
                   value={true}
                   checked={containHtml}
                   onChange={(e) => setContainHtml(e.target.checked)}
                 >
-                  保留html标签
+                  <FormattedMessage id="plugin.material.import.paste.description.btn" />
                 </Checkbox>
               </div>
             </div>

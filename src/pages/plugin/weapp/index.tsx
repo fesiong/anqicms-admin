@@ -1,11 +1,13 @@
 import { pluginGetWeappConfig, pluginSaveWeappConfig } from '@/services';
 import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Divider, message } from 'antd';
 import React from 'react';
 
 const PluginWeapp: React.FC<any> = () => {
+  const intl = useIntl();
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSaveWeappConfig(values)
       .then((res) => {
         message.success(res.msg);
@@ -27,35 +29,35 @@ const PluginWeapp: React.FC<any> = () => {
             return res.data || [];
           }}
           onFinish={onSubmit}
-          title="微信小程序配置"
+          title={intl.formatMessage({ id: 'menu.plugin.weapp' })}
         >
-          <ProFormText name="app_id" label="小程序AppID" width="lg" />
-          <ProFormText name="app_secret" label="小程序AppSecret" width="lg" />
-          <Divider>消息推送配置</Divider>
-          <ProFormText name="server_url" label="服务器地址" width="lg" readonly />
-          <ProFormText name="token" label="服务号Token" width="lg" />
+          <ProFormText name="app_id" label={intl.formatMessage({ id: 'plugin.weapp.appid' })} width="lg" />
+          <ProFormText name="app_secret" label={intl.formatMessage({ id: 'plugin.weapp.app-secret' })} width="lg" />
+          <Divider><FormattedMessage id="plugin.weapp.push.setting" /></Divider>
+          <ProFormText name="server_url" label={intl.formatMessage({ id: 'plugin.weapp.server-url' })} width="lg" readonly />
+          <ProFormText name="token" label={intl.formatMessage({ id: 'plugin.weapp.token' })} width="lg" />
           <ProFormText
             name="encoding_aes_key"
-            label="服务号EncodingAESKey"
+            label={intl.formatMessage({ id: 'plugin.weapp.encoding-aes-key' })}
             width="lg"
-            extra="如果消息加解密方式选择的是明文模式，请不要填写这里，否则会报错"
+            extra={intl.formatMessage({ id: 'plugin.weapp.encoding-aes-key.description' })}
           />
         </ProForm>
-        <Divider>默认小程序</Divider>
+        <Divider><FormattedMessage id="plugin.weapp.default" /></Divider>
         <div>
           <p>
-            安企CMS(AnQiCMS)默认小程序，同时支持百度智能小程序，微信小程序，QQ小程序，支付宝小程序，头条小程序。
+            <FormattedMessage id="plugin.weapp.default.tips" />
           </p>
           <p>
-            小程序使用帮助：
+            <FormattedMessage id="plugin.weapp.default.help" />
             <a href="https://www.anqicms.com/help-basic/3495.html" target="_blank">
               https://www.anqicms.com/help-basic/3495.html
             </a>
           </p>
-          <p>小程序源码地址：https://github.com/fesiong/anqicms-app/releases</p>
+          <p><FormattedMessage id="plugin.weapp.default.source" /></p>
         </div>
         <Button onClick={() => window.open('https://github.com/fesiong/anqicms-app/releases')}>
-          下载默认小程序
+          <FormattedMessage id="plugin.weapp.default.download" />
         </Button>
       </Card>
     </PageContainer>

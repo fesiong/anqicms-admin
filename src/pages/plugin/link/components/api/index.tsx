@@ -1,6 +1,6 @@
 import { pluginGetImportApiSetting, pluginUpdateApiToken } from '@/services';
 import { ModalForm, ProCard, ProFormText } from '@ant-design/pro-components';
-import { history } from '@umijs/max';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Alert, Button, Modal, Space, Table, Tag, Tooltip, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -11,6 +11,7 @@ const PluginLinkApi: React.FC<any> = (props) => {
   const [tokenVidible, setTokenVisible] = useState<boolean>(false);
   const [tab, setTab] = useState('1');
   const [setting, setSetting] = useState<any>({});
+  const intl = useIntl();
 
   const getSetting = async () => {
     const res = await pluginGetImportApiSetting();
@@ -28,12 +29,12 @@ const PluginLinkApi: React.FC<any> = (props) => {
 
   const handleUpdateToken = async (values: any) => {
     if (values.link_token == '') {
-      message.error('请填写Token，128字符以内');
+      message.error(intl.formatMessage({ id: 'plugin.importapi.token.required' }));
       return;
     }
     Modal.confirm({
-      title: '确定要更新Token吗？',
-      content: '更新后，原Token失效，请使用新api地址操作。',
+      title: intl.formatMessage({ id: 'plugin.importapi.token.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.importapi.token.confirm.content' }),
       onOk: async () => {
         const res = await pluginUpdateApiToken(values);
         message.info(res.msg);
@@ -44,7 +45,7 @@ const PluginLinkApi: React.FC<any> = (props) => {
   };
 
   const handleCopied = () => {
-    message.success('复制成功');
+    message.success(intl.formatMessage({ id: 'plugin.importapi.token.copy.success' }));
   };
 
   return (
@@ -64,17 +65,17 @@ const PluginLinkApi: React.FC<any> = (props) => {
           setVisible(false);
         }}
         footer={null}
-        title="友情链接API"
+        title={intl.formatMessage({ id: 'plugin.link.api.title' })}
       >
         <Alert
           message={
             <div>
               <div>
                 <Space>
-                  <span>我的Token：</span>
+                  <span><FormattedMessage id="plugin.importapi.token.name" /></span>
                   <Tag>
                     <CopyToClipboard text={setting.link_token} onCopy={handleCopied}>
-                      <Tooltip title="点击复制">{setting.link_token}</Tooltip>
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>{setting.link_token}</Tooltip>
                     </CopyToClipboard>
                   </Tag>
                   <Button
@@ -83,7 +84,7 @@ const PluginLinkApi: React.FC<any> = (props) => {
                       setTokenVisible(true);
                     }}
                   >
-                    更新Token
+                    <FormattedMessage id="plugin.importapi.token.update" />
                   </Button>
                 </Space>
               </div>
@@ -100,60 +101,49 @@ const PluginLinkApi: React.FC<any> = (props) => {
               },
             }}
           >
-            <ProCard.TabPane key="1" tab="获取友情链接列表接口">
+            <ProCard.TabPane key="1" tab={intl.formatMessage({ id: 'plugin.link.api.list' })}>
               <div className="import-fields">
                 <div className="field-item">
-                  <div className="name">接口地址：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.api-url" /></div>
                   <div className="value">
                     <CopyToClipboard
                       text={setting.base_url + '/api/friendlink/list?token=' + setting.link_token}
                       onCopy={handleCopied}
                     >
-                      <Tooltip title="点击复制">
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>
                         {setting.base_url}/api/friendlink/list?token={setting.link_token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求方式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.method" /></div>
                   <div className="value">POST / GET</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求类型：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.request-type" /></div>
                   <div className="value">form-data / query params</div>
                 </div>
                 <div className="field-item">
                   <div className="name">
-                    POST表单 /<br /> Query Params 字段：
+                    <FormattedMessage id="plugin.importapi.category-api.fields" />
                   </div>
-                  <div className="value">无</div>
+                  <div className="value"><FormattedMessage id="plugin.importapi.category-api.fields.empty" /></div>
                 </div>
                 <div className="field-item">
-                  <div className="name">返回格式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-type" /></div>
                   <div className="value">JSON</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">正确结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.success" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因\n    "data": {\n'
+                              `{\n    "code": 200,\n    "msg": "",\n    "data": {\n      [\n        {\n          "id": 1,\n          "link": "https://www.anqicms.com/",\n          "title": "AnqiCMS",\n        },\n        {\n          "id": 2,\n          "link": "https://www.baidu.com/",\n          "title": "百度",\n        }\n      ]\n    }\n}`
                             }
-
-                            {'      [\n'}
-                            {
-                              '        {\n          "id": 1,\n          "link": "https://www.anqicms.com/",\n          "title": "AnqiCMS",\n        },\n'
-                            }
-                            {
-                              '        {\n          "id": 2,\n          "link": "https://www.baidu.com/",\n          "title": "百度",\n        }\n'
-                            }
-                            {'      ]\n'}
-
-                            {'    }\n}'}
                           </code>
                         </pre>
                       }
@@ -161,14 +151,14 @@ const PluginLinkApi: React.FC<any> = (props) => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">错误结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.failure" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": -1,\n    "msg": "Token错误"\n}`
                             }
                           </code>
                         </pre>
@@ -179,50 +169,49 @@ const PluginLinkApi: React.FC<any> = (props) => {
               </div>
             </ProCard.TabPane>
 
-            <ProCard.TabPane key="2" tab="验证接口">
+            <ProCard.TabPane key="2" tab={intl.formatMessage({ id: 'plugin.link.api.verify' })}>
               <div className="import-fields">
                 <div className="field-item">
-                  <div className="name">接口地址：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.api-url" /></div>
                   <div className="value">
                     <CopyToClipboard
                       text={setting.base_url + '/api/friendlink/check?token=' + setting.link_token}
                       onCopy={handleCopied}
                     >
-                      <Tooltip title="点击复制">
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>
                         {setting.base_url}/api/friendlink/check?token={setting.link_token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求方式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.method" /></div>
                   <div className="value">POST / GET</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求类型：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.request-type" /></div>
                   <div className="value">form-data / query params</div>
                 </div>
                 <div className="field-item">
                   <div className="name">
-                    POST表单 /<br /> Query Params 字段：
+                    <FormattedMessage id="plugin.importapi.category-api.fields" />
                   </div>
-                  <div className="value">无</div>
+                  <div className="value"><FormattedMessage id="plugin.importapi.category-api.fields.empty" /></div>
                 </div>
                 <div className="field-item">
-                  <div className="name">返回格式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-type" /></div>
                   <div className="value">JSON</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">正确结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.success" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因'
+                              `{\n    "code": 200,\n    "msg": ""\n}`
                             }
-                            {'\n}'}
                           </code>
                         </pre>
                       }
@@ -230,14 +219,14 @@ const PluginLinkApi: React.FC<any> = (props) => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">错误结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.failure" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": -1,\n    "msg": "Token错误",\n}`
                             }
                           </code>
                         </pre>
@@ -247,49 +236,49 @@ const PluginLinkApi: React.FC<any> = (props) => {
                 </div>
               </div>
             </ProCard.TabPane>
-            <ProCard.TabPane key="3" tab="添加友情链接接口">
+            <ProCard.TabPane key="3" tab={intl.formatMessage({ id: 'plugin.link.api.add' })}>
               <div className="import-fields">
                 <div className="field-item">
-                  <div className="name">接口地址：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.api-url" /></div>
                   <div className="value">
                     <CopyToClipboard
                       text={setting.base_url + '/api/friendlink/create?token=' + setting.link_token}
                       onCopy={handleCopied}
                     >
-                      <Tooltip title="点击复制">
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>
                         {setting.base_url}/api/friendlink/create?token={setting.link_token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求方式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.method" /></div>
                   <div className="value">POST</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求类型：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.request-type" /></div>
                   <div className="value">form-data</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">POST表单字段：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.post-fields" /></div>
                   <div className="value">
                     <Table
                       size="small"
                       pagination={false}
                       columns={[
                         {
-                          title: '字段名',
+                          title: intl.formatMessage({ id: 'content.module.field.name' }),
                           dataIndex: 'title',
                           width: 150,
                         },
                         {
-                          title: '是否必填',
+                          title: intl.formatMessage({ id: 'content.module.field.isrequired' }),
                           dataIndex: 'required',
                           width: 100,
-                          render: (text: number) => <span>{text ? '必填' : '否'}</span>,
+                          render: (text: number) => <span>{text ? intl.formatMessage({ id: 'content.module.field.isrequired.yes' }) : intl.formatMessage({ id: 'content.module.field.isrequired.no' })}</span>,
                         },
                         {
-                          title: '说明',
+                          title: intl.formatMessage({ id: 'plugin.importapi.field.remark' }),
                           dataIndex: 'remark',
                         },
                       ]}
@@ -297,42 +286,42 @@ const PluginLinkApi: React.FC<any> = (props) => {
                         {
                           title: 'title',
                           required: true,
-                          remark: '对方关键词',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.other-title' }),
                         },
                         {
                           title: 'link',
                           required: true,
-                          remark: '对方链接',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.other-link' }),
                         },
                         {
                           title: 'nofollow',
                           required: false,
-                          remark: '是否添加nofollow，可选值：0 不添加, 1 添加',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.nofollow' }),
                         },
                         {
                           title: 'back_link',
                           required: false,
-                          remark: '对方反链页',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.back-link' }),
                         },
                         {
                           title: 'my_title',
                           required: false,
-                          remark: '我的关键词',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.self-title' }),
                         },
                         {
                           title: 'my_link',
                           required: false,
-                          remark: '我的链接',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.self-link' }),
                         },
                         {
                           title: 'contact',
                           required: false,
-                          remark: '对方联系方式',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.contact' }),
                         },
                         {
                           title: 'remark',
                           required: false,
-                          remark: '备注信息',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.remark' }),
                         },
                       ]}
                       key="title"
@@ -340,18 +329,18 @@ const PluginLinkApi: React.FC<any> = (props) => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">返回格式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-type" /></div>
                   <div className="value">JSON</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">正确结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.success" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "链接已保存",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": 200,\n    "msg": "链接已保存",\n}`
                             }
                           </code>
                         </pre>
@@ -360,14 +349,14 @@ const PluginLinkApi: React.FC<any> = (props) => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">错误结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.failure" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": -1,\n    "msg": "Token错误",\n}`
                             }
                           </code>
                         </pre>
@@ -377,49 +366,49 @@ const PluginLinkApi: React.FC<any> = (props) => {
                 </div>
               </div>
             </ProCard.TabPane>
-            <ProCard.TabPane key="4" tab="删除友情链接接口">
+            <ProCard.TabPane key="4" tab={intl.formatMessage({ id: 'plugin.link.api.delete' })}>
               <div className="import-fields">
                 <div className="field-item">
-                  <div className="name">接口地址：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.api-url" /></div>
                   <div className="value">
                     <CopyToClipboard
                       text={setting.base_url + '/api/friendlink/delete?token=' + setting.link_token}
                       onCopy={handleCopied}
                     >
-                      <Tooltip title="点击复制">
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>
                         {setting.base_url}/api/friendlink/delete?token={setting.link_token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求方式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.method" /></div>
                   <div className="value">POST</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求类型：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.request-type" /></div>
                   <div className="value">form-data</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">POST表单字段：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.post-fields" /></div>
                   <div className="value">
                     <Table
                       size="small"
                       pagination={false}
                       columns={[
                         {
-                          title: '字段名',
+                          title: intl.formatMessage({ id: 'content.module.field.name' }),
                           dataIndex: 'title',
                           width: 150,
                         },
                         {
-                          title: '是否必填',
+                          title: intl.formatMessage({ id: 'content.module.field.isrequired' }),
                           dataIndex: 'required',
                           width: 100,
-                          render: (text: number) => <span>{text ? '必填' : '否'}</span>,
+                          render: (text: number) => <span>{text ? intl.formatMessage({ id: 'content.module.field.isrequired.yes' }) : intl.formatMessage({ id: 'content.module.field.isrequired.no' })}</span>,
                         },
                         {
-                          title: '说明',
+                          title: intl.formatMessage({ id: 'plugin.importapi.field.remark' }),
                           dataIndex: 'remark',
                         },
                       ]}
@@ -427,7 +416,7 @@ const PluginLinkApi: React.FC<any> = (props) => {
                         {
                           title: 'link',
                           required: true,
-                          remark: '对方链接',
+                          remark: intl.formatMessage({ id: 'plugin.link.field.other-link' }),
                         },
                       ]}
                       key="title"
@@ -435,18 +424,18 @@ const PluginLinkApi: React.FC<any> = (props) => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">返回格式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-type" /></div>
                   <div className="value">JSON</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">正确结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.success" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "链接已删除",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": 200,\n    "msg": "链接已删除"\n}`
                             }
                           </code>
                         </pre>
@@ -455,14 +444,14 @@ const PluginLinkApi: React.FC<any> = (props) => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">错误结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.failure" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": -1, \n    "msg": "Token错误",\n}`
                             }
                           </code>
                         </pre>
@@ -480,7 +469,7 @@ const PluginLinkApi: React.FC<any> = (props) => {
         modalProps={{
           zIndex: 100,
         }}
-        title={'重置友情链接Token'}
+        title={'plugin.importapi.token.reset'}
         open={tokenVidible}
         layout="horizontal"
         onOpenChange={(flag) => {
@@ -490,9 +479,9 @@ const PluginLinkApi: React.FC<any> = (props) => {
       >
         <ProFormText
           name="link_token"
-          label="新的Token"
-          placeholder={'请填写新的Token'}
-          extra="Token一般由数字、字母组合构成，长于10位，小于128位"
+          label="plugin.importapi.token.new"
+          placeholder={'plugin.importapi.token.new.placeholder'}
+          extra="plugin.importapi.token.new.description"
         />
       </ModalForm>
     </>

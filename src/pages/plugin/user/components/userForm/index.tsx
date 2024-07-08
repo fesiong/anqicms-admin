@@ -17,6 +17,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Divider, Image, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
@@ -33,6 +34,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
   const [userFields, setUserFields] = useState<any[]>([]);
   const [user, setUser] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const intl = useIntl();
 
   useEffect(() => {
     pluginGetUserFieldsSetting().then((res) => {
@@ -81,7 +83,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
   return fetched ? (
     <ModalForm
       width={600}
-      title={props.user?.id ? '修改用户' : '添加用户'}
+      title={props.user?.id ? intl.formatMessage({ id: 'plugin.user.edit' }) : intl.formatMessage({ id: 'plugin.user.add' })}
       open={props.open}
       layout="horizontal"
       onOpenChange={(flag) => {
@@ -95,27 +97,27 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="user_name" label="用户名" />
-      <ProFormText name="real_name" label="真实姓名" />
-      <ProFormText name="phone" label="手机号" />
-      <ProFormText name="email" label="邮箱地址" />
+      <ProFormText name="user_name" label={intl.formatMessage({ id: 'plugin.user.user-name' })} />
+      <ProFormText name="real_name" label={intl.formatMessage({ id: 'plugin.user.real-name' })} />
+      <ProFormText name="phone" label={intl.formatMessage({ id: 'plugin.user.phone' })} />
+      <ProFormText name="email" label={intl.formatMessage({ id: 'plugin.user.email' })} />
       <ProFormText
         name="password"
-        label="密码"
-        extra="如果需要给该用户修改密码，请在这里填写，不少于6位"
+        label={intl.formatMessage({ id: 'plugin.user.password' })}
+        extra={intl.formatMessage({ id: 'plugin.user.password.description' })}
       />
       <ProFormRadio.Group
         name="is_retailer"
-        label="是否分销员"
+        label={intl.formatMessage({ id: 'plugin.user.is-retailer' })}
         options={[
-          { label: '不是', value: 0 },
-          { label: '是', value: 1 },
+          { label: intl.formatMessage({ id: 'plugin.user.is-retailer.no' }), value: 0 },
+          { label: intl.formatMessage({ id: 'plugin.user.is-retailer.yes' }), value: 1 },
         ]}
       />
-      <ProFormText name="invite_code" label="邀请码" extra="请勿随意更改" />
-      <ProFormDigit name="parent_id" label="上级用户ID" />
+      <ProFormText name="invite_code" label={intl.formatMessage({ id: 'plugin.user.invite-code' })} extra={intl.formatMessage({ id: 'plugin.user.invite-code.description' })} />
+      <ProFormDigit name="parent_id" label={intl.formatMessage({ id: 'plugin.user.parent.user-id' })} />
       <ProFormSelect
-        label="用户组VIP"
+        label={intl.formatMessage({ id: 'plugin.user.group' })}
         name="group_id"
         request={async () => {
           const res = await pluginGetUserGroups();
@@ -130,35 +132,35 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       />
       <ProFormDatePicker
         name="expire_time"
-        label="用户组到期"
-        extra="到期后，用户组会回滚到第一个分组"
+        label={intl.formatMessage({ id: 'plugin.user.expire' })}
+        extra={intl.formatMessage({ id: 'plugin.user.expire.description' })}
         width="lg"
         transform={(value, namePath) => {
           return { [namePath]: dayjs(value).unix() };
         }}
       />
-      <Divider>额外字段</Divider>
+      <Divider><FormattedMessage id="plugin.user.extra-fields" /></Divider>
       {userFields.map((item: any, index: number) =>
         item.type === 'text' ? (
           <ProFormText
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
-            placeholder={item.content && '默认值：' + item.content}
+            placeholder={item.content && intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) + item.content}
           />
         ) : item.type === 'number' ? (
           <ProFormDigit
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
-            placeholder={item.content && '默认值：' + item.content}
+            placeholder={item.content && intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) + item.content}
           />
         ) : item.type === 'textarea' ? (
           <ProFormTextArea
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
-            placeholder={item.content && '默认值：' + item.content}
+            placeholder={item.content && intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) + item.content}
           />
         ) : item.type === 'radio' ? (
           <ProFormRadio.Group
@@ -221,7 +223,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
                 <div className="ant-upload-item">
                   <div className="add">
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>上传</div>
+                    <div style={{ marginTop: 8 }}><FormattedMessage id="plugin.pay.upload" /></div>
                   </div>
                 </div>
               </AttachmentSelect>
@@ -241,7 +243,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
                 onSelect={(row) => handleUploadExtraField(item.field_name, row)}
                 open={false}
               >
-                <Button>上传</Button>
+                <Button><FormattedMessage id="plugin.pay.upload" /></Button>
               </AttachmentSelect>
             )}
           </ProFormText>

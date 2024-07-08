@@ -7,6 +7,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import React from 'react';
 
 export type LinkFormProps = {
@@ -17,6 +18,7 @@ export type LinkFormProps = {
 };
 
 const LinkForm: React.FC<LinkFormProps> = (props) => {
+  const intl = useIntl();
   const onSubmit = async (values: any) => {
     let editingLink = Object.assign(props.editingLink, values);
     let res = await pluginSaveLink(editingLink);
@@ -27,7 +29,7 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
   return (
     <ModalForm
       width={800}
-      title={props.editingLink?.id ? '编辑友情链接' : '添加友情链接'}
+      title={props.editingLink?.id ? intl.formatMessage({ id: 'plugin.link.edit' }) : intl.formatMessage({ id: 'plugin.link.add' })}
       initialValues={props.editingLink}
       open={props.open}
       //layout="horizontal"
@@ -40,28 +42,28 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="title" label="对方关键词" />
-      <ProFormText name="link" label="对方链接" extra={'如：https://www.anqicms.com/'} />
+      <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.link.field.other-title' })} />
+      <ProFormText name="link" label={intl.formatMessage({ id: 'plugin.link.field.other-link' })} extra={intl.formatMessage({ id: 'plugin.link.field.other-link.description'})} />
       <ProFormRadio.Group
         name="nofollow"
         label="NOFOLLOW"
         options={[
-          { value: 0, label: '不添加' },
-          { value: 1, label: '添加' },
+          { value: 0, label: intl.formatMessage({ id: 'plugin.link.nofollow.no' }) },
+          { value: 1, label: intl.formatMessage({ id: 'plugin.link.nofollow.yes' }) },
         ]}
-        extra="是否添加nofollow标签"
+        extra={intl.formatMessage({ id: 'plugin.link.nofollow.description' })}
       />
-      <ProFormDigit name="sort" label="显示顺序" extra={'值越小，排序越靠前，默认99'} />
-      <CollapseItem header="更多选项" showArrow key="1">
-        <ProFormText name="back_link" label="对方反链页" extra={'对方放置本站链接的页面URL'} />
-        <ProFormText name="my_title" label="我的关键词" extra={'我放在对方页面的关键词'} />
-        <ProFormText name="my_link" label="我的链接" extra={'我放在对方页面的链接'} />
+      <ProFormDigit name="sort" label={intl.formatMessage({ id: 'content.category.sort' })} extra={'content.category.sort.description'} />
+      <CollapseItem header={intl.formatMessage({ id: 'plugin.link.more' })} showArrow key="1">
+        <ProFormText name="back_link" label={intl.formatMessage({ id: 'plugin.link.field.back-link' })} extra={intl.formatMessage({ id: 'plugin.link.field.back-link.description' })} />
+        <ProFormText name="my_title" label={intl.formatMessage({ id: 'plugin.link.field.self-title' })} extra={intl.formatMessage({ id: 'plugin.link.field.self-title.description' })} />
+        <ProFormText name="my_link" label={intl.formatMessage({ id: 'plugin.link.field.self-link' })} extra={intl.formatMessage({ id: 'plugin.link.field.self-link.description' })} />
         <ProFormText
           name="contact"
-          label="对方联系方式"
-          extra={'填写QQ、微信、电话等，方便后续联系'}
+          label={intl.formatMessage({ id: 'plugin.link.field.contact' })}
+          extra={intl.formatMessage({ id: 'plugin.link.field.contact.description' })}
         />
-        <ProFormTextArea name="remark" label="备注信息" />
+        <ProFormTextArea name="remark" label={intl.formatMessage({ id: 'plugin.link.field.remark' })} />
       </CollapseItem>
     </ModalForm>
   );

@@ -13,15 +13,17 @@ import React, { useRef, useState } from 'react';
 import WechatMenu from './components/menu';
 import WechatReplyRule from './components/replyrule';
 import WechatSetting from './components/setting';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginWechatMessage: React.FC<any> = () => {
   const actionRef = useRef<ActionType>();
   const [currentMessage, setCurrentMessage] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleDelete = (row: any) => {
     Modal.confirm({
-      title: '确定要删除该条数据吗？',
+      title: intl.formatMessage({ id: 'plugin.backup.delete.confirm' }),
       onOk: () => {
         pluginDeleteWechatMessage(row).then((res) => {
           message.info(res.msg);
@@ -44,7 +46,7 @@ const PluginWechatMessage: React.FC<any> = () => {
           actionRef.current?.reload();
         })
         .catch(() => {
-          message.info('提交出错');
+          message.info(intl.formatMessage({ id: 'plugin.wechat.menu.submit.error' }));
         });
     } else {
       setEditVisible(false);
@@ -56,7 +58,7 @@ const PluginWechatMessage: React.FC<any> = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'plugin.aigenerate.time' }),
       dataIndex: 'created_time',
       width: 150,
       render: (_, entity) => {
@@ -69,15 +71,15 @@ const PluginWechatMessage: React.FC<any> = () => {
       width: 270,
     },
     {
-      title: '留言内容',
+      title: intl.formatMessage({ id: 'plugin.guestbook.content' }),
       dataIndex: 'content',
     },
     {
-      title: '回复内容',
+      title: intl.formatMessage({ id: 'plugin.wechat.reply.content' }),
       dataIndex: 'reply',
     },
     {
-      title: '回复时间',
+      title: intl.formatMessage({ id: 'plugin.wechat.reply.time' }),
       dataIndex: 'reply_time',
       width: 150,
       render: (_, entity) => {
@@ -87,7 +89,7 @@ const PluginWechatMessage: React.FC<any> = () => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 150,
@@ -98,7 +100,7 @@ const PluginWechatMessage: React.FC<any> = () => {
               handleDelete(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
           {record.created_time * 1000 > new Date().valueOf() && (
             <a
@@ -106,7 +108,7 @@ const PluginWechatMessage: React.FC<any> = () => {
                 handleReply(record);
               }}
             >
-              回复
+              <FormattedMessage id="plugin.wechat.reply" />
             </a>
           )}
         </Space>
@@ -117,18 +119,18 @@ const PluginWechatMessage: React.FC<any> = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="微信公众号管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.wechat' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
           <WechatReplyRule key="rule">
-            <Button>自动回复设置</Button>
+            <Button><FormattedMessage id="plugin.wechat.auto-reply.setting" /></Button>
           </WechatReplyRule>,
           <WechatMenu key="menu">
-            <Button>菜单设置</Button>
+            <Button><FormattedMessage id="plugin.wechat.menu.setting" /></Button>
           </WechatMenu>,
           <WechatSetting key="setting">
-            <Button>公众号设置</Button>
+            <Button><FormattedMessage id="plugin.wechat.official.setting" /></Button>
           </WechatSetting>,
         ]}
         tableAlertOptionRender={false}
@@ -157,14 +159,14 @@ const PluginWechatMessage: React.FC<any> = () => {
         >
           <ProFormText name="id" label="ID" width="lg" readonly />
           <ProFormText
-            label="时间"
+            label={intl.formatMessage({ id: 'plugin.aigenerate.time' })}
             width="lg"
             initialValue={dayjs(currentMessage.created_time * 1000).format('YYYY-MM-DD HH:mm')}
             readonly
           />
           <ProFormText name="openid" label="OPENID" width="lg" readonly />
-          <ProFormText name="content" label="留言内容" width="lg" readonly />
-          <ProFormText name="reply" label="回复内容" width="lg" extra="如果你想回复，在这里输入" />
+          <ProFormText name="content" label={intl.formatMessage({ id: 'plugin.guestbook.content' })} width="lg" readonly />
+          <ProFormText name="reply" label={intl.formatMessage({ id: 'plugin.wechat.reply.content' })} width="lg" extra={intl.formatMessage({ id: 'plugin.wechat.reply.content.description' })} />
         </ModalForm>
       )}
     </PageContainer>

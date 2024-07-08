@@ -10,6 +10,7 @@ import { Button, Card, Col, Modal, Row, Slider, Tooltip, Upload, message } from 
 import React, { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import './index.less';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 let loading = false;
 
@@ -17,6 +18,7 @@ const PluginWatermark: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [fetched, setFetched] = useState<boolean>(false);
   const [previewData, setPreviewData] = useState<string>('');
+  const intl = useIntl();
 
   const getSetting = async () => {
     const res = await pluginGetWatermarkConfig();
@@ -46,7 +48,7 @@ const PluginWatermark: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     let data = Object.assign(setting, values);
     data.width = Number(data.width);
     data.height = Number(data.height);
@@ -67,7 +69,7 @@ const PluginWatermark: React.FC<any> = () => {
     const formData = new FormData();
     formData.append('file', e.file);
     formData.append('name', field);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginWatermarkUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -82,7 +84,7 @@ const PluginWatermark: React.FC<any> = () => {
   const handleRemoveImage = (e: any) => {
     e.stopPropagation();
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'plugin.material.category.delete.confirm' }),
       onOk: async () => {
         setting.image_path = '';
         setSetting(Object.assign({}, setting));
@@ -93,7 +95,7 @@ const PluginWatermark: React.FC<any> = () => {
   const handleRemoveFont = (e: any) => {
     e.stopPropagation();
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'plugin.material.category.delete.confirm' }),
       onOk: async () => {
         setting.color = '';
         setSetting(Object.assign({}, setting));
@@ -117,8 +119,8 @@ const PluginWatermark: React.FC<any> = () => {
 
   const handleGenerate = () => {
     Modal.confirm({
-      title: '确定要给图片库里的图片都添加上水印吗？',
-      content: '已添加过水印的图片不会被重复添加。',
+      title: intl.formatMessage({ id: 'plugin.watermark.generate.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.watermark.generate.content' }),
       onOk: async () => {
         pluginWatermarkGenerate({}).then((res) => {
           message.success(res.msg);
@@ -139,42 +141,42 @@ const PluginWatermark: React.FC<any> = () => {
           <Col sm={12} xs={24}>
             {fetched && (
               <ProForm
-                title="图片添加水印"
+                title={intl.formatMessage({ id: 'menu.plugin.watermark' })}
                 layout="vertical"
                 initialValues={setting}
                 onFinish={onSubmit}
               >
                 <ProFormRadio.Group
                   name="open"
-                  label="是否启用水印"
+                  label={intl.formatMessage({ id: 'plugin.watermark.open' })}
                   options={[
                     {
                       value: false,
-                      label: '关闭',
+                      label: intl.formatMessage({ id: 'plugin.watermark.open.no' }),
                     },
                     {
                       value: true,
-                      label: '开启',
+                      label: intl.formatMessage({ id: 'plugin.watermark.open.yes' }),
                     },
                   ]}
                   fieldProps={{
                     onChange: changeOpen,
                   }}
-                  extra="启用后，会自动给上传的图片添加水印"
+                  extra={intl.formatMessage({ id: 'plugin.watermark.open.description' })}
                 />
 
                 <div style={{ display: setting.open ? 'block' : 'none' }}>
                   <ProFormRadio.Group
                     name="type"
-                    label="水印类型"
+                    label={intl.formatMessage({ id: 'plugin.watermark.type' })}
                     options={[
                       {
                         value: 0,
-                        label: '图片水印',
+                        label: intl.formatMessage({ id: 'plugin.watermark.type.image' }),
                       },
                       {
                         value: 1,
-                        label: '文字水印',
+                        label: intl.formatMessage({ id: 'plugin.watermark.type.text' }),
                       },
                     ]}
                     fieldProps={{
@@ -182,7 +184,7 @@ const PluginWatermark: React.FC<any> = () => {
                     }}
                   />
                   {setting.type == 0 && (
-                    <ProFormText label="水印图片">
+                    <ProFormText label={intl.formatMessage({ id: 'plugin.watermark.image' })}>
                       <Upload
                         name="file"
                         className="logo-uploader"
@@ -190,13 +192,13 @@ const PluginWatermark: React.FC<any> = () => {
                         accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
                         customRequest={async (e) => handleUploadFile('image_path', e)}
                       >
-                        <Button>上传图片</Button>
+                        <Button><FormattedMessage id="plugin.titleimage.bg-image.upload" /></Button>
                       </Upload>
                       {setting.image_path && (
                         <div className="upload-file">
                           <span>{setting.image_path}</span>
                           <a className="delete" onClick={handleRemoveImage}>
-                            删除
+                            <FormattedMessage id="setting.system.delete" />
                           </a>
                         </div>
                       )}
@@ -206,12 +208,12 @@ const PluginWatermark: React.FC<any> = () => {
                     <>
                       <ProFormText
                         name="text"
-                        label="水印文字"
+                        label={intl.formatMessage({ id: 'plugin.watermark.text' })}
                         fieldProps={{
                           onBlur: (e) => onChangeField('text', e.target.value),
                         }}
                       />
-                      <ProFormText width="sm" label="字体颜色" extra="默认白色">
+                      <ProFormText width="sm" label={intl.formatMessage({ id: 'plugin.titleimage.color' })} extra={intl.formatMessage({ id: 'plugin.titleimage.color.default' })}>
                         <Tooltip
                           trigger={'click'}
                           placement="bottom"
@@ -233,11 +235,11 @@ const PluginWatermark: React.FC<any> = () => {
                               background: setting.color,
                             }}
                           >
-                            {setting.color || '选择'}
+                            {setting.color || intl.formatMessage({ id: 'plugin.titleimage.select' })}
                           </Button>
                         </Tooltip>
                       </ProFormText>
-                      <ProFormText label="自定义字体">
+                      <ProFormText label={intl.formatMessage({ id: 'plugin.titleimage.font' })}>
                         <Upload
                           name="file"
                           className="logo-uploader"
@@ -245,13 +247,13 @@ const PluginWatermark: React.FC<any> = () => {
                           accept=".ttf"
                           customRequest={async (e) => handleUploadFile('font_path', e)}
                         >
-                          <Button>上传.ttf字体</Button>
+                          <Button><FormattedMessage id="plugin.titleimage.font.upload" /></Button>
                         </Upload>
                         {setting.font_path && (
                           <div className="upload-file">
                             <span>{setting.font_path}</span>
                             <a className="delete" onClick={handleRemoveFont}>
-                              删除
+                              <FormattedMessage id="setting.system.delete" />
                             </a>
                           </div>
                         )}
@@ -260,27 +262,27 @@ const PluginWatermark: React.FC<any> = () => {
                   )}
                   <ProFormRadio.Group
                     name="position"
-                    label="水印位置"
+                    label={intl.formatMessage({ id: 'plugin.watermark.position' })}
                     options={[
                       {
                         value: 5,
-                        label: '居中',
+                        label: intl.formatMessage({ id: 'plugin.watermark.position.center' }),
                       },
                       {
                         value: 1,
-                        label: '左上角',
+                        label: intl.formatMessage({ id: 'plugin.watermark.position.left-top' }),
                       },
                       {
                         value: 3,
-                        label: '右上角',
+                        label: intl.formatMessage({ id: 'plugin.watermark.position.right-top' }),
                       },
                       {
                         value: 7,
-                        label: '左下角',
+                        label: intl.formatMessage({ id: 'plugin.watermark.position.left-bottom' }),
                       },
                       {
                         value: 9,
-                        label: '右下角',
+                        label: intl.formatMessage({ id: 'plugin.watermark.position.right-bottom' }),
                       },
                     ]}
                     fieldProps={{
@@ -289,7 +291,7 @@ const PluginWatermark: React.FC<any> = () => {
                       },
                     }}
                   />
-                  <ProFormText label="水印大小">
+                  <ProFormText label={intl.formatMessage({ id: 'plugin.watermark.size' })}>
                     <Slider
                       min={5}
                       max={50}
@@ -297,7 +299,7 @@ const PluginWatermark: React.FC<any> = () => {
                       onChange={(e) => onChangeField('size', e)}
                     />
                   </ProFormText>
-                  <ProFormText label="水印透明度">
+                  <ProFormText label={intl.formatMessage({ id: 'plugin.watermark.opacity' })}>
                     <Slider
                       min={10}
                       max={100}
@@ -307,12 +309,12 @@ const PluginWatermark: React.FC<any> = () => {
                   </ProFormText>
                   <ProFormText
                     name="min_size"
-                    label="最小添加水印图片"
+                    label={intl.formatMessage({ id: 'plugin.watermark.min-size' })}
                     fieldProps={{
-                      addonAfter: '像素',
+                      addonAfter: intl.formatMessage({ id: 'plugin.watermark.min-size.suffix' }),
                       onBlur: (e) => onChangeField('text', e.target.value),
                     }}
-                    extra={'长宽同时小于这个尺寸的图片，不会添加水印'}
+                    extra={intl.formatMessage({ id: 'plugin.watermark.min-size.description' })}
                   />
                 </div>
                 <p>
@@ -324,7 +326,7 @@ const PluginWatermark: React.FC<any> = () => {
           <Col sm={12} xs={24}>
             <img className="preview" src={previewData} />
             <div className="mt-normal text-center">
-              <Button onClick={() => handleGenerate()}>批量给图片库的图片添加水印</Button>
+              <Button onClick={() => handleGenerate()}><FormattedMessage id="plugin.watermark.batch-add" /></Button>
             </div>
           </Col>
         </Row>

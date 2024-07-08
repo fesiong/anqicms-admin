@@ -1,5 +1,6 @@
 import { pluginSaveUserGroupInfo } from '@/services';
 import { ModalForm, ProFormDigit, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Divider, message } from 'antd';
 import React from 'react';
 
@@ -11,6 +12,7 @@ export type UserGroupFormProps = {
 };
 
 const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
+  const intl = useIntl();
   const onSubmit = async (values: any) => {
     const group = Object.assign(props.group, values);
     const res = await pluginSaveUserGroupInfo(group);
@@ -22,7 +24,7 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
   return (
     <ModalForm
       width={600}
-      title={props.group?.id ? '修改用户组' : '添加用户组'}
+      title={props.group?.id ? intl.formatMessage({ id: 'plugin.group.edit' }) : intl.formatMessage({ id: 'plugin.group.add' })}
       initialValues={props.group}
       open={props.open}
       layout="horizontal"
@@ -35,54 +37,54 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="title" label="名称" />
-      <ProFormText name="description" label="介绍" />
+      <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.group.name' })} />
+      <ProFormText name="description" label={intl.formatMessage({ id: 'plugin.group.description' })} />
       <ProFormDigit
         name="level"
-        label="分组等级"
+        label={intl.formatMessage({ id: 'plugin.group.level' })}
         width="sm"
-        fieldProps={{ precision: 0, addonAfter: '级' }}
-        extra="比如普通会员为0级，中级会员为1级，高级会员为2级，核心会员为3级等，填数字"
+        fieldProps={{ precision: 0, addonAfter: intl.formatMessage({ id: 'plugin.group.level.suffix' }) }}
+        extra={intl.formatMessage({ id: 'plugin.group.level.description' })}
       />
       <ProFormDigit
         name="price"
-        label="用户组价格"
+        label={intl.formatMessage({ id: 'plugin.group.price' })}
         width="sm"
-        fieldProps={{ precision: 0, addonAfter: '分' }}
-        extra="购买该用户组VIP需要支付的价钱，注意，单位是分，比如1元，这里就要填100"
+        fieldProps={{ precision: 0, addonAfter: intl.formatMessage({ id: 'plugin.group.price.suffix' }) }}
+        extra={intl.formatMessage({ id: 'plugin.group.price.description'})}
       />
       <ProFormDigit
         name={['setting', 'expire_day']}
-        label="用户组有效期"
+        label={intl.formatMessage({ id: 'plugin.group.expire_day' })}
         width="sm"
-        fieldProps={{ precision: 0, addonAfter: '天' }}
-        extra={'购买VIP后，多少天内有效，1年请填365，过期后，会返回到第一个用户组'}
+        fieldProps={{ precision: 0, addonAfter: intl.formatMessage({ id: 'plugin.group.expire_day.suffix' }) }}
+        extra={intl.formatMessage({ id: 'plugin.group.expire_day.description'})}
       />
-      <Divider>分销权限设置</Divider>
+      <Divider><FormattedMessage id="plugin.group.permission" /></Divider>
       <ProFormDigit
         name={['setting', 'share_reward']}
-        label="分销佣金比例"
+        label={intl.formatMessage({ id: 'plugin.group.share_reward' })}
         width="sm"
         fieldProps={{ precision: 0, addonAfter: '%' }}
         extra={
-          '建议设置5%-20，不能设置小数点。佣金比例优先级: 商品设置的佣金比例>用户组佣金比例>默认佣金比例'
+          intl.formatMessage({ id: 'plugin.group.share_reward.description'})
         }
       />
       <ProFormDigit
         name={['setting', 'parent_reward']}
-        label="邀请奖励比例"
+        label={intl.formatMessage({ id: 'plugin.group.parent_reward' })}
         width="sm"
         fieldProps={{ precision: 0, addonAfter: '%' }}
         extra={
-          '建议设置1%-5%，不能设置小数点。上级佣金比例。分销员a邀请b成为分销员，b就为a的下家，当b成功推广一笔订单时，b可以获得分销佣金，a只获得邀请奖励'
+          intl.formatMessage({ id: 'plugin.group.parent_reward.description'})
         }
       />
       <ProFormDigit
         name={['setting', 'discount']}
-        label="用户折扣"
+        label={intl.formatMessage({ id: 'plugin.group.discount' })}
         width="sm"
         fieldProps={{ precision: 0, addonAfter: '%' }}
-        extra={'建议设置90%-100%，用户通过分销员分享的链接来到页面后，下单可以享受的折扣价'}
+        extra={intl.formatMessage({ id: 'plugin.group.discount.description'})}
       />
     </ModalForm>
   );

@@ -9,6 +9,7 @@ import {
   ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Modal, Space, Tag, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
@@ -21,6 +22,7 @@ const PluginPush: React.FC<any> = (props) => {
   const [logVisible, setLogVisible] = useState<boolean>(false);
   const [editCodeVisible, setEditCodeVisible] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -37,7 +39,7 @@ const PluginPush: React.FC<any> = (props) => {
   const onSubmit = async (values: any) => {
     values = Object.assign(pushSetting, values);
     pushSetting.js_codes = jsCodes;
-    const hide = message.loading('正在处理中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSavePush(values)
       .then((res) => {
         message.success(res.msg);
@@ -71,7 +73,7 @@ const PluginPush: React.FC<any> = (props) => {
 
   const handleRemoveJs = (index: number) => {
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
       onOk: async () => {
         jsCodes.splice(index, 1);
         setJsCodes([].concat(...jsCodes));
@@ -86,30 +88,30 @@ const PluginPush: React.FC<any> = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'plugin.aigenerate.time' }),
       width: 160,
       dataIndex: 'created_time',
       render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '搜索引擎',
+      title: intl.formatMessage({ id: 'plugin.push.engine' }),
       width: 160,
       dataIndex: 'spider',
     },
     {
-      title: '推送结果',
+      title: intl.formatMessage({ id: 'plugin.push.result' }),
       dataIndex: 'result',
     },
   ];
 
   const jsColumns: ProColumns<any>[] = [
     {
-      title: '名称',
+      title: intl.formatMessage({ id: 'plugin.push.name' }),
       width: 200,
       dataIndex: 'name',
     },
     {
-      title: '代码',
+      title: intl.formatMessage({ id: 'plugin.push.code' }),
       dataIndex: 'value',
       render: (text, record) => (
         <div
@@ -125,7 +127,7 @@ const PluginPush: React.FC<any> = (props) => {
       ),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 150,
@@ -137,7 +139,7 @@ const PluginPush: React.FC<any> = (props) => {
               handleEditJs(record, index);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -146,7 +148,7 @@ const PluginPush: React.FC<any> = (props) => {
               handleRemoveJs(index);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -160,10 +162,10 @@ const PluginPush: React.FC<any> = (props) => {
           message={
             <div>
               <span>
-                搜索引擎推送功能支持百度搜索、必应搜索的主动推送，其他搜索引擎虽然没有主动推送功能，但部分搜索引擎依然可以使用JS推送。
+                <FormattedMessage id="plugin.push.tips" />
               </span>
               <Button size="small" onClick={handleShowPushLog}>
-                查看最近推送记录
+                <FormattedMessage id="plugin.push.view-log" />
               </Button>
             </div>
           }
@@ -171,31 +173,31 @@ const PluginPush: React.FC<any> = (props) => {
         <div className="mt-normal">
           {fetched && (
             <ProForm onFinish={onSubmit} initialValues={pushSetting}>
-              <Card size="small" title="百度搜索主动推送" bordered={false}>
+              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.baidu' })} bordered={false}>
                 <ProFormText
                   name="baidu_api"
-                  label="推送接口地址"
-                  extra="如：http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DTHpH8Xn99BrJLBY"
+                  label={intl.formatMessage({ id: 'plugin.push.api-link' })}
+                  extra={intl.formatMessage({ id: 'plugin.push.baidu.api-link.description' })}
                 />
               </Card>
-              <Card size="small" title="必应搜索主动推送" bordered={false}>
+              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.bing' })} bordered={false}>
                 <ProFormText
                   name="bing_api"
-                  label="推送接口地址"
-                  extra="如：https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=sampleapikeyEDECC1EA4AE341CC8B6（注意该APIkey在必应工具右上角的设置中设置）"
+                  label={intl.formatMessage({ id: 'plugin.push.api-link' })}
+                  extra={intl.formatMessage({ id: 'plugin.push.bing.api-link.description' })}
                 />
               </Card>
-              <Card size="small" title="谷歌账号密钥JSON" bordered={false}>
+              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.google' })} bordered={false}>
                 <ProFormTextArea
                   name="google_json"
-                  label="JSON内容"
+                  label={intl.formatMessage({ id: 'plugin.push.google.json' })}
                   fieldProps={{
                     rows: 5,
                   }}
-                  extra="国内无法使用。JSON获取请参考文档：https://www.anqicms.com/google-indexing-help.html"
+                  extra={intl.formatMessage({ id: 'plugin.push.google.description' })}
                 />
               </Card>
-              <Card size="small" title="360/头条等JS自动提交" bordered={false}>
+              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.other-js' })} bordered={false}>
                 <ProTable<any>
                   actionRef={actionRef}
                   rowKey="name"
@@ -207,7 +209,7 @@ const PluginPush: React.FC<any> = (props) => {
                         handleShowAddJs();
                       }}
                     >
-                      添加JS代码
+                      <FormattedMessage id="plugin.push.other-js.add" />
                     </Button>,
                   ]}
                   tableAlertOptionRender={false}
@@ -224,12 +226,11 @@ const PluginPush: React.FC<any> = (props) => {
                   pagination={false}
                 />
                 <div>
-                  <p>可以放置百度JS自动提交、360自动收录、头条自动收录等JS代码。</p>
+                  <p><FormattedMessage id="plugin.push.other-js.tips1" /></p>
                   <p>
-                    这些代码需要在模板中手动调用，请在公共的模板结尾添加{' '}
-                    <Tag>{'{{- pluginJsCode|safe }}'}</Tag> 代码来调用。
+                    <FormattedMessage id="plugin.push.other-js.tips2" />
                   </p>
-                  <p>留言/评论等弹窗，会自动加载这些JS代码。</p>
+                  <p><FormattedMessage id="plugin.push.other-js.tips3" /></p>
                 </div>
               </Card>
             </ProForm>
@@ -237,7 +238,7 @@ const PluginPush: React.FC<any> = (props) => {
         </div>
       </Card>
       <Modal
-        title="查看最近推送记录"
+        title={intl.formatMessage({ id: 'plugin.push.view-log' })}
         width={900}
         open={logVisible}
         onCancel={() => {
@@ -273,11 +274,11 @@ const PluginPush: React.FC<any> = (props) => {
           }}
           initialValues={jsCodes[currentIndex]}
         >
-          <ProFormText name="name" label="代码名称" placeholder="如：百度统计" />
+          <ProFormText name="name" label={intl.formatMessage({ id: 'plugin.push.other-js.name' })} placeholder={intl.formatMessage({ id: 'plugin.push.other-js.name.placeholder' })} />
           <ProFormTextArea
             name="value"
-            label="JS代码"
-            extra="需要包含<script>开头，和</script>结尾"
+            label={intl.formatMessage({ id: 'plugin.push.other-js.code' })}
+            extra={intl.formatMessage({ id: 'plugin.push.other-js.code.placeholder' })}
             fieldProps={{
               rows: 8,
             }}

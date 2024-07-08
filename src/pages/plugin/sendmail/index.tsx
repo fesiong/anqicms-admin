@@ -8,10 +8,12 @@ import { Alert, Button, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import SendmailSetting from './components/setting';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginSendmail: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [setting, setSetting] = useState<any>({});
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -23,7 +25,7 @@ const PluginSendmail: React.FC = () => {
   };
 
   const handleSendTest = async () => {
-    const hide = message.loading('发送测试邮件中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'plugin.sendmail.test.sending' }), 0);
 
     let res = await pluginTestSendmail();
     actionRef?.current?.reload();
@@ -33,21 +35,21 @@ const PluginSendmail: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '发送时间',
+      title: intl.formatMessage({ id: 'plugin.sendmail.send-time' }),
       width: 160,
       dataIndex: 'created_time',
       render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '收件人',
+      title: intl.formatMessage({ id: 'plugin.sendmail.recipient' }),
       dataIndex: 'address',
     },
     {
-      title: '邮件标题',
+      title: intl.formatMessage({ id: 'plugin.sendmail.subject' }),
       dataIndex: 'subject',
     },
     {
-      title: '发送状态',
+      title: intl.formatMessage({ id: 'plugin.sendmail.status' }),
       width: 160,
       dataIndex: 'status',
     },
@@ -55,24 +57,24 @@ const PluginSendmail: React.FC = () => {
 
   return (
     <PageContainer>
-      <Alert className="mb-normal" message="邮件提醒可以将网站的留言通过邮件发送到你的邮箱里。" />
+      <Alert className="mb-normal" message={intl.formatMessage({ id: 'plugin.sendmail.tips' })} />
       <ProTable<any>
-        headerTitle="邮件提醒"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.sendmail' })}
         rowKey="id"
         actionRef={actionRef}
         search={false}
         pagination={false}
         toolBarRender={() => [
           <div key="sender">
-            <span>收件人: </span>
+            <span><FormattedMessage id="plugin.sendmail.recipient" />: </span>
             <span>
               {setting.recipient || setting.account
                 ? setting.recipient || setting.account
-                : '请先进行邮件设置'}
+                : intl.formatMessage({ id: 'plugin.sendmail.recipient.required' })}
             </span>
             {(setting.recipient || setting.account) && (
               <span>
-                &nbsp;&nbsp;&nbsp;<Button onClick={() => handleSendTest()}>发送测试邮件</Button>
+                &nbsp;&nbsp;&nbsp;<Button onClick={() => handleSendTest()}><FormattedMessage id="plugin.sendmail.test.send" /></Button>
               </span>
             )}
           </div>,
@@ -82,7 +84,7 @@ const PluginSendmail: React.FC = () => {
               getSetting();
             }}
           >
-            <Button>邮件设置</Button>
+            <Button><FormattedMessage id="plugin.sendmail.setting" /></Button>
           </SendmailSetting>,
         ]}
         request={(params) => {

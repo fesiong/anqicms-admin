@@ -23,6 +23,7 @@ import { Alert, Button, Card, Col, Divider, Modal, Row, Space, Upload, message }
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import HtmlPushLog from './components/pushLog';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 let xhr: any = null;
 let pushXhr: any = null;
@@ -35,6 +36,7 @@ const PluginHtmlCache: React.FC<any> = () => {
   const [storageType, setStorageType] = useState<string>('local');
   const [logVisible, setLogVisible] = useState<boolean>(false);
   const [logStatus, setLogStatus] = useState<string>('');
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -71,7 +73,7 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuild = () => {
     Modal.confirm({
-      title: '确定要生成全站的静态缓存吗？',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.all.confirm' }),
       onOk: () => {
         pluginBuildHtmlCache().then((res) => {
           message.info(res.msg);
@@ -86,7 +88,7 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildIndex = () => {
     Modal.confirm({
-      title: '确定要生成首页的静态缓存吗？',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.home.confirm' }),
       onOk: () => {
         pluginBuildHtmlIndexCache().then((res) => {
           message.info(res.msg);
@@ -101,7 +103,7 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildCategory = () => {
     Modal.confirm({
-      title: '确定要生成栏目的静态缓存吗？',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.category.confirm' }),
       onOk: () => {
         pluginBuildHtmlCategoryCache().then((res) => {
           message.info(res.msg);
@@ -116,7 +118,7 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildArchive = () => {
     Modal.confirm({
-      title: '确定要生成文档的静态缓存吗？',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.archive.confirm' }),
       onOk: () => {
         pluginBuildHtmlArchiveCache().then((res) => {
           message.info(res.msg);
@@ -131,7 +133,7 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildTag = () => {
     Modal.confirm({
-      title: '确定要生成标签的静态缓存吗？',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.tag.confirm' }),
       onOk: () => {
         pluginBuildHtmlTagCache().then((res) => {
           message.info(res.msg);
@@ -146,11 +148,11 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const cleanHtmlCache = () => {
     Modal.confirm({
-      title: '确定要清理全站的静态缓存吗？如果缓存文件很多，可能需要花费较长时间。',
-      content: '该操作进清理服务器本地缓存文件，无法清理静态服务器文件',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.clean.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.htmlcache.clean.confirm.content' }),
       onOk: () => {
         pluginCleanHtmlCache().then((res) => {
-          message.success('清理成功');
+          message.success(intl.formatMessage({ id: 'plugin.htmlcache.clean.success' }));
         });
       },
     });
@@ -160,7 +162,7 @@ const PluginHtmlCache: React.FC<any> = () => {
     const formData = new FormData();
     formData.append('file', e.file);
     formData.append('name', field);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginHtmlCacheUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -174,9 +176,9 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startPushAll = () => {
     Modal.confirm({
-      title: '确定要全量推送静态文件到静态服务器吗？',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.push.all.confirm' }),
       content:
-        '仅当配置了静态服务器后可用，全量推送需要耗时较长时间，如未进行全局改动可以使用增量推送。',
+        intl.formatMessage({ id: 'plugin.htmlcache.push.all.confirm.content' }),
       onOk: () => {
         pluginHtmlCachePush({
           all: true,
@@ -190,8 +192,8 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startPushUpdate = () => {
     Modal.confirm({
-      title: '确定要增量推送静态文件到静态服务器吗？',
-      content: '仅当配置了静态服务器后可用，增量推送仅会推送更新的的静态缓存文件。',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.push.addon.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.htmlcache.push.addon.confirm.content' }),
       onOk: () => {
         pluginHtmlCachePush({
           all: false,
@@ -231,7 +233,7 @@ const PluginHtmlCache: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSaveHtmlCache(values)
       .then((res) => {
         message.success(res.msg);
@@ -252,200 +254,193 @@ const PluginHtmlCache: React.FC<any> = () => {
           description={
             <div>
               <p>
-                开启静态页面缓存后，会将首页、列表页、详情页缓存起来，加快网站的打开速度，但会需要更多的服务器空间来存储缓存文件。
+              <FormattedMessage id="plugin.htmlcache.description.1" />
               </p>
               <p>
-                如果需要启用静态网站，则需要模板类型为自适应模板才行。开启静态网站需要填写静态网站服务器信息，通信成功后系统会自动传输静态页面到静态网站服务器。
+              <FormattedMessage id="plugin.htmlcache.description.2" />
               </p>
               <p>
-                启用静态网站前，<span className="text-red">需要先开启静态页面缓存</span>
-                。启用静态网站后，搜索、留言、评论、301跳转等需要提交数据到后台的功能，均会失效，网站仅有展示效果。
+              <FormattedMessage id="plugin.htmlcache.description.3" />
               </p>
               <div>
-                启用静态网站后，以下的操作不会自动重新生成，需要手动执行静态页面生成操作：
-                <span className="text-red">调整了模板（修改模板、启用模板）</span>、
-                <span className="text-red">
-                  修改后台设置（全局设置、内容设置、联系方式、导航等）
-                </span>
-                、<span className="text-red">修改了伪静态规则</span>、
-                <span className="text-red">其它影响全局的改动</span>
+              <FormattedMessage id="plugin.htmlcache.description.4" />
               </div>
             </div>
           }
         />
         {fetched && (
-          <ProForm initialValues={setting} onFinish={onSubmit} title="静态页面缓存">
+          <ProForm initialValues={setting} onFinish={onSubmit} title={intl.formatMessage({ id: 'menu.plugin.htmlcache' })}>
             <Row gutter={16}>
               <Col sm={10} xs={24}>
                 <ProFormRadio.Group
                   name={'open'}
-                  label="是否开启静态页面缓存"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.isopen' })}
                   options={[
-                    { label: '关闭', value: false },
-                    { label: '开启', value: true },
+                    { label: intl.formatMessage({ id: 'plugin.fulltext.open.false' }), value: false },
+                    { label: intl.formatMessage({ id: 'plugin.fulltext.open.true' }), value: true },
                   ]}
                 />
 
                 <ProFormDigit
                   name="index_cache"
-                  label="首页缓存时间"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.index-time' })}
                   wrapperCol={{ span: 12 }}
-                  fieldProps={{ addonAfter: '秒' }}
-                  extra="如果填写0秒，则不缓存"
+                  fieldProps={{ addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }) }}
+                  extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
                 />
                 <ProFormDigit
                   name="category_cache"
-                  label="列表缓存时间"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.category-time' })}
                   wrapperCol={{ span: 12 }}
-                  fieldProps={{ addonAfter: '秒' }}
-                  extra="如果填写0秒，则不缓存"
+                  fieldProps={{ addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }) }}
+                  extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
                 />
                 <ProFormDigit
                   name="detail_cache"
-                  label="详情缓存时间"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.archive-time' })}
                   wrapperCol={{ span: 12 }}
-                  fieldProps={{ addonAfter: '秒' }}
-                  extra="如果填写0秒，则不缓存"
+                  fieldProps={{ addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }) }}
+                  extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
                 />
               </Col>
               <Col sm={10} xs={24}>
                 <ProFormRadio.Group
                   name="storage_type"
-                  label="静态网站服务器"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.storage-type' })}
                   fieldProps={{
                     onChange: changeStorageType,
                   }}
                   options={[
                     {
                       value: '',
-                      label: '关闭',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.close' }),
                     },
                     {
                       value: 'aliyun',
-                      label: '阿里云存储',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.aliyun' }),
                     },
                     {
                       value: 'tencent',
-                      label: '腾讯云存储',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.tencent' }),
                     },
                     {
                       value: 'qiniu',
-                      label: '七牛云存储',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.qiniu' }),
                     },
                     {
                       value: 'upyun',
-                      label: '又拍云存储',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.upyun' }),
                     },
                     {
                       value: 'ftp',
-                      label: 'FTP传输',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ftp' }),
                     },
                     {
                       value: 'ssh',
-                      label: 'SFTP(SSH)传输',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ssh' }),
                     },
                   ]}
                 />
                 <ProFormText
                   name="storage_url"
-                  label="静态网站地址"
-                  placeholder="如：https://www.anqicms.com"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.storage-url' })}
+                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.storage-url.placeholder' })}
                 />
                 <div className={storageType != 'aliyun' ? 'hidden' : ''}>
-                  <Divider>阿里云存储</Divider>
+                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.aliyun" /></Divider>
                   <ProFormText
                     name="aliyun_endpoint"
-                    label="阿里云节点"
-                    placeholder="例如：http://oss-cn-hangzhou.aliyuncs.com"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint' })}
+                    placeholder={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint.placeholder' })}
                   />
                   <ProFormText
                     name="aliyun_access_key_id"
-                    label="阿里云AccessKeyId"
+                    label="AccessKeyId"
                     placeholder=""
                   />
                   <ProFormText
                     name="aliyun_access_key_secret"
-                    label="阿里云AccessKeySecret"
+                    label="AccessKeySecret"
                     placeholder=""
                   />
-                  <ProFormText name="aliyun_bucket_name" label="阿里云存储桶名称" placeholder="" />
+                  <ProFormText name="aliyun_bucket_name" label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })} placeholder="" />
                 </div>
                 <div className={storageType != 'tencent' ? 'hidden' : ''}>
-                  <Divider>腾讯云存储</Divider>
-                  <ProFormText name="tencent_secret_id" label="腾讯云SecretId" placeholder="" />
-                  <ProFormText name="tencent_secret_key" label="腾讯云SecretKey" placeholder="" />
+                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.tencent" /></Divider>
+                  <ProFormText name="tencent_secret_id" label="SecretId" placeholder="" />
+                  <ProFormText name="tencent_secret_key" label="SecretKey" placeholder="" />
                   <ProFormText
                     name="tencent_bucket_url"
-                    label="腾讯云存储桶地址"
-                    placeholder="例如：https://aa-1257021234.cos.ap-guangzhou.myqcloud.com"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url' })}
+                    placeholder={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url.placeholder' })}
                   />
                 </div>
                 <div className={storageType != 'qiniu' ? 'hidden' : ''}>
-                  <Divider>七牛云存储</Divider>
-                  <ProFormText name="qiniu_access_key" label="七牛云AccessKey" placeholder="" />
-                  <ProFormText name="qiniu_secret_key" label="七牛云SecretKey" placeholder="" />
+                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.qiniu" /></Divider>
+                  <ProFormText name="qiniu_access_key" label="AccessKey" placeholder="" />
+                  <ProFormText name="qiniu_secret_key" label="SecretKey" placeholder="" />
                   <ProFormText
                     name="qiniu_bucket"
-                    label="七牛云存储桶名称"
-                    placeholder="例如：anqicms"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name' })}
+                    placeholder={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name.placeholder' })}
                   />
                   <ProFormRadio.Group
                     name="qiniu_region"
-                    label="七牛云存储区域"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region' })}
                     options={[
                       {
                         value: 'z0',
-                        label: '华东',
+                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z0' }),
                       },
                       {
                         value: 'z1',
-                        label: '华北',
+                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z1' }),
                       },
                       {
                         value: 'z2',
-                        label: '华南',
+                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z2' }),
                       },
                       {
                         value: 'na0',
-                        label: '北美',
+                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.na0' }),
                       },
                       {
                         value: 'as0',
-                        label: '东南亚',
+                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.as0' }),
                       },
                       {
                         value: 'cn-east-2',
-                        label: '华东-浙江2',
+                        label: 'plugin.htmlcache.qiniu.region.cn-east2',
                       },
                       {
                         value: 'fog-cn-east-1',
-                        label: '雾存储华东区',
+                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.fog-cn-east1' }),
                       },
                     ]}
                   />
                 </div>
                 <div className={storageType != 'upyun' ? 'hidden' : ''}>
-                  <Divider>又拍云存储</Divider>
-                  <ProFormText name="upyun_operator" label="又拍云操作员" placeholder="" />
-                  <ProFormText name="upyun_password" label="又拍云操作员密码" placeholder="" />
-                  <ProFormText name="upyun_bucket" label="又拍云存服务名称" placeholder="" />
+                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.upyun" /></Divider>
+                  <ProFormText name="upyun_operator" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })} placeholder="" />
+                  <ProFormText name="upyun_password" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })} placeholder="" />
+                  <ProFormText name="upyun_bucket" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })} placeholder="" />
                 </div>
                 <div className={storageType != 'ftp' ? 'hidden' : ''}>
-                  <Divider>FTP传输</Divider>
-                  <p>注意：经测试，宝塔自带的PureFtp无法正常使用。</p>
-                  <ProFormText name="ftp_host" label="FTP IP地址" placeholder="" />
-                  <ProFormDigit name="ftp_port" label="FTP 端口" placeholder="" />
-                  <ProFormText name="ftp_username" label="FTP 用户名" placeholder="" />
-                  <ProFormText name="ftp_password" label="FTP 密码" placeholder="" />
-                  <ProFormText name="ftp_webroot" label="FTP 上传根目录" placeholder="" />
+                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ftp" /></Divider>
+                  <p><FormattedMessage id="plugin.htmlcache.ftp.tips" /></p>
+                  <ProFormText name="ftp_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })} placeholder="" />
+                  <ProFormDigit name="ftp_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })} placeholder="" />
+                  <ProFormText name="ftp_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })} placeholder="" />
+                  <ProFormText name="ftp_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })} placeholder="" />
+                  <ProFormText name="ftp_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })} placeholder="" />
                 </div>
                 <div className={storageType != 'ssh' ? 'hidden' : ''}>
-                  <Divider>SFTP(SSH)传输</Divider>
-                  <ProFormText name="ssh_host" label="SSH IP地址" placeholder="" />
-                  <ProFormDigit name="ssh_port" label="SSH 端口" placeholder="" />
-                  <ProFormText name="ssh_username" label="SSH 用户名" placeholder="" />
-                  <ProFormText name="ssh_password" label="SSH 密码" placeholder="" />
-                  <ProFormText label="或SSH 密钥" extra="如果你的SSH服务器是使用密钥登录，请上传">
+                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ssh" /></Divider>
+                  <ProFormText name="ssh_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })} placeholder="" />
+                  <ProFormDigit name="ssh_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })} placeholder="" />
+                  <ProFormText name="ssh_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })} placeholder="" />
+                  <ProFormText name="ssh_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })} placeholder="" />
+                  <ProFormText label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })} extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}>
                     <Upload
                       name="file"
                       className="logo-uploader"
@@ -453,48 +448,48 @@ const PluginHtmlCache: React.FC<any> = () => {
                       accept=".crt,.pem,.key"
                       customRequest={async (e) => handleUploadFile('ssh_private_key', e)}
                     >
-                      <Button type="primary">上传文件</Button>
+                      <Button type="primary"><FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" /></Button>
                     </Upload>
                     {setting.ssh_private_key && (
                       <div className="upload-file">{setting.ssh_private_key}</div>
                     )}
                   </ProFormText>
-                  <ProFormText name="ssh_webroot" label="SSH 上传根目录" placeholder="" />
+                  <ProFormText name="ssh_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })} placeholder="" />
                 </div>
               </Col>
             </Row>
           </ProForm>
         )}
-        <Divider>生成操作</Divider>
+        <Divider><FormattedMessage id="plugin.htmlcache.generate.name" /></Divider>
         <div>
           <p>
-            上次手动生成时间：
+          <FormattedMessage id="plugin.htmlcache.generate.last-time" />
             {setting.last_build_time > 0
               ? dayjs(setting.last_build_time * 1000).format('YYYY-MM-DD')
-              : '未手动生成过'}
+              : intl.formatMessage({ id: 'plugin.htmlcache.generate.last-time.empty' })}
           </p>
           <Space className="space-wrap" size={20}>
-            <Button onClick={() => cleanHtmlCache()}>清理所有缓存</Button>
-            <Button onClick={() => startBuild()}>手动生成所有缓存</Button>
-            <Button onClick={() => startBuildIndex()}>手动生成首页缓存</Button>
-            <Button onClick={() => startBuildCategory()}>手动生成栏目缓存</Button>
-            <Button onClick={() => startBuildArchive()}>手动生成文档缓存</Button>
-            <Button onClick={() => startBuildTag()}>手动生成标签缓存</Button>
+            <Button onClick={() => cleanHtmlCache()}><FormattedMessage id="plugin.htmlcache.clean.all" /></Button>
+            <Button onClick={() => startBuild()}><FormattedMessage id="plugin.htmlcache.build.all" /></Button>
+            <Button onClick={() => startBuildIndex()}><FormattedMessage id="plugin.htmlcache.build.home" /></Button>
+            <Button onClick={() => startBuildCategory()}><FormattedMessage id="plugin.htmlcache.build.category" /></Button>
+            <Button onClick={() => startBuildArchive()}><FormattedMessage id="plugin.htmlcache.build.archive" /></Button>
+            <Button onClick={() => startBuildTag()}><FormattedMessage id="plugin.htmlcache.build.tag" /></Button>
           </Space>
         </div>
-        <Divider>静态服务器操作</Divider>
+        <Divider><FormattedMessage id="plugin.htmlcache.push.name" /></Divider>
         <p>
-          上次手动推送时间：
+        <FormattedMessage id="plugin.htmlcache.push.last-time" />
           {setting.last_push_time > 0
             ? dayjs(setting.last_push_time * 1000).format('YYYY-MM-DD')
-            : '未手动推送过'}
+            : intl.formatMessage({ id: 'plugin.htmlcache.push.last-time.empty' })}
         </p>
         <div>
           <Space className="space-wrap" size={20}>
-            <Button onClick={() => startPushAll()}>全量推送静态文件到静态服务器</Button>
-            <Button onClick={() => startPushUpdate()}>仅推送更新的文件到静态服务器</Button>
-            <Button onClick={() => getPushLog()}>全部推送记录</Button>
-            <Button onClick={() => getPushErrorLog()}>推送错误记录</Button>
+            <Button onClick={() => startPushAll()}><FormattedMessage id="plugin.htmlcache.push.all" /></Button>
+            <Button onClick={() => startPushUpdate()}><FormattedMessage id="plugin.htmlcache.push.addon" /></Button>
+            <Button onClick={() => getPushLog()}><FormattedMessage id="plugin.htmlcache.push.log.all" /></Button>
+            <Button onClick={() => getPushErrorLog()}><FormattedMessage id="plugin.htmlcache.push.log.error" /></Button>
           </Space>
         </div>
         {(status || pushStatus) && (
@@ -502,37 +497,37 @@ const PluginHtmlCache: React.FC<any> = () => {
             {status && (
               <Col sm={12} xs={24}>
                 <div>
-                  <Divider>生成进度</Divider>
+                  <Divider><FormattedMessage id="plugin.htmlcache.build.process" /></Divider>
                   <Space direction="vertical" size={10}>
                     <div className="field-item">
-                      <div className="field-label">开始时间：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.start-time" /></div>
                       <div className="field-value">
                         {dayjs(status.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">完成时间：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.end-time" /></div>
                       <div className="field-value">
                         {status.finished_time > 0
                           ? dayjs(status.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
-                          : '未完成'}
+                          : intl.formatMessage({ id: 'plugin.htmlcache.build.unfinished' })}
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">已发现数量：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.total" /></div>
                       <div className="field-value">{status.total}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">已处理数量：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.finished-count" /></div>
                       <div className="field-value">{status.finished_count}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">当前执行任务：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.current" /></div>
                       <div className="field-value">{status.current}</div>
                     </div>
                     {status.error_msg && (
                       <div className="field-item">
-                        <div className="field-label">错误信息：</div>
+                        <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.error-msg" /></div>
                         <div className="field-value">{status.error_msg}</div>
                       </div>
                     )}
@@ -543,41 +538,41 @@ const PluginHtmlCache: React.FC<any> = () => {
             {pushStatus && (
               <Col sm={12} xs={24}>
                 <div>
-                  <Divider>推送进度</Divider>
+                  <Divider><FormattedMessage id="plugin.htmlcache.push.process" /></Divider>
                   <Space direction="vertical" size={10}>
                     <div className="field-item">
-                      <div className="field-label">开始时间：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.start-time" /></div>
                       <div className="field-value">
                         {dayjs(pushStatus.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">完成时间：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.end-time" /></div>
                       <div className="field-value">
                         {pushStatus.finished_time > 0
                           ? dayjs(pushStatus.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
-                          : '未完成'}
+                          : intl.formatMessage({ id: 'plugin.htmlcache.build.unfinished' })}
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">已发现数量：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.total" /></div>
                       <div className="field-value">{pushStatus.total}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">已处理数量：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.finished-count" /></div>
                       <div className="field-value">{pushStatus.finished_count}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">错误数量：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.error-count" /></div>
                       <div className="field-value">{pushStatus.error_count}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label">当前执行任务：</div>
+                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.current" /></div>
                       <div className="field-value">{pushStatus.current}</div>
                     </div>
                     {pushStatus.error_msg && (
                       <div className="field-item">
-                        <div className="field-label">错误信息：</div>
+                        <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.error-msg" /></div>
                         <div className="field-value">{pushStatus.error_msg}</div>
                       </div>
                     )}

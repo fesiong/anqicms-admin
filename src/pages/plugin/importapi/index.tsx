@@ -2,7 +2,7 @@ import trainImg from '@/images/train.png';
 import { pluginGetImportApiSetting, pluginUpdateApiToken } from '@/services';
 import { downloadFile } from '@/utils';
 import { ModalForm, PageContainer, ProCard, ProFormText } from '@ant-design/pro-components';
-import { history } from '@umijs/max';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Modal, Space, Table, Tag, Tooltip, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -12,6 +12,7 @@ const PluginImportApi: React.FC<any> = () => {
   const [tokenVidible, setTokenVisible] = useState<boolean>(false);
   const [tab, setTab] = useState('1');
   const [setting, setSetting] = useState<any>({});
+  const intl = useIntl();
 
   const getSetting = async () => {
     const res = await pluginGetImportApiSetting();
@@ -29,12 +30,12 @@ const PluginImportApi: React.FC<any> = () => {
 
   const handleUpdateToken = async (values: any) => {
     if (values.token == '') {
-      message.error('请填写Token，128字符以内');
+      message.error(intl.formatMessage({ id: 'plugin.importapi.token.required' }));
       return;
     }
     Modal.confirm({
-      title: '确定要更新Token吗？',
-      content: '更新后，原Token失效，请使用新api地址操作。',
+      title: intl.formatMessage({ id: 'plugin.importapi.token.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.importapi.token.confirm.content' }),
       onOk: async () => {
         const res = await pluginUpdateApiToken(values);
         message.info(res.msg);
@@ -55,7 +56,7 @@ const PluginImportApi: React.FC<any> = () => {
   };
 
   const handleCopied = () => {
-    message.success('复制成功');
+    message.success(intl.formatMessage({ id: 'plugin.importapi.token.copy.success' }));
   };
 
   return (
@@ -64,13 +65,13 @@ const PluginImportApi: React.FC<any> = () => {
         <Alert
           message={
             <div>
-              <p>通过AI写作等第三方平台产生的内容可以对接API导入本系统。</p>
+              <p><FormattedMessage id="plugin.importapi.tips" /></p>
               <div>
                 <Space>
-                  <span>我的Token：</span>
+                  <span><FormattedMessage id="plugin.importapi.token.name" /></span>
                   <Tag>
                     <CopyToClipboard text={setting.token} onCopy={handleCopied}>
-                      <Tooltip title="点击复制">{setting.token}</Tooltip>
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>{setting.token}</Tooltip>
                     </CopyToClipboard>
                   </Tag>
                   <Button
@@ -79,7 +80,7 @@ const PluginImportApi: React.FC<any> = () => {
                       setTokenVisible(true);
                     }}
                   >
-                    更新Token
+                    <FormattedMessage id="plugin.importapi.token.update" />
                   </Button>
                 </Space>
               </div>
@@ -96,49 +97,49 @@ const PluginImportApi: React.FC<any> = () => {
               },
             }}
           >
-            <ProCard.TabPane key="1" tab="文档导入接口">
+            <ProCard.TabPane key="1" tab={intl.formatMessage({ id: 'plugin.importapi.archive-api' })}>
               <div className="import-fields">
                 <div className="field-item">
-                  <div className="name">接口地址：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.api-url" /></div>
                   <div className="value">
                     <CopyToClipboard
                       text={setting.base_url + '/api/import/archive?token=' + setting.token}
                       onCopy={handleCopied}
                     >
-                      <Tooltip title="点击复制">
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>
                         {setting.base_url}/api/import/archive?token={setting.token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求方式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.method" /></div>
                   <div className="value">POST</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求类型：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.request-type" /></div>
                   <div className="value">form-data</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">POST表单字段：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.post-fields" /></div>
                   <div className="value">
                     <Table
                       size="small"
                       pagination={false}
                       columns={[
                         {
-                          title: '字段名',
+                          title: intl.formatMessage({ id: 'content.module.field.name' }),
                           dataIndex: 'title',
                           width: 150,
                         },
                         {
-                          title: '是否必填',
+                          title: intl.formatMessage({ id: 'content.module.field.isrequired' }),
                           dataIndex: 'required',
                           width: 100,
-                          render: (text: number) => <span>{text ? '必填' : '否'}</span>,
+                          render: (text: number) => <span>{text ? intl.formatMessage({ id: 'content.module.field.isrequired.yes' }) : intl.formatMessage({ id: 'content.module.field.isrequired.no' })}</span>,
                         },
                         {
-                          title: '说明',
+                          title: intl.formatMessage({ id: 'plugin.importapi.field.remark' }),
                           dataIndex: 'remark',
                         },
                       ]}
@@ -146,76 +147,72 @@ const PluginImportApi: React.FC<any> = () => {
                         {
                           title: 'id',
                           required: false,
-                          remark: '文档ID，默认自动生成',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.archive-id' }),
                         },
                         {
                           title: 'title',
                           required: true,
-                          remark: '文档标题',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.title' }),
                         },
                         {
                           title: 'content',
                           required: true,
-                          remark: '文档内容',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.content' }),
                         },
                         {
                           title: 'category_id',
                           required: true,
-                          remark: '分类ID',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.category-id' }),
                         },
                         {
                           title: 'keywords',
                           required: false,
-                          remark: '文档关键词',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.keywords' }),
                         },
                         {
                           title: 'description',
                           required: false,
-                          remark: '文档简介',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.description' }),
                         },
                         {
                           title: 'url_token',
                           required: false,
-                          remark: '自定义URL别名，仅支持数字、英文字母',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.url-token'}),
                         },
                         {
                           title: 'images[]',
                           required: false,
-                          remark: '文章组图，可以设置最多9张图片。',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.images'}),
                         },
                         {
                           title: 'logo',
                           required: false,
-                          remark:
-                            '文档的缩略图，可以是绝对地址，如: https://www.anqicms.com/logo.png 或相对地址，如: /logo.png',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.logo'}),
                         },
                         {
                           title: 'publish_time',
                           required: false,
-                          remark:
-                            '格式：2006-01-02 15:04:05  文档的发布时间，可以是未来的时间，如果是未来的时间，则文档会在等到时间到了才正式发布。',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.publish-time'}),
                         },
                         {
                           title: 'tag',
                           required: false,
-                          remark: '文档Tag标签，多个tag用英文逗号分隔,例如：aaa,bbb,ccc',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.tag'}),
                         },
                         {
-                          title: '其他自定义字段',
+                          title: intl.formatMessage({ id: 'plugin.importapi.field.diy' }),
                           required: false,
-                          remark: '如果你还传了其他自定义字段，并且文档表中存在该字段，则也支持。',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.diy.remark' }),
                         },
                         {
                           title: 'draft',
                           required: false,
-                          remark:
-                            '是否存入到草稿，支持的值有：false|true，填写true时，则发布的文档会保存到草稿',
+                          remark:intl.formatMessage({ id: 'plugin.importapi.field.draft'}),
                         },
                         {
                           title: 'cover',
                           required: false,
-                          remark:
-                            '当相同标题、ID文档存在时是否覆盖，支持的值有：false|true，填写true时，则会覆盖成最新的内容，设置为false时，则会提示错误',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.field.cover'}),
                         },
                       ]}
                       key="title"
@@ -223,18 +220,18 @@ const PluginImportApi: React.FC<any> = () => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">返回格式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-type" /></div>
                   <div className="value">JSON</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">正确结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.success" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 200,   //返回200表示数据正确，其他值均为错误\n    "msg": "发布成功",   //如果有错误，则这里会描述错误的原因\n    "data": {\n        "url":"https://www.anqicms.com/..." //这里返回文档的url\n    }\n}'
+                              `{\n    "code": 200,\n    "msg": intl.formatMessage({ id: "发布成功" }),\n    "data": {\n        "url":"https://www.anqicms.com/..."\n    }\n}`
                             }
                           </code>
                         </pre>
@@ -243,14 +240,14 @@ const PluginImportApi: React.FC<any> = () => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">错误结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.failure" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": -1,\n    "msg": "Token错误",\n}`
                             }
                           </code>
                         </pre>
@@ -260,32 +257,32 @@ const PluginImportApi: React.FC<any> = () => {
                 </div>
               </div>
             </ProCard.TabPane>
-            <ProCard.TabPane key="3" tab="获取分类接口">
+            <ProCard.TabPane key="3" tab={intl.formatMessage({ id: 'plugin.importapi.category-api' })}>
               <div className="import-fields">
                 <div className="field-item">
-                  <div className="name">接口地址：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.api-url" /></div>
                   <div className="value">
                     <CopyToClipboard
                       text={setting.base_url + '/api/import/categories?token=' + setting.token}
                       onCopy={handleCopied}
                     >
-                      <Tooltip title="点击复制">
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>
                         {setting.base_url}/api/import/categories?token={setting.token}
                       </Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求方式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.method" /></div>
                   <div className="value">POST / GET</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">请求类型：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.request-type" /></div>
                   <div className="value">form-data / query params</div>
                 </div>
                 <div className="field-item">
                   <div className="name">
-                    POST表单 /<br /> Query Params 字段：
+                  <FormattedMessage id="plugin.importapi.category-api.fields" />
                   </div>
                   <div className="value">
                     <Table
@@ -293,18 +290,18 @@ const PluginImportApi: React.FC<any> = () => {
                       pagination={false}
                       columns={[
                         {
-                          title: '字段名',
+                          title: intl.formatMessage({ id: 'content.module.field.name' }),
                           dataIndex: 'title',
                           width: 150,
                         },
                         {
-                          title: '是否必填',
+                          title: intl.formatMessage({ id: 'content.module.field.isrequired' }),
                           dataIndex: 'required',
                           width: 100,
-                          render: (text: number) => <span>{text ? '必填' : '否'}</span>,
+                          render: (text: number) => <span>{text ? intl.formatMessage({ id: 'content.module.field.isrequired.yes' }) : intl.formatMessage({ id: 'content.module.field.isrequired.no' })}</span>,
                         },
                         {
-                          title: '说明',
+                          title: intl.formatMessage({ id: 'plugin.importapi.field.remark' }),
                           dataIndex: 'remark',
                         },
                       ]}
@@ -312,7 +309,7 @@ const PluginImportApi: React.FC<any> = () => {
                         {
                           title: 'module_id',
                           required: true,
-                          remark: '要获取的分类类型，填数字，支持的值：1 文章，2 产品',
+                          remark: intl.formatMessage({ id: 'plugin.importapi.category-api.module-id' }),
                         },
                       ]}
                       key="title"
@@ -320,36 +317,18 @@ const PluginImportApi: React.FC<any> = () => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">返回格式：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-type" /></div>
                   <div className="value">JSON</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">正确结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.success" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": 0,   //返回0表示数据正确，其他值均为错误\n    "msg": "",   //如果有错误，则这里会描述错误的原因\n    "data": {\n'
-                            }
-
-                            {'      [\n'}
-                            {
-                              '        {\n          "id": 1,\n          "parent_id": 0,\n          "title": "新闻大事",\n        },\n'
-                            }
-                            {
-                              '        {\n          "id": 2,\n          "parent_id": 1,\n          "title": "国际新闻",\n        },\n'
-                            }
-                            {
-                              '        {\n          "id": 3,\n          "parent_id": 1,\n          "title": "国内新闻",\n        },\n'
-                            }
-                            {
-                              '        {\n          "id": 4,\n          "parent_id": 0,\n          "title": "案例展示",\n        },\n'
-                            }
-                            {'      ]\n'}
-
-                            {'    }\n}'}
+                              `{\n    "code": 0,\n    "msg": "",\n    "data": {\n      [\n        {\n          "id": 1,\n          "parent_id": 0,\n          "title": intl.formatMessage({ id: "新闻大事" }),\n        },\n        {\n          "id": 2,\n          "parent_id": 1,\n          "title": intl.formatMessage({ id: "国际新闻" }),\n        },\n        {\n          "id": 3,\n          "parent_id": 1,\n          "title": intl.formatMessage({ id: "国内新闻" }),\n        },\n        {\n          "id": 4,\n          "parent_id": 0,\n          "title": intl.formatMessage({ id: "案例展示" }),\n        },\n      ]\n    }\n}`}
                           </code>
                         </pre>
                       }
@@ -357,14 +336,14 @@ const PluginImportApi: React.FC<any> = () => {
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">错误结果示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.return-example.failure" /></div>
                   <div className="value">
                     <Alert
                       message={
                         <pre>
                           <code>
                             {
-                              '{\n    "code": -1,   //返回200表示数据正确，其他值均为错误\n    "msg": "Token错误",   //如果有错误，则这里会描述错误的原因\n}'
+                              `{\n    "code": -1,\n    "msg": "Token错误",\n}`
                             }
                           </code>
                         </pre>
@@ -374,32 +353,32 @@ const PluginImportApi: React.FC<any> = () => {
                 </div>
               </div>
             </ProCard.TabPane>
-            <ProCard.TabPane key="2" tab="火车头发布模块">
+            <ProCard.TabPane key="2" tab={intl.formatMessage({ id: 'plugin.importapi.train-mopdule' })}>
               <div className="import-fields">
                 <div className="field-item">
-                  <div className="name">网站地址：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.train-mopdule.url" /></div>
                   <div className="value">{setting.base_url}</div>
                 </div>
                 <div className="field-item">
-                  <div className="name">全局变量：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.train-mopdule.token" /></div>
                   <div className="value">
                     <CopyToClipboard text={setting.token} onCopy={handleCopied}>
-                      <Tooltip title="点击复制">{setting.token}</Tooltip>
+                      <Tooltip title={intl.formatMessage({ id: 'plugin.importapi.token.copy' })}>{setting.token}</Tooltip>
                     </CopyToClipboard>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">模块下载：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.train-mopdule.download" /></div>
                   <div className="value">
-                    <Button onClick={handleDownloadTrainModule}>点击下载 train2anqicms.wpm</Button>
+                    <Button onClick={handleDownloadTrainModule}><FormattedMessage id="plugin.importapi.train-mopdule.download.text" /> train2anqicms.wpm</Button>
                   </div>
                 </div>
                 <div className="field-item">
-                  <div className="name">支持版本：</div>
-                  <div className="value">支持火车头采集器9.0以上版本导入发布模块使用</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.train-mopdule.support-version" /></div>
+                  <div className="value"><FormattedMessage id="plugin.importapi.train-mopdule.support-version.text" /></div>
                 </div>
                 <div className="field-item">
-                  <div className="name">配置示例：</div>
+                  <div className="name"><FormattedMessage id="plugin.importapi.train-mopdule.example" /></div>
                   <div className="value">
                     <img src={trainImg} />
                   </div>
@@ -414,7 +393,7 @@ const PluginImportApi: React.FC<any> = () => {
         modalProps={{
           zIndex: 100,
         }}
-        title={'重置导入Token'}
+        title={intl.formatMessage({ id: 'plugin.importapi.token.reset' })}
         open={tokenVidible}
         layout="horizontal"
         onOpenChange={(flag) => {
@@ -424,9 +403,9 @@ const PluginImportApi: React.FC<any> = () => {
       >
         <ProFormText
           name="token"
-          label="新的Token"
-          placeholder={'请填写新的Token'}
-          extra="Token一般由数字、字母组合构成，长于10位，小于128位"
+          label={intl.formatMessage({ id: 'plugin.importapi.token.new' })}
+          placeholder={intl.formatMessage({ id: 'plugin.importapi.token.new.placeholder' })}
+          extra={intl.formatMessage({ id: 'plugin.importapi.token.new.description' })}
         />
       </ModalForm>
     </PageContainer>

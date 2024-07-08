@@ -1,6 +1,7 @@
 import WangEditor from '@/components/editor';
 import { pluginGetMaterialCategories, pluginSaveMaterial } from '@/services/plugin/material';
 import { ModalForm, ProFormSelect } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import React, { useState } from 'react';
 
 export type MaterialFormProps = {
@@ -12,6 +13,7 @@ export type MaterialFormProps = {
 
 const MaterialForm: React.FC<MaterialFormProps> = (props) => {
   const [content, setContent] = useState<string>('');
+  const intl = useIntl();
 
   const onSubmit = async (values: any) => {
     let editingMaterial = Object.assign(props.editingMaterial, values);
@@ -24,7 +26,7 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
   return (
     <ModalForm
       width={800}
-      title={'编辑内容素材'}
+      title={intl.formatMessage({ id: 'plugin.material.edit' })}
       initialValues={props.editingMaterial}
       open={props.open}
       //layout="horizontal"
@@ -38,7 +40,7 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
       }}
     >
       <ProFormSelect
-        label="素材板块"
+        label={intl.formatMessage({ id: 'plugin.material.category.title' })}
         name="category_id"
         width="lg"
         request={async () => {
@@ -63,6 +65,7 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
         key="content"
         field="content"
         content={props.editingMaterial.content}
+        ref={null}
       />
     </ModalForm>
   );

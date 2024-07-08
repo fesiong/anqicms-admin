@@ -6,18 +6,20 @@ import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import LinkApi from './components/api';
 import LinkForm from './components/linkForm';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginLink: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [, setSelectedRowKeys] = useState<any[]>([]);
   const [currentLink, setCurrentLink] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的友情链接吗？',
+      title: intl.formatMessage({ id: 'plugin.link.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (const item of selectedRowKeys) {
@@ -26,13 +28,13 @@ const PluginLink: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -54,15 +56,15 @@ const PluginLink: React.FC = () => {
 
   const getStatusText = (status: any) => {
     if (status === 0) {
-      return '待检测';
+      return intl.formatMessage({ id: 'plugin.link.status.wait' });
     } else if (status === 1) {
-      return '正常';
+      return intl.formatMessage({ id: 'plugin.link.status.ok' });
     } else if (status === 2) {
       return 'NOFOLLOW';
     } else if (status === 3) {
-      return '关键词不一致';
+      return intl.formatMessage({ id: 'plugin.link.status.wrong-keyword' });
     } else if (status === 4) {
-      return '对方无反链';
+      return intl.formatMessage({ id: 'plugin.link.status.no-back-url' });
     }
 
     return status;
@@ -70,11 +72,11 @@ const PluginLink: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '编号',
+      title: intl.formatMessage({ id: 'ID' }),
       dataIndex: 'sort',
     },
     {
-      title: '对方关键词/链接',
+      title: intl.formatMessage({ id: 'plugin.link.other-title-link' }),
       dataIndex: 'title',
       render: (_, record) => {
         return (
@@ -89,7 +91,7 @@ const PluginLink: React.FC = () => {
       },
     },
     {
-      title: '对方联系方式/备注',
+      title: intl.formatMessage({ id: 'plugin.link.other-contact-remark' }),
       dataIndex: 'contact',
       render: (_, record) => {
         return (
@@ -102,7 +104,7 @@ const PluginLink: React.FC = () => {
       },
     },
     {
-      title: '状态/检查时间',
+      title: intl.formatMessage({ id: 'plugin.link.status-check-time' }),
       dataIndex: 'status',
       render: (text, record) => {
         return (
@@ -115,12 +117,12 @@ const PluginLink: React.FC = () => {
       },
     },
     {
-      title: '添加时间',
+      title: intl.formatMessage({ id: 'plugin.link.create-time' }),
       dataIndex: 'created_time',
       render: (_, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -131,7 +133,7 @@ const PluginLink: React.FC = () => {
               handleCheckLink(record);
             }}
           >
-            检查
+            <FormattedMessage id="plugin.link.check" />
           </a>
           <a
             key="edit"
@@ -139,7 +141,7 @@ const PluginLink: React.FC = () => {
               handleEditLink(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -148,7 +150,7 @@ const PluginLink: React.FC = () => {
               handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -158,13 +160,13 @@ const PluginLink: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="友情链接管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.friendlink' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
         toolBarRender={() => [
           <LinkApi key="api">
-            <Button>友情链接API</Button>
+            <Button><FormattedMessage id="plugin.link.api.title" /></Button>
           </LinkApi>,
           <Button
             type="primary"
@@ -173,7 +175,7 @@ const PluginLink: React.FC = () => {
               handleEditLink({});
             }}
           >
-            <PlusOutlined /> 添加友情链接
+            <PlusOutlined /> <FormattedMessage id="plugin.link.add" />
           </Button>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
@@ -184,10 +186,10 @@ const PluginLink: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}

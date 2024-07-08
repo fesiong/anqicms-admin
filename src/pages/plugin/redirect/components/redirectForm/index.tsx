@@ -1,5 +1,6 @@
 import { pluginSaveRedirect } from '@/services/plugin/redirect';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Tag } from 'antd';
 import React from 'react';
 
@@ -11,6 +12,7 @@ export type RedirectFormProps = {
 };
 
 const RedirectForm: React.FC<RedirectFormProps> = (props) => {
+  const intl = useIntl();
   const onSubmit = async (values: any) => {
     let editingRedirect = Object.assign(props.editingRedirect, values);
     let res = await pluginSaveRedirect(editingRedirect);
@@ -21,7 +23,7 @@ const RedirectForm: React.FC<RedirectFormProps> = (props) => {
   return (
     <ModalForm
       width={800}
-      title={props.editingRedirect?.id ? '编辑链接' : '添加链接'}
+      title={props.editingRedirect?.id ? intl.formatMessage({ id: 'plugin.redirect.edit' }) : intl.formatMessage({ id: 'plugin.redirect.add' })}
       initialValues={props.editingRedirect}
       open={props.open}
       //layout="horizontal"
@@ -36,19 +38,19 @@ const RedirectForm: React.FC<RedirectFormProps> = (props) => {
     >
       <ProFormText
         name="from_url"
-        label="源链接"
+        label={intl.formatMessage({ id: 'plugin.redirect.from-url' })}
         extra={
           <div className="mt-normal">
-            可以是绝对地址<Tag>http(https)</Tag>开头，或相对地址<Tag>/</Tag>开头的链接
+            <FormattedMessage id="plugin.redirect.from-url.description" />
           </div>
         }
       />
       <ProFormText
         name="to_url"
-        label="跳转链接"
+        label={intl.formatMessage({ id: 'plugin.redirect.to-url' })}
         extra={
           <div className="mt-normal">
-            可以是绝对地址<Tag>http(https)</Tag>开头，或相对地址<Tag>/</Tag>开头的链接
+            <FormattedMessage id="plugin.redirect.from-url.description" />
           </div>
         }
       />

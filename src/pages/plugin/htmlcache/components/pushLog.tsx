@@ -1,6 +1,7 @@
 import { pluginGetHtmlCachePushLogs, pluginHtmlCachePush } from '@/services';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
@@ -15,6 +16,7 @@ export type PushLogProps = {
 const HtmlPushLog: React.FC<PushLogProps> = (props) => {
   const actionRef = useRef<ActionType>();
   const [_, setSelectedRowKeys] = useState<any[]>([]);
+  const intl = useIntl();
 
   const handleRePush = async (keys: any[]) => {
     pluginHtmlCachePush({ paths: keys }).then((res) => {
@@ -25,14 +27,14 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '时间',
+      title: intl.formatMessage({ id: 'plugin.finance.time' }),
       dataIndex: 'created_time',
       render: (item) => {
         return dayjs((item as number) * 1000).format('YYYY-MM-DD HH:mm');
       },
     },
     {
-      title: '远程文件',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.remote-file' }),
       dataIndex: 'remote_file',
       render: (_, record: any) => {
         return (
@@ -45,28 +47,28 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       },
     },
     {
-      title: '本地文件',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.local-file' }),
       dataIndex: 'local_file',
       render: (_, record: any) => {
         return <div className="word-wrap">{record.local_file}</div>;
       },
     },
     {
-      title: '推送状态',
+      title: intl.formatMessage({ id: 'plugin.htmlcache.push-status' }),
       dataIndex: 'status',
       render: (_, record: any) => {
         return record.status == 1 ? (
-          <span>成功</span>
+          <span><FormattedMessage id="plugin.htmlcache.push-status.success" /></span>
         ) : (
           <Tooltip title={record.error_msg}>
-            <span className="text-red">失败</span>
+            <span className="text-red"><FormattedMessage id="plugin.htmlcache.push-status.failure" /></span>
             {record.error_msg && <ExclamationCircleOutlined className="error-icon" />}
           </Tooltip>
         );
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -78,7 +80,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
               handleRePush([record.local_file]);
             }}
           >
-            重新推送
+            <FormattedMessage id="plugin.htmlcache.re-push" />
           </span>
         </Space>
       ),
@@ -89,7 +91,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
     <>
       <Modal
         width={1000}
-        title={'推送记录'}
+        title={intl.formatMessage({ id: 'plugin.htmlcache.push-log' })}
         open={props.open}
         onCancel={props.onCancel}
         footer={null}
@@ -108,10 +110,10 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
                   handleRePush(selectedRowKeys);
                 }}
               >
-                重新推送
+                <FormattedMessage id="plugin.htmlcache.re-push" />
               </Button>
               <Button type="link" size={'small'} onClick={onCleanSelected}>
-                取消选择
+                <FormattedMessage id="content.option.cancel-select" />
               </Button>
             </Space>
           )}

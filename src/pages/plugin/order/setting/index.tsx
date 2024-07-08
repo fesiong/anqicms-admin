@@ -1,5 +1,6 @@
 import { pluginGetOrderSetting, pluginSaveOrderSetting } from '@/services';
 import { ModalForm, ProFormDigit, ProFormRadio } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import { message } from 'antd';
 import React, { useState } from 'react';
 
@@ -10,6 +11,7 @@ export type OrderSettingProps = {
 
 const OrderSetting: React.FC<OrderSettingProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleSaveSetting = async (values: any) => {
     const res = await pluginSaveOrderSetting(values);
@@ -33,7 +35,7 @@ const OrderSetting: React.FC<OrderSettingProps> = (props) => {
       </div>
       <ModalForm
         width={600}
-        title={'订单设置'}
+        title={intl.formatMessage({ id: 'plugin.order.setting' })}
         open={visible}
         // modalProps={{
         //   onCancel: () => {
@@ -54,29 +56,29 @@ const OrderSetting: React.FC<OrderSettingProps> = (props) => {
       >
         <ProFormRadio.Group
           name="no_process"
-          label="订单处理方式"
+          label={intl.formatMessage({ id: 'plugin.order.setting.progress' })}
           options={[
-            { label: '正常交易流程', value: false },
-            { label: '交易直接完成', value: true },
+            { label: intl.formatMessage({ id: 'plugin.order.setting.progress.yes' }), value: false },
+            { label: intl.formatMessage({ id: 'plugin.order.setting.progress.no' }), value: true },
           ]}
-          extra="正常交易需要用户确认收货或到期完成订单，交易直接完成是用户支付后，订单即完成交易"
+          extra={intl.formatMessage({ id: 'plugin.order.setting.progress.description' })}
         />
         <ProFormDigit
-          label="订单自动完成"
+          label={intl.formatMessage({ id: 'plugin.order.setting.auto-finish' })}
           name="auto_finish_day"
-          extra="默认10天"
-          fieldProps={{ precision: 0, addonAfter: '天' }}
+          extra={intl.formatMessage({ id: 'plugin.order.setting.auto-finish.placeholder' })}
+          fieldProps={{ precision: 0, addonAfter: intl.formatMessage({ id: 'plugin.order.setting.auto-finish.suffix' }) }}
         />
         <ProFormDigit
-          label="订单超时关闭"
+          label={intl.formatMessage({ id: 'plugin.order.setting.auto-close' })}
           name="auto_close_minute"
-          extra="默认不自动关闭"
-          fieldProps={{ precision: 0, addonAfter: '分钟' }}
+          extra={intl.formatMessage({ id: 'plugin.order.setting.auto-close.description' })}
+          fieldProps={{ precision: 0, addonAfter: intl.formatMessage({ id: 'plugin.order.setting.auto-close.suffix' }) }}
         />
         <ProFormDigit
-          label="商家销售收益"
+          label={intl.formatMessage({ id: 'plugin.order.setting.seller-percent' })}
           name="seller_percent"
-          extra="商家销售收益百分比"
+          extra={intl.formatMessage({ id: 'plugin.order.setting.seller-percent.description' })}
           fieldProps={{ precision: 0, addonAfter: '%' }}
         />
       </ModalForm>

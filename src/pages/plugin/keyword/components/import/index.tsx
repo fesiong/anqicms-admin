@@ -1,6 +1,7 @@
 import { pluginImportKeyword } from '@/services/plugin/keyword';
 import { exportFile } from '@/utils';
 import { ModalForm } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, message, Upload } from 'antd';
 import React, { useState } from 'react';
 
@@ -11,6 +12,7 @@ export type KeywordImportProps = {
 
 const KeywordImport: React.FC<KeywordImportProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleDownloadExample = () => {
     const header = ['title', 'category_id'];
@@ -22,7 +24,7 @@ const KeywordImport: React.FC<KeywordImportProps> = (props) => {
   const handleUploadFile = (e: any) => {
     let formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginImportKeyword(formData)
       .then((res) => {
         message.success(res.msg);
@@ -45,7 +47,7 @@ const KeywordImport: React.FC<KeywordImportProps> = (props) => {
       </div>
       <ModalForm
         width={600}
-        title={'批量导入关键词'}
+        title={intl.formatMessage({ id: 'plugin.keyword.batch-import' })}
         open={visible}
         modalProps={{
           onCancel: () => {
@@ -57,14 +59,14 @@ const KeywordImport: React.FC<KeywordImportProps> = (props) => {
           setVisible(false);
         }}
       >
-        <Alert message={'说明：只支持csv格式的文件上传并导入'} />
+        <Alert message={intl.formatMessage({ id: 'plugin.keyword.batch-import.tips' })} />
         <div className="mt-normal">
-          <Card size="small" title="第一步，下载csv模板文件" bordered={false}>
+          <Card size="small" title={intl.formatMessage({ id: 'plugin.keyword.batch-import.step1' })} bordered={false}>
             <div className="text-center">
-              <Button onClick={handleDownloadExample}>下载csv模板文件</Button>
+              <Button onClick={handleDownloadExample}><FormattedMessage id="plugin.keyword.batch-import.step1.btn" /></Button>
             </div>
           </Card>
-          <Card size="small" title="第二步，上传csv文件" bordered={false}>
+          <Card size="small" title={intl.formatMessage({ id: 'plugin.keyword.batch-import.step2' })} bordered={false}>
             <div className="text-center">
               <Upload
                 name="file"
@@ -73,7 +75,7 @@ const KeywordImport: React.FC<KeywordImportProps> = (props) => {
                 accept=".csv"
                 customRequest={handleUploadFile}
               >
-                <Button type="primary">上传csv文件</Button>
+                <Button type="primary"><FormattedMessage id="plugin.keyword.batch-import.step2.btn" /></Button>
               </Upload>
             </div>
           </Card>

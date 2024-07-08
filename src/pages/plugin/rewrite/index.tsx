@@ -1,5 +1,6 @@
 import { pluginGetRewrite, pluginSaveRewrite } from '@/services/plugin/rewrite';
 import { PageContainer, ProForm, ProFormTextArea } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Card, Col, Radio, Row, Space, Tag, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -7,6 +8,7 @@ const PluginRewrite: React.FC<any> = (props) => {
   const [rewriteMode, setRewriteMode] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
   const [currentMode, setCurrentMode] = useState<number>(0);
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -21,7 +23,7 @@ const PluginRewrite: React.FC<any> = (props) => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     values = Object.assign(rewriteMode, values);
     pluginSaveRewrite(values)
       .then((res) => {
@@ -42,47 +44,47 @@ const PluginRewrite: React.FC<any> = (props) => {
             <div>
               <Row>
                 <Col sm={6} xs={24}>
-                  <h3>方案1：数字模式</h3>
+                  <h3><FormattedMessage id="plugin.rewrite.formula1" /></h3>
                   <div>
-                    <div>文档详情：{'/{module}/{id}.html'}</div>
-                    <div>文档列表：{'/{module}/{catid}(/{page})'}</div>
-                    <div>模型首页：{'/{module}'}</div>
-                    <div>单页详情：{'/{id}.html'}</div>
-                    <div>标签列表：{'/tags(/{page})'}</div>
-                    <div>标签详情：{'/tag/{id}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-detail" />{'/{module}/{id}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-list" />{'/{module}/{catid}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.module-index" />{'/{module}'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.page-detail" />{'/{id}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-list" />{'/tags(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-detail" />{'/tag/{id}(/{page})'}</div>
                   </div>
                 </Col>
                 <Col sm={6} xs={24}>
-                  <h3>方案2：命名模式1</h3>
+                  <h3><FormattedMessage id="plugin.rewrite.formula2" /></h3>
                   <div>
-                    <div>文档详情：{'/{module}/{filename}.html'}</div>
-                    <div>文档列表：{'/{module}/{catname}(/{page})'}</div>
-                    <div>模型首页：{'/{module}'}</div>
-                    <div>单页详情：{'/{filename}.html'}</div>
-                    <div>标签列表：{'/tags(/{page})'}</div>
-                    <div>标签详情：{'/tag/{filename}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-detail" />{'/{module}/{filename}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-list" />{'/{module}/{catname}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.module-index" />{'/{module}'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.page-detail" />{'/{filename}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-list" />{'/tags(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-detail" />{'/tag/{filename}(/{page})'}</div>
                   </div>
                 </Col>
                 <Col sm={6} xs={24}>
-                  <h3>方案3：命名模式2</h3>
+                  <h3><FormattedMessage id="plugin.rewrite.formula3" /></h3>
                   <div>
-                    <div>文档详情：{'/{catname}/{id}.html'}</div>
-                    <div>文档列表：{'/{catname}(/{page})'}</div>
-                    <div>模型首页：{'/{module}'}</div>
-                    <div>单页详情：{'/{filename}.html'}</div>
-                    <div>标签列表：{'/tags(/{page})'}</div>
-                    <div>标签详情：{'/tag/{id}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-detail" />{'/{catname}/{id}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-list" />{'/{catname}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.module-index" />{'/{module}'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.page-detail" />{'/{filename}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-list" />{'/tags(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-detail" />{'/tag/{id}(/{page})'}</div>
                   </div>
                 </Col>
                 <Col sm={6} xs={24}>
-                  <h3>方案4：命名模式3</h3>
+                  <h3><FormattedMessage id="plugin.rewrite.formula4" /></h3>
                   <div>
-                    <div>文档详情：{'/{catname}/{filename}.html'}</div>
-                    <div>文档列表：{'/{catname}(/{page})'}</div>
-                    <div>模型首页：{'/{module}'}</div>
-                    <div>单页详情：{'/{filename}.html'}</div>
-                    <div>标签列表：{'/tags(/{page})'}</div>
-                    <div>标签详情：{'/tag/{filename}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-detail" />{'/{catname}/{filename}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.archive-list" />{'/{catname}(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.module-index" />{'/{module}'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.page-detail" />{'/{filename}.html'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-list" />{'/tags(/{page})'}</div>
+                    <div><FormattedMessage id="plugin.rewrite.formula.tag-detail" />{'/tag/{filename}(/{page})'}</div>
                   </div>
                 </Col>
               </Row>
@@ -91,21 +93,19 @@ const PluginRewrite: React.FC<any> = (props) => {
         />
         <div className="mt-normal">
           {fetched && (
-            <ProForm onFinish={onSubmit} initialValues={rewriteMode} title="伪静态方案设置">
-              <ProForm.Item name="mode" label="选择伪静态方案">
+            <ProForm onFinish={onSubmit} initialValues={rewriteMode} title={intl.formatMessage({ id: 'plugin.rewrite.setting' })}>
+              <ProForm.Item name="mode" label={intl.formatMessage({ id: 'plugin.rewrite.setting.select' })}>
                 <Radio.Group
                   onChange={(e) => {
                     setCurrentMode(e.target.value);
                   }}
                 >
                   <Space direction="vertical">
-                    <Radio value={0}>方案1：数字模式（简单，推荐）</Radio>
-                    <Radio value={1}>方案2：命名模式1（英文或拼音）</Radio>
-                    <Radio value={2}>方案3：命名模式2（英文或拼音+数字）</Radio>
-                    <Radio value={3}>方案4：命名模式3（英文或拼音）</Radio>
-                    <Radio value={4}>
-                      方案5：自定义模式（高级模式，请谨慎使用，若设置不当，会导致前端页面打不开）
-                    </Radio>
+                    <Radio value={0}><FormattedMessage id="plugin.rewrite.formula1" /></Radio>
+                    <Radio value={1}><FormattedMessage id="plugin.rewrite.formula2" /></Radio>
+                    <Radio value={2}><FormattedMessage id="plugin.rewrite.formula3" /></Radio>
+                    <Radio value={3}><FormattedMessage id="plugin.rewrite.formula4" /></Radio>
+                    <Radio value={4}><FormattedMessage id="plugin.rewrite.formula5" /></Radio>
                   </Space>
                 </Radio.Group>
               </ProForm.Item>
@@ -113,7 +113,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                 <ProFormTextArea
                   name="patten"
                   fieldProps={{ rows: 8 }}
-                  label="自定义伪静态规则"
+                  label={intl.formatMessage({ id: 'plugin.rewrite.setting.diy' })}
                   width={600}
                 />
               )}
@@ -121,9 +121,9 @@ const PluginRewrite: React.FC<any> = (props) => {
           )}
         </div>
         <div className="mt-normal">
-          <Card size="small" title="自定义伪静态规则说明" bordered={false}>
+          <Card size="small" title={intl.formatMessage({ id: 'plugin.rewrite.setting.diy.explain' })} bordered={false}>
             <div>
-              请复制下面的规则到输入框里修改,一共6行,分别是文档详情、文档列表、模型首页、页面、标签列表、标签详情。===和前面部分不可修改。
+              <FormattedMessage id="plugin.rewrite.setting.diy.tips" />
             </div>
             <Alert
               className="elem-quote"
@@ -146,20 +146,9 @@ const PluginRewrite: React.FC<any> = (props) => {
               }
             />
             <p>
-              变量由花括号包裹 <Tag color="blue">{'{}'}</Tag>,如 <Tag color="blue">{'{id}'}</Tag>
-              。可用的变量有:数据ID <Tag color="blue">{'{id}'}</Tag>； 文档自定义链接名
-              <Tag color="blue">{'{filename}'}</Tag>； 分类自定义链接名
-              <Tag color="blue">{'{catname}'}</Tag>， 多级分类自定义链接名
-              <Tag color="blue">{'{multicatname}'}</Tag>
-              {'{multicatname}'}和{'{catname}'}只能使用一个； 分类ID
-              <Tag color="blue">{'{catid}'}</Tag>； 模型表名 <Tag color="blue">{'{module}'}</Tag>；
-              年 <Tag color="blue">{'{year}'}</Tag>， 月 <Tag color="blue">{'{month}'}</Tag>， 日{' '}
-              <Tag color="blue">{'{day}'}</Tag>， 时 <Tag color="blue">{'{hour}'}</Tag>， 分{' '}
-              <Tag color="blue">{'{minute}'}</Tag>， 秒 <Tag color="blue">{'{second}'}</Tag>
-              ，年月日时分秒只有文档{'(archive)'}可用； 分页页码 <Tag color="blue">{'{page}'}</Tag>
-              ,分页需放在小括号内, 如: <Tag color="blue">{'(/{page})'}</Tag>
+              <FormattedMessage id="plugin.rewrite.variable.tips" />
             </p>
-            <div>可直接使用的方案1:</div>
+            <div><FormattedMessage id="plugin.rewrite.formula.direct1" />:</div>
             <Alert
               className="elem-quote"
               message={
@@ -180,7 +169,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                 </code>
               }
             />
-            <div>可直接使用的方案2:</div>
+            <div><FormattedMessage id="plugin.rewrite.formula.direct2" />:</div>
             <Alert
               className="elem-quote"
               message={
@@ -201,7 +190,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                 </code>
               }
             />
-            <div>可直接使用的方案3:</div>
+            <div><FormattedMessage id="plugin.rewrite.formula.direct3" />:</div>
             <Alert
               className="elem-quote"
               message={
@@ -222,7 +211,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                 </code>
               }
             />
-            <div>可直接使用的方案4:</div>
+            <div><FormattedMessage id="plugin.rewrite.formula.direct4" />:</div>
             <Alert
               className="elem-quote"
               message={

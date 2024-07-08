@@ -3,13 +3,19 @@ import { ModalForm, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/
 import { Input, Space, Tag, message } from 'antd';
 import React from 'react';
 import './index.less';
+import { IntlShape } from 'react-intl';
+import { FormattedMessage, injectIntl } from '@umijs/max';
+
+export type intlProps = {
+  intl: IntlShape;
+};
 
 export type KeywordSettingProps = {
   onCancel: (flag?: boolean) => void;
   children?: React.ReactNode;
 };
 
-class KeywordSetting extends React.Component<KeywordSettingProps> {
+class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
   state: { [key: string]: any } = {
     visible: false,
     fetched: false,
@@ -44,7 +50,7 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
     values = Object.assign(setting, values);
     values.max_count = Number(values.max_count);
 
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(this.props.intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveKeywordSetting(values)
       .then((res) => {
         message.info(res.msg);
@@ -119,7 +125,7 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
         {fetched && (
           <ModalForm
             width={800}
-            title={'关键词拓词设置'}
+            title={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting' })}
             initialValues={setting}
             open={visible}
             //layout="horizontal"
@@ -135,37 +141,37 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
           >
             <ProFormRadio.Group
               name="auto_dig"
-              label="自动拓词"
+              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.auto-dig' })}
               options={[
-                { label: '否', value: false },
-                { label: '自动', value: true },
+                { label: this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.auto-dig.no' }), value: false },
+                { label: this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.auto-dig.yes' }), value: true },
               ]}
             />
             <ProFormDigit
               name="max_count"
-              label="拓词数量"
-              extra="选择了自动拓词，则拓词数量才有效"
-              placeholder="默认100000"
+              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.max-count' })}
+              extra={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.max-count.description' })}
+              placeholder={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.max-count.placeholder' })}
             />
             <ProFormRadio.Group
               name="language"
-              label="关键词语种"
+              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.language' })}
               options={[
-                { label: '中文', value: 'zh' },
-                { label: '英文', value: 'en' },
+                { label: this.props.intl.formatMessage({ id: 'content.translate.zh-cn' }), value: 'zh' },
+                { label: this.props.intl.formatMessage({ id: 'content.translate.en' }), value: 'en' },
               ]}
             />
             <ProFormText
-              label="关键词排除词"
+              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.title-exclude' })}
               fieldProps={{
                 value: tmpInput.title_exclude || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'title_exclude'),
                 onPressEnter: this.handleAddField.bind(this, 'title_exclude'),
-                suffix: <a onClick={this.handleAddField.bind(this, 'title_exclude')}>按回车添加</a>,
+                suffix: <a onClick={this.handleAddField.bind(this, 'title_exclude')}><FormattedMessage id="plugin.aigenerate.enter-to-add" /></a>,
               }}
               extra={
                 <div>
-                  <div className="text-muted">拓词的时候，关键词中出现这些关键词，则不会采集</div>
+                  <div className="text-muted"><FormattedMessage id="plugin.keyword.dig-setting.title-exclude.description" /></div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
                       {setting.title_exclude?.map((tag: any, index: number) => (
@@ -185,55 +191,50 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
               }
             />
             <ProFormText
-              label="关键词替换"
+              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.replace' })}
               extra={
                 <div>
                   <div className="text-muted">
-                    <p>编辑需要替换的关键词对，会在拓词的时候自动执行替换。</p>
+                    <p><FormattedMessage id="plugin.keyword.dig-setting.replace.tips1" /></p>
                     <p>
-                      替换规则支持正则表达式，如果你对正则表达式熟悉，并且通过普通文本无法达成替换需求的，可以尝试使用正则表达式规则来完成替换。
+                      <FormattedMessage id="plugin.aigenerate.replace.tips2" />
                     </p>
                     <p>
-                      正则表达式规则为：由 <Tag>{'{'}</Tag>开始，并以 <Tag>{'}'}</Tag>
-                      结束，中间书写规则代码，如{' '}
-                      <Tag>
-                        {'{'}[0-9]+{'}'}
-                      </Tag>{' '}
-                      代表匹配连续的数字。
+                      <FormattedMessage id="plugin.aigenerate.replace.tips3" />
                     </p>
                     <p>
-                      内置部分规则，可以快速使用，已内置的有：
+                      <FormattedMessage id="plugin.aigenerate.replace.rules" />
                       <Tag>
-                        {'{'}邮箱地址{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.email" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}日期{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.date" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}时间{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.time" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}电话号码{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.cellphone" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}QQ号{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.qq" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}微信号{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.wechat" />
                       </Tag>
                       、
                       <Tag>
-                        {'{'}网址{'}'}
+                        <FormattedMessage id="plugin.aigenerate.replace.rule.website" />
                       </Tag>
                     </p>
                     <div>
                       <span className="text-red">*</span>{' '}
-                      注意：正则表达式规则书写不当很容易造成错误的替换效果，如微信号规则，会同时影响到邮箱地址、网址的完整性。请谨慎使用。
+                      <FormattedMessage id="plugin.aigenerate.replace.notice" />
                     </div>
                   </div>
                   <div className="tag-lists">
@@ -241,8 +242,8 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
                       {setting.content_replace?.map((tag: any, index: number) => (
                         <span className="edit-tag" key={index}>
                           <span className="key">{tag.from}</span>
-                          <span className="divide">替换为</span>
-                          <span className="value">{tag.to || '空'}</span>
+                          <span className="divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
+                          <span className="value">{tag.to || this.props.intl.formatMessage({ id: 'plugin.aigenerate.empty' })}</span>
                           <span
                             className="close"
                             onClick={this.handleRemove.bind(this, 'content_replace', index)}
@@ -263,14 +264,14 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
                   onChange={this.handleChangeTmpInput.bind(this, 'from')}
                   onPressEnter={this.handleAddField.bind(this, 'content_replace')}
                 />
-                <span className="input-divide">替换为</span>
+                <span className="input-divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
                 <Input
                   style={{ width: '50%' }}
                   value={tmpInput.to || ''}
                   onChange={this.handleChangeTmpInput.bind(this, 'to')}
                   onPressEnter={this.handleAddField.bind(this, 'content_replace')}
                   suffix={
-                    <a onClick={this.handleAddField.bind(this, 'content_replace')}>按回车添加</a>
+                    <a onClick={this.handleAddField.bind(this, 'content_replace')}><FormattedMessage id="plugin.aigenerate.enter-to-add" /></a>
                   }
                 />
               </Input.Group>
@@ -282,4 +283,4 @@ class KeywordSetting extends React.Component<KeywordSettingProps> {
   }
 }
 
-export default KeywordSetting;
+export default injectIntl(KeywordSetting);

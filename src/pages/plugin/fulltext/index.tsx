@@ -1,10 +1,12 @@
 import { getModules, pluginGetFulltextConfig, pluginSaveFulltextConfig } from '@/services';
 import { PageContainer, ProForm, ProFormCheckbox, ProFormRadio } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import { Alert, Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const PluginFulltext: React.FC<any> = () => {
   const [modules, setModules] = useState<any[]>([]);
+  const intl = useIntl();
 
   useEffect(() => {
     getModules().then((res) => {
@@ -18,7 +20,7 @@ const PluginFulltext: React.FC<any> = () => {
   }, []);
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSaveFulltextConfig(values)
       .then((res) => {
         message.success(res.msg);
@@ -36,7 +38,7 @@ const PluginFulltext: React.FC<any> = () => {
       <Card>
         <Alert
           style={{ marginBottom: 20 }}
-          description="开启全文搜索后，可以搜索文档内容。但是全文搜索会占用大量的服务器内存，如果你的服务器内存较小，不建议开启全文搜索。"
+          description={intl.formatMessage({ id: 'plugin.fulltext.tips' })}
         />
         <ProForm
           request={async () => {
@@ -44,25 +46,25 @@ const PluginFulltext: React.FC<any> = () => {
             return res.data || [];
           }}
           onFinish={onSubmit}
-          title="全文搜索配置"
+          title={intl.formatMessage({ id: 'menu.plugin.fulltext' })}
         >
           <ProFormRadio.Group
             name={'open'}
-            label="是否开启全文搜索"
+            label={intl.formatMessage({ id: 'plugin.fulltext.open.name' })}
             options={[
-              { label: '关闭', value: false },
-              { label: '开启', value: true },
+              { label: intl.formatMessage({ id: 'plugin.fulltext.open.false' }), value: false },
+              { label: intl.formatMessage({ id: 'plugin.fulltext.open.true' }), value: true },
             ]}
           />
           <ProFormRadio.Group
             name={'use_content'}
-            label="索引内容"
+            label={intl.formatMessage({ id: 'plugin.fulltext.use_content.name' })}
             options={[
-              { label: '仅标题和简介', value: false },
-              { label: '包括文档内容', value: true },
+              { label: intl.formatMessage({ id: 'plugin.fulltext.use_content.false' }), value: false },
+              { label: intl.formatMessage({ id: 'plugin.fulltext.use_content.true' }), value: true },
             ]}
           />
-          <ProFormCheckbox.Group name={'modules'} label="开启的模型" options={modules} />
+          <ProFormCheckbox.Group name={'modules'} label={intl.formatMessage({ id: 'plugin.fulltext.modules.name' })} options={modules} />
         </ProForm>
       </Card>
     </PageContainer>

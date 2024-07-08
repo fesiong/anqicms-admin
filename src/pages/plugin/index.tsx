@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-components';
-import { history, useModel } from '@umijs/max';
+import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
 import { Card, Col, Row } from 'antd';
 import React, { useState } from 'react';
 import routes from '../../../config/routes';
@@ -43,6 +43,7 @@ import icon_wechat from '@/images/icon_wechat.png';
 const PluginIndex: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [type, setType] = useState<string>('');
+  const intl = useIntl();
   const jumpToPlugin = (item: any) => {
     history.push(item.path);
   };
@@ -149,7 +150,7 @@ const PluginIndex: React.FC = () => {
                 onChangeType('');
               }}
             >
-              全部功能
+              <FormattedMessage id="plugin.type.all" />
             </div>
             <div
               className={'module-tag ' + (type === 'normal' ? 'active' : '')}
@@ -157,7 +158,7 @@ const PluginIndex: React.FC = () => {
                 onChangeType('normal');
               }}
             >
-              常用功能
+              <FormattedMessage id="plugin.type.normal" />
             </div>
             <div
               className={'module-tag ' + (type === 'content' ? 'active' : '')}
@@ -165,7 +166,7 @@ const PluginIndex: React.FC = () => {
                 onChangeType('content');
               }}
             >
-              文档功能
+              <FormattedMessage id="plugin.type.archive" />
             </div>
             <div
               className={'module-tag ' + (type === 'shop' ? 'active' : '')}
@@ -173,7 +174,7 @@ const PluginIndex: React.FC = () => {
                 onChangeType('shop');
               }}
             >
-              用户/商城
+              <FormattedMessage id="plugin.type.user-mall" />
             </div>
             <div
               className={'module-tag ' + (type === 'system' ? 'active' : '')}
@@ -181,7 +182,7 @@ const PluginIndex: React.FC = () => {
                 onChangeType('system');
               }}
             >
-              系统功能
+              <FormattedMessage id="plugin.type.system" />
             </div>
           </div>
         }

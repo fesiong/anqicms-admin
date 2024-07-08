@@ -11,12 +11,14 @@ import { Button, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import RetailerSetting from './components/setting';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginRetailer: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<any>({});
   const [realnameVisible, setRealnameVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleSetRealname = (record: any) => {
     setCurrentUser(record);
@@ -44,8 +46,8 @@ const PluginRetailer: React.FC = () => {
 
   const handleCancelRetailer = (record: any) => {
     Modal.confirm({
-      title: '确定要取消该用户的分销员资格吗？',
-      content: '如果分销员门槛为自动成为分销员的话，则该取消无效',
+      title: intl.formatMessage({ id: 'plugin.retailer.cancel.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.retailer.cancel.content' }),
       onOk: () => {
         setUserRetailer({
           id: record.id,
@@ -58,20 +60,20 @@ const PluginRetailer: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: '用户ID',
+      title: intl.formatMessage({ id: 'plugin.retailer.user-id' }),
       dataIndex: 'id',
     },
     {
-      title: '用户名',
+      title: intl.formatMessage({ id: 'plugin.retailer.user-name' }),
       dataIndex: 'user_name',
     },
     {
-      title: '真实姓名',
+      title: intl.formatMessage({ id: 'plugin.retailer.real-name' }),
       dataIndex: 'real_name',
       hideInSearch: true,
     },
     {
-      title: '用户余额',
+      title: intl.formatMessage({ id: 'plugin.retailer.balance' }),
       dataIndex: 'balance',
       hideInSearch: true,
       render: (dom: any) => {
@@ -79,7 +81,7 @@ const PluginRetailer: React.FC = () => {
       },
     },
     {
-      title: '累计收益',
+      title: intl.formatMessage({ id: 'plugin.retailer.total-reward' }),
       dataIndex: 'total_reward',
       hideInSearch: true,
       render: (dom: any) => {
@@ -87,7 +89,7 @@ const PluginRetailer: React.FC = () => {
       },
     },
     {
-      title: '加入时间',
+      title: intl.formatMessage({ id: 'plugin.retailer.create-time' }),
       dataIndex: 'created_time',
       hideInSearch: true,
       render: (_, entity) => {
@@ -95,7 +97,7 @@ const PluginRetailer: React.FC = () => {
       },
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -106,7 +108,7 @@ const PluginRetailer: React.FC = () => {
               handleSetRealname(record);
             }}
           >
-            修改真实姓名
+            <FormattedMessage id="plugin.retailer.change-name" />
           </a>
           <a
             key="edit"
@@ -114,7 +116,7 @@ const PluginRetailer: React.FC = () => {
               handleCancelRetailer(record);
             }}
           >
-            取消
+            <FormattedMessage id="plugin.retailer.cancel" />
           </a>
         </Space>
       ),
@@ -124,7 +126,7 @@ const PluginRetailer: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="分销员管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.retailer' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
@@ -135,11 +137,11 @@ const PluginRetailer: React.FC = () => {
               setEditVisible(true);
             }}
           >
-            添加分销员
+            <FormattedMessage id="plugin.retailer.add" />
           </Button>,
           <RetailerSetting onCancel={() => {}}>
             <Button type="primary" key="group">
-              分销员功能设置
+            <FormattedMessage id="plugin.retailer.setting" />
             </Button>
           </RetailerSetting>,
         ]}
@@ -159,27 +161,27 @@ const PluginRetailer: React.FC = () => {
       />
       {editVisible && (
         <ModalForm
-          title="填写用户ID，设置分销员"
+          title={intl.formatMessage({ id: 'plugin.retailer.add.name' })}
           open={editVisible}
           onOpenChange={(flag) => {
             setEditVisible(flag);
           }}
           onFinish={setUserRetailer}
         >
-          <ProFormText name="id" label="用户ID" />
+          <ProFormText name="id" label={intl.formatMessage({ id: 'plugin.retailer.user-id' })} />
         </ModalForm>
       )}
       {realnameVisible && (
         <ModalForm
-          title="修改真实姓名"
+          title={intl.formatMessage({ id: 'plugin.retailer.change-name' })}
           open={realnameVisible}
           onOpenChange={(flag) => {
             setRealnameVisible(flag);
           }}
           onFinish={setRealname}
         >
-          <ProFormText name="user_name" label="用户名" readonly />
-          <ProFormText name="real_name" label="新的真实姓名" />
+          <ProFormText name="user_name" label={intl.formatMessage({ id: 'plugin.retailer.user-name' })} readonly />
+          <ProFormText name="real_name" label={intl.formatMessage({ id: 'plugin.retailer.change-name.new' })} />
         </ModalForm>
       )}
     </PageContainer>

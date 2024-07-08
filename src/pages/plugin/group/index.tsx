@@ -3,11 +3,13 @@ import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import UserGroupForm from './components/groupForm';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginUserGroup: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentGroup, setCurrentGroup] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const intl = useIntl();
 
   const handleEditGroup = async (record: any) => {
     setCurrentGroup(record);
@@ -16,7 +18,7 @@ const PluginUserGroup: React.FC = () => {
 
   const handleDelete = (row: any) => {
     Modal.confirm({
-      title: '确定要删除该条数据吗？',
+      title: intl.formatMessage({ id: 'plugin.group.delete.confirm' }),
       onOk: () => {
         pluginDeleteUserGroup(row).then((res) => {
           message.info(res.msg);
@@ -32,19 +34,19 @@ const PluginUserGroup: React.FC = () => {
       dataIndex: 'id',
     },
     {
-      title: '名称',
+      title: intl.formatMessage({ id: 'plugin.group.name' }),
       dataIndex: 'title',
     },
     {
-      title: '介绍',
+      title: intl.formatMessage({ id: 'plugin.group.description' }),
       dataIndex: 'description',
     },
     {
-      title: 'Level',
+      title: intl.formatMessage({ id: 'plugin.group.level' }),
       dataIndex: 'level',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -55,14 +57,14 @@ const PluginUserGroup: React.FC = () => {
               handleEditGroup(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             onClick={() => {
               handleDelete(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -72,13 +74,13 @@ const PluginUserGroup: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="用户组VIP管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.group'})}
         actionRef={actionRef}
         rowKey="id"
         search={false}
         toolBarRender={() => [
           <Button type="primary" key="add" onClick={() => handleEditGroup({})}>
-            添加用户组
+            <FormattedMessage id="plugin.group.add" />
           </Button>,
         ]}
         tableAlertOptionRender={false}

@@ -52,6 +52,7 @@ export default {
   'content.sort.name': '排序',
   'content.sort.tips': '数值越大，越靠前',
   'content.title.name': '标题',
+  'content.content.name': '内容',
   'content.module.name': '文档模型',
   'content.category.name': '所属分类',
   'content.category.top': '顶级分类',

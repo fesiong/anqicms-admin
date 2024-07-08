@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import MaterialCategory from './components/category';
 import MaterialImport from './components/import';
 import MaterialForm from './components/materialForm';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginMaterial: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -19,6 +20,7 @@ const PluginMaterial: React.FC = () => {
   const [previewVisible, setPreviewVisible] = useState<boolean>(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -32,9 +34,9 @@ const PluginMaterial: React.FC = () => {
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的素材吗？',
+      title: intl.formatMessage({ id: 'plugin.material.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -43,13 +45,13 @@ const PluginMaterial: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -78,22 +80,22 @@ const PluginMaterial: React.FC = () => {
       width: 60,
     },
     {
-      title: '内容',
+      title: intl.formatMessage({ id: 'plugin.material.content' }),
       dataIndex: 'content',
       render: (text) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
     },
     {
-      title: '板块',
+      title: intl.formatMessage({ id: 'plugin.material.category.title' }),
       dataIndex: 'category_title',
       width: 150,
     },
     {
-      title: '引用数量',
+      title: intl.formatMessage({ id: 'plugin.material.user-count' }),
       dataIndex: 'use_count',
       width: 80,
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 180,
@@ -105,7 +107,7 @@ const PluginMaterial: React.FC = () => {
               handlePreviewMaterial(record);
             }}
           >
-            预览
+            <FormattedMessage id="plugin.material.preview" />
           </a>
           <a
             key="edit"
@@ -113,7 +115,7 @@ const PluginMaterial: React.FC = () => {
               handleEditMaterial(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -122,7 +124,7 @@ const PluginMaterial: React.FC = () => {
               handleRemove([record.id]);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -132,14 +134,14 @@ const PluginMaterial: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="内容素材管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.material' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
         toolBarRender={() => [
-          <span>分类筛选</span>,
+          <span><FormattedMessage id="plugin.material.category-filter" /></span>,
           <Select defaultValue={categoryId} style={{ width: 120 }} onChange={handleChangeCategory}>
-            <Select.Option value={0}>全部资源</Select.Option>
+            <Select.Option value={0}><FormattedMessage id="plugin.material.all" /></Select.Option>
             {categories.map((item: any, index) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.title}
@@ -158,7 +160,7 @@ const PluginMaterial: React.FC = () => {
                 //todo
               }}
             >
-              <PlusOutlined /> 添加素材
+              <PlusOutlined /> <FormattedMessage id="plugin.material.add" />
             </Button>
           </MaterialImport>,
           <MaterialCategory
@@ -172,7 +174,7 @@ const PluginMaterial: React.FC = () => {
                 //todo
               }}
             >
-              板块管理
+              <FormattedMessage id="plugin.material.category.manage" />
             </Button>
           </MaterialCategory>,
         ]}
@@ -184,10 +186,10 @@ const PluginMaterial: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
@@ -225,10 +227,10 @@ const PluginMaterial: React.FC = () => {
         />
       )}
       <Modal
-        title="内容预览"
+        title={intl.formatMessage({ id: 'plugin.material.preview' })}
         open={previewVisible}
         width={800}
-        cancelText="关闭"
+        cancelText={intl.formatMessage({ id: 'setting.action.close' })}
         okText={false}
         onCancel={() => {
           setPreviewVisible(false);

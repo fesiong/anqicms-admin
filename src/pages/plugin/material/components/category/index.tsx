@@ -4,6 +4,7 @@ import {
   pluginSaveMaterialCategory,
 } from '@/services/plugin/material';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Input, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 
@@ -18,6 +19,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
   const [editVisbile, setEditVisible] = useState<boolean>(false);
   const [editingCategory, setEditingCategory] = useState<any>({});
   const [editingInput, setEditingInput] = useState<string>('');
+  const intl = useIntl();
 
   const handleAddCategory = () => {
     setEditingCategory({});
@@ -33,7 +35,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
 
   const handleRemove = async (record: any) => {
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'plugin.material.category.delete.confirm' }),
       onOk: async () => {
         let res = await pluginDeleteMaterialCategory(record);
 
@@ -44,7 +46,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
   };
 
   const handleSaveCategory = () => {
-    const hide = message.loading('正在提交中', 0);
+    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSaveMaterialCategory({
       id: editingCategory.id,
       title: editingInput,
@@ -73,16 +75,16 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
       width: 60,
     },
     {
-      title: '板块名称',
+      title: intl.formatMessage({ id: 'plugin.material.category.title' }),
       dataIndex: 'title',
     },
     {
-      title: '素材数量',
+      title: intl.formatMessage({ id: 'plugin.material.category.count' }),
       dataIndex: 'material_count',
       width: 80,
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 120,
@@ -94,7 +96,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
               handleEditCategory(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -103,7 +105,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
               handleRemove(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -128,7 +130,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
               handleAddCategory();
             }}
           >
-            新增板块
+            <FormattedMessage id="plugin.material.category.add" />
           </Button>
         }
         width={600}
@@ -140,7 +142,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
       >
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <ProTable<any>
-            headerTitle="内容素材类别管理"
+            headerTitle={intl.formatMessage({ id: 'plugin.material.category.manage' })}
             actionRef={actionRef}
             rowKey="id"
             search={false}
@@ -159,11 +161,9 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
       </Modal>
       <Modal
         open={editVisbile}
-        title={editingCategory.id ? '重命名板块：' + editingCategory.title : '新增板块'}
+        title={editingCategory.id ? intl.formatMessage({ id: 'plugin.material.category.edit' }) + editingCategory.title : intl.formatMessage({ id: 'plugin.material.category.add' })}
         width={480}
         zIndex={2000}
-        okText="确认"
-        cancelText="取消"
         maskClosable={false}
         onOk={handleSaveCategory}
         onCancel={() => {
@@ -171,7 +171,7 @@ const MaterialCategory: React.FC<MaterialCategoryProps> = (props) => {
         }}
       >
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-          <p>请填写板块名称: </p>
+          <p><FormattedMessage id="plugin.material.category.title.tips" />: </p>
           <Input
             size="large"
             value={editingInput}

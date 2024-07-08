@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import GuestbookForm from './components/guestbookForm';
 import GuestbookSetting from './components/setting';
+import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginGuestbook: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -19,6 +20,7 @@ const PluginGuestbook: React.FC = () => {
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [setting, setSetting] = useState<any>({ fields: [] });
   const [columns, setColumns] = useState<ProColumns<any>[]>([]);
+  const intl = useIntl();
 
   useEffect(() => {
     getSetting();
@@ -34,7 +36,7 @@ const PluginGuestbook: React.FC = () => {
   const initColumns = (fields: any[]) => {
     let tmpColumns: ProColumns<any>[] = [
       {
-        title: '时间',
+        title: intl.formatMessage({ id: 'plugin.finance.time' }),
         width: 160,
         dataIndex: 'created_time',
         render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
@@ -43,17 +45,17 @@ const PluginGuestbook: React.FC = () => {
     if (fields.length == 0) {
       tmpColumns.push(
         {
-          title: '用户名',
+          title: intl.formatMessage({ id: 'plugin.guestbook.user-name' }),
           width: 100,
           dataIndex: 'user_name',
         },
         {
-          title: '联系方式',
+          title: intl.formatMessage({ id: 'plugin.guestbook.contact' }),
           width: 160,
           dataIndex: 'contact',
         },
         {
-          title: '留言内容',
+          title: intl.formatMessage({ id: 'plugin.guestbook.content' }),
           dataIndex: 'content',
           render: (text, record) => (
             <div style={{ wordBreak: 'break-all', minWidth: 200 }}>{text}</div>
@@ -86,7 +88,7 @@ const PluginGuestbook: React.FC = () => {
         width: 100,
       },
       {
-        title: '操作',
+        title: intl.formatMessage({ id: 'setting.action' }),
         width: 150,
         dataIndex: 'option',
         valueType: 'option',
@@ -98,7 +100,7 @@ const PluginGuestbook: React.FC = () => {
                 handlePreview(record);
               }}
             >
-              查看
+              <FormattedMessage id="setting.action.view" />
             </a>
             <a
               className="text-red"
@@ -107,7 +109,7 @@ const PluginGuestbook: React.FC = () => {
                 handleRemove([record.id]);
               }}
             >
-              删除
+              <FormattedMessage id="setting.system.delete" />
             </a>
           </Space>
         ),
@@ -119,9 +121,9 @@ const PluginGuestbook: React.FC = () => {
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: '确定要删除选中的留言吗？',
+      title: intl.formatMessage({ id: 'plugin.guestbook.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading('正在删除', 0);
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -130,13 +132,13 @@ const PluginGuestbook: React.FC = () => {
             });
           }
           hide();
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
         } catch (error) {
           hide();
-          message.error('删除失败');
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
           return true;
         }
       },
@@ -157,7 +159,7 @@ const PluginGuestbook: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle="网站留言管理"
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.guestbook' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
@@ -168,7 +170,7 @@ const PluginGuestbook: React.FC = () => {
               handleExportGuestbook();
             }}
           >
-            导出留言
+            <FormattedMessage id="plugin.guestbook.export" />
           </Button>,
           <GuestbookSetting>
             <Button
@@ -177,7 +179,7 @@ const PluginGuestbook: React.FC = () => {
                 //todo
               }}
             >
-              网站留言设置
+              <FormattedMessage id="plugin.guestbook.setting" />
             </Button>
           </GuestbookSetting>,
         ]}
@@ -189,10 +191,10 @@ const PluginGuestbook: React.FC = () => {
                 handleRemove(selectedRowKeys);
               }}
             >
-              批量删除
+              <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              取消选择
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
