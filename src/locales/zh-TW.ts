@@ -1,20 +1,30 @@
+import account from './zh-TW/account';
 import component from './zh-TW/component';
-import globalHeader from './zh-TW/globalHeader';
+import content from './zh-TW/content';
+import dashboard from './zh-TW/dashboard';
+import design from './zh-TW/design';
 import menu from './zh-TW/menu';
+import pages from './zh-TW/pages';
+import plugin from './zh-TW/plugin';
 import pwa from './zh-TW/pwa';
-import settingDrawer from './zh-TW/settingDrawer';
-import settings from './zh-TW/settings';
+import setting from './zh-TW/setting';
+import statistic from './zh-TW/statistic';
+import tool from './zh-TW/tool';
+import website from './zh-TW/website';
 
 export default {
-  'navBar.lang': '語言',
-  'layout.user.link.help': '幫助',
-  'layout.user.link.privacy': '隱私',
-  'layout.user.link.terms': '條款',
-  'app.preview.down.block': '下載此頁面到本地項目',
-  ...globalHeader,
+  'site.title': 'AnQiCMS',
+  ...pages,
   ...menu,
-  ...settingDrawer,
-  ...settings,
+  ...setting,
   ...pwa,
   ...component,
+  ...dashboard,
+  ...tool,
+  ...website,
+  ...account,
+  ...statistic,
+  ...design,
+  ...content,
+  ...plugin,
 };

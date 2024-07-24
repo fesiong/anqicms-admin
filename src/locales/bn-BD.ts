@@ -1,25 +1,30 @@
+import account from './bn-BD/account';
 import component from './bn-BD/component';
-import globalHeader from './bn-BD/globalHeader';
+import content from './bn-BD/content';
+import dashboard from './bn-BD/dashboard';
+import design from './bn-BD/design';
 import menu from './bn-BD/menu';
 import pages from './bn-BD/pages';
+import plugin from './bn-BD/plugin';
 import pwa from './bn-BD/pwa';
-import settingDrawer from './bn-BD/settingDrawer';
-import settings from './bn-BD/settings';
+import setting from './bn-BD/setting';
+import statistic from './bn-BD/statistic';
+import tool from './bn-BD/tool';
+import website from './bn-BD/website';
 
 export default {
-  'navBar.lang': 'ভাষা',
-  'layout.user.link.help': 'সহায়তা',
-  'layout.user.link.privacy': 'গোপনীয়তা',
-  'layout.user.link.terms': 'শর্তাদি',
-  'app.preview.down.block': 'আপনার স্থানীয় প্রকল্পে এই পৃষ্ঠাটি ডাউনলোড করুন',
-  'app.welcome.link.fetch-blocks': 'সমস্ত ব্লক পান',
-  'app.welcome.link.block-list':
-    '`block` ডেভেলপমেন্ট এর উপর ভিত্তি করে দ্রুত স্ট্যান্ডার্ড, পৃষ্ঠাসমূহ তৈরি করুন।',
-  ...globalHeader,
+  'site.title': 'AnQiCMS',
+  ...pages,
   ...menu,
-  ...settingDrawer,
-  ...settings,
+  ...setting,
   ...pwa,
   ...component,
-  ...pages,
+  ...dashboard,
+  ...tool,
+  ...website,
+  ...account,
+  ...statistic,
+  ...design,
+  ...content,
+  ...plugin,
 };

@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
-import { SelectLang as UmiSelectLang, useModel } from '@umijs/max';
+import { FormattedMessage, SelectLang as UmiSelectLang, useIntl, useModel } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
@@ -24,6 +24,7 @@ const GlobalHeaderRight: React.FC = () => {
   const [code] = useState<number>(0);
   const [errorMsg] = useState<string>('');
   const [siteInfo, setSiteInfo] = useState<any>({});
+  const intl = useIntl();
 
   useEffect(() => {
     initSiteInfo();
@@ -53,7 +54,7 @@ const GlobalHeaderRight: React.FC = () => {
       message.error(res.msg);
       return;
     }
-    message.success(res.msg || '登录成功');
+    message.success(res.msg || intl.formatMessage({ id: 'component.right-content.login.success' }));
     setVisible(false);
     const user = await initialState.fetchAnqiUser?.();
     if (user) {
@@ -87,11 +88,13 @@ const GlobalHeaderRight: React.FC = () => {
 
   const confirmRestart = () => {
     Modal.confirm({
-      title: '重启 AnqiCMS',
-      content: '您即将要重启 AnqiCMS，重启期间网站会有短暂的时间无法打开。确定要继续吗？',
-      okText: '重启',
+      title: intl.formatMessage({ id: 'component.right-content.restart.confirm' }),
+      content: intl.formatMessage({ id: 'component.right-content.restart.confirm.content' }),
       onOk: () => {
-        const hide2 = message.loading('正在重新启动中', 0);
+        const hide2 = message.loading(
+          intl.formatMessage({ id: 'component.right-content.restart.doing' }),
+          0,
+        );
         anqiRestart({})
           .then(() => {})
           .catch(() => {})
@@ -108,7 +111,9 @@ const GlobalHeaderRight: React.FC = () => {
   return (
     <>
       <Space className={className}>
-        <HeaderSearch placeholder="搜索功能" />
+        <HeaderSearch
+          placeholder={intl.formatMessage({ id: 'component.right-content.search.placeholder' })}
+        />
         {anqiUser?.auth_id > 0 ? (
           <span className="site-info-item action" onClick={showDetail}>
             {anqiUser.user_name}
@@ -120,7 +125,7 @@ const GlobalHeaderRight: React.FC = () => {
               setVisible(true);
             }}
           >
-            绑定安企账号
+            <FormattedMessage id="component.right-content.bind.account" />
           </a>
         )}
         <a href={siteInfo.base_url} target={'_blank'} className="site-info-item action">
@@ -139,7 +144,7 @@ const GlobalHeaderRight: React.FC = () => {
         <UmiSelectLang />
         <Avatar menu />
         <div className="restart" onClick={confirmRestart}>
-          重启
+          <FormattedMessage id="component.right-content.restart" />
         </div>
       </Space>
 
@@ -152,15 +157,17 @@ const GlobalHeaderRight: React.FC = () => {
         footer={null}
       >
         <LoginForm
-          title="绑定安企CMS官网账号"
+          title={intl.formatMessage({ id: 'component.right-content.bind.account.name' })}
           subTitle={
             <div>
-              AnqiCMS部分功能依赖于官网，绑定仅限于为您提供更好的服务体验
-              <br />
-              不涉及您网站任何敏感信息，请放心使用。
+              <FormattedMessage id="component.right-content.bind.account.tips" />
             </div>
           }
-          message={code !== 0 ? errorMsg || '账户或密码错误' : null}
+          message={
+            code !== 0
+              ? errorMsg || intl.formatMessage({ id: 'component.right-content.bind.account.error' })
+              : null
+          }
           onFinish={async (values) => {
             await handleSubmit(values);
           }}
@@ -171,11 +178,11 @@ const GlobalHeaderRight: React.FC = () => {
               size: 'large',
               prefix: <UserOutlined />,
             }}
-            placeholder="用户名"
+            placeholder={intl.formatMessage({ id: 'component.right-content.username' })}
             rules={[
               {
                 required: true,
-                message: '请输入用户名!',
+                message: intl.formatMessage({ id: 'component.right-content.username.required' }),
               },
             ]}
           />
@@ -185,11 +192,11 @@ const GlobalHeaderRight: React.FC = () => {
               size: 'large',
               prefix: <LockOutlined />,
             }}
-            placeholder="密码"
+            placeholder={intl.formatMessage({ id: 'component.right-content.password' })}
             rules={[
               {
                 required: true,
-                message: '请输入密码！',
+                message: intl.formatMessage({ id: 'component.right-content.password.required' }),
               },
             ]}
           />
@@ -200,7 +207,7 @@ const GlobalHeaderRight: React.FC = () => {
             }}
           >
             <a href="https://www.anqicms.com/register" target={'_blank'} rel="nofollow">
-              未有账号，免费注册
+              <FormattedMessage id="component.right-content.register" />
             </a>
           </div>
         </LoginForm>
@@ -211,70 +218,96 @@ const GlobalHeaderRight: React.FC = () => {
           setDetailVisible(false);
         }}
         width={700}
-        title="账号信息"
+        title={intl.formatMessage({ id: 'component.right-content.account' })}
         maskClosable={false}
         footer={null}
       >
         {anqiUser?.valid ? (
           <div>
-            <p>您好：{anqiUser.user_name || '朋友'}，欢迎使用安企CMS。</p>
+            <p>
+              <FormattedMessage id="component.right-content.hello" />
+              {anqiUser.user_name || intl.formatMessage({ id: 'component.right-content.friend' })}
+              <FormattedMessage id="component.right-content.welcome" />
+            </p>
             <div className="account-info">
               <div className="item">
-                <label>授权ID：</label>
+                <label>
+                  <FormattedMessage id="component.right-content.auth-id" />
+                </label>
                 <div>{anqiUser.auth_id}</div>
               </div>
               <div className="item">
-                <label>登录账号：</label>
+                <label>
+                  <FormattedMessage id="component.right-content.account-name" />
+                </label>
                 <div>{anqiUser.user_name}</div>
               </div>
               <div className="item">
-                <label>VIP有效期：</label>
+                <label>
+                  <FormattedMessage id="component.right-content.expire-time" />
+                </label>
                 <div>{dayjs(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}</div>
               </div>
               <div className="item">
-                <label>AI写作剩余额度：</label>
-                <div>{anqiUser.ai_remain} 篇/天</div>
+                <label>
+                  <FormattedMessage id="component.right-content.remain" />
+                </label>
+                <div>
+                  {anqiUser.ai_remain}{' '}
+                  <FormattedMessage id="component.right-content.remain.suffix" />
+                </div>
               </div>
             </div>
           </div>
         ) : (
           <div>
             <p>
-              您尚未成为VIP会员，部分软件功能将受限。购买会员可以使用更丰富的安企盒子和安企CMS功能。
+              <FormattedMessage id="component.right-content.vip-tips" />
             </p>
             <p>
-              <span className="optional">*</span>表示该功能为安企盒子功能。更多的VIP功能使用，请下载{' '}
+              <span className="optional">*</span>
+              <FormattedMessage id="component.right-content.download-prefix" />
               <a href="https://www.anqicms.com/anqibox.html" target="_blank">
-                安企盒子
+                <FormattedMessage id="component.right-content.download-name" />
               </a>
-              。
             </p>
             <div className="compare">
               <div className="item">
                 <div className="inner free">
-                  <h3>免费用户</h3>
+                  <h3>
+                    <FormattedMessage id="component.right-content.user-free" />
+                  </h3>
                   <div className="info">
                     <ul>
                       <li>
-                        有效期不限制<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-free.option1" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        最多2个/1万关键词导出任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-free.option2" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        最多2个采集文章任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-free.option3" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        最多2个文章组合任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-free.option4" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        最多2个文章监控任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-free.option5" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        整站采集/下载不可用<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-free.option6" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        累计AI写作额度 10 篇<div className="extra">超出数量 10 积分一篇</div>
+                        <FormattedMessage id="component.right-content.user-free.option7" />
+                        <div className="extra">
+                          <FormattedMessage id="component.right-content.user-free.option7.suffix" />
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -282,29 +315,40 @@ const GlobalHeaderRight: React.FC = () => {
               </div>
               <div className="item">
                 <div className="inner vip">
-                  <h3>VIP会员</h3>
+                  <h3>
+                    <FormattedMessage id="component.right-content.user-vip" />
+                  </h3>
                   <div className="info">
                     <ul>
                       <li>
-                        不限制管理站点数量<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-vip.option1" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        不限制关键词任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-vip.option2" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        不限制采集文章任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-vip.option3" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        不限制文章组合任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-vip.option4" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        不限制文章监控任务<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-vip.option5" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        可用整站采集/下载<span className="optional">*</span>
+                        <FormattedMessage id="component.right-content.user-vip.option6" />
+                        <span className="optional">*</span>
                       </li>
                       <li>
-                        每天AI写作额度 100 篇<div className="extra">超出数量 10 积分一篇</div>
+                        <FormattedMessage id="component.right-content.user-vip.option7" />
+                        <div className="extra">
+                          <FormattedMessage id="component.right-content.user-free.option7.suffix" />
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -320,10 +364,10 @@ const GlobalHeaderRight: React.FC = () => {
                 setDetailVisible(false);
               }}
             >
-              关闭
+              <FormattedMessage id="component.close" />
             </Button>
             <Button type="primary" onClick={handleOrderVip}>
-              前往购买
+              <FormattedMessage id="component.right-content.order" />
             </Button>
           </Space>
         </div>
@@ -333,15 +377,17 @@ const GlobalHeaderRight: React.FC = () => {
         onCancel={() => {
           setOrderVisible(false);
         }}
-        title="已购买？"
+        title={intl.formatMessage({ id: 'component.right-content.order.confirm' })}
         maskClosable={false}
         footer={null}
       >
         <div className="order-control">
           <Space align="center">
-            <Button onClick={reloadAccount}>关闭</Button>
+            <Button onClick={reloadAccount}>
+              <FormattedMessage id="component.close" />
+            </Button>
             <Button type="primary" onClick={reloadAccount}>
-              更新账号状态
+              <FormattedMessage id="component.right-content.update" />
             </Button>
           </Space>
         </div>

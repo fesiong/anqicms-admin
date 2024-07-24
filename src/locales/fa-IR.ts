@@ -1,24 +1,30 @@
+import account from './fa-IR/account';
 import component from './fa-IR/component';
-import globalHeader from './fa-IR/globalHeader';
+import content from './fa-IR/content';
+import dashboard from './fa-IR/dashboard';
+import design from './fa-IR/design';
 import menu from './fa-IR/menu';
 import pages from './fa-IR/pages';
+import plugin from './fa-IR/plugin';
 import pwa from './fa-IR/pwa';
-import settingDrawer from './fa-IR/settingDrawer';
-import settings from './fa-IR/settings';
+import setting from './fa-IR/setting';
+import statistic from './fa-IR/statistic';
+import tool from './fa-IR/tool';
+import website from './fa-IR/website';
 
 export default {
-  'navBar.lang': 'زبان ها  ',
-  'layout.user.link.help': 'کمک',
-  'layout.user.link.privacy': 'حریم خصوصی',
-  'layout.user.link.terms': 'مقررات',
-  'app.preview.down.block': 'این صفحه را در پروژه محلی خود بارگیری کنید',
-  'app.welcome.link.fetch-blocks': 'دریافت تمام بلوک',
-  'app.welcome.link.block-list': 'به سرعت صفحات استاندارد مبتنی بر توسعه "بلوک" را بسازید',
-  ...globalHeader,
+  'site.title': 'AnQiCMS',
+  ...pages,
   ...menu,
-  ...settingDrawer,
-  ...settings,
+  ...setting,
   ...pwa,
   ...component,
-  ...pages,
+  ...dashboard,
+  ...tool,
+  ...website,
+  ...account,
+  ...statistic,
+  ...design,
+  ...content,
+  ...plugin,
 };

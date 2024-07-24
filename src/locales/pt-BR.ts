@@ -1,22 +1,30 @@
+import account from './pt-BR/account';
 import component from './pt-BR/component';
-import globalHeader from './pt-BR/globalHeader';
+import content from './pt-BR/content';
+import dashboard from './pt-BR/dashboard';
+import design from './pt-BR/design';
 import menu from './pt-BR/menu';
 import pages from './pt-BR/pages';
+import plugin from './pt-BR/plugin';
 import pwa from './pt-BR/pwa';
-import settingDrawer from './pt-BR/settingDrawer';
-import settings from './pt-BR/settings';
+import setting from './pt-BR/setting';
+import statistic from './pt-BR/statistic';
+import tool from './pt-BR/tool';
+import website from './pt-BR/website';
 
 export default {
-  'navBar.lang': 'Idiomas',
-  'layout.user.link.help': 'ajuda',
-  'layout.user.link.privacy': 'política de privacidade',
-  'layout.user.link.terms': 'termos de serviços',
-  'app.preview.down.block': 'Download this page to your local project',
-  ...globalHeader,
+  'site.title': 'AnQiCMS',
+  ...pages,
   ...menu,
-  ...settingDrawer,
-  ...settings,
+  ...setting,
   ...pwa,
   ...component,
-  ...pages,
+  ...dashboard,
+  ...tool,
+  ...website,
+  ...account,
+  ...statistic,
+  ...design,
+  ...content,
+  ...plugin,
 };

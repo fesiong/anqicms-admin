@@ -1,7 +1,6 @@
 export default {
-  'app.pwa.offline': 'شما اکنون آفلاین هستید',
-  'app.pwa.serviceworker.updated': 'مطالب جدید در دسترس است',
-  'app.pwa.serviceworker.updated.hint':
-    'لطفاً برای بارگیری مجدد صفحه فعلی ، دکمه "تازه سازی" را فشار دهید',
-  'app.pwa.serviceworker.updated.ok': 'تازه سازی',
+  'app.pwa.offline': 'در حال حاضر آفلاین است',
+  'app.pwa.serviceworker.updated': 'مطالب جدید هست',
+  'app.pwa.serviceworker.updated.hint': 'لطفاً روی دکمه "Refresh" کلیک کنید یا صفحه را به صورت دستی بازخوانی کنید',
+  'app.pwa.serviceworker.updated.ok': 'تازه کردن',
 };

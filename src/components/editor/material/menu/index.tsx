@@ -1,6 +1,7 @@
 import { pluginGetMaterialCategories, pluginGetMaterials } from '@/services/plugin/material';
 import { FileSearchOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { ProList } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Modal, Space, Tag } from 'antd';
 import E from 'wangeditor';
 import './index.less';
@@ -18,9 +19,12 @@ export type MaterialElement = {
 // 定义菜单 class
 export class MaterialMenu extends BtnMenu {
   constructor(editor: any) {
+    const intl = useIntl();
     // data-title属性表示当鼠标悬停在该按钮上时提示该按钮的功能简述
     const $elem = E.$(
-      `<div class="w-e-menu" data-title="插入内容素材">
+      `<div class="w-e-menu" data-title="${intl.formatMessage({
+        id: 'component.editor.insert-material',
+      })}">
       <svg viewBox="64 64 896 896" focusable="false" data-icon="reconciliation" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M676 623c-18.8 0-34 15.2-34 34s15.2 34 34 34 34-15.2 34-34-15.2-34-34-34zm204-455H668c0-30.9-25.1-56-56-56h-80c-30.9 0-56 25.1-56 56H264c-17.7 0-32 14.3-32 32v200h-88c-17.7 0-32 14.3-32 32v448c0 17.7 14.3 32 32 32h336c17.7 0 32-14.3 32-32v-16h368c17.7 0 32-14.3 32-32V200c0-17.7-14.3-32-32-32zM448 848H176V616h272v232zm0-296H176v-88h272v88zm20-272v-48h72v-56h64v56h72v48H468zm180 168v56c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-56c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8zm28 301c-50.8 0-92-41.2-92-92s41.2-92 92-92 92 41.2 92 92-41.2 92-92 92zm92-245c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-96c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v96zm-92 61c-50.8 0-92 41.2-92 92s41.2 92 92 92 92-41.2 92-92-41.2-92-92-92zm0 126c-18.8 0-34-15.2-34-34s15.2-34 34-34 34 15.2 34 34-15.2 34-34 34z"  fill="#595959"></path></svg>
       </div>`,
     );
@@ -28,6 +32,7 @@ export class MaterialMenu extends BtnMenu {
   }
 
   clickHandler = async () => {
+    const intl = useIntl();
     let res = await pluginGetMaterialCategories();
     let categories = (res.data || []).reduce((pre: any, cur: any) => {
       pre[cur.id] = cur.title;
@@ -96,7 +101,7 @@ export class MaterialMenu extends BtnMenu {
                         this.previewDetail(row);
                       }}
                     >
-                      <FileSearchOutlined /> 预览
+                      <FileSearchOutlined /> <FormattedMessage id="plugin.material.preview" />
                     </Tag>
                     <Tag
                       color="blue"
@@ -105,14 +110,14 @@ export class MaterialMenu extends BtnMenu {
                         useDetail(row);
                       }}
                     >
-                      <PlusSquareOutlined /> 使用
+                      <PlusSquareOutlined /> <FormattedMessage id="component.material.use" />
                     </Tag>
                   </Space>
                 );
               },
             },
             category_id: {
-              title: '分类筛选',
+              title: intl.formatMessage({ id: 'component.material.category' }),
               valueType: 'select',
               valueEnum: categories,
             },

@@ -1,6 +1,7 @@
 import { getAttachmentCategories, getAttachments, uploadAttachment } from '@/services/attachment';
 import { CloseOutlined } from '@ant-design/icons';
 import { ActionType, ProList } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Avatar, Button, Checkbox, Image, Input, Select, Space, Upload, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
@@ -17,6 +18,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
   const [categories, setCategories] = useState<any[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
   const [keyword, setKeyword] = useState<string>('');
+  const intl = useIntl();
 
   useEffect(() => {
     getAttachmentCategories().then((res) => {
@@ -32,7 +34,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
       if (res.code !== 0) {
         message.info(res.msg);
       } else {
-        message.info(res.msg || '上传成功');
+        message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
         if (props.multiple) {
           setSelectedRowKeys([]);
           props.onSelect([]);
@@ -90,16 +92,23 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
     <div>
       <div className="material-header">
         <Space size={16}>
-          <span>选择文件</span>
+          <span>
+            <FormattedMessage id="component.attachment.select" />
+          </span>
           <Select defaultValue={categoryId} style={{ width: 120 }} onChange={handleChangeCategory}>
-            <Select.Option value={0}>全部资源</Select.Option>
+            <Select.Option value={0}>
+              <FormattedMessage id="component.attachment.all" />
+            </Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.title}
               </Select.Option>
             ))}
           </Select>
-          <Input.Search placeholder="输入文件名关键词搜索" onSearch={handleSearch} />
+          <Input.Search
+            placeholder={intl.formatMessage({ id: 'component.attachment.search.placeholder' })}
+            onSearch={handleSearch}
+          />
           <Upload
             name="file"
             showUploadList={false}
@@ -107,9 +116,17 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
             //accept="*"
             customRequest={handleUploadImage}
           >
-            <Button type="primary">上传新文件</Button>
+            <Button type="primary">
+              <FormattedMessage id="component.attachment.upload" />
+            </Button>
           </Upload>
-          {selectedRowKeys.length > 0 && <span>已选{selectedRowKeys.length}个</span>}
+          {selectedRowKeys.length > 0 && (
+            <span>
+              <FormattedMessage id="component.attachment.select.selected" />
+              {selectedRowKeys.length}
+              <FormattedMessage id="component.attachment.select.selected.suffix" />
+            </span>
+          )}
         </Space>
         {typeof props.onCancel == 'function' && (
           <a className="close" onClick={() => props.onCancel?.()}>
@@ -170,7 +187,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
                           useDetail(row);
                         }}
                       >
-                        点击使用
+                        <FormattedMessage id="component.attachment.use" />
                       </div>
                     </div>
                   </div>

@@ -10,7 +10,7 @@ import {
 import { sizeFormat } from '@/utils';
 import { LoadingOutlined } from '@ant-design/icons';
 import { ModalForm, PageContainer, ProFormText } from '@ant-design/pro-components';
-import { FormattedMessage } from '@umijs/max';
+import { FormattedMessage, injectIntl } from '@umijs/max';
 import {
   Alert,
   Avatar,
@@ -658,4 +658,4 @@ class ImageList extends React.Component<intlProps> {
   }
 }
 
-export default ImageList;
+export default injectIntl(ImageList);

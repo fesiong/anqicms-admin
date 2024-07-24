@@ -119,18 +119,14 @@ const PluginUserGroup: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.backup.cleanup.confirm' }),
       content: (
         <div>
-          <p>
-            <FormattedMessage id="plugin.backup.cleanup.tips1" />
-          </p>
-          <p>
-            <FormattedMessage id="plugin.backup.cleanup.tips2" />
-          </p>
+          <p>{intl.formatMessage({ id: 'plugin.backup.cleanup.tips1' })}</p>
+          <p>{intl.formatMessage({ id: 'plugin.backup.cleanup.tips2' })}</p>
           <Radio.Group onChange={onChangeData}>
             <Radio value={false}>
-              <FormattedMessage id="plugin.backup.cleanup.upload.false" />
+              {intl.formatMessage({ id: 'plugin.backup.cleanup.upload.false' })}
             </Radio>
             <Radio value={true}>
-              <FormattedMessage id="plugin.backup.cleanup.upload.true" />
+              {intl.formatMessage({ id: 'plugin.backup.cleanup.upload.true' })}
             </Radio>
           </Radio.Group>
         </div>

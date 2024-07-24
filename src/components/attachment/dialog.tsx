@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
-import './index.less';
 import AttachmentContent from './content';
+import './index.less';
 
 const Attachment = () => {};
 
@@ -34,7 +34,6 @@ Attachment.show = (multiple?: boolean) => {
       maskClosable: true,
       width: 800,
       wrapClassName: 'attachment-dialog',
-      okText: '确定',
       content: (
         <AttachmentContent onSelect={onSelect} onCancel={() => onCancel()} multiple={multiple} />
       ),

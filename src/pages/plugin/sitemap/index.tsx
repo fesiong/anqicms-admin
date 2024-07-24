@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-=======
-import React, { useEffect, useState } from 'react';
-import ProForm, {
-  ProFormRadio,
-  ProFormText,
-  ProFormInstance,
-  ProFormSelect,
-} from '@ant-design/pro-form';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Alert, Button, Card, message, Space } from 'antd';
-import { pluginBuildSitemap, pluginGetSitemap, pluginSaveSitemap } from '@/services/plugin/sitemap';
-import moment from 'moment';
->>>>>>> main
 import { getCategories, getModules } from '@/services';
 import { pluginBuildSitemap, pluginGetSitemap, pluginSaveSitemap } from '@/services/plugin/sitemap';
 import {
@@ -31,10 +17,7 @@ const PluginSitemap: React.FC<any> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
-<<<<<<< HEAD
   const intl = useIntl();
-=======
->>>>>>> main
 
   const getSetting = async () => {
     const res = await pluginGetSitemap();
@@ -94,7 +77,11 @@ const PluginSitemap: React.FC<any> = (props) => {
         {fetched && (
           <div className="mt-normal">
             <ProForm onFinish={onSubmit} initialValues={sitemapSetting} formRef={formRef}>
-              <Card size="small" title={intl.formatMessage({ id: 'menu.plugin.sitemap' })} bordered={false}>
+              <Card
+                size="small"
+                title={intl.formatMessage({ id: 'menu.plugin.sitemap' })}
+                bordered={false}
+              >
                 <ProFormRadio.Group
                   name="type"
                   label={intl.formatMessage({ id: 'plugin.sitemap.type' })}
@@ -107,16 +94,28 @@ const PluginSitemap: React.FC<any> = (props) => {
                   name="auto_build"
                   label={intl.formatMessage({ id: 'plugin.sitemap.auto-build' })}
                   options={[
-                    { value: 0, label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.manual' }) },
-                    { value: 1, label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.auto' }) },
+                    {
+                      value: 0,
+                      label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.manual' }),
+                    },
+                    {
+                      value: 1,
+                      label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.auto' }),
+                    },
                   ]}
                 />
                 <ProFormRadio.Group
                   name="exclude_tag"
                   label={intl.formatMessage({ id: 'plugin.sitemap.exclude-tag' })}
                   options={[
-                    { value: false, label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.no' }) },
-                    { value: true, label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.yes' }) },
+                    {
+                      value: false,
+                      label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.no' }),
+                    },
+                    {
+                      value: true,
+                      label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.yes' }),
+                    },
                   ]}
                 />
                 <ProFormSelect
@@ -131,7 +130,9 @@ const PluginSitemap: React.FC<any> = (props) => {
                     }));
                     return tmpModules;
                   }}
-                  placeholder={intl.formatMessage({ id: 'plugin.sitemap.exculde-module.description' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.sitemap.exculde-module.description',
+                  })}
                 />
                 <ProFormSelect
                   name={'exclude_category_ids'}
@@ -145,7 +146,9 @@ const PluginSitemap: React.FC<any> = (props) => {
                     }));
                     return tmpData;
                   }}
-                  placeholder={intl.formatMessage({ id: 'plugin.sitemap.exculde-category.description' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.sitemap.exculde-category.description',
+                  })}
                 />
                 <ProFormSelect
                   name={'exclude_page_ids'}
@@ -159,13 +162,21 @@ const PluginSitemap: React.FC<any> = (props) => {
                     }));
                     return tmpData;
                   }}
-                  placeholder={intl.formatMessage({ id: 'plugin.sitemap.exculde-page.description' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.sitemap.exculde-page.description',
+                  })}
                 />
               </Card>
             </ProForm>
             <div className="mt-normal">
-              <Card size="small" title={intl.formatMessage({ id: 'plugin.sitemap.action' })} bordered={false}>
-                <div><FormattedMessage id="plugin.sitemap.action.tips" /></div>
+              <Card
+                size="small"
+                title={intl.formatMessage({ id: 'plugin.sitemap.action' })}
+                bordered={false}
+              >
+                <div>
+                  <FormattedMessage id="plugin.sitemap.action.tips" />
+                </div>
                 <ProFormText
                   readonly
                   label={intl.formatMessage({ id: 'plugin.sitemap.last-time' })}

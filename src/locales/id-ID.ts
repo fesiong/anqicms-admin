@@ -1,25 +1,30 @@
+import account from './id-ID/account';
 import component from './id-ID/component';
-import globalHeader from './id-ID/globalHeader';
+import content from './id-ID/content';
+import dashboard from './id-ID/dashboard';
+import design from './id-ID/design';
 import menu from './id-ID/menu';
 import pages from './id-ID/pages';
+import plugin from './id-ID/plugin';
 import pwa from './id-ID/pwa';
-import settingDrawer from './id-ID/settingDrawer';
-import settings from './id-ID/settings';
+import setting from './id-ID/setting';
+import statistic from './id-ID/statistic';
+import tool from './id-ID/tool';
+import website from './id-ID/website';
 
 export default {
-  'navbar.lang': 'Bahasa',
-  'layout.user.link.help': 'Bantuan',
-  'layout.user.link.privacy': 'Privasi',
-  'layout.user.link.terms': 'Ketentuan',
-  'app.preview.down.block': 'Unduh halaman ini dalam projek lokal anda',
-  'app.welcome.link.fetch-blocks': 'Dapatkan semua blok',
-  'app.welcome.link.block-list':
-    'Buat standar dengan cepat, halaman-halaman berdasarkan pengembangan `block`',
-  ...globalHeader,
+  'site.title': 'AnQiCMS',
+  ...pages,
   ...menu,
-  ...settingDrawer,
-  ...settings,
+  ...setting,
   ...pwa,
   ...component,
-  ...pages,
+  ...dashboard,
+  ...tool,
+  ...website,
+  ...account,
+  ...statistic,
+  ...design,
+  ...content,
+  ...plugin,
 };

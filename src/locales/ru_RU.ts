@@ -1,22 +1,30 @@
-import globalHeader from './ru-RU/globalHeader';
+import account from './ru-RU/account';
+import component from './ru-RU/component';
+import content from './ru-RU/content';
+import dashboard from './ru-RU/dashboard';
+import design from './ru-RU/design';
 import menu from './ru-RU/menu';
 import pages from './ru-RU/pages';
+import plugin from './ru-RU/plugin';
 import pwa from './ru-RU/pwa';
-import settingDrawer from './ru-RU/settingDrawer';
-import settings from './ru-RU/settings';
+import setting from './ru-RU/setting';
+import statistic from './ru-RU/statistic';
+import tool from './ru-RU/tool';
+import website from './ru-RU/website';
 
 export default {
-  'navBar.lang': 'Languages',
-  'layout.user.link.help': 'Help',
-  'layout.user.link.privacy': 'Privacy',
-  'layout.user.link.terms': 'Terms',
-  'app.preview.down.block': 'Download this page to your local project',
-  'app.welcome.link.fetch-blocks': 'Get all block',
-  'app.welcome.link.block-list': 'Quickly build standard, pages based on `block` development',
-  ...globalHeader,
-  ...menu,
-  ...settingDrawer,
-  ...settings,
-  ...pwa,
+  'site.title': 'AnQiCMS',
   ...pages,
+  ...menu,
+  ...setting,
+  ...pwa,
+  ...component,
+  ...dashboard,
+  ...tool,
+  ...website,
+  ...account,
+  ...statistic,
+  ...design,
+  ...content,
+  ...plugin,
 };

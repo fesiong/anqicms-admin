@@ -33,7 +33,6 @@ import {
 import { FormattedMessage, history, injectIntl } from '@umijs/max';
 import { Button, Card, Col, Image, Modal, Row, message } from 'antd';
 import dayjs from 'dayjs';
-import { parse } from 'querystring';
 import React from 'react';
 import { IntlShape } from 'react-intl';
 
@@ -81,15 +80,15 @@ class ArchiveForm extends React.Component<intlProps> {
         modules: res.data || [],
       },
       () => {
-        const searchParams = parse(window.location.search) || {};
-        const moduleId = searchParams.module_id || 1;
-        let categoryId = Number(searchParams.category_id || 0);
-        const copyId = Number(searchParams.copyid || 0);
+        const searchParams = new URLSearchParams(window.location.search);
+        const moduleId = searchParams.get('module_id') || 1;
+        let categoryId = Number(searchParams.get('category_id') || 0);
+        const copyId = Number(searchParams.get('copyid') || 0);
         const lastCategoryId = getStore('last_category_id') || 0;
         if (categoryId == 0 && lastCategoryId > 0) {
           categoryId = lastCategoryId;
         }
-        let id: any = searchParams.id || 0;
+        let id: any = searchParams.get('id') || 0;
         if (id == 'new') {
           id = 0;
         }

@@ -2,6 +2,7 @@ import { uploadAttachment } from '@/services';
 import config from '@/services/config';
 import { getStore } from '@/utils/store';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useIntl } from '@umijs/max';
 import { Tooltip, message } from 'antd';
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
@@ -30,6 +31,7 @@ let codes: any = {};
 const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   const editorRef = useRef(null);
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
+  const intl = useIntl();
 
   useImperativeHandle(ref, () => ({
     setInnerContent: setInnerContent,
@@ -56,7 +58,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
 
   const handleUpload = async (resultFiles: any[], insertImgFn: Function) => {
     for (let i in resultFiles) {
-      const hide = message.loading('插入中...', 0);
+      const hide = message.loading(intl.formatMessage({ id: 'component.editor.inserting' }), 0);
       let formData = new FormData();
       formData.append('file', resultFiles[i]);
       uploadAttachment(formData)
@@ -64,7 +66,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
           if (res.code !== 0) {
             message.info(res.msg);
           } else {
-            message.info(res.msg || '上传成功');
+            message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
             insertImgFn(res.data.logo);
           }
         })
@@ -108,7 +110,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
               if (res.code !== 0) {
                 message.info(res.msg);
               } else {
-                message.info(res.msg || '上传成功');
+                message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
                 insertFn(data.logo);
               }
             },
@@ -142,7 +144,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
               setHtmlMode(false);
             }}
           >
-            <Tooltip title="返回视图模式">
+            <Tooltip title={intl.formatMessage({ id: 'component.editor.mode.return-view' })}>
               <ArrowLeftOutlined className="icon" />
             </Tooltip>
           </div>

@@ -1,5 +1,6 @@
 import { pluginGetKeywords } from '@/services/plugin/keyword';
 import { ProColumns, ProTable } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import { Modal } from 'antd';
 import React, { useState } from 'react';
 
@@ -11,10 +12,11 @@ export type KeywordsProps = {
 
 const Keywords: React.FC<KeywordsProps> = (props) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const intl = useIntl();
 
   const columns: ProColumns<any>[] = [
     {
-      title: '关键词',
+      title: intl.formatMessage({ id: 'component.keywords.title' }),
       dataIndex: 'title',
     },
   ];
@@ -22,7 +24,7 @@ const Keywords: React.FC<KeywordsProps> = (props) => {
   return (
     <Modal
       width={600}
-      title="选择关键词"
+      title={intl.formatMessage({ id: 'component.keywords.select' })}
       open={props.open}
       onCancel={() => {
         props.onCancel();

@@ -1,4 +1,4 @@
-import { history, useModel } from '@umijs/max';
+import { FormattedMessage, history, useModel } from '@umijs/max';
 import { Menu } from 'antd';
 import React from 'react';
 import routes from '../../../config/routes';
@@ -87,9 +87,9 @@ const GlobalHeaderContent: React.FC = (props) => {
   return (
     <div className="header-nav">
       <Menu onClick={onClickMenu} selectedKeys={[selectKey]} mode="horizontal">
-        {routes.map((item, index) => {
+        {routes.map((item: any, index) => {
           if (!item.hideInTop && item.name && !item.unaccessible) {
-            return <Menu.Item key={index}>{item.name}</Menu.Item>;
+            return <Menu.Item key={index}><FormattedMessage id={"menu."+item.name} /></Menu.Item>;
           }
           return null;
         })}

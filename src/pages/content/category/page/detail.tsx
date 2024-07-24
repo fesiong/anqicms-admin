@@ -21,7 +21,6 @@ import {
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Card, Col, Image, Row, message } from 'antd';
-import { parse } from 'querystring';
 import React, { useEffect, useRef, useState } from 'react';
 import '../index.less';
 
@@ -45,11 +44,12 @@ const PageCategoryDetail: React.FC = () => {
   }, []);
 
   const initData = async () => {
-    let id = (parse(window.location.search) || {}).id || 0;
+    const searchParams = new URLSearchParams(window.location.search);
+    let id = searchParams.get('id') || 0;
     if (id == 'new') {
       id = 0;
     }
-    let parent_id = Number((parse(window.location.search) || {}).parent_id || 0);
+    let parent_id = Number(searchParams.get('parent_id') || 0);
 
     let modRes = await getModules();
     setModules(modRes.data || []);

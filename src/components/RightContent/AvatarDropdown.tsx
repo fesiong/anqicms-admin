@@ -1,6 +1,6 @@
 import { removeStore } from '@/utils/store';
 import { GroupOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
-import { history, useModel } from '@umijs/max';
+import { FormattedMessage, history, useModel } from '@umijs/max';
 import { Menu, Spin } from 'antd';
 import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
@@ -78,22 +78,22 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       {menu && (
         <Menu.Item key="">
           <UserOutlined />
-          管理员信息
+          <FormattedMessage id="component.right-content.admin-info" />
         </Menu.Item>
       )}
       <Menu.Item key="logs/login">
         <GroupOutlined />
-        登录记录
+        <FormattedMessage id="component.right-content.login-log" />
       </Menu.Item>
       <Menu.Item key="logs/action">
         <ProfileOutlined />
-        操作记录
+        <FormattedMessage id="component.right-content.action-log" />
       </Menu.Item>
       {menu && <Menu.Divider />}
 
       <Menu.Item key="logout">
         <LogoutOutlined />
-        退出登录
+        <FormattedMessage id="component.right-content.logout" />
       </Menu.Item>
     </Menu>
   );

@@ -35,7 +35,6 @@ import {
   message,
 } from 'antd';
 import dayjs from 'dayjs';
-import { parse } from 'querystring';
 import React, { useEffect, useRef, useState } from 'react';
 import TemplateShare from './components/share';
 import './index.less';
@@ -68,12 +67,13 @@ const DesignDetail: React.FC = () => {
   }, []);
 
   const fetchDesignInfo = async () => {
-    const packageName = (parse(window.location.search) || {}).package || '';
+    const searchParams = new URLSearchParams(window.location.search);
+    const packageName = searchParams.get('package') || '';
     getDesignInfo({
       package: packageName,
     })
       .then((res) => {
-        setDesignInfo(res.data);
+        setDesignInfo(res.data || {});
         actionRef.current?.reload();
         staticActionRef.current?.reload();
 
@@ -566,7 +566,7 @@ const DesignDetail: React.FC = () => {
 
   return (
     <PageContainer
-      title={designInfo.name + intl.formatMessage({ id: 'design.detail.file-manage' })}
+      title={designInfo?.name + intl.formatMessage({ id: 'design.detail.file-manage' })}
     >
       <ProTable<any>
         headerTitle={intl.formatMessage({ id: 'design.tempalte.name' })}

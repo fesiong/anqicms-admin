@@ -3,7 +3,6 @@ import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Card, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
-import { parse } from 'querystring';
 import React, { useRef } from 'react';
 import CollectorSetting from './components/setting';
 
@@ -141,7 +140,7 @@ const PluginAiGenerate: React.FC = () => {
             }}
             form={{
               initialValues: {
-                keyword: (parse(window.location.search) || {}).keyword || '',
+                keyword: new URLSearchParams(window.location.search).get('keyword') || '',
               },
             }}
             columns={columns}

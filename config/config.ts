@@ -44,8 +44,10 @@ export default defineConfig({
     // default zh-CN
     default: 'zh-CN',
     antd: true,
+    title: true,
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
+    useLocalStorage: true,
   },
   /**
    * @name 权限插件

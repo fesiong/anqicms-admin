@@ -1,5 +1,6 @@
 import { getCollectorSetting, replaceCollectorArticle } from '@/services/collector';
 import { PlusOutlined } from '@ant-design/icons';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Input, Modal, Space, Tag, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
@@ -14,6 +15,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
+  const intl = useIntl();
 
   var replaced = false;
 
@@ -29,16 +31,14 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
 
   const handleStartReplace = () => {
     if (replaced) {
-      message.info('批量替换操作正在执行中，无需再次点击执行');
+      message.info(intl.formatMessage({ id: 'component.replace.doing.tips' }));
     }
     Modal.confirm({
-      title: '确定要执行批量替换文章关键词操作吗？',
-      content: '该操作会根据你设置的需要替换的关键词，对所有的文章都执行一遍替换操作。',
-      cancelText: '取消',
-      okText: '确定',
+      title: intl.formatMessage({ id: 'component.replace.start.confirm' }),
+      content: intl.formatMessage({ id: 'component.replace.start.confirm.content' }),
       onOk: () => {
         replaced = true;
-        let hide = message.loading('处理中');
+        let hide = message.loading(intl.formatMessage({ id: 'component.replace.doing' }));
         replaceCollectorArticle({
           content_replace: keywords,
           replace: true,
@@ -99,7 +99,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
   return (
     <Modal
       width={700}
-      title="关键词替换管理"
+      title={intl.formatMessage({ id: 'setting.action.cancel' })}
       footer={
         <Space>
           <Button
@@ -107,14 +107,14 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
               props.onCancel();
             }}
           >
-            取消
+            <FormattedMessage id="component.material.use" />
           </Button>
           <Button
             onClick={() => {
               handleStartReplace();
             }}
           >
-            批量替换文章关键词
+            <FormattedMessage id="component.replace.batch-replace" />
           </Button>
           <Button
             type="primary"
@@ -122,7 +122,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
               onSubmit();
             }}
           >
-            保存
+            <FormattedMessage id="setting.action.submit" />
           </Button>
         </Space>
       }
@@ -134,51 +134,48 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
       <Alert
         message={
           <div>
-            <p>编辑需要替换的关键词对，会在发布文章的时候自动执行替换。</p>
             <p>
-              替换规则支持正则表达式，如果你对正则表达式熟悉，并且通过普通文本无法达成替换需求的，可以尝试使用正则表达式规则来完成替换。
+              <FormattedMessage id="plugin.aigenerate.replace.tips1" />
             </p>
             <p>
-              正则表达式规则为：由 <Tag>{'{'}</Tag>开始，并以 <Tag>{'}'}</Tag>
-              结束，中间书写规则代码，如{' '}
-              <Tag>
-                {'{'}[0-9]+{'}'}
-              </Tag>{' '}
-              代表匹配连续的数字。
+              <FormattedMessage id="plugin.aigenerate.replace.tips2" />
             </p>
             <p>
-              内置部分规则，可以快速使用，已内置的有：
+              <FormattedMessage id="plugin.aigenerate.replace.tips3" />
+            </p>
+            <p>
+              <FormattedMessage id="plugin.aigenerate.replace.rules" />
               <Tag>
-                {'{'}邮箱地址{'}'}
+                <FormattedMessage id="plugin.aigenerate.replace.rule.email" />
               </Tag>
               、
               <Tag>
-                {'{'}日期{'}'}
+                <FormattedMessage id="plugin.aigenerate.replace.rule.date" />
               </Tag>
               、
               <Tag>
-                {'{'}时间{'}'}
+                <FormattedMessage id="plugin.aigenerate.replace.rule.time" />
               </Tag>
               、
               <Tag>
-                {'{'}电话号码{'}'}
+                <FormattedMessage id="plugin.aigenerate.replace.rule.cellphone" />
               </Tag>
               、
               <Tag>
-                {'{'}QQ号{'}'}
+                <FormattedMessage id="plugin.aigenerate.replace.rule.qq" />
               </Tag>
               、
               <Tag>
-                {'{'}微信号{'}'}
+                <FormattedMessage id="plugin.aigenerate.replace.rule.wechat" />
               </Tag>
               、
               <Tag>
-                {'{'}网址{'}'}
+                <FormattedMessage id="plugin.aigenerate.replace.rule.website" />
               </Tag>
             </p>
             <p>
               <span className="text-red">*</span>{' '}
-              注意：正则表达式规则书写不当很容易造成错误的替换效果，如微信号规则，会同时影响到邮箱地址、网址的完整性。请谨慎使用。
+              <FormattedMessage id="plugin.aigenerate.replace.notice" />
             </p>
           </div>
         }
@@ -189,8 +186,12 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
           {keywords.map((tag: any, index: number) => (
             <span className="edit-tag" key={index}>
               <span className="key">{tag.from}</span>
-              <span className="divide">替换为</span>
-              <span className="value">{tag.to || '空'}</span>
+              <span className="divide">
+                <FormattedMessage id="plugin.aigenerate.replace.to" />
+              </span>
+              <span className="value">
+                {tag.to || intl.formatMessage({ id: 'plugin.aigenerate.empty' })}
+              </span>
               <span
                 className="close"
                 onClick={() => {
@@ -203,7 +204,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
           ))}
           {!inputVisible && (
             <Button className="site-tag-plus" onClick={showInput}>
-              <PlusOutlined /> 新增替换关键词
+              <PlusOutlined /> <FormattedMessage id="component.replace.add" />
             </Button>
           )}
         </Space>
@@ -220,7 +221,9 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
               handleEditInputConfirm();
             }}
           />
-          <span className="input-divide">替换为</span>
+          <span className="input-divide">
+            <FormattedMessage id="plugin.aigenerate.replace.to" />
+          </span>
           <Input
             style={{ width: '35%' }}
             value={toValue}
@@ -237,7 +240,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
             }}
             style={{ width: '15%', minWidth: '90px' }}
           >
-            回车提交
+            <FormattedMessage id="plugin.aigenerate.enter-to-add" />
           </Button>
         </Input.Group>
       )}

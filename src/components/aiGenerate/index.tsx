@@ -5,6 +5,7 @@ import {
   getCollectCombineArticle,
 } from '@/services';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Divider, Modal, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
@@ -26,6 +27,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
   const [aiContent, setAiContent] = useState<string>('');
   const [aiFinished, setAiFinished] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const intl = useIntl();
 
   // 临时的
   let tmpContent = '';
@@ -52,8 +54,8 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
 
   const finishedGenerate = () => {
     Modal.confirm({
-      title: '提示',
-      content: '提交后，会自动将标题和内容回填到文章标题和内容编辑框中',
+      title: intl.formatMessage({ id: 'component.aigenerate.submit.title' }),
+      content: intl.formatMessage({ id: 'component.aigenerate.submit.content' }),
       onOk: () => {
         props.onSubmit({
           title: aiTitle,
@@ -68,7 +70,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       return;
     }
     if (aiTitle.length < 2) {
-      message.error('请填写文章标题');
+      message.error(intl.formatMessage({ id: 'component.aigenerate.title.required' }));
       return;
     }
     setLoading(true);
@@ -78,7 +80,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
     })
       .then((res) => {
         if (!res || res.code !== 0) {
-          message.error(res?.msg || '出错啦');
+          message.error(res?.msg || intl.formatMessage({ id: 'component.aigenerate.error' }));
           return;
         }
         setAiTitle(res.data.title);
@@ -96,7 +98,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       return;
     }
     if (aiTitle.length < 2) {
-      message.error('请填写文章标题');
+      message.error(intl.formatMessage({ id: 'component.aigenerate.title.required' }));
       return;
     }
     setLoading(true);
@@ -162,9 +164,13 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       width={800}
       title={
         <div>
-          <span>AI生成文章</span>
+          <span>
+            <FormattedMessage id="component.aigenerate.name" />
+          </span>
           <div className="extra-text">
-            剩余AI生成额度 <span className="text-primary">{anqiUser.ai_remain}</span> 篇
+            <FormattedMessage id="component.aigenerate.remain" />{' '}
+            <span className="text-primary">{anqiUser.ai_remain}</span>{' '}
+            <FormattedMessage id="component.aigenerate.remain.suffix" />
           </div>
         </div>
       }
@@ -176,18 +182,18 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
     >
       <ProForm layout="horizontal" submitter={false}>
         <ProFormText
-          label="文章标题"
+          label={intl.formatMessage({ id: 'component.aigenerate.title' })}
           name="title"
-          placeholder="请填写文章标题，AI将根据标题生成内容。"
+          placeholder={intl.formatMessage({ id: 'component.aigenerate.title.placeholder' })}
           fieldProps={{
             value: aiTitle,
             onChange: onChangeAiTitle,
           }}
         />
         <ProFormText
-          label="其他要求"
+          label={intl.formatMessage({ id: 'component.aigenerate.demand' })}
           name="demand"
-          placeholder="如果有其他要求，不能超过150字"
+          placeholder={intl.formatMessage({ id: 'component.aigenerate.demand.placeholder' })}
           fieldProps={{
             maxLength: 150,
             value: aiDemand,
@@ -197,14 +203,14 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
         <div className="generate-btn mb-normal">
           <Space size={20}>
             <Button onClick={startGenerate} loading={loading} disabled={aiFinished}>
-              开始AI生成(收费)
+              <FormattedMessage id="component.aigenerate.btn.start-generate" />
             </Button>
             <Button onClick={startCombine} loading={loading} disabled={aiFinished}>
-              问答组合生成
+              <FormattedMessage id="component.aigenerate.btn.start-combine" />
             </Button>
             {aiFinished && (
               <Button onClick={finishedGenerate} loading={loading}>
-                完成
+                <FormattedMessage id="component.aigenerate.btn.finish" />
               </Button>
             )}
           </Space>
@@ -217,7 +223,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
               ? props.editor == 'markdown'
                 ? aiContent.replace(/\n+/g, '</p>\n<p>')
                 : aiContent
-              : 'AI生成结果将会在这里显示',
+              : intl.formatMessage({ id: 'component.aigenerate.content.default' }),
           }}
         ></div>
       </ProForm>

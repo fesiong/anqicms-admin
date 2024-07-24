@@ -84,8 +84,12 @@ const Login: React.FC = () => {
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
+        const searchParams = new URLSearchParams(window.location.search);
+        let redirect = searchParams.get('redirect') || '/';
+        if (redirect.indexOf('/login') !== -1) {
+          redirect = '/';
+        }
+        history.push(redirect);
         return;
       } else {
         //error
@@ -177,10 +181,10 @@ const Login: React.FC = () => {
           subTitle={
             <div>
               <p>
-                <FormattedMessage id="setting.login.welcome" />
+                <FormattedMessage id="pages.login.welcome" />
               </p>
               <p>
-                <FormattedMessage id="setting.login.tips" />
+                <FormattedMessage id="pages.login.tips" />
                 <a target="_blank" href={siteInfo.base_url}>
                   {siteInfo.name}
                 </a>
@@ -230,6 +234,7 @@ const Login: React.FC = () => {
           {!captcha.captcha_off && (
             <ProFormText
               name="captcha"
+              placeholder={''}
               fieldProps={{
                 size: 'large',
                 addonAfter: (
@@ -249,7 +254,7 @@ const Login: React.FC = () => {
             }}
           >
             <ProFormCheckbox noStyle name="remember">
-              <FormattedMessage id="setting.login.auto-login" />
+              <FormattedMessage id="pages.login.auto-login" />
             </ProFormCheckbox>
             <a
               style={{
@@ -260,7 +265,7 @@ const Login: React.FC = () => {
                 setFindVisible(true);
               }}
             >
-              <FormattedMessage id="setting.login.forget-password" />
+              <FormattedMessage id="pages.login.forget-password" />
             </a>
           </div>
         </LoginForm>

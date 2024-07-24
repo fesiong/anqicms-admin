@@ -31,7 +31,6 @@ import {
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Alert, Button, Dropdown, Input, Menu, Modal, Select, Space, Tag, message } from 'antd';
 import dayjs from 'dayjs';
-import { parse } from 'querystring';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 import QuickEditForm from './quickEdit';
@@ -99,10 +98,10 @@ const ArchiveList: React.FC = (props) => {
   const beforeSearch = (params: any) => {
     if (!firstFetch) {
       setFirstFetch(true);
-      const searchParams = parse(window.location.search) || {};
-      lastParams.module_id = Number(searchParams.module_id || 0);
-      lastParams.category_id = Number(searchParams.category_id || 0);
-      lastParams.status = searchParams.status || 'ok';
+      const searchParams = new URLSearchParams(window.location.search);
+      lastParams.module_id = Number(searchParams.get('module_id') || 0);
+      lastParams.category_id = Number(searchParams.get('category_id') || 0);
+      lastParams.status = searchParams.get('status') || 'ok';
       formRef.current?.setFieldsValue(lastParams);
       params = lastParams;
     } else {

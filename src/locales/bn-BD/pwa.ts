@@ -1,7 +1,6 @@
 export default {
-  'app.pwa.offline': 'আপনি এখন অফলাইন',
-  'app.pwa.serviceworker.updated': 'নতুন সামগ্রী উপলব্ধ',
-  'app.pwa.serviceworker.updated.hint':
-    'বর্তমান পৃষ্ঠাটি পুনরায় লোড করতে দয়া করে "রিফ্রেশ" বোতাম টিপুন',
+  'app.pwa.offline': 'বর্তমানে অফলাইন',
+  'app.pwa.serviceworker.updated': 'নতুন বিষয়বস্তু আছে',
+  'app.pwa.serviceworker.updated.hint': 'অনুগ্রহ করে "রিফ্রেশ" বোতামে ক্লিক করুন অথবা পৃষ্ঠাটি ম্যানুয়ালি রিফ্রেশ করুন৷',
   'app.pwa.serviceworker.updated.ok': 'রিফ্রেশ',
 };

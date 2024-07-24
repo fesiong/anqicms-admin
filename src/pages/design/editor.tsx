@@ -13,7 +13,6 @@ import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Card, Col, Input, Modal, Popover, Row, Space, Tree, message } from 'antd';
 import dayjs from 'dayjs';
-import { parse } from 'querystring';
 import React, { useEffect, useRef, useState } from 'react';
 import MonacoEditor, { monaco } from 'react-monaco-editor';
 import TemplateCompare from './components/compare';
@@ -56,15 +55,16 @@ const DesignEditor: React.FC = () => {
   }, []);
 
   const fetchDesignInfo = async () => {
-    const packageName = (parse(window.location.search) || {}).package || '';
+    const searchParams = new URLSearchParams(window.location.search);
+    const packageName = searchParams.get('package') || '';
     getDesignInfo({
       package: packageName,
     })
       .then((res) => {
         setDesignInfo(res.data);
 
-        var path = (parse(window.location.search) || {}).path || '';
-        var type = (parse(window.location.search) || {}).type || '';
+        var path = searchParams.get('path') || '';
+        var type = searchParams.get('type') || '';
         fileType = type + '';
 
         if (path == '' && res.data.tpl_files?.length > 0) {
@@ -184,7 +184,8 @@ const DesignEditor: React.FC = () => {
   };
 
   const fetchDesignFileInfo = async (path: any) => {
-    const packageName = (parse(window.location.search) || {}).package || '';
+    const searchParams = new URLSearchParams(window.location.search);
+    const packageName = searchParams.get('package') || '';
     setLoaded(false);
     getDesignFileInfo({
       package: packageName,
