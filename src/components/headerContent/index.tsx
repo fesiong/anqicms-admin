@@ -1,4 +1,4 @@
-import { FormattedMessage, history, useModel } from '@umijs/max';
+import { history, useIntl, useModel } from '@umijs/max';
 import { Menu } from 'antd';
 import React from 'react';
 import routes from '../../../config/routes';
@@ -6,6 +6,7 @@ import './index.less';
 
 const GlobalHeaderContent: React.FC = (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');
+  const intl = useIntl();
 
   const getSelectKey = () => {
     let selectPath = history.location.pathname;
@@ -28,72 +29,70 @@ const GlobalHeaderContent: React.FC = (props) => {
     return null;
   }
 
-  const onClickMenu = async (e: any) => {
-    let index = e.key;
-    let current: any = routes[index] || null;
-    if (current != null) {
-      // preview单独处理
-      if (current.path == '/preview') {
-        let baseUrl = '';
-        if (!initialState.system) {
-          const system = await initialState?.fetchSystemSetting?.();
-          if (system) {
-            await setInitialState((s) => ({
-              ...s,
-              system: system,
-            }));
-          }
-          baseUrl = system?.base_url || '';
-        } else {
-          baseUrl = initialState.system?.base_url || '';
+  const onClickMenu = async (current: any) => {
+    // preview单独处理
+    if (current.key == '/preview') {
+      let baseUrl = '';
+      if (!initialState.system) {
+        const system = await initialState?.fetchSystemSetting?.();
+        if (system) {
+          await setInitialState((s) => ({
+            ...s,
+            system: system,
+          }));
         }
-        window.open(baseUrl);
-        return;
-      }
-
-      let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
-      if (current.routes) {
-        let url = current.routes[0].path;
-        for (let j in current.routes) {
-          if (permissions.indexOf(current.routes[j].path) !== -1) {
-            url = current.routes[j].path;
-            break;
-          }
-        }
-        history.push(url);
+        baseUrl = system?.base_url || '';
       } else {
-        history.push(current.path);
+        baseUrl = initialState.system?.base_url || '';
       }
+      window.open(baseUrl);
+      return;
     }
+    history.push(current.key);
   };
 
   let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
-  if (initialState?.currentUser?.id != 1 && initialState?.currentUser?.group_id != 1) {
-    for (let i in routes) {
-      if (!routes[i].hideInTop && routes[i].name) {
-        // 需要处理
-        routes[i].unaccessible = true;
-        for (let j in permissions) {
-          if (permissions[j].indexOf(routes[i].path) === 0) {
-            // 存在
-            routes[i].unaccessible = false;
+  const headerMenu = routes.reduce((pre: any, cur: any) => {
+    if (!cur.hideInTop && cur.name) {
+      let path = cur.path;
+      if (cur.routes) {
+        path = cur.routes[0].path;
+        for (let j in cur.routes) {
+          if (permissions.indexOf(cur.routes[j].path) !== -1) {
+            path = cur.routes[j].path;
             break;
           }
         }
       }
+
+      if (permissions.length > 0) {
+        for (let j in permissions) {
+          if (permissions[j].indexOf(cur.path) === 0) {
+            pre.push({
+              key: path,
+              label: intl.formatMessage({ id: 'menu.' + cur.name }),
+            });
+            break;
+          }
+        }
+      } else {
+        pre.push({
+          key: path,
+          label: intl.formatMessage({ id: 'menu.' + cur.name }),
+        });
+      }
     }
-  }
+    return pre;
+  }, []);
 
   return (
     <div className="header-nav">
-      <Menu onClick={onClickMenu} selectedKeys={[selectKey]} mode="horizontal">
-        {routes.map((item: any, index) => {
-          if (!item.hideInTop && item.name && !item.unaccessible) {
-            return <Menu.Item key={index}><FormattedMessage id={"menu."+item.name} /></Menu.Item>;
-          }
-          return null;
-        })}
-      </Menu>
+      <Menu
+        onClick={onClickMenu}
+        selectedKeys={[selectKey]}
+        mode="horizontal"
+        items={headerMenu}
+      ></Menu>
     </div>
   );
 };

@@ -29,7 +29,11 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
   return (
     <ModalForm
       width={800}
-      title={props.editingLink?.id ? intl.formatMessage({ id: 'plugin.link.edit' }) : intl.formatMessage({ id: 'plugin.link.add' })}
+      title={
+        props.editingLink?.id
+          ? intl.formatMessage({ id: 'plugin.link.edit' })
+          : intl.formatMessage({ id: 'plugin.link.add' })
+      }
       initialValues={props.editingLink}
       open={props.open}
       //layout="horizontal"
@@ -42,8 +46,15 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.link.field.other-title' })} />
-      <ProFormText name="link" label={intl.formatMessage({ id: 'plugin.link.field.other-link' })} extra={intl.formatMessage({ id: 'plugin.link.field.other-link.description'})} />
+      <ProFormText
+        name="title"
+        label={intl.formatMessage({ id: 'plugin.link.field.other-title' })}
+      />
+      <ProFormText
+        name="link"
+        label={intl.formatMessage({ id: 'plugin.link.field.other-link' })}
+        extra={intl.formatMessage({ id: 'plugin.link.field.other-link.description' })}
+      />
       <ProFormRadio.Group
         name="nofollow"
         label="NOFOLLOW"
@@ -53,17 +64,36 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
         ]}
         extra={intl.formatMessage({ id: 'plugin.link.nofollow.description' })}
       />
-      <ProFormDigit name="sort" label={intl.formatMessage({ id: 'content.category.sort' })} extra={'content.category.sort.description'} />
+      <ProFormDigit
+        name="sort"
+        label={intl.formatMessage({ id: 'content.category.sort' })}
+        extra={intl.formatMessage({ id: 'content.category.sort.description' })}
+      />
       <CollapseItem header={intl.formatMessage({ id: 'plugin.link.more' })} showArrow key="1">
-        <ProFormText name="back_link" label={intl.formatMessage({ id: 'plugin.link.field.back-link' })} extra={intl.formatMessage({ id: 'plugin.link.field.back-link.description' })} />
-        <ProFormText name="my_title" label={intl.formatMessage({ id: 'plugin.link.field.self-title' })} extra={intl.formatMessage({ id: 'plugin.link.field.self-title.description' })} />
-        <ProFormText name="my_link" label={intl.formatMessage({ id: 'plugin.link.field.self-link' })} extra={intl.formatMessage({ id: 'plugin.link.field.self-link.description' })} />
+        <ProFormText
+          name="back_link"
+          label={intl.formatMessage({ id: 'plugin.link.field.back-link' })}
+          extra={intl.formatMessage({ id: 'plugin.link.field.back-link.description' })}
+        />
+        <ProFormText
+          name="my_title"
+          label={intl.formatMessage({ id: 'plugin.link.field.self-title' })}
+          extra={intl.formatMessage({ id: 'plugin.link.field.self-title.description' })}
+        />
+        <ProFormText
+          name="my_link"
+          label={intl.formatMessage({ id: 'plugin.link.field.self-link' })}
+          extra={intl.formatMessage({ id: 'plugin.link.field.self-link.description' })}
+        />
         <ProFormText
           name="contact"
           label={intl.formatMessage({ id: 'plugin.link.field.contact' })}
           extra={intl.formatMessage({ id: 'plugin.link.field.contact.description' })}
         />
-        <ProFormTextArea name="remark" label={intl.formatMessage({ id: 'plugin.link.field.remark' })} />
+        <ProFormTextArea
+          name="remark"
+          label={intl.formatMessage({ id: 'plugin.link.field.remark' })}
+        />
       </CollapseItem>
     </ModalForm>
   );

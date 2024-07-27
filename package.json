@@ -120,7 +120,7 @@
     "prettier": "^2.8.8",
     "puppeteer-core": "^8.0.0",
     "react-dev-inspector": "^1.9.0",
-    "stylelint": "^13.0.0",
+    "stylelint": "^16.7.0",
     "swagger-ui-dist": "^4.19.1",
     "swagger-ui-react": "^3.52.0",
     "ts-node": "^10.9.2",

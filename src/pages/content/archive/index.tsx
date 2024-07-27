@@ -626,7 +626,6 @@ const ArchiveList: React.FC = (props) => {
               <Menu>
                 <Menu.Item>
                   <a
-                    key="edit"
                     onClick={() => {
                       handleTranslateArchive(record);
                     }}
@@ -637,7 +636,6 @@ const ArchiveList: React.FC = (props) => {
                 </Menu.Item>
                 <Menu.Item>
                   <a
-                    key="edit"
                     onClick={() => {
                       handleAiPseudoArchive(record);
                     }}
@@ -648,7 +646,6 @@ const ArchiveList: React.FC = (props) => {
                 </Menu.Item>
                 <Menu.Item>
                   <a
-                    key="edit"
                     onClick={() => {
                       handleCopyArchive(record);
                     }}
@@ -660,7 +657,6 @@ const ArchiveList: React.FC = (props) => {
                 <Menu.Item danger>
                   <a
                     className="text-red"
-                    key="delete"
                     onClick={async () => {
                       await handleRemove([record.id]);
                     }}
@@ -738,7 +734,7 @@ const ArchiveList: React.FC = (props) => {
               }
             }}
           >
-            <PlusOutlined /> <FormattedMessage id="content.new-archive" />
+            <PlusOutlined /> <FormattedMessage id="content.archive.add" />
           </Button>,
         ]}
         columnsState={{

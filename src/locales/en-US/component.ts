@@ -7,7 +7,8 @@ export default {
   'component.footer.template-manual': 'Template Label Manual',
   'component.footer.feedback': 'Feedback & Demand Suggestions',
   'component.footer.upload': 'upload',
-  'component.footer.feedback.tips-before': 'Your feedback will be created as a community post, which you can access from',
+  'component.footer.feedback.tips-before':
+    'Your feedback will be created as a community post, which you can access from',
   'component.footer.feedback.tips-after': 'View our responses on the website.',
   'component.footer.feedback.type': 'feedback type',
   'component.footer.feedback.bug': 'BUG',
@@ -18,16 +19,19 @@ export default {
   'component.footer.feedback.screenshot': 'Screenshot of problem',
   'component.close': 'closure',
   'component.aigenerate.submit.title': 'hint',
-  'component.aigenerate.submit.content': 'After submission, the title and content will be automatically backfilled into the document title and content edit boxes.',
+  'component.aigenerate.submit.content':
+    'After submission, the title and content will be automatically backfilled into the document title and content edit boxes.',
   'component.aigenerate.title.required': 'Please fill in the document title',
   'component.aigenerate.error': 'Something went wrong',
   'component.aigenerate.name': 'AI generated articles',
   'component.aigenerate.remain': 'Remaining AI generation quota',
   'component.aigenerate.remain.suffix': 'Chapter',
   'component.aigenerate.title': 'Document title',
-  'component.aigenerate.title.placeholder': 'Please fill in the document title and AI will generate content based on the title.',
+  'component.aigenerate.title.placeholder':
+    'Please fill in the document title and AI will generate content based on the title.',
   'component.aigenerate.demand': 'other requirements',
-  'component.aigenerate.demand.placeholder': 'If there are other requirements, it cannot exceed 150 words.',
+  'component.aigenerate.demand.placeholder':
+    'If there are other requirements, it cannot exceed 150 words.',
   'component.aigenerate.btn.start-generate': 'Start AI generation (charged)',
   'component.aigenerate.btn.start-combine': 'Question and answer combination generation',
   'component.aigenerate.btn.finish': 'Finish',
@@ -40,6 +44,7 @@ export default {
   'component.attachment.upload': 'Upload new file',
   'component.attachment.use': 'Click to use',
   'component.editor.edit-code': 'Edit source code',
+  'component.editor.mode.return-view': 'Return to View Mode',
   'component.editor.insert-material': 'Insert content material',
   'component.material.use': 'use',
   'component.material.category': 'Classification filter',
@@ -49,9 +54,12 @@ export default {
   'component.markdown.media': 'Media Library',
   'component.markdown.video.unsupport': 'Your browser does not support the video tag.',
   'component.markdown.audio.unsupport': 'Your editor does not support the audio tag',
-  'component.replace.doing.tips': 'The batch replacement operation is being executed, no need to click again to execute',
-  'component.replace.start.confirm': 'Are you sure you want to perform batch replacement of article keywords?',
-  'component.replace.start.confirm.content': 'This operation will perform the replacement operation on all articles based on the keywords you set that need to be replaced.',
+  'component.replace.doing.tips':
+    'The batch replacement operation is being executed, no need to click again to execute',
+  'component.replace.start.confirm':
+    'Are you sure you want to perform batch replacement of article keywords?',
+  'component.replace.start.confirm.content':
+    'This operation will perform the replacement operation on all articles based on the keywords you set that need to be replaced.',
   'component.replace.doing': 'Processing',
   'component.replace.batch-replace': 'Replace article keywords in batches',
   'component.replace.add': 'Add replacement keywords',
@@ -62,12 +70,14 @@ export default {
   'component.right-content.login.success': 'login successful',
   'component.right-content.restart.confirm': 'Restart AnqiCMS',
   'component.right-content.restart': 'Restart',
-  'component.right-content.restart.confirm.content': 'You are about to restart AnqiCMS. During the restart, the website will not be able to open for a short period of time. Are you sure you want to continue?',
+  'component.right-content.restart.confirm.content':
+    'You are about to restart AnqiCMS. During the restart, the website will not be able to open for a short period of time. Are you sure you want to continue?',
   'component.right-content.restart.doing': 'Restarting',
   'component.right-content.search.placeholder': 'Search function',
   'component.right-content.bind.account': 'Bind Anqi account',
   'component.right-content.bind.account.name': 'Bind Anqi CMS official website account',
-  'component.right-content.bind.account.tips': 'Some functions of AnqiCMS rely on the official website. The binding is only to provide you with a better service experience and does not involve any sensitive information on your website. Please feel free to use it.',
+  'component.right-content.bind.account.tips':
+    'Some functions of AnqiCMS rely on the official website. The binding is only to provide you with a better service experience and does not involve any sensitive information on your website. Please feel free to use it.',
   'component.right-content.bind.account.error': 'Wrong account or password',
   'component.right-content.username': 'username',
   'component.right-content.username.required': 'please enter user name!',
@@ -83,8 +93,10 @@ export default {
   'component.right-content.expire-time': 'VIP validity period:',
   'component.right-content.remain': 'AI writing remaining quota:',
   'component.right-content.remain.suffix': 'articles/day',
-  'component.right-content.vip-tips': 'If you have not become a VIP member, some software functions will be limited. By purchasing a membership, you can use richer Anqi Box and Anqi CMS functions.',
-  'component.right-content.download-prefix': 'Indicates that this function is a security box function. For more VIP functions, please download',
+  'component.right-content.vip-tips':
+    'If you have not become a VIP member, some software functions will be limited. By purchasing a membership, you can use richer Anqi Box and Anqi CMS functions.',
+  'component.right-content.download-prefix':
+    'Indicates that this function is a security box function. For more VIP functions, please download',
   'component.right-content.download-name': 'Anqi Box',
   'component.right-content.update': 'Update account status',
   'component.right-content.order.confirm': 'bought?',
@@ -98,7 +110,8 @@ export default {
   'component.right-content.user-free.option5': 'Up to 2 article monitoring tasks',
   'component.right-content.user-free.option6': 'Entire site collection/download is not available',
   'component.right-content.user-free.option7': 'Cumulative AI writing quota: 10 articles',
-  'component.right-content.user-free.option7.suffix': 'One article for exceeding the quantity of 10 points',
+  'component.right-content.user-free.option7.suffix':
+    'One article for exceeding the quantity of 10 points',
   'component.right-content.user-vip.option1': 'Unlimited number of managed sites',
   'component.right-content.user-vip.option2': 'Unlimited keyword tasks',
   'component.right-content.user-vip.option3': 'Unlimited article collection tasks',

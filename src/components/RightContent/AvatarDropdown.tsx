@@ -2,7 +2,6 @@ import { removeStore } from '@/utils/store';
 import { GroupOutlined, LogoutOutlined, ProfileOutlined, UserOutlined } from '@ant-design/icons';
 import { FormattedMessage, history, useModel } from '@umijs/max';
 import { Menu, Spin } from 'antd';
-import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
 import HeaderDropdown from '../HeaderDropdown';
@@ -10,25 +9,6 @@ import './index.less';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
-};
-
-/**
- * 退出登录，并且将当前的 url 保存
- */
-const loginOut = async () => {
-  const { search, pathname } = history.location;
-  const urlParams = new URL(window.location.href).searchParams;
-  const redirect = urlParams.get('redirect') || '';
-  removeStore('adminToken');
-  // Note: There may be security issues, please note
-  if (window.location.pathname !== '/login' && !redirect) {
-    history.replace({
-      pathname: '/login',
-      search: stringify({
-        redirect: pathname + search,
-      }),
-    });
-  }
 };
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
@@ -39,7 +19,10 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       const { key } = event;
       if (key === 'logout') {
         setInitialState((s) => ({ ...s, currentUser: undefined }));
-        loginOut();
+        removeStore('adminToken');
+        history.replace({
+          pathname: '/login',
+        });
         return;
       }
       if (!key) {

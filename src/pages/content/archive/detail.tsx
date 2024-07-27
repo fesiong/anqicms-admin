@@ -583,7 +583,7 @@ class ArchiveForm extends React.Component<intlProps> {
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="fixed_link"
-                          label={this.props.intl.formatMessage({ id: 'fixed-link.name' })}
+                          label={this.props.intl.formatMessage({ id: 'content.fixed-link.name' })}
                           placeholder={this.props.intl.formatMessage({
                             id: 'content.canonical-url.placeholder',
                           })}

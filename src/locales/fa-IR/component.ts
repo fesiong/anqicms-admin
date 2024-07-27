@@ -7,7 +7,8 @@ export default {
   'component.footer.template-manual': 'راهنمای برچسب الگو',
   'component.footer.feedback': 'پیشنهادات بازخورد و تقاضا',
   'component.footer.upload': 'بارگذاری',
-  'component.footer.feedback.tips-before': 'بازخورد شما به عنوان یک پست انجمن ایجاد می شود که می توانید از آن دسترسی داشته باشید',
+  'component.footer.feedback.tips-before':
+    'بازخورد شما به عنوان یک پست انجمن ایجاد می شود که می توانید از آن دسترسی داشته باشید',
   'component.footer.feedback.tips-after': 'پاسخ های ما را در وب سایت مشاهده کنید.',
   'component.footer.feedback.type': 'نوع بازخورد',
   'component.footer.feedback.bug': 'حشره',
@@ -18,16 +19,19 @@ export default {
   'component.footer.feedback.screenshot': 'اسکرین شات مشکل',
   'component.close': 'بسته',
   'component.aigenerate.submit.title': 'اشاره',
-  'component.aigenerate.submit.content': 'پس از ارسال، عنوان و محتوا به طور خودکار در کادرهای عنوان سند و ویرایش محتوا تکمیل می شود.',
+  'component.aigenerate.submit.content':
+    'پس از ارسال، عنوان و محتوا به طور خودکار در کادرهای عنوان سند و ویرایش محتوا تکمیل می شود.',
   'component.aigenerate.title.required': 'لطفا عنوان سند را پر کنید',
   'component.aigenerate.error': 'مشکلی پیش آمد',
   'component.aigenerate.name': 'مقالات تولید شده توسط هوش مصنوعی',
   'component.aigenerate.remain': 'سهمیه تولید هوش مصنوعی باقی مانده است',
   'component.aigenerate.remain.suffix': 'فصل',
   'component.aigenerate.title': 'عنوان سند',
-  'component.aigenerate.title.placeholder': 'لطفا عنوان سند را پر کنید و هوش مصنوعی بر اساس عنوان محتوا تولید می کند.',
+  'component.aigenerate.title.placeholder':
+    'لطفا عنوان سند را پر کنید و هوش مصنوعی بر اساس عنوان محتوا تولید می کند.',
   'component.aigenerate.demand': 'ملزومات دیگر',
-  'component.aigenerate.demand.placeholder': 'اگر شرایط دیگری وجود دارد، نمی تواند بیش از 150 کلمه باشد.',
+  'component.aigenerate.demand.placeholder':
+    'اگر شرایط دیگری وجود دارد، نمی تواند بیش از 150 کلمه باشد.',
   'component.aigenerate.btn.start-generate': 'شروع تولید هوش مصنوعی (شارژ شده)',
   'component.aigenerate.btn.start-combine': 'تولید ترکیبی از پرسش و پاسخ',
   'component.aigenerate.btn.finish': 'پایان',
@@ -40,6 +44,7 @@ export default {
   'component.attachment.upload': 'آپلود فایل جدید',
   'component.attachment.use': 'برای استفاده کلیک کنید',
   'component.editor.edit-code': 'کد منبع را ویرایش کنید',
+  'component.editor.mode.return-view': 'برگردید به حالت نمایش',
   'component.editor.insert-material': 'درج مطالب محتوا',
   'component.material.use': 'استفاده کنید',
   'component.material.category': 'فیلتر طبقه بندی',
@@ -49,9 +54,12 @@ export default {
   'component.markdown.media': 'کتابخانه ی رسانه',
   'component.markdown.video.unsupport': 'مرورگر شما ویدئو با این پسوند را پشتیبانی نمی کند.',
   'component.markdown.audio.unsupport': 'ویرایشگر شما از برچسب صوتی پشتیبانی نمی کند',
-  'component.replace.doing.tips': 'عملیات جایگزینی دسته ای در حال اجرا است، برای اجرا نیازی به کلیک مجدد نیست',
-  'component.replace.start.confirm': 'آیا مطمئن هستید که می خواهید دسته ای کلمات کلیدی مقاله را جایگزین کنید؟',
-  'component.replace.start.confirm.content': 'این عملیات بر اساس کلیدواژه هایی که تنظیم کرده اید و باید جایگزین شوند، عملیات جایگزینی را روی تمام مقالات انجام می دهد.',
+  'component.replace.doing.tips':
+    'عملیات جایگزینی دسته ای در حال اجرا است، برای اجرا نیازی به کلیک مجدد نیست',
+  'component.replace.start.confirm':
+    'آیا مطمئن هستید که می خواهید دسته ای کلمات کلیدی مقاله را جایگزین کنید؟',
+  'component.replace.start.confirm.content':
+    'این عملیات بر اساس کلیدواژه هایی که تنظیم کرده اید و باید جایگزین شوند، عملیات جایگزینی را روی تمام مقالات انجام می دهد.',
   'component.replace.doing': 'در حال پردازش',
   'component.replace.batch-replace': 'کلمات کلیدی مقاله را به صورت دسته ای جایگزین کنید',
   'component.replace.add': 'کلمات کلیدی جایگزین اضافه کنید',
@@ -62,12 +70,14 @@ export default {
   'component.right-content.login.success': 'ورود با موفقیت',
   'component.right-content.restart.confirm': 'AnqiCMS را مجددا راه اندازی کنید',
   'component.right-content.restart': 'راه اندازی مجدد',
-  'component.right-content.restart.confirm.content': 'شما در شرف راه اندازی مجدد AnqiCMS هستید در طول راه اندازی مجدد، وب سایت نمی تواند برای مدت کوتاهی باز شود. آیا مطمئن هستید که میخواهید ادامه دهید؟',
+  'component.right-content.restart.confirm.content':
+    'شما در شرف راه اندازی مجدد AnqiCMS هستید در طول راه اندازی مجدد، وب سایت نمی تواند برای مدت کوتاهی باز شود. آیا مطمئن هستید که میخواهید ادامه دهید؟',
   'component.right-content.restart.doing': 'راه اندازی مجدد',
   'component.right-content.search.placeholder': 'عملکرد جستجو',
   'component.right-content.bind.account': 'حساب انقی را ببندید',
   'component.right-content.bind.account.name': 'حساب وب سایت رسمی Anqi CMS را بایند کنید',
-  'component.right-content.bind.account.tips': 'برخی از عملکردهای AnqiCMS به وب سایت رسمی متکی هستند.',
+  'component.right-content.bind.account.tips':
+    'برخی از عملکردهای AnqiCMS به وب سایت رسمی متکی هستند.',
   'component.right-content.bind.account.error': 'حساب یا رمز عبور اشتباه است',
   'component.right-content.username': 'نام کاربری',
   'component.right-content.username.required': 'لطفا نام کاربری را وارد کنید',
@@ -83,8 +93,10 @@ export default {
   'component.right-content.expire-time': 'مدت اعتبار VIP:',
   'component.right-content.remain': 'سهمیه باقی مانده نوشتن هوش مصنوعی:',
   'component.right-content.remain.suffix': 'مقالات/روز',
-  'component.right-content.vip-tips': 'اگر عضو VIP نشده باشید، برخی از عملکردهای نرم افزار محدود خواهند شد. با خرید عضویت، می توانید از عملکردهای غنی تر Anqi Box و Anqi CMS استفاده کنید.',
-  'component.right-content.download-prefix': 'نشان می دهد که این تابع یک تابع جعبه امنیتی است. برای توابع VIP بیشتر، لطفا دانلود کنید',
+  'component.right-content.vip-tips':
+    'اگر عضو VIP نشده باشید، برخی از عملکردهای نرم افزار محدود خواهند شد. با خرید عضویت، می توانید از عملکردهای غنی تر Anqi Box و Anqi CMS استفاده کنید.',
+  'component.right-content.download-prefix':
+    'نشان می دهد که این تابع یک تابع جعبه امنیتی است. برای توابع VIP بیشتر، لطفا دانلود کنید',
   'component.right-content.download-name': 'جعبه آنقی',
   'component.right-content.update': 'به روز رسانی وضعیت حساب',
   'component.right-content.order.confirm': 'خریده؟',

@@ -7,7 +7,8 @@ export default {
   'component.footer.template-manual': 'Manual de etiqueta de modelo',
   'component.footer.feedback': 'Feedback e sugestões de demanda',
   'component.footer.upload': 'carregar',
-  'component.footer.feedback.tips-before': 'Seu feedback será criado como uma postagem na comunidade, que você pode acessar em',
+  'component.footer.feedback.tips-before':
+    'Seu feedback será criado como uma postagem na comunidade, que você pode acessar em',
   'component.footer.feedback.tips-after': 'Veja nossas respostas no site.',
   'component.footer.feedback.type': 'tipo de feedback',
   'component.footer.feedback.bug': 'ERRO',
@@ -18,16 +19,19 @@ export default {
   'component.footer.feedback.screenshot': 'Captura de tela do problema',
   'component.close': 'fecho',
   'component.aigenerate.submit.title': 'dica',
-  'component.aigenerate.submit.content': 'Após o envio, o título e o conteúdo serão automaticamente preenchidos nas caixas de edição de título e conteúdo do documento.',
+  'component.aigenerate.submit.content':
+    'Após o envio, o título e o conteúdo serão automaticamente preenchidos nas caixas de edição de título e conteúdo do documento.',
   'component.aigenerate.title.required': 'Por favor preencha o título do documento',
   'component.aigenerate.error': 'Algo deu errado',
   'component.aigenerate.name': 'Artigos gerados por IA',
   'component.aigenerate.remain': 'Cota restante de geração de IA',
   'component.aigenerate.remain.suffix': 'Capítulo',
   'component.aigenerate.title': 'Título do documento',
-  'component.aigenerate.title.placeholder': 'Preencha o título do documento e a IA gerará conteúdo com base no título.',
+  'component.aigenerate.title.placeholder':
+    'Preencha o título do documento e a IA gerará conteúdo com base no título.',
   'component.aigenerate.demand': 'outros requerimentos',
-  'component.aigenerate.demand.placeholder': 'Havendo outros requisitos, não poderá ultrapassar 150 palavras.',
+  'component.aigenerate.demand.placeholder':
+    'Havendo outros requisitos, não poderá ultrapassar 150 palavras.',
   'component.aigenerate.btn.start-generate': 'Iniciar geração de IA (carregada)',
   'component.aigenerate.btn.start-combine': 'Geração de combinação de perguntas e respostas',
   'component.aigenerate.btn.finish': 'Terminar',
@@ -36,10 +40,12 @@ export default {
   'component.attachment.select.selected': 'selecionado',
   'component.attachment.select.selected.suffix': 'individual',
   'component.attachment.all': 'Todos os recursos',
-  'component.attachment.search.placeholder': 'Insira a pesquisa por palavra-chave do nome do arquivo',
+  'component.attachment.search.placeholder':
+    'Insira a pesquisa por palavra-chave do nome do arquivo',
   'component.attachment.upload': 'Carregar novo arquivo',
   'component.attachment.use': 'Clique para usar',
   'component.editor.edit-code': 'Editar código-fonte',
+  'component.editor.mode.return-view': 'Voltar ao Modo de Vista',
   'component.editor.insert-material': 'Insira conteúdo',
   'component.material.use': 'usar',
   'component.material.category': 'Filtro de classificação',
@@ -49,9 +55,12 @@ export default {
   'component.markdown.media': 'Biblioteca de mídia',
   'component.markdown.video.unsupport': 'Seu navegador não suporta a tag de vídeo.',
   'component.markdown.audio.unsupport': 'Seu editor não suporta a tag de áudio',
-  'component.replace.doing.tips': 'A operação de substituição em lote está sendo executada, não há necessidade de clicar novamente para executar',
-  'component.replace.start.confirm': 'Tem certeza de que deseja realizar a substituição em lote de palavras-chave de artigos?',
-  'component.replace.start.confirm.content': 'Esta operação realizará a operação de substituição em todos os artigos com base nas palavras-chave que você definiu e que precisam ser substituídas.',
+  'component.replace.doing.tips':
+    'A operação de substituição em lote está sendo executada, não há necessidade de clicar novamente para executar',
+  'component.replace.start.confirm':
+    'Tem certeza de que deseja realizar a substituição em lote de palavras-chave de artigos?',
+  'component.replace.start.confirm.content':
+    'Esta operação realizará a operação de substituição em todos os artigos com base nas palavras-chave que você definiu e que precisam ser substituídas.',
   'component.replace.doing': 'Em processamento',
   'component.replace.batch-replace': 'Substitua palavras-chave de artigos em lotes',
   'component.replace.add': 'Adicionar palavras-chave de substituição',
@@ -62,12 +71,14 @@ export default {
   'component.right-content.login.success': 'login bem-sucedido',
   'component.right-content.restart.confirm': 'Reinicie o AnqiCMS',
   'component.right-content.restart': 'Reiniciar',
-  'component.right-content.restart.confirm.content': 'Você está prestes a reiniciar o AnqiCMS Durante a reinicialização, o site não poderá abrir por um curto período de tempo. Você tem certeza que quer continuar?',
+  'component.right-content.restart.confirm.content':
+    'Você está prestes a reiniciar o AnqiCMS Durante a reinicialização, o site não poderá abrir por um curto período de tempo. Você tem certeza que quer continuar?',
   'component.right-content.restart.doing': 'Reiniciando',
   'component.right-content.search.placeholder': 'Função de pesquisa',
   'component.right-content.bind.account': 'Vincular conta Anqi',
   'component.right-content.bind.account.name': 'Vincular conta do site oficial do Anqi CMS',
-  'component.right-content.bind.account.tips': 'Algumas funções do AnqiCMS dependem do site oficial. A vinculação serve apenas para fornecer a você uma melhor experiência de serviço e não envolve nenhuma informação confidencial em seu site.',
+  'component.right-content.bind.account.tips':
+    'Algumas funções do AnqiCMS dependem do site oficial. A vinculação serve apenas para fornecer a você uma melhor experiência de serviço e não envolve nenhuma informação confidencial em seu site.',
   'component.right-content.bind.account.error': 'Conta ou senha errada',
   'component.right-content.username': 'nome de usuário',
   'component.right-content.username.required': 'por favor insira o nome de usuário!',
@@ -83,8 +94,10 @@ export default {
   'component.right-content.expire-time': 'Período de validade VIP:',
   'component.right-content.remain': 'Cota restante de gravação de IA:',
   'component.right-content.remain.suffix': 'artigos/dia',
-  'component.right-content.vip-tips': 'Se você ainda não se tornou um membro VIP, algumas funções do software serão limitadas. Ao adquirir uma assinatura, você pode usar funções mais avançadas do Anqi Box e do Anqi CMS.',
-  'component.right-content.download-prefix': 'Indica que esta função é uma função de caixa de segurança. Para mais funções VIP, faça o download',
+  'component.right-content.vip-tips':
+    'Se você ainda não se tornou um membro VIP, algumas funções do software serão limitadas. Ao adquirir uma assinatura, você pode usar funções mais avançadas do Anqi Box e do Anqi CMS.',
+  'component.right-content.download-prefix':
+    'Indica que esta função é uma função de caixa de segurança. Para mais funções VIP, faça o download',
   'component.right-content.download-name': 'Caixa Anqi',
   'component.right-content.update': 'Atualizar status da conta',
   'component.right-content.order.confirm': 'comprado?',
@@ -92,13 +105,16 @@ export default {
   'component.right-content.user-free': 'usuário gratuito',
   'component.right-content.user-vip': 'Membro VIP',
   'component.right-content.user-free.option1': 'Sem limite de período de validade',
-  'component.right-content.user-free.option2': 'Máximo de 2/10.000 tarefas de exportação de palavras-chave',
+  'component.right-content.user-free.option2':
+    'Máximo de 2/10.000 tarefas de exportação de palavras-chave',
   'component.right-content.user-free.option3': 'Até 2 tarefas de coleta de artigos',
   'component.right-content.user-free.option4': 'Até 2 tarefas de combinação de artigos',
   'component.right-content.user-free.option5': 'Até 2 tarefas de monitoramento de artigos',
-  'component.right-content.user-free.option6': 'Todo o conjunto/download de sites não está disponível',
+  'component.right-content.user-free.option6':
+    'Todo o conjunto/download de sites não está disponível',
   'component.right-content.user-free.option7': 'Cota cumulativa de redação de IA: 10 artigos',
-  'component.right-content.user-free.option7.suffix': 'Um artigo por ultrapassar a quantidade de 10 pontos',
+  'component.right-content.user-free.option7.suffix':
+    'Um artigo por ultrapassar a quantidade de 10 pontos',
   'component.right-content.user-vip.option1': 'Número ilimitado de sites gerenciados',
   'component.right-content.user-vip.option2': 'Tarefas de palavras-chave ilimitadas',
   'component.right-content.user-vip.option3': 'Tarefas ilimitadas de coleta de artigos',

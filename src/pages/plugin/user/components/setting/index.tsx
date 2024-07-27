@@ -103,7 +103,11 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
       dataIndex: 'type',
       render: (text: any, record) => (
         <div>
-          <span>{record.is_system ? 'content.module.field.type.built-in' : ''}</span>
+          <span>
+            {record.is_system
+              ? intl.formatMessage({ id: 'content.module.field.type.built-in' })
+              : ''}
+          </span>
           <span>{text}</span>
         </div>
       ),
@@ -193,7 +197,11 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentField.name ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' }) : intl.formatMessage({ id: 'content.module.field.add' })}
+          title={
+            currentField.name
+              ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' })
+              : intl.formatMessage({ id: 'content.module.field.add' })
+          }
           open={editVisible}
           modalProps={{
             onCancel: () => {
@@ -206,7 +214,12 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
             handleSaveField(values);
           }}
         >
-          <ProFormText name="name" required label={intl.formatMessage({ id: 'content.module.field.name' })} extra={intl.formatMessage({ id: 'plugin.user.setting.name.description' })} />
+          <ProFormText
+            name="name"
+            required
+            label={intl.formatMessage({ id: 'content.module.field.name' })}
+            extra={intl.formatMessage({ id: 'plugin.user.setting.name.description' })}
+          />
           <ProFormText
             name="field_name"
             label={intl.formatMessage({ id: 'content.module.field.field-name' })}

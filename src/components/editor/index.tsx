@@ -42,10 +42,39 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
 
   const handleSelectImages = (e: any) => {
     for (let i in e) {
-      editorRef.current?.editor.cmd.do(
-        'insertHTML',
-        `<img src="${e[i].logo}" alt="${e[i].file_name}"/>`,
-      );
+      let el = `<a href="${e[i].logo}" target="_blank">${e[i].file_name}</a>`;
+      if (
+        e[i].is_image ||
+        e[i].file_location.indexOf('.webp') != -1 ||
+        e[i].file_location.indexOf('.bmp') != -1 ||
+        e[i].file_location.indexOf('.png') != -1 ||
+        e[i].file_location.indexOf('.gif') != -1 ||
+        e[i].file_location.indexOf('.jpg') != -1 ||
+        e[i].file_location.indexOf('.jpeg') != -1 ||
+        e[i].file_location.indexOf('.svg') != -1
+      ) {
+        el = `<img src="${e[i].logo}" alt="${e[i].file_name}"/>`;
+      } else if (
+        e[i].file_location.indexOf('.mp4') != -1 ||
+        e[i].file_location.indexOf('.ogg') != -1 ||
+        e[i].file_location.indexOf('.webm') != -1
+      ) {
+        el = `<video controls="controls" controlslist="nodownload" poster=""><source src="${
+          e[i].logo
+        }" type="video/${e[i].file_location.substr(
+          e[i].file_location.lastIndexOf('.') + 1,
+        )}">${intl.formatMessage({ id: 'component.markdown.video.unsupport' })}</video>`;
+      } else if (
+        e[i].file_location.indexOf('.mp3') != -1 ||
+        e[i].file_location.indexOf('.wav') != -1
+      ) {
+        el = `<audio src="${e[i].logo}" controls="controls"><source src="${
+          e[i].logo
+        }" type="audio/${e[i].file_location.substr(
+          e[i].file_location.lastIndexOf('.') + 1,
+        )}">${intl.formatMessage({ id: 'component.markdown.audio.unsupport' })}</audio>`;
+      }
+      editorRef.current?.editor.cmd.do('insertHTML', el);
     }
   };
 

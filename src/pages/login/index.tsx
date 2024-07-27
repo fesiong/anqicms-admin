@@ -84,12 +84,7 @@ const Login: React.FC = () => {
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
-        const searchParams = new URLSearchParams(window.location.search);
-        let redirect = searchParams.get('redirect') || '/';
-        if (redirect.indexOf('/login') !== -1) {
-          redirect = '/';
-        }
-        history.push(redirect);
+        history.push('/dashboard');
         return;
       } else {
         //error

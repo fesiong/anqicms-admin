@@ -6,11 +6,10 @@ import {
   pluginWatermarkUploadFile,
 } from '@/services';
 import { PageContainer, ProForm, ProFormRadio, ProFormText } from '@ant-design/pro-components';
-import { Button, Card, Col, Modal, Row, Slider, Tooltip, Upload, message } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { ChromePicker } from 'react-color';
-import './index.less';
 import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Col, ColorPicker, Modal, Row, Slider, Upload, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import './index.less';
 
 let loading = false;
 
@@ -130,7 +129,7 @@ const PluginWatermark: React.FC<any> = () => {
   };
 
   const onChangeColor = (c: any) => {
-    setting.font_color = c.hex;
+    setting.color = c.toHex();
     setSetting(Object.assign({}, setting));
   };
 
@@ -192,7 +191,9 @@ const PluginWatermark: React.FC<any> = () => {
                         accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
                         customRequest={async (e) => handleUploadFile('image_path', e)}
                       >
-                        <Button><FormattedMessage id="plugin.titleimage.bg-image.upload" /></Button>
+                        <Button>
+                          <FormattedMessage id="plugin.titleimage.bg-image.upload" />
+                        </Button>
                       </Upload>
                       {setting.image_path && (
                         <div className="upload-file">
@@ -213,31 +214,18 @@ const PluginWatermark: React.FC<any> = () => {
                           onBlur: (e) => onChangeField('text', e.target.value),
                         }}
                       />
-                      <ProFormText width="sm" label={intl.formatMessage({ id: 'plugin.titleimage.color' })} extra={intl.formatMessage({ id: 'plugin.titleimage.color.default' })}>
-                        <Tooltip
-                          trigger={'click'}
-                          placement="bottom"
-                          color="#ffffff"
-                          title={
-                            <div>
-                              <ChromePicker
-                                color={setting.color}
-                                onChange={(e) => {
-                                  onChangeColor(e);
-                                }}
-                              />
-                            </div>
-                          }
-                        >
-                          <Button
-                            className="color-block"
-                            style={{
-                              background: setting.color,
-                            }}
-                          >
-                            {setting.color || intl.formatMessage({ id: 'plugin.titleimage.select' })}
-                          </Button>
-                        </Tooltip>
+                      <ProFormText
+                        width="sm"
+                        label={intl.formatMessage({ id: 'plugin.titleimage.color' })}
+                        extra={intl.formatMessage({ id: 'plugin.titleimage.color.default' })}
+                      >
+                        <ColorPicker
+                          showText
+                          value={setting.color}
+                          onChange={(e) => {
+                            onChangeColor(e);
+                          }}
+                        />
                       </ProFormText>
                       <ProFormText label={intl.formatMessage({ id: 'plugin.titleimage.font' })}>
                         <Upload
@@ -247,7 +235,9 @@ const PluginWatermark: React.FC<any> = () => {
                           accept=".ttf"
                           customRequest={async (e) => handleUploadFile('font_path', e)}
                         >
-                          <Button><FormattedMessage id="plugin.titleimage.font.upload" /></Button>
+                          <Button>
+                            <FormattedMessage id="plugin.titleimage.font.upload" />
+                          </Button>
                         </Upload>
                         {setting.font_path && (
                           <div className="upload-file">
@@ -326,7 +316,9 @@ const PluginWatermark: React.FC<any> = () => {
           <Col sm={12} xs={24}>
             <img className="preview" src={previewData} />
             <div className="mt-normal text-center">
-              <Button onClick={() => handleGenerate()}><FormattedMessage id="plugin.watermark.batch-add" /></Button>
+              <Button onClick={() => handleGenerate()}>
+                <FormattedMessage id="plugin.watermark.batch-add" />
+              </Button>
             </div>
           </Col>
         </Row>

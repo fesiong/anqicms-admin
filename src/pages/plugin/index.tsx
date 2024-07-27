@@ -207,7 +207,9 @@ const PluginIndex: React.FC = () => {
                       >
                         <img className="avatar" src={getIcon(inner.icon)} />
                         <div className="info">
-                          <div className="title">{inner.name}</div>
+                          <div className="title">
+                            <FormattedMessage id={'menu.plugin.' + inner.name} />
+                          </div>
                         </div>
                       </div>
                     </Col>

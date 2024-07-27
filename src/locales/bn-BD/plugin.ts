@@ -16,41 +16,51 @@ export default {
   'plugin.aigenerate.double-split.colon': 'মূল শিরোনাম: সাবটাইটেল',
   'plugin.aigenerate.double-split.random': 'এলোমেলো',
   'plugin.aigenerate.demand': 'লেখার জন্য অভিন্ন প্রয়োজনীয়তা',
-  'plugin.aigenerate.demand.description': 'সমস্ত AI লেখার নিবন্ধগুলির জন্য একীভূত প্রয়োজনীয়তা সংজ্ঞায়িত করা সম্ভব, 200 অক্ষরের বেশি নয়। ডিফল্টরূপে এটি ফাঁকা ছেড়ে দিন',
+  'plugin.aigenerate.demand.description':
+    'সমস্ত AI লেখার নিবন্ধগুলির জন্য একীভূত প্রয়োজনীয়তা সংজ্ঞায়িত করা সম্ভব, 200 অক্ষরের বেশি নয়। ডিফল্টরূপে এটি ফাঁকা ছেড়ে দিন',
   'plugin.aigenerate.source': 'এআই লেখার উৎস',
   'plugin.aigenerate.source.anqicms': 'Anqi CMS অফিসিয়াল ওয়েবসাইট',
   'plugin.aigenerate.source.openai': 'আপনার নিজের OpenAIKey আনুন',
   'plugin.aigenerate.source.spark': 'স্পার্ক মডেল',
-  'plugin.aigenerate.source.description': 'বিবৃতি: শুধুমাত্র Anqi CMS ব্যবহার করে নির্মিত বিদেশী ওয়েবসাইটগুলি তাদের নিজস্ব OpenAIKey প্রস্তুত করতে বেছে নিতে পারে।',
+  'plugin.aigenerate.source.description':
+    'বিবৃতি: শুধুমাত্র Anqi CMS ব্যবহার করে নির্মিত বিদেশী ওয়েবসাইটগুলি তাদের নিজস্ব OpenAIKey প্রস্তুত করতে বেছে নিতে পারে।',
   'plugin.aigenerate.source.check-openai': 'OpenAI ইন্টারফেস চেক করুন',
-  'plugin.aigenerate.openai.description': 'OpenAI কী সাধারণত sk- দিয়ে শুরু হয়, আপনি একাধিক কী যোগ করতে পারেন এবং প্রোগ্রামটি প্রতিবার ব্যবহারের জন্য এলোমেলোভাবে একটি কী নির্বাচন করবে।',
+  'plugin.aigenerate.openai.description':
+    'OpenAI কী সাধারণত sk- দিয়ে শুরু হয়, আপনি একাধিক কী যোগ করতে পারেন এবং প্রোগ্রামটি প্রতিবার ব্যবহারের জন্য এলোমেলোভাবে একটি কী নির্বাচন করবে।',
   'plugin.aigenerate.openai.valid': 'দক্ষ',
   'plugin.aigenerate.openai.invalid': 'মেয়াদোত্তীর্ণ',
   'plugin.aigenerate.enter-to-add': 'যোগ করতে এন্টার টিপুন',
   'plugin.aigenerate.spark.description': 'স্পার্ক বড় মডেল API অ্যাপ্লিকেশন ঠিকানা',
   'plugin.aigenerate.spark.version': 'স্পার্ক বড় মডেল সংস্করণ',
   'plugin.aigenerate.default-category': 'ডিফল্ট প্রকাশনা নিবন্ধ বিভাগ',
-  'plugin.aigenerate.default-category.description': 'যদি কীওয়ার্ডগুলিকে শ্রেণীবিভাগে শ্রেণীবদ্ধ করা না হয়, সংগৃহীত নিবন্ধগুলিকে ডিফল্টরূপে শ্রেণীবদ্ধ করা হবে, আপনাকে অবশ্যই একটি বিভাগ নির্ধারণ করতে হবে, অন্যথায় সংগৃহীত নিবন্ধগুলি সাধারণত সংগ্রহ করা যাবে না।',
+  'plugin.aigenerate.default-category.description':
+    'যদি কীওয়ার্ডগুলিকে শ্রেণীবিভাগে শ্রেণীবদ্ধ করা না হয়, সংগৃহীত নিবন্ধগুলিকে ডিফল্টরূপে শ্রেণীবদ্ধ করা হবে, আপনাকে অবশ্যই একটি বিভাগ নির্ধারণ করতে হবে, অন্যথায় সংগৃহীত নিবন্ধগুলি সাধারণত সংগ্রহ করা যাবে না।',
   'plugin.aigenerate.save-type': 'নিবন্ধ প্রক্রিয়াকরণ পদ্ধতি',
   'plugin.aigenerate.save-type.draft': 'খসড়া বাক্সে সংরক্ষণ করুন',
   'plugin.aigenerate.save-type.release': 'স্বাভাবিক মুক্তি',
   'plugin.aigenerate.start-time': 'প্রতিদিন শুরু করার সময়',
   'plugin.aigenerate.start-time.placeholder': 'ডিফল্টরূপে 8 টায় শুরু হয়',
-  'plugin.aigenerate.start-time.description': 'অনুগ্রহ করে 0 থেকে 23 পর্যন্ত একটি সংখ্যা পূরণ করুন, 0 মানে কোন সীমা নেই',
+  'plugin.aigenerate.start-time.description':
+    'অনুগ্রহ করে 0 থেকে 23 পর্যন্ত একটি সংখ্যা পূরণ করুন, 0 মানে কোন সীমা নেই',
   'plugin.aigenerate.end-time': 'দিনের শেষ',
   'plugin.aigenerate.end-time.placeholder': 'ডিফল্টরূপে 22:00 এ শেষ হয়',
-  'plugin.aigenerate.end-time.description': 'অনুগ্রহ করে 0 থেকে 23 পর্যন্ত একটি সংখ্যা পূরণ করুন, 0 মানে কোন সীমা নেই',
+  'plugin.aigenerate.end-time.description':
+    'অনুগ্রহ করে 0 থেকে 23 পর্যন্ত একটি সংখ্যা পূরণ করুন, 0 মানে কোন সীমা নেই',
   'plugin.aigenerate.daily-limit': 'দৈনিক রিলিজ',
-  'plugin.aigenerate.daily-limit.description': 'প্রতিদিন প্রকাশিত নিবন্ধের সর্বোচ্চ সংখ্যা, 0 মানে কোন সীমা নেই',
+  'plugin.aigenerate.daily-limit.description':
+    'প্রতিদিন প্রকাশিত নিবন্ধের সর্বোচ্চ সংখ্যা, 0 মানে কোন সীমা নেই',
   'plugin.aigenerate.insert-image': 'প্রবন্ধ চিত্র প্রক্রিয়াকরণ',
   'plugin.aigenerate.insert-image.default': 'ডিফল্ট',
   'plugin.aigenerate.insert-image.diy': 'কাস্টম সন্নিবেশ ছবি',
   'plugin.aigenerate.insert-image.category': 'কাস্টম সন্নিবেশ ছবি',
   'plugin.aigenerate.insert-image.list': 'ঢোকাতে ছবির তালিকা',
   'plugin.aigenerate.replace': 'বিষয়বস্তু প্রতিস্থাপন',
-  'plugin.aigenerate.replace.tips1': 'প্রতিস্থাপন করা প্রয়োজন এমন কীওয়ার্ড জোড়া সম্পাদনা করুন, এবং নথিটি প্রকাশিত হলে প্রতিস্থাপন স্বয়ংক্রিয়ভাবে সঞ্চালিত হবে।',
-  'plugin.aigenerate.replace.tips2': 'প্রতিস্থাপনের নিয়মগুলি নিয়মিত অভিব্যক্তিকে সমর্থন করে এবং আপনি যদি সাধারণ পাঠ্যের মাধ্যমে প্রতিস্থাপনের প্রয়োজনীয়তাগুলি অর্জন করতে না পারেন তবে আপনি প্রতিস্থাপন সম্পূর্ণ করার জন্য নিয়মিত অভিব্যক্তির নিয়মগুলি ব্যবহার করার চেষ্টা করতে পারেন৷',
-  'plugin.aigenerate.replace.tips3': 'রেগুলার এক্সপ্রেশনের নিয়মগুলি হল: { দিয়ে শুরু করুন এবং } দিয়ে শেষ করুন, এবং নিয়ম কোডটি মাঝখানে লিখুন, যেমন {[0-9]+} পরপর সংখ্যার সাথে মেলে।',
+  'plugin.aigenerate.replace.tips1':
+    'প্রতিস্থাপন করা প্রয়োজন এমন কীওয়ার্ড জোড়া সম্পাদনা করুন, এবং নথিটি প্রকাশিত হলে প্রতিস্থাপন স্বয়ংক্রিয়ভাবে সঞ্চালিত হবে।',
+  'plugin.aigenerate.replace.tips2':
+    'প্রতিস্থাপনের নিয়মগুলি নিয়মিত অভিব্যক্তিকে সমর্থন করে এবং আপনি যদি সাধারণ পাঠ্যের মাধ্যমে প্রতিস্থাপনের প্রয়োজনীয়তাগুলি অর্জন করতে না পারেন তবে আপনি প্রতিস্থাপন সম্পূর্ণ করার জন্য নিয়মিত অভিব্যক্তির নিয়মগুলি ব্যবহার করার চেষ্টা করতে পারেন৷',
+  'plugin.aigenerate.replace.tips3':
+    'রেগুলার এক্সপ্রেশনের নিয়মগুলি হল: { দিয়ে শুরু করুন এবং } দিয়ে শেষ করুন, এবং নিয়ম কোডটি মাঝখানে লিখুন, যেমন {[0-9]+} পরপর সংখ্যার সাথে মেলে।',
   'plugin.aigenerate.replace.rules': 'কিছু অন্তর্নির্মিত নিয়মগুলি দ্রুত ব্যবহার করা যেতে পারে:',
   'plugin.aigenerate.replace.rule.email': '{ইমেল ঠিকানা}',
   'plugin.aigenerate.replace.rule.date': '{তারিখ}',
@@ -59,14 +69,17 @@ export default {
   'plugin.aigenerate.replace.rule.qq': '{QQ নম্বর}',
   'plugin.aigenerate.replace.rule.wechat': '{আমরা চ্যাট নম্বর}',
   'plugin.aigenerate.replace.rule.website': '{URL}',
-  'plugin.aigenerate.replace.notice': 'দ্রষ্টব্য: রেগুলার এক্সপ্রেশন নিয়মের অনুপযুক্ত লেখা সহজেই ভুল প্রতিস্থাপন প্রভাবের দিকে নিয়ে যেতে পারে, উদাহরণস্বরূপ, WeChat আইডি নিয়মগুলি ইমেল ঠিকানা এবং URLগুলির অখণ্ডতাকে প্রভাবিত করবে৷ সতর্কতার সাথে ব্যবহার করুন.',
+  'plugin.aigenerate.replace.notice':
+    'দ্রষ্টব্য: রেগুলার এক্সপ্রেশন নিয়মের অনুপযুক্ত লেখা সহজেই ভুল প্রতিস্থাপন প্রভাবের দিকে নিয়ে যেতে পারে, উদাহরণস্বরূপ, WeChat আইডি নিয়মগুলি ইমেল ঠিকানা এবং URLগুলির অখণ্ডতাকে প্রভাবিত করবে৷ সতর্কতার সাথে ব্যবহার করুন.',
   'plugin.aigenerate.replace.to': 'প্রতিস্থাপন',
   'plugin.aigenerate.empty': 'খালি',
   'plugin.aigenerate.start': 'ম্যানুয়ালি এআই লেখা শুরু করুন',
   'plugin.aigenerate.start.confirm': 'আপনি কি এআই লেখা শুরু করার বিষয়ে নিশ্চিত?',
-  'plugin.aigenerate.start.description': 'এটি অবিলম্বে একটি AI লেখার টাস্ক অপারেশন চালানো শুরু করবে',
+  'plugin.aigenerate.start.description':
+    'এটি অবিলম্বে একটি AI লেখার টাস্ক অপারেশন চালানো শুরু করবে',
   'plugin.aigenerate.image.category': 'ছবির শ্রেণীবিভাগ',
-  'plugin.aigenerate.image.category.description': 'নির্দিষ্ট ছবি সম্পদ বিভাগ থেকে ছবি স্বয়ংক্রিয়ভাবে নির্বাচন করা হবে. আপনি যদি ছবির নামের সাথে কীওয়ার্ড মেলানোর চেষ্টা করতে চান, তাহলে এটি ছবির নামের সাথে নিবন্ধের কীওয়ার্ডের মিল করার চেষ্টা করবে, এবং যদি মিল সফল হয়, তাহলে ছবি ব্যবহার করা হবে।',
+  'plugin.aigenerate.image.category.description':
+    'নির্দিষ্ট ছবি সম্পদ বিভাগ থেকে ছবি স্বয়ংক্রিয়ভাবে নির্বাচন করা হবে. আপনি যদি ছবির নামের সাথে কীওয়ার্ড মেলানোর চেষ্টা করতে চান, তাহলে এটি ছবির নামের সাথে নিবন্ধের কীওয়ার্ডের মিল করার চেষ্টা করবে, এবং যদি মিল সফল হয়, তাহলে ছবি ব্যবহার করা হবে।',
   'plugin.aigenerate.image.category.default': 'অশ্রেণীভুক্ত ছবি',
   'plugin.aigenerate.image.category.all': 'সব ছবি',
   'plugin.aigenerate.image.category.match': 'কিওয়ার্ড ম্যাচিং ইমেজ নাম চেষ্টা করুন',
@@ -82,27 +95,35 @@ export default {
   'plugin.aigenerate.finish': 'সম্পন্ন',
   'plugin.aigenerate.error': 'ত্রুটি',
   'plugin.aigenerate.time': 'সময়',
-  'plugin.aigenerate.tips1': 'AI স্বয়ংক্রিয় রাইটিং লিখতে AI রাইটিং ইন্টারফেসকে কল করবে, যার জন্য অর্থপ্রদান প্রয়োজন।',
-  'plugin.aigenerate.tips2': 'AI স্বয়ংক্রিয় লেখা স্বয়ংক্রিয়ভাবে কীওয়ার্ড লাইব্রেরিতে কীওয়ার্ডকে সম্পূর্ণ লেখার জন্য কল করবে এবং প্রতিটি কীওয়ার্ডের জন্য একটি নিবন্ধ লিখবে। অনুগ্রহ করে নিশ্চিত করুন যে কীওয়ার্ড ডাটাবেসে নিবন্ধের সংখ্যা যথেষ্ট।',
-  'plugin.aigenerate.tips3': 'AI স্বয়ংক্রিয় লেখা এবং নিবন্ধ সংগ্রহ ফাংশনগুলি একটি কীওয়ার্ড লাইব্রেরি ভাগ করে যদি নিবন্ধগুলির জন্য কীওয়ার্ডগুলি সংগ্রহ করা হয় তবে সেগুলি আর এআই লেখার জন্য ব্যবহার করা হবে না।',
-  'plugin.aigenerate.tips4': 'তৈরি করা নিবন্ধগুলি স্বয়ংক্রিয়ভাবে বিষয়বস্তু ব্যবস্থাপনায় প্রবেশ করবে।',
+  'plugin.aigenerate.tips1':
+    'AI স্বয়ংক্রিয় রাইটিং লিখতে AI রাইটিং ইন্টারফেসকে কল করবে, যার জন্য অর্থপ্রদান প্রয়োজন।',
+  'plugin.aigenerate.tips2':
+    'AI স্বয়ংক্রিয় লেখা স্বয়ংক্রিয়ভাবে কীওয়ার্ড লাইব্রেরিতে কীওয়ার্ডকে সম্পূর্ণ লেখার জন্য কল করবে এবং প্রতিটি কীওয়ার্ডের জন্য একটি নিবন্ধ লিখবে। অনুগ্রহ করে নিশ্চিত করুন যে কীওয়ার্ড ডাটাবেসে নিবন্ধের সংখ্যা যথেষ্ট।',
+  'plugin.aigenerate.tips3':
+    'AI স্বয়ংক্রিয় লেখা এবং নিবন্ধ সংগ্রহ ফাংশনগুলি একটি কীওয়ার্ড লাইব্রেরি ভাগ করে যদি নিবন্ধগুলির জন্য কীওয়ার্ডগুলি সংগ্রহ করা হয় তবে সেগুলি আর এআই লেখার জন্য ব্যবহার করা হবে না।',
+  'plugin.aigenerate.tips4':
+    'তৈরি করা নিবন্ধগুলি স্বয়ংক্রিয়ভাবে বিষয়বস্তু ব্যবস্থাপনায় প্রবেশ করবে।',
   'plugin.anchor.edit': 'অ্যাঙ্কর টেক্সট সম্পাদনা করুন',
   'plugin.anchor.new': 'অ্যাঙ্কর টেক্সট যোগ করুন',
   'plugin.anchor.title': 'অ্যাঙ্কর টেক্সট নাম',
   'plugin.anchor.title.placeholder': 'অ্যাঙ্কর টেক্সট বা অ্যাঙ্কর টেক্সট লিঙ্ক খুঁজুন',
   'plugin.anchor.link': 'অ্যাঙ্কর টেক্সট লিঙ্ক',
-  'plugin.anchor.link.description': 'আপেক্ষিক লিঙ্ক এবং পরম লিঙ্ক সমর্থন করে, যেমন: /a/123.html বা https://www.anqicms.com/',
+  'plugin.anchor.link.description':
+    'আপেক্ষিক লিঙ্ক এবং পরম লিঙ্ক সমর্থন করে, যেমন: /a/123.html বা https://www.anqicms.com/',
   'plugin.anchor.weight': 'অ্যাঙ্কর টেক্সট ওজন',
-  'plugin.anchor.weight.description': 'অনুগ্রহ করে একটি সংখ্যা লিখুন, 0-9 সংখ্যাটি যত বেশি হবে, প্রতিস্থাপনের ক্ষেত্রে উচ্চতর ওজনের অগ্রাধিকার থাকবে৷',
+  'plugin.anchor.weight.description':
+    'অনুগ্রহ করে একটি সংখ্যা লিখুন, 0-9 সংখ্যাটি যত বেশি হবে, প্রতিস্থাপনের ক্ষেত্রে উচ্চতর ওজনের অগ্রাধিকার থাকবে৷',
   'plugin.anchor.import': 'অ্যাঙ্কর টেক্সট আমদানি করুন',
-  'plugin.anchor.import.description': 'দ্রষ্টব্য: শুধুমাত্র csv বিন্যাসে ফাইল আপলোড এবং আমদানির জন্য সমর্থিত।',
+  'plugin.anchor.import.description':
+    'দ্রষ্টব্য: শুধুমাত্র csv বিন্যাসে ফাইল আপলোড এবং আমদানির জন্য সমর্থিত।',
   'plugin.anchor.step1': 'প্রথম ধাপ',
   'plugin.anchor.step2': 'ধাপ ২',
   'plugin.anchor.step1.download': 'csv টেমপ্লেট ফাইল ডাউনলোড করুন',
   'plugin.anchor.step2.upload': 'csv ফাইল আপলোড করুন',
   'plugin.anchor.setting': 'অ্যাঙ্কর টেক্সট সেটিংস',
   'plugin.anchor.density': 'অ্যাঙ্কর টেক্সট ঘনত্ব',
-  'plugin.anchor.density.description': 'উদাহরণস্বরূপ: প্রতি 100 শব্দে একটি অ্যাঙ্কর টেক্সট প্রতিস্থাপন করতে, 100 পূরণ করুন, ডিফল্ট হল 100',
+  'plugin.anchor.density.description':
+    'উদাহরণস্বরূপ: প্রতি 100 শব্দে একটি অ্যাঙ্কর টেক্সট প্রতিস্থাপন করতে, 100 পূরণ করুন, ডিফল্ট হল 100',
   'plugin.anchor.replace-way': 'প্রতিস্থাপন পদ্ধতি',
   'plugin.anchor.replace-way.auto': 'স্বয়ংক্রিয় প্রতিস্থাপন',
   'plugin.anchor.replace-way.manual': 'ম্যানুয়াল প্রতিস্থাপন',
@@ -110,7 +131,8 @@ export default {
   'plugin.anchor.extract': 'নিষ্কাশন পদ্ধতি',
   'plugin.anchor.extract.auto': 'স্বয়ংক্রিয় নিষ্কাশন',
   'plugin.anchor.extract.manual': 'ম্যানুয়াল নিষ্কাশন',
-  'plugin.anchor.extract.description': 'বিষয়বস্তুর কীওয়ার্ড ট্যাগ থেকে কীভাবে অ্যাঙ্কর টেক্সট কীওয়ার্ড বের করবেন তা বেছে নিন',
+  'plugin.anchor.extract.description':
+    'বিষয়বস্তুর কীওয়ার্ড ট্যাগ থেকে কীভাবে অ্যাঙ্কর টেক্সট কীওয়ার্ড বের করবেন তা বেছে নিন',
   'plugin.anchor.delete.confirm': 'আপনি কি নির্বাচিত অ্যাঙ্কর পাঠ্য মুছতে চান?',
   'plugin.anchor.batch-update': 'ব্যাচে অ্যাঙ্কর টেক্সট আপডেট করুন',
   'plugin.anchor.export': 'অ্যাঙ্কর টেক্সট রপ্তানি করুন',
@@ -119,16 +141,20 @@ export default {
   'plugin.backup.confirm': 'আপনি কি নিশ্চিত যে আপনি একটি ডাটাবেস ব্যাকআপ সঞ্চালন করতে চান?',
   'plugin.backup.backuping': 'ডেটা ব্যাকআপ অপারেশন করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন। .',
   'plugin.backup.restore': 'পুনরুদ্ধার',
-  'plugin.backup.restore.confirm': 'আপনি কি নিশ্চিত যে আপনি বর্তমান ব্যাকআপ ব্যবহার করে পুনরুদ্ধার করতে চান?',
-  'plugin.backup.restore.content': 'পুনরুদ্ধারের পরে, বিদ্যমান ডেটা বর্তমান ব্যাকআপ ডেটা দিয়ে প্রতিস্থাপিত হবে। সতর্কতার সাথে এগিয়ে যান.',
+  'plugin.backup.restore.confirm':
+    'আপনি কি নিশ্চিত যে আপনি বর্তমান ব্যাকআপ ব্যবহার করে পুনরুদ্ধার করতে চান?',
+  'plugin.backup.restore.content':
+    'পুনরুদ্ধারের পরে, বিদ্যমান ডেটা বর্তমান ব্যাকআপ ডেটা দিয়ে প্রতিস্থাপিত হবে। সতর্কতার সাথে এগিয়ে যান.',
   'plugin.backup.restoring': 'ডেটা রিকভারি অপারেশন করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন। .',
   'plugin.backup.delete.confirm': 'আপনি কি নিশ্চিত যে আপনি এই তথ্য মুছে ফেলতে চান?',
   'plugin.backup.download': 'ডাউনলোড',
   'plugin.backup.download.confirm': 'আপনি কি স্থানীয়ভাবে এটি ডাউনলোড করার বিষয়ে নিশ্চিত?',
   'plugin.backup.cleanup.confirm': 'আপনি কি নিশ্চিত যে আপনি ওয়েবসাইট ডেটা সাফ করতে চান?',
   'plugin.backup.cleaning': 'ক্লিনিং অপারেশন চলছে, অনুগ্রহ করে অপেক্ষা করুন। .',
-  'plugin.backup.cleanup.tips1': 'এই অপারেশন সব নিবন্ধ মুছে ফেলা হবে. নিরাপত্তার কারণে, অনুগ্রহ করে অপ্রত্যাশিত পরিস্থিতিতে প্রথমে একটি ব্যাকআপ সঞ্চালন করতে ভুলবেন না।',
-  'plugin.backup.cleanup.tips2': 'আপলোড ফোল্ডারটি ডিফল্টরূপে পরিষ্কার করা হয় না, যদি আপনি এটি পরিষ্কার করতে চান, দয়া করে এটি পরীক্ষা করুন৷',
+  'plugin.backup.cleanup.tips1':
+    'এই অপারেশন সব নিবন্ধ মুছে ফেলা হবে. নিরাপত্তার কারণে, অনুগ্রহ করে অপ্রত্যাশিত পরিস্থিতিতে প্রথমে একটি ব্যাকআপ সঞ্চালন করতে ভুলবেন না।',
+  'plugin.backup.cleanup.tips2':
+    'আপলোড ফোল্ডারটি ডিফল্টরূপে পরিষ্কার করা হয় না, যদি আপনি এটি পরিষ্কার করতে চান, দয়া করে এটি পরীক্ষা করুন৷',
   'plugin.backup.cleanup.upload.false': 'ছবি পরিষ্কার না',
   'plugin.backup.cleanup.upload.true': 'আপলোড করা ছবি পরিষ্কার করুন',
   'plugin.backup.time': 'ব্যাকআপ সময়',
@@ -137,7 +163,8 @@ export default {
   'plugin.backup.new': 'ব্যাকআপ যোগ করুন',
   'plugin.backup.import': 'স্থানীয় ব্যাকআপ আমদানি করুন',
   'plugin.backup.cleanup': 'ওয়েবসাইট ডেটা সাফ করুন',
-  'plugin.backup.tips': 'দ্রষ্টব্য: যদি ব্যাকআপ ফাইলটি খুব বড় হয় এবং আপনাকে ব্যাকআপ ফাইল ডাউনলোড করতে হয়, তাহলে ব্যাকআপ ফাইলটি ডাউনলোড করতে FTP টুল ব্যবহার করুন ওয়েবসাইট রুট ডিরেক্টরির /data/backup/ ডিরেক্টরিতে।',
+  'plugin.backup.tips':
+    'দ্রষ্টব্য: যদি ব্যাকআপ ফাইলটি খুব বড় হয় এবং আপনাকে ব্যাকআপ ফাইল ডাউনলোড করতে হয়, তাহলে ব্যাকআপ ফাইলটি ডাউনলোড করতে FTP টুল ব্যবহার করুন ওয়েবসাইট রুট ডিরেক্টরির /data/backup/ ডিরেক্টরিতে।',
   'plugin.collector.setting': 'অধিগ্রহণ এবং AI ওভাররাইড সেটিংস',
   'plugin.collector.auto-collect': 'স্বয়ংক্রিয়ভাবে সংগ্রহ করতে হবে কিনা',
   'plugin.collector.auto-collect.yes': 'পরিকল্পনা অনুযায়ী স্বয়ংক্রিয় সংগ্রহ',
@@ -146,49 +173,65 @@ export default {
   'plugin.collector.mode': 'অধিগ্রহণ মোড',
   'plugin.collector.mode.article': 'প্রবন্ধ সংগ্রহ',
   'plugin.collector.mode.ask': 'প্রশ্নোত্তর সংমিশ্রণ',
-  'plugin.collector.mode.description': 'নিবন্ধ সংগ্রহের মোড মূল পাঠ্য অনুসারে সমগ্র নিবন্ধটি সংগ্রহ করবে;',
+  'plugin.collector.mode.description':
+    'নিবন্ধ সংগ্রহের মোড মূল পাঠ্য অনুসারে সমগ্র নিবন্ধটি সংগ্রহ করবে;',
   'plugin.collector.source': 'কাস্টম উত্স',
-  'plugin.collector.source.description': 'নিবন্ধ সংগ্রহ উপলব্ধ, অনুগ্রহ করে মনে রাখবেন যে কাস্টম উত্স বিন্যাস একটি অনুসন্ধান তালিকা হতে হবে, এবং অনুসন্ধান কীওয়ার্ডগুলি %s দ্বারা প্রতিনিধিত্ব করা হয়, উদাহরণস্বরূপ, অনুসন্ধান লিঙ্কটি হল: https://cn.bing.com/search?q=৷ Anqi CMS, তারপর ""Anqi CMS" কে "%s" দিয়ে প্রতিস্থাপিত করা হয়েছে এবং তারপর: https://cn.bing.com/search?q=%s',
-  'plugin.collector.category.description': 'যদি কীওয়ার্ডের জন্য কোনো বিভাগ সেট করা না থাকে, সংগৃহীত নিবন্ধগুলি ডিফল্টভাবে এই বিভাগের অধীনে শ্রেণীবদ্ধ করা হবে।',
-  'plugin.collector.category.notice': 'একটি বিভাগ সেট করতে হবে, অন্যথায় স্বাভাবিক সংগ্রহ সম্ভব হবে না',
+  'plugin.collector.source.description':
+    'নিবন্ধ সংগ্রহ উপলব্ধ, অনুগ্রহ করে মনে রাখবেন যে কাস্টম উত্স বিন্যাস একটি অনুসন্ধান তালিকা হতে হবে, এবং অনুসন্ধান কীওয়ার্ডগুলি %s দ্বারা প্রতিনিধিত্ব করা হয়, উদাহরণস্বরূপ, অনুসন্ধান লিঙ্কটি হল: https://cn.bing.com/search?q=৷ Anqi CMS, তারপর ""Anqi CMS" কে "%s" দিয়ে প্রতিস্থাপিত করা হয়েছে এবং তারপর: https://cn.bing.com/search?q=%s',
+  'plugin.collector.category.description':
+    'যদি কীওয়ার্ডের জন্য কোনো বিভাগ সেট করা না থাকে, সংগৃহীত নিবন্ধগুলি ডিফল্টভাবে এই বিভাগের অধীনে শ্রেণীবদ্ধ করা হবে।',
+  'plugin.collector.category.notice':
+    'একটি বিভাগ সেট করতে হবে, অন্যথায় স্বাভাবিক সংগ্রহ সম্ভব হবে না',
   'plugin.collector.min-title': 'শিরোনামের জন্য ন্যূনতম শব্দ সংখ্যা',
   'plugin.collector.min-title.placeholder': 'ডিফল্ট 10টি অক্ষর',
-  'plugin.collector.min-title.description': 'নিবন্ধ সংগ্রহ করার সময়, শিরোনামে শব্দের সংখ্যা নির্দিষ্ট শব্দ সংখ্যার কম হলে তা সংগ্রহ করা হবে না।',
+  'plugin.collector.min-title.description':
+    'নিবন্ধ সংগ্রহ করার সময়, শিরোনামে শব্দের সংখ্যা নির্দিষ্ট শব্দ সংখ্যার কম হলে তা সংগ্রহ করা হবে না।',
   'plugin.collector.min-content': 'বিষয়বস্তুর জন্য ন্যূনতম শব্দ সংখ্যা',
   'plugin.collector.min-content.placeholder': 'ডিফল্ট 400 শব্দ',
-  'plugin.collector.min-content.description': 'নিবন্ধ সংগ্রহ করার সময়, নিবন্ধের বিষয়বস্তুতে শব্দের সংখ্যা নির্দিষ্ট শব্দ সংখ্যার কম হলে তা সংগ্রহ করা হবে না।',
+  'plugin.collector.min-content.description':
+    'নিবন্ধ সংগ্রহ করার সময়, নিবন্ধের বিষয়বস্তুতে শব্দের সংখ্যা নির্দিষ্ট শব্দ সংখ্যার কম হলে তা সংগ্রহ করা হবে না।',
   'plugin.collector.pseudo': 'AI পুনরায় লেখা কিনা',
   'plugin.collector.pseudo.no': 'না',
   'plugin.collector.pseudo.yes': 'এআই পুনর্লিখন সম্পাদন করুন',
-  'plugin.collector.pseudo.description': 'AI পুনর্লিখন শুধুমাত্র নিবন্ধ সংগ্রহ এবং প্রশ্ন ও উত্তর সমন্বয় সমর্থন করে। একটি ফি প্রয়োজন.',
+  'plugin.collector.pseudo.description':
+    'AI পুনর্লিখন শুধুমাত্র নিবন্ধ সংগ্রহ এবং প্রশ্ন ও উত্তর সমন্বয় সমর্থন করে। একটি ফি প্রয়োজন.',
   'plugin.collector.translate': 'অনুবাদ করতে হবে কিনা',
   'plugin.collector.translate.no': 'না',
   'plugin.collector.translate.yes': 'অনুবাদ করা',
-  'plugin.collector.translate.description': 'অনুবাদের জন্য একটি ফি আছে। দ্রষ্টব্য: এআই পুনর্লিখন এবং অনুবাদ একই সময়ে সক্ষম করা যাবে না, অন্যথায় ফলাফল ভুল হবে।',
+  'plugin.collector.translate.description':
+    'অনুবাদের জন্য একটি ফি আছে। দ্রষ্টব্য: এআই পুনর্লিখন এবং অনুবাদ একই সময়ে সক্ষম করা যাবে না, অন্যথায় ফলাফল ভুল হবে।',
   'plugin.collector.to-language': 'লক্ষ্য ভাষা অনুবাদ করুন',
   'plugin.collector.to-language.description': 'স্বয়ংক্রিয় অনুবাদ নির্বাচন করার পরে বৈধ',
   'plugin.collector.daily-limit': 'দৈনিক সংগ্রহের পরিমাণ',
-  'plugin.collector.daily-limit.description': 'প্রতিদিন সংগৃহীত নিবন্ধের সর্বাধিক সংখ্যা, 0 মানে কোন সীমা নেই',
+  'plugin.collector.daily-limit.description':
+    'প্রতিদিন সংগৃহীত নিবন্ধের সর্বাধিক সংখ্যা, 0 মানে কোন সীমা নেই',
   'plugin.collector.insert-image': 'সংগ্রহ এবং ছবি প্রক্রিয়াকরণ',
   'plugin.collector.insert-image.remove': 'ছবি সরান',
   'plugin.collector.insert-image.contain': 'আসল ছবি রাখুন',
   'plugin.collector.insert-image.insert': 'আসল ছবি রাখুন',
   'plugin.collector.title-exclude': 'শিরোনাম বর্জন শব্দ',
-  'plugin.collector.title-exclude.tips': 'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি শিরোনামে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
+  'plugin.collector.title-exclude.tips':
+    'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি শিরোনামে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
   'plugin.collector.title-prefix': 'শিরোনামের শুরুতে শব্দগুলি বাদ দিন',
-  'plugin.collector.title-prefix.tips': 'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি শিরোনামের শুরুতে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
+  'plugin.collector.title-prefix.tips':
+    'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি শিরোনামের শুরুতে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
   'plugin.collector.title-suffix': 'শিরোনামের শেষে শব্দগুলি বাদ দিন',
-  'plugin.collector.title-suffix.tips': 'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি শিরোনামের শেষে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
+  'plugin.collector.title-suffix.tips':
+    'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি শিরোনামের শেষে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
   'plugin.collector.content-exclude-line': 'বিষয়বস্তু উপেক্ষা লাইন',
-  'plugin.collector.content-exclude-line.tips': 'নিবন্ধগুলি সংগ্রহ করার সময়, এই শব্দগুলি যে লাইনগুলিতে প্রদর্শিত হবে তা মুছে ফেলা হবে।',
+  'plugin.collector.content-exclude-line.tips':
+    'নিবন্ধগুলি সংগ্রহ করার সময়, এই শব্দগুলি যে লাইনগুলিতে প্রদর্শিত হবে তা মুছে ফেলা হবে।',
   'plugin.collector.content-exclude': 'বিষয়বস্তু বর্জন',
-  'plugin.collector.content-exclude.tips': 'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই শব্দগুলি সামগ্রীতে উপস্থিত হয় তবে সম্পূর্ণ নিবন্ধটি বাতিল করা হবে।',
+  'plugin.collector.content-exclude.tips':
+    'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই শব্দগুলি সামগ্রীতে উপস্থিত হয় তবে সম্পূর্ণ নিবন্ধটি বাতিল করা হবে।',
   'plugin.collector.link-exclude': 'লিঙ্ক উপেক্ষা করা হয়েছে',
-  'plugin.collector.link-exclude.tips': 'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি লিঙ্কে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
+  'plugin.collector.link-exclude.tips':
+    'নিবন্ধগুলি সংগ্রহ করার সময়, যদি এই কীওয়ার্ডগুলি লিঙ্কে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
   'plugin.collector.start': 'ম্যানুয়ালি সংগ্রহ শুরু করুন',
   'plugin.collector.start.confirm': 'আপনি কি নিশ্চিত আপনি সংগ্রহ শুরু করতে চান?',
   'plugin.collector.start.content': 'এটি অবিলম্বে একটি সংগ্রহের টাস্ক অপারেশন চালানো শুরু করবে',
-  'plugin.collector.tips': 'নিবন্ধগুলি সংগ্রহ করতে, আপনাকে প্রথমে মূল কীওয়ার্ডগুলি সেট করতে হবে দয়া করে "কীওয়ার্ড ডেটাবেস ম্যানেজমেন্ট" ফাংশনটি পরীক্ষা করুন এবং সংশ্লিষ্ট কীওয়ার্ডগুলি যোগ করুন৷',
+  'plugin.collector.tips':
+    'নিবন্ধগুলি সংগ্রহ করতে, আপনাকে প্রথমে মূল কীওয়ার্ডগুলি সেট করতে হবে দয়া করে "কীওয়ার্ড ডেটাবেস ম্যানেজমেন্ট" ফাংশনটি পরীক্ষা করুন এবং সংশ্লিষ্ট কীওয়ার্ডগুলি যোগ করুন৷',
   'plugin.collector.replace': 'ব্যাচে কীওয়ার্ড প্রতিস্থাপন করুন',
   'plugin.comment.new': 'মন্তব্য যোগ করুন',
   'plugin.comment.edit': 'সম্পাদকীয় মন্তব্য',
@@ -205,7 +248,8 @@ export default {
   'plugin.comment.delete.confirm': 'আপনি কি নির্বাচিত মন্তব্য মুছে ফেলার বিষয়ে নিশ্চিত?',
   'plugin.fileupload.delete.confirm': 'আপনি কি নির্বাচিত ফাইল মুছে ফেলার বিষয়ে নিশ্চিত?',
   'plugin.fileupload.upload.name': 'নতুন ফাইল আপলোড করুন',
-  'plugin.fileupload.upload.support': 'দ্রষ্টব্য: শুধুমাত্র txt/htm/html/xml ফর্ম্যাটে যাচাইকরণ ফাইল আপলোড করার অনুমতি দেওয়া হয়।',
+  'plugin.fileupload.upload.support':
+    'দ্রষ্টব্য: শুধুমাত্র txt/htm/html/xml ফর্ম্যাটে যাচাইকরণ ফাইল আপলোড করার অনুমতি দেওয়া হয়।',
   'plugin.fileupload.upload.btn': 'ফাইল আপলোড',
   'plugin.fileupload.view': 'চেক করুন',
   'plugin.fileupload.create-time': 'আপলোড সময়',
@@ -216,8 +260,10 @@ export default {
   'plugin.finance.after-amount': 'পরিবর্তনের পরে পরিমাণ',
   'plugin.finance.status.unwithdraw': 'প্রত্যাহার করা হয়নি',
   'plugin.finance.status.withdraw': 'প্রত্যাহার করা হয়েছে',
-  'plugin.finance.withdraw.confirm': 'আপনি কি ম্যানুয়ালি প্রত্যাহার প্রক্রিয়া করার বিষয়ে নিশ্চিত?',
-  'plugin.finance.withdraw.confirm.content': 'এটি ব্যবহারকারীর পক্ষ থেকে প্রত্যাহারের জন্য আবেদন করার সমতুল্য।',
+  'plugin.finance.withdraw.confirm':
+    'আপনি কি ম্যানুয়ালি প্রত্যাহার প্রক্রিয়া করার বিষয়ে নিশ্চিত?',
+  'plugin.finance.withdraw.confirm.content':
+    'এটি ব্যবহারকারীর পক্ষ থেকে প্রত্যাহারের জন্য আবেদন করার সমতুল্য।',
   'plugin.finance.order-id': 'অর্ডার আইডি',
   'plugin.finance.direction': 'অর্থায়নের দিক',
   'plugin.finance.direction.in': 'অর্থ উপার্জন',
@@ -232,8 +278,10 @@ export default {
   'plugin.finance.type.spread': 'পদোন্নতি',
   'plugin.finance.type.cashback': 'নগদ ফেরত',
   'plugin.finance.type.commission': 'কমিশন',
-  'plugin.finance.withdraw.finish.confirm': 'আপনি কি নিশ্চিত আপনি ম্যানুয়ালি প্রত্যাহার সম্পূর্ণ করতে চান?',
-  'plugin.finance.withdraw.finish.content': 'আপনি যদি ব্যবহারকারীকে অফলাইনে অর্থ প্রদান করে থাকেন তবে আপনি এটি সম্পূর্ণ করতে এখানে ক্লিক করতে পারেন।',
+  'plugin.finance.withdraw.finish.confirm':
+    'আপনি কি নিশ্চিত আপনি ম্যানুয়ালি প্রত্যাহার সম্পূর্ণ করতে চান?',
+  'plugin.finance.withdraw.finish.content':
+    'আপনি যদি ব্যবহারকারীকে অফলাইনে অর্থ প্রদান করে থাকেন তবে আপনি এটি সম্পূর্ণ করতে এখানে ক্লিক করতে পারেন।',
   'plugin.finance.withdraw.amount': 'তোলা টাকার পরিমান',
   'plugin.finance.withdraw.status.waiting': 'প্রক্রিয়াকরণের জন্য অপেক্ষা করছে',
   'plugin.finance.withdraw.status.agree': 'অনুমোদিত',
@@ -244,7 +292,8 @@ export default {
   'plugin.finance.withdraw.finish': 'সম্পূর্ণ প্রত্যাহার',
   'plugin.finance.withdraw.name': 'প্রত্যাহার ব্যবস্থাপনা',
   'plugin.finance.withdraw.apply': 'প্রত্যাহারের আবেদন',
-  'plugin.fulltext.tips': 'পূর্ণ-পাঠ্য অনুসন্ধান চালু করার পরে, আপনি নথির সামগ্রী অনুসন্ধান করতে পারেন। যাইহোক, পূর্ণ-পাঠ্য অনুসন্ধান অনেক সার্ভার মেমরি দখল করবে, যদি আপনার সার্ভারে ছোট মেমরি থাকে, তাহলে পূর্ণ-পাঠ্য অনুসন্ধান সক্ষম করার পরামর্শ দেওয়া হয় না।',
+  'plugin.fulltext.tips':
+    'পূর্ণ-পাঠ্য অনুসন্ধান চালু করার পরে, আপনি নথির সামগ্রী অনুসন্ধান করতে পারেন। যাইহোক, পূর্ণ-পাঠ্য অনুসন্ধান অনেক সার্ভার মেমরি দখল করবে, যদি আপনার সার্ভারে ছোট মেমরি থাকে, তাহলে পূর্ণ-পাঠ্য অনুসন্ধান সক্ষম করার পরামর্শ দেওয়া হয় না।',
   'plugin.fulltext.open.name': 'সম্পূর্ণ টেক্সট অনুসন্ধান সক্রিয় করা হবে কিনা',
   'plugin.fulltext.open.false': 'বন্ধ',
   'plugin.fulltext.open.true': 'চালু করা',
@@ -258,22 +307,29 @@ export default {
   'plugin.group.description': 'পরিচয় করিয়ে দেওয়া',
   'plugin.group.level': 'গ্রুপ লেভেল',
   'plugin.group.level.suffix': 'ক্লাস',
-  'plugin.group.level.description': 'উদাহরণস্বরূপ, সাধারণ সদস্যরা লেভেল 0, ইন্টারমিডিয়েট মেম্বাররা লেভেল 1, সিনিয়র মেম্বাররা লেভেল 2, কোর মেম্বাররা লেভেল 3 ইত্যাদি। সংখ্যাগুলো পূরণ করুন।',
+  'plugin.group.level.description':
+    'উদাহরণস্বরূপ, সাধারণ সদস্যরা লেভেল 0, ইন্টারমিডিয়েট মেম্বাররা লেভেল 1, সিনিয়র মেম্বাররা লেভেল 2, কোর মেম্বাররা লেভেল 3 ইত্যাদি। সংখ্যাগুলো পূরণ করুন।',
   'plugin.group.price': 'ব্যবহারকারী গ্রুপ মূল্য',
   'plugin.group.price.suffix': 'বিন্দু',
-  'plugin.group.price.description': 'এই ব্যবহারকারী গোষ্ঠীর ভিআইপি কেনার জন্য যে মূল্য দিতে হবে তা মনে রাখবেন, উদাহরণস্বরূপ, 1 ইউয়ান, এখানে 100 পূরণ করুন৷',
+  'plugin.group.price.description':
+    'এই ব্যবহারকারী গোষ্ঠীর ভিআইপি কেনার জন্য যে মূল্য দিতে হবে তা মনে রাখবেন, উদাহরণস্বরূপ, 1 ইউয়ান, এখানে 100 পূরণ করুন৷',
   'plugin.group.expire_day': 'ব্যবহারকারী গ্রুপ বৈধতা সময়কাল',
   'plugin.group.expire_day.suffix': 'আকাশ',
-  'plugin.group.expire_day.description': 'VIP কেনার পর, 1 বছরের জন্য 365 পূরণ করার জন্য এটি বৈধ হবে, এটি প্রথম ব্যবহারকারী গ্রুপে ফিরে যাবে।',
+  'plugin.group.expire_day.description':
+    'VIP কেনার পর, 1 বছরের জন্য 365 পূরণ করার জন্য এটি বৈধ হবে, এটি প্রথম ব্যবহারকারী গ্রুপে ফিরে যাবে।',
   'plugin.group.share_reward': 'ব্যবহারকারী গ্রুপ বৈধতা সময়কাল',
-  'plugin.group.share_reward.description': 'এটি 5% -20 সেট করার সুপারিশ করা হয়, এবং দশমিক বিন্দু সেট করা যাবে না। কমিশন অনুপাত অগ্রাধিকার: কমিশন অনুপাত পণ্য দ্বারা সেট > ব্যবহারকারী গ্রুপ কমিশন অনুপাত > ডিফল্ট কমিশন অনুপাত',
+  'plugin.group.share_reward.description':
+    'এটি 5% -20 সেট করার সুপারিশ করা হয়, এবং দশমিক বিন্দু সেট করা যাবে না। কমিশন অনুপাত অগ্রাধিকার: কমিশন অনুপাত পণ্য দ্বারা সেট > ব্যবহারকারী গ্রুপ কমিশন অনুপাত > ডিফল্ট কমিশন অনুপাত',
   'plugin.group.parent_reward': 'আমন্ত্রণ পুরস্কারের অনুপাত',
-  'plugin.group.parent_reward.description': 'এটি 1%-5% সেট করার সুপারিশ করা হয় এবং দশমিক বিন্দু সেট করা যাবে না। উচ্চতর কমিশন অনুপাত। ডিস্ট্রিবিউটর a বিকে ডিস্ট্রিবিউটর হওয়ার জন্য আমন্ত্রণ জানায় এবং b যখন একটি অর্ডারকে সফলভাবে প্রচার করে, তখন b ডিস্ট্রিবিউশন কমিশন পেতে পারে এবং a শুধুমাত্র আমন্ত্রণ পুরষ্কার পায়।',
+  'plugin.group.parent_reward.description':
+    'এটি 1%-5% সেট করার সুপারিশ করা হয় এবং দশমিক বিন্দু সেট করা যাবে না। উচ্চতর কমিশন অনুপাত। ডিস্ট্রিবিউটর a বিকে ডিস্ট্রিবিউটর হওয়ার জন্য আমন্ত্রণ জানায় এবং b যখন একটি অর্ডারকে সফলভাবে প্রচার করে, তখন b ডিস্ট্রিবিউশন কমিশন পেতে পারে এবং a শুধুমাত্র আমন্ত্রণ পুরষ্কার পায়।',
   'plugin.group.discount': 'ব্যবহারকারীর ছাড়',
-  'plugin.group.discount.description': '90%-100% সেট করার পরামর্শ দেওয়া হয় ব্যবহারকারীরা ডিস্ট্রিবিউটরের শেয়ার করা লিঙ্কের মাধ্যমে পৃষ্ঠায় আসার পরে, তারা অর্ডার দেওয়ার সময় ছাড়ের মূল্য উপভোগ করতে পারে।',
+  'plugin.group.discount.description':
+    '90%-100% সেট করার পরামর্শ দেওয়া হয় ব্যবহারকারীরা ডিস্ট্রিবিউটরের শেয়ার করা লিঙ্কের মাধ্যমে পৃষ্ঠায় আসার পরে, তারা অর্ডার দেওয়ার সময় ছাড়ের মূল্য উপভোগ করতে পারে।',
   'plugin.group.permission': 'বিতরণ অনুমতি সেটিংস',
   'plugin.group.delete.confirm': 'আপনি কি নিশ্চিত যে আপনি এই তথ্য মুছে ফেলতে চান?',
-  'plugin.guestbook.reply.required': 'অনুগ্রহ করে প্রথমে ইমেল অনুস্মারক সেট আপ করুন এবং ফাংশনে "ইমেল অনুস্মারক" অনুসন্ধান করুন৷',
+  'plugin.guestbook.reply.required':
+    'অনুগ্রহ করে প্রথমে ইমেল অনুস্মারক সেট আপ করুন এবং ফাংশনে "ইমেল অনুস্মারক" অনুসন্ধান করুন৷',
   'plugin.guestbook.replysubmit.required': 'ইমেল শিরোনাম এবং ইমেল বিষয়বস্তু পূরণ করুন',
   'plugin.guestbook.replysubmit.success': 'মেল সফলভাবে পাঠানো হয়েছে',
   'plugin.guestbook.view': 'বার্তা দেখুন',
@@ -287,11 +343,13 @@ export default {
   'plugin.guestbook.reply.subject': 'মেইল শিরোনাম',
   'plugin.guestbook.reply.message': 'ইমেলের বিষয়বস্তু',
   'plugin.guestbook.field.delete.confirm': 'আপনি কি এই ক্ষেত্রটি মুছতে চান?',
-  'plugin.guestbook.field.delete.confirm.content': 'আপনি সংরক্ষণ করার আগে পৃষ্ঠাটি রিফ্রেশ করে পুনরুদ্ধার করতে পারেন।',
+  'plugin.guestbook.field.delete.confirm.content':
+    'আপনি সংরক্ষণ করার আগে পৃষ্ঠাটি রিফ্রেশ করে পুনরুদ্ধার করতে পারেন।',
   'plugin.guestbook.setting': 'ওয়েবসাইট বার্তা সেটিংস',
   'plugin.guestbook.return-message': 'সফল বার্তার জন্য টিপস:',
   'plugin.guestbook.return-message.placeholder': 'ডিফল্ট: আপনার বার্তার জন্য আপনাকে ধন্যবাদ!',
-  'plugin.guestbook.return-message.description': 'ব্যবহারকারীরা একটি বার্তা জমা দেওয়ার পরে যে প্রম্পটটি দেখতে পান। উদাহরণস্বরূপ: আপনার বার্তার জন্য আপনাকে ধন্যবাদ!',
+  'plugin.guestbook.return-message.description':
+    'ব্যবহারকারীরা একটি বার্তা জমা দেওয়ার পরে যে প্রম্পটটি দেখতে পান। উদাহরণস্বরূপ: আপনার বার্তার জন্য আপনাকে ধন্যবাদ!',
   'plugin.guestbook.delete.confirm': 'আপনি কি নির্বাচিত বার্তাটি মুছতে চান?',
   'plugin.guestbook.export': 'বার্তা রপ্তানি করুন',
   'plugin.htmlcache.remote-file': 'দূরবর্তী ফাইল',
@@ -301,22 +359,34 @@ export default {
   'plugin.htmlcache.push-status.failure': 'ব্যর্থ',
   'plugin.htmlcache.re-push': 'আবার পাঠান',
   'plugin.htmlcache.push-log': 'পুশ রেকর্ড',
-  'plugin.htmlcache.generate.all.confirm': 'আপনি কি নিশ্চিত যে আপনি পুরো সাইটের জন্য একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
-  'plugin.htmlcache.generate.home.confirm': 'আপনি কি নিশ্চিত যে আপনি হোমপেজের একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
-  'plugin.htmlcache.generate.category.confirm': 'আপনি কি নিশ্চিত যে আপনি কলামের একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
-  'plugin.htmlcache.generate.archive.confirm': 'আপনি কি দস্তাবেজের একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
-  'plugin.htmlcache.generate.tag.confirm': 'আপনি কি ট্যাগগুলির একটি স্ট্যাটিক ক্যাশে তৈরি করার বিষয়ে নিশ্চিত?',
-  'plugin.htmlcache.clean.confirm': 'আপনি কি নিশ্চিত যে আপনি সম্পূর্ণ সাইটের স্ট্যাটিক ক্যাশে সাফ করতে চান? যদি অনেক ক্যাশ করা ফাইল থাকে তবে এটি অনেক সময় নিতে পারে।',
-  'plugin.htmlcache.clean.confirm.content': 'এই অপারেশনটি শুধুমাত্র সার্ভারের স্থানীয় ক্যাশে ফাইলগুলিকে পরিষ্কার করে এবং স্ট্যাটিক সার্ভার ফাইলগুলি পরিষ্কার করতে পারে না।',
+  'plugin.htmlcache.generate.all.confirm':
+    'আপনি কি নিশ্চিত যে আপনি পুরো সাইটের জন্য একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
+  'plugin.htmlcache.generate.home.confirm':
+    'আপনি কি নিশ্চিত যে আপনি হোমপেজের একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
+  'plugin.htmlcache.generate.category.confirm':
+    'আপনি কি নিশ্চিত যে আপনি কলামের একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
+  'plugin.htmlcache.generate.archive.confirm':
+    'আপনি কি দস্তাবেজের একটি স্ট্যাটিক ক্যাশে তৈরি করতে চান?',
+  'plugin.htmlcache.generate.tag.confirm':
+    'আপনি কি ট্যাগগুলির একটি স্ট্যাটিক ক্যাশে তৈরি করার বিষয়ে নিশ্চিত?',
+  'plugin.htmlcache.clean.confirm':
+    'আপনি কি নিশ্চিত যে আপনি সম্পূর্ণ সাইটের স্ট্যাটিক ক্যাশে সাফ করতে চান? যদি অনেক ক্যাশ করা ফাইল থাকে তবে এটি অনেক সময় নিতে পারে।',
+  'plugin.htmlcache.clean.confirm.content':
+    'এই অপারেশনটি শুধুমাত্র সার্ভারের স্থানীয় ক্যাশে ফাইলগুলিকে পরিষ্কার করে এবং স্ট্যাটিক সার্ভার ফাইলগুলি পরিষ্কার করতে পারে না।',
   'plugin.htmlcache.clean.success': 'ক্লিনআপ সফল',
-  'plugin.htmlcache.push.all.confirm': 'আপনি কি নিশ্চিত যে আপনি স্ট্যাটিক সার্ভারে সমস্ত স্ট্যাটিক ফাইল পুশ করতে চান?',
-  'plugin.htmlcache.push.all.confirm.content': 'একটি স্থির সার্ভার কনফিগার করা হলে এটি পাওয়া যায় যদি কোনো বৈশ্বিক পরিবর্তন না করা হয়।',
-  'plugin.htmlcache.push.addon.confirm': 'আপনি কি স্ট্যাটিক সার্ভারে স্ট্যাটিক ফাইলগুলিকে ক্রমবর্ধমানভাবে পুশ করার বিষয়ে নিশ্চিত?',
-  'plugin.htmlcache.push.addon.confirm.content': 'একটি স্ট্যাটিক সার্ভার কনফিগার করা হলেই উপলব্ধ, ইনক্রিমেন্টাল পুশ শুধুমাত্র আপডেট করা স্ট্যাটিক ক্যাশে ফাইলগুলিকে পুশ করবে৷',
+  'plugin.htmlcache.push.all.confirm':
+    'আপনি কি নিশ্চিত যে আপনি স্ট্যাটিক সার্ভারে সমস্ত স্ট্যাটিক ফাইল পুশ করতে চান?',
+  'plugin.htmlcache.push.all.confirm.content':
+    'একটি স্থির সার্ভার কনফিগার করা হলে এটি পাওয়া যায় যদি কোনো বৈশ্বিক পরিবর্তন না করা হয়।',
+  'plugin.htmlcache.push.addon.confirm':
+    'আপনি কি স্ট্যাটিক সার্ভারে স্ট্যাটিক ফাইলগুলিকে ক্রমবর্ধমানভাবে পুশ করার বিষয়ে নিশ্চিত?',
+  'plugin.htmlcache.push.addon.confirm.content':
+    'একটি স্ট্যাটিক সার্ভার কনফিগার করা হলেই উপলব্ধ, ইনক্রিমেন্টাল পুশ শুধুমাত্র আপডেট করা স্ট্যাটিক ক্যাশে ফাইলগুলিকে পুশ করবে৷',
   'plugin.htmlcache.isopen': 'স্ট্যাটিক পৃষ্ঠা ক্যাশিং সক্রিয় করা হবে কিনা',
   'plugin.htmlcache.index-time': 'হোম পেজ ক্যাশে সময়',
   'plugin.htmlcache.index-time.suffix': 'দ্বিতীয়',
-  'plugin.htmlcache.index-time.description': 'আপনি যদি 0 সেকেন্ড পূরণ করেন তবে এটি ক্যাশে করা হবে না।',
+  'plugin.htmlcache.index-time.description':
+    'আপনি যদি 0 সেকেন্ড পূরণ করেন তবে এটি ক্যাশে করা হবে না।',
   'plugin.htmlcache.category-time': 'তালিকা ক্যাশে সময়',
   'plugin.htmlcache.archive-time': 'বিস্তারিত ক্যাশে সময়',
   'plugin.htmlcache.storage-type': 'স্ট্যাটিক ওয়েবসাইট সার্ভার',
@@ -333,7 +403,8 @@ export default {
   'plugin.htmlcache.aliyun.endpoint.placeholder': 'যেমন: http://oss-cn-hangzhou.aliyuncs.com',
   'plugin.htmlcache.aliyun.bucket-name': 'আলিবাবা ক্লাউড বাকেটের নাম',
   'plugin.htmlcache.tencent.bucket-url': 'টেনসেন্ট ক্লাউড স্টোরেজ বালতি ঠিকানা',
-  'plugin.htmlcache.tencent.bucket-url.placeholder': 'যেমন: https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
+  'plugin.htmlcache.tencent.bucket-url.placeholder':
+    'যেমন: https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
   'plugin.htmlcache.qiniu.bucket-name': 'কিনিউ ক্লাউড স্টোরেজ বাকেটের নাম',
   'plugin.htmlcache.qiniu.bucket-name.placeholder': 'যেমন: anqicms',
   'plugin.htmlcache.qiniu.region': 'কিনিউ ক্লাউড স্টোরেজ এলাকা',
@@ -347,7 +418,8 @@ export default {
   'plugin.htmlcache.upyun.operator': 'ক্লাউড অপারেটরের আরেকটি শট',
   'plugin.htmlcache.upyun.password': 'আবার ক্লাউড অপারেটরের পাসওয়ার্ড নিন',
   'plugin.htmlcache.upyun.bucket': 'এছাড়াও ক্লাউড স্টোরেজ পরিষেবার নামটি দেখুন',
-  'plugin.htmlcache.ftp.tips': 'দ্রষ্টব্য: পরীক্ষার পর, প্যাগোডার সাথে আসা PureFtp সাধারণত ব্যবহার করা যাবে না।',
+  'plugin.htmlcache.ftp.tips':
+    'দ্রষ্টব্য: পরীক্ষার পর, প্যাগোডার সাথে আসা PureFtp সাধারণত ব্যবহার করা যাবে না।',
   'plugin.htmlcache.ftp.host': 'FTP আইপি ঠিকানা',
   'plugin.htmlcache.ftp.port': 'FTP পোর্ট',
   'plugin.htmlcache.ftp.username': 'FTP ব্যবহারকারীর নাম',
@@ -358,7 +430,8 @@ export default {
   'plugin.htmlcache.ssh.username': 'SSH ব্যবহারকারীর নাম',
   'plugin.htmlcache.ssh.password': 'SSH পাসওয়ার্ড',
   'plugin.htmlcache.ssh.or-key': 'বা SSH কী',
-  'plugin.htmlcache.ssh.or-key.description': 'যদি আপনার SSH সার্ভার লগ ইন করার জন্য একটি কী ব্যবহার করে, অনুগ্রহ করে এটি আপলোড করুন',
+  'plugin.htmlcache.ssh.or-key.description':
+    'যদি আপনার SSH সার্ভার লগ ইন করার জন্য একটি কী ব্যবহার করে, অনুগ্রহ করে এটি আপলোড করুন',
   'plugin.htmlcache.ssh.or-key.upload': 'ফাইল আপলোড',
   'plugin.htmlcache.ssh.webroot': 'SSH আপলোড রুট ডিরেক্টরি',
   'plugin.htmlcache.generate.name': 'বিল্ড অপারেশন',
@@ -387,15 +460,21 @@ export default {
   'plugin.htmlcache.build.error-count': 'ত্রুটির সংখ্যা:',
   'plugin.htmlcache.build.error-msg': 'ভুল বার্তা:',
   'plugin.htmlcache.push.process': 'অগ্রগতি ধাক্কা',
-  'plugin.htmlcache.description.1': 'স্ট্যাটিক পৃষ্ঠা ক্যাশিং চালু করার পরে, ওয়েবসাইট খোলার গতি বাড়ানোর জন্য হোম পেজ, তালিকা পৃষ্ঠা এবং বিস্তারিত পৃষ্ঠা ক্যাশে করা হবে, তবে ক্যাশে ফাইলগুলি সংরক্ষণ করার জন্য আরও সার্ভার স্থান প্রয়োজন হবে।',
-  'plugin.htmlcache.description.2': 'আপনি যদি একটি স্ট্যাটিক ওয়েবসাইট সক্ষম করতে চান, তাহলে টেমপ্লেটের ধরনটি অভিযোজিত হতে হবে। একটি স্ট্যাটিক ওয়েবসাইট খুলতে, আপনাকে স্থির ওয়েবসাইট সার্ভার তথ্য পূরণ করতে হবে সফল যোগাযোগের পরে, সিস্টেমটি স্বয়ংক্রিয়ভাবে স্ট্যাটিক ওয়েবসাইট সার্ভারে প্রেরণ করবে।',
-  'plugin.htmlcache.description.3': 'একটি স্ট্যাটিক ওয়েবসাইট সক্রিয় করার আগে, আপনাকে স্ট্যাটিক পৃষ্ঠা ক্যাশিং সক্ষম করতে হবে। একটি স্ট্যাটিক ওয়েবসাইট সক্ষম করার পরে, অনুসন্ধান, বার্তা, মন্তব্য, 301 জাম্প এবং অন্যান্য ফাংশন যা ব্যাকএন্ডে জমা দেওয়ার জন্য ডেটা প্রয়োজন তা অবৈধ হবে এবং ওয়েবসাইটে শুধুমাত্র প্রদর্শন প্রভাব থাকবে৷',
-  'plugin.htmlcache.description.4': 'একটি স্ট্যাটিক ওয়েবসাইট সক্ষম করার পরে, নিম্নলিখিত ক্রিয়াকলাপগুলি স্বয়ংক্রিয়ভাবে পুনরুত্থিত হবে না, এবং স্ট্যাটিক পৃষ্ঠা তৈরির ক্রিয়াকলাপগুলি ম্যানুয়ালি সম্পাদন করা প্রয়োজন: টেমপ্লেটগুলি সামঞ্জস্য করা (টেমপ্লেটগুলি সংশোধন করা, টেমপ্লেটগুলি সক্ষম করা), পটভূমি সেটিংস পরিবর্তন করা (গ্লোবাল সেটিংস, বিষয়বস্তু সেটিংস, যোগাযোগের তথ্য, নেভিগেশন , ইত্যাদি), পরিবর্তিত সিউডো-স্ট্যাটিক নিয়ম এবং অন্যান্য পরিবর্তন যা বিশ্ব পরিস্থিতিকে প্রভাবিত করে',
+  'plugin.htmlcache.description.1':
+    'স্ট্যাটিক পৃষ্ঠা ক্যাশিং চালু করার পরে, ওয়েবসাইট খোলার গতি বাড়ানোর জন্য হোম পেজ, তালিকা পৃষ্ঠা এবং বিস্তারিত পৃষ্ঠা ক্যাশে করা হবে, তবে ক্যাশে ফাইলগুলি সংরক্ষণ করার জন্য আরও সার্ভার স্থান প্রয়োজন হবে।',
+  'plugin.htmlcache.description.2':
+    'আপনি যদি একটি স্ট্যাটিক ওয়েবসাইট সক্ষম করতে চান, তাহলে টেমপ্লেটের ধরনটি অভিযোজিত হতে হবে। একটি স্ট্যাটিক ওয়েবসাইট খুলতে, আপনাকে স্থির ওয়েবসাইট সার্ভার তথ্য পূরণ করতে হবে সফল যোগাযোগের পরে, সিস্টেমটি স্বয়ংক্রিয়ভাবে স্ট্যাটিক ওয়েবসাইট সার্ভারে প্রেরণ করবে।',
+  'plugin.htmlcache.description.3':
+    'একটি স্ট্যাটিক ওয়েবসাইট সক্রিয় করার আগে, আপনাকে স্ট্যাটিক পৃষ্ঠা ক্যাশিং সক্ষম করতে হবে। একটি স্ট্যাটিক ওয়েবসাইট সক্ষম করার পরে, অনুসন্ধান, বার্তা, মন্তব্য, 301 জাম্প এবং অন্যান্য ফাংশন যা ব্যাকএন্ডে জমা দেওয়ার জন্য ডেটা প্রয়োজন তা অবৈধ হবে এবং ওয়েবসাইটে শুধুমাত্র প্রদর্শন প্রভাব থাকবে৷',
+  'plugin.htmlcache.description.4':
+    'একটি স্ট্যাটিক ওয়েবসাইট সক্ষম করার পরে, নিম্নলিখিত ক্রিয়াকলাপগুলি স্বয়ংক্রিয়ভাবে পুনরুত্থিত হবে না, এবং স্ট্যাটিক পৃষ্ঠা তৈরির ক্রিয়াকলাপগুলি ম্যানুয়ালি সম্পাদন করা প্রয়োজন: টেমপ্লেটগুলি সামঞ্জস্য করা (টেমপ্লেটগুলি সংশোধন করা, টেমপ্লেটগুলি সক্ষম করা), পটভূমি সেটিংস পরিবর্তন করা (গ্লোবাল সেটিংস, বিষয়বস্তু সেটিংস, যোগাযোগের তথ্য, নেভিগেশন , ইত্যাদি), পরিবর্তিত সিউডো-স্ট্যাটিক নিয়ম এবং অন্যান্য পরিবর্তন যা বিশ্ব পরিস্থিতিকে প্রভাবিত করে',
   'plugin.importapi.token.required': 'অনুগ্রহ করে টোকেন পূরণ করুন, 128টি অক্ষরের মধ্যে',
   'plugin.importapi.token.confirm': 'আপনি কি নিশ্চিত আপনি টোকেন আপডেট করতে চান?',
-  'plugin.importapi.token.confirm.content': 'আপডেটের পরে, আসল টোকেনটি অবৈধ হয়ে যায়, অনুগ্রহ করে অপারেশনের জন্য নতুন API ঠিকানা ব্যবহার করুন।',
+  'plugin.importapi.token.confirm.content':
+    'আপডেটের পরে, আসল টোকেনটি অবৈধ হয়ে যায়, অনুগ্রহ করে অপারেশনের জন্য নতুন API ঠিকানা ব্যবহার করুন।',
   'plugin.importapi.token.copy.success': 'সফলভাবে অনুলিপি করা হয়েছে৷',
-  'plugin.importapi.tips': 'তৃতীয় পক্ষের প্ল্যাটফর্মের মাধ্যমে উত্পন্ন সামগ্রী যেমন এআই রাইটিং এপিআই এর মাধ্যমে এই সিস্টেমে আমদানি করা যেতে পারে।',
+  'plugin.importapi.tips':
+    'তৃতীয় পক্ষের প্ল্যাটফর্মের মাধ্যমে উত্পন্ন সামগ্রী যেমন এআই রাইটিং এপিআই এর মাধ্যমে এই সিস্টেমে আমদানি করা যেতে পারে।',
   'plugin.importapi.token.name': 'আমার টোকেন:',
   'plugin.importapi.token.copy': 'অনুলিপি করতে ক্লিক করুন',
   'plugin.importapi.token.update': 'আপডেট টোকেন',
@@ -411,36 +490,46 @@ export default {
   'plugin.importapi.field.category-id': 'বিভাগ আইডি',
   'plugin.importapi.field.keywords': 'ডকুমেন্ট কীওয়ার্ড',
   'plugin.importapi.field.description': 'নথির ভূমিকা',
-  'plugin.importapi.field.url-token': 'কাস্টম URL উপনাম, শুধুমাত্র সংখ্যা এবং ইংরেজি অক্ষর সমর্থন করে',
+  'plugin.importapi.field.url-token':
+    'কাস্টম URL উপনাম, শুধুমাত্র সংখ্যা এবং ইংরেজি অক্ষর সমর্থন করে',
   'plugin.importapi.field.images': 'নিবন্ধ ছবি 9 ছবি পর্যন্ত সেট করা যেতে পারে.',
-  'plugin.importapi.field.logo': 'নথির থাম্বনেল একটি পরম ঠিকানা হতে পারে, যেমন: https://www.anqicms.com/logo.png বা একটি আপেক্ষিক ঠিকানা, যেমন: /logo.png',
-  'plugin.importapi.field.publish-time': 'বিন্যাস: 2006-01-02 15:04:05 নথিটির প্রকাশের সময় ভবিষ্যতে হতে পারে যদি এটি ভবিষ্যতে হয়, সময় শেষ না হওয়া পর্যন্ত নথিটি আনুষ্ঠানিকভাবে প্রকাশ করা হবে না৷',
-  'plugin.importapi.field.tag': 'ডকুমেন্ট ট্যাগ একাধিক ট্যাগ ইংরেজি কমা দ্বারা পৃথক করা হয়, উদাহরণস্বরূপ: aaa, bbb, ccc',
+  'plugin.importapi.field.logo':
+    'নথির থাম্বনেল একটি পরম ঠিকানা হতে পারে, যেমন: https://www.anqicms.com/logo.png বা একটি আপেক্ষিক ঠিকানা, যেমন: /logo.png',
+  'plugin.importapi.field.publish-time':
+    'বিন্যাস: 2006-01-02 15:04:05 নথিটির প্রকাশের সময় ভবিষ্যতে হতে পারে যদি এটি ভবিষ্যতে হয়, সময় শেষ না হওয়া পর্যন্ত নথিটি আনুষ্ঠানিকভাবে প্রকাশ করা হবে না৷',
+  'plugin.importapi.field.tag':
+    'ডকুমেন্ট ট্যাগ একাধিক ট্যাগ ইংরেজি কমা দ্বারা পৃথক করা হয়, উদাহরণস্বরূপ: aaa, bbb, ccc',
   'plugin.importapi.field.diy': 'অন্যান্য কাস্টম ক্ষেত্র',
-  'plugin.importapi.field.diy.remark': 'আপনি যদি অন্যান্য কাস্টম ক্ষেত্রগুলিতে পাস করেন এবং ক্ষেত্রগুলি ডকুমেন্ট টেবিলে বিদ্যমান থাকে তবে সেগুলিও সমর্থিত।',
+  'plugin.importapi.field.diy.remark':
+    'আপনি যদি অন্যান্য কাস্টম ক্ষেত্রগুলিতে পাস করেন এবং ক্ষেত্রগুলি ডকুমেন্ট টেবিলে বিদ্যমান থাকে তবে সেগুলিও সমর্থিত।',
   'plugin.importapi.field.draft': 'সমর্থিত মানগুলি খসড়ায় সংরক্ষণ করা হবে: সত্য',
-  'plugin.importapi.field.cover': 'সমর্থিত মানগুলি একই শিরোনাম এবং আইডি দিয়ে ওভাররাইট করা হবে কি না: সত্য',
+  'plugin.importapi.field.cover':
+    'সমর্থিত মানগুলি একই শিরোনাম এবং আইডি দিয়ে ওভাররাইট করা হবে কি না: সত্য',
   'plugin.importapi.return-type': 'রিটার্ন ফরম্যাট:',
   'plugin.importapi.return-example.success': 'সঠিক ফলাফলের উদাহরণ:',
   'plugin.importapi.return-example.failure': 'ভুল ফলাফলের উদাহরণ:',
   'plugin.importapi.category-api': 'শ্রেণীবিভাগ ইন্টারফেস পান',
   'plugin.importapi.category-api.fields': 'পোস্ট ফর্ম / প্রশ্ন প্যারামস ক্ষেত্র:',
   'plugin.importapi.category-api.fields.empty': 'কোনটি',
-  'plugin.importapi.category-api.module-id': 'প্রাপ্ত শ্রেণীবিভাগের মডেল আইডি, নম্বর পূরণ করুন, সমর্থিত মান: 0=সমস্ত, 1,2... সংশ্লিষ্ট মডেল আইডি',
+  'plugin.importapi.category-api.module-id':
+    'প্রাপ্ত শ্রেণীবিভাগের মডেল আইডি, নম্বর পূরণ করুন, সমর্থিত মান: 0=সমস্ত, 1,2... সংশ্লিষ্ট মডেল আইডি',
   'plugin.importapi.train-mopdule': 'লোকোমোটিভ প্রকাশনা মডিউল',
   'plugin.importapi.train-mopdule.url': 'ওয়েবসাইটের ঠিকানা:',
   'plugin.importapi.train-mopdule.token': 'গ্লোবাল ভেরিয়েবল:',
   'plugin.importapi.train-mopdule.download': 'মডিউল ডাউনলোড:',
   'plugin.importapi.train-mopdule.download.text': 'ডাউনলোড করতে ক্লিক করুন',
   'plugin.importapi.train-mopdule.support-version': 'সমর্থিত সংস্করণ:',
-  'plugin.importapi.train-mopdule.support-version.text': 'রিলিজ মডিউল আমদানি এবং ব্যবহার করতে লোকোমোটিভ কালেক্টর সংস্করণ 9.0 বা তার উপরে সমর্থন করুন',
+  'plugin.importapi.train-mopdule.support-version.text':
+    'রিলিজ মডিউল আমদানি এবং ব্যবহার করতে লোকোমোটিভ কালেক্টর সংস্করণ 9.0 বা তার উপরে সমর্থন করুন',
   'plugin.importapi.train-mopdule.example': 'কনফিগারেশন উদাহরণ:',
   'plugin.importapi.token.reset': 'রিসেট টোকেন',
   'plugin.importapi.token.new': 'নতুন টোকেন',
   'plugin.importapi.token.new.placeholder': 'নতুন টোকেন পূরণ করুন',
-  'plugin.importapi.token.new.description': 'টোকেন সাধারণত সংখ্যা এবং অক্ষরের সংমিশ্রণে গঠিত হয়, 10 সংখ্যার বেশি এবং 128 সংখ্যার কম।',
+  'plugin.importapi.token.new.description':
+    'টোকেন সাধারণত সংখ্যা এবং অক্ষরের সংমিশ্রণে গঠিত হয়, 10 সংখ্যার বেশি এবং 128 সংখ্যার কম।',
   'plugin.interference.isopen': 'অ্যান্টি-হস্তক্ষেপ কোড সংগ্রহ চালু করুন',
-  'plugin.interference.isopen.description': 'নিম্নলিখিত সেটিংস শুধুমাত্র কার্যকর যদি ফাংশন চালু করা হয়.',
+  'plugin.interference.isopen.description':
+    'নিম্নলিখিত সেটিংস শুধুমাত্র কার্যকর যদি ফাংশন চালু করা হয়.',
   'plugin.interference.isopen.no': 'বন্ধ',
   'plugin.interference.isopen.yes': 'চালু করা',
   'plugin.interference.mode': 'বিরোধী হস্তক্ষেপ মোড',
@@ -452,7 +541,8 @@ export default {
   'plugin.interference.disable-copy': 'প্রতিলিপি অক্ষম করুন',
   'plugin.interference.disable-right-click': 'ডান মাউস ক্লিক নিষ্ক্রিয়',
   'plugin.keyword.batch-import': 'ব্যাচে কীওয়ার্ড আমদানি করুন',
-  'plugin.keyword.batch-import.tips': 'দ্রষ্টব্য: শুধুমাত্র csv বিন্যাসে ফাইল আপলোড এবং আমদানির জন্য সমর্থিত।',
+  'plugin.keyword.batch-import.tips':
+    'দ্রষ্টব্য: শুধুমাত্র csv বিন্যাসে ফাইল আপলোড এবং আমদানির জন্য সমর্থিত।',
   'plugin.keyword.batch-import.step1': 'প্রথম ধাপ হল csv টেমপ্লেট ফাইলটি ডাউনলোড করা',
   'plugin.keyword.batch-import.step1.btn': 'csv টেমপ্লেট ফাইল ডাউনলোড করুন',
   'plugin.keyword.batch-import.step2': 'দ্বিতীয় ধাপ হল csv ফাইল আপলোড করা',
@@ -463,26 +553,34 @@ export default {
   'plugin.keyword.title.placeholder': 'ব্যাচ সংযোজন সমর্থন করে, প্রতি লাইনে একটি কীওয়ার্ড',
   'plugin.keyword.archive-category': 'নথির শ্রেণীবিভাগ',
   'plugin.keyword.archive-category-id': 'নথির শ্রেণিবিন্যাস আইডি',
+  'plugin.keyword.manual-dig': 'শব্দ ব্যবহার করো',
   'plugin.keyword.dig-setting': 'শব্দ সম্প্রসারণ সেটিংস',
   'plugin.keyword.dig-setting.auto-dig': 'স্বয়ংক্রিয় শব্দ সম্প্রসারণ',
   'plugin.keyword.dig-setting.auto-dig.no': 'না',
+  'plugin.keyword.dig-setting.auto-dig.yes': 'স্বয়ংক্রিয়ভাবে',
   'plugin.keyword.dig-setting.max-count': 'এক্সটেনশনের সংখ্যা',
-  'plugin.keyword.dig-setting.max-count.description': 'স্বয়ংক্রিয় শব্দ সম্প্রসারণ নির্বাচন করা হলে, শব্দ সম্প্রসারণের সংখ্যা বৈধ হবে।',
+  'plugin.keyword.dig-setting.max-count.description':
+    'স্বয়ংক্রিয় শব্দ সম্প্রসারণ নির্বাচন করা হলে, শব্দ সম্প্রসারণের সংখ্যা বৈধ হবে।',
   'plugin.keyword.dig-setting.max-count.placeholder': 'ডিফল্ট 100000',
   'plugin.keyword.dig-setting.language': 'কীওয়ার্ড ভাষা',
   'plugin.keyword.dig-setting.title-exclude': 'কীওয়ার্ড বর্জন শব্দ',
-  'plugin.keyword.dig-setting.title-exclude.description': 'শব্দগুলি সম্প্রসারণ করার সময়, যদি এই কীওয়ার্ডগুলি কীওয়ার্ডগুলিতে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
+  'plugin.keyword.dig-setting.title-exclude.description':
+    'শব্দগুলি সম্প্রসারণ করার সময়, যদি এই কীওয়ার্ডগুলি কীওয়ার্ডগুলিতে উপস্থিত হয় তবে সেগুলি সংগ্রহ করা হবে না।',
   'plugin.keyword.dig-setting.replace': 'কীওয়ার্ড প্রতিস্থাপন',
-  'plugin.keyword.dig-setting.replace.tips1': 'প্রতিস্থাপন করা প্রয়োজন এমন কীওয়ার্ড জোড়া সম্পাদনা করুন, এবং শব্দগুলি প্রসারিত করার সময় প্রতিস্থাপন স্বয়ংক্রিয়ভাবে সঞ্চালিত হবে।',
+  'plugin.keyword.dig-setting.replace.tips1':
+    'প্রতিস্থাপন করা প্রয়োজন এমন কীওয়ার্ড জোড়া সম্পাদনা করুন, এবং শব্দগুলি প্রসারিত করার সময় প্রতিস্থাপন স্বয়ংক্রিয়ভাবে সঞ্চালিত হবে।',
   'plugin.keyword.delete.confirm': 'আপনি কি নির্বাচিত কীওয়ার্ড মুছে ফেলার বিষয়ে নিশ্চিত?',
   'plugin.keyword.export.confirm': 'আপনি কি নিশ্চিত আপনি সব কীওয়ার্ড রপ্তানি করতে চান?',
   'plugin.keyword.collect.confirm': 'আপনি কি নিশ্চিত আপনি এই কীওয়ার্ড সংগ্রহ করতে চান?',
   'plugin.keyword.collect.doing': 'বর্তমানে সংগ্রহ করা হচ্ছে',
-  'plugin.keyword.aigenerate.confirm': 'আপনি কি এই কীওয়ার্ডে AI লেখার ক্রিয়াকলাপ সম্পাদন করার বিষয়ে নিশ্চিত?',
-  'plugin.keyword.aigenerate.content': 'AI স্বয়ংক্রিয় লেখার জন্য অর্থপ্রদানের প্রয়োজন, অনুগ্রহ করে নিশ্চিত করুন যে আপনি আপনার Anqi অ্যাকাউন্টকে আবদ্ধ করেছেন।',
+  'plugin.keyword.aigenerate.confirm':
+    'আপনি কি এই কীওয়ার্ডে AI লেখার ক্রিয়াকলাপ সম্পাদন করার বিষয়ে নিশ্চিত?',
+  'plugin.keyword.aigenerate.content':
+    'AI স্বয়ংক্রিয় লেখার জন্য অর্থপ্রদানের প্রয়োজন, অনুগ্রহ করে নিশ্চিত করুন যে আপনি আপনার Anqi অ্যাকাউন্টকে আবদ্ধ করেছেন।',
   'plugin.keyword.aigenerate.doing': 'উৎপন্ন হচ্ছে',
   'plugin.keyword.cleanup.confirm': 'আপনি কি এর জন্য সমস্ত কীওয়ার্ড মুছে ফেলার বিষয়ে নিশ্চিত?',
-  'plugin.keyword.cleanup.content': 'এই অপারেশনটি সমস্ত কীওয়ার্ড মুছে ফেলবে এবং পুনরুদ্ধার করা যাবে না, দয়া করে সাবধানতার সাথে কাজ করুন৷',
+  'plugin.keyword.cleanup.content':
+    'এই অপারেশনটি সমস্ত কীওয়ার্ড মুছে ফেলবে এবং পুনরুদ্ধার করা যাবে না, দয়া করে সাবধানতার সাথে কাজ করুন৷',
   'plugin.keyword.level': 'অনুক্রম',
   'plugin.keyword.article-count': 'সংগৃহীত নিবন্ধ',
   'plugin.keyword.collect': 'ম্যানুয়াল সংগ্রহ',
@@ -498,15 +596,18 @@ export default {
   'plugin.link.field.other-title': 'অন্য পক্ষের কীওয়ার্ড',
   'plugin.link.field.other-link': 'অন্য লিঙ্ক',
   'plugin.link.field.other-link.description': 'যেমনঃ https://www.anqicms.com/',
-  'plugin.link.field.nofollow': 'nofollow যোগ করতে হবে কিনা, ঐচ্ছিক মান: 0 যোগ করতে হবে না, 1 যোগ করতে হবে',
+  'plugin.link.field.nofollow':
+    'nofollow যোগ করতে হবে কিনা, ঐচ্ছিক মান: 0 যোগ করতে হবে না, 1 যোগ করতে হবে',
   'plugin.link.field.back-link': 'বিপরীত লিঙ্ক পৃষ্ঠা',
-  'plugin.link.field.back-link.description': 'পৃষ্ঠার URL যেখানে অন্য পক্ষ এই সাইটের লিঙ্ক স্থাপন করেছে৷',
+  'plugin.link.field.back-link.description':
+    'পৃষ্ঠার URL যেখানে অন্য পক্ষ এই সাইটের লিঙ্ক স্থাপন করেছে৷',
   'plugin.link.field.self-title': 'আমার কীওয়ার্ড',
   'plugin.link.field.self-title.description': 'কিওয়ার্ড আমি অন্য পক্ষের পৃষ্ঠায় রাখা',
   'plugin.link.field.self-link': 'আমার লিঙ্ক',
   'plugin.link.field.self-link.description': 'লিঙ্কটি আমি অন্য পক্ষের পৃষ্ঠায় রেখেছি',
   'plugin.link.field.contact': 'অন্য পক্ষের যোগাযোগের তথ্য',
-  'plugin.link.field.contact.description': 'ফলো-আপ যোগাযোগের সুবিধার্থে QQ, WeChat, ফোন নম্বর, ইত্যাদি পূরণ করুন',
+  'plugin.link.field.contact.description':
+    'ফলো-আপ যোগাযোগের সুবিধার্থে QQ, WeChat, ফোন নম্বর, ইত্যাদি পূরণ করুন',
   'plugin.link.field.remark': 'মন্তব্য',
   'plugin.link.api.delete': 'বন্ধুত্বপূর্ণ লিঙ্ক ইন্টারফেস মুছুন',
   'plugin.link.edit': 'বন্ধুত্বপূর্ণ লিঙ্ক সম্পাদনা করুন',
@@ -534,13 +635,16 @@ export default {
   'plugin.material.category.title.tips': 'অনুগ্রহ করে বিভাগের নামটি পূরণ করুন',
   'plugin.material.import.selected': 'নির্বাচিত',
   'plugin.material.import.segment': 'টুকরা',
-  'plugin.material.import.clear': 'আপনি আপলোড করার জন্য আপনার নির্বাচিত বিষয়বস্তু সাফ করার বিষয়ে নিশ্চিত?',
+  'plugin.material.import.clear':
+    'আপনি আপলোড করার জন্য আপনার নির্বাচিত বিষয়বস্তু সাফ করার বিষয়ে নিশ্চিত?',
   'plugin.material.delete.confirm': 'আপনি কি নির্বাচিত উপাদান মুছে ফেলার বিষয়ে নিশ্চিত?',
   'plugin.material.import.submit.tips.before': 'আপনার নির্বাচিত উপকরণ মধ্যে, আছে',
-  'plugin.material.import.submit.tips.after': 'এই উপাদানটির জন্য কোন বিভাগ নির্বাচন করা হয়নি আপনি কি জমা দেওয়া চালিয়ে যেতে চান?',
+  'plugin.material.import.submit.tips.after':
+    'এই উপাদানটির জন্য কোন বিভাগ নির্বাচন করা হয়নি আপনি কি জমা দেওয়া চালিয়ে যেতে চান?',
   'plugin.material.import.upload-error': 'আপলোড ত্রুটি, পরে আবার চেষ্টা করুন',
   'plugin.material.import.batch-add': 'ব্যাচ মধ্যে উপকরণ যোগ করুন',
-  'plugin.material.import.batch-add.tips': 'দ্রষ্টব্য: আপনি txt বা html এ সংরক্ষিত নিবন্ধ আপলোড করতে পারেন।',
+  'plugin.material.import.batch-add.tips':
+    'দ্রষ্টব্য: আপনি txt বা html এ সংরক্ষিত নিবন্ধ আপলোড করতে পারেন।',
   'plugin.material.import.default-category': 'ডিফল্টভাবে এতে আমদানি করা হয়েছে:',
   'plugin.material.import.default-category.placeholder': 'আমদানি করতে বিভাগটি নির্বাচন করুন',
   'plugin.material.import.default-category.all': 'সব',
@@ -553,7 +657,8 @@ export default {
   'plugin.material.import.merge-to-next': 'নিচে মার্জ',
   'plugin.material.import.paste.title': 'অনুগ্রহ করে নিবন্ধের বিষয়বস্তু এখানে পেস্ট করুন',
   'plugin.material.import.paste.analysis': 'বিষয়বস্তু পার্স',
-  'plugin.material.import.paste.description': 'ডিফল্টরূপে, বিষয়বস্তু সমস্ত এইচটিএমএল ট্যাগ ফিল্টার করবে এবং শুধুমাত্র পাঠ্য ধরে রাখবে। আপনি যদি html ট্যাগ রাখতে চান, অনুগ্রহ করে চেক করুন',
+  'plugin.material.import.paste.description':
+    'ডিফল্টরূপে, বিষয়বস্তু সমস্ত এইচটিএমএল ট্যাগ ফিল্টার করবে এবং শুধুমাত্র পাঠ্য ধরে রাখবে। আপনি যদি html ট্যাগ রাখতে চান, অনুগ্রহ করে চেক করুন',
   'plugin.material.import.paste.description.btn': 'html ট্যাগ রাখুন',
   'plugin.material.edit': 'বিষয়বস্তু উপাদান সম্পাদনা করুন',
   'plugin.material.add': 'উপাদান যোগ করুন',
@@ -604,7 +709,8 @@ export default {
   'plugin.order.setting.progress': 'অর্ডার প্রক্রিয়াকরণ পদ্ধতি',
   'plugin.order.setting.progress.yes': 'স্বাভাবিক লেনদেন প্রক্রিয়া',
   'plugin.order.setting.progress.no': 'লেনদেন সরাসরি সম্পন্ন হয়',
-  'plugin.order.setting.progress.description': 'সাধারণ লেনদেনের জন্য ব্যবহারকারীকে রসিদ নিশ্চিত করতে হয় বা মেয়াদ শেষ হওয়ার পরে লেনদেনটি সরাসরি সম্পন্ন হয় এবং অর্ডারটি সম্পূর্ণ হয়।',
+  'plugin.order.setting.progress.description':
+    'সাধারণ লেনদেনের জন্য ব্যবহারকারীকে রসিদ নিশ্চিত করতে হয় বা মেয়াদ শেষ হওয়ার পরে লেনদেনটি সরাসরি সম্পন্ন হয় এবং অর্ডারটি সম্পূর্ণ হয়।',
   'plugin.order.setting.auto-finish': 'অর্ডার স্বয়ংক্রিয়ভাবে সম্পন্ন',
   'plugin.order.setting.auto-finish.placeholder': 'ডিফল্ট 10 দিন',
   'plugin.order.setting.auto-finish.suffix': 'আকাশ',
@@ -616,7 +722,8 @@ export default {
   'plugin.order.loading': 'লোড হচ্ছে',
   'plugin.order.finish.confirm': 'আপনি কি নিশ্চিত আপনি অর্ডারটি ম্যানুয়ালি সম্পূর্ণ করতে চান?',
   'plugin.order.finish.content': 'এই অপারেশন অপরিবর্তনীয়।',
-  'plugin.order.apply-refund.confirm': 'আপনি কি এই অর্ডারের জন্য অর্থ ফেরতের জন্য আবেদন করার বিষয়ে নিশ্চিত?',
+  'plugin.order.apply-refund.confirm':
+    'আপনি কি এই অর্ডারের জন্য অর্থ ফেরতের জন্য আবেদন করার বিষয়ে নিশ্চিত?',
   'plugin.order.apply-refund.content': 'ফেরত দেওয়ার পরে, তহবিলগুলি মূল রুটে ফেরত দেওয়া হবে।',
   'plugin.order.delivery': 'জাহাজ',
   'plugin.order.delivery-process': 'শিপিং প্রক্রিয়াকরণ',
@@ -668,27 +775,34 @@ export default {
   'plugin.push.result': 'ধাক্কা ফলাফল',
   'plugin.push.name': 'নাম',
   'plugin.push.code': 'কোড',
-  'plugin.push.tips': 'সার্চ ইঞ্জিন পুশ ফাংশন Baidu সার্চ এবং Bing সার্চ দ্বারা সক্রিয় পুশ সমর্থন করে যদিও অন্যান্য সার্চ ইঞ্জিনে সক্রিয় পুশ ফাংশন নেই, কিছু সার্চ ইঞ্জিন এখনও JS পুশ ব্যবহার করতে পারে৷',
+  'plugin.push.tips':
+    'সার্চ ইঞ্জিন পুশ ফাংশন Baidu সার্চ এবং Bing সার্চ দ্বারা সক্রিয় পুশ সমর্থন করে যদিও অন্যান্য সার্চ ইঞ্জিনে সক্রিয় পুশ ফাংশন নেই, কিছু সার্চ ইঞ্জিন এখনও JS পুশ ব্যবহার করতে পারে৷',
   'plugin.push.view-log': 'সাম্প্রতিক পুশ রেকর্ড দেখুন',
   'plugin.push.baidu': 'Baidu অনুসন্ধান সক্রিয় ধাক্কা',
   'plugin.push.bing': 'বিং সার্চ প্রোঅ্যাকটিভ পুশ',
   'plugin.push.api-link': 'পুশ ইন্টারফেস ঠিকানা',
-  'plugin.push.baidu.api-link.description': 'যেমন: http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DTHpH8Xn99BrJLBY',
-  'plugin.push.bing.api-link.description': 'যেমন: http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DT যেমন: https://ssl.bing.com/webmaster/api.svc/json /SubmitUrlbatch ?apikey=sampleapikeyEDECC1EA4AE341CC8B6 (উল্লেখ্য যে এই APIkeyটি Bing টুলের উপরের ডানদিকের কোণায় সেটিংসে সেট করা আছে)',
+  'plugin.push.baidu.api-link.description':
+    'যেমন: http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DTHpH8Xn99BrJLBY',
+  'plugin.push.bing.api-link.description':
+    'যেমন: http://data.zz.baidu.com/urls?site=https://www.anqicms.com&token=DT যেমন: https://ssl.bing.com/webmaster/api.svc/json /SubmitUrlbatch ?apikey=sampleapikeyEDECC1EA4AE341CC8B6 (উল্লেখ্য যে এই APIkeyটি Bing টুলের উপরের ডানদিকের কোণায় সেটিংসে সেট করা আছে)',
   'plugin.push.google': 'Google অ্যাকাউন্ট কী JSON',
   'plugin.push.google.json': 'JSON সামগ্রী',
-  'plugin.push.google.description': 'অভ্যন্তরীণভাবে উপলব্ধ নয়। JSON পাওয়ার জন্য অনুগ্রহ করে ডকুমেন্টটি পড়ুন: https://www.anqicms.com/google-indexing-help.html',
+  'plugin.push.google.description':
+    'অভ্যন্তরীণভাবে উপলব্ধ নয়। JSON পাওয়ার জন্য অনুগ্রহ করে ডকুমেন্টটি পড়ুন: https://www.anqicms.com/google-indexing-help.html',
   'plugin.push.other-js': '360/Toutiao এবং অন্যান্য JS স্বয়ংক্রিয়ভাবে জমা দেয়',
   'plugin.push.other-js.add': 'JS কোড যোগ করুন',
-  'plugin.push.other-js.tips1': 'আপনি JS কোডগুলি রাখতে পারেন যেমন Baidu JS স্বয়ংক্রিয় জমা, 360 স্বয়ংক্রিয় অন্তর্ভুক্তি এবং Toutiao স্বয়ংক্রিয় অন্তর্ভুক্তি৷',
+  'plugin.push.other-js.tips1':
+    'আপনি JS কোডগুলি রাখতে পারেন যেমন Baidu JS স্বয়ংক্রিয় জমা, 360 স্বয়ংক্রিয় অন্তর্ভুক্তি এবং Toutiao স্বয়ংক্রিয় অন্তর্ভুক্তি৷',
   'plugin.push.other-js.tips2': 'এই কোডগুলোকে টেমপ্লেটে ম্যানুয়ালি কল করতে হবে।',
-  'plugin.push.other-js.tips3': 'পপ-আপ উইন্ডো যেমন বার্তা/মন্তব্যগুলি স্বয়ংক্রিয়ভাবে এই JS কোডগুলি লোড করবে৷',
+  'plugin.push.other-js.tips3':
+    'পপ-আপ উইন্ডো যেমন বার্তা/মন্তব্যগুলি স্বয়ংক্রিয়ভাবে এই JS কোডগুলি লোড করবে৷',
   'plugin.push.other-js.name': 'সাঙ্কেতিক নাম',
   'plugin.push.other-js.name.placeholder': 'যেমন: Baidu পরিসংখ্যান',
   'plugin.push.other-js.code': 'জেএস কোড',
   'plugin.push.other-js.code.placeholder': 'সমাপ্তি অন্তর্ভুক্ত করা প্রয়োজন',
   'plugin.redirect.import': 'লিঙ্ক আমদানি করুন',
-  'plugin.redirect.import.tips': 'দ্রষ্টব্য: শুধুমাত্র csv বিন্যাসে ফাইল আপলোড এবং আমদানির জন্য সমর্থিত।',
+  'plugin.redirect.import.tips':
+    'দ্রষ্টব্য: শুধুমাত্র csv বিন্যাসে ফাইল আপলোড এবং আমদানির জন্য সমর্থিত।',
   'plugin.redirect.import.step1': 'প্রথম ধাপ হল csv টেমপ্লেট ফাইলটি ডাউনলোড করা',
   'plugin.redirect.import.step1.download': 'csv টেমপ্লেট ফাইল ডাউনলোড করুন',
   'plugin.redirect.import.step2': 'দ্বিতীয় ধাপ হল csv ফাইল আপলোড করা',
@@ -697,13 +811,15 @@ export default {
   'plugin.redirect.add': 'একটি লিঙ্ক যোগ করুন',
   'plugin.redirect.from-url': 'উৎস লিঙ্ক',
   'plugin.redirect.to-url': 'জাম্প লিঙ্ক',
-  'plugin.redirect.from-url.description': 'এটি `http(https)` দিয়ে শুরু হওয়া একটি পরম ঠিকানা, অথবা `/` দিয়ে শুরু হওয়া আপেক্ষিক ঠিকানা হতে পারে',
+  'plugin.redirect.from-url.description':
+    'এটি `http(https)` দিয়ে শুরু হওয়া একটি পরম ঠিকানা, অথবা `/` দিয়ে শুরু হওয়া আপেক্ষিক ঠিকানা হতে পারে',
   'plugin.redirect.delete.confirm': 'আপনি কি নির্বাচিত লিঙ্কটি মুছতে চান?',
   'plugin.replace.add.required': 'প্রতিস্থাপন উত্স কীওয়ার্ড পূরণ করুন',
   'plugin.replace.place.required': 'একটি বিকল্প অবস্থান নির্বাচন করুন',
   'plugin.replace.keyword.required': 'প্রতিস্থাপন নিয়ম যোগ করুন',
   'plugin.replace.confirm': 'আপনি কি একটি সম্পূর্ণ সাইট প্রতিস্থাপন করতে চান?',
-  'plugin.replace.tips': 'সম্পূর্ণ-সাইট প্রতিস্থাপন একটি উন্নত অপারেশন, এবং প্রতিস্থাপনের আগে এটি একটি বিষয়বস্তু ব্যাকআপ সঞ্চালন করার সুপারিশ করা হয়।',
+  'plugin.replace.tips':
+    'সম্পূর্ণ-সাইট প্রতিস্থাপন একটি উন্নত অপারেশন, এবং প্রতিস্থাপনের আগে এটি একটি বিষয়বস্তু ব্যাকআপ সঞ্চালন করার সুপারিশ করা হয়।',
   'plugin.replace.replace-tag': 'লেবেল বিষয়বস্তু প্রতিস্থাপন কিনা',
   'plugin.replace.place': 'অবস্থান প্রতিস্থাপন',
   'plugin.replace.keyword': 'প্রতিস্থাপনের নিয়ম',
@@ -718,15 +834,19 @@ export default {
   'plugin.replace.place.attachment': 'ছবি সম্পদ',
   'plugin.retailer.setting': 'বিতরণ কনফিগারেশন',
   'plugin.retailer.allow-self': 'ডিস্ট্রিবিউটররা তাদের নিজস্ব ক্রয় থেকে কমিশন উপার্জন করে',
-  'plugin.retailer.allow-self.description': 'যদি স্ব-ক্রয় কমিশন চালু থাকে, তাহলে বিতরণকারী সংশ্লিষ্ট কমিশন পেতে পারে যদি তিনি বিতরণকৃত পণ্যগুলি নিজে ক্রয় করেন, যদি এটি বন্ধ থাকে, তাহলে বিতরণকারী নিজে বিতরণকৃত পণ্য ক্রয় করলে কমিশন পেতে পারে না। আপনি যদি স্বয়ংক্রিয়ভাবে একজন পরিবেশক হন, তাহলে স্ব-ক্রয় কমিশন সক্ষম করবেন না।',
+  'plugin.retailer.allow-self.description':
+    'যদি স্ব-ক্রয় কমিশন চালু থাকে, তাহলে বিতরণকারী সংশ্লিষ্ট কমিশন পেতে পারে যদি তিনি বিতরণকৃত পণ্যগুলি নিজে ক্রয় করেন, যদি এটি বন্ধ থাকে, তাহলে বিতরণকারী নিজে বিতরণকৃত পণ্য ক্রয় করলে কমিশন পেতে পারে না। আপনি যদি স্বয়ংক্রিয়ভাবে একজন পরিবেশক হন, তাহলে স্ব-ক্রয় কমিশন সক্ষম করবেন না।',
   'plugin.retailer.allow-self.no': 'বন্ধ',
   'plugin.retailer.allow-self.yes': 'চালু করা',
   'plugin.retailer.become-retailer': 'কিভাবে একটি পরিবেশক হতে হবে',
   'plugin.retailer.become-retailer.manual': 'ম্যানুয়াল প্রক্রিয়াকরণ',
   'plugin.retailer.become-retailer.auto': 'স্বয়ংক্রিয়ভাবে হয়ে যায়',
-  'plugin.retailer.become-retailer.description': 'আপনি যদি ম্যানুয়াল প্রসেসিং বেছে নেন, তাহলে আপনাকে এটি ব্যবহারকারী ব্যবস্থাপনায় সেট করতে হবে।',
-  'plugin.retailer.cancel.confirm': 'আপনি কি এই ব্যবহারকারীর পরিবেশক যোগ্যতা বাতিল করার বিষয়ে নিশ্চিত?',
-  'plugin.retailer.cancel.content': 'যদি ডিস্ট্রিবিউটর থ্রেশহোল্ড স্বয়ংক্রিয়ভাবে একজন ডিস্ট্রিবিউটর হয়ে যায়, তাহলে বাতিলকরণটি অবৈধ হবে।',
+  'plugin.retailer.become-retailer.description':
+    'আপনি যদি ম্যানুয়াল প্রসেসিং বেছে নেন, তাহলে আপনাকে এটি ব্যবহারকারী ব্যবস্থাপনায় সেট করতে হবে।',
+  'plugin.retailer.cancel.confirm':
+    'আপনি কি এই ব্যবহারকারীর পরিবেশক যোগ্যতা বাতিল করার বিষয়ে নিশ্চিত?',
+  'plugin.retailer.cancel.content':
+    'যদি ডিস্ট্রিবিউটর থ্রেশহোল্ড স্বয়ংক্রিয়ভাবে একজন ডিস্ট্রিবিউটর হয়ে যায়, তাহলে বাতিলকরণটি অবৈধ হবে।',
   'plugin.retailer.user-id': 'ব্যবহারকারী আইডি',
   'plugin.retailer.user-name': 'ব্যবহারকারীর নাম',
   'plugin.retailer.real-name': 'প্রকৃত নাম',
@@ -748,21 +868,27 @@ export default {
   'plugin.rewrite.formula2': 'বিকল্প 2: নামকরণ প্যাটার্ন 1 (ইংরেজি বা পিনয়িন)',
   'plugin.rewrite.formula3': 'বিকল্প 3: নামকরণ প্যাটার্ন 2 (ইংরেজি বা পিনয়িন + সংখ্যা)',
   'plugin.rewrite.formula4': 'বিকল্প 4: নামকরণ প্যাটার্ন 3 (ইংরেজি বা পিনয়িন)',
-  'plugin.rewrite.formula5': 'বিকল্প 5: কাস্টম মোড (উন্নত মোড, দয়া করে এটিকে সতর্কতার সাথে ব্যবহার করুন, যদি এটি ভুলভাবে সেট করা হয় তবে সামনের প্রান্তের পৃষ্ঠাটি খুলবে না)',
+  'plugin.rewrite.formula5':
+    'বিকল্প 5: কাস্টম মোড (উন্নত মোড, দয়া করে এটিকে সতর্কতার সাথে ব্যবহার করুন, যদি এটি ভুলভাবে সেট করা হয় তবে সামনের প্রান্তের পৃষ্ঠাটি খুলবে না)',
   'plugin.rewrite.setting': 'সিউডো-স্ট্যাটিক স্কিম সেটিংস',
   'plugin.rewrite.setting.select': 'একটি ছদ্ম-স্ট্যাটিক সমাধান চয়ন করুন',
   'plugin.rewrite.setting.diy': 'কাস্টম সিউডো-স্ট্যাটিক নিয়ম',
   'plugin.rewrite.setting.diy.explain': 'কাস্টম সিউডো-স্ট্যাটিক নিয়মের বিবরণ',
-  'plugin.rewrite.setting.diy.tips': 'সংশোধন করতে অনুগ্রহ করে নিচের নিয়মগুলি অনুলিপি করুন ইনপুট বক্সে মোট 6টি লাইন আছে, যেমন নথির বিবরণ, নথির তালিকা, মডেল হোম পেজ, পৃষ্ঠা, ট্যাগ তালিকা এবং ট্যাগের বিবরণ৷ === এবং পূর্ববর্তী অংশ পরিবর্তন করা যাবে না.',
-  'plugin.rewrite.variable.tips': 'ভেরিয়েবলগুলি কোঁকড়া বন্ধনীতে মোড়ানো হয় `{}`, যেমন `{id}`। উপলভ্য ভেরিয়েবলগুলি হল: ডেটা আইডি `{id}`; নথির কাস্টম লিঙ্কের নাম `{catname}`; multicatname}` এবং `{catname}` ব্যবহার করা যেতে পারে `{catid}` মডেল টেবিলের নাম `{বছর}`, মাস `{দিন}`; , ঘন্টা `{hour}`, মিনিট `{মিনিট}`, সেকেন্ড `{সেকেন্ড}`, বছর, মাস, দিন, ঘণ্টা, মিনিট এবং সেকেন্ড শুধুমাত্র আর্কাইভ পৃষ্ঠা নম্বর `{পৃষ্ঠা}`, পেজিং-এ পাওয়া যায়; বন্ধনীতে স্থাপন করা প্রয়োজন, যেমন: `(/{পৃষ্ঠা})`।',
+  'plugin.rewrite.setting.diy.tips':
+    'সংশোধন করতে অনুগ্রহ করে নিচের নিয়মগুলি অনুলিপি করুন ইনপুট বক্সে মোট 6টি লাইন আছে, যেমন নথির বিবরণ, নথির তালিকা, মডেল হোম পেজ, পৃষ্ঠা, ট্যাগ তালিকা এবং ট্যাগের বিবরণ৷ === এবং পূর্ববর্তী অংশ পরিবর্তন করা যাবে না.',
+  'plugin.rewrite.variable.tips':
+    'ভেরিয়েবলগুলি কোঁকড়া বন্ধনীতে মোড়ানো হয় `{}`, যেমন `{id}`। উপলভ্য ভেরিয়েবলগুলি হল: ডেটা আইডি `{id}`; নথির কাস্টম লিঙ্কের নাম `{catname}`; multicatname}` এবং `{catname}` ব্যবহার করা যেতে পারে `{catid}` মডেল টেবিলের নাম `{বছর}`, মাস `{দিন}`; , ঘন্টা `{hour}`, মিনিট `{মিনিট}`, সেকেন্ড `{সেকেন্ড}`, বছর, মাস, দিন, ঘণ্টা, মিনিট এবং সেকেন্ড শুধুমাত্র আর্কাইভ পৃষ্ঠা নম্বর `{পৃষ্ঠা}`, পেজিং-এ পাওয়া যায়; বন্ধনীতে স্থাপন করা প্রয়োজন, যেমন: `(/{পৃষ্ঠা})`।',
   'plugin.rewrite.formula.direct1': 'ব্যবহারের জন্য প্রস্তুত সমাধান 1',
   'plugin.rewrite.formula.direct2': 'সমাধান 2 যা সরাসরি ব্যবহার করা যেতে পারে',
   'plugin.rewrite.formula.direct3': 'সমাধান 3 যা সরাসরি ব্যবহার করা যেতে পারে',
-  'plugin.robots.tips.before': 'রোবট হল একটি ওয়েবসাইটের কনফিগারেশন যা সার্চ ইঞ্জিন স্পাইডারকে বলে যে কোন পৃষ্ঠাগুলি ক্রল করা যাবে এবং কোন পৃষ্ঠাগুলি ক্রল করা যাবে না৷ প্রশ্নঃ',
+  'plugin.robots.tips.before':
+    'রোবট হল একটি ওয়েবসাইটের কনফিগারেশন যা সার্চ ইঞ্জিন স্পাইডারকে বলে যে কোন পৃষ্ঠাগুলি ক্রল করা যাবে এবং কোন পৃষ্ঠাগুলি ক্রল করা যাবে না৷ প্রশ্নঃ',
   'plugin.robots.tips.after': 'robots.txt ফাইলের বিন্যাস',
   'plugin.robots.content': 'রোবট সামগ্রী',
-  'plugin.robots.content.tips1': '1. Robots.txt আপনার ওয়েবসাইটের কোন পৃষ্ঠাগুলি ক্রল করা যেতে পারে এবং কোন পৃষ্ঠাগুলি ক্রল করা যাবে না তা Baidu কে বলতে পারে৷',
-  'plugin.robots.content.tips2': '2. আপনি আপনার robots.txt ফাইল তৈরি করতে, যাচাই করতে এবং আপডেট করতে রোবট টুল ব্যবহার করতে পারেন।',
+  'plugin.robots.content.tips1':
+    '1. Robots.txt আপনার ওয়েবসাইটের কোন পৃষ্ঠাগুলি ক্রল করা যেতে পারে এবং কোন পৃষ্ঠাগুলি ক্রল করা যাবে না তা Baidu কে বলতে পারে৷',
+  'plugin.robots.content.tips2':
+    '2. আপনি আপনার robots.txt ফাইল তৈরি করতে, যাচাই করতে এবং আপডেট করতে রোবট টুল ব্যবহার করতে পারেন।',
   'plugin.robots.view': 'রোবট দেখুন',
   'plugin.sendmail.setting': 'ই-মেইল সেটিংস',
   'plugin.sendmail.server': 'SMTP সার্ভার',
@@ -770,18 +896,22 @@ export default {
   'plugin.sendmail.use-ssl': 'SSL/TLS ব্যবহার করুন',
   'plugin.sendmail.use-ssl.no': 'ব্যবহার করবেন না',
   'plugin.sendmail.port': 'SMTP পোর্ট',
-  'plugin.sendmail.port.description': 'ডিফল্ট সার্ভার পোর্ট হল 25, SSL প্রোটোকল ব্যবহার করার সময় ডিফল্ট পোর্ট হল 465, এবং TLS প্রোটোকল ব্যবহার করার সময় ডিফল্ট পোর্ট হল 587৷ অনুগ্রহ করে আপনার ইমেল পরিষেবা প্রদানকারীকে বিস্তারিত প্যারামিটারের জন্য জিজ্ঞাসা করুন৷',
+  'plugin.sendmail.port.description':
+    'ডিফল্ট সার্ভার পোর্ট হল 25, SSL প্রোটোকল ব্যবহার করার সময় ডিফল্ট পোর্ট হল 465, এবং TLS প্রোটোকল ব্যবহার করার সময় ডিফল্ট পোর্ট হল 587৷ অনুগ্রহ করে আপনার ইমেল পরিষেবা প্রদানকারীকে বিস্তারিত প্যারামিটারের জন্য জিজ্ঞাসা করুন৷',
   'plugin.sendmail.account': 'SMTP অ্যাকাউন্ট',
-  'plugin.sendmail.account.description': 'ডিফল্ট হল ইমেল অ্যাকাউন্ট, যেমন আপনার QQ ইমেল, যেমন 123456@qq.com',
+  'plugin.sendmail.account.description':
+    'ডিফল্ট হল ইমেল অ্যাকাউন্ট, যেমন আপনার QQ ইমেল, যেমন 123456@qq.com',
   'plugin.sendmail.password': 'SMTP পাসওয়ার্ড',
   'plugin.sendmail.password.description': 'ইমেল সেটিংসে উত্পন্ন অনুমোদন কোড।',
   'plugin.sendmail.recipient': 'প্রাপক ই - মেইল',
   'plugin.sendmail.recipient.required': 'প্রথমে আপনার ইমেল সেট আপ করুন',
-  'plugin.sendmail.recipient.description': 'ডিফল্টরূপে, এটি প্রেরকের কাছে পাঠানো হয়, যদি আপনি এটিকে অন্য ব্যক্তিদের কাছে পাঠাতে চান, তাহলে অনুগ্রহ করে এটিকে একাধিক প্রাপককে আলাদা করতে কমা ব্যবহার করুন৷',
+  'plugin.sendmail.recipient.description':
+    'ডিফল্টরূপে, এটি প্রেরকের কাছে পাঠানো হয়, যদি আপনি এটিকে অন্য ব্যক্তিদের কাছে পাঠাতে চান, তাহলে অনুগ্রহ করে এটিকে একাধিক প্রাপককে আলাদা করতে কমা ব্যবহার করুন৷',
   'plugin.sendmail.auto-reply': 'স্বয়ংক্রিয়ভাবে গ্রাহকদের উত্তর',
   'plugin.sendmail.auto-reply.no': 'উত্তর নেই',
   'plugin.sendmail.auto-reply.yes': 'স্বয়ংক্রিয় প্রতিক্রিয়া',
-  'plugin.sendmail.auto-reply.description': 'গ্রাহকদের স্বয়ংক্রিয় উত্তর চালু থাকলে, গ্রাহক যখন একটি বার্তা ছেড়ে যান, একটি স্বয়ংক্রিয় উত্তর ইমেল স্বয়ংক্রিয়ভাবে গ্রাহকের দ্বারা পূরণ করা ইমেল ঠিকানায় পাঠানো হবে।',
+  'plugin.sendmail.auto-reply.description':
+    'গ্রাহকদের স্বয়ংক্রিয় উত্তর চালু থাকলে, গ্রাহক যখন একটি বার্তা ছেড়ে যান, একটি স্বয়ংক্রিয় উত্তর ইমেল স্বয়ংক্রিয়ভাবে গ্রাহকের দ্বারা পূরণ করা ইমেল ঠিকানায় পাঠানো হবে।',
   'plugin.sendmail.auto-reply.title': 'স্বয়ংক্রিয় উত্তর শিরোনাম',
   'plugin.sendmail.auto-reply.title.description': 'স্বয়ংক্রিয় উত্তর শিরোনাম পূরণ করুন',
   'plugin.sendmail.auto-reply.message': 'স্বয়ংক্রিয় উত্তর সামগ্রী',
@@ -791,15 +921,19 @@ export default {
   'plugin.sendmail.send-type.report': 'প্রতিদিনের ওয়েবসাইট প্রতিদিন',
   'plugin.sendmail.send-type.new-order': 'ওয়েবসাইটে নতুন অর্ডার আছে',
   'plugin.sendmail.send-type.pay-order': 'ওয়েবসাইটে একটি পেমেন্ট অর্ডার আছে',
-  'plugin.sendmail.send-type.description': 'একবার নির্বাচিত হলে, নির্বাচিত পরিস্থিতিতে ইমেল পাঠানো হবে।',
+  'plugin.sendmail.send-type.description':
+    'একবার নির্বাচিত হলে, নির্বাচিত পরিস্থিতিতে ইমেল পাঠানো হবে।',
   'plugin.sendmail.test.sending': 'পরীক্ষার ইমেল পাঠানো হচ্ছে',
   'plugin.sendmail.send-time': 'সময় পাঠান',
   'plugin.sendmail.subject': 'মেইল শিরোনাম',
   'plugin.sendmail.status': 'স্ট্যাটাস পাঠান',
-  'plugin.sendmail.tips': 'ইমেল অনুস্মারক ওয়েবসাইট থেকে ইমেলের মাধ্যমে আপনার মেইলবক্সে বার্তা পাঠাতে পারে।',
+  'plugin.sendmail.tips':
+    'ইমেল অনুস্মারক ওয়েবসাইট থেকে ইমেলের মাধ্যমে আপনার মেইলবক্সে বার্তা পাঠাতে পারে।',
   'plugin.sendmail.test.send': 'পরীক্ষা ইমেল পাঠান',
-  'plugin.sitemap.tips1': 'আজকাল, সমস্ত প্রধান সার্চ ইঞ্জিন সাইটম্যাপ জমা দেওয়ার সময় txt ফর্ম্যাটে সাইটম্যাপ সমর্থন করে এবং txt সাইটম্যাপ ফাইলের আকার xml সাইটম্যাপ ফাইলের চেয়ে ছোট তাই, txt ফর্ম্যাট সাইটম্যাপ ব্যবহার করার পরামর্শ দেওয়া হয়।',
-  'plugin.sitemap.tips2': 'যেহেতু প্রতিটি সার্চ ইঞ্জিনের সাইটম্যাপ জমা দেওয়া 50,000 আইটেম বা 10M আকারের মধ্যে সীমাবদ্ধ, এই সাইটম্যাপ ফাংশনটি 50,000 আইটেম সহ একটি সাইটম্যাপ ফাইল তৈরি করবে৷',
+  'plugin.sitemap.tips1':
+    'আজকাল, সমস্ত প্রধান সার্চ ইঞ্জিন সাইটম্যাপ জমা দেওয়ার সময় txt ফর্ম্যাটে সাইটম্যাপ সমর্থন করে এবং txt সাইটম্যাপ ফাইলের আকার xml সাইটম্যাপ ফাইলের চেয়ে ছোট তাই, txt ফর্ম্যাট সাইটম্যাপ ব্যবহার করার পরামর্শ দেওয়া হয়।',
+  'plugin.sitemap.tips2':
+    'যেহেতু প্রতিটি সার্চ ইঞ্জিনের সাইটম্যাপ জমা দেওয়া 50,000 আইটেম বা 10M আকারের মধ্যে সীমাবদ্ধ, এই সাইটম্যাপ ফাংশনটি 50,000 আইটেম সহ একটি সাইটম্যাপ ফাইল তৈরি করবে৷',
   'plugin.sitemap.type': 'সাইটম্যাপ বিন্যাস',
   'plugin.sitemap.auto-build': 'সাইটম্যাপ তৈরির পদ্ধতি',
   'plugin.sitemap.auto-build.manual': 'ম্যানুয়াল',
@@ -808,17 +942,22 @@ export default {
   'plugin.sitemap.exclude-tag.no': 'উৎপন্ন',
   'plugin.sitemap.exclude-tag.yes': 'উৎপন্ন হয় না',
   'plugin.sitemap.exculde-module': 'বাদ দস্তাবেজ মডেল',
-  'plugin.sitemap.exculde-module.description': 'আপনি যদি নির্দিষ্ট নথির মডেলগুলি বাদ দিতে চান তবে আপনি এটি এখানে নির্বাচন করতে পারেন৷',
+  'plugin.sitemap.exculde-module.description':
+    'আপনি যদি নির্দিষ্ট নথির মডেলগুলি বাদ দিতে চান তবে আপনি এটি এখানে নির্বাচন করতে পারেন৷',
   'plugin.sitemap.exculde-category': 'বর্জিত বিভাগ',
-  'plugin.sitemap.exculde-category.description': 'আপনি কিছু বিভাগ বাদ দিতে চান, আপনি এখানে চয়ন করতে পারেন',
+  'plugin.sitemap.exculde-category.description':
+    'আপনি কিছু বিভাগ বাদ দিতে চান, আপনি এখানে চয়ন করতে পারেন',
   'plugin.sitemap.exculde-page': 'একক পৃষ্ঠা বাদ',
-  'plugin.sitemap.exculde-page.description': 'আপনি যদি নির্দিষ্ট একক পৃষ্ঠাগুলি বাদ দিতে চান তবে আপনি এখানে বেছে নিতে পারেন',
+  'plugin.sitemap.exculde-page.description':
+    'আপনি যদি নির্দিষ্ট একক পৃষ্ঠাগুলি বাদ দিতে চান তবে আপনি এখানে বেছে নিতে পারেন',
   'plugin.sitemap.action': 'সংক্ষিপ্ত কাজ',
-  'plugin.sitemap.action.tips': 'টিপ: সাইটম্যাপ কনফিগারেশন পরিবর্তন করার পরে, কনফিগারেশন কার্যকর করার জন্য দয়া করে ম্যানুয়ালি সাইটম্যাপ তৈরি করুন৷',
+  'plugin.sitemap.action.tips':
+    'টিপ: সাইটম্যাপ কনফিগারেশন পরিবর্তন করার পরে, কনফিগারেশন কার্যকর করার জন্য দয়া করে ম্যানুয়ালি সাইটম্যাপ তৈরি করুন৷',
   'plugin.sitemap.last-time': 'শেষ উত্পন্ন সময়',
   'plugin.sitemap.build': 'ম্যানুয়ালি সাইটম্যাপ তৈরি করুন',
   'plugin.sitemap.view': 'সাইটম্যাপ দেখুন',
-  'plugin.storage.tips': 'রিসোর্স স্টোরেজ পদ্ধতিগুলি স্বয়ংক্রিয়ভাবে পূর্বে আপলোড করা সংস্থানগুলিকে সিঙ্ক্রোনাইজ করবে না সাধারণত ব্যবহারের সময় স্টোরেজ পদ্ধতিগুলি পরিবর্তন করার পরামর্শ দেওয়া হয় না৷',
+  'plugin.storage.tips':
+    'রিসোর্স স্টোরেজ পদ্ধতিগুলি স্বয়ংক্রিয়ভাবে পূর্বে আপলোড করা সংস্থানগুলিকে সিঙ্ক্রোনাইজ করবে না সাধারণত ব্যবহারের সময় স্টোরেজ পদ্ধতিগুলি পরিবর্তন করার পরামর্শ দেওয়া হয় না৷',
   'plugin.storage.base': 'মৌলিক কনফিগারেশন',
   'plugin.storage.type': 'স্টোরেজ পদ্ধতি',
   'plugin.storage.type.local': 'স্থানীয় স্টোরেজ',
@@ -826,12 +965,15 @@ export default {
   'plugin.storage.keep-local': 'স্থানীয় সংরক্ষণাগার',
   'plugin.storage.keep-local.no': 'ধরে রাখা হয়নি',
   'plugin.storage.keep-local.yes': 'সংচিতি',
-  'plugin.storage.keep-local.description': 'ক্লাউড স্টোরেজ ব্যবহার করার সময়, আপনি স্থানীয় সংরক্ষণাগার রাখা বেছে নিতে পারেন',
+  'plugin.storage.keep-local.description':
+    'ক্লাউড স্টোরেজ ব্যবহার করার সময়, আপনি স্থানীয় সংরক্ষণাগার রাখা বেছে নিতে পারেন',
   'plugin.timefactor.module.required': 'অন্তত একটি নথি মডেল নির্বাচন করুন',
   'plugin.timefactor.types.required': 'অন্তত একটি আপডেট প্রকার নির্বাচন করুন',
   'plugin.timefactor.start-day.required': 'আপডেটটি ট্রিগার করার সময় 0 হতে পারে না',
-  'plugin.timefactor.end-day.error': 'আপডেটের ফলাফলের সময় আপডেট ট্রিগার সময়ের চেয়ে আগে হতে পারে না',
-  'plugin.timefactor.tips': 'ডকুমেন্ট টাইম ফ্যাক্টর-নির্ধারিত প্রকাশনা ফাংশন নিয়মিতভাবে নথির সময় আপডেট করার ক্ষমতা প্রদান করে। আপনি নির্দিষ্ট নথিগুলিকে একটি নির্ধারিত ভিত্তিতে সর্বশেষ সময়ে স্বয়ংক্রিয়ভাবে আপডেট করার জন্য সেট করতে পারেন এবং খসড়াগুলিতে নথিগুলি নির্দিষ্ট সময় অনুযায়ী নিয়মিত প্রকাশ করা যেতে পারে। প্রোগ্রাম প্রতি ঘন্টা আপডেট চেক করার চেষ্টা করবে.',
+  'plugin.timefactor.end-day.error':
+    'আপডেটের ফলাফলের সময় আপডেট ট্রিগার সময়ের চেয়ে আগে হতে পারে না',
+  'plugin.timefactor.tips':
+    'ডকুমেন্ট টাইম ফ্যাক্টর-নির্ধারিত প্রকাশনা ফাংশন নিয়মিতভাবে নথির সময় আপডেট করার ক্ষমতা প্রদান করে। আপনি নির্দিষ্ট নথিগুলিকে একটি নির্ধারিত ভিত্তিতে সর্বশেষ সময়ে স্বয়ংক্রিয়ভাবে আপডেট করার জন্য সেট করতে পারেন এবং খসড়াগুলিতে নথিগুলি নির্দিষ্ট সময় অনুযায়ী নিয়মিত প্রকাশ করা যেতে পারে। প্রোগ্রাম প্রতি ঘন্টা আপডেট চেক করার চেষ্টা করবে.',
   'plugin.timefactor.setting': 'নথির সময় ফ্যাক্টর-নির্ধারিত রিলিজ সেটিংস',
   'plugin.timefactor.open': 'পুরানো নথির সময় আপডেট সক্রিয় করতে হবে কিনা',
   'plugin.timefactor.open.no': 'না',
@@ -847,17 +989,20 @@ export default {
   'plugin.timefactor.end-day': 'স্বয়ংক্রিয়ভাবে আপডেট করুন',
   'plugin.timefactor.end-day.placeholder': 'যেমনঃ ১',
   'plugin.timefactor.end-day.suffix': 'দিনের মধ্যে সময়',
-  'plugin.timefactor.end-day.description': 'আপনি যদি 0 পূরণ করেন, তার মানে এটি বর্তমান দিনে আপডেট করা হবে।',
+  'plugin.timefactor.end-day.description':
+    'আপনি যদি 0 পূরণ করেন, তার মানে এটি বর্তমান দিনে আপডেট করা হবে।',
   'plugin.timefactor.republish': 'পুনরায় ধাক্কা দিতে হবে কিনা',
   'plugin.timefactor.republish.no': 'না',
   'plugin.timefactor.republish.yes': 'হ্যাঁ',
-  'plugin.timefactor.republish.description': 'ডকুমেন্ট আপডেট করার সময়, সার্চ ইঞ্জিন ব্যবহার করে দেখতে এটি পুনরায় জমা দিন।',
+  'plugin.timefactor.republish.description':
+    'ডকুমেন্ট আপডেট করার সময়, সার্চ ইঞ্জিন ব্যবহার করে দেখতে এটি পুনরায় জমা দিন।',
   'plugin.timefactor.release-draft': 'খসড়া বক্স নথির স্বয়ংক্রিয় প্রকাশনা সক্ষম করা হবে কিনা',
   'plugin.timefactor.release-draft.no': 'না',
   'plugin.timefactor.release-draft.yes': 'সক্ষম',
   'plugin.timefactor.daily-limit': 'প্রতিদিন স্বয়ংক্রিয় রিলিজের সংখ্যা',
   'plugin.timefactor.daily-limit.suffix': 'অধ্যায়',
-  'plugin.timefactor.daily-limit.description': 'সেট করার পরে, প্রতিদিন খসড়া বাক্স থেকে একটি নির্দিষ্ট সংখ্যক নিবন্ধ প্রকাশ করুন, ডিফল্ট হল 100',
+  'plugin.timefactor.daily-limit.description':
+    'সেট করার পরে, প্রতিদিন খসড়া বাক্স থেকে একটি নির্দিষ্ট সংখ্যক নিবন্ধ প্রকাশ করুন, ডিফল্ট হল 100',
   'plugin.timefactor.daily-limit.placeholder': 'যেমন: 30',
   'plugin.timefactor.start-time': 'দৈনিক প্রকাশনা শুরুর সময়',
   'plugin.timefactor.start-time.placeholder': 'যেমন: 8',
@@ -868,16 +1013,20 @@ export default {
   'plugin.timefactor.end-time.description': 'আপনি যদি 0 পূরণ করেন, এর মানে এটি 23:00 এ শেষ হবে',
   'plugin.timefactor.module': 'মডেল খুলুন',
   'plugin.timefactor.category': 'যে বিভাগগুলি আপডেটে অংশগ্রহণ করে না',
-  'plugin.timefactor.category.placeholder': 'আপনি কিছু বিভাগ বাদ দিতে চান, আপনি এখানে চয়ন করতে পারেন',
+  'plugin.timefactor.category.placeholder':
+    'আপনি কিছু বিভাগ বাদ দিতে চান, আপনি এখানে চয়ন করতে পারেন',
   'plugin.titleimage.open': 'শিরোনাম স্বয়ংক্রিয় ইমেজ কনফিগারেশন',
   'plugin.titleimage.open.no': 'বন্ধ',
   'plugin.titleimage.open.yes': 'চালু করা',
-  'plugin.titleimage.open.description': 'যখন সক্রিয় করা হয়, যখন নথিতে একটি চিত্র থাকে না, নথির শিরোনাম ধারণকারী একটি চিত্র স্বয়ংক্রিয়ভাবে নথি থাম্বনেল চিত্র হিসাবে তৈরি হবে৷',
+  'plugin.titleimage.open.description':
+    'যখন সক্রিয় করা হয়, যখন নথিতে একটি চিত্র থাকে না, নথির শিরোনাম ধারণকারী একটি চিত্র স্বয়ংক্রিয়ভাবে নথি থাম্বনেল চিত্র হিসাবে তৈরি হবে৷',
   'plugin.titleimage.draw-sub': 'নথির জন্য একটি গৌণ শিরোনাম ইমেজ তৈরি করা হবে কিনা',
-  'plugin.titleimage.draw-sub.description': 'এটি চালু করার পরে, যখন নথিতে একটি চিত্র থাকবে না, নথির h2 ট্যাগের জন্য একটি চিত্র স্বয়ংক্রিয়ভাবে তৈরি হবে এবং নথিতে সন্নিবেশ করা হবে৷',
+  'plugin.titleimage.draw-sub.description':
+    'এটি চালু করার পরে, যখন নথিতে একটি চিত্র থাকবে না, নথির h2 ট্যাগের জন্য একটি চিত্র স্বয়ংক্রিয়ভাবে তৈরি হবে এবং নথিতে সন্নিবেশ করা হবে৷',
   'plugin.titleimage.size': 'ছবির আকার তৈরি করুন',
   'plugin.titleimage.width': 'পিক্সেল প্রস্থ',
-  'plugin.titleimage.width.placeholder': '800টি মাধ্যমিক শিরোনাম এবং ছবির ডিফল্ট সহ একটি পাঠ্য তৈরি করা হবে কিনা',
+  'plugin.titleimage.width.placeholder':
+    '800টি মাধ্যমিক শিরোনাম এবং ছবির ডিফল্ট সহ একটি পাঠ্য তৈরি করা হবে কিনা',
   'plugin.titleimage.height': 'পিক্সেল উচ্চতা',
   'plugin.titleimage.height.placeholder': 'ডিফল্ট 600',
   'plugin.titleimage.color': 'ফন্টের রং',
@@ -890,25 +1039,29 @@ export default {
   'plugin.titleimage.noise.yes': 'যোগ করা',
   'plugin.titleimage.noise.description': 'শুধুমাত্র ডিফল্ট ব্যাকগ্রাউন্ড ব্যবহার করা হলেই কাজ করে',
   'plugin.titleimage.bg-image': 'কাস্টম ব্যাকগ্রাউন্ড',
-  'plugin.titleimage.bg-image.description': 'আপনি পটভূমি কাস্টমাইজ করতে পারেন যদি আপনি একটি কাস্টম পটভূমি আপলোড না করেন, সিস্টেম স্বয়ংক্রিয়ভাবে একটি কঠিন রঙের পটভূমি তৈরি করবে৷',
+  'plugin.titleimage.bg-image.description':
+    'আপনি পটভূমি কাস্টমাইজ করতে পারেন যদি আপনি একটি কাস্টম পটভূমি আপলোড না করেন, সিস্টেম স্বয়ংক্রিয়ভাবে একটি কঠিন রঙের পটভূমি তৈরি করবে৷',
   'plugin.titleimage.bg-image.upload': 'চিত্র আপলোড',
   'plugin.titleimage.font': 'কাস্টম ফন্ট',
   'plugin.titleimage.font.upload': '.ttf ফন্ট আপলোড করুন',
   'plugin.titleimage.preview.text': 'প্রাকদর্শন টেক্সট',
   'plugin.titleimage.preview.text.edit': 'প্রিভিউ টেক্সট পরিবর্তন করুন',
   'plugin.transfer.provider.required': 'একটি ওয়েবসাইট সিস্টেম নির্বাচন করুন',
-  'plugin.transfer.token.required': 'অনুগ্রহ করে যোগাযোগের টোকেনটি পূরণ করুন, যা যেকোনো অক্ষর হতে পারে',
+  'plugin.transfer.token.required':
+    'অনুগ্রহ করে যোগাযোগের টোকেনটি পূরণ করুন, যা যেকোনো অক্ষর হতে পারে',
   'plugin.transfer.base-url.required': 'ওয়েবসাইটের ঠিকানা পূরণ করুন',
   'plugin.transfer.signal.error': 'যোগাযোগে ত্রুটি',
   'plugin.transfer.signal.success': 'যোগাযোগ সফল',
   'plugin.transfer.transfering': 'নির্বাহ করা হচ্ছে',
-  'plugin.transfer.tips': 'বর্তমানে, DedeCMS/WordPress/PbootCMS/EmpireCMS-এর ওয়েবসাইটের বিষয়বস্তু anqicms-এ স্থানান্তরিত হতে সমর্থিত।',
+  'plugin.transfer.tips':
+    'বর্তমানে, DedeCMS/WordPress/PbootCMS/EmpireCMS-এর ওয়েবসাইটের বিষয়বস্তু anqicms-এ স্থানান্তরিত হতে সমর্থিত।',
   'plugin.transfer.step1': 'প্রথম ধাপ',
   'plugin.transfer.step2': 'ধাপ ২',
   'plugin.transfer.step3': 'তৃতীয় ধাপ',
   'plugin.transfer.step4': 'চতুর্থ ধাপ',
   'plugin.transfer.step5': 'পঞ্চম ধাপ',
-  'plugin.transfer.step1.description': 'যে ওয়েবসাইট সিস্টেমটি স্থানান্তরিত করতে হবে সেটি নির্বাচন করুন',
+  'plugin.transfer.step1.description':
+    'যে ওয়েবসাইট সিস্টেমটি স্থানান্তরিত করতে হবে সেটি নির্বাচন করুন',
   'plugin.transfer.step2.description': 'যোগাযোগ ইন্টারফেস ফাইল ডাউনলোড করুন',
   'plugin.transfer.step3.description': 'ওয়েবসাইট যোগাযোগ তথ্য পূরণ করুন',
   'plugin.transfer.step4.description': 'কি স্থানান্তর করতে হবে তা নির্বাচন করুন',
@@ -916,16 +1069,20 @@ export default {
   'plugin.transfer.step.prev': 'আগে',
   'plugin.transfer.step.next': 'পরবর্তী পর্ব',
   'plugin.transfer.step.download': 'ডাউনলোড',
-  'plugin.transfer.step2.tips': 'ডাউনলোড করা ফাইলটি আপনার ওয়েবসাইটের রুট ডিরেক্টরিতে আপলোড করুন। আপনার ওয়েবসাইটের রুট ডিরেক্টরিতে এটি ডাউনলোড এবং স্থাপন করার পরে, চালিয়ে যেতে পরবর্তী ক্লিক করুন।',
-  'plugin.transfer.step3.tips': 'প্রতিটি ওয়েবসাইটের জন্য শুধুমাত্র একটি টোকেন কনফিগার করা যেতে পারে, যদি আপনাকে একটি ত্রুটির সাথে অনুরোধ করা হয়, তাহলে অনুগ্রহ করে ম্যানুয়ালি মুছে ফেলুন ওয়েবসাইটটির রুট ডিরেক্টরি থেকে আবার কনফিগার করতে।',
+  'plugin.transfer.step2.tips':
+    'ডাউনলোড করা ফাইলটি আপনার ওয়েবসাইটের রুট ডিরেক্টরিতে আপলোড করুন। আপনার ওয়েবসাইটের রুট ডিরেক্টরিতে এটি ডাউনলোড এবং স্থাপন করার পরে, চালিয়ে যেতে পরবর্তী ক্লিক করুন।',
+  'plugin.transfer.step3.tips':
+    'প্রতিটি ওয়েবসাইটের জন্য শুধুমাত্র একটি টোকেন কনফিগার করা যেতে পারে, যদি আপনাকে একটি ত্রুটির সাথে অনুরোধ করা হয়, তাহলে অনুগ্রহ করে ম্যানুয়ালি মুছে ফেলুন ওয়েবসাইটটির রুট ডিরেক্টরি থেকে আবার কনফিগার করতে।',
   'plugin.transfer.base-url': 'ওয়েবসাইটের ঠিকানা',
   'plugin.transfer.base-url.placeholder': 'HTTP বা https দিয়ে শুরু URL',
   'plugin.transfer.token': 'যোগাযোগ টোকেন',
   'plugin.transfer.token.placeholder': 'যে কোন চরিত্র হতে পারে',
-  'plugin.transfer.step4.tips': 'ডিফল্টরূপে, সবকিছু স্থানান্তরিত হয় আপনি এটির শুধুমাত্র কিছু অংশ স্থানান্তর করতে পারেন৷',
+  'plugin.transfer.step4.tips':
+    'ডিফল্টরূপে, সবকিছু স্থানান্তরিত হয় আপনি এটির শুধুমাত্র কিছু অংশ স্থানান্তর করতে পারেন৷',
   'plugin.transfer.types': 'কি স্থানান্তর করতে হবে তা নির্বাচন করুন',
   'plugin.transfer.module': 'একটি মাইগ্রেশন মডেল নির্বাচন করুন',
-  'plugin.transfer.step5.tips': 'মাইগ্রেশন প্রক্রিয়া চলাকালীন, দয়া করে এই পৃষ্ঠাটি রিফ্রেশ করবেন না।',
+  'plugin.transfer.step5.tips':
+    'মাইগ্রেশন প্রক্রিয়া চলাকালীন, দয়া করে এই পৃষ্ঠাটি রিফ্রেশ করবেন না।',
   'plugin.transfer.base-url.name': 'যে সাইটগুলি স্থানান্তর করতে হবে:',
   'plugin.transfer.status': 'বর্তমান কাজের অবস্থা:',
   'plugin.transfer.status.finished': 'সম্পন্ন',
@@ -946,7 +1103,8 @@ export default {
   'plugin.user.phone': 'ফোন নম্বর',
   'plugin.user.email': 'ইমেইল ঠিকানা',
   'plugin.user.password': 'পাসওয়ার্ড',
-  'plugin.user.password.description': 'আপনি যদি এই ব্যবহারকারীর জন্য পাসওয়ার্ড পরিবর্তন করতে চান, দয়া করে এটি এখানে পূরণ করুন, 6 অক্ষরের কম নয়৷',
+  'plugin.user.password.description':
+    'আপনি যদি এই ব্যবহারকারীর জন্য পাসওয়ার্ড পরিবর্তন করতে চান, দয়া করে এটি এখানে পূরণ করুন, 6 অক্ষরের কম নয়৷',
   'plugin.user.is-retailer': 'এটি একটি পরিবেশক?',
   'plugin.user.is-retailer.no': 'না',
   'plugin.user.is-retailer.yes': 'হ্যাঁ',
@@ -956,16 +1114,19 @@ export default {
   'plugin.user.group': 'ব্যবহারকারী গ্রুপ ভিআইপি',
   'plugin.user.group.all': 'সব গ্রুপ',
   'plugin.user.expire': 'ব্যবহারকারী গ্রুপের মেয়াদ শেষ',
-  'plugin.user.expire.description': 'মেয়াদ শেষ হওয়ার পরে, ব্যবহারকারী গ্রুপটি প্রথম গ্রুপে ফিরে আসবে',
+  'plugin.user.expire.description':
+    'মেয়াদ শেষ হওয়ার পরে, ব্যবহারকারী গ্রুপটি প্রথম গ্রুপে ফিরে আসবে',
   'plugin.user.extra-fields': 'অতিরিক্ত ক্ষেত্র',
   'plugin.user.extra-fields.default': 'ডিফল্ট মান:',
   'plugin.user.delete.confirm': 'আপনি কি নিশ্চিত যে আপনি এই তথ্য মুছে ফেলতে চান?',
-  'plugin.watermark.generate.confirm': 'আপনি কি ছবির লাইব্রেরির সমস্ত ছবিতে ওয়াটারমার্ক যোগ করার বিষয়ে নিশ্চিত?',
+  'plugin.watermark.generate.confirm':
+    'আপনি কি ছবির লাইব্রেরির সমস্ত ছবিতে ওয়াটারমার্ক যোগ করার বিষয়ে নিশ্চিত?',
   'plugin.watermark.generate.content': 'ওয়াটারমার্ক করা ছবি আবার যোগ করা হবে না.',
   'plugin.watermark.open': 'ওয়াটারমার্ক সক্রিয় করতে হবে কিনা',
   'plugin.watermark.open.no': 'বন্ধ',
   'plugin.watermark.open.yes': 'চালু করা',
-  'plugin.watermark.open.description': 'সক্রিয় করা হলে, আপলোড করা ছবিতে স্বয়ংক্রিয়ভাবে জলছাপ যুক্ত হবে৷',
+  'plugin.watermark.open.description':
+    'সক্রিয় করা হলে, আপলোড করা ছবিতে স্বয়ংক্রিয়ভাবে জলছাপ যুক্ত হবে৷',
   'plugin.watermark.type': 'ওয়াটারমার্কের ধরন',
   'plugin.watermark.type.image': 'ছবির জলছাপ',
   'plugin.watermark.type.text': 'পাঠ্য জলছাপ',
@@ -982,31 +1143,39 @@ export default {
   'plugin.watermark.batch-add': 'ব্যাচে ছবি লাইব্রেরিতে ছবিতে ওয়াটারমার্ক যোগ করুন',
   'plugin.watermark.min-size': 'ন্যূনতম জলছাপ চিত্র',
   'plugin.watermark.min-size.suffix': 'পিক্সেল',
-  'plugin.watermark.min-size.description': 'যে চিত্রগুলির দৈর্ঘ্য এবং প্রস্থ উভয়ই এই আকারের চেয়ে ছোট সেগুলিতে জলছাপ যুক্ত করা হবে না।',
+  'plugin.watermark.min-size.description':
+    'যে চিত্রগুলির দৈর্ঘ্য এবং প্রস্থ উভয়ই এই আকারের চেয়ে ছোট সেগুলিতে জলছাপ যুক্ত করা হবে না।',
   'plugin.weapp.appid': 'মিনি প্রোগ্রাম অ্যাপআইডি',
   'plugin.weapp.app-secret': 'মিনি প্রোগ্রাম অ্যাপসিক্রেট',
   'plugin.weapp.push.setting': 'বার্তা পুশ কনফিগারেশন',
   'plugin.weapp.server-url': 'সার্ভার ঠিকানা',
   'plugin.weapp.token': 'পরিষেবা অ্যাকাউন্ট টোকেন',
   'plugin.weapp.encoding-aes-key': 'পরিষেবা নম্বর এনকোডিংএএসকি',
-  'plugin.weapp.encoding-aes-key.description': 'যদি বার্তা এনক্রিপশন এবং ডিক্রিপশন পদ্ধতিটি প্লেইন টেক্সট মোড হয়, তাহলে অনুগ্রহ করে এই ক্ষেত্রটি পূরণ করবেন না, অন্যথায় একটি ত্রুটি রিপোর্ট করা হবে।',
+  'plugin.weapp.encoding-aes-key.description':
+    'যদি বার্তা এনক্রিপশন এবং ডিক্রিপশন পদ্ধতিটি প্লেইন টেক্সট মোড হয়, তাহলে অনুগ্রহ করে এই ক্ষেত্রটি পূরণ করবেন না, অন্যথায় একটি ত্রুটি রিপোর্ট করা হবে।',
   'plugin.weapp.default': 'ডিফল্ট অ্যাপলেট',
-  'plugin.weapp.default.tips': 'AnQiCMS-এর ডিফল্ট মিনি প্রোগ্রাম Baidu স্মার্ট মিনি প্রোগ্রাম, WeChat মিনি প্রোগ্রাম, QQ মিনি প্রোগ্রাম, Alipay মিনি প্রোগ্রাম, এবং Toutiao মিনি প্রোগ্রামকেও সমর্থন করে।',
+  'plugin.weapp.default.tips':
+    'AnQiCMS-এর ডিফল্ট মিনি প্রোগ্রাম Baidu স্মার্ট মিনি প্রোগ্রাম, WeChat মিনি প্রোগ্রাম, QQ মিনি প্রোগ্রাম, Alipay মিনি প্রোগ্রাম, এবং Toutiao মিনি প্রোগ্রামকেও সমর্থন করে।',
   'plugin.weapp.default.help': 'মিনি প্রোগ্রাম ব্যবহারে সাহায্য করুন:',
-  'plugin.weapp.default.source': 'মিনি প্রোগ্রাম সোর্স কোড ঠিকানা: https://github.com/fesiong/anqicms-app/releases',
+  'plugin.weapp.default.source':
+    'মিনি প্রোগ্রাম সোর্স কোড ঠিকানা: https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': 'ডিফল্ট অ্যাপলেট ডাউনলোড করুন',
   'plugin.wechat.menu.delete.confirm': 'আপনি কি নিশ্চিত আপনি এই মেনু মুছে দিতে চান?',
   'plugin.wechat.menu.submit.error': 'ত্রুটি জমা দিন',
-  'plugin.wechat.menu.submit.confirm': 'আপনি কি নিশ্চিত আপনি অফিসিয়াল অ্যাকাউন্ট মেনু আপডেট করতে চান?',
-  'plugin.wechat.menu.submit.content': 'এই অপারেশনটি নতুন সেট করা মেনুটিকে WeChat সার্ভারে সিঙ্ক্রোনাইজ করবে।',
+  'plugin.wechat.menu.submit.confirm':
+    'আপনি কি নিশ্চিত আপনি অফিসিয়াল অ্যাকাউন্ট মেনু আপডেট করতে চান?',
+  'plugin.wechat.menu.submit.content':
+    'এই অপারেশনটি নতুন সেট করা মেনুটিকে WeChat সার্ভারে সিঙ্ক্রোনাইজ করবে।',
   'plugin.wechat.menu.name': 'মেনু নাম',
   'plugin.wechat.menu.type': 'টাইপ',
   'plugin.wechat.menu.type.click': 'পাঠ্য মেনু',
   'plugin.wechat.menu.type.view': 'লিঙ্ক মেনু',
   'plugin.wechat.menu.value': 'মান',
-  'plugin.wechat.menu.value.description': 'অনুগ্রহ করে টেক্সট মেনুর জন্য টেক্সট এবং লিঙ্ক মেনুর জন্য ইউআরএল ঠিকানা পূরণ করুন, 128টি অক্ষরের বেশি নয়।',
+  'plugin.wechat.menu.value.description':
+    'অনুগ্রহ করে টেক্সট মেনুর জন্য টেক্সট এবং লিঙ্ক মেনুর জন্য ইউআরএল ঠিকানা পূরণ করুন, 128টি অক্ষরের বেশি নয়।',
   'plugin.wechat.menu': 'WeChat মেনু',
-  'plugin.wechat.menu.tips': 'দ্রষ্টব্য: প্রতিটি প্রথম-স্তরের মেনুর জন্য সর্বাধিক 3টি প্রথম-স্তরের মেনু এবং সর্বাধিক 5টি দ্বিতীয়-স্তরের মেনু রয়েছে৷',
+  'plugin.wechat.menu.tips':
+    'দ্রষ্টব্য: প্রতিটি প্রথম-স্তরের মেনুর জন্য সর্বাধিক 3টি প্রথম-স্তরের মেনু এবং সর্বাধিক 5টি দ্বিতীয়-স্তরের মেনু রয়েছে৷',
   'plugin.wechat.menu.submit': 'অফিসিয়াল অ্যাকাউন্ট মেনু আপডেট করুন',
   'plugin.wechat.menu.add': 'মেনু যোগ করুন',
   'plugin.wechat.menu.top': 'শীর্ষ মেনু',
@@ -1019,7 +1188,8 @@ export default {
   'plugin.wechat.reply.time': 'প্রতিক্রিয়া সময়',
   'plugin.wechat.reply.default': 'ডিফল্ট উত্তর',
   'plugin.wechat.reply.default.yes': 'হ্যাঁ',
-  'plugin.wechat.reply.default.description': 'ডিফল্ট উত্তর হিসাবে নির্বাচন করার পরে, যদি কীওয়ার্ডটি মেলে না, এই বিষয়বস্তুর উত্তর দেওয়া হবে',
+  'plugin.wechat.reply.default.description':
+    'ডিফল্ট উত্তর হিসাবে নির্বাচন করার পরে, যদি কীওয়ার্ডটি মেলে না, এই বিষয়বস্তুর উত্তর দেওয়া হবে',
   'plugin.wechat.reply.default.set-no': 'না',
   'plugin.wechat.reply.default.set-yes': 'ডিফল্ট হিসাবে সেট করুন',
   'plugin.wechat.reply.rule': 'স্বয়ংক্রিয় উত্তরের নিয়ম',
@@ -1032,7 +1202,8 @@ export default {
   'plugin.wechat.verify-setting': 'যাচাইকরণ কোড কনফিগারেশন',
   'plugin.wechat.verify-key': 'যাচাইকরণ কোড কীওয়ার্ড',
   'plugin.wechat.verify-key.placeholder': 'ডিফল্ট: যাচাইকরণ কোড',
-  'plugin.wechat.verify-key.description': 'ব্যবহারকারীরা এই কীওয়ার্ডের উত্তর দিয়ে যাচাইকরণ কোড পেতে পারেন',
+  'plugin.wechat.verify-key.description':
+    'ব্যবহারকারীরা এই কীওয়ার্ডের উত্তর দিয়ে যাচাইকরণ কোড পেতে পারেন',
   'plugin.wechat.verify-msg': 'যাচাইকরণ কোড তথ্য টেমপ্লেট',
   'plugin.wechat.verify-msg.placeholder': 'ডিফল্ট: যাচাইকরণ কোড: {code}, 30 মিনিটের মধ্যে বৈধ',
   'plugin.wechat.verify-msg.description': 'দ্রষ্টব্য: টেমপ্লেটে `{code}` থাকতে হবে',

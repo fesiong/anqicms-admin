@@ -103,7 +103,11 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
       dataIndex: 'type',
       render: (text: any, record) => (
         <div>
-          <span>{record.is_system ? 'content.module.field.type.built-in' : ''}</span>
+          <span>
+            {record.is_system
+              ? intl.formatMessage({ id: 'content.module.field.type.built-in' })
+              : ''}
+          </span>
           <span>{text}</span>
         </div>
       ),
@@ -176,16 +180,22 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
         {fetched && (
           <Row gutter={16}>
             <Col>
-              <div style={{ lineHeight: '32px' }}><FormattedMessage id="plugin.guestbook.return-message" /></div>
+              <div style={{ lineHeight: '32px' }}>
+                <FormattedMessage id="plugin.guestbook.return-message" />
+              </div>
             </Col>
             <Col flex={1}>
               <Input
                 name="return_message"
                 defaultValue={setting.return_message}
-                placeholder={intl.formatMessage({ id: 'plugin.guestbook.return-message.placeholder' })}
+                placeholder={intl.formatMessage({
+                  id: 'plugin.guestbook.return-message.placeholder',
+                })}
                 onChange={handleChangeReturnMessage}
               />
-              <div className="text-muted"><FormattedMessage id="plugin.guestbook.return-message.description" /></div>
+              <div className="text-muted">
+                <FormattedMessage id="plugin.guestbook.return-message.description" />
+              </div>
             </Col>
           </Row>
         )}
@@ -220,7 +230,11 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentField.name ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' }) : intl.formatMessage({ id: 'content.module.field.add' })}
+          title={
+            currentField.name
+              ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' })
+              : intl.formatMessage({ id: 'content.module.field.add' })
+          }
           open={editVisible}
           modalProps={{
             onCancel: () => {
@@ -233,7 +247,12 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
             handleSaveField(values);
           }}
         >
-          <ProFormText name="name" required label={intl.formatMessage({ id: 'content.module.field.name' })} extra={intl.formatMessage({ id: 'content.module.field.name.description' })} />
+          <ProFormText
+            name="name"
+            required
+            label={intl.formatMessage({ id: 'content.module.field.name' })}
+            extra={intl.formatMessage({ id: 'content.module.field.name.description' })}
+          />
           <ProFormText
             name="field_name"
             label={intl.formatMessage({ id: 'content.module.field.field-name' })}
@@ -259,8 +278,14 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
             name="required"
             label={intl.formatMessage({ id: 'content.module.field.isrequired' })}
             options={[
-              { label: intl.formatMessage({ id: 'content.module.field.isrequired.no' }), value: false },
-              { label: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }), value: true },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
+                value: false,
+              },
+              {
+                label: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
+                value: true,
+              },
             ]}
           />
           <ProFormTextArea

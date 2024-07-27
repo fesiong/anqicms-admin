@@ -1,3 +1,4 @@
+import { useIntl } from '@umijs/max';
 import { Modal } from 'antd';
 import React, { useState } from 'react';
 import AttachmentContent from './content';
@@ -15,6 +16,7 @@ export type AttachmentProps = {
 const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const intl = useIntl();
 
   const useDetail = (row: any) => {
     if (!props.multiple) {

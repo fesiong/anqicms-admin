@@ -30,9 +30,7 @@ export async function getInitialState(): Promise<{
     try {
       const msg = await getAdminInfo();
       return msg.data;
-    } catch (error) {
-      history.push(loginPath);
-    }
+    } catch (error) {}
     return undefined;
   };
   const fetchSystemSetting = async () => {
@@ -88,13 +86,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     footerRender: () => <Footer />,
-    onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
-    },
     links: [
       <a href="https://www.anqicms.com/" target="_blank">
         <LinkOutlined />

@@ -13,11 +13,10 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Button, Card, Col, Modal, Row, Tooltip, Upload, message } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { ChromePicker } from 'react-color';
-import './index.less';
 import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Col, ColorPicker, Modal, Row, Upload, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import './index.less';
 
 const PluginTitleImage: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
@@ -109,7 +108,7 @@ const PluginTitleImage: React.FC<any> = () => {
   };
 
   const onChangeColor = (c: any) => {
-    setting.font_color = c.hex;
+    setting.font_color = c.toHex();
     setSetting(Object.assign({}, setting));
     getPreviewData();
   };
@@ -173,7 +172,9 @@ const PluginTitleImage: React.FC<any> = () => {
                       fieldProps={{
                         suffix: intl.formatMessage({ id: 'plugin.titleimage.width' }),
                       }}
-                      placeholder={intl.formatMessage({ id: 'plugin.titleimage.width.placeholder' })}
+                      placeholder={intl.formatMessage({
+                        id: 'plugin.titleimage.width.placeholder',
+                      })}
                     />
                     ×
                     <ProFormText
@@ -182,40 +183,31 @@ const PluginTitleImage: React.FC<any> = () => {
                       fieldProps={{
                         suffix: intl.formatMessage({ id: 'plugin.titleimage.height' }),
                       }}
-                      placeholder={intl.formatMessage({ id: 'plugin.titleimage.height.placeholder' })}
+                      placeholder={intl.formatMessage({
+                        id: 'plugin.titleimage.height.placeholder',
+                      })}
                     />
                   </ProFormGroup>
-                  <ProFormText width="sm" label={intl.formatMessage({ id: 'plugin.titleimage.color' })} extra={intl.formatMessage({ id: 'plugin.titleimage.color.default' })}>
-                    <Tooltip
-                      trigger={'click'}
-                      placement="bottom"
-                      color="#ffffff"
-                      title={
-                        <div>
-                          <ChromePicker
-                            color={setting.font_color}
-                            onChange={(e) => {
-                              onChangeColor(e);
-                            }}
-                          />
-                        </div>
-                      }
-                    >
-                      <Button
-                        className="color-block"
-                        style={{
-                          background: setting.font_color,
-                        }}
-                      >
-                        {setting.font_color || intl.formatMessage({ id: 'plugin.titleimage.select' })}
-                      </Button>
-                    </Tooltip>
+                  <ProFormText
+                    width="sm"
+                    label={intl.formatMessage({ id: 'plugin.titleimage.color' })}
+                    extra={intl.formatMessage({ id: 'plugin.titleimage.color.default' })}
+                  >
+                    <ColorPicker
+                      showText
+                      value={setting.font_color}
+                      onChange={(e) => {
+                        onChangeColor(e);
+                      }}
+                    />
                   </ProFormText>
                   <ProFormDigit
                     name="font_size"
                     label={intl.formatMessage({ id: 'plugin.titleimage.font-size' })}
                     width="lg"
-                    placeholder={intl.formatMessage({ id: 'plugin.titleimage.font-size.placeholder' })}
+                    placeholder={intl.formatMessage({
+                      id: 'plugin.titleimage.font-size.placeholder',
+                    })}
                   />
                   {!setting.bg_image && (
                     <ProFormRadio.Group
@@ -245,7 +237,9 @@ const PluginTitleImage: React.FC<any> = () => {
                       accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
                       customRequest={async (e) => handleUploadFile('bg_image', e)}
                     >
-                      <Button><FormattedMessage id="plugin.titleimage.bg-image.upload" /></Button>
+                      <Button>
+                        <FormattedMessage id="plugin.titleimage.bg-image.upload" />
+                      </Button>
                     </Upload>
                     {setting.bg_image && (
                       <div className="upload-file">
@@ -264,7 +258,9 @@ const PluginTitleImage: React.FC<any> = () => {
                       accept=".ttf"
                       customRequest={async (e) => handleUploadFile('font_path', e)}
                     >
-                      <Button><FormattedMessage id="plugin.titleimage.font.upload" /></Button>
+                      <Button>
+                        <FormattedMessage id="plugin.titleimage.font.upload" />
+                      </Button>
                     </Upload>
                     {setting.font_path && (
                       <div className="upload-file">
