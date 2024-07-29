@@ -257,9 +257,7 @@ const ArchiveList: React.FC = (props) => {
             className="mb-normal"
             message={intl.formatMessage({ id: 'content.translate.tips' })}
           ></Alert>
-          <div className="">
-            <FormattedMessage id="content.translate.select-language" />
-          </div>
+          <div className="">{intl.formatMessage({ id: 'content.translate.select-language' })}</div>
           <Select
             style={{ width: '100%' }}
             onChange={(e) => {

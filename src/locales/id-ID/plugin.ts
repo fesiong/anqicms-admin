@@ -136,7 +136,10 @@ export default {
   'plugin.anchor.delete.confirm': 'Apakah Anda yakin ingin menghapus teks tautan yang dipilih?',
   'plugin.anchor.batch-update': 'Perbarui teks jangkar secara bertahap',
   'plugin.anchor.export': 'Ekspor teks jangkar',
+  'plugin.anchor.export.confirm': 'Anda yakin ingin mengeksport semua teks anchor?',
   'plugin.anchor.replace': 'mengganti',
+  'plugin.anchor.replace.confirm':
+    'Anda yakin ingin melakukan operasi teks anchor pembaruan batch?',
   'plugin.anchor.replace-count': 'Waktu penggantian',
   'plugin.backup.confirm': 'Apakah Anda yakin ingin melakukan pencadangan basis data?',
   'plugin.backup.backuping': 'Operasi pencadangan data sedang dilakukan, harap tunggu. .',
@@ -351,6 +354,7 @@ export default {
     'Perintah yang dilihat pengguna setelah mengirimkan pesan. Misalnya: Terima kasih atas pesan Anda!',
   'plugin.guestbook.delete.confirm': 'Apakah Anda yakin ingin menghapus pesan yang dipilih?',
   'plugin.guestbook.export': 'Ekspor pesan',
+  'plugin.guestbook.export.confirm': 'Anda yakin ingin mengeksport semua pesan?',
   'plugin.htmlcache.remote-file': 'berkas jarak jauh',
   'plugin.htmlcache.local-file': 'file lokal',
   'plugin.htmlcache.push-status': 'status dorong',
@@ -878,8 +882,9 @@ export default {
   'plugin.rewrite.variable.tips':
     'Variabel diapit kurung kurawal `{}`, misalnya `{id}`. Variabel yang tersedia adalah: ID data `{id}`; nama tautan khusus dokumen `{namafile}`; nama tautan khusus klasifikasi `{catname}`, nama tautan khusus klasifikasi multi-level `{multicatname}`, `{ Hanya satu dari multicatname}` dan `{catname}` dapat digunakan; ID klasifikasi `{catid}`; nama tabel model `{module}`; tahun `{tahun}`, bulan `{bulan}`, hari `{hari} ` , jam `{jam}`, menit `{menit}`, detik `{detik}`, tahun, bulan, hari, jam, menit dan detik hanya tersedia di arsip; nomor halaman halaman `{halaman}`, halaman perlu ditempatkan dalam tanda kurung, seperti: `(/{page})` .',
   'plugin.rewrite.formula.direct1': 'Solusi siap pakai 1',
-  'plugin.rewrite.formula.direct2': 'Solusi 2 yang bisa langsung digunakan',
-  'plugin.rewrite.formula.direct3': 'Solusi 3 yang bisa langsung digunakan',
+  'plugin.rewrite.formula.direct2': 'Solusi siap pakai 2',
+  'plugin.rewrite.formula.direct3': 'Solusi siap pakai 3',
+  'plugin.rewrite.formula.direct4': 'Solusi siap pakai 4',
   'plugin.robots.tips.before':
     'Robot adalah konfigurasi situs web yang memberi tahu spider mesin pencari halaman mana yang bisa dirayapi dan halaman mana yang tidak bisa dirayapi. Q:',
   'plugin.robots.tips.after': 'Format file robots.txt',

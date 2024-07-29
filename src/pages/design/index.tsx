@@ -88,19 +88,13 @@ const DesignIndex: React.FC = () => {
 
   const handleRestoreDesignData = (record: any) => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'design.confirm-install-data' }),
+      title: intl.formatMessage({ id: 'design.data.confirm-install' }),
       width: 480,
       content: (
         <div>
-          <p>
-            <FormattedMessage id="design.data.tips1" />
-          </p>
-          <p>
-            <FormattedMessage id="design.data.tips2" />
-          </p>
-          <p>
-            <FormattedMessage id="design.data.tips3" />
-          </p>
+          <p>{intl.formatMessage({ id: 'design.data.tips1' })}</p>
+          <p>{intl.formatMessage({ id: 'design.data.tips2' })}</p>
+          <p>{intl.formatMessage({ id: 'design.data.tips3' })}</p>
           <div>
             <Checkbox
               value={true}
@@ -109,7 +103,7 @@ const DesignIndex: React.FC = () => {
               }}
             >
               <span className="text-red">*</span>
-              <FormattedMessage id="design.data.auto-backup" />
+              {intl.formatMessage({ id: 'design.data.auto-backup' })}
             </Checkbox>
             <Checkbox
               value={true}
@@ -121,7 +115,7 @@ const DesignIndex: React.FC = () => {
               }}
             >
               <span className="text-red">*</span>
-              <FormattedMessage id="design.data.auto-clean" />
+              {intl.formatMessage({ id: 'design.data.auto-clean' })}
             </Checkbox>
           </div>
         </div>

@@ -23,7 +23,8 @@ export default {
   'design.upload': '上传新模板',
   'design.package.zip': '模板压缩包',
   'design.package.zip.select': '选择Zip压缩包',
-  'design.package.zip.tips': '说明：只能上传从我的模板详情打包下载的模板，或设计市场的模板，本地制作的模板，请通过我的模板详情打包下载来制作成压缩包。',
+  'design.package.zip.tips':
+    '说明：只能上传从我的模板详情打包下载的模板，或设计市场的模板，本地制作的模板，请通过我的模板详情打包下载来制作成压缩包。',
   'design.editor.get.error': '获取模板信息出错',
   'design.editor.helper': '模板标签助手',
   'design.editor.confirm-giveup': '你有未保存的代码，确定要编辑新文件吗？',
@@ -65,8 +66,9 @@ export default {
   'design.detail.confirm-upload.directory': '目录',
   'design.detail.new-directory': '新建目录',
   'design.detail.backup-data': '确定要给当前模板增加初始化数据吗？',
-  'design.detail.backup-data.tips': '确定要给当前模板增加初始化数据吗？',
-  'design.detail.backup-data.cover.tips': '确定要给当前模板增加初始化数据吗？',
+  'design.detail.backup-data.tips': '该操作旨在给当前模板增加一份用于模板初始化的演示数据。',
+  'design.detail.backup-data.cover.tips':
+    '该模板已经存在演示数据，如果再次执行，旧的演示数据将会被覆盖。',
   'design.detail.backup-data.doing': '正在执行备份中',
   'design.detail.make-copy': '复制一份',
   'design.detail.rename': '+备注/重命名',
@@ -83,12 +85,14 @@ export default {
   'design.detail.save-path': '存放目录',
   'design.detail.select-file': '选择文件',
   'design.detail.edit-file': '修改文件',
-  'design.detail.upload-tips': '说明：只能上传模板文件(.html)、和资源文件(css,js,图片,字体等)，以及zip的文件。如果上传zip,会自动解压到当前目录。',
+  'design.detail.upload-tips':
+    '说明：只能上传模板文件(.html)、和资源文件(css,js,图片,字体等)，以及zip的文件。如果上传zip,会自动解压到当前目录。',
   'design.detail.file-name': '文件名',
   'design.detail.template-name': '模板名称',
   'design.detail.template-name.example': '例如：机械设备模板',
   'design.detail.template-type': '模板类型',
-  'design.detail.template-type.description': '自适应类型模板只有一个域名和一套模板；代码适配类型有一个域名和2套模板，电脑端和手机端访问同一个域名会展示不同模板；电脑+手机类型需要2个域名和2套模板，访问电脑域名展示电脑模板，访问手机域名展示手机模板。',
+  'design.detail.template-type.description':
+    '自适应类型模板只有一个域名和一套模板；代码适配类型有一个域名和2套模板，电脑端和手机端访问同一个域名会展示不同模板；电脑+手机类型需要2个域名和2套模板，访问电脑域名展示电脑模板，访问手机域名展示手机模板。',
   'design.detail.static-detail': '查看资源详情',
   'design.detail.path': '文件路径',
   'design.detail.type': '文件类型',
@@ -99,7 +103,8 @@ export default {
   'design.detail.tips2': '2、图片上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。',
   'design.share.confirm-replace': '确定要替换模板市场对应的模板吗？',
   'design.share.confirm-new': '确定要将该模板上架到模板市场吗？',
-  'design.share.confirm-replace.content': '该模板已经上架模板市场，现在提交则会更新模板市场对应模板到当前版本。',
+  'design.share.confirm-replace.content':
+    '该模板已经上架模板市场，现在提交则会更新模板市场对应模板到当前版本。',
   'design.share.confirm-new.content': '您的模板将上架到模板市场供用户选择使用。',
   'design.share.nologin': '请先登录AnqiCMS官网账号',
   'design.share.share': '上架模板到设计市场',
@@ -111,7 +116,8 @@ export default {
   'design.share.version.placeholder': '如：1.0.0',
   'design.share.price': '模板售价',
   'design.share.price.suffix': '元',
-  'design.share.price.description': '如免费分享，则不需设置。设置售价后，有用户购买模板，您将获得80%的实际销售收益',
+  'design.share.price.description':
+    '如免费分享，则不需设置。设置售价后，有用户购买模板，您将获得80%的实际销售收益',
   'design.share.example-data': '演示数据',
   'design.share.example-data.no': '不处理',
   'design.share.example-data.yes': '自动备份演示数据',

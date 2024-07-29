@@ -19,11 +19,11 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Col, Divider, Modal, Row, Space, Upload, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import HtmlPushLog from './components/pushLog';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 let xhr: any = null;
 let pushXhr: any = null;
@@ -177,8 +177,7 @@ const PluginHtmlCache: React.FC<any> = () => {
   const startPushAll = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.htmlcache.push.all.confirm' }),
-      content:
-        intl.formatMessage({ id: 'plugin.htmlcache.push.all.confirm.content' }),
+      content: intl.formatMessage({ id: 'plugin.htmlcache.push.all.confirm.content' }),
       onOk: () => {
         pluginHtmlCachePush({
           all: true,
@@ -254,29 +253,36 @@ const PluginHtmlCache: React.FC<any> = () => {
           description={
             <div>
               <p>
-              <FormattedMessage id="plugin.htmlcache.description.1" />
+                <FormattedMessage id="plugin.htmlcache.description.1" />
               </p>
               <p>
-              <FormattedMessage id="plugin.htmlcache.description.2" />
+                <FormattedMessage id="plugin.htmlcache.description.2" />
               </p>
               <p>
-              <FormattedMessage id="plugin.htmlcache.description.3" />
+                <FormattedMessage id="plugin.htmlcache.description.3" />
               </p>
               <div>
-              <FormattedMessage id="plugin.htmlcache.description.4" />
+                <FormattedMessage id="plugin.htmlcache.description.4" />
               </div>
             </div>
           }
         />
         {fetched && (
-          <ProForm initialValues={setting} onFinish={onSubmit} title={intl.formatMessage({ id: 'menu.plugin.htmlcache' })}>
+          <ProForm
+            initialValues={setting}
+            onFinish={onSubmit}
+            title={intl.formatMessage({ id: 'menu.plugin.htmlcache' })}
+          >
             <Row gutter={16}>
               <Col sm={10} xs={24}>
                 <ProFormRadio.Group
                   name={'open'}
                   label={intl.formatMessage({ id: 'plugin.htmlcache.isopen' })}
                   options={[
-                    { label: intl.formatMessage({ id: 'plugin.fulltext.open.false' }), value: false },
+                    {
+                      label: intl.formatMessage({ id: 'plugin.fulltext.open.false' }),
+                      value: false,
+                    },
                     { label: intl.formatMessage({ id: 'plugin.fulltext.open.true' }), value: true },
                   ]}
                 />
@@ -285,21 +291,27 @@ const PluginHtmlCache: React.FC<any> = () => {
                   name="index_cache"
                   label={intl.formatMessage({ id: 'plugin.htmlcache.index-time' })}
                   wrapperCol={{ span: 12 }}
-                  fieldProps={{ addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }) }}
+                  fieldProps={{
+                    addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }),
+                  }}
                   extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
                 />
                 <ProFormDigit
                   name="category_cache"
                   label={intl.formatMessage({ id: 'plugin.htmlcache.category-time' })}
                   wrapperCol={{ span: 12 }}
-                  fieldProps={{ addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }) }}
+                  fieldProps={{
+                    addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }),
+                  }}
                   extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
                 />
                 <ProFormDigit
                   name="detail_cache"
                   label={intl.formatMessage({ id: 'plugin.htmlcache.archive-time' })}
                   wrapperCol={{ span: 12 }}
-                  fieldProps={{ addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }) }}
+                  fieldProps={{
+                    addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }),
+                  }}
                   extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
                 />
               </Col>
@@ -344,45 +356,59 @@ const PluginHtmlCache: React.FC<any> = () => {
                 <ProFormText
                   name="storage_url"
                   label={intl.formatMessage({ id: 'plugin.htmlcache.storage-url' })}
-                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.storage-url.placeholder' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.htmlcache.storage-url.placeholder',
+                  })}
                 />
                 <div className={storageType != 'aliyun' ? 'hidden' : ''}>
-                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.aliyun" /></Divider>
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.storage-type.aliyun" />
+                  </Divider>
                   <ProFormText
                     name="aliyun_endpoint"
                     label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint' })}
-                    placeholder={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint.placeholder' })}
+                    placeholder={intl.formatMessage({
+                      id: 'plugin.htmlcache.aliyun.endpoint.placeholder',
+                    })}
                   />
-                  <ProFormText
-                    name="aliyun_access_key_id"
-                    label="AccessKeyId"
-                    placeholder=""
-                  />
+                  <ProFormText name="aliyun_access_key_id" label="AccessKeyId" placeholder="" />
                   <ProFormText
                     name="aliyun_access_key_secret"
                     label="AccessKeySecret"
                     placeholder=""
                   />
-                  <ProFormText name="aliyun_bucket_name" label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })} placeholder="" />
+                  <ProFormText
+                    name="aliyun_bucket_name"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })}
+                    placeholder=""
+                  />
                 </div>
                 <div className={storageType != 'tencent' ? 'hidden' : ''}>
-                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.tencent" /></Divider>
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.storage-type.tencent" />
+                  </Divider>
                   <ProFormText name="tencent_secret_id" label="SecretId" placeholder="" />
                   <ProFormText name="tencent_secret_key" label="SecretKey" placeholder="" />
                   <ProFormText
                     name="tencent_bucket_url"
                     label={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url' })}
-                    placeholder={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url.placeholder' })}
+                    placeholder={intl.formatMessage({
+                      id: 'plugin.htmlcache.tencent.bucket-url.placeholder',
+                    })}
                   />
                 </div>
                 <div className={storageType != 'qiniu' ? 'hidden' : ''}>
-                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.qiniu" /></Divider>
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.storage-type.qiniu" />
+                  </Divider>
                   <ProFormText name="qiniu_access_key" label="AccessKey" placeholder="" />
                   <ProFormText name="qiniu_secret_key" label="SecretKey" placeholder="" />
                   <ProFormText
                     name="qiniu_bucket"
                     label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name' })}
-                    placeholder={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name.placeholder' })}
+                    placeholder={intl.formatMessage({
+                      id: 'plugin.htmlcache.qiniu.bucket-name.placeholder',
+                    })}
                   />
                   <ProFormRadio.Group
                     name="qiniu_region"
@@ -410,37 +436,98 @@ const PluginHtmlCache: React.FC<any> = () => {
                       },
                       {
                         value: 'cn-east-2',
-                        label: 'plugin.htmlcache.qiniu.region.cn-east2',
+                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.cn-east2' }),
                       },
                       {
                         value: 'fog-cn-east-1',
-                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.fog-cn-east1' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.htmlcache.qiniu.region.fog-cn-east1',
+                        }),
                       },
                     ]}
                   />
                 </div>
                 <div className={storageType != 'upyun' ? 'hidden' : ''}>
-                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.upyun" /></Divider>
-                  <ProFormText name="upyun_operator" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })} placeholder="" />
-                  <ProFormText name="upyun_password" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })} placeholder="" />
-                  <ProFormText name="upyun_bucket" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })} placeholder="" />
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.storage-type.upyun" />
+                  </Divider>
+                  <ProFormText
+                    name="upyun_operator"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="upyun_password"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="upyun_bucket"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })}
+                    placeholder=""
+                  />
                 </div>
                 <div className={storageType != 'ftp' ? 'hidden' : ''}>
-                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ftp" /></Divider>
-                  <p><FormattedMessage id="plugin.htmlcache.ftp.tips" /></p>
-                  <ProFormText name="ftp_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })} placeholder="" />
-                  <ProFormDigit name="ftp_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })} placeholder="" />
-                  <ProFormText name="ftp_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })} placeholder="" />
-                  <ProFormText name="ftp_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })} placeholder="" />
-                  <ProFormText name="ftp_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })} placeholder="" />
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.storage-type.ftp" />
+                  </Divider>
+                  <p>
+                    <FormattedMessage id="plugin.htmlcache.ftp.tips" />
+                  </p>
+                  <ProFormText
+                    name="ftp_host"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })}
+                    placeholder=""
+                  />
+                  <ProFormDigit
+                    name="ftp_port"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="ftp_username"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="ftp_password"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="ftp_webroot"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })}
+                    placeholder=""
+                  />
                 </div>
                 <div className={storageType != 'ssh' ? 'hidden' : ''}>
-                  <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ssh" /></Divider>
-                  <ProFormText name="ssh_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })} placeholder="" />
-                  <ProFormDigit name="ssh_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })} placeholder="" />
-                  <ProFormText name="ssh_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })} placeholder="" />
-                  <ProFormText name="ssh_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })} placeholder="" />
-                  <ProFormText label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })} extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}>
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.storage-type.ssh" />
+                  </Divider>
+                  <ProFormText
+                    name="ssh_host"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })}
+                    placeholder=""
+                  />
+                  <ProFormDigit
+                    name="ssh_port"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="ssh_username"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="ssh_password"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })}
+                    placeholder=""
+                  />
+                  <ProFormText
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })}
+                    extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}
+                  >
                     <Upload
                       name="file"
                       className="logo-uploader"
@@ -448,48 +535,78 @@ const PluginHtmlCache: React.FC<any> = () => {
                       accept=".crt,.pem,.key"
                       customRequest={async (e) => handleUploadFile('ssh_private_key', e)}
                     >
-                      <Button type="primary"><FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" /></Button>
+                      <Button type="primary">
+                        <FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" />
+                      </Button>
                     </Upload>
                     {setting.ssh_private_key && (
                       <div className="upload-file">{setting.ssh_private_key}</div>
                     )}
                   </ProFormText>
-                  <ProFormText name="ssh_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })} placeholder="" />
+                  <ProFormText
+                    name="ssh_webroot"
+                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })}
+                    placeholder=""
+                  />
                 </div>
               </Col>
             </Row>
           </ProForm>
         )}
-        <Divider><FormattedMessage id="plugin.htmlcache.generate.name" /></Divider>
+        <Divider>
+          <FormattedMessage id="plugin.htmlcache.generate.name" />
+        </Divider>
         <div>
           <p>
-          <FormattedMessage id="plugin.htmlcache.generate.last-time" />
+            <FormattedMessage id="plugin.htmlcache.generate.last-time" />
             {setting.last_build_time > 0
               ? dayjs(setting.last_build_time * 1000).format('YYYY-MM-DD')
               : intl.formatMessage({ id: 'plugin.htmlcache.generate.last-time.empty' })}
           </p>
           <Space className="space-wrap" size={20}>
-            <Button onClick={() => cleanHtmlCache()}><FormattedMessage id="plugin.htmlcache.clean.all" /></Button>
-            <Button onClick={() => startBuild()}><FormattedMessage id="plugin.htmlcache.build.all" /></Button>
-            <Button onClick={() => startBuildIndex()}><FormattedMessage id="plugin.htmlcache.build.home" /></Button>
-            <Button onClick={() => startBuildCategory()}><FormattedMessage id="plugin.htmlcache.build.category" /></Button>
-            <Button onClick={() => startBuildArchive()}><FormattedMessage id="plugin.htmlcache.build.archive" /></Button>
-            <Button onClick={() => startBuildTag()}><FormattedMessage id="plugin.htmlcache.build.tag" /></Button>
+            <Button onClick={() => cleanHtmlCache()}>
+              <FormattedMessage id="plugin.htmlcache.clean.all" />
+            </Button>
+            <Button onClick={() => startBuild()}>
+              <FormattedMessage id="plugin.htmlcache.build.all" />
+            </Button>
+            <Button onClick={() => startBuildIndex()}>
+              <FormattedMessage id="plugin.htmlcache.build.home" />
+            </Button>
+            <Button onClick={() => startBuildCategory()}>
+              <FormattedMessage id="plugin.htmlcache.build.category" />
+            </Button>
+            <Button onClick={() => startBuildArchive()}>
+              <FormattedMessage id="plugin.htmlcache.build.archive" />
+            </Button>
+            <Button onClick={() => startBuildTag()}>
+              <FormattedMessage id="plugin.htmlcache.build.tag" />
+            </Button>
           </Space>
         </div>
-        <Divider><FormattedMessage id="plugin.htmlcache.push.name" /></Divider>
+        <Divider>
+          <FormattedMessage id="plugin.htmlcache.push.name" />
+        </Divider>
         <p>
-        <FormattedMessage id="plugin.htmlcache.push.last-time" />
+          <FormattedMessage id="plugin.htmlcache.push.last-time" />
           {setting.last_push_time > 0
             ? dayjs(setting.last_push_time * 1000).format('YYYY-MM-DD')
             : intl.formatMessage({ id: 'plugin.htmlcache.push.last-time.empty' })}
         </p>
         <div>
           <Space className="space-wrap" size={20}>
-            <Button onClick={() => startPushAll()}><FormattedMessage id="plugin.htmlcache.push.all" /></Button>
-            <Button onClick={() => startPushUpdate()}><FormattedMessage id="plugin.htmlcache.push.addon" /></Button>
-            <Button onClick={() => getPushLog()}><FormattedMessage id="plugin.htmlcache.push.log.all" /></Button>
-            <Button onClick={() => getPushErrorLog()}><FormattedMessage id="plugin.htmlcache.push.log.error" /></Button>
+            <Button onClick={() => startPushAll()}>
+              <FormattedMessage id="plugin.htmlcache.push.all" />
+            </Button>
+            <Button onClick={() => startPushUpdate()}>
+              <FormattedMessage id="plugin.htmlcache.push.addon" />
+            </Button>
+            <Button onClick={() => getPushLog()}>
+              <FormattedMessage id="plugin.htmlcache.push.log.all" />
+            </Button>
+            <Button onClick={() => getPushErrorLog()}>
+              <FormattedMessage id="plugin.htmlcache.push.log.error" />
+            </Button>
           </Space>
         </div>
         {(status || pushStatus) && (
@@ -497,16 +614,22 @@ const PluginHtmlCache: React.FC<any> = () => {
             {status && (
               <Col sm={12} xs={24}>
                 <div>
-                  <Divider><FormattedMessage id="plugin.htmlcache.build.process" /></Divider>
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.build.process" />
+                  </Divider>
                   <Space direction="vertical" size={10}>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.start-time" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.start-time" />
+                      </div>
                       <div className="field-value">
                         {dayjs(status.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.end-time" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.end-time" />
+                      </div>
                       <div className="field-value">
                         {status.finished_time > 0
                           ? dayjs(status.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
@@ -514,20 +637,28 @@ const PluginHtmlCache: React.FC<any> = () => {
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.total" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.total" />
+                      </div>
                       <div className="field-value">{status.total}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.finished-count" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.finished-count" />
+                      </div>
                       <div className="field-value">{status.finished_count}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.current" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.current" />
+                      </div>
                       <div className="field-value">{status.current}</div>
                     </div>
                     {status.error_msg && (
                       <div className="field-item">
-                        <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.error-msg" /></div>
+                        <div className="field-label">
+                          <FormattedMessage id="plugin.htmlcache.build.error-msg" />
+                        </div>
                         <div className="field-value">{status.error_msg}</div>
                       </div>
                     )}
@@ -538,16 +669,22 @@ const PluginHtmlCache: React.FC<any> = () => {
             {pushStatus && (
               <Col sm={12} xs={24}>
                 <div>
-                  <Divider><FormattedMessage id="plugin.htmlcache.push.process" /></Divider>
+                  <Divider>
+                    <FormattedMessage id="plugin.htmlcache.push.process" />
+                  </Divider>
                   <Space direction="vertical" size={10}>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.start-time" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.start-time" />
+                      </div>
                       <div className="field-value">
                         {dayjs(pushStatus.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.end-time" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.end-time" />
+                      </div>
                       <div className="field-value">
                         {pushStatus.finished_time > 0
                           ? dayjs(pushStatus.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
@@ -555,24 +692,34 @@ const PluginHtmlCache: React.FC<any> = () => {
                       </div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.total" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.total" />
+                      </div>
                       <div className="field-value">{pushStatus.total}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.finished-count" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.finished-count" />
+                      </div>
                       <div className="field-value">{pushStatus.finished_count}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.error-count" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.error-count" />
+                      </div>
                       <div className="field-value">{pushStatus.error_count}</div>
                     </div>
                     <div className="field-item">
-                      <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.current" /></div>
+                      <div className="field-label">
+                        <FormattedMessage id="plugin.htmlcache.build.current" />
+                      </div>
                       <div className="field-value">{pushStatus.current}</div>
                     </div>
                     {pushStatus.error_msg && (
                       <div className="field-item">
-                        <div className="field-label"><FormattedMessage id="plugin.htmlcache.build.error-msg" /></div>
+                        <div className="field-label">
+                          <FormattedMessage id="plugin.htmlcache.build.error-msg" />
+                        </div>
                         <div className="field-value">{pushStatus.error_msg}</div>
                       </div>
                     )}

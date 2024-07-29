@@ -54,17 +54,33 @@ const PluginAnchor: React.FC = () => {
   };
 
   const handleReplaceAnchor = async (record: any) => {
-    let res = await pluginReplaceAnchor(record);
-    message.info(res.msg);
-    if (actionRef.current) {
-      actionRef.current.reload();
-    }
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'plugin.anchor.replace.confirm' }),
+      onOk: async () => {
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+
+        let res = await pluginReplaceAnchor(record);
+        message.info(res.msg);
+        if (actionRef.current) {
+          actionRef.current.reload();
+        }
+        hide();
+      },
+    });
   };
 
   const handleExportAnchor = async () => {
-    let res = await pluginExportAnchor();
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'plugin.anchor.export.confirm' }),
+      onOk: async () => {
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
 
-    exportFile(res.data?.header, res.data?.content, 'csv');
+        let res = await pluginExportAnchor();
+
+        exportFile(res.data?.header, res.data?.content, 'csv');
+        hide();
+      },
+    });
   };
 
   const columns: ProColumns<any>[] = [

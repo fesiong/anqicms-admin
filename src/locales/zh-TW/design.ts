@@ -23,7 +23,8 @@ export default {
   'design.upload': '上傳新模板',
   'design.package.zip': '模板壓縮包',
   'design.package.zip.select': '選擇Zip壓縮包',
-  'design.package.zip.tips': '說明：只能上傳從我的模板詳情打包下載的模板，或設計市場的模板，本地製作的模板，請透過我的模板詳情打包下載來製作成壓縮包。',
+  'design.package.zip.tips':
+    '說明：只能上傳從我的模板詳情打包下載的模板，或設計市場的模板，本地製作的模板，請透過我的模板詳情打包下載來製作成壓縮包。',
   'design.editor.get.error': '取得範本資訊出錯',
   'design.editor.helper': '模板標籤助手',
   'design.editor.confirm-giveup': '你有未儲存的程式碼，確定要編輯新檔案嗎？',
@@ -65,8 +66,9 @@ export default {
   'design.detail.confirm-upload.directory': '目錄',
   'design.detail.new-directory': '新目錄',
   'design.detail.backup-data': '確定要給目前模板增加初始化資料嗎？',
-  'design.detail.backup-data.tips': '確定要給目前模板增加初始化資料嗎？',
-  'design.detail.backup-data.cover.tips': '確定要給目前模板增加初始化資料嗎？',
+  'design.detail.backup-data.tips': '該操作旨在給當前範本新增一份用於範本初始化的演示數據。',
+  'design.detail.backup-data.cover.tips':
+    '該範本已經存在演示數據，如果再次執行，舊的演示數據將會被覆蓋。',
   'design.detail.backup-data.doing': '正在執行備份中',
   'design.detail.make-copy': '複製一份',
   'design.detail.rename': '+備註/重命名',
@@ -83,12 +85,14 @@ export default {
   'design.detail.save-path': '存放目錄',
   'design.detail.select-file': '選擇文件',
   'design.detail.edit-file': '修改文件',
-  'design.detail.upload-tips': '說明：只能上傳範本檔案(.html)、和資源檔案(css,js,圖片,字型等)，以及zip的檔案。如果上傳zip,會自動解壓縮到目前目錄。',
+  'design.detail.upload-tips':
+    '說明：只能上傳範本檔案(.html)、和資源檔案(css,js,圖片,字型等)，以及zip的檔案。如果上傳zip,會自動解壓縮到目前目錄。',
   'design.detail.file-name': '檔案名稱',
   'design.detail.template-name': '模板名稱',
   'design.detail.template-name.example': '例如：機械設備模板',
   'design.detail.template-type': '模板類型',
-  'design.detail.template-type.description': '自適應類型模板只有一個網域和一套模板；代碼適配類型有一個網域和2套模板，電腦端和手機端存取同一個網域會展示不同模板；電腦+手機類型需要2個網域和2套模板，存取電腦網域展示電腦模板，存取手機網域展示手機模板。',
+  'design.detail.template-type.description':
+    '自適應類型模板只有一個網域和一套模板；代碼適配類型有一個網域和2套模板，電腦端和手機端存取同一個網域會展示不同模板；電腦+手機類型需要2個網域和2套模板，存取電腦網域展示電腦模板，存取手機網域展示手機模板。',
   'design.detail.static-detail': '查看資源詳情',
   'design.detail.path': '文件路徑',
   'design.detail.type': '文件類型',
@@ -99,7 +103,8 @@ export default {
   'design.detail.tips2': '2.圖片上傳後，如果後台更新了，但前台未更新，請清理本機瀏覽器快取。',
   'design.share.confirm-replace': '確定要替換模板市場對應的模板嗎？',
   'design.share.confirm-new': '確定要將該模板上架到模板市場嗎？',
-  'design.share.confirm-replace.content': '此範本已上架範本市場，現在提交則會更新範本市場對應範本到目前版本。',
+  'design.share.confirm-replace.content':
+    '此範本已上架範本市場，現在提交則會更新範本市場對應範本到目前版本。',
   'design.share.confirm-new.content': '您的模板將上架到模板市場供用戶選擇使用。',
   'design.share.nologin': '請先登入AnqiCMS官網帳號',
   'design.share.share': '上架模板到設計市場',
@@ -111,7 +116,8 @@ export default {
   'design.share.version.placeholder': '如：1.0.0',
   'design.share.price': '模板售價',
   'design.share.price.suffix': '元',
-  'design.share.price.description': '如免費分享，則不需設定。設定售價後，有用戶購買模板，您將獲得80%的實際銷售收益',
+  'design.share.price.description':
+    '如免費分享，則不需設定。設定售價後，有用戶購買模板，您將獲得80%的實際銷售收益',
   'design.share.example-data': '示範數據',
   'design.share.example-data.no': '不處理',
   'design.share.example-data.yes': '自動備份演示數據',

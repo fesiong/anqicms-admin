@@ -226,7 +226,7 @@ class ImageList extends React.Component<intlProps> {
             style={{ width: 200 }}
           >
             <Select.Option value={0}>
-              <FormattedMessage id="content.attachment.unclassified" />
+              {this.props.intl.formatMessage({ id: 'content.attachment.unclassified' })}
             </Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>

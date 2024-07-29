@@ -161,17 +161,13 @@ const DesignDetail: React.FC = () => {
       content: (
         <div>
           <div style={{ padding: '10px 0' }}>
-            <div>
-              <FormattedMessage id="design.detail.new-name" />
-            </div>
+            <div>{intl.formatMessage({ id: 'design.detail.new-name' })}</div>
             <div>
               <Input ref={inputRef} defaultValue={info.path} />
             </div>
           </div>
           <div style={{ padding: '10px 0' }}>
-            <div>
-              <FormattedMessage id="design.detail.new-remark" />
-            </div>
+            <div>{intl.formatMessage({ id: 'design.detail.new-remark' })}</div>
             <div>
               <Input ref={inputRef2} defaultValue={info.remark} />
             </div>
@@ -358,15 +354,9 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.data.confirm-install' }),
       content: (
         <div>
-          <p>
-            <FormattedMessage id="design.data.tips1" />
-          </p>
-          <p>
-            <FormattedMessage id="design.data.tips2" />
-          </p>
-          <p>
-            <FormattedMessage id="design.data.tips3" />
-          </p>
+          <p>{intl.formatMessage({ id: 'design.data.tips1' })}</p>
+          <p>{intl.formatMessage({ id: 'design.data.tips2' })}</p>
+          <p>{intl.formatMessage({ id: 'design.data.tips3' })}</p>
           <div>
             <Checkbox
               value={true}
@@ -375,7 +365,7 @@ const DesignDetail: React.FC = () => {
               }}
             >
               <span className="text-red">*</span>
-              <FormattedMessage id="design.data.auto-backup" />
+              {intl.formatMessage({ id: 'design.data.auto-backup' })}
             </Checkbox>
           </div>
         </div>
@@ -398,13 +388,9 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.detail.backup-data' }),
       content: (
         <div>
-          <p>
-            <FormattedMessage id="design.detail.backup-data.tips" />
-          </p>
+          <p>{intl.formatMessage({ id: 'design.detail.backup-data.tips' })}</p>
           {designInfo.preview_data && (
-            <p>
-              <FormattedMessage id="design.detail.backup-data.cover.tips" />
-            </p>
+            <p>{intl.formatMessage({ id: 'design.detail.backup-data.cover.tips' })}</p>
           )}
         </div>
       ),

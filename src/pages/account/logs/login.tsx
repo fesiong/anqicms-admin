@@ -23,11 +23,11 @@ const AdminLoginLog: React.FC = () => {
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: intl.formatMessage({ id: 'website.logs.failure' }),
+          text: intl.formatMessage({ id: 'account.logs.failure' }),
           status: 'Default',
         },
         1: {
-          text: intl.formatMessage({ id: 'website.logs.success' }),
+          text: intl.formatMessage({ id: 'account.logs.success' }),
           status: 'Success',
         },
       },

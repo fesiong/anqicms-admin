@@ -136,7 +136,10 @@ export default {
   'plugin.anchor.delete.confirm': 'Are you sure you want to delete the selected anchor text?',
   'plugin.anchor.batch-update': 'Update anchor text in batches',
   'plugin.anchor.export': 'Export anchor text',
+  'plugin.anchor.export.confirm': 'Are you sure you want to export all anchor texts?',
   'plugin.anchor.replace': 'replace',
+  'plugin.anchor.replace.confirm':
+    'Are you sure you want to perform a batch update anchor text operation?',
   'plugin.anchor.replace-count': 'Replacement times',
   'plugin.backup.confirm': 'Are you sure you want to perform a database backup?',
   'plugin.backup.backuping': 'Data backup operation is being performed, please wait. .',
@@ -351,6 +354,7 @@ export default {
     'The prompt that users see after submitting a message. For example: Thank you for your message!',
   'plugin.guestbook.delete.confirm': 'Are you sure you want to delete the selected message?',
   'plugin.guestbook.export': 'Export messages',
+  'plugin.guestbook.export.confirm': 'Are you sure you want to export all the messages?',
   'plugin.htmlcache.remote-file': 'remote file',
   'plugin.htmlcache.local-file': 'local files',
   'plugin.htmlcache.push-status': 'push status',
@@ -878,8 +882,9 @@ export default {
   'plugin.rewrite.variable.tips':
     'Variables are wrapped in curly braces `{}`, such as `{id}`. Available variables are: data ID `{id}`; document custom link name `{filename}`; classification custom link name `{catname}`, multi-level classification custom link name `{multicatname}`, `{ Only one of multicatname}` and `{catname}` can be used; classification ID `{catid}`; model table name `{module}`; year `{year}`, month `{month}`, day `{day} `, hour `{hour}`, minute `{minute}`, second `{second}`, year, month, day, hour, minute and second are only available in the archive; paging page number `{page}`, paging needs to be placed in parentheses , such as: `(/{page})` .',
   'plugin.rewrite.formula.direct1': 'Ready-to-use solution 1',
-  'plugin.rewrite.formula.direct2': 'Solution 2 that can be used directly',
-  'plugin.rewrite.formula.direct3': 'Solution 3 that can be used directly',
+  'plugin.rewrite.formula.direct2': 'Ready-to-use solution 2',
+  'plugin.rewrite.formula.direct3': 'Ready-to-use solution 3',
+  'plugin.rewrite.formula.direct4': 'Ready-to-use solution 4',
   'plugin.robots.tips.before':
     'Robots are the configuration of a website that tells search engine spiders which pages can be crawled and which pages cannot be crawled. Q:',
   'plugin.robots.tips.after': 'Format of robots.txt file',

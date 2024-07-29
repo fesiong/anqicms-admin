@@ -302,7 +302,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
               <span>
                 <FormattedMessage id="setting.system.thumb-size.tips" />
                 <Button size="small" onClick={handleRebuildThumb}>
-                  <FormattedMessage id="setting.system.make-thumb" />
+                  <FormattedMessage id="setting.content.make-thumb" />
                 </Button>
               </span>
             </div>

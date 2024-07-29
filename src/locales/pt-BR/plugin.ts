@@ -138,7 +138,10 @@ export default {
   'plugin.anchor.delete.confirm': 'Tem certeza de que deseja excluir o texto âncora selecionado?',
   'plugin.anchor.batch-update': 'Atualizar texto âncora em lotes',
   'plugin.anchor.export': 'Exportar texto âncora',
+  'plugin.anchor.export.confirm': 'Você tem certeza que deseja exportar todos os textos âncora?',
   'plugin.anchor.replace': 'substituir',
+  'plugin.anchor.replace.confirm':
+    'Você tem certeza de que deseja executar uma operação de texto âncora de atualização em lote?',
   'plugin.anchor.replace-count': 'Tempos de substituição',
   'plugin.backup.confirm': 'Tem certeza de que deseja realizar um backup do banco de dados?',
   'plugin.backup.backuping': 'A operação de backup de dados está sendo executada, aguarde. .',
@@ -353,6 +356,7 @@ export default {
     'O prompt que os usuários veem após enviar uma mensagem. Por exemplo: Obrigado pela sua mensagem!',
   'plugin.guestbook.delete.confirm': 'Tem certeza de que deseja excluir a mensagem selecionada?',
   'plugin.guestbook.export': 'Exportar mensagens',
+  'plugin.guestbook.export.confirm': 'Tem a certeza que deseja exportar todas as mensagens?',
   'plugin.htmlcache.remote-file': 'arquivo remoto',
   'plugin.htmlcache.local-file': 'ficheiros locais',
   'plugin.htmlcache.push-status': 'status de envio',
@@ -889,8 +893,9 @@ export default {
   'plugin.rewrite.variable.tips':
     'Variáveis ​​​​são colocadas entre chaves `{}`, como `{id}`. As variáveis ​​​​disponíveis são: ID de dados `{id}`; nome do link personalizado do documento `{filename}`, nome do link personalizado de classificação multinível `{multicatname}`, `{ Apenas um dos multicatname}` e `{catname}` podem ser usados; ID de classificação `{catid}`; nome da tabela do modelo `{module}`; , hora `{hora}`, minuto `{minuto}`, segundo `{segundo}`, ano, mês, dia, hora, minuto e segundo estão disponíveis apenas no arquivo paginação número da página `{page}`, paginação; precisa ser colocado entre parênteses, como: `(/{page})` .',
   'plugin.rewrite.formula.direct1': 'Solução pronta para uso 1',
-  'plugin.rewrite.formula.direct2': 'Solução 2 que pode ser usada diretamente',
-  'plugin.rewrite.formula.direct3': 'Solução 3 que pode ser usada diretamente',
+  'plugin.rewrite.formula.direct2': 'Solução pronta para uso 2',
+  'plugin.rewrite.formula.direct3': 'Solução pronta para uso 3',
+  'plugin.rewrite.formula.direct4': 'Solução pronta para uso 4',
   'plugin.robots.tips.before':
     'Robôs são a configuração de um site que informa aos spiders dos mecanismos de pesquisa quais páginas podem ser rastreadas e quais não podem ser rastreadas. P:',
   'plugin.robots.tips.after': 'Formato do arquivo robots.txt',

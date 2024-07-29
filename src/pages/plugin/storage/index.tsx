@@ -68,7 +68,9 @@ const PluginStorage: React.FC<any> = (props) => {
         <div className="center-mid-card">
           {fetched && (
             <ProForm onFinish={onSubmit} initialValues={pushSetting}>
-              <Divider><FormattedMessage id="plugin.storage.base" /></Divider>
+              <Divider>
+                <FormattedMessage id="plugin.storage.base" />
+              </Divider>
               <ProFormRadio.Group
                 name="storage_type"
                 label={intl.formatMessage({ id: 'plugin.storage.type' })}
@@ -106,7 +108,11 @@ const PluginStorage: React.FC<any> = (props) => {
                   },
                 ]}
               />
-              <ProFormText name="storage_url" label={intl.formatMessage({ id: 'plugin.storage.url' })} placeholder="" />
+              <ProFormText
+                name="storage_url"
+                label={intl.formatMessage({ id: 'plugin.storage.url' })}
+                placeholder=""
+              />
               <div className={storageType == 'local' ? 'hidden' : ''}>
                 <ProFormRadio.Group
                   name="keep_local"
@@ -125,11 +131,15 @@ const PluginStorage: React.FC<any> = (props) => {
                 />
               </div>
               <div className={storageType != 'aliyun' ? 'hidden' : ''}>
-                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.aliyun" /></Divider>
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.aliyun" />
+                </Divider>
                 <ProFormText
                   name="aliyun_endpoint"
                   label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint' })}
-                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint.placeholder' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.htmlcache.aliyun.endpoint.placeholder',
+                  })}
                 />
                 <ProFormText name="aliyun_access_key_id" label="AccessKeyId" placeholder="" />
                 <ProFormText
@@ -137,26 +147,38 @@ const PluginStorage: React.FC<any> = (props) => {
                   label="AccessKeySecret"
                   placeholder=""
                 />
-                <ProFormText name="aliyun_bucket_name" label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })} placeholder="" />
+                <ProFormText
+                  name="aliyun_bucket_name"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })}
+                  placeholder=""
+                />
               </div>
               <div className={storageType != 'tencent' ? 'hidden' : ''}>
-                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.tencent" /></Divider>
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.tencent" />
+                </Divider>
                 <ProFormText name="tencent_secret_id" label="SecretId" placeholder="" />
                 <ProFormText name="tencent_secret_key" label="SecretKey" placeholder="" />
                 <ProFormText
                   name="tencent_bucket_url"
                   label={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url' })}
-                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url.placeholder' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.htmlcache.tencent.bucket-url.placeholder',
+                  })}
                 />
               </div>
               <div className={storageType != 'qiniu' ? 'hidden' : ''}>
-                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.qiniu" /></Divider>
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.qiniu" />
+                </Divider>
                 <ProFormText name="qiniu_access_key" label="AccessKey" placeholder="" />
                 <ProFormText name="qiniu_secret_key" label="SecretKey" placeholder="" />
                 <ProFormText
                   name="qiniu_bucket"
                   label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name' })}
-                  placeholder={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name.placeholder' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.htmlcache.qiniu.bucket-name.placeholder',
+                  })}
                 />
                 <ProFormRadio.Group
                   name="qiniu_region"
@@ -184,37 +206,98 @@ const PluginStorage: React.FC<any> = (props) => {
                     },
                     {
                       value: 'cn-east-2',
-                      label: 'plugin.htmlcache.qiniu.region.cn-east2',
+                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.cn-east2' }),
                     },
                     {
                       value: 'fog-cn-east-1',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.fog-cn-east1' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.qiniu.region.fog-cn-east1',
+                      }),
                     },
                   ]}
                 />
               </div>
               <div className={storageType != 'upyun' ? 'hidden' : ''}>
-                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.upyun" /></Divider>
-                <ProFormText name="upyun_operator" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })} placeholder="" />
-                <ProFormText name="upyun_password" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })} placeholder="" />
-                <ProFormText name="upyun_bucket" label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })} placeholder="" />
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.upyun" />
+                </Divider>
+                <ProFormText
+                  name="upyun_operator"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  name="upyun_password"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  name="upyun_bucket"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })}
+                  placeholder=""
+                />
               </div>
               <div className={storageType != 'ftp' ? 'hidden' : ''}>
-                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ftp" /></Divider>
-                <p><FormattedMessage id="plugin.htmlcache.ftp.tips" /></p>
-                <ProFormText name="ftp_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })} placeholder="" />
-                <ProFormDigit name="ftp_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })} placeholder="" />
-                <ProFormText name="ftp_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })} placeholder="" />
-                <ProFormText name="ftp_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })} placeholder="" />
-                <ProFormText name="ftp_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })} placeholder="" />
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.ftp" />
+                </Divider>
+                <p>
+                  <FormattedMessage id="plugin.htmlcache.ftp.tips" />
+                </p>
+                <ProFormText
+                  name="ftp_host"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })}
+                  placeholder=""
+                />
+                <ProFormDigit
+                  name="ftp_port"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  name="ftp_username"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  name="ftp_password"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  name="ftp_webroot"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })}
+                  placeholder=""
+                />
               </div>
               <div className={storageType != 'ssh' ? 'hidden' : ''}>
-                <Divider><FormattedMessage id="plugin.htmlcache.storage-type.ssh" /></Divider>
-                <ProFormText name="ssh_host" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })} placeholder="" />
-                <ProFormDigit name="ssh_port" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })} placeholder="" />
-                <ProFormText name="ssh_username" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })} placeholder="" />
-                <ProFormText name="ssh_password" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })} placeholder="" />
-                <ProFormText label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })} extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}>
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.ssh" />
+                </Divider>
+                <ProFormText
+                  name="ssh_host"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })}
+                  placeholder=""
+                />
+                <ProFormDigit
+                  name="ssh_port"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  name="ssh_username"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  name="ssh_password"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })}
+                  placeholder=""
+                />
+                <ProFormText
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })}
+                  extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}
+                >
                   <Upload
                     name="file"
                     className="logo-uploader"
@@ -222,13 +305,19 @@ const PluginStorage: React.FC<any> = (props) => {
                     accept=".crt,.pem,.key"
                     customRequest={async (e) => handleUploadFile('ssh_private_key', e)}
                   >
-                    <Button type="primary"><FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" /></Button>
+                    <Button type="primary">
+                      <FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" />
+                    </Button>
                   </Upload>
                   {pushSetting.ssh_private_key && (
                     <div className="upload-file">{pushSetting.ssh_private_key}</div>
                   )}
                 </ProFormText>
-                <ProFormText name="ssh_webroot" label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })} placeholder="" />
+                <ProFormText
+                  name="ssh_webroot"
+                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })}
+                  placeholder=""
+                />
               </div>
             </ProForm>
           )}

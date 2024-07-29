@@ -17,6 +17,7 @@ const StatisticDetail: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'account.time' }),
       dataIndex: 'created_time',
+      width: 160,
       render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
@@ -37,6 +38,7 @@ const StatisticDetail: React.FC = () => {
     {
       title: 'IP',
       dataIndex: 'ip',
+      width: 160,
     },
     {
       title: intl.formatMessage({ id: 'statistic.device' }),
@@ -56,7 +58,6 @@ const StatisticDetail: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'statistic.user-agent' }),
       dataIndex: 'user_agent',
-      width: 300,
       ellipsis: true,
     },
   ];

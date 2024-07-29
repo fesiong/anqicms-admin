@@ -6,12 +6,12 @@ import {
 } from '@/services/plugin/guestbook';
 import { exportFile } from '@/utils';
 import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, message, Modal, Space } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import GuestbookForm from './components/guestbookForm';
 import GuestbookSetting from './components/setting';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginGuestbook: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -151,9 +151,22 @@ const PluginGuestbook: React.FC = () => {
   };
 
   const handleExportGuestbook = async () => {
-    let res = await pluginExportGuestbook();
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'plugin.guestbook.export.confirm' }),
+      onOk: async () => {
+        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
 
-    exportFile(res.data?.header, res.data?.content, 'xls');
+        try {
+          let res = await pluginExportGuestbook();
+
+          exportFile(res.data?.header, res.data?.content, 'xls');
+        } catch (err) {
+          hide();
+          message.error(err.message || 'error');
+        }
+        hide();
+      },
+    });
   };
 
   return (

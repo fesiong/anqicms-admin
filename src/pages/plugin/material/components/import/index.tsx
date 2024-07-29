@@ -6,6 +6,7 @@ import {
 import { getWordsCount, removeHtmlTag } from '@/utils';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { ModalForm } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import {
   Alert,
   Button,
@@ -21,7 +22,6 @@ import {
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 export type MaterialImportProps = {
   onCancel: (flag?: boolean) => void;
@@ -66,7 +66,11 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       .then((res) => {
         let count = updateUploadedMaterials(res.data);
 
-        message.success(intl.formatMessage({ id: 'plugin.material.import.selected' }) + count + intl.formatMessage({ id: 'plugin.material.import.segment' }));
+        message.success(
+          intl.formatMessage({ id: 'plugin.material.import.selected' }) +
+            count +
+            intl.formatMessage({ id: 'plugin.material.import.segment' }),
+        );
       })
       .finally(() => {
         hide();
@@ -147,7 +151,11 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
     }
     let count = updateUploadedMaterials(content);
     setShowTextarea(false);
-    message.success(intl.formatMessage({ id: 'plugin.material.import.selected' }) + count + intl.formatMessage({ id: 'plugin.material.import.segment' }));
+    message.success(
+      intl.formatMessage({ id: 'plugin.material.import.selected' }) +
+        count +
+        intl.formatMessage({ id: 'plugin.material.import.segment' }),
+    );
   };
 
   const handleSubmitImport = () => {
@@ -162,8 +170,9 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       Modal.confirm({
         title: (
           <span>
-            <FormattedMessage id="plugin.material.import.submit.tips.before" /> <span className="text-red">{noCategoryId}</span>{' '}
-            <FormattedMessage id="plugin.material.import.submit.tips.after" />
+            {intl.formatMessage({ id: 'plugin.material.import.submit.tips.before' })}
+            <span className="text-red">{noCategoryId}</span>{' '}
+            {intl.formatMessage({ id: 'plugin.material.import.submit.tips.after' })}
           </span>
         ),
         onOk: () => {
@@ -231,13 +240,17 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
             <Col flex={1} className="field-value">
               <Select
                 className="large-selecter"
-                placeholder={intl.formatMessage({ id: 'plugin.material.import.default-category.placeholder' })}
+                placeholder={intl.formatMessage({
+                  id: 'plugin.material.import.default-category.placeholder',
+                })}
                 onChange={handleSelectCategory}
                 allowClear
                 value={currentCategoryId}
                 style={{ width: '150px' }}
               >
-                <Select.Option value={0}><FormattedMessage id="plugin.material.import.default-category.all" /></Select.Option>
+                <Select.Option value={0}>
+                  <FormattedMessage id="plugin.material.import.default-category.all" />
+                </Select.Option>
                 {categories?.map((category: any) => (
                   <Select.Option key={category.id} value={category.id}>
                     {category.title}
@@ -260,7 +273,9 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                 showUploadList={false}
                 customRequest={handleUploadArticle}
               >
-                <Button><FormattedMessage id="plugin.material.import.select-file.btn" /></Button>
+                <Button>
+                  <FormattedMessage id="plugin.material.import.select-file.btn" />
+                </Button>
               </Upload>
             </div>
           </Col>
@@ -280,7 +295,10 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
             <div>
               {uploadedMaterials.length > 0 && (
                 <>
-                  <span className="ml-normal"><FormattedMessage id="plugin.material.import.selected.count" />{uploadedMaterials.length}</span>
+                  <span className="ml-normal">
+                    <FormattedMessage id="plugin.material.import.selected.count" />
+                    {uploadedMaterials.length}
+                  </span>
                   <span className="ml-normal">
                     <Button
                       size="small"
@@ -315,7 +333,9 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                   <Space direction="vertical">
                     <Select
                       className="large-selecter"
-                      placeholder={intl.formatMessage({ id: 'plugin.material.import.category.select' })}
+                      placeholder={intl.formatMessage({
+                        id: 'plugin.material.import.category.select',
+                      })}
                       onChange={(e) => {
                         handleSelectInnerCategory(index, e);
                       }}
@@ -323,7 +343,9 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
                       value={item.category_id}
                       style={{ width: '150px' }}
                     >
-                      <Select.Option value={0}><FormattedMessage id="plugin.material.import.default-category.all" /></Select.Option>
+                      <Select.Option value={0}>
+                        <FormattedMessage id="plugin.material.import.default-category.all" />
+                      </Select.Option>
                       {categories?.map((category: any) => (
                         <Select.Option key={category.id} value={category.id}>
                           {category.title}

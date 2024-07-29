@@ -14,7 +14,7 @@ const PluginFinanceFlow: React.FC = () => {
       dataIndex: 'user_name',
     },
     {
-      title: intl.formatMessage({ id: 'plugin.comment.direction' }),
+      title: intl.formatMessage({ id: 'plugin.finance.direction' }),
       dataIndex: 'direction',
       valueEnum: {
         1: {

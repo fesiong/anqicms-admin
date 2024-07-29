@@ -1,7 +1,7 @@
 import { pluginGetMaterialCategories, pluginGetMaterials } from '@/services/plugin/material';
 import { FileSearchOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { ProList } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl } from '@umijs/max';
+import { useIntl } from '@umijs/max';
 import { Modal, Space, Tag } from 'antd';
 import E from 'wangeditor';
 import './index.less';
@@ -101,7 +101,7 @@ export class MaterialMenu extends BtnMenu {
                         this.previewDetail(row);
                       }}
                     >
-                      <FileSearchOutlined /> <FormattedMessage id="plugin.material.preview" />
+                      <FileSearchOutlined /> {intl.formatMessage({ id: 'plugin.material.preview' })}
                     </Tag>
                     <Tag
                       color="blue"
@@ -110,7 +110,7 @@ export class MaterialMenu extends BtnMenu {
                         useDetail(row);
                       }}
                     >
-                      <PlusSquareOutlined /> <FormattedMessage id="component.material.use" />
+                      <PlusSquareOutlined /> {intl.formatMessage({ id: 'component.material.use' })}
                     </Tag>
                   </Space>
                 );

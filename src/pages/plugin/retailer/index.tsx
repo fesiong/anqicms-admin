@@ -7,11 +7,11 @@ import {
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import RetailerSetting from './components/setting';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginRetailer: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -141,7 +141,7 @@ const PluginRetailer: React.FC = () => {
           </Button>,
           <RetailerSetting onCancel={() => {}}>
             <Button type="primary" key="group">
-            <FormattedMessage id="plugin.retailer.setting" />
+              <FormattedMessage id="plugin.retailer.setting" />
             </Button>
           </RetailerSetting>,
         ]}
@@ -180,8 +180,16 @@ const PluginRetailer: React.FC = () => {
           }}
           onFinish={setRealname}
         >
-          <ProFormText name="user_name" label={intl.formatMessage({ id: 'plugin.retailer.user-name' })} readonly />
-          <ProFormText name="real_name" label={intl.formatMessage({ id: 'plugin.retailer.change-name.new' })} />
+          <ProFormText
+            name="user_name"
+            initialValue={currentUser.user_name}
+            label={intl.formatMessage({ id: 'plugin.retailer.user-name' })}
+            readonly
+          />
+          <ProFormText
+            name="real_name"
+            label={intl.formatMessage({ id: 'plugin.retailer.change-name.new' })}
+          />
         </ModalForm>
       )}
     </PageContainer>

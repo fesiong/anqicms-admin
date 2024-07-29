@@ -134,7 +134,11 @@ const PluginWechatMenu: React.FC<any> = (props) => {
         <ProTable<any>
           actionRef={actionRef}
           rowKey="id"
-          headerTitle={<div><FormattedMessage id="plugin.wechat.menu.tips" /></div>}
+          headerTitle={
+            <div>
+              <FormattedMessage id="plugin.wechat.menu.tips" />
+            </div>
+          }
           toolBarRender={() => [
             <Button key="add" onClick={() => handleSyncMenu()}>
               <FormattedMessage id="plugin.wechat.menu.submit" />
@@ -160,7 +164,7 @@ const PluginWechatMenu: React.FC<any> = (props) => {
       </Modal>
       {editVisible && (
         <ModalForm
-          title={intl.formatMessage({ id: 'plugin.wechat.menu.edit' })}
+          title={intl.formatMessage({ id: 'plugin.wechat.menu.add' })}
           width={600}
           open={editVisible}
           initialValues={currentMenu}
@@ -173,7 +177,9 @@ const PluginWechatMenu: React.FC<any> = (props) => {
             name="parent_id"
             request={async () => {
               const res = await pluginGetWechatMenus({});
-              return [{ name: intl.formatMessage({ id: 'plugin.wechat.menu.top' }), id: 0 }].concat(res.data || []);
+              return [{ name: intl.formatMessage({ id: 'plugin.wechat.menu.top' }), id: 0 }].concat(
+                res.data || [],
+              );
             }}
             fieldProps={{
               fieldNames: {
@@ -193,14 +199,23 @@ const PluginWechatMenu: React.FC<any> = (props) => {
               },
             }}
           />
-          <ProFormText name="name" label={intl.formatMessage({ id: 'plugin.wechat.menu.name' })} width="lg" />
+          <ProFormText
+            name="name"
+            label={intl.formatMessage({ id: 'plugin.wechat.menu.name' })}
+            width="lg"
+          />
           <ProFormText
             name="value"
             label={intl.formatMessage({ id: 'plugin.wechat.menu.value' })}
             width="lg"
             extra={intl.formatMessage({ id: 'plugin.wechat.menu.value.description' })}
           />
-          <ProFormDigit name="sort" label={intl.formatMessage({ id: 'content.sort.name' })} width="lg" extra={intl.formatMessage({ id: 'plugin.wechat.sort.description' })} />
+          <ProFormDigit
+            name="sort"
+            label={intl.formatMessage({ id: 'content.sort.name' })}
+            width="lg"
+            extra={intl.formatMessage({ id: 'plugin.wechat.sort.description' })}
+          />
         </ModalForm>
       )}
     </>

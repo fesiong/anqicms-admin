@@ -137,7 +137,10 @@ export default {
   'plugin.anchor.delete.confirm': 'آیا مطمئن هستید که می خواهید متن لنگر انتخابی را حذف کنید؟',
   'plugin.anchor.batch-update': 'متن لنگر را به صورت دسته ای به روز کنید',
   'plugin.anchor.export': 'متن لنگر را صادر کنید',
+  'plugin.anchor.export.confirm': 'مطمئنی که می‌خواهید تمام متن‌های مرکز را صادرت کنید؟',
   'plugin.anchor.replace': 'جایگزین کردن',
+  'plugin.anchor.replace.confirm':
+    'مطمئن هستید که می‌خواهید یک عملیات متن‌نوشته‌ی آغاز گروه انجام دهید؟',
   'plugin.anchor.replace-count': 'زمان تعویض',
   'plugin.backup.confirm':
     'آیا مطمئن هستید که می خواهید یک نسخه پشتیبان از پایگاه داده انجام دهید؟',
@@ -354,6 +357,7 @@ export default {
     'اعلانی که کاربران پس از ارسال پیام مشاهده می کنند. به عنوان مثال: از پیام شما متشکرم!',
   'plugin.guestbook.delete.confirm': 'آیا مطمئن هستید که می خواهید پیام انتخاب شده را حذف کنید؟',
   'plugin.guestbook.export': 'صادرات پیام ها',
+  'plugin.guestbook.export.confirm': 'مطمئنی که می‌خواهید تمام پیغام‌ها را صادرت کنید؟',
   'plugin.htmlcache.remote-file': 'فایل از راه دور',
   'plugin.htmlcache.local-file': 'فایل های محلی',
   'plugin.htmlcache.push-status': 'وضعیت فشار',
@@ -885,8 +889,9 @@ export default {
   'plugin.rewrite.variable.tips':
     'متغیرها در پرانتزهای فرفری «{}»، مانند «{id}» پیچیده می‌شوند. متغیرهای موجود عبارتند از: شناسه داده «{id}»؛ نام پیوند سفارشی طبقه‌بندی «{catname}»، طبقه‌بندی چند سطحی نام پیوند سفارشی «{multicatname}». multicatname}` و `{catid}` قابل استفاده است , ساعت `{ساعت}`، دقیقه `{دقیقه}`، ثانیه `{ثانیه}`، سال، ماه، روز، ساعت، دقیقه و ثانیه فقط در بایگانی شماره صفحه صفحه بندی `{صفحه}` موجود است باید در پرانتز قرار گیرد، مانند: `(/{page})`.',
   'plugin.rewrite.formula.direct1': 'محلول آماده 1',
-  'plugin.rewrite.formula.direct2': 'راه حل 2 که می تواند به طور مستقیم استفاده شود',
-  'plugin.rewrite.formula.direct3': 'راه حل 3 که می تواند به طور مستقیم استفاده شود',
+  'plugin.rewrite.formula.direct2': 'محلول آماده 2',
+  'plugin.rewrite.formula.direct3': 'محلول آماده 3',
+  'plugin.rewrite.formula.direct4': 'محلول آماده 4',
   'plugin.robots.tips.before':
     'روبات ها پیکربندی یک وب سایت هستند که به عنکبوت های موتورهای جستجو می گوید که کدام صفحات را می توان خزیده و کدام صفحات را نمی توان خزید. س:',
   'plugin.robots.tips.after': 'فرمت فایل robots.txt',

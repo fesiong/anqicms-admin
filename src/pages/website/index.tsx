@@ -112,13 +112,11 @@ const WebsiteList: React.FC = () => {
       title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
       content: (
         <div>
-          <div className="mb-normal">
-            <FormattedMessage id="website.delete.tips" />
-          </div>
+          <div className="mb-normal">{intl.formatMessage({ id: 'website.delete.tips' })}</div>
           <div style={{ padding: '10px 0' }}>
             <div>
               <Checkbox ref={inputRef} value={true}>
-                <FormattedMessage id="website.delete.all" />
+                {intl.formatMessage({ id: 'website.delete.all' })}
               </Checkbox>
             </div>
           </div>

@@ -46,7 +46,7 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
 
   const syncSensitive = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'setting.system.confirm-sync' }),
+      title: intl.formatMessage({ id: 'setting.sensitive.confirm-sync' }),
       onOk: () => {
         syncSettingSensitiveWords({})
           .then(async (res) => {
@@ -56,7 +56,9 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
             formRef.current?.setFieldsValue({ words: setting.join('\n') });
           })
           .catch((err) => {
-            message.success(err.msg || intl.formatMessage({ id: 'setting.system.sync-failure' }));
+            message.success(
+              err.msg || intl.formatMessage({ id: 'setting.sensitive.sync-failure' }),
+            );
           });
       },
     });

@@ -24,7 +24,7 @@ const DesignDoc: React.FC = () => {
   const handleShowDoc = (doc: any) => {
     Modal.confirm({
       title: doc.title,
-      icon: false,
+      icon: null,
       width: 860,
       maskClosable: true,
       content: (
