@@ -99,6 +99,33 @@ const SettingSystemFrom: React.FC<any> = (props) => {
       });
   };
 
+  const getLangName = (lang: string) => {
+    switch (lang) {
+      case 'zh-CN':
+        return '中文';
+      case 'en-US':
+        return 'English';
+      case 'ja-JP':
+        return '日本語';
+      case 'ko-KR':
+        return '한국어';
+      case 'zh-TW':
+        return '繁體中文';
+      case 'fa-IR':
+        return 'فارسی';
+      case 'pt-BR':
+        return 'Português';
+      case 'ru-RU':
+        return 'Русский';
+      case 'id-ID':
+        return 'Bahasa Indonesia';
+      case 'bn-BD':
+        return 'বাংলা';
+      default:
+        return lang;
+    }
+  };
+
   return (
     <PageContainer>
       <Card>
@@ -221,7 +248,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               request={async (params) => {
                 let names = [];
                 for (let item of setting.languages) {
-                  names.push({ label: item, value: item });
+                  names.push({ label: getLangName(item), value: item });
                 }
                 return names;
               }}

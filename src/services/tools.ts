@@ -1,4 +1,4 @@
-import { history } from '@umijs/max';
+import { getLocale, history } from '@umijs/max';
 import { message } from 'antd';
 import { extend } from 'umi-request';
 import { getSessionStore, getStore } from '../utils/store';
@@ -24,6 +24,10 @@ request.use(async (ctx, next) => {
   const siteId = getSessionStore('site-id');
   if (siteId) {
     headers['Site-Id'] = siteId;
+  }
+  const selectLang = getLocale();
+  if (selectLang) {
+    headers['Accept-Language'] = selectLang;
   }
   ctx.req.options = {
     ...options,
