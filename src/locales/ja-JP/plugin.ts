@@ -298,6 +298,10 @@ export default {
   'plugin.fulltext.use_content.true': 'ドキュメントの内容を含める',
   'plugin.fulltext.use_content.name': 'インデックスコンテンツ',
   'plugin.fulltext.modules.name': 'オープンモデル',
+  'plugin.fulltext.search.name': '検索タイプ',
+  'plugin.fulltext.search.archive': '文書検索',
+  'plugin.fulltext.search.category': 'カテゴリ検索',
+  'plugin.fulltext.search.tag': 'タグ検索',
   'plugin.group.edit': 'ユーザーグループの変更',
   'plugin.group.add': 'ユーザーグループの追加',
   'plugin.group.name': '名前',
@@ -314,6 +318,9 @@ export default {
   'plugin.group.expire_day.suffix': '空',
   'plugin.group.expire_day.description':
     'VIP を購入した後、有効期間は 1 年間です。有効期限が切れると、最初のユーザー グループに戻ります。',
+  'plugin.group.content_safe': 'コンテンツのセキュリティ',
+  'plugin.group.content_safe.no-verify': 'コメント/コンテンツの公開は審査の対象外です',
+  'plugin.group.content_safe.no-captcha': '確認コードなしでコメント/コンテンツを投稿する',
   'plugin.group.share_reward': 'ユーザーグループの有効期間',
   'plugin.group.share_reward.description':
     '5%～20の設定を推奨し、小数点の設定はできません。コミッション比率の優先順位: 製品ごとに設定されたコミッション比率 > ユーザー グループのコミッション比率 > デフォルトのコミッション比率',

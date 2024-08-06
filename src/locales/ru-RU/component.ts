@@ -52,6 +52,7 @@ export default {
   'component.editor.inserting': 'Вставка...',
   'component.keywords.title': 'Ключевые слова',
   'component.keywords.select': 'Выберите ключевые слова',
+  'component.archive.select': 'Выбрать файл',
   'component.markdown.media': 'Медиа библиотека',
   'component.markdown.video.unsupport': 'Ваш браузер не поддерживает видео тег.',
   'component.markdown.audio.unsupport': 'Ваш редактор не поддерживает тег audio.',

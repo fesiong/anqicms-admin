@@ -51,6 +51,7 @@ export default {
   'component.editor.inserting': 'در حال درج...',
   'component.keywords.title': 'کلید واژه ها',
   'component.keywords.select': 'کلمات کلیدی را انتخاب کنید',
+  'component.archive.select': 'انتخاب سند',
   'component.markdown.media': 'کتابخانه ی رسانه',
   'component.markdown.video.unsupport': 'مرورگر شما ویدئو با این پسوند را پشتیبانی نمی کند.',
   'component.markdown.audio.unsupport': 'ویرایشگر شما از برچسب صوتی پشتیبانی نمی کند',

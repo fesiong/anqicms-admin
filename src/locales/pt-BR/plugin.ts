@@ -305,6 +305,10 @@ export default {
   'plugin.fulltext.use_content.true': 'Incluir conteúdo do documento',
   'plugin.fulltext.use_content.name': 'Conteúdo do índice',
   'plugin.fulltext.modules.name': 'Modelo aberto',
+  'plugin.fulltext.search.name': 'Tipo de busca',
+  'plugin.fulltext.search.archive': 'Pesquisa de documentos',
+  'plugin.fulltext.search.category': 'Pesquisa de categoria',
+  'plugin.fulltext.search.tag': 'Pesquisa de tags',
   'plugin.group.edit': 'Modificar grupo de usuários',
   'plugin.group.add': 'Adicionar grupo de usuários',
   'plugin.group.name': 'nome',
@@ -321,6 +325,11 @@ export default {
   'plugin.group.expire_day.suffix': 'céu',
   'plugin.group.expire_day.description':
     'Após adquirir o VIP, ele será válido por quantos dias. Preencha 365 por 1 ano. Após o vencimento, ele retornará ao primeiro grupo de usuários.',
+  'plugin.group.content_safe': 'Segurança de conteúdo',
+  'plugin.group.content_safe.no-verify':
+    'Comentários/publicação de conteúdo estão isentos de revisão',
+  'plugin.group.content_safe.no-captcha':
+    'Comentários/postagem de conteúdo sem código de verificação',
   'plugin.group.share_reward': 'Período de validade do grupo de usuários',
   'plugin.group.share_reward.description':
     'Recomenda-se definir 5%-20 e o ponto decimal não pode ser definido. Prioridade do índice de comissão: Índice de comissão definido por produto > Índice de comissão do grupo de usuários > Índice de comissão padrão',

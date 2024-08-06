@@ -303,6 +303,10 @@ export default {
   'plugin.fulltext.use_content.true': 'Sertakan konten dokumen',
   'plugin.fulltext.use_content.name': 'Konten indeks',
   'plugin.fulltext.modules.name': 'Model terbuka',
+  'plugin.fulltext.search.name': 'Jenis pencarian',
+  'plugin.fulltext.search.archive': 'Pencarian dokumen',
+  'plugin.fulltext.search.category': 'Pencarian kategori',
+  'plugin.fulltext.search.tag': 'Pencarian tanda',
   'plugin.group.edit': 'Ubah grup pengguna',
   'plugin.group.add': 'Tambahkan grup pengguna',
   'plugin.group.name': 'nama',
@@ -319,6 +323,9 @@ export default {
   'plugin.group.expire_day.suffix': 'langit',
   'plugin.group.expire_day.description':
     'Setelah pembelian VIP berlaku berapa hari, silahkan isi 365 untuk 1 tahun.',
+  'plugin.group.content_safe': 'Keamanan konten',
+  'plugin.group.content_safe.no-verify': 'Komentar/penerbitan konten dikecualikan dari peninjauan',
+  'plugin.group.content_safe.no-captcha': 'Komentar/postingan konten tanpa kode verifikasi',
   'plugin.group.share_reward': 'Masa berlaku grup pengguna',
   'plugin.group.share_reward.description':
     'Disarankan untuk menyetel 5%-20, dan titik desimal tidak dapat disetel. Prioritas rasio komisi: Rasio komisi yang ditetapkan berdasarkan produk > Rasio komisi grup pengguna > Rasio komisi default',

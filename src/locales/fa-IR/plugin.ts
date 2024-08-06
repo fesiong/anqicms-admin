@@ -306,6 +306,10 @@ export default {
   'plugin.fulltext.use_content.true': 'شامل محتوای سند',
   'plugin.fulltext.use_content.name': 'محتوای فهرست',
   'plugin.fulltext.modules.name': 'مدل باز',
+  'plugin.fulltext.search.name': 'نوع جستجو',
+  'plugin.fulltext.search.archive': 'جستجوی سند',
+  'plugin.fulltext.search.category': 'جستجوی دسته بندی',
+  'plugin.fulltext.search.tag': 'جستجوی برچسب',
   'plugin.group.edit': 'گروه کاربری را تغییر دهید',
   'plugin.group.add': 'اضافه کردن گروه کاربری',
   'plugin.group.name': 'نام',
@@ -322,6 +326,9 @@ export default {
   'plugin.group.expire_day.suffix': 'آسمان',
   'plugin.group.expire_day.description':
     'پس از خرید وی آی پی به مدت 1 سال اعتبار دارد 365 را پر کنید.',
+  'plugin.group.content_safe': 'امنیت محتوا',
+  'plugin.group.content_safe.no-verify': 'نظرات/انتشار محتوا از بررسی مستثنی است',
+  'plugin.group.content_safe.no-captcha': 'نظرات / ارسال محتوا بدون کد تأیید',
   'plugin.group.share_reward': 'دوره اعتبار گروه کاربر',
   'plugin.group.share_reward.description':
     'توصیه می شود 5-20 تنظیم شود و نقطه اعشار قابل تنظیم نیست. اولویت نسبت کمیسیون: نسبت کمیسیون تعیین شده توسط محصول > نسبت کمیسیون گروه کاربر > نسبت کمیسیون پیش فرض',

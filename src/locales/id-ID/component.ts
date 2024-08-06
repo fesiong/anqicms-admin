@@ -51,6 +51,7 @@ export default {
   'component.editor.inserting': 'Memasukkan...',
   'component.keywords.title': 'Kata-kata kunci',
   'component.keywords.select': 'Pilih kata kunci',
+  'component.archive.select': 'Pilih dokumen',
   'component.markdown.media': 'Perpustakaan Media',
   'component.markdown.video.unsupport': 'Browser Anda tidak mendukung tag video.',
   'component.markdown.audio.unsupport': 'Editor Anda tidak mendukung tag audio',

@@ -47,6 +47,7 @@ export default {
   'component.editor.inserting': '插入中...',
   'component.keywords.title': '关键词',
   'component.keywords.select': '选择关键词',
+  'component.archive.select': '选择文档',
   'component.markdown.media': '媒体库',
   'component.markdown.video.unsupport': '您的浏览器不支持 video 标签。',
   'component.markdown.audio.unsupport': '你的编辑器不支持 audio 标签',

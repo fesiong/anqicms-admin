@@ -30,31 +30,43 @@ const Dashboard: React.FC = () => {
   const intl = useIntl();
 
   const getSetting = async () => {
-    getStatisticSummary().then((res) => {
-      setData(res.data || {});
-      let needShow = res.data?.show_guide || false;
-      // 读取localStorage
-      let hasClose = getStore('close_guide') || false;
-      if (hasClose) {
-        needShow = false;
-      }
-      setShowGuide(needShow);
-    });
-    getStatisticInclude().then((res) => {
-      setIncludeData(res.data || []);
-    });
-    getStatisticTraffic().then((res) => {
-      setTrafficData(res.data || []);
-    });
-    getStatisticSpider().then((res) => {
-      setSpiderData(res.data || []);
-    });
-    getDashboardInfo().then((res) => {
-      setInfoData(res.data || []);
-    });
-    checkVersion().then((res) => {
-      setNewVersion(res.data || null);
-    });
+    getStatisticSummary()
+      .then((res) => {
+        setData(res.data || {});
+        let needShow = res.data?.show_guide || false;
+        // 读取localStorage
+        let hasClose = getStore('close_guide') || false;
+        if (hasClose) {
+          needShow = false;
+        }
+        setShowGuide(needShow);
+      })
+      .catch(() => {});
+    getStatisticInclude()
+      .then((res) => {
+        setIncludeData(res.data || []);
+      })
+      .catch(() => {});
+    getStatisticTraffic()
+      .then((res) => {
+        setTrafficData(res.data || []);
+      })
+      .catch(() => {});
+    getStatisticSpider()
+      .then((res) => {
+        setSpiderData(res.data || []);
+      })
+      .catch(() => {});
+    getDashboardInfo()
+      .then((res) => {
+        setInfoData(res.data || []);
+      })
+      .catch(() => {});
+    checkVersion()
+      .then((res) => {
+        setNewVersion(res.data || null);
+      })
+      .catch(() => {});
   };
 
   useEffect(() => {

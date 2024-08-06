@@ -1,4 +1,5 @@
 import AiGenerate from '@/components/aiGenerate';
+import ArchiveSearch from '@/components/archiveSearch';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
 import WangEditor from '@/components/editor';
@@ -17,7 +18,7 @@ import {
 } from '@/services';
 import { getTags } from '@/services/tag';
 import { getStore, removeStore, setStore } from '@/utils/store';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   PageContainer,
   ProForm,
@@ -31,10 +32,11 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, injectIntl } from '@umijs/max';
-import { Button, Card, Col, Image, Modal, Row, message } from 'antd';
+import { Button, Card, Col, Image, Modal, Row, Tag, message } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { IntlShape } from 'react-intl';
+import './index.less';
 
 export type intlProps = {
   intl: IntlShape;
@@ -44,12 +46,14 @@ class ArchiveForm extends React.Component<intlProps> {
   state: { [key: string]: any } = {
     fetched: false,
     archive: { extra: {}, content: '', flag: [] },
+    relations: [],
     extraContent: {},
     content: '',
     modules: [],
     module: { fields: [] },
     contentSetting: {},
 
+    archiveSearchVisible: false,
     keywordsVisible: false,
     searchedTags: [],
 
@@ -198,6 +202,7 @@ class ArchiveForm extends React.Component<intlProps> {
       archive: archive,
       content: content,
       extraContent: extraContent,
+      relations: archive.relations || [],
     });
   };
 
@@ -309,6 +314,46 @@ class ArchiveForm extends React.Component<intlProps> {
     });
   };
 
+  handleShowArchiveSearchs = () => {
+    this.setState({
+      archiveSearchVisible: true,
+    });
+  };
+
+  handleHideArchiveSearchs = () => {
+    this.setState({
+      archiveSearchVisible: false,
+    });
+  };
+
+  handleSelectedArchives = async (values: any[]) => {
+    const { relations } = this.state;
+    for (let i in values) {
+      let exist = false;
+      for (let j in relations) {
+        if (relations[j].id === values[i].id) {
+          exist = true;
+          break;
+        }
+      }
+      if (!exist) {
+        relations.push(values[i]);
+      }
+    }
+    this.setState({
+      relations,
+    });
+    this.handleHideArchiveSearchs();
+  };
+
+  handleRemoveRelation = (index: number) => {
+    const { relations } = this.state;
+    relations.splice(index, 1);
+    this.setState({
+      relations,
+    });
+  };
+
   handleSelectedKeywords = async (values: string[]) => {
     const keywords = (this.formRef?.current?.getFieldValue('keywords') || '').split(',');
     for (const item of values) {
@@ -341,8 +386,10 @@ class ArchiveForm extends React.Component<intlProps> {
   };
 
   onSubmit = async (values: any) => {
-    const { archive, content, extraContent } = this.state;
+    const { archive, content, extraContent, relations } = this.state;
     const postData = Object.assign(archive, values);
+    postData.relation_ids = relations.map((item: any) => item.id);
+    delete postData.relations;
     postData.price = Number(values.price);
     postData.stock = Number(values.stock);
     for (let field in extraContent) {
@@ -400,6 +447,11 @@ class ArchiveForm extends React.Component<intlProps> {
       }
       message.error(res.msg);
     } else {
+      // 设置最近更新过的文档
+      setStore('latest_update', {
+        id: res.data.id,
+        timestamp: new Date().getTime() / 1000,
+      });
       removeStore('unsaveArchive');
       this.submitted = true;
       message.success(res.msg);
@@ -480,6 +532,8 @@ class ArchiveForm extends React.Component<intlProps> {
       aiTitle,
       aiVisible,
       contentSetting,
+      archiveSearchVisible,
+      relations,
     } = this.state;
     return (
       <PageContainer
@@ -1079,6 +1133,28 @@ class ArchiveForm extends React.Component<intlProps> {
                       extra={this.props.intl.formatMessage({ id: 'content.tag.placeholder' })}
                     />
                   </Card>
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({ id: 'content.relation.name' })}
+                    extra={
+                      <Tag className="link" onClick={this.handleShowArchiveSearchs}>
+                        <FormattedMessage id="setting.action.add" />
+                      </Tag>
+                    }
+                  >
+                    {relations.map((item: any, index: number) => (
+                      <div className="relation-item" key={item.id}>
+                        <div className="name">{item.title}</div>
+                        <div
+                          className="close link"
+                          onClick={this.handleRemoveRelation.bind(this, index)}
+                        >
+                          <CloseOutlined />
+                        </div>
+                      </div>
+                    ))}
+                  </Card>
                 </Col>
               </Row>
             </ProForm>
@@ -1098,6 +1174,13 @@ class ArchiveForm extends React.Component<intlProps> {
             editor={contentSetting.editor}
             onCancel={this.onHideAiGenerate}
             onSubmit={this.onFinishAiGenerate}
+          />
+        )}
+        {archiveSearchVisible && (
+          <ArchiveSearch
+            open={archiveSearchVisible}
+            onCancel={this.handleHideArchiveSearchs}
+            onSubmit={this.handleSelectedArchives}
           />
         )}
       </PageContainer>

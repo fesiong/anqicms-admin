@@ -274,6 +274,10 @@ export default {
   'plugin.fulltext.use_content.true': '包括文档内容',
   'plugin.fulltext.use_content.name': '索引内容',
   'plugin.fulltext.modules.name': '开启的模型',
+  'plugin.fulltext.search.name': '搜索的类型',
+  'plugin.fulltext.search.archive': '文档搜索',
+  'plugin.fulltext.search.category': '分类搜索',
+  'plugin.fulltext.search.tag': '标签搜索',
   'plugin.group.edit': '修改用户组',
   'plugin.group.add': '添加用户组',
   'plugin.group.name': '名称',
@@ -290,6 +294,9 @@ export default {
   'plugin.group.expire_day.suffix': '天',
   'plugin.group.expire_day.description':
     '购买VIP后，多少天内有效，1年请填365，过期后，会返回到第一个用户组',
+  'plugin.group.content_safe': '內容安全',
+  'plugin.group.content_safe.no-verify': '评论/内容发布免审核',
+  'plugin.group.content_safe.no-captcha': '评论/内容发布免验证码',
   'plugin.group.share_reward': '用户组有效期',
   'plugin.group.share_reward.description':
     '建议设置5%-20，不能设置小数点。佣金比例优先级: 商品设置的佣金比例>用户组佣金比例>默认佣金比例',

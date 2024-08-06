@@ -303,6 +303,10 @@ export default {
   'plugin.fulltext.use_content.true': 'Include document content',
   'plugin.fulltext.use_content.name': 'Index content',
   'plugin.fulltext.modules.name': 'Open model',
+  'plugin.fulltext.search.name': 'Search type',
+  'plugin.fulltext.search.archive': 'Document search',
+  'plugin.fulltext.search.category': 'Category search',
+  'plugin.fulltext.search.tag': 'Tag search',
   'plugin.group.edit': 'Modify user group',
   'plugin.group.add': 'Add user group',
   'plugin.group.name': 'name',
@@ -319,6 +323,9 @@ export default {
   'plugin.group.expire_day.suffix': 'sky',
   'plugin.group.expire_day.description':
     'After purchasing VIP, it will be valid for how many days. Please fill in 365 for 1 year. After expiration, it will return to the first user group.',
+  'plugin.group.content_safe': 'Content security',
+  'plugin.group.content_safe.no-verify': 'Comments/content publishing are exempt from review',
+  'plugin.group.content_safe.no-captcha': 'Comments/content posting without verification code',
   'plugin.group.share_reward': 'User group validity period',
   'plugin.group.share_reward.description':
     'It is recommended to set 5%-20, and the decimal point cannot be set. Commission ratio priority: Commission ratio set by product > User group commission ratio > Default commission ratio',

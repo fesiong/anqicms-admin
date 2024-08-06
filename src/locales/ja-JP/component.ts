@@ -51,6 +51,7 @@ export default {
   'component.editor.inserting': '挿入中...',
   'component.keywords.title': 'キーワード',
   'component.keywords.select': 'キーワードを選択してください',
+  'component.archive.select': 'ドキュメントの選択',
   'component.markdown.media': 'メディアライブラリ',
   'component.markdown.video.unsupport': 'お使いのブラウザはvideoタグをサポートしていません。',
   'component.markdown.audio.unsupport': 'あなたのエディタはaudioタグをサポートしていません',

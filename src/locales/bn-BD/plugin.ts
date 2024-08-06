@@ -303,6 +303,10 @@ export default {
   'plugin.fulltext.use_content.true': 'নথি বিষয়বস্তু অন্তর্ভুক্ত',
   'plugin.fulltext.use_content.name': 'সূচক বিষয়বস্তু',
   'plugin.fulltext.modules.name': 'মডেল খুলুন',
+  'plugin.fulltext.search.name': 'অনুসন্ধানের ধরন',
+  'plugin.fulltext.search.archive': 'নথি অনুসন্ধান',
+  'plugin.fulltext.search.category': 'বিভাগ অনুসন্ধান',
+  'plugin.fulltext.search.tag': 'ট্যাগ অনুসন্ধান',
   'plugin.group.edit': 'ব্যবহারকারী গ্রুপ পরিবর্তন করুন',
   'plugin.group.add': 'ব্যবহারকারী গ্রুপ যোগ করুন',
   'plugin.group.name': 'নাম',
@@ -319,6 +323,10 @@ export default {
   'plugin.group.expire_day.suffix': 'আকাশ',
   'plugin.group.expire_day.description':
     'VIP কেনার পর, 1 বছরের জন্য 365 পূরণ করার জন্য এটি বৈধ হবে, এটি প্রথম ব্যবহারকারী গ্রুপে ফিরে যাবে।',
+  'plugin.group.content_safe': 'বিষয়বস্তুর নিরাপত্তা',
+  'plugin.group.content_safe.no-verify':
+    'মন্তব্য/বিষয়বস্তু প্রকাশ পর্যালোচনা থেকে অব্যাহতিপ্রাপ্ত',
+  'plugin.group.content_safe.no-captcha': 'যাচাইকরণ কোড ছাড়াই মন্তব্য/কন্টেন্ট পোস্ট করা',
   'plugin.group.share_reward': 'ব্যবহারকারী গ্রুপ বৈধতা সময়কাল',
   'plugin.group.share_reward.description':
     'এটি 5% -20 সেট করার সুপারিশ করা হয়, এবং দশমিক বিন্দু সেট করা যাবে না। কমিশন অনুপাত অগ্রাধিকার: কমিশন অনুপাত পণ্য দ্বারা সেট > ব্যবহারকারী গ্রুপ কমিশন অনুপাত > ডিফল্ট কমিশন অনুপাত',

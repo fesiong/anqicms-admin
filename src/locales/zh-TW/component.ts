@@ -47,6 +47,7 @@ export default {
   'component.editor.inserting': '插入中...',
   'component.keywords.title': '關鍵字',
   'component.keywords.select': '選擇關鍵字',
+  'component.archive.select': '選擇檔案',
   'component.markdown.media': '媒體庫',
   'component.markdown.video.unsupport': '您的瀏覽器不支援 video 標籤。',
   'component.markdown.audio.unsupport': '你的編輯器不支援 audio 標籤',

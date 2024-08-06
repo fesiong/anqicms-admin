@@ -1,7 +1,7 @@
 import { getModules, pluginGetFulltextConfig, pluginSaveFulltextConfig } from '@/services';
 import { PageContainer, ProForm, ProFormCheckbox, ProFormRadio } from '@ant-design/pro-components';
-import { useIntl } from '@umijs/max';
-import { Alert, Card, message } from 'antd';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Alert, Card, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const PluginFulltext: React.FC<any> = () => {
@@ -60,11 +60,34 @@ const PluginFulltext: React.FC<any> = () => {
             name={'use_content'}
             label={intl.formatMessage({ id: 'plugin.fulltext.use_content.name' })}
             options={[
-              { label: intl.formatMessage({ id: 'plugin.fulltext.use_content.false' }), value: false },
-              { label: intl.formatMessage({ id: 'plugin.fulltext.use_content.true' }), value: true },
+              {
+                label: intl.formatMessage({ id: 'plugin.fulltext.use_content.false' }),
+                value: false,
+              },
+              {
+                label: intl.formatMessage({ id: 'plugin.fulltext.use_content.true' }),
+                value: true,
+              },
             ]}
           />
-          <ProFormCheckbox.Group name={'modules'} label={intl.formatMessage({ id: 'plugin.fulltext.modules.name' })} options={modules} />
+          <ProFormCheckbox.Group
+            name={'modules'}
+            label={intl.formatMessage({ id: 'plugin.fulltext.modules.name' })}
+            options={modules}
+          />
+          <ProFormCheckbox.Group label={intl.formatMessage({ id: 'plugin.fulltext.search.name' })}>
+            <Space>
+              <ProFormCheckbox name={'use_archive'} disabled initialValue={true}>
+                <FormattedMessage id="plugin.fulltext.search.archive" />
+              </ProFormCheckbox>
+              <ProFormCheckbox name={'use_category'}>
+                <FormattedMessage id="plugin.fulltext.search.category" />
+              </ProFormCheckbox>
+              <ProFormCheckbox name={'use_tag'}>
+                <FormattedMessage id="plugin.fulltext.search.tag" />
+              </ProFormCheckbox>
+            </Space>
+          </ProFormCheckbox.Group>
         </ProForm>
       </Card>
     </PageContainer>

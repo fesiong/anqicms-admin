@@ -274,6 +274,10 @@ export default {
   'plugin.fulltext.use_content.true': '包括文檔內容',
   'plugin.fulltext.use_content.name': '索引內容',
   'plugin.fulltext.modules.name': '開啟的模型',
+  'plugin.fulltext.search.name': '搜尋的類型',
+  'plugin.fulltext.search.archive': '文件搜尋',
+  'plugin.fulltext.search.category': '分類搜尋',
+  'plugin.fulltext.search.tag': '標籤搜尋',
   'plugin.group.edit': '修改使用者群組',
   'plugin.group.add': '新增使用者群組',
   'plugin.group.name': '名稱',
@@ -290,6 +294,9 @@ export default {
   'plugin.group.expire_day.suffix': '天',
   'plugin.group.expire_day.description':
     '購買VIP後，幾天內有效，1年請填365，過期後，會回到第一個用戶群組',
+  'plugin.group.content_safe': '內容安全',
+  'plugin.group.content_safe.no-verify': '評論/內容發佈免審核',
+  'plugin.group.content_safe.no-captcha': '評論/內容發佈免驗證碼',
   'plugin.group.share_reward': '使用者群組有效期限',
   'plugin.group.share_reward.description':
     '建議設定5%-20，不能設定小數點。佣金比例優先：商品設定的佣金比例>用戶群組佣金比例>預設佣金比例',

@@ -51,6 +51,7 @@ export default {
   'component.editor.inserting': 'ঢোকানো হচ্ছে...',
   'component.keywords.title': 'মূল শব্দ',
   'component.keywords.select': 'কীওয়ার্ড নির্বাচন করুন',
+  'component.archive.select': 'নথি নির্বাচন করুন',
   'component.markdown.media': 'মিডিয়া লাইব্রেরি',
   'component.markdown.video.unsupport': 'আপনার ব্রাউজার ভিডিও ট্যাগ সমর্থন করে না।',
   'component.markdown.audio.unsupport': 'আপনার সম্পাদক অডিও ট্যাগ সমর্থন করে না',

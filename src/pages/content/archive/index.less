@@ -5,7 +5,34 @@
     padding: 8px 10px;
     cursor: pointer;
     &.active {
-      color: var(--ant-primary-color);
+      color: #1890ff;
     }
+  }
+}
+.update-color {
+  color: #1890ff;
+}
+.update-tag {
+  color: #f30;
+}
+.relation-item {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px solid #e8e8e8;
+  .name {
+    flex: 1;
+  }
+  .close {
+    display: none;
+    padding: 0 10px;
+    color: #1890ff;
+  }
+  &:hover {
+    .close {
+      display: block;
+    }
+  }
+  &:last-child {
+    border-bottom: none;
   }
 }

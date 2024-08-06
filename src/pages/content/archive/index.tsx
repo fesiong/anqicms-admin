@@ -14,7 +14,8 @@ import {
   updateArchivesTime,
 } from '@/services';
 import { getCategories } from '@/services/category';
-import { PlusOutlined } from '@ant-design/icons';
+import { getStore } from '@/utils/store';
+import { PlusOutlined, StarOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ModalForm,
@@ -29,7 +30,19 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Alert, Button, Dropdown, Input, Menu, Modal, Select, Space, Tag, message } from 'antd';
+import {
+  Alert,
+  Button,
+  Dropdown,
+  Input,
+  Menu,
+  Modal,
+  Select,
+  Space,
+  Tag,
+  Tooltip,
+  message,
+} from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
@@ -61,6 +74,7 @@ const ArchiveList: React.FC = (props) => {
   const [currentArchive, setCurrentArchive] = useState<any>({});
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
   const [firstFetch, setFirstFetch] = useState<boolean>(false);
+  const [latestUpdateId, setLatestUpdateId] = useState<number>(0);
   const intl = useIntl();
 
   const flagEnum: any = {
@@ -78,6 +92,7 @@ const ArchiveList: React.FC = (props) => {
     setModuleId(lastParams.module_id);
     loadModules();
     loadContentSetting();
+    loadLatestUpdate();
   }, []);
 
   const loadContentSetting = () => {
@@ -93,6 +108,14 @@ const ArchiveList: React.FC = (props) => {
     setModules(
       [{ title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 }].concat(res.data || []),
     );
+  };
+
+  const loadLatestUpdate = () => {
+    let latestUpdate = getStore('latest_update') || {};
+    // 最近7天更新过的文档
+    if (latestUpdate.timestamp > new Date().getTime() / 1000 - 60 * 60 * 24 * 7) {
+      setLatestUpdateId(latestUpdate.id || 0);
+    }
   };
 
   const beforeSearch = (params: any) => {
@@ -449,6 +472,11 @@ const ArchiveList: React.FC = (props) => {
         return (
           <div style={{ maxWidth: 400 }}>
             <a href={entity.link} target="_blank">
+              {latestUpdateId == entity.id && (
+                <Tooltip title={intl.formatMessage({ id: 'content.latest-update' })}>
+                  <StarOutlined className="update-tag" />
+                </Tooltip>
+              )}
               {dom} {entity.flag && parseFlag(entity.flag)}
             </a>
           </div>
@@ -596,7 +624,11 @@ const ArchiveList: React.FC = (props) => {
         return (
           <div>
             <div>{dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
-            <div>{dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+            {record.created_time != record.updated_time && (
+              <div className="update-color">
+                {dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}
+              </div>
+            )}
           </div>
         );
       },
@@ -964,6 +996,7 @@ const ArchiveList: React.FC = (props) => {
           onSubmit={async () => {
             actionRef.current?.reload?.();
             setQuickVisible(false);
+            loadLatestUpdate();
           }}
           onCancel={() => setQuickVisible(false)}
         />

@@ -305,6 +305,10 @@ export default {
   'plugin.fulltext.use_content.true': 'Включить содержимое документа',
   'plugin.fulltext.use_content.name': 'Индексировать содержимое',
   'plugin.fulltext.modules.name': 'Открытая модель',
+  'plugin.fulltext.search.name': 'Тип поиска',
+  'plugin.fulltext.search.archive': 'Поиск документов',
+  'plugin.fulltext.search.category': 'Поиск по категориям',
+  'plugin.fulltext.search.tag': 'Поиск по тегам',
   'plugin.group.edit': 'Изменить группу пользователей',
   'plugin.group.add': 'Добавить группу пользователей',
   'plugin.group.name': 'имя',
@@ -321,6 +325,10 @@ export default {
   'plugin.group.expire_day.suffix': 'небо',
   'plugin.group.expire_day.description':
     'После покупки VIP он будет действителен в течение скольких дней. Введите 365 на 1 год. По истечении срока действия он вернется в первую группу пользователей.',
+  'plugin.group.content_safe': 'Безопасность контента',
+  'plugin.group.content_safe.no-verify':
+    'Публикация комментариев/контента освобождается от проверки.',
+  'plugin.group.content_safe.no-captcha': 'Публикация комментариев/контента без кода подтверждения',
   'plugin.group.share_reward': 'Срок действия группы пользователей',
   'plugin.group.share_reward.description':
     'Рекомендуется установить 5%-20, десятичная точка не может быть установлена. Приоритет коэффициента комиссии: коэффициент комиссии, установленный продуктом > коэффициент комиссии группы пользователей > коэффициент комиссии по умолчанию.',

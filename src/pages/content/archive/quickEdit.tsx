@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from 'react';
 
 import { getArchiveInfo, getCategories, getSettingContent, getTags, saveArchive } from '@/services';
+import { setStore } from '@/utils/store';
 import { history, useIntl } from '@umijs/max';
 import { Col, Modal, Row, message } from 'antd';
 import dayjs from 'dayjs';
@@ -85,6 +86,11 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
     if (res.code != 0) {
       message.error(res.msg);
     } else {
+      // 设置最近更新过的文档
+      setStore('latest_update', {
+        id: res.data.id,
+        timestamp: new Date().getTime() / 1000,
+      });
       message.success(res.msg);
     }
     props.onSubmit();

@@ -18,7 +18,8 @@ export default {
   'content.recover.recovering': 'بهبودی',
   'content.category.required': 'لطفا یک نوع را انتخاب کنید',
   'content.translate.confirm': 'آیا مطمئن هستید که می خواهید اسناد انتخاب شده را ترجمه کنید؟',
-  'content.translate.tips': 'در صورت نیاز به استفاده از خدمات ترجمه اسناد، لطفاً ابتدا حساب Anqi خود را ببندید.',
+  'content.translate.tips':
+    'در صورت نیاز به استفاده از خدمات ترجمه اسناد، لطفاً ابتدا حساب Anqi خود را ببندید.',
   'content.translate.select-language': 'لطفاً زبان مقصد ترجمه را انتخاب کنید',
   'content.translate.select': 'لطفا انتخاب کنید',
   'content.translate.en': 'انگلیسی',
@@ -46,12 +47,15 @@ export default {
   'content.translate.ar': 'عربی',
   'content.translate.ms': 'مالایی',
   'content.translate.translating': 'ترجمه کردن',
-  'content.pseudo.confirm': 'آیا مطمئن هستید که می خواهید هوش مصنوعی سند انتخاب شده را بازنویسی کند؟',
-  'content.pseudo.content': 'اگر نیاز به استفاده از سرویس بازنویسی AI سند دارید، لطفاً ابتدا حساب Anqi خود را ببندید.',
+  'content.pseudo.confirm':
+    'آیا مطمئن هستید که می خواهید هوش مصنوعی سند انتخاب شده را بازنویسی کند؟',
+  'content.pseudo.content':
+    'اگر نیاز به استفاده از سرویس بازنویسی AI سند دارید، لطفاً ابتدا حساب Anqi خود را ببندید.',
   'content.sort.required': 'لطفا عدد بزرگتر از 0 را وارد کنید',
   'content.sort.name': 'مرتب سازی',
   'content.sort.tips': 'هر چه مقدار بزرگتر باشد، جلوتر است',
   'content.title.name': 'عنوان',
+  'content.latest-update': 'به تازگی منتشر شده یا به روز شده است',
   'content.content.name': 'محتوا',
   'content.module.name': 'مدل سند',
   'content.category.name': 'دسته بندی',
@@ -101,7 +105,8 @@ export default {
   'content.plan.tips.before': 'شما انتخاب کردید',
   'content.plan.tips.after': 'اسناد',
   'content.plan.daily-limit': 'مقدار در روز',
-  'content.plan.daily-limit.placeholder': 'یک عدد صحیح وارد کنید، در غیر این صورت در همان روز ارسال می شود',
+  'content.plan.daily-limit.placeholder':
+    'یک عدد صحیح وارد کنید، در غیر این صورت در همان روز ارسال می شود',
   'content.plan.daily-limit.suffix': 'فصل',
   'content.plan.start-hour': 'زمان شروع هر روز',
   'content.plan.start-hour.placeholder': 'ساعت پیش فرض 8',
@@ -109,16 +114,22 @@ export default {
   'content.plan.end-hour': 'پایان روز',
   'content.plan.end-hour.placeholder': 'پیش فرض 20 امتیاز',
   'content.title.required': 'لطفا عنوان را پر کنید',
+  'content.relation.name': 'سند مربوط به',
   'content.tag.name': 'تگ تگ',
-  'content.tag.placeholder': 'برچسب ها را می توان وارد کرد یا انتخاب کرد، چندین برچسب در دسترس است، جدا کرد',
+  'content.tag.placeholder':
+    'برچسب ها را می توان وارد کرد یا انتخاب کرد، چندین برچسب در دسترس است، جدا کرد',
   'content.url-token.name': 'نام مستعار URL',
   'content.create-time.name': 'زمان انتشار',
-  'content.url-token.placeholder': 'به طور پیش فرض به طور خودکار تولید می شود، نیازی به پر کردن نیست',
-  'content.url-token.tips': 'توجه: نام مستعار URL فقط با حروف، اعداد و زیرخط پر می شود و نمی تواند حاوی فاصله باشد.',
-  'content.create-time.description': 'اگر زمانی را در آینده انتخاب کنید، در لیستی که قرار است منتشر شود قرار داده می شود و تا زمانی که زمان به پایان برسد، به طور رسمی منتشر نخواهد شد.',
+  'content.url-token.placeholder':
+    'به طور پیش فرض به طور خودکار تولید می شود، نیازی به پر کردن نیست',
+  'content.url-token.tips':
+    'توجه: نام مستعار URL فقط با حروف، اعداد و زیرخط پر می شود و نمی تواند حاوی فاصله باشد.',
+  'content.create-time.description':
+    'اگر زمانی را در آینده انتخاب کنید، در لیستی که قرار است منتشر شود قرار داده می شود و تا زمانی که زمان به پایان برسد، به طور رسمی منتشر نخواهد شد.',
   'content.preview': 'پیش نمایش سند',
   'content.networt.error': 'ناهنجاری شبکه',
-  'content.confirm-giveup': 'شما محتوای ذخیره‌نشده‌ای دارید، اگر مستقیماً آن را ترک کنید، محتوا از بین می‌رود.',
+  'content.confirm-giveup':
+    'شما محتوای ذخیره‌نشده‌ای دارید، اگر مستقیماً آن را ترک کنید، محتوا از بین می‌رود.',
   'content.submit.confirm': 'آیا نیاز به ادامه ارسال دارید؟',
   'content.submit.cancel': 'بازگشت به اصلاح',
   'content.submit.ok-force': 'زور متعهد شدن',
@@ -131,38 +142,50 @@ export default {
   'content.origin-url.description': 'آدرس اصلی مقاله به طور پیش فرض نادیده گرفته می شود.',
   'content.seo-title.name': 'عنوان سئو',
   'content.seo-title.placeholder': 'پیش فرض عنوان مقاله است، نیازی به پر کردن نیست',
-  'content.seo-title.description': 'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از عنوان مقاله باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
+  'content.seo-title.description':
+    'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از عنوان مقاله باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
   'content.category.seo-title.placeholder': 'پیش فرض نام دسته است، نیازی به پر کردن نیست',
-  'content.category.seo-title.description': 'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از نام دسته باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
+  'content.category.seo-title.description':
+    'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از نام دسته باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
   'content.canonical-url.name': 'پیوند متعارف',
   'content.canonical-url.placeholder': 'پیش فرض پیوند سند است، نیازی به پر کردن نیست',
-  'content.canonical-url.description': 'توجه: اگر می خواهید سند فعلی را به صفحه دیگری هدایت کنید، فقط باید آن را در اینجا پر کنید.',
+  'content.canonical-url.description':
+    'توجه: اگر می خواهید سند فعلی را به صفحه دیگری هدایت کنید، فقط باید آن را در اینجا پر کنید.',
   'content.fixed-link.name': 'پیوند ثابت',
-  'content.fixed-link.description': 'توجه: فقط در صورتی باید آن را پر کنید که می خواهید پیوند این سند برای همیشه ثابت شود و با قوانین شبه استاتیک تغییر نکند. پیوند نسبی / شروع',
+  'content.fixed-link.description':
+    'توجه: فقط در صورتی باید آن را پر کنید که می خواهید پیوند این سند برای همیشه ثابت شود و با قوانین شبه استاتیک تغییر نکند. پیوند نسبی / شروع',
   'content.archive-template.name': 'الگوی سند',
   'content.default-template': 'قالب پیش فرض',
-  'content.archive-template.description': 'قالب های محتوایی که به طور پیش فرض از دسته ها پیروی می کنند',
+  'content.archive-template.description':
+    'قالب های محتوایی که به طور پیش فرض از دسته ها پیروی می کنند',
   'content.price.name': 'قیمت',
   'content.price.suffix': 'نقطه',
-  'content.papriceram.description': 'توجه داشته باشید که واحد سنت است، به عنوان مثال، 1 یوان، در اینجا 100 را پر کنید.',
+  'content.papriceram.description':
+    'توجه داشته باشید که واحد سنت است، به عنوان مثال، 1 یوان، در اینجا 100 را پر کنید.',
   'content.stock.name': 'در انبار',
   'content.stock.suffix': 'قطعات',
   'content.read-level.name': 'سطح خواندن',
   'content.unlimit': 'بدون محدودیت',
-  'content.read-level.description': 'در صورت انتخاب سطح خواندن، کاربران باید وارد سیستم شده و برای خواندن به سطح مشخص شده برسند',
+  'content.read-level.description':
+    'در صورت انتخاب سطح خواندن، کاربران باید وارد سیستم شده و برای خواندن به سطح مشخص شده برسند',
   'content.password.name': 'رمز عبور سند',
   'content.password.placeholder': 'رمز عبور سند را می توان تنظیم کرد',
-  'content.password.description': 'اگر می خواهید برای مشاهده این مقاله رمز عبور تعیین کنید، می توانید رمز عبور را وارد کنید.',
+  'content.password.description':
+    'اگر می خواهید برای مشاهده این مقاله رمز عبور تعیین کنید، می توانید رمز عبور را وارد کنید.',
   'content.param.default': 'مقدار پیش فرض:',
   'content.submit.ok': 'ارسال',
   'content.submit.draft': 'ذخیره پیش نویس',
   'content.submit.aigenerate': 'نوشتن با هوش مصنوعی',
   'content.images.name': 'تصویر سند',
-  'content.attachment.scan.confirm': 'آیا مطمئن هستید که می خواهید دایرکتوری آپلودهای سایت را اسکن کنید؟',
-  'content.attachment.scan.content': 'دایرکتوری آپلودهای سایت را اسکن کنید، و تصاویر موجود در فهرست به طور خودکار با پایگاه داده همگام شده و در فهرست منابع تصویر فعلی نمایش داده می شوند، اگر تصویر تصویر کوچکی نداشته باشد، یک تصویر کوچک نیز ایجاد می شود.',
+  'content.attachment.scan.confirm':
+    'آیا مطمئن هستید که می خواهید دایرکتوری آپلودهای سایت را اسکن کنید؟',
+  'content.attachment.scan.content':
+    'دایرکتوری آپلودهای سایت را اسکن کنید، و تصاویر موجود در فهرست به طور خودکار با پایگاه داده همگام شده و در فهرست منابع تصویر فعلی نمایش داده می شوند، اگر تصویر تصویر کوچکی نداشته باشد، یک تصویر کوچک نیز ایجاد می شود.',
   'content.attachment.scan.success': 'برای پردازش پس‌زمینه ارسال می‌شود، نتایج بعداً ارائه می‌شود',
-  'content.attachment.delete.image.confirm': 'آیا مطمئن هستید که می خواهید تصاویر انتخاب شده را حذف کنید؟',
-  'content.attachment.delete.content': 'پس از حذف، اگر اسناد و صفحات این منبع را فراخوانی کردید یا هنگام بارگیری منابع تصویری خطای 404 رخ داد، لطفاً قبل از حذف، مطمئن شوید که جایی برای ارجاع به این منبع وجود ندارد.',
+  'content.attachment.delete.image.confirm':
+    'آیا مطمئن هستید که می خواهید تصاویر انتخاب شده را حذف کنید؟',
+  'content.attachment.delete.content':
+    'پس از حذف، اگر اسناد و صفحات این منبع را فراخوانی کردید یا هنگام بارگیری منابع تصویری خطای 404 رخ داد، لطفاً قبل از حذف، مطمئن شوید که جایی برای ارجاع به این منبع وجود ندارد.',
   'content.attachment.move-to-category': 'انتقال به دسته جدید',
   'content.attachment.unclassified': 'دستهبندی نشده',
   'content.attachment.edit.success': 'با موفقیت اصلاح شد',
@@ -188,9 +211,12 @@ export default {
   'content.attachment.address': 'آدرس منبع',
   'content.attachment.edit': 'تغییر نام فایل (ALT)',
   'content.attachment.explain': 'دستورالعمل های مرتبط',
-  'content.attachment.explain.tips1': '1. هنگام جایگزینی یک منبع، آدرس URL منبع بدون تغییر باقی می ماند و اندازه منبع به منبع جدید تغییر می کند.',
-  'content.attachment.explain.tips2': '2. به منظور جلوگیری از تحت تاثیر قرار گرفتن صفحه توسط تصاویر بزرگ، زمانی که تصویر بیش از حد بزرگ باشد، به طور خودکار متناسب با اندازه تصویر تنظیم شده کاهش می یابد.',
-  'content.attachment.explain.tips3': '3. پس از آپلود منبع، اگر پس زمینه به روز شد اما پیش زمینه به روز نشد، لطفاً کش مرورگر محلی را پاک کنید.',
+  'content.attachment.explain.tips1':
+    '1. هنگام جایگزینی یک منبع، آدرس URL منبع بدون تغییر باقی می ماند و اندازه منبع به منبع جدید تغییر می کند.',
+  'content.attachment.explain.tips2':
+    '2. به منظور جلوگیری از تحت تاثیر قرار گرفتن صفحه توسط تصاویر بزرگ، زمانی که تصویر بیش از حد بزرگ باشد، به طور خودکار متناسب با اندازه تصویر تنظیم شده کاهش می یابد.',
+  'content.attachment.explain.tips3':
+    '3. پس از آپلود منبع، اگر پس زمینه به روز شد اما پیش زمینه به روز نشد، لطفاً کش مرورگر محلی را پاک کنید.',
   'content.attachment.alt.alert': 'لطفا نام فایل جدید را وارد کنید',
   'content.category.title': 'نام دسته',
   'content.category.description': 'مقدمه طبقه بندی',
@@ -200,11 +226,13 @@ export default {
   'content.category.rename': 'تغییر نام دسته',
   'content.category.input.required': 'لطفا نام دسته را پر کنید',
   'content.notice': 'اضافه کردن دسته جدید',
-  'content.url-token.dublicate.tips': 'توسط دسته های دیگر اشغال شده است، لطفاً برای جلوگیری از خطاهای سیستم، آن را به نام مستعار تغییر دهید.',
+  'content.url-token.dublicate.tips':
+    'توسط دسته های دیگر اشغال شده است، لطفاً برای جلوگیری از خطاهای سیستم، آن را به نام مستعار تغییر دهید.',
   'content.category.status': 'حالت نمایش',
   'content.category.status.hide': 'پنهان شدن',
   'content.category.status.ok': 'نشان می دهد',
-  'content.category.status.description': 'پس از تنظیم مخفی کردن، این دسته در میز جلو نمایش داده نمی شود و اسناد زیر دسته پنهان نمایش داده نمی شوند.',
+  'content.category.status.description':
+    'پس از تنظیم مخفی کردن، این دسته در میز جلو نمایش داده نمی شود و اسناد زیر دسته پنهان نمایش داده نمی شوند.',
   'content.category.banner': 'نمودار بنر',
   'content.category.thumb': 'بند انگشتی',
   'content.category.sort': 'سفارش نمایش',
@@ -214,7 +242,8 @@ export default {
   'content.category.inherit': 'الگو برای زیر شاخه ها اعمال شد',
   'content.category.inherit.false': 'اعمال نکنید',
   'content.category.inherit.true': 'کاربرد',
-  'content.category.inherit.description': 'اگر یک الگوی دسته‌بندی سفارشی تنظیم شده باشد، می‌توانید انتخاب کنید که آن را برای همه زیرمجموعه‌ها اعمال کنید یا فقط روی دسته فعلی اعمال شود.',
+  'content.category.inherit.description':
+    'اگر یک الگوی دسته‌بندی سفارشی تنظیم شده باشد، می‌توانید انتخاب کنید که آن را برای همه زیرمجموعه‌ها اعمال کنید یا فقط روی دسته فعلی اعمال شود.',
   'content.category.delete.confirm': 'آیا مطمئن هستید که می خواهید دسته انتخابی را حذف کنید؟',
   'content.category.add-children': 'اضافه کردن زیر مجموعه',
   'content.category.batch-add-children': 'دسته های فرعی را به صورت دسته ای اضافه کنید',
@@ -232,7 +261,8 @@ export default {
   'content.page.name': 'نام یک صفحه',
   'content.page.description': 'معرفی تک صفحه ای',
   'content.page.seo-title.placeholder': 'پیش فرض یک نام صفحه است، نیازی به پر کردن نیست',
-  'content.page.seo-title.description': 'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از یک نام صفحه باشد، می توانید آن را از طریق عنوان SEO تنظیم کنید.',
+  'content.page.seo-title.description':
+    'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از یک نام صفحه باشد، می توانید آن را از طریق عنوان SEO تنظیم کنید.',
   'content.page.template': 'قالب تک صفحه ای',
   'content.page.status.tips': 'پس از تنظیم مخفی کردن، این صفحه تنها در میز جلو ظاهر نمی شود.',
   'content.page.delete.confirm': 'آیا مطمئن هستید که می خواهید صفحه واحد انتخاب شده را حذف کنید؟',
@@ -242,7 +272,8 @@ export default {
   'content.module.field.error': 'قسمت تماس باید با حروف انگلیسی باشد',
   'content.module.field.name': 'نام پارامتر',
   'content.module.field.field-name': 'فیلد تماس',
-  'content.module.field.field-name.description': 'با شروع با یک حرف انگلیسی، فقط حروف و اعداد را می توان پر کرد. پیش فرض پینیین نام پارامتر است.',
+  'content.module.field.field-name.description':
+    'با شروع با یک حرف انگلیسی، فقط حروف و اعداد را می توان پر کرد. پیش فرض پینیین نام پارامتر است.',
   'content.module.field.type': 'نوع فیلد',
   'content.module.field.type.built-in': '(توکار)',
   'content.module.field.type.text': 'تک خط متن',
@@ -264,7 +295,8 @@ export default {
   'content.module.title': 'نام مدل',
   'content.module.field': 'نام جدول مدل',
   'content.module.field.description': 'فقط حروف کوچک انگلیسی پشتیبانی می شود.',
-  'content.module.url-token.tips.before': 'فقط از حروف کوچک انگلیسی که با قوانین شبه استاتیک تعریف شده اند پشتیبانی می کند',
+  'content.module.url-token.tips.before':
+    'فقط از حروف کوچک انگلیسی که با قوانین شبه استاتیک تعریف شده اند پشتیبانی می کند',
   'content.module.url-token.tips.after': 'انتقال.',
   'content.module.title-name': 'نام عنوان',
   'content.module.title-name.description': 'هنگام انتشار سند، موقعیت اعلان عنوان را نمایش دهید.',
@@ -276,20 +308,25 @@ export default {
   'content.module.field.isfilter': 'به عنوان پارامتر فیلتر',
   'content.module.field.isfilter.yes': 'آره',
   'content.module.field.isfilter.no': 'نه',
-  'content.module.field.isfilter.description': 'فقط زمانی معتبر است که نوع فیلد از نوع انتخابی رادیویی، چند انتخابی یا کشویی باشد و از سطح خواندن سند پیروی نکند.',
-  'content.module.field.default.description': 'اگر این است: چندین مقدار برای انتخاب تک، چند انتخابی و کشویی، یک در هر خط.',
+  'content.module.field.isfilter.description':
+    'فقط زمانی معتبر است که نوع فیلد از نوع انتخابی رادیویی، چند انتخابی یا کشویی باشد و از سطح خواندن سند پیروی نکند.',
+  'content.module.field.default.description':
+    'اگر این است: چندین مقدار برای انتخاب تک، چند انتخابی و کشویی، یک در هر خط.',
   'content.module.delete.confirm': 'آیا مطمئن هستید که می خواهید مدل انتخاب شده را حذف کنید؟',
-  'content.module.delete.content': 'دسته ها و اسناد تحت این مدل نیز حذف خواهند شد، بنابراین لطفا با احتیاط عمل کنید.',
+  'content.module.delete.content':
+    'دسته ها و اسناد تحت این مدل نیز حذف خواهند شد، بنابراین لطفا با احتیاط عمل کنید.',
   'content.module.add': 'اضافه کردن مدل',
   'content.tag.batch-add': 'اضافه کردن برچسب ها به صورت دسته ای (یکی در هر خط)',
   'content.tags.name': 'نام را تگ کنید',
   'content.tags.placeholder': 'لطفاً در هر خط یک برچسب وارد کنید',
   'content.tags.edit': 'ویرایش برچسب',
   'content.tags.add': 'برچسب اضافه کنید',
-  'content.tags.seo-title.description': 'توجه: اگر می خواهید محتوای تگ عنوان صفحه به غیر از نام تگ باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
+  'content.tags.seo-title.description':
+    'توجه: اگر می خواهید محتوای تگ عنوان صفحه به غیر از نام تگ باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
   'content.tags.seo-title.placeholder': 'پیش فرض نام برچسب است، نیازی به پر کردن نیست',
   'content.tags.first-letter.description': 'توجه: فقط می توانید هر یک از A-Z را پر کنید',
   'content.tags.first-letter.name': 'نامه شاخص',
-  'content.tags.delete.confirm': 'آیا مطمئن هستید که می خواهید برچسب های مقاله انتخاب شده را حذف کنید؟',
+  'content.tags.delete.confirm':
+    'آیا مطمئن هستید که می خواهید برچسب های مقاله انتخاب شده را حذف کنید؟',
   'content.tags.batch-add': 'برچسب ها را به صورت دسته ای اضافه کنید',
 };

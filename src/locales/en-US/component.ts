@@ -51,6 +51,7 @@ export default {
   'component.editor.inserting': 'Inserting...',
   'component.keywords.title': 'Key words',
   'component.keywords.select': 'Select keywords',
+  'component.archive.select': 'Select document',
   'component.markdown.media': 'Media Library',
   'component.markdown.video.unsupport': 'Your browser does not support the video tag.',
   'component.markdown.audio.unsupport': 'Your editor does not support the audio tag',
