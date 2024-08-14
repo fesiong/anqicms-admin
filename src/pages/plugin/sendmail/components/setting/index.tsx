@@ -46,7 +46,7 @@ const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
       <ModalForm
         width={600}
         title={intl.formatMessage({ id: 'plugin.sendmail.setting' })}
-        request={async (params) => {
+        request={async () => {
           let res = await pluginGetSendmailSetting();
           setAutoReply(res.data?.auto_reply || false);
           return res.data;

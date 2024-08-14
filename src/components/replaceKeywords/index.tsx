@@ -17,17 +17,17 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
   const [toValue, setToValue] = useState<string>('');
   const intl = useIntl();
 
-  var replaced = false;
-
-  useEffect(() => {
-    getKeywords();
-  }, []);
+  let replaced = false;
 
   const getKeywords = async () => {
     const res = await getCollectorSetting();
     let keywords = res.data?.content_replace || [];
     setKeywords(keywords);
   };
+
+  useEffect(() => {
+    getKeywords();
+  }, []);
 
   const handleStartReplace = () => {
     if (replaced) {
@@ -46,7 +46,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
           .then((res) => {
             message.info(res.msg);
           })
-          .catch((err) => {})
+          .catch(() => {})
           .finally(() => {
             hide();
           });
@@ -60,9 +60,9 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
   };
 
   const handleEditInputChange = (field: string, e: any) => {
-    if (field == 'from') {
+    if (field === 'from') {
       setFromValue(e.target.value);
-    } else if (field == 'to') {
+    } else if (field === 'to') {
       setToValue(e.target.value);
     }
   };
@@ -93,7 +93,7 @@ const ReplaceKeywords: React.FC<ReplaceKeywordsProps> = (props) => {
         message.info(res.msg);
         props.onCancel();
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 
   return (

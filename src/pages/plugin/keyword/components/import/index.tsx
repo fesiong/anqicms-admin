@@ -55,7 +55,7 @@ const KeywordImport: React.FC<KeywordImportProps> = (props) => {
           },
         }}
         layout="horizontal"
-        onFinish={async (values) => {
+        onFinish={async () => {
           setVisible(false);
         }}
       >

@@ -40,14 +40,20 @@ const ArchiveCategoryDetail: React.FC = () => {
   const [modules, setModules] = useState<any[]>([]);
   const intl = useIntl();
 
-  useEffect(() => {
-    initData();
-  }, []);
+  const changeModule = (e: any, tmpModels?: any) => {
+    let newModules = tmpModels || modules;
+    for (let item of newModules) {
+      if (item.id === e) {
+        setCurrentModule(item);
+        break;
+      }
+    }
+  };
 
   const initData = async () => {
     const searchParams = new URLSearchParams(window.location.search);
     let id = searchParams.get('id') || 0;
-    if (id == 'new') {
+    if (id === 'new') {
       id = 0;
     }
     let parent_id = Number(searchParams.get('parent_id') || 0);
@@ -82,13 +88,17 @@ const ArchiveCategoryDetail: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    initData();
+  }, []);
+
   const onSubmit = async (values: any) => {
     let cat = Object.assign(category, values);
     cat.content = content;
     cat.type = categoryType;
     cat.images = categoryImages;
     cat.logo = categoryLogo;
-    if (cat.title == '') {
+    if (cat.title === '') {
       message.error(intl.formatMessage({ id: 'content.category.input.required' }));
       return;
     }
@@ -96,7 +106,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     if (res.code === 0) {
       message.info(res.msg);
       history.back();
-    } else if (res.msg == 'token duplication') {
+    } else if (res.msg === 'token duplication') {
       Modal.confirm({
         content:
           intl.formatMessage({ id: 'content.url-token.name' }) +
@@ -121,7 +131,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     for (const row of rows) {
       let exists = false;
       for (let i in categoryImages) {
-        if (categoryImages[i] == row.logo) {
+        if (categoryImages[i] === row.logo) {
           exists = true;
           break;
         }
@@ -148,18 +158,6 @@ const ArchiveCategoryDetail: React.FC = () => {
   const handleCleanLogo = (e: any) => {
     e.stopPropagation();
     setCategoryLogo('');
-  };
-
-  const changeModule = (e: any, tmpModels?: any) => {
-    if (tmpModels == undefined) {
-      tmpModels = modules;
-    }
-    for (let item of tmpModels) {
-      if (item.id == e) {
-        setCurrentModule(item);
-        break;
-      }
-    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -220,9 +218,9 @@ const ArchiveCategoryDetail: React.FC = () => {
                       let tmpCategory = [];
                       for (let i in categories) {
                         if (
-                          categories[i].id == category.id ||
-                          categories[i].parent_id == category.id ||
-                          categories[i].module_id != category.module_id
+                          categories[i].id === category.id ||
+                          categories[i].parent_id === category.id ||
+                          categories[i].module_id !== category.module_id
                         ) {
                           continue;
                         }
@@ -290,7 +288,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                 />
                 {loaded && (
                   <>
-                    {contentSetting.editor == 'markdown' ? (
+                    {contentSetting.editor === 'markdown' ? (
                       <MarkdownEditor
                         className="mb-normal"
                         setContent={async (html: string) => {

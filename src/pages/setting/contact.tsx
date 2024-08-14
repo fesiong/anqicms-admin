@@ -7,14 +7,11 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Col, Modal, Row, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const SettingContactFrom: React.FC<any> = (props) => {
+const SettingContactFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [qrcode, setQrcode] = useState<string>('');
   const [extraFields, setExtraFields] = useState<any[]>([]);
   const intl = useIntl();
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getSettingContact();
@@ -23,6 +20,10 @@ const SettingContactFrom: React.FC<any> = (props) => {
     setQrcode(setting?.qrcode || '');
     setExtraFields(setting.extra_fields || []);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleSelectLogo = (row: any) => {
     setQrcode(row.logo);

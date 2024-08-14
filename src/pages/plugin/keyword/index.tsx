@@ -227,12 +227,12 @@ const PluginKeyword: React.FC = () => {
             <FormattedMessage id="plugin.keyword.export" />
           </Button>,
           <KeywordImport
+            key="import"
             onCancel={() => {
               actionRef.current?.reloadAndRest?.();
             }}
           >
             <Button
-              key="import"
               onClick={() => {
                 //todo
               }}

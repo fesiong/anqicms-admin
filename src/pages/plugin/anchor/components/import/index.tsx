@@ -55,7 +55,7 @@ const AnchorImport: React.FC<AnchorImportProps> = (props) => {
           },
         }}
         layout="horizontal"
-        onFinish={async (values) => {
+        onFinish={async () => {
           setVisible(false);
         }}
       >

@@ -92,7 +92,7 @@ const PluginAnchor: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'plugin.anchor.title' }),
       dataIndex: 'title',
-      fieldProps(form, config) {
+      fieldProps() {
         return {
           placeholder: intl.formatMessage({ id: 'plugin.anchor.title.placeholder' }),
         };
@@ -174,6 +174,7 @@ const PluginAnchor: React.FC = () => {
             <FormattedMessage id="plugin.anchor.export" />
           </Button>,
           <AnchorImport
+            key="import"
             onCancel={() => {
               actionRef.current?.reloadAndRest?.();
             }}
@@ -195,7 +196,7 @@ const PluginAnchor: React.FC = () => {
           >
             <FormattedMessage id="plugin.anchor.batch-update" />
           </Button>,
-          <AnchorSetting>
+          <AnchorSetting key="setting">
             <Button
               key="setting"
               onClick={() => {

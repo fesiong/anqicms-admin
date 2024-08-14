@@ -28,7 +28,7 @@ const PluginLinkApi: React.FC<any> = (props) => {
   }, []);
 
   const handleUpdateToken = async (values: any) => {
-    if (values.link_token == '') {
+    if (values.link_token === '') {
       message.error(intl.formatMessage({ id: 'plugin.importapi.token.required' }));
       return;
     }

@@ -6,18 +6,19 @@ import { Alert, Button, Card, Modal, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
-const ToolCacheForm: React.FC<any> = (props) => {
+const ToolCacheForm: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const intl = useIntl();
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getSettingCache();
     let setting = res.data || null;
     setSetting(setting);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const onSubmit = async (values: any) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);

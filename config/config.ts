@@ -63,16 +63,14 @@ export default defineConfig({
     // 解决首次加载时白屏的问题
     { src: '/system/scripts/loading.js', async: true },
   ],
-  //================ pro 插件配置 =================
-  presets: ['umi-presets-pro'],
   /**
    * @name 兼容性设置
    * @description 设置 ie11 不一定完美兼容，需要检查自己使用的所有依赖
    * @doc https://umijs.org/docs/api/config#targets
    */
-  targets: {
-    ie: 11,
-  },
+  // targets: {
+  //   ie: 11,
+  // },
   /**
    * @name 路由的配置，不在路由中引入的文件不会编译
    * @description 只支持 path，component，routes，redirect，wrappers，title 的配置
@@ -91,7 +89,7 @@ export default defineConfig({
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     'root-entry-name': 'variable',
   },
-  title: 'site.title',
+  title: 'AnQiCMS',
   /**
    * @name moment 的国际化配置
    * @description 如果对国际化没有要求，打开之后能减少js的包大小
@@ -121,9 +119,15 @@ export default defineConfig({
     strategy: 'normal',
   },
   esbuildMinifyIIFE: true,
-  // exportStatic: {
-  //   ignorePreRenderError: true,
-  // },
+  /**
+   * @name request 网络请求配置
+   * @description 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
+   * @doc https://umijs.org/docs/max/request
+   */
+  request: {},
+  exportStatic: {
+    ignorePreRenderError: true,
+  },
   chainWebpack(config: any) {
     config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
       {

@@ -93,6 +93,42 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       });
   };
 
+  const getStreamData = (streamId: string) => {
+    anqiAiGenerateStreamData({
+      stream_id: streamId,
+    }).then((res) => {
+      if (res.code !== 0) {
+        setLoading(false);
+        clearInterval(xhr);
+        Modal.error({
+          title: res.msg,
+        });
+        return;
+      }
+      setAiFinished(true);
+      if (res.data) {
+        if (!tmpContent && props.editor !== 'markdown') {
+          tmpContent += '<p>';
+        }
+        if (props.editor === 'markdown') {
+          tmpContent += res.data;
+        } else {
+          tmpContent += res.data.replace(/\n+/g, '</p>\n<p>');
+        }
+        setAiContent(tmpContent);
+      }
+
+      if (res.msg === 'finished') {
+        if (tmpContent && props.editor !== 'markdown') {
+          tmpContent += '</p>';
+          setAiContent(tmpContent);
+        }
+        setLoading(false);
+        clearInterval(xhr);
+      }
+    });
+  };
+
   const startGenerate = () => {
     if (loading) {
       return;
@@ -121,42 +157,6 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       })
       .catch(() => {})
       .finally(() => {});
-  };
-
-  const getStreamData = (streamId: string) => {
-    anqiAiGenerateStreamData({
-      stream_id: streamId,
-    }).then((res) => {
-      if (res.code != 0) {
-        setLoading(false);
-        clearInterval(xhr);
-        Modal.error({
-          title: res.msg,
-        });
-        return;
-      }
-      setAiFinished(true);
-      if (res.data) {
-        if (!tmpContent && props.editor !== 'markdown') {
-          tmpContent += '<p>';
-        }
-        if (props.editor == 'markdown') {
-          tmpContent += res.data;
-        } else {
-          tmpContent += res.data.replace(/\n+/g, '</p>\n<p>');
-        }
-        setAiContent(tmpContent);
-      }
-
-      if (res.msg == 'finished') {
-        if (tmpContent && props.editor !== 'markdown') {
-          tmpContent += '</p>';
-          setAiContent(tmpContent);
-        }
-        setLoading(false);
-        clearInterval(xhr);
-      }
-    });
   };
 
   return (
@@ -220,7 +220,7 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
           className="article-detail"
           dangerouslySetInnerHTML={{
             __html: aiContent
-              ? props.editor == 'markdown'
+              ? props.editor === 'markdown'
                 ? aiContent.replace(/\n+/g, '</p>\n<p>')
                 : aiContent
               : intl.formatMessage({ id: 'component.aigenerate.content.default' }),

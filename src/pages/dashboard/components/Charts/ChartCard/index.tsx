@@ -77,13 +77,6 @@ class ChartCard extends React.Component<ChartCardProps> {
   render() {
     const {
       loading = false,
-      contentHeight,
-      title,
-      avatar,
-      action,
-      total,
-      footer,
-      children,
       ...rest
     } = this.props;
     return (

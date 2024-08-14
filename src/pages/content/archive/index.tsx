@@ -58,7 +58,7 @@ let lastParams: any = {
   flag: '',
 };
 
-const ArchiveList: React.FC = (props) => {
+const ArchiveList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
@@ -88,13 +88,6 @@ const ArchiveList: React.FC = (props) => {
     j: intl.formatMessage({ id: 'content.flag.j' }),
   };
 
-  useEffect(() => {
-    setModuleId(lastParams.module_id);
-    loadModules();
-    loadContentSetting();
-    loadLatestUpdate();
-  }, []);
-
   const loadContentSetting = () => {
     getSettingContent()
       .then((res) => {
@@ -118,24 +111,12 @@ const ArchiveList: React.FC = (props) => {
     }
   };
 
-  const beforeSearch = (params: any) => {
-    if (!firstFetch) {
-      setFirstFetch(true);
-      const searchParams = new URLSearchParams(window.location.search);
-      lastParams.module_id = Number(searchParams.get('module_id') || 0);
-      lastParams.category_id = Number(searchParams.get('category_id') || 0);
-      lastParams.status = searchParams.get('status') || 'ok';
-      formRef.current?.setFieldsValue(lastParams);
-      params = lastParams;
-    } else {
-      lastParams = params;
-      if (params.module_id != moduleId) {
-        onSelectModule(params.module_id);
-      }
-    }
-
-    return params;
-  };
+  useEffect(() => {
+    setModuleId(lastParams.module_id);
+    loadModules();
+    loadContentSetting();
+    loadLatestUpdate();
+  }, []);
 
   const onSelectModule = (id: number) => {
     lastParams.module_id = id;
@@ -146,6 +127,26 @@ const ArchiveList: React.FC = (props) => {
     });
     history.replace('/archive/list?module_id=' + id);
     formRef.current?.submit();
+  };
+
+  const beforeSearch = (searchParams: any) => {
+    let params = searchParams;
+    if (!firstFetch) {
+      setFirstFetch(true);
+      const searchParams = new URLSearchParams(window.location.search);
+      lastParams.module_id = Number(searchParams.get('module_id') || 0);
+      lastParams.category_id = Number(searchParams.get('category_id') || 0);
+      lastParams.status = searchParams.get('status') || 'ok';
+      formRef.current?.setFieldsValue(lastParams);
+      params = lastParams;
+    } else {
+      lastParams = params;
+      if (params.module_id !== moduleId) {
+        onSelectModule(params.module_id);
+      }
+    }
+
+    return params;
   };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
@@ -229,7 +230,7 @@ const ArchiveList: React.FC = (props) => {
   const handleSetCategory = async (values: any) => {
     let categoryIds = [];
     let categoryId = 0;
-    if (typeof values.category_ids == 'number') {
+    if (typeof values.category_ids === 'number') {
       // 单分类
       categoryId = Number(values.category_ids);
     } else {
@@ -242,7 +243,7 @@ const ArchiveList: React.FC = (props) => {
         categoryId = categoryIds[0];
       }
     }
-    if (categoryId == 0) {
+    if (categoryId === 0) {
       message.error(intl.formatMessage({ id: 'content.category.required' }));
       return;
     }
@@ -384,7 +385,7 @@ const ArchiveList: React.FC = (props) => {
       message.error(intl.formatMessage({ id: 'content.sort.required' }));
       return;
     }
-    if (value == record.sort) {
+    if (value === record.sort) {
       return;
     }
     if (value < 0) {
@@ -472,7 +473,7 @@ const ArchiveList: React.FC = (props) => {
         return (
           <div style={{ maxWidth: 400 }}>
             <a href={entity.link} target="_blank">
-              {latestUpdateId == entity.id && (
+              {latestUpdateId === entity.id && (
                 <Tooltip title={intl.formatMessage({ id: 'content.latest-update' })}>
                   <StarOutlined className="update-tag" />
                 </Tooltip>
@@ -525,7 +526,7 @@ const ArchiveList: React.FC = (props) => {
         return (
           <div>
             {entity.category_titles?.map((item: string) => (
-              <div>{item}</div>
+              <div key={item}>{item}</div>
             ))}
           </div>
         );
@@ -549,7 +550,7 @@ const ArchiveList: React.FC = (props) => {
                   spacer: cat.spacer,
                   label:
                     cat.title +
-                    (cat.status == 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
+                    (cat.status === 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
                   value: cat.id,
                 }));
               return categories;
@@ -624,7 +625,7 @@ const ArchiveList: React.FC = (props) => {
         return (
           <div>
             <div>{dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
-            {record.created_time != record.updated_time && (
+            {record.created_time !== record.updated_time && (
               <div className="update-color">
                 {dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}
               </div>
@@ -714,7 +715,7 @@ const ArchiveList: React.FC = (props) => {
           <div className="module-tags">
             {modules.map((item: any) => (
               <div
-                className={'module-tag ' + (item.id == moduleId ? 'active' : '')}
+                className={'module-tag ' + (item.id === moduleId ? 'active' : '')}
                 key={item.id}
                 onClick={() => {
                   onSelectModule(item.id);
@@ -829,7 +830,7 @@ const ArchiveList: React.FC = (props) => {
         request={(params, sort) => {
           for (let i in sort) {
             params.sort = i;
-            params.order = sort[i] == 'ascend' ? 'asc' : 'desc';
+            params.order = sort[i] === 'ascend' ? 'asc' : 'desc';
           }
           lastParams = params;
           return getArchives(params);
@@ -932,7 +933,7 @@ const ArchiveList: React.FC = (props) => {
               ].concat(res.data || []);
             }}
             fieldProps={{
-              mode: contentSetting.multi_category == 1 ? 'multiple' : undefined,
+              mode: contentSetting.multi_category === 1 ? 'multiple' : undefined,
               fieldNames: {
                 label: 'title',
                 value: 'id',

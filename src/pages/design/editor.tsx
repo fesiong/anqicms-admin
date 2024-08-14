@@ -44,15 +44,25 @@ const DesignEditor: React.FC = () => {
 
   let unsave = false;
 
-  useEffect(() => {
-    fetchDesignInfo();
-    getHeight();
-    window.addEventListener('resize', getHeight);
-    return () => {
-      // 组件销毁时移除监听事件
-      window.removeEventListener('resize', getHeight);
-    };
-  }, []);
+  const fetchDesignFileInfo = async (path: any) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const packageName = searchParams.get('package') || '';
+    setLoaded(false);
+    getDesignFileInfo({
+      package: packageName,
+      type: fileType,
+      path: path,
+    })
+      .then((res) => {
+        setFileInfo(res.data);
+        setCode(res.data.content || '');
+        setLoaded(true);
+        actionRef.current?.reload();
+      })
+      .catch(() => {
+        message.error(intl.formatMessage({ id: 'design.editor.get.error' }));
+      });
+  };
 
   const fetchDesignInfo = async () => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -63,11 +73,11 @@ const DesignEditor: React.FC = () => {
       .then((res) => {
         setDesignInfo(res.data);
 
-        var path = searchParams.get('path') || '';
-        var type = searchParams.get('type') || '';
+        let path = searchParams.get('path') || '';
+        let type = searchParams.get('type') || '';
         fileType = type + '';
 
-        if (path == '' && res.data.tpl_files?.length > 0) {
+        if (path === '' && res.data.tpl_files?.length > 0) {
           type = 'template';
           path = res.data.tpl_files[0].path;
         }
@@ -183,28 +193,37 @@ const DesignEditor: React.FC = () => {
       });
   };
 
-  const fetchDesignFileInfo = async (path: any) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const packageName = searchParams.get('package') || '';
-    setLoaded(false);
-    getDesignFileInfo({
-      package: packageName,
-      type: fileType,
-      path: path,
-    })
-      .then((res) => {
-        setFileInfo(res.data);
-        setCode(res.data.content || '');
-        setLoaded(true);
-        actionRef.current?.reload();
-      })
-      .catch(() => {
-        message.error(intl.formatMessage({ id: 'design.editor.get.error' }));
-      });
+  const getHeight = () => {
+    let num = window?.innerHeight - 260;
+    if (num < 450) {
+      num = 450;
+    } else if (num > 900) {
+      num = 900;
+    }
+
+    setHeight(num);
   };
 
-  const editorDidMount = (editor: any, monaco: any) => {
-    let showTplHelperAction = editor.createContextKey('showTplHelperAction', true);
+  useEffect(() => {
+    fetchDesignInfo();
+    getHeight();
+    window.addEventListener('resize', getHeight);
+    return () => {
+      // 组件销毁时移除监听事件
+      window.removeEventListener('resize', getHeight);
+    };
+  }, []);
+
+  const getTplHelpers = () => {
+    if (!tplHelpers) {
+      getDesignTplHelpers().then((res: any) => {
+        setTplHelpers(res.data || null);
+      });
+    }
+  };
+
+  const editorDidMount = (editor: any) => {
+    editor.createContextKey('showTplHelperAction', true);
     editor.addAction({
       // id
       id: 'tpl-helper',
@@ -225,16 +244,8 @@ const DesignEditor: React.FC = () => {
     });
   };
 
-  const getTplHelpers = () => {
-    if (!tplHelpers) {
-      getDesignTplHelpers().then((res: any) => {
-        setTplHelpers(res.data || null);
-      });
-    }
-  };
-
   const onChangeCode = (newCode: string) => {
-    if (code != newCode) {
+    if (code !== newCode) {
       setCode(newCode);
       unsave = true;
     }
@@ -257,6 +268,10 @@ const DesignEditor: React.FC = () => {
       });
   };
 
+  const scrollToTop = () => {
+    window.scrollTo(window.pageXOffset, 0);
+  };
+
   const handleEditFile = (type: string, info: any) => {
     if (unsave) {
       Modal.confirm({
@@ -273,10 +288,6 @@ const DesignEditor: React.FC = () => {
       fetchDesignFileInfo(info.path);
       scrollToTop();
     }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo(window.pageXOffset, 0);
   };
 
   const handleCompare = (info: any) => {
@@ -382,17 +393,6 @@ const DesignEditor: React.FC = () => {
       : 'javascript';
   };
 
-  const getHeight = () => {
-    let num = window?.innerHeight - 260;
-    if (num < 450) {
-      num = 450;
-    } else if (num > 900) {
-      num = 900;
-    }
-
-    setHeight(num);
-  };
-
   const handleAddCode = (addCode: any, docLink: string) => {
     if (docLink) {
       addCode.link = docLink;
@@ -432,7 +432,7 @@ const DesignEditor: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'design.size' }),
       dataIndex: 'size',
-      render: (text: any, record: any) => <div>{getSize(text)}</div>,
+      render: (text: any) => <div>{getSize(text)}</div>,
     },
     {
       title: intl.formatMessage({ id: 'design.update-time' }),
@@ -443,7 +443,7 @@ const DesignEditor: React.FC = () => {
       title: intl.formatMessage({ id: 'setting.action' }),
       key: 'action',
       width: 110,
-      render: (text: any, record: any) => (
+      render: (_: any, record: any) => (
         <Space size={12}>
           <Button
             type="link"
@@ -713,7 +713,7 @@ const DesignEditor: React.FC = () => {
               </span>
             )}
             {addCode.link && (
-              <a href={addCode.link} target="_blank">
+              <a href={addCode.link} target="_blank" rel="noreferrer">
                 <FormattedMessage id="design.view-doc" />
               </a>
             )}

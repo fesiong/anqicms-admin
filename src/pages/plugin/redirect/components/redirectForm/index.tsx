@@ -1,7 +1,6 @@
 import { pluginSaveRedirect } from '@/services/plugin/redirect';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Tag } from 'antd';
 import React from 'react';
 
 export type RedirectFormProps = {
@@ -15,7 +14,7 @@ const RedirectForm: React.FC<RedirectFormProps> = (props) => {
   const intl = useIntl();
   const onSubmit = async (values: any) => {
     let editingRedirect = Object.assign(props.editingRedirect, values);
-    let res = await pluginSaveRedirect(editingRedirect);
+    await pluginSaveRedirect(editingRedirect);
 
     props.onSubmit();
   };

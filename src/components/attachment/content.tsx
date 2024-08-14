@@ -51,7 +51,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
     actionRef.current?.reload();
   };
 
-  const useDetail = (row: any) => {
+  const setDetail = (row: any) => {
     if (props.multiple) {
       let exist = false;
       let tmpKeys = [];
@@ -116,7 +116,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
             </span>
           )}
         </Space>
-        {typeof props.onCancel == 'function' && (
+        {typeof props.onCancel === 'function' && (
           <a className="close" onClick={() => props.onCancel?.()}>
             <CloseOutlined />
           </a>
@@ -162,7 +162,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
                           alt={row.file_name}
                         />
                       ) : (
-                        <a href={row.logo} target={'_blank'}>
+                        <a href={row.logo} target="_blank" rel="noreferrer">
                           <Avatar className="default-img" size={100}>
                             {row.file_location.substring(row.file_location.lastIndexOf('.'))}
                           </Avatar>
@@ -172,7 +172,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
                       <div
                         className="info link"
                         onClick={() => {
-                          useDetail(row);
+                          setDetail(row);
                         }}
                       >
                         点击使用

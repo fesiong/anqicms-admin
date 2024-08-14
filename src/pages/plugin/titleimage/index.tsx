@@ -32,6 +32,12 @@ const PluginTitleImage: React.FC<any> = () => {
     setFetched(true);
   };
 
+  const getPreviewData = () => {
+    pluginTitleImagePreview({ text: previewText }).then((res) => {
+      setPreviewData(res.data);
+    });
+  };
+
   useEffect(() => {
     getSetting();
     getPreviewData();
@@ -98,12 +104,6 @@ const PluginTitleImage: React.FC<any> = () => {
         setSetting(Object.assign({}, setting));
         getPreviewData();
       },
-    });
-  };
-
-  const getPreviewData = () => {
-    pluginTitleImagePreview({ text: previewText }).then((res) => {
-      setPreviewData(res.data);
     });
   };
 

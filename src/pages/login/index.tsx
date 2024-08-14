@@ -32,7 +32,7 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<any>({});
-  const [type, setType] = useState<string>('account');
+  const [type] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const [captcha, setCaptcha] = useState<any>({});
   const [siteInfo, setSiteInfo] = useState<any>({});
@@ -42,17 +42,26 @@ const Login: React.FC = () => {
   const [resetInfo, setResetInfo] = useState<any>({});
   const intl = useIntl();
 
-  useEffect(() => {
-    handleGetCaptcha();
-
-    initSiteInfo();
-  }, []);
-
   const initSiteInfo = async () => {
     getSiteInfo({}).then((res) => {
       setSiteInfo(res?.data || {});
     });
   };
+
+  const handleGetCaptcha = async () => {
+    try {
+      const res = await getCaptcha();
+      setCaptcha(res.data || {});
+    } catch (e) {
+      message.error(intl.formatMessage({ id: 'pages.login.captcha-failure' }));
+    }
+  };
+
+  useEffect(() => {
+    handleGetCaptcha();
+
+    initSiteInfo();
+  }, []);
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -99,15 +108,6 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleGetCaptcha = async () => {
-    try {
-      const res = await getCaptcha();
-      setCaptcha(res.data || {});
-    } catch (e) {
-      message.error(intl.formatMessage({ id: 'pages.login.captcha-failure' }));
-    }
-  };
-
   const chooseFindWay = async (way: string) => {
     findPasswordChoose({ way: way })
       .then((res) => {
@@ -123,7 +123,7 @@ const Login: React.FC = () => {
   };
 
   const resetPassword = () => {
-    if (findStep == 1) {
+    if (findStep === 1) {
       // 第二步
       findPasswordVerify()
         .then((res) => {
@@ -134,7 +134,7 @@ const Login: React.FC = () => {
           }
         })
         .catch();
-    } else if (findStep == 2) {
+    } else if (findStep === 2) {
       // 最后一步
       findPasswordReset(resetInfo)
         .then((res) => {
@@ -180,7 +180,7 @@ const Login: React.FC = () => {
               </p>
               <p>
                 <FormattedMessage id="pages.login.tips" />
-                <a target="_blank" href={siteInfo.base_url}>
+                <a target="_blank" href={siteInfo.base_url} rel="noreferrer">
                   {siteInfo.name}
                 </a>
               </p>
@@ -281,12 +281,12 @@ const Login: React.FC = () => {
           resetPassword();
         }}
         cancelText={
-          findStep == 0
+          findStep === 0
             ? intl.formatMessage({ id: 'pages.login.cancel' })
             : intl.formatMessage({ id: 'pages.login.prev' })
         }
         okText={
-          findStep == 1
+          findStep === 1
             ? intl.formatMessage({ id: 'pages.login.finished' })
             : intl.formatMessage({ id: 'pages.login.submit' })
         }
@@ -321,9 +321,9 @@ const Login: React.FC = () => {
                 />
               </div>
             </div>
-          ) : findStep == 1 ? (
+          ) : findStep === 1 ? (
             <div className={styles.resetTips}>
-              {findStatus.way == 'file' ? (
+              {findStatus.way === 'file' ? (
                 <div>
                   <h3>
                     <FormattedMessage id="setting.login.step.file" />

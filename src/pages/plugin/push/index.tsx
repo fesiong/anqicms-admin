@@ -10,11 +10,11 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Alert, Button, Card, Modal, Space, Tag, message } from 'antd';
+import { Alert, Button, Card, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 
-const PluginPush: React.FC<any> = (props) => {
+const PluginPush: React.FC<any> = () => {
   const actionRef = useRef<ActionType>();
   const [pushSetting, setPushSetting] = useState<any>({});
   const [jsCodes, setJsCodes] = useState<any[]>([]);
@@ -24,10 +24,6 @@ const PluginPush: React.FC<any> = (props) => {
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     const res = await pluginGetPush();
     let setting = res.data || {};
@@ -36,8 +32,12 @@ const PluginPush: React.FC<any> = (props) => {
     setFetched(true);
   };
 
-  const onSubmit = async (values: any) => {
-    values = Object.assign(pushSetting, values);
+  useEffect(() => {
+    getSetting();
+  }, []);
+
+  const onSubmit = async (data: any) => {
+    let values = Object.assign(pushSetting, data);
     pushSetting.js_codes = jsCodes;
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginSavePush(values)
@@ -113,7 +113,7 @@ const PluginPush: React.FC<any> = (props) => {
     {
       title: intl.formatMessage({ id: 'plugin.push.code' }),
       dataIndex: 'value',
-      render: (text, record) => (
+      render: (text) => (
         <div
           style={{
             maxHeight: 60,

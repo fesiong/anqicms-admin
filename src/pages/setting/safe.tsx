@@ -10,18 +10,19 @@ import { useIntl } from '@umijs/max';
 import { Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const SettingSafeFrom: React.FC<any> = (props) => {
+const SettingSafeFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const intl = useIntl();
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getSettingSafe();
     let setting = res.data || null;
     setSetting(setting);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const onSubmit = async (values: any) => {
     values.captcha = Number(values.captcha);

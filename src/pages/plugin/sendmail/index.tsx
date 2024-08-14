@@ -15,14 +15,14 @@ const PluginSendmail: React.FC = () => {
   const [setting, setSetting] = useState<any>({});
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     let res = await pluginGetSendmailSetting();
     setSetting(res.data || {});
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleSendTest = async () => {
     const hide = message.loading(intl.formatMessage({ id: 'plugin.sendmail.test.sending' }), 0);

@@ -80,7 +80,7 @@ class ImageList extends React.Component<intlProps> {
           fetched: true,
         });
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 
   getCategories = () => {
@@ -173,8 +173,8 @@ class ImageList extends React.Component<intlProps> {
     const { images } = this.state;
     this.setState({
       selectedIds: e,
-      indeterminate: e.length == 0 ? false : e.length < images.length ? true : false,
-      selectedAll: e.length == images.length ? true : false,
+      indeterminate: e.length === 0 ? false : e.length < images.length ? true : false,
+      selectedAll: e.length === images.length ? true : false,
     });
   };
 
@@ -213,10 +213,10 @@ class ImageList extends React.Component<intlProps> {
     });
   };
 
-  handleUpdateToCategory = async (e: any) => {
+  handleUpdateToCategory = async () => {
     const { tmpCategoryId, categories } = this.state;
     Modal.confirm({
-      icon: '',
+      icon: null,
       title: this.props.intl.formatMessage({ id: 'content.attachment.move-to-category' }),
       content: (
         <div>

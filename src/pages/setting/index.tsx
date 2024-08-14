@@ -4,18 +4,19 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const SettingIndexFrom: React.FC<any> = (props) => {
+const SettingIndexFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const intl = useIntl();
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getSettingIndex();
     let setting = res.data || null;
     setSetting(setting);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const onSubmit = async (values: any) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);

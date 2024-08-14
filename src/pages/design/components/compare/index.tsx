@@ -20,13 +20,13 @@ const TemplateCompare: React.FC<TemplateCompareProps> = (props) => {
     setCode(props.versionCode);
   }, []);
 
-  const editorDidMount = (editor: any, monaco: any) => {
+  const editorDidMount = () => {
     //console.log('editorDidMount', editor);
     //editor.focus();
   };
 
   const onChangeCode = (newCode: string) => {
-    if (code != newCode) {
+    if (code !== newCode) {
       setCode(newCode);
     }
   };

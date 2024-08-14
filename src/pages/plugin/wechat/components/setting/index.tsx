@@ -1,7 +1,7 @@
 import { pluginGetWechatConfig, pluginSaveWechatConfig } from '@/services';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Divider, Tag, message } from 'antd';
+import { Divider, message } from 'antd';
 import React, { useState } from 'react';
 
 const PluginWechatSetting: React.FC<any> = (props) => {

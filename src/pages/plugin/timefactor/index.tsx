@@ -25,10 +25,6 @@ const PluginTimeFactor: React.FC<any> = () => {
   const [releaseOpen, setReleaseOpen] = useState<boolean>(false);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     getModules().then((res) => {
       const data = res.data || [];
@@ -60,18 +56,22 @@ const PluginTimeFactor: React.FC<any> = () => {
     });
   };
 
+  useEffect(() => {
+    getSetting();
+  }, []);
+
   const onSubmit = async (values: any) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     if (values.open) {
-      if (!values.module_ids || values.module_ids.length == 0) {
+      if (!values.module_ids || values.module_ids.length === 0) {
         message.error(intl.formatMessage({ id: 'plugin.timefactor.module.required' }));
         return;
       }
-      if (!values.types || values.types.length == 0) {
+      if (!values.types || values.types.length === 0) {
         message.error(intl.formatMessage({ id: 'plugin.timefactor.types.required' }));
         return;
       }
-      if (values.start_day == 0) {
+      if (values.start_day === 0) {
         message.error(intl.formatMessage({ id: 'plugin.timefactor.start-day.required' }));
         return;
       }

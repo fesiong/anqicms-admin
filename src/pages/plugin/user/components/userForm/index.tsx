@@ -140,9 +140,10 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         }}
       />
       <Divider><FormattedMessage id="plugin.user.extra-fields" /></Divider>
-      {userFields.map((item: any, index: number) =>
+      {userFields.map((item: any) =>
         item.type === 'text' ? (
           <ProFormText
+            key={item.field_name}
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
@@ -150,6 +151,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           />
         ) : item.type === 'number' ? (
           <ProFormDigit
+            key={item.field_name}
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
@@ -157,6 +159,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           />
         ) : item.type === 'textarea' ? (
           <ProFormTextArea
+            key={item.field_name}
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
@@ -164,6 +167,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           />
         ) : item.type === 'radio' ? (
           <ProFormRadio.Group
+            key={item.field_name}
             name={['extra', item.field_name, 'value']}
             label={item.name}
             request={async () => {
@@ -177,6 +181,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           />
         ) : item.type === 'checkbox' ? (
           <ProFormCheckbox.Group
+            key={item.field_name}
             name={['extra', item.field_name, 'value']}
             label={item.name}
             request={async () => {
@@ -190,6 +195,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           />
         ) : item.type === 'select' ? (
           <ProFormSelect
+            key={item.field_name}
             name={['extra', item.field_name, 'value']}
             label={item.name}
             request={async () => {
@@ -202,7 +208,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             }}
           />
         ) : item.type === 'image' ? (
-          <ProFormText name={['extra', item.field_name, 'value']} label={item.name}>
+          <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
             {user.extra[item.field_name]?.value ? (
               <div className="ant-upload-item">
                 <Image
@@ -230,7 +236,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             )}
           </ProFormText>
         ) : item.type === 'file' ? (
-          <ProFormText name={['extra', item.field_name, 'value']} label={item.name}>
+          <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
             {user.extra[item.field_name]?.value ? (
               <div className="ant-upload-item ant-upload-file">
                 <span>{user.extra[item.field_name]?.value}</span>

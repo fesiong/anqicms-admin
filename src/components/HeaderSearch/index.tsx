@@ -1,5 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { history } from '@umijs/max';
+import { history, useIntl } from '@umijs/max';
 import { AutoComplete, Input, InputRef } from 'antd';
 import type { AutoCompleteProps } from 'antd/es/auto-complete';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
@@ -24,12 +24,7 @@ export type HeaderSearchProps = {
 
 const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
   const { className, defaultValue, onOpenChange, placeholder, defaultOpen } = props;
-
-  const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
-
-  useEffect(() => {
-    matchOptions('');
-  }, []);
+  const intl = useIntl();
 
   const inputRef = useRef<InputRef | null>(null);
 
@@ -43,6 +38,50 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
     onChange: onOpenChange,
   });
 
+  const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
+
+  const matchOptions = (value: string | undefined) => {
+    const tmpOptions: AutoCompleteProps['options'] = [];
+    for (let i in routes) {
+      if (routes[i].routes) {
+        let supName = routes[i].name;
+        for (let j in routes[i].routes) {
+          if (supName && routes[i].routes[j].name && !routes[i].routes[j].hideInMenu) {
+              let idName = 'menu.' + supName + '.' + routes[i].routes[j].name;
+              let name = intl.formatMessage({ id: idName });
+              if (!value || (name.indexOf(value) !== -1 || routes[i].routes[j].path.indexOf(value) !== -1)) {
+                tmpOptions.push({
+                  label: name,
+                  value: name,
+                  path: routes[i].routes[j].path,
+                });
+              }
+            }
+          }
+      } else if (routes[i].name && !routes[i].hideInMenu) {
+        let name = intl.formatMessage({ id: 'menu.' + routes[i].name });
+        if (!value || (name?.indexOf(value) !== -1 || routes[i].path?.indexOf(value) !== -1)) {
+          tmpOptions.push({
+            label: name,
+            value: name,
+            path: routes[i].path,
+          });
+        }
+      }
+    }
+    setOptions(tmpOptions);
+
+    return tmpOptions;
+  };
+
+  useEffect(() => {
+    matchOptions('');
+    let width = window.innerWidth;
+    if (width > 1280) {
+      setSearchMode(true);
+    }
+  }, []);
+
   const onChangeValue = (value: string) => {
     setValue(value);
     matchOptions(value);
@@ -53,35 +92,6 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
     if (matches.length > 0) {
       history.push(matches[0].path);
     }
-  };
-
-  const matchOptions = (value: string | undefined) => {
-    const tmpOptions: AutoCompleteProps['options'] = [];
-    for (let i in routes) {
-      if (routes[i].routes) {
-        for (let j in routes[i].routes) {
-          if (
-            routes[i].routes[j].name &&
-            (!value || routes[i].routes[j].name.indexOf(value) !== -1)
-          ) {
-            tmpOptions.push({
-              label: routes[i].routes[j].name,
-              value: routes[i].routes[j].name,
-              path: routes[i].routes[j].path,
-            });
-          }
-        }
-      } else if (routes[i].name && (!value || routes[i].name?.indexOf(value) !== -1)) {
-        tmpOptions.push({
-          label: routes[i].name,
-          value: routes[i].name,
-          path: routes[i].path,
-        });
-      }
-    }
-    setOptions(tmpOptions);
-
-    return tmpOptions;
   };
 
   const inputClass = classNames(styles.input, {

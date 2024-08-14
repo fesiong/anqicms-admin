@@ -11,7 +11,6 @@ export type ArchiveSearchProps = {
 };
 
 const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
   const intl = useIntl();
 
@@ -28,7 +27,7 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
       render: (dom, entity) => {
         return (
           <div style={{ maxWidth: 400 }}>
-            <a href={entity.link} target="_blank">
+            <a href={entity.link} target="_blank" rel="noopener noreferrer">
               {dom}
             </a>
           </div>
@@ -42,7 +41,7 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
         return (
           <div>
             {entity.category_titles?.map((item: string) => (
-              <div>{item}</div>
+              <div key={item}>{item}</div>
             ))}
           </div>
         );
@@ -66,7 +65,7 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
                   spacer: cat.spacer,
                   label:
                     cat.title +
-                    (cat.status == 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
+                    (cat.status === 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
                   value: cat.id,
                 }));
               return categories;
@@ -113,8 +112,7 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
         }}
         columns={columns}
         rowSelection={{
-          onChange: (selectedRowKeys, selectedRows) => {
-            setSelectedRowKeys(selectedRowKeys);
+          onChange: (_, selectedRows) => {
             setSelectedRows(selectedRows);
           },
         }}

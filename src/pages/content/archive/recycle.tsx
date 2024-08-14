@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 
-const ArchiveList: React.FC = (props) => {
+const ArchiveList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [visible, setVisible] = useState<boolean>(false);

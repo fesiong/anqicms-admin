@@ -104,12 +104,12 @@ const PluginRedirect: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="plugin.redirect.add" />
           </Button>,
           <RedirectImport
+            key="import"
             onCancel={() => {
               actionRef.current?.reloadAndRest?.();
             }}
           >
             <Button
-              key="import"
               onClick={() => {
                 //todo
               }}

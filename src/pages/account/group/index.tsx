@@ -31,15 +31,15 @@ const AdminGroupList: React.FC = () => {
 
   const { currentUser } = initialState;
 
-  useEffect(() => {
-    initPermissions();
-  }, []);
-
   const initPermissions = () => {
     getPermissionMenus().then((res) => {
       setPermissionGroups(res.data || []);
     });
   };
+
+  useEffect(() => {
+    initPermissions();
+  }, []);
 
   const onPermissionChange = (item: any, e: any) => {
     let checked = e.target.checked;
@@ -58,9 +58,9 @@ const AdminGroupList: React.FC = () => {
     setEditVisible(true);
   };
 
-  const onSubmitEdit = async (values: any) => {
-    values = Object.assign(editInfo, values);
-    if (typeof values.setting == 'undefined') {
+  const onSubmitEdit = async (data: any) => {
+    let values = Object.assign(editInfo, data);
+    if (typeof values.setting === 'undefined') {
       values.setting = {};
     }
     values.status = Number(values.status);
@@ -77,7 +77,7 @@ const AdminGroupList: React.FC = () => {
   };
 
   const handleRemove = (record: any) => {
-    if (currentUser.group_id == record.id || record.id == 1) {
+    if (currentUser.group_id === record.id || record.id === 1) {
       message.error(intl.formatMessage({ id: 'account.group.cannot-delete' }));
       return;
     }

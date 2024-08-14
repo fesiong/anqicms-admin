@@ -28,8 +28,8 @@ const AccountSetting: React.FC = () => {
     }
   };
 
-  const handleFinish = async (values: any) => {
-    values = Object.assign(initialState?.currentUser || {}, values);
+  const handleFinish = async (data: any) => {
+    let values = Object.assign(initialState?.currentUser || {}, data);
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveAdmin(values)
       .then(async (res) => {

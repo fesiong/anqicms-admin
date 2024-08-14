@@ -27,7 +27,7 @@ const { Panel } = Collapse;
 
 let submiting = false;
 const WebsiteList: React.FC = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
   const actionRef = useRef<ActionType>();
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [userDefault, setUseDefault] = useState<boolean>(false);
@@ -36,15 +36,15 @@ const WebsiteList: React.FC = () => {
   const inputRef = useRef<any>();
   const intl = useIntl();
 
-  useEffect(() => {
-    initSiteInfo();
-  }, []);
-
   const initSiteInfo = async () => {
     getSiteInfo({}).then((res) => {
       setSiteInfo(res?.data || {});
     });
   };
+
+  useEffect(() => {
+    initSiteInfo();
+  }, []);
 
   const handleEdit = (record: any) => {
     if (record.id > 0) {
@@ -73,7 +73,7 @@ const WebsiteList: React.FC = () => {
   };
 
   const onSubmitEdit = async (values: any) => {
-    if (editInfo.id == 1) {
+    if (editInfo.id === 1) {
       // 自己无法禁用自己
       values.status = 1;
     }
@@ -101,7 +101,7 @@ const WebsiteList: React.FC = () => {
   };
 
   const handleRemove = (record: any) => {
-    if (record.id == 1) {
+    if (record.id === 1) {
       message.error(intl.formatMessage({ id: 'website.cannot-delete' }));
       return;
     }
@@ -159,7 +159,7 @@ const WebsiteList: React.FC = () => {
       title: intl.formatMessage({ id: 'setting.system.base-url' }),
       dataIndex: 'base_url',
       render: (text) => (
-        <a href={text as string} target="_blank">
+        <a href={text as string} target="_blank" rel="noreferrer">
           {text}
         </a>
       ),
@@ -207,7 +207,7 @@ const WebsiteList: React.FC = () => {
               <FormattedMessage id="website.visit-backend" />
             </a>
           )}
-          {initialState?.currentUser?.site_id == 1 && (
+          {initialState?.currentUser?.site_id === 1 && (
             <>
               <a
                 key="edit"
@@ -255,7 +255,7 @@ const WebsiteList: React.FC = () => {
         }}
         columns={columns}
         toolBarRender={() => [
-          initialState?.currentUser?.site_id == 1 && (
+          initialState?.currentUser?.site_id === 1 && (
             <Button
               type="primary"
               key="add"
@@ -311,7 +311,7 @@ const WebsiteList: React.FC = () => {
             label={intl.formatMessage({ id: 'website.admin-password' })}
             placeholder={intl.formatMessage({ id: 'website.admin-password.description' })}
           />
-          {editInfo.id != 1 && (
+          {editInfo.id !== 1 && (
             <Collapse defaultActiveKey={editInfo.id > 0 ? [] : [1]} ghost>
               <Panel header={intl.formatMessage({ id: 'website.db.header' })} key="1">
                 <ProFormText
@@ -368,7 +368,9 @@ const WebsiteList: React.FC = () => {
                         const res = await getDesignList({});
                         const data = res.data || [];
                         for (const i in data) {
-                          data[i].label = data[i].name + '(' + data[i].package + ')';
+                          if (data.hasOwnProperty(i)) {
+                            data[i].label = data[i].name + '(' + data[i].package + ')';
+                          }
                         }
                         return data;
                       }}

@@ -62,10 +62,6 @@ const DesignDetail: React.FC = () => {
 
   const anqiUser = initialState?.anqiUser;
 
-  useEffect(() => {
-    fetchDesignInfo();
-  }, []);
-
   const fetchDesignInfo = async () => {
     const searchParams = new URLSearchParams(window.location.search);
     const packageName = searchParams.get('package') || '';
@@ -116,6 +112,10 @@ const DesignDetail: React.FC = () => {
         message.error(intl.formatMessage({ id: 'design.editor.get.error' }));
       });
   };
+
+  useEffect(() => {
+    fetchDesignInfo();
+  }, []);
 
   const handleShowEdit = (type: string, info: any) => {
     // 可编辑的文件
@@ -176,7 +176,7 @@ const DesignDetail: React.FC = () => {
       ),
       onOk: () => {
         const newPath = inputRef.current?.input?.value;
-        if (!newPath || newPath == info.path) {
+        if (!newPath || newPath === info.path) {
           message.error(intl.formatMessage({ id: 'design.detail.name-duplicate' }));
           return false;
         }
@@ -197,6 +197,30 @@ const DesignDetail: React.FC = () => {
     });
   };
 
+  const onSearchTempDir = (val: string) => {
+    let tmpData = addFileType === 'static' ? staticDirs : templateDirs;
+    let e = val;
+    if (e === '') {
+      setTempDirs(tmpData);
+      return;
+    }
+    let index = -1;
+    for (let i in tmpData) {
+      if (tmpData[i].value.indexOf(e) !== -1) {
+        index = Number(i);
+        break;
+      }
+    }
+    if (index === -1) {
+      if (e.lastIndexOf('/') !== e.length - 1) {
+        e = e + '/';
+      }
+      setTempDirs([
+        { label: intl.formatMessage({ id: 'design.detail.new-directory' }) + ': ' + e, value: e },
+      ]);
+    }
+  };
+
   const handleAddFile = (type: string) => {
     onSearchTempDir('');
     setAddFileType(type);
@@ -215,7 +239,7 @@ const DesignDetail: React.FC = () => {
     if (!values.path) {
       values.path = values.rename_path;
     }
-    if (values.path.trim() == '') {
+    if (values.path.trim() === '') {
       message.error(intl.formatMessage({ id: 'design.detail.name-required' }));
       return;
     }
@@ -269,7 +293,7 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.detail.confirm-upload' }),
       content:
         intl.formatMessage({ id: 'design.detail.confirm-upload.content-before' }) +
-        (addFileType == 'static'
+        (addFileType === 'static'
           ? intl.formatMessage({ id: 'design.static.name' })
           : intl.formatMessage({ id: 'design.tempalte.name' })) +
         intl.formatMessage({ id: 'design.detail.confirm-upload.directory' }) +
@@ -324,29 +348,6 @@ const DesignDetail: React.FC = () => {
       .finally(() => {
         hide();
       });
-  };
-
-  const onSearchTempDir = (e: string) => {
-    let tmpData = addFileType == 'static' ? staticDirs : templateDirs;
-    if (e == '') {
-      setTempDirs(tmpData);
-      return;
-    }
-    let index = -1;
-    for (let i in tmpData) {
-      if (tmpData[i].value.indexOf(e) !== -1) {
-        index = Number(i);
-        break;
-      }
-    }
-    if (index === -1) {
-      if (e.lastIndexOf('/') !== e.length - 1) {
-        e = e + '/';
-      }
-      setTempDirs([
-        { label: intl.formatMessage({ id: 'design.detail.new-directory' }) + ': ' + e, value: e },
-      ]);
-    }
   };
 
   const handleRestoreDesignData = () => {
@@ -434,7 +435,7 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.size' }),
       dataIndex: 'size',
       width: 150,
-      render: (text: any, record: any) => <div>{sizeFormat(text)}</div>,
+      render: (text: any) => <div>{sizeFormat(text)}</div>,
     },
     {
       title: intl.formatMessage({ id: 'design.update-time' }),
@@ -446,7 +447,7 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'setting.action' }),
       key: 'action',
       width: 100,
-      render: (text: any, record: any) => (
+      render: (_: any, record: any) => (
         <Space size={16}>
           <Button
             type="link"
@@ -502,7 +503,7 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.size' }),
       dataIndex: 'size',
       width: 150,
-      render: (text: any, record: any) => <div>{sizeFormat(text)}</div>,
+      render: (text: any) => <div>{sizeFormat(text)}</div>,
     },
     {
       title: intl.formatMessage({ id: 'design.update-time' }),
@@ -514,7 +515,7 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'setting.action' }),
       key: 'action',
       width: 100,
-      render: (text: any, record: any) => (
+      render: (_: any, record: any) => (
         <Space size={16}>
           <Button
             type="link"
@@ -548,7 +549,7 @@ const DesignDetail: React.FC = () => {
 
   const canShare =
     anqiUser?.auth_id > 0 &&
-    (designInfo.template_id == 0 || designInfo.auth_id == anqiUser?.auth_id);
+    (designInfo.template_id === 0 || designInfo.auth_id === anqiUser?.auth_id);
 
   return (
     <PageContainer
@@ -585,12 +586,12 @@ const DesignDetail: React.FC = () => {
           >
             <FormattedMessage id="design.detail.template.download" />
           </Button>,
-          designInfo.status == 1 && (
+          designInfo.status === 1 && (
             <Button key="backup" onClick={handleBackupDesignData}>
               <FormattedMessage id="design.detail.template.backup" />
             </Button>
           ),
-          designInfo.preview_data && designInfo.status == 1 && (
+          designInfo.preview_data && designInfo.status === 1 && (
             <Tooltip
               title={intl.formatMessage({ id: 'design.data.install.example' })}
               key="restore"
@@ -600,7 +601,7 @@ const DesignDetail: React.FC = () => {
               </Button>
             </Tooltip>
           ),
-          (canShare || !anqiUser || anqiUser?.auth_id == 0) && (
+          (canShare || !anqiUser || anqiUser?.auth_id === 0) && (
             <Tooltip
               title={intl.formatMessage({ id: 'design.detail.template.tomarket' })}
               key="share"
@@ -671,7 +672,7 @@ const DesignDetail: React.FC = () => {
           width={600}
           title={
             intl.formatMessage({ id: 'design.detail.addnew' }) +
-            (addFileType == 'static'
+            (addFileType === 'static'
               ? intl.formatMessage({ id: 'design.static.name' })
               : intl.formatMessage({ id: 'design.tempalte.name' }))
           }
@@ -683,7 +684,7 @@ const DesignDetail: React.FC = () => {
             },
           }}
           //layout="horizontal"
-          onFinish={async (values) => {
+          onFinish={async () => {
             setAddVisible(false);
           }}
         >

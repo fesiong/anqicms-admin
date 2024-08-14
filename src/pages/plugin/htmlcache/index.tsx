@@ -38,16 +38,6 @@ const PluginHtmlCache: React.FC<any> = () => {
   const [logStatus, setLogStatus] = useState<string>('');
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-    getStatus();
-    getPushStatus();
-    return () => {
-      clearInterval(xhr);
-      clearInterval(pushXhr);
-    };
-  }, []);
-
   const getSetting = async () => {
     const res = await pluginGetHtmlCache();
     let setting = res.data || {};
@@ -60,6 +50,23 @@ const PluginHtmlCache: React.FC<any> = () => {
     setStorageType(e.target.value);
   };
 
+  const getPushStatus = () => {
+    pluginGetHtmlCachePushStatus().then((res) => {
+      setPushStatus(res.data || null);
+      if (!res.data || res.data.finished_time > 0) {
+        clearInterval(pushXhr);
+        return;
+      }
+    });
+  };
+
+  const startCheckPushStatus = () => {
+    clearInterval(pushXhr);
+    pushXhr = setInterval(() => {
+      getPushStatus();
+    }, 1500);
+  };
+
   const getStatus = () => {
     pluginGetBuildHtmlCacheStatus().then((res) => {
       setStatus(res.data || null);
@@ -70,6 +77,16 @@ const PluginHtmlCache: React.FC<any> = () => {
       }
     });
   };
+
+  useEffect(() => {
+    getSetting();
+    getStatus();
+    getPushStatus();
+    return () => {
+      clearInterval(xhr);
+      clearInterval(pushXhr);
+    };
+  }, []);
 
   const startBuild = () => {
     Modal.confirm({
@@ -151,7 +168,7 @@ const PluginHtmlCache: React.FC<any> = () => {
       title: intl.formatMessage({ id: 'plugin.htmlcache.clean.confirm' }),
       content: intl.formatMessage({ id: 'plugin.htmlcache.clean.confirm.content' }),
       onOk: () => {
-        pluginCleanHtmlCache().then((res) => {
+        pluginCleanHtmlCache().then(() => {
           message.success(intl.formatMessage({ id: 'plugin.htmlcache.clean.success' }));
         });
       },
@@ -201,23 +218,6 @@ const PluginHtmlCache: React.FC<any> = () => {
           startCheckPushStatus();
         });
       },
-    });
-  };
-
-  const startCheckPushStatus = () => {
-    clearInterval(pushXhr);
-    pushXhr = setInterval(() => {
-      getPushStatus();
-    }, 1500);
-  };
-
-  const getPushStatus = () => {
-    pluginGetHtmlCachePushStatus().then((res) => {
-      setPushStatus(res.data || null);
-      if (!res.data || res.data.finished_time > 0) {
-        clearInterval(pushXhr);
-        return;
-      }
     });
   };
 
@@ -360,7 +360,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                     id: 'plugin.htmlcache.storage-url.placeholder',
                   })}
                 />
-                <div className={storageType != 'aliyun' ? 'hidden' : ''}>
+                <div className={storageType !== 'aliyun' ? 'hidden' : ''}>
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.aliyun" />
                   </Divider>
@@ -383,7 +383,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                     placeholder=""
                   />
                 </div>
-                <div className={storageType != 'tencent' ? 'hidden' : ''}>
+                <div className={storageType !== 'tencent' ? 'hidden' : ''}>
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.tencent" />
                   </Divider>
@@ -397,7 +397,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                     })}
                   />
                 </div>
-                <div className={storageType != 'qiniu' ? 'hidden' : ''}>
+                <div className={storageType !== 'qiniu' ? 'hidden' : ''}>
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.qiniu" />
                   </Divider>
@@ -447,7 +447,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                     ]}
                   />
                 </div>
-                <div className={storageType != 'upyun' ? 'hidden' : ''}>
+                <div className={storageType !== 'upyun' ? 'hidden' : ''}>
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.upyun" />
                   </Divider>
@@ -467,7 +467,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                     placeholder=""
                   />
                 </div>
-                <div className={storageType != 'ftp' ? 'hidden' : ''}>
+                <div className={storageType !== 'ftp' ? 'hidden' : ''}>
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.ftp" />
                   </Divider>
@@ -500,7 +500,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                     placeholder=""
                   />
                 </div>
-                <div className={storageType != 'ssh' ? 'hidden' : ''}>
+                <div className={storageType !== 'ssh' ? 'hidden' : ''}>
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.ssh" />
                   </Divider>

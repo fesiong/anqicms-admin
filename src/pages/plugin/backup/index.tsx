@@ -13,7 +13,7 @@ import { Button, Modal, Radio, Space, Upload, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef } from 'react';
 
-var running = false;
+let running = false;
 
 const PluginUserGroup: React.FC = () => {
   const actionRef = useRef<ActionType>();

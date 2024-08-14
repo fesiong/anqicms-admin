@@ -2,14 +2,17 @@ import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-components';
-import { FormattedMessage, RunTimeLayoutConfig, history } from '@umijs/max';
+import { FormattedMessage, getLocale, history } from '@umijs/max';
+import type { RuntimeConfig, RunTimeLayoutConfig } from '@umijs/max';
 import { parse } from 'query-string';
 import defaultSettings from '../config/defaultSettings';
 import HeaderContent from './components/headerContent';
 import { getAdminInfo } from './services/admin';
 import { getAnqiInfo } from './services/anqi';
 import { getSettingSystem } from './services/setting';
-import { setSessionStore } from './utils/store';
+import { getSessionStore, getStore, removeStore, setSessionStore } from './utils/store';
+import config from './services/config';
+import { message } from 'antd';
 
 const loginPath = '/login';
 
@@ -76,9 +79,9 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   const query = parse(history.location.search) || {};
-  if (query['admin-login'] == 'true') {
+  if (query['admin-login'] === 'true') {
     setSessionStore('site-id', query['site-id']);
   }
   return {
@@ -87,7 +90,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     disableContentMargin: false,
     footerRender: () => <Footer />,
     links: [
-      <a href="https://www.anqicms.com/" target="_blank">
+      <a key="anqicms" href="https://www.anqicms.com/" target="_blank" rel="noreferrer">
         <LinkOutlined />
         <span>
           <FormattedMessage id="app.links.anqicms" />
@@ -98,15 +101,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     menuHeaderRender: undefined,
     menuDataRender: (menuData: MenuDataItem[]) => {
       let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
-      if (initialState?.currentUser?.id != 1 && initialState?.currentUser?.group_id != 1) {
+      if (initialState?.currentUser?.id !== 1 && initialState?.currentUser?.group_id !== 1) {
         for (let i in menuData) {
           if (menuData[i].access) {
             // 需要处理
             let hasChildren = false;
             let tmpMenus = menuData[i];
             for (let j in tmpMenus.children) {
-              if (permissions.indexOf(tmpMenus.children[j].path) === -1) {
-                tmpMenus.children[j].unaccessible = true;
+              if (permissions.indexOf(tmpMenus.children[Number(j)].path) === -1) {
+                tmpMenus.children[Number(j)].unaccessible = true;
               } else {
                 hasChildren = true;
               }
@@ -118,9 +121,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         }
       }
 
-      if (initialState?.currentUser?.id != 1 || !initialState?.system?.default_site) {
+      if (initialState?.currentUser?.id !== 1 || !initialState?.system?.default_site) {
         for (let i in menuData) {
-          if (menuData[i].path == '/website') {
+          if (menuData[i].path === '/website') {
             menuData[i].unaccessible = true;
           }
         }
@@ -131,7 +134,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
-    childrenRender: (children, props) => {
+    childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
@@ -153,4 +156,60 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings,
   };
+};
+
+/**
+ * @name request 配置，可以配置错误处理
+ * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
+ * @doc https://umijs.org/docs/max/request#配置
+ */
+export const request: RuntimeConfig['request'] = {
+  timeout: 150000,
+  baseURL: config.baseUrl,
+  // 请求拦截器
+  requestInterceptors: [
+    (config: any) => {
+      const adminToken = getStore('adminToken');
+      if (adminToken) {
+        config.headers.admin = adminToken;
+      }
+      const siteId = getSessionStore('site-id');
+      if (siteId) {
+        config.headers['Site-Id'] = siteId;
+      }
+      const selectLang = getLocale();
+      if (selectLang) {
+        config.headers['Accept-Language'] = selectLang;
+      }
+
+      return { ...config };
+    },
+  ],
+  responseInterceptors: [
+    [
+      async function (response: any) {
+        const { data } = response;
+        if(data.code === 1001) {
+          removeStore('adminToken')
+          message.warning({
+            content: data.msg,
+            key: 'error',
+            style: { marginTop: '50px' },
+          });
+          history.push('/login');
+          return Promise.reject(data);
+        } else if (data.codee === 1002) {
+          removeStore('adminToken')
+          message.warning({
+            content: data.msg,
+            key: 'error',
+            style: { marginTop: '50px' },
+          });
+          return Promise.reject(data);
+        }
+
+        return response;
+      }
+    ]
+  ]
 };

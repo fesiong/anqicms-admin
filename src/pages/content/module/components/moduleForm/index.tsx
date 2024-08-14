@@ -20,7 +20,7 @@ export type ModuleFormProps = {
   module: any;
 };
 
-var submitting = false;
+let submitting = false;
 
 const ModuleForm: React.FC<ModuleFormProps> = (props) => {
   const actionRef = useRef<ActionType>();
@@ -30,10 +30,6 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     if (props.module.id) {
       const res = await getModuleInfo({ id: props.module.id });
@@ -42,6 +38,10 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
     }
     setFetched(true);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleRemoveItem = (record: any, index: number) => {
     Modal.confirm({
@@ -70,7 +70,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
       setting.fields = [];
     }
     for (let i in setting.fields) {
-      if (setting.fields[i].field_name == values.field_name) {
+      if (setting.fields[i].field_name === values.field_name) {
         exists = true;
         setting.fields[i] = values;
       }

@@ -51,11 +51,6 @@ const PluginComment: React.FC = () => {
     });
   };
 
-  const handleEditComment = async (record: any) => {
-    setCurrentComment(record);
-    setEditVisible(true);
-  };
-
   const handleSetStatus = async (values: any) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     pluginCheckComment({
@@ -83,24 +78,24 @@ const PluginComment: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.comment.time' }),
       width: 160,
       dataIndex: 'created_time',
-      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (_, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'plugin.comment.item-title' }),
       width: 200,
       dataIndex: 'item_title',
-      render: (text, record) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
+      render: (text) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
     },
     {
       title: intl.formatMessage({ id: 'plugin.comment.user-name' }),
       width: 100,
       dataIndex: 'user_name',
-      render: (text, record) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
+      render: (text) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
     },
     {
       title: intl.formatMessage({ id: 'plugin.comment.content' }),
       dataIndex: 'content',
-      render: (text, record) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
+      render: (text) => <div style={{ wordBreak: 'break-all' }}>{text}</div>,
     },
     {
       title: 'IP',

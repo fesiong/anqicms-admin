@@ -118,7 +118,7 @@ const ModuleList: React.FC = () => {
           >
             <FormattedMessage id="setting.action.edit" />
           </a>
-          {record.is_system == 0 && (
+          {record.is_system === 0 && (
             <a
               className="text-red"
               key="delete"

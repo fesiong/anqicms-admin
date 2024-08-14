@@ -110,13 +110,13 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
 
   handleAddField = (field: string) => {
     const { tmpInput, setting } = this.state;
-    if (field == 'content_replace') {
-      if (!tmpInput['from'] || tmpInput['from'] == tmpInput['to']) {
+    if (field === 'content_replace') {
+      if (!tmpInput['from'] || tmpInput['from'] === tmpInput['to']) {
         return;
       }
       let exists = false;
       for (const item of setting[field]) {
-        if (item.from == tmpInput['from']) {
+        if (item.from === tmpInput['from']) {
           exists = true;
           break;
         }
@@ -151,7 +151,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     for (const row of rows) {
       let exists = false;
       for (let i in setting['images']) {
-        if (setting['images'][i] == row.logo) {
+        if (setting['images'][i] === row.logo) {
           exists = true;
           break;
         }
@@ -443,7 +443,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 },
               }}
             />
-            {insertImage == 2 && (
+            {insertImage === 2 && (
               <ProFormText
                 label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.insert-image.list' })}
               >
@@ -492,7 +492,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 </div>
               </ProFormText>
             )}
-            {insertImage == 3 && (
+            {insertImage === 3 && (
               <ProFormSelect
                 label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.image.category' })}
                 name="image_category_id"

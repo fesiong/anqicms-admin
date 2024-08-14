@@ -28,13 +28,6 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
 
-  useEffect(() => {
-    getArchive(props.archive.id);
-    getSettingContent().then((res) => {
-      setContentSetting(res.data || {});
-    });
-  }, []);
-
   const getArchive = async (id: number) => {
     const res = await getArchiveInfo({
       id: id,
@@ -46,15 +39,22 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
     setFetched(true);
   };
 
+  useEffect(() => {
+    getArchive(props.archive.id);
+    getSettingContent().then((res) => {
+      setContentSetting(res.data || {});
+    });
+  }, []);
+
   const onSubmit = async (values: any) => {
     let postData = Object.assign(archive, values);
-    if (postData.title == '') {
+    if (postData.title === '') {
       message.error(intl.formatMessage({ id: 'content.title.required' }));
       return;
     }
     let categoryIds = [];
     let categoryId = 0;
-    if (typeof values.category_ids == 'number') {
+    if (typeof values.category_ids === 'number') {
       // 单分类
       categoryId = Number(values.category_ids);
     } else {
@@ -67,7 +67,7 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
         categoryId = categoryIds[0];
       }
     }
-    if (categoryId == 0) {
+    if (categoryId === 0) {
       message.error(intl.formatMessage({ id: 'content.category.required' }));
       return;
     }
@@ -83,7 +83,7 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     const res = await saveArchive(postData);
     hide();
-    if (res.code != 0) {
+    if (res.code !== 0) {
       message.error(res.msg);
     } else {
       // 设置最近更新过的文档
@@ -161,11 +161,11 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
               showSearch
               name="category_ids"
               width="lg"
-              mode={contentSetting.multi_category == 1 ? 'multiple' : 'single'}
+              mode={contentSetting.multi_category === 1 ? 'multiple' : 'single'}
               request={async () => {
                 const res = await getCategories({ type: 1 });
                 const categories = res.data || [];
-                if (categories.length == 0) {
+                if (categories.length === 0) {
                   Modal.error({
                     title: intl.formatMessage({ id: 'content.category.error' }),
                     onOk: () => {

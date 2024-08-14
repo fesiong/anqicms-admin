@@ -62,7 +62,7 @@ const ArticleTag: React.FC = () => {
       dataIndex: 'title',
       render: (dom, entity) => {
         return (
-          <a href={entity.link} target="_blank">
+          <a href={entity.link} target="_blank" rel="noreferrer">
             {dom}
           </a>
         );

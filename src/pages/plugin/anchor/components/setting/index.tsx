@@ -14,16 +14,16 @@ const AnchorSetting: React.FC<AnchorProps> = (props) => {
   const [setting, setSetting] = useState<any>({});
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     const res = await pluginGetAnchorSetting();
     let setting = res.data || null;
     setSetting(setting);
     setFetched(true);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleSaveSetting = async (values: any) => {
     values = Object.assign(setting, values);

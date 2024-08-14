@@ -106,13 +106,13 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
 
   handleAddField = (field: string) => {
     const { tmpInput, setting } = this.state;
-    if (field == 'content_replace') {
-      if (!tmpInput['from'] || tmpInput['from'] == tmpInput['to']) {
+    if (field === 'content_replace') {
+      if (!tmpInput['from'] || tmpInput['from'] === tmpInput['to']) {
         return;
       }
       let exists = false;
       for (const item of setting[field]) {
-        if (item.from == tmpInput['from']) {
+        if (item.from === tmpInput['from']) {
           exists = true;
           break;
         }
@@ -126,13 +126,13 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         tmpInput['from'] = '';
         tmpInput['to'] = '';
       }
-    } else if (field == 'open_ai_keys') {
+    } else if (field === 'open_ai_keys') {
       if (!tmpInput['key']) {
         return;
       }
       let exists = false;
       for (const item of setting[field]) {
-        if (item.key == tmpInput['key']) {
+        if (item.key === tmpInput['key']) {
           exists = true;
           break;
         }
@@ -166,7 +166,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     for (const row of rows) {
       let exists = false;
       for (let i in setting['images']) {
-        if (setting['images'][i] == row.logo) {
+        if (setting['images'][i] === row.logo) {
           exists = true;
           break;
         }
@@ -194,7 +194,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     );
     checkOpenAIApi()
       .then((res) => {
-        if (res.code == 0) {
+        if (res.code === 0) {
           message.success(res.msg);
           setting.api_valid = true;
         } else {
@@ -462,7 +462,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 </div>
               }
             />
-            {aiEngine == 'openai' && (
+            {aiEngine === 'openai' && (
               <ProFormText
                 label="OpenAI Keys"
                 extra={
@@ -516,7 +516,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 </Input.Group>
               </ProFormText>
             )}
-            {aiEngine == 'spark' && (
+            {aiEngine === 'spark' && (
               <>
                 <div className="mb-normal">
                   <FormattedMessage id="plugin.aigenerate.spark.description" />:
@@ -632,7 +632,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 },
               }}
             />
-            {insertImage == 2 && (
+            {insertImage === 2 && (
               <ProFormText
                 label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.insert-image.list' })}
               >
@@ -681,7 +681,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 </div>
               </ProFormText>
             )}
-            {insertImage == 3 && (
+            {insertImage === 3 && (
               <ProFormSelect
                 label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.image.category' })}
                 name="image_category_id"

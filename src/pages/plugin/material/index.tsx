@@ -22,15 +22,15 @@ const PluginMaterial: React.FC = () => {
   const [categoryId, setCategoryId] = useState<number>(0);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     const res = await pluginGetMaterialCategories();
     let categories = res.data || [];
     setCategories(categories);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -139,23 +139,23 @@ const PluginMaterial: React.FC = () => {
         rowKey="id"
         search={false}
         toolBarRender={() => [
-          <span><FormattedMessage id="plugin.material.category-filter" /></span>,
-          <Select defaultValue={categoryId} style={{ width: 120 }} onChange={handleChangeCategory}>
+          <span key="filter"><FormattedMessage id="plugin.material.category-filter" /></span>,
+          <Select key="select" defaultValue={categoryId} style={{ width: 120 }} onChange={handleChangeCategory}>
             <Select.Option value={0}><FormattedMessage id="plugin.material.all" /></Select.Option>
-            {categories.map((item: any, index) => (
+            {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.title}
               </Select.Option>
             ))}
           </Select>,
           <MaterialImport
+            key="import"
             onCancel={() => {
               getSetting();
               actionRef.current?.reloadAndRest?.();
             }}
           >
             <Button
-              key="import"
               onClick={() => {
                 //todo
               }}
@@ -164,6 +164,7 @@ const PluginMaterial: React.FC = () => {
             </Button>
           </MaterialImport>,
           <MaterialCategory
+            key="category"
             onCancel={() => {
               actionRef.current?.reloadAndRest?.();
             }}

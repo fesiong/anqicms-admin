@@ -26,15 +26,15 @@ const GlobalHeaderRight: React.FC = () => {
   const [siteInfo, setSiteInfo] = useState<any>({});
   const intl = useIntl();
 
-  useEffect(() => {
-    initSiteInfo();
-  }, []);
-
   const initSiteInfo = async () => {
     getSiteInfo({}).then((res) => {
       setSiteInfo(res?.data || {});
     });
   };
+
+  useEffect(() => {
+    initSiteInfo();
+  }, []);
 
   if (!initialState || !initialState.settings) {
     return null;
@@ -128,7 +128,7 @@ const GlobalHeaderRight: React.FC = () => {
             <FormattedMessage id="component.right-content.bind.account" />
           </a>
         )}
-        <a href={siteInfo.base_url} target={'_blank'} className="site-info-item action">
+        <a href={siteInfo.base_url} target={'_blank'} className="site-info-item action" rel="noreferrer">
           <GlobalOutlined style={{ marginRight: 5 }} />
           {siteInfo.name || siteInfo.base_url}
         </a>
@@ -206,7 +206,7 @@ const GlobalHeaderRight: React.FC = () => {
               textAlign: 'right',
             }}
           >
-            <a href="https://www.anqicms.com/register" target={'_blank'} rel="nofollow">
+            <a href="https://www.anqicms.com/register" target={'_blank'} rel="nofollow noreferrer">
               <FormattedMessage id="component.right-content.register" />
             </a>
           </div>
@@ -267,7 +267,7 @@ const GlobalHeaderRight: React.FC = () => {
             <p>
               <span className="optional">*</span>
               <FormattedMessage id="component.right-content.download-prefix" />
-              <a href="https://www.anqicms.com/anqibox.html" target="_blank">
+              <a href="https://www.anqicms.com/anqibox.html" target="_blank" rel="noreferrer">
                 <FormattedMessage id="component.right-content.download-name" />
               </a>
             </p>

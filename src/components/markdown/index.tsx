@@ -27,23 +27,23 @@ export function attachPlugin(): BytemdPlugin {
         handler: {
           type: 'action',
           click({ appendBlock, editor }) {
-            const useImage = (item: any) => {
+            const setImage = (item: any) => {
               if (
                 item.is_image ||
-                item.file_location.indexOf('.webp') != -1 ||
-                item.file_location.indexOf('.bmp') != -1 ||
-                item.file_location.indexOf('.png') != -1 ||
-                item.file_location.indexOf('.gif') != -1 ||
-                item.file_location.indexOf('.jpg') != -1 ||
-                item.file_location.indexOf('.jpeg') != -1 ||
-                item.file_location.indexOf('.svg') != -1
+                item.file_location.indexOf('.webp') !== -1 ||
+                item.file_location.indexOf('.bmp') !== -1 ||
+                item.file_location.indexOf('.png') !== -1 ||
+                item.file_location.indexOf('.gif') !== -1 ||
+                item.file_location.indexOf('.jpg') !== -1 ||
+                item.file_location.indexOf('.jpeg') !== -1 ||
+                item.file_location.indexOf('.svg') !== -1
               ) {
                 // img
                 return `![${item.file_name}](${item.logo})`;
               } else if (
-                item.file_location.indexOf('.mp4') != -1 ||
-                item.file_location.indexOf('.ogg') != -1 ||
-                item.file_location.indexOf('.webm') != -1
+                item.file_location.indexOf('.mp4') !== -1 ||
+                item.file_location.indexOf('.ogg') !== -1 ||
+                item.file_location.indexOf('.webm') !== -1
               ) {
                 return `<video controls="controls" controlslist="nodownload" poster=""><source src="${
                   item.logo
@@ -51,8 +51,8 @@ export function attachPlugin(): BytemdPlugin {
                   item.file_location.lastIndexOf('.') + 1,
                 )}">您的浏览器不支持 video 标签。</video>`;
               } else if (
-                item.file_location.indexOf('.mp3') != -1 ||
-                item.file_location.indexOf('.wav') != -1
+                item.file_location.indexOf('.mp3') !== -1 ||
+                item.file_location.indexOf('.wav') !== -1
               ) {
                 return `<audio src="${item.logo}" controls="controls"><source src="${
                   item.logo
@@ -67,7 +67,9 @@ export function attachPlugin(): BytemdPlugin {
             Attachment.show(true).then((res: any) => {
               let addon = [];
               for (let i in res) {
-                addon.push(useImage(res[i]));
+                if (res.hasOwnProperty(i)) {
+                  addon.push(setImage(res[i]));
+                }
               }
               appendBlock(addon.join('\n'));
               editor.focus();
@@ -84,28 +86,31 @@ export function attachPlugin(): BytemdPlugin {
 const plugins = [gfm(), pmath(), mermaid(), attachPlugin()];
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = forwardRef((props, ref) => {
-  useImperativeHandle(ref, () => ({
-    setInnerContent: setInnerContent,
-  }));
-  function setInnerContent(content: string) {
+  function setInnerContent() {
     // how to set
     // setValue(content);
   }
+
+  useImperativeHandle(ref, () => ({
+    setInnerContent: setInnerContent,
+  }));
 
   const handleUpload = async (files: File[]) => {
     let result: any[] = [];
 
     const hide = message.loading('插入中...', 0);
     for (let i in files) {
-      let formData = new FormData();
-      formData.append('file', files[i]);
-      let res = await uploadAttachment(formData);
-      if (res.code !== 0) {
-        message.info(res.msg);
-      } else {
-        result.push({
-          url: res.data.logo,
-        });
+      if (files.hasOwnProperty(i)) {
+        let formData = new FormData();
+        formData.append('file', files[i]);
+        let res = await uploadAttachment(formData);
+        if (res.code !== 0) {
+          message.info(res.msg);
+        } else {
+          result.push({
+            url: res.data.logo,
+          });
+        }
       }
     }
     hide();

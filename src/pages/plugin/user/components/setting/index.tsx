@@ -59,7 +59,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
       setting.fields = [];
     }
     for (const i in setting.fields) {
-      if (setting.fields[i].field_name == values.field_name) {
+      if (setting.fields[i].field_name === values.field_name) {
         exists = true;
         setting.fields[i] = Object.assign(setting.fields[i], values);
       }

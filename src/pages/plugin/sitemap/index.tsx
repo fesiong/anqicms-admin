@@ -13,7 +13,7 @@ import { Alert, Button, Card, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
-const PluginSitemap: React.FC<any> = (props) => {
+const PluginSitemap: React.FC<any> = () => {
   const formRef = React.createRef<ProFormInstance>();
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);

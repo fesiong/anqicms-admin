@@ -47,7 +47,7 @@ const DesignIndex: React.FC = () => {
   };
 
   const handleRemove = (packageName: string) => {
-    if (packageName == 'default') {
+    if (packageName === 'default') {
       message.error(intl.formatMessage({ id: 'design.cannot-delete' }));
       return;
     }
@@ -180,7 +180,7 @@ const DesignIndex: React.FC = () => {
       width: 300,
       render: (_, record: any) => (
         <Space size={16}>
-          {record.status != 1 && (
+          {record.status !== 1 && (
             <Button
               type="link"
               onClick={() => {
@@ -190,7 +190,7 @@ const DesignIndex: React.FC = () => {
               <FormattedMessage id="design.data.enable.action" />
             </Button>
           )}
-          {record.preview_data && record.status == 1 && (
+          {record.preview_data && record.status === 1 && (
             <Tooltip title={intl.formatMessage({ id: 'design.data.install.example' })}>
               <Button
                 type="link"

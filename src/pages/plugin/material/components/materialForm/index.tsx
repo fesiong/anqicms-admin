@@ -18,7 +18,7 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
   const onSubmit = async (values: any) => {
     let editingMaterial = Object.assign(props.editingMaterial, values);
     editingMaterial.content = content;
-    let res = await pluginSaveMaterial(editingMaterial);
+    await pluginSaveMaterial(editingMaterial);
 
     props.onSubmit();
   };

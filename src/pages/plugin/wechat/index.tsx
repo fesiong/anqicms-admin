@@ -39,7 +39,7 @@ const PluginWechatMessage: React.FC<any> = () => {
   };
 
   const handleFinishedReply = async (values: any) => {
-    if (values.reply && values.reply != currentMessage.reply) {
+    if (values.reply && values.reply !== currentMessage.reply) {
       pluginDeleteWechatMessage(values)
         .then((res) => {
           message.info(res.msg);

@@ -19,17 +19,13 @@ import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import { Button, Card, Col, Modal, Row, Upload, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const SettingSystemFrom: React.FC<any> = (props) => {
+const SettingSystemFrom: React.FC<any> = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [setting, setSetting] = useState<any>({});
   const [siteLogo, setSiteLogo] = useState<string>('');
   const [site_close, setSiteClose] = useState<number>(0);
   const [extraFields, setExtraFields] = useState<any[]>([]);
   const intl = useIntl();
-
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getSettingSystem();
@@ -39,6 +35,10 @@ const SettingSystemFrom: React.FC<any> = (props) => {
     setSiteClose(setting.system?.site_close || 0);
     setExtraFields(setting.system.extra_fields || []);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleSelectLogo = (row: any) => {
     setSiteLogo(row.logo);
@@ -227,7 +227,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               extra={
                 <div>
                   <FormattedMessage id="setting.system.site-icp-description-before" />
-                  <a href="https://beian.miit.gov.cn/" target="_blank">
+                  <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">
                     beian.miit.gov.cn
                   </a>
                   <FormattedMessage id="setting.system.site-icp-description-after" />
@@ -245,7 +245,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               name="language"
               width="lg"
               label={intl.formatMessage({ id: 'setting.system.language' })}
-              request={async (params) => {
+              request={async () => {
                 let names = [];
                 for (let item of setting.languages) {
                   names.push({ label: getLangName(item), value: item });
@@ -301,7 +301,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
                 },
               ]}
             />
-            {(site_close == 1 || site_close == 2) && (
+            {(site_close === 1 || site_close === 2) && (
               <ProFormTextArea
                 name="site_close_tips"
                 label={intl.formatMessage({ id: 'setting.system.site-close-tips' })}
@@ -342,7 +342,7 @@ const SettingSystemFrom: React.FC<any> = (props) => {
               }
               key="1"
             >
-              {extraFields.map((item: any, index: number) => (
+              {extraFields.map((_: any, index: number) => (
                 <Row key={index} gutter={16}>
                   <Col span={8}>
                     <ProFormText

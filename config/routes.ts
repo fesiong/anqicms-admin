@@ -75,9 +75,6 @@ export default [
         name: 'nav',
         component: './setting/nav',
       },
-      {
-        component: './404',
-      },
     ],
   },
   {
@@ -136,9 +133,6 @@ export default [
         path: '/archive/attachment',
         name: 'attachment',
         component: '@/pages/content/attachment/index',
-      },
-      {
-        component: './404',
       },
     ],
   },
@@ -392,9 +386,6 @@ export default [
         component: '@/pages/plugin/watermark/index',
         icon: 'watermark',
       },
-      {
-        component: './404',
-      },
     ],
   },
   {
@@ -430,9 +421,6 @@ export default [
         name: 'market',
         component: '@/pages/design/market',
       },
-      {
-        component: './404',
-      },
     ],
   },
   {
@@ -465,9 +453,6 @@ export default [
         path: '/statistic/include/detail',
         name: 'includedetail',
         component: '@/pages/statistic/include/detail',
-      },
-      {
-        component: './404',
       },
     ],
   },
@@ -538,6 +523,7 @@ export default [
     redirect: '/dashboard',
   },
   {
+    path: '*',
     component: './404',
   },
 ];

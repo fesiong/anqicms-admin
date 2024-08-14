@@ -57,14 +57,14 @@ const PluginPay: React.FC<any> = () => {
         {fetched && (
           <ProForm title={intl.formatMessage({ id: 'menu.plugin.pay' })} layout="vertical" initialValues={setting} onFinish={onSubmit}>
             <Space size={20} className="pay-tabs">
-              <Button type={tabIndex == 0 ? 'primary' : 'default'} onClick={() => setTabIndex(0)}>
+              <Button type={tabIndex === 0 ? 'primary' : 'default'} onClick={() => setTabIndex(0)}>
                 <FormattedMessage id="plugin.pay.wechat" />
               </Button>
-              <Button type={tabIndex == 1 ? 'primary' : 'default'} onClick={() => setTabIndex(1)}>
+              <Button type={tabIndex === 1 ? 'primary' : 'default'} onClick={() => setTabIndex(1)}>
                 <FormattedMessage id="plugin.pay.alipay" />
               </Button>
             </Space>
-            <div className={'pay-tab ' + (tabIndex == 0 && 'active')}>
+            <div className={'pay-tab ' + (tabIndex === 0 && 'active')}>
               <ProFormText name="wechat_app_id" label={intl.formatMessage({ id: 'plugin.pay.wechat.wechat.appid' })} width="lg" />
               <ProFormText name="wechat_app_secret" label={intl.formatMessage({ id: 'plugin.pay.wechat.wechat.app-secret' })} width="lg" />
               <ProFormText name="weapp_app_id" label={intl.formatMessage({ id: 'plugin.pay.wechat.weapp.appid' })} width="lg" />
@@ -100,7 +100,7 @@ const PluginPay: React.FC<any> = () => {
                 )}
               </ProFormText>
             </div>
-            <div className={'pay-tab ' + (tabIndex == 1 && 'active')}>
+            <div className={'pay-tab ' + (tabIndex === 1 && 'active')}>
               <ProFormText name="alipay_app_id" label={intl.formatMessage({ id: 'plugin.pay.alipay.appid' })} width="lg" />
               <ProFormText name="alipay_private_key" label={intl.formatMessage({ id: 'plugin.pay.alipay.private-key' })} width="lg" />
               <ProFormText label={intl.formatMessage({ id: 'plugin.pay.alipay.cert-path' })}>

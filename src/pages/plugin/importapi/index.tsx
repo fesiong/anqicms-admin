@@ -29,7 +29,7 @@ const PluginImportApi: React.FC<any> = () => {
   }, []);
 
   const handleUpdateToken = async (values: any) => {
-    if (values.token == '') {
+    if (values.token === '') {
       message.error(intl.formatMessage({ id: 'plugin.importapi.token.required' }));
       return;
     }

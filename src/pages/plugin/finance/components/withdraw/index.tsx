@@ -93,7 +93,7 @@ const PluginFinanceWithdraw: React.FC = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-          {record.status == 0 && (
+          {record.status === 0 && (
             <a
               key="edit"
               onClick={() => {
@@ -103,7 +103,7 @@ const PluginFinanceWithdraw: React.FC = () => {
               <FormattedMessage id="plugin.finance.withdraw.agree" />
             </a>
           )}
-          {record.status == 1 && (
+          {record.status === 1 && (
             <a
               key="finish"
               onClick={() => {

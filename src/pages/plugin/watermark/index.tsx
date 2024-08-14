@@ -19,6 +19,20 @@ const PluginWatermark: React.FC<any> = () => {
   const [previewData, setPreviewData] = useState<string>('');
   const intl = useIntl();
 
+  const getPreviewData = () => {
+    if (loading) {
+      return;
+    }
+    loading = true;
+    pluginWatermarkPreview()
+      .then((res) => {
+        setPreviewData(res.data);
+      })
+      .finally(() => {
+        loading = false;
+      });
+  };
+
   const getSetting = async () => {
     const res = await pluginGetWatermarkConfig();
     let tmpSetting = res.data || {};
@@ -102,20 +116,6 @@ const PluginWatermark: React.FC<any> = () => {
     });
   };
 
-  const getPreviewData = () => {
-    if (loading) {
-      return;
-    }
-    loading = true;
-    pluginWatermarkPreview()
-      .then((res) => {
-        setPreviewData(res.data);
-      })
-      .finally(() => {
-        loading = false;
-      });
-  };
-
   const handleGenerate = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.watermark.generate.confirm' }),
@@ -182,7 +182,7 @@ const PluginWatermark: React.FC<any> = () => {
                       onChange: changeType,
                     }}
                   />
-                  {setting.type == 0 && (
+                  {setting.type === 0 && (
                     <ProFormText label={intl.formatMessage({ id: 'plugin.watermark.image' })}>
                       <Upload
                         name="file"
@@ -205,7 +205,7 @@ const PluginWatermark: React.FC<any> = () => {
                       )}
                     </ProFormText>
                   )}
-                  {setting.type == 1 && (
+                  {setting.type === 1 && (
                     <>
                       <ProFormText
                         name="text"

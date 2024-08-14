@@ -1,25 +1,23 @@
 import { getDesignDocs } from '@/services';
-import { ActionType, PageContainer } from '@ant-design/pro-components';
+import { PageContainer } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Card, Modal } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 
 const DesignDoc: React.FC = () => {
-  const actionRef = useRef<ActionType>();
   const [templateDocs, setTemplateDocs] = useState<any[]>([]);
-  const [currentDoc, setCurrentDoc] = useState<any>({});
   const intl = useIntl();
-
-  useEffect(() => {
-    fetchTemplateDocs();
-  }, []);
 
   const fetchTemplateDocs = () => {
     getDesignDocs().then((res) => {
       setTemplateDocs(res.data || []);
     });
   };
+
+  useEffect(() => {
+    fetchTemplateDocs();
+  }, []);
 
   const handleShowDoc = (doc: any) => {
     Modal.confirm({
@@ -54,7 +52,7 @@ const DesignDoc: React.FC = () => {
           message={
             <div>
               <FormattedMessage id="design.doc.tips" />
-              <a href="https://www.anqicms.com/manual" target={'_blank'}>
+              <a href="https://www.anqicms.com/manual" target="_blank" rel="noreferrer">
                 https://www.anqicms.com/manual
               </a>
             </div>

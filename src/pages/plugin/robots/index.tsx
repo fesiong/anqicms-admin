@@ -4,15 +4,11 @@ import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import { Alert, Button, Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const PluginRobots: React.FC<any> = (props) => {
+const PluginRobots: React.FC<any> = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [pushSetting, setPushSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
-
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await pluginGetRobots();
@@ -20,6 +16,10 @@ const PluginRobots: React.FC<any> = (props) => {
     setPushSetting(setting);
     setFetched(true);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const onSubmit = async (values: any) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);

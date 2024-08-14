@@ -17,14 +17,11 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const SettingContactFrom: React.FC<any> = (props) => {
+const SettingContactFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [defaultThumb, setDefaultThumb] = useState<string>('');
   const [resize_image, setResizeImage] = useState<number>(0);
   const intl = useIntl();
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getSettingContent();
@@ -33,6 +30,10 @@ const SettingContactFrom: React.FC<any> = (props) => {
     setDefaultThumb(setting?.default_thumb || '');
     setResizeImage(setting?.resize_image || 0);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleSelectLogo = (row: any) => {
     setDefaultThumb(row.logo);
@@ -252,7 +253,7 @@ const SettingContactFrom: React.FC<any> = (props) => {
                 },
               ]}
             />
-            {resize_image == 1 && (
+            {resize_image === 1 && (
               <ProFormText
                 name="resize_width"
                 label={intl.formatMessage({ id: 'setting.content.resize-width' })}

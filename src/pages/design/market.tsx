@@ -11,20 +11,9 @@ const DesignMarket: React.FC = () => {
   const [height, setHeight] = useState(0);
   const intl = useIntl();
 
-  useEffect(() => {
-    getHeight();
-    window.addEventListener('resize', getHeight);
-    window.addEventListener('message', receiveDownload);
-    return () => {
-      // 组件销毁时移除监听事件
-      window.removeEventListener('resize', getHeight);
-      window.removeEventListener('message', receiveDownload);
-    };
-  }, []);
-
   const receiveDownload = (e: any) => {
     const data = e.data || {};
-    if (data.action == 'download') {
+    if (data.action === 'download') {
       const hide = message.loading(intl.formatMessage({ id: 'design.market.downloading' }), 0);
       anqiDownloadTemplate({
         template_id: Number(data.id),
@@ -53,6 +42,17 @@ const DesignMarket: React.FC = () => {
 
     setHeight(num);
   };
+
+  useEffect(() => {
+    getHeight();
+    window.addEventListener('resize', getHeight);
+    window.addEventListener('message', receiveDownload);
+    return () => {
+      // 组件销毁时移除监听事件
+      window.removeEventListener('resize', getHeight);
+      window.removeEventListener('message', receiveDownload);
+    };
+  }, []);
 
   const handleIframe = () => {
     if (initialState && initialState.anqiUser) {

@@ -19,14 +19,14 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSendMailSetting();
-  }, []);
-
   const getSendMailSetting = async () => {
     let res = await pluginGetSendmailSetting();
     setSendMailSetting(res.data || {});
   };
+
+  useEffect(() => {
+    getSendMailSetting();
+  }, []);
 
   const replyEmail = () => {
     if (!sendMailSetting.recipient && !sendMailSetting.account) {
@@ -73,7 +73,7 @@ const GuestbookForm: React.FC<GuestbookFormProps> = (props) => {
             props.onCancel(flag);
           }
         }}
-        onFinish={async (values) => {
+        onFinish={async () => {
           props.onCancel(false);
         }}
       >

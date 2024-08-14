@@ -21,7 +21,7 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
   const intl = useIntl();
   const onSubmit = async (values: any) => {
     let editingLink = Object.assign(props.editingLink, values);
-    let res = await pluginSaveLink(editingLink);
+    await pluginSaveLink(editingLink);
 
     props.onSubmit();
   };

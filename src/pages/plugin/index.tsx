@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-components';
-import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
+import { FormattedMessage, history, useModel } from '@umijs/max';
 import { Card, Col, Row } from 'antd';
 import React, { useState } from 'react';
 import routes from '../../../config/routes';
@@ -41,9 +41,8 @@ import icon_weapp from '@/images/icon_weapp.png';
 import icon_wechat from '@/images/icon_wechat.png';
 
 const PluginIndex: React.FC = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
   const [type, setType] = useState<string>('');
-  const intl = useIntl();
   const jumpToPlugin = (item: any) => {
     history.push(item.path);
   };
@@ -53,9 +52,9 @@ const PluginIndex: React.FC = () => {
   };
 
   let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
-  if (initialState?.currentUser?.id != 1 && initialState?.currentUser?.group_id != 1) {
+  if (initialState?.currentUser?.id !== 1 && initialState?.currentUser?.group_id !== 1) {
     for (let i in routes) {
-      if (routes[i].path == '/plugin') {
+      if (routes[i].path === '/plugin') {
         // 需要处理
         for (let j in routes[i].routes) {
           if (permissions.indexOf(routes[i].routes[j].path) === -1) {
@@ -188,14 +187,14 @@ const PluginIndex: React.FC = () => {
         }
       >
         <Row gutter={[20, 20]}>
-          {routes.map((item: any, index) => {
-            if (item.path == '/plugin') {
+          {routes.map((item: any) => {
+            if (item.path === '/plugin') {
               return item.routes.map((inner: any, i: number) => {
                 if (
                   !inner.hideInMenu &&
                   inner.name &&
                   !inner.unaccessible &&
-                  (!type || type == inner.type)
+                  (!type || type === inner.type)
                 ) {
                   return (
                     <Col key={i} sm={6} xs={12}>

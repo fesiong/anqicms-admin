@@ -1,18 +1,14 @@
 import { pluginGetRewrite, pluginSaveRewrite } from '@/services/plugin/rewrite';
 import { PageContainer, ProForm, ProFormTextArea } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Alert, Card, Col, Radio, Row, Space, Tag, message } from 'antd';
+import { Alert, Card, Col, Radio, Row, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const PluginRewrite: React.FC<any> = (props) => {
+const PluginRewrite: React.FC<any> = () => {
   const [rewriteMode, setRewriteMode] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
   const [currentMode, setCurrentMode] = useState<number>(0);
   const intl = useIntl();
-
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await pluginGetRewrite();
@@ -22,9 +18,13 @@ const PluginRewrite: React.FC<any> = (props) => {
     setFetched(true);
   };
 
-  const onSubmit = async (values: any) => {
+  useEffect(() => {
+    getSetting();
+  }, []);
+
+  const onSubmit = async (data: any) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
-    values = Object.assign(rewriteMode, values);
+    let values = Object.assign(rewriteMode, data);
     pluginSaveRewrite(values)
       .then((res) => {
         message.success(res.msg);
@@ -109,7 +109,7 @@ const PluginRewrite: React.FC<any> = (props) => {
                   </Space>
                 </Radio.Group>
               </ProForm.Item>
-              {currentMode == 4 && (
+              {currentMode === 4 && (
                 <ProFormTextArea
                   name="patten"
                   fieldProps={{ rows: 8 }}

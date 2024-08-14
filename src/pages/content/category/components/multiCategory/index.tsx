@@ -23,6 +23,15 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
   const [currentModule, setCurrentModule] = useState<any>({});
   const intl = useIntl();
 
+  const changeModule = (e: any) => {
+    for (let item of props.modules) {
+      if (item.id === e) {
+        setCurrentModule(item);
+        break;
+      }
+    }
+  };
+
   useEffect(() => {
     let moduleId = props.category?.module_id || 1;
     changeModule(moduleId);
@@ -51,15 +60,6 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
       }
     }
     props.onSubmit();
-  };
-
-  const changeModule = (e: any) => {
-    for (let item of props.modules) {
-      if (item.id == e) {
-        setCurrentModule(item);
-        break;
-      }
-    }
   };
 
   return (
@@ -109,9 +109,9 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
             let tmpCategory = [];
             for (let i in categories) {
               if (
-                categories[i].id == props.category.id ||
-                categories[i].parent_id == props.category.id ||
-                categories[i].module_id != props.category.module_id
+                categories[i].id === props.category.id ||
+                categories[i].parent_id === props.category.id ||
+                categories[i].module_id !== props.category.module_id
               ) {
                 continue;
               }

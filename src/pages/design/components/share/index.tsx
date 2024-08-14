@@ -77,9 +77,9 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
           message.info(res.msg);
         } else {
           message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
-          if (field == 'pc_thumb') {
+          if (field === 'pc_thumb') {
             setPcThumb(res.data.logo);
-          } else if (field == 'mobile_thumb') {
+          } else if (field === 'mobile_thumb') {
             setMobileThumb(res.data.logo);
           } else {
             previewImages.push(res.data.logo);

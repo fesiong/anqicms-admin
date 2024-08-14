@@ -15,7 +15,7 @@ const KeywordForm: React.FC<KeywordFormProps> = (props) => {
   const intl = useIntl();
   const onSubmit = async (values: any) => {
     let editingKeyword = Object.assign(props.editingKeyword, values);
-    let res = await pluginSaveKeyword(editingKeyword);
+    await pluginSaveKeyword(editingKeyword);
 
     props.onSubmit();
   };

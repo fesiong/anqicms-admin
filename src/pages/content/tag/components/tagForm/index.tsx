@@ -17,7 +17,7 @@ const TagForm: React.FC<TagFormProps> = (props) => {
   const onSubmit = async (values: any) => {
     let tag = Object.assign(props.tag, values);
     tag.type = props.type;
-    let res = await saveTag(tag);
+    await saveTag(tag);
 
     props.onSubmit();
   };

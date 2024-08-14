@@ -13,14 +13,11 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Modal, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const SettingSensitiveFrom: React.FC<any> = (props) => {
+const SettingSensitiveFrom: React.FC<any> = () => {
   const formRef = React.createRef<ProFormInstance>();
   const [setting, setSetting] = useState<any>([]);
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getSettingSensitiveWords();
@@ -28,6 +25,10 @@ const SettingSensitiveFrom: React.FC<any> = (props) => {
     setSetting(setting);
     setFetched(true);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const onSubmit = async (values: any) => {
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);

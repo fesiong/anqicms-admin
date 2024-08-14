@@ -39,14 +39,19 @@ const PageCategoryDetail: React.FC = () => {
   const [modules, setModules] = useState<any[]>([]);
   const intl = useIntl();
 
-  useEffect(() => {
-    initData();
-  }, []);
+  const changeModule = (e: any) => {
+    for (let item of modules) {
+      if (item.id === e) {
+        setCurrentModule(item);
+        break;
+      }
+    }
+  };
 
   const initData = async () => {
     const searchParams = new URLSearchParams(window.location.search);
     let id = searchParams.get('id') || 0;
-    if (id == 'new') {
+    if (id === 'new') {
       id = 0;
     }
     let parent_id = Number(searchParams.get('parent_id') || 0);
@@ -81,13 +86,17 @@ const PageCategoryDetail: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    initData();
+  }, []);
+
   const onSubmit = async (values: any) => {
     let cat = Object.assign(category, values);
     cat.content = content;
     cat.type = categoryType;
     cat.images = categoryImages;
     cat.logo = categoryLogo;
-    if (cat.title == '') {
+    if (cat.title === '') {
       message.error(intl.formatMessage({ id: 'content.page.input.required' }));
       return;
     }
@@ -105,7 +114,7 @@ const PageCategoryDetail: React.FC = () => {
       let exists = false;
 
       for (let i in categoryImages) {
-        if (categoryImages[i] == row.logo) {
+        if (categoryImages[i] === row.logo) {
           exists = true;
           break;
         }
@@ -132,15 +141,6 @@ const PageCategoryDetail: React.FC = () => {
   const handleCleanLogo = (e: any) => {
     e.stopPropagation();
     setCategoryLogo('');
-  };
-
-  const changeModule = (e: any) => {
-    for (let item of modules) {
-      if (item.id == e) {
-        setCurrentModule(item);
-        break;
-      }
-    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -204,7 +204,7 @@ const PageCategoryDetail: React.FC = () => {
                 />
                 {loaded && (
                   <>
-                    {contentSetting.editor == 'markdown' ? (
+                    {contentSetting.editor === 'markdown' ? (
                       <MarkdownEditor
                         className="mb-normal"
                         setContent={async (html: string) => {

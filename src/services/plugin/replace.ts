@@ -1,4 +1,4 @@
-import { get, post } from '../tools';
+import { post } from '../tools';
 
 export async function pluginReplaceValues(body: any, options?: { [key: string]: any }) {
   return post({

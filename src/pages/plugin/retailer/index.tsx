@@ -139,8 +139,8 @@ const PluginRetailer: React.FC = () => {
           >
             <FormattedMessage id="plugin.retailer.add" />
           </Button>,
-          <RetailerSetting onCancel={() => {}}>
-            <Button type="primary" key="group">
+          <RetailerSetting key="group" onCancel={() => {}}>
+            <Button type="primary">
               <FormattedMessage id="plugin.retailer.setting" />
             </Button>
           </RetailerSetting>,

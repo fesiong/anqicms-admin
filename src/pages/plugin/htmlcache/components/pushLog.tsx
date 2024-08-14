@@ -19,7 +19,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
   const intl = useIntl();
 
   const handleRePush = async (keys: any[]) => {
-    pluginHtmlCachePush({ paths: keys }).then((res) => {
+    pluginHtmlCachePush({ paths: keys }).then(() => {
       setSelectedRowKeys([]);
       actionRef.current?.reload?.();
     });
@@ -39,7 +39,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       render: (_, record: any) => {
         return (
           <div className="word-wrap">
-            <a href={props.storageUrl + '/' + record.remote_file} target="_blank">
+            <a href={props.storageUrl + '/' + record.remote_file} target="_blank" rel="noreferrer">
               {record.remote_file}
             </a>
           </div>
@@ -57,7 +57,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       title: intl.formatMessage({ id: 'plugin.htmlcache.push-status' }),
       dataIndex: 'status',
       render: (_, record: any) => {
-        return record.status == 1 ? (
+        return record.status === 1 ? (
           <span><FormattedMessage id="plugin.htmlcache.push-status.success" /></span>
         ) : (
           <Tooltip title={record.error_msg}>
@@ -74,7 +74,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       render: (_, record) => (
         <Space size={20}>
           <span
-            className={record.status == 0 ? 'text-red link' : 'link'}
+            className={record.status === 0 ? 'text-red link' : 'link'}
             key="push"
             onClick={async () => {
               handleRePush([record.local_file]);

@@ -16,7 +16,7 @@ const CommentForm: React.FC<CommentFormProps> = (props) => {
 
   const onSubmit = async (values: any) => {
     let editingLink = Object.assign(props.editingComment, values);
-    let res = await pluginSaveComment(editingLink);
+    await pluginSaveComment(editingLink);
 
     props.onSubmit();
   };

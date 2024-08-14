@@ -4,13 +4,9 @@ import { PageContainer, StatisticCard } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import React, { useEffect, useState } from 'react';
 
-const StatisticSpider: React.FC<any> = (props) => {
+const StatisticSpider: React.FC<any> = () => {
   const [data, setData] = useState<any[]>([]);
   const intl = useIntl();
-
-  useEffect(() => {
-    asyncFetch();
-  }, []);
 
   const asyncFetch = () => {
     getStatisticSpider()
@@ -27,6 +23,11 @@ const StatisticSpider: React.FC<any> = (props) => {
     //     console.log('fetch data failed', error);
     //   });
   };
+
+  useEffect(() => {
+    asyncFetch();
+  }, []);
+
   const config = {
     data,
     //padding: 'auto',

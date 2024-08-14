@@ -18,19 +18,38 @@ const PluginGuestbook: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentGuestbook, setCurrentGuestbook] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
-  const [setting, setSetting] = useState<any>({ fields: [] });
   const [columns, setColumns] = useState<ProColumns<any>[]>([]);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
+  const handlePreview = async (record: any) => {
+    setCurrentGuestbook(record);
+    setEditVisible(true);
+  };
 
-  const getSetting = async () => {
-    const res = await pluginGetGuestbookSetting();
-    let setting = res.data || { fields: [] };
-    setSetting(setting);
-    initColumns(setting.fields || []);
+  const handleRemove = async (selectedRowKeys: any[]) => {
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'plugin.guestbook.delete.confirm' }),
+      onOk: async () => {
+        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        if (!selectedRowKeys) return true;
+        try {
+          for (let item of selectedRowKeys) {
+            await pluginDeleteGuestbook({
+              id: item,
+            });
+          }
+          hide();
+          message.success(intl.formatMessage({ id: 'content.delete.success' }));
+          setSelectedRowKeys([]);
+          actionRef.current?.reloadAndRest?.();
+          return true;
+        } catch (error) {
+          hide();
+          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
+          return true;
+        }
+      },
+    });
   };
 
   const initColumns = (fields: any[]) => {
@@ -42,7 +61,7 @@ const PluginGuestbook: React.FC = () => {
         render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
       },
     ];
-    if (fields.length == 0) {
+    if (fields.length === 0) {
       tmpColumns.push(
         {
           title: intl.formatMessage({ id: 'plugin.guestbook.user-name' }),
@@ -57,28 +76,30 @@ const PluginGuestbook: React.FC = () => {
         {
           title: intl.formatMessage({ id: 'plugin.guestbook.content' }),
           dataIndex: 'content',
-          render: (text, record) => (
+          render: (text) => (
             <div style={{ wordBreak: 'break-all', minWidth: 200 }}>{text}</div>
           ),
         },
       );
     } else {
       for (let i in fields) {
-        tmpColumns.push({
-          title: fields[i].name,
-          dataIndex: fields[i].field_name,
-          width: fields[i].field_name == 'content' ? 0 : 160,
-          render: (text, record) => (
-            <div
-              style={{
-                wordBreak: 'break-all',
-                minWidth: fields[i].field_name == 'content' ? 200 : 50,
-              }}
-            >
-              {record.extra_data[fields[i].name] || text}
-            </div>
-          ),
-        });
+        if (fields.hasOwnProperty(i)) {
+          tmpColumns.push({
+            title: fields[i].name,
+            dataIndex: fields[i].field_name,
+            width: fields[i].field_name === 'content' ? 0 : 160,
+            render: (text, record) => (
+              <div
+                style={{
+                  wordBreak: 'break-all',
+                  minWidth: fields[i].field_name === 'content' ? 200 : 50,
+                }}
+              >
+                {record.extra_data[fields[i].name] || text}
+              </div>
+            ),
+          });
+        }
       }
     }
     tmpColumns.push(
@@ -119,36 +140,15 @@ const PluginGuestbook: React.FC = () => {
     setColumns(tmpColumns);
   };
 
-  const handleRemove = async (selectedRowKeys: any[]) => {
-    Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.guestbook.delete.confirm' }),
-      onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
-        if (!selectedRowKeys) return true;
-        try {
-          for (let item of selectedRowKeys) {
-            await pluginDeleteGuestbook({
-              id: item,
-            });
-          }
-          hide();
-          message.success(intl.formatMessage({ id: 'content.delete.success' }));
-          setSelectedRowKeys([]);
-          actionRef.current?.reloadAndRest?.();
-          return true;
-        } catch (error) {
-          hide();
-          message.error(intl.formatMessage({ id: 'content.delete.failure' }));
-          return true;
-        }
-      },
-    });
+  const getSetting = async () => {
+    const res = await pluginGetGuestbookSetting();
+    let setting = res.data || { fields: [] };
+    initColumns(setting.fields || []);
   };
 
-  const handlePreview = async (record: any) => {
-    setCurrentGuestbook(record);
-    setEditVisible(true);
-  };
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleExportGuestbook = async () => {
     Modal.confirm({
@@ -160,7 +160,7 @@ const PluginGuestbook: React.FC = () => {
           let res = await pluginExportGuestbook();
 
           exportFile(res.data?.header, res.data?.content, 'xls');
-        } catch (err) {
+        } catch (err: any) {
           hide();
           message.error(err.message || 'error');
         }
@@ -185,9 +185,8 @@ const PluginGuestbook: React.FC = () => {
           >
             <FormattedMessage id="plugin.guestbook.export" />
           </Button>,
-          <GuestbookSetting>
+          <GuestbookSetting key="setting">
             <Button
-              key="setting"
               onClick={() => {
                 //todo
               }}

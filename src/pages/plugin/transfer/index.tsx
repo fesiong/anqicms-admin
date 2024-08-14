@@ -12,8 +12,8 @@ import './index.less';
 import { FormattedMessage, useIntl } from '@umijs/max';
 const { Step } = Steps;
 
-var submitting = false;
-var timeingXhr: any = null;
+let submitting = false;
+let timeingXhr: any = null;
 
 const PluginTransfer: React.FC = () => {
   const formRef = React.createRef<ProFormInstance>();
@@ -27,6 +27,34 @@ const PluginTransfer: React.FC = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [moduleFetched, setModuleFetched] = useState<boolean>(false);
   const intl = useIntl();
+
+  const checkTask = () => {
+    if (timeingXhr) {
+      return;
+    }
+    timeingXhr = setInterval(() => {
+      pluginGetTransferTask()
+        .then((res) => {
+          if (res.code !== 0) {
+            clearInterval(timeingXhr);
+            timeingXhr = null;
+          } else {
+            setTask(res.data);
+            if (res.data.status === 1) {
+              setCurrentStep(3);
+            }
+            if (res.data.status !== 1) {
+              clearInterval(timeingXhr);
+              timeingXhr = null;
+            }
+          }
+        })
+        .catch(() => {
+          clearInterval(timeingXhr);
+          timeingXhr = null;
+        });
+    }, 1000);
+  };
 
   useEffect(() => {
     checkTask();
@@ -112,34 +140,6 @@ const PluginTransfer: React.FC = () => {
     setCurrentStep(4);
   };
 
-  const checkTask = () => {
-    if (timeingXhr) {
-      return;
-    }
-    timeingXhr = setInterval(() => {
-      pluginGetTransferTask()
-        .then((res) => {
-          if (res.code !== 0) {
-            clearInterval(timeingXhr);
-            timeingXhr = null;
-          } else {
-            setTask(res.data);
-            if (res.data.status == 1) {
-              setCurrentStep(3);
-            }
-            if (res.data.status != 1) {
-              clearInterval(timeingXhr);
-              timeingXhr = null;
-            }
-          }
-        })
-        .catch(() => {
-          clearInterval(timeingXhr);
-          timeingXhr = null;
-        });
-    }, 1000);
-  };
-
   const startTransfer = () => {
     if (submitting) {
       return;
@@ -178,7 +178,7 @@ const PluginTransfer: React.FC = () => {
           <Step title={intl.formatMessage({ id: 'plugin.transfer.step5' })} description={intl.formatMessage({ id: 'plugin.transfer.step5.description' })} />
         </Steps>
         <div>
-          {currentStep == 0 && (
+          {currentStep === 0 && (
             <div className="step-content">
               <Divider><FormattedMessage id="plugin.transfer.step1.description" /></Divider>
               <Radio.Group
@@ -214,7 +214,7 @@ const PluginTransfer: React.FC = () => {
               </div>
             </div>
           )}
-          {currentStep == 1 && (
+          {currentStep === 1 && (
             <div className="step-content">
               <Divider><FormattedMessage id="plugin.transfer.step2.description" /></Divider>
               <div>
@@ -235,7 +235,7 @@ const PluginTransfer: React.FC = () => {
               </div>
             </div>
           )}
-          {currentStep == 2 && (
+          {currentStep === 2 && (
             <div className="step-content">
               <Divider><FormattedMessage id="plugin.transfer.step3.description" /></Divider>
               <div>
@@ -261,7 +261,7 @@ const PluginTransfer: React.FC = () => {
               </div>
             </div>
           )}
-          {currentStep == 3 && (
+          {currentStep === 3 && (
             <div className="step-content">
               <Divider><FormattedMessage id="plugin.transfer.step4.description" /></Divider>
               <div>
@@ -307,7 +307,7 @@ const PluginTransfer: React.FC = () => {
               </div>
             </div>
           )}
-          {currentStep == 4 && (
+          {currentStep === 4 && (
             <div className="step-content">
               <Divider><FormattedMessage id="plugin.transfer.step5.description" /></Divider>
               {task && (
@@ -319,9 +319,9 @@ const PluginTransfer: React.FC = () => {
                     <p><FormattedMessage id="plugin.transfer.base-url.name" />{task.base_url}</p>
                     <p>
                       <FormattedMessage id="plugin.transfer.status" />
-                      {task.status == 2 ? intl.formatMessage({ id: 'plugin.transfer.status.finished' }) : task.status == 1 ? intl.formatMessage({ id: 'plugin.transfer.status.doing' }) : intl.formatMessage({ id: 'plugin.transfer.status.wait' })}
+                      {task.status === 2 ? intl.formatMessage({ id: 'plugin.transfer.status.finished' }) : task.status === 1 ? intl.formatMessage({ id: 'plugin.transfer.status.doing' }) : intl.formatMessage({ id: 'plugin.transfer.status.wait' })}
                     </p>
-                    {task.status == 1 && (
+                    {task.status === 1 && (
                       <p>
                         <FormattedMessage id="plugin.transfer.current-task" /> {task.current}{' '}
                         {task.last_id > 0 ? intl.formatMessage({ id: 'plugin.transfer.current-task.count' }) + task.last_id : ''}
@@ -331,10 +331,10 @@ const PluginTransfer: React.FC = () => {
                   </div>
                   <div className="step-buttons">
                     <Space size={20}>
-                      {task.status != 1 && (
+                      {task.status !== 1 && (
                         <Button onClick={() => setCurrentStep(0)}><FormattedMessage id="plugin.transfer.restart" /></Button>
                       )}
-                      {task.status == 0 && (
+                      {task.status === 0 && (
                         <Button onClick={() => startTransfer()} type="primary">
                           <FormattedMessage id="plugin.transfer.start" />
                         </Button>

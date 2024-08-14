@@ -89,11 +89,11 @@ class ArchiveForm extends React.Component<intlProps> {
         let categoryId = Number(searchParams.get('category_id') || 0);
         const copyId = Number(searchParams.get('copyid') || 0);
         const lastCategoryId = getStore('last_category_id') || 0;
-        if (categoryId == 0 && lastCategoryId > 0) {
+        if (categoryId === 0 && lastCategoryId > 0) {
           categoryId = lastCategoryId;
         }
         let id: any = searchParams.get('id') || 0;
-        if (id == 'new') {
+        if (id === 'new') {
           id = 0;
         }
         if (id > 0) {
@@ -149,7 +149,7 @@ class ArchiveForm extends React.Component<intlProps> {
       }
       setStore('unsaveArchive', archive);
     }
-    if (this.state.content != '' && this.state.content != this.defaultContent) {
+    if (this.state.content !== '' && this.state.content !== this.defaultContent) {
       const confirmationMessage = this.props.intl.formatMessage({ id: 'content.confirm-giveup' });
       (e || window.event).returnValue = confirmationMessage;
       return confirmationMessage;
@@ -218,7 +218,7 @@ class ArchiveForm extends React.Component<intlProps> {
 
   onChangeSelectCategory = (e: any) => {
     let categoryId = 0;
-    if (typeof e == 'number') {
+    if (typeof e === 'number') {
       // 单分类
       categoryId = Number(e);
     } else {
@@ -234,12 +234,12 @@ class ArchiveForm extends React.Component<intlProps> {
   };
 
   getModule = async (moduleId: number) => {
-    if (this.state.module.id == moduleId) {
+    if (this.state.module.id === moduleId) {
       return this.state.module;
     }
     let module = { fields: [] };
     for (const item of this.state.modules) {
-      if (item.id == moduleId) {
+      if (item.id === moduleId) {
         module = item;
         break;
       }
@@ -272,7 +272,7 @@ class ArchiveForm extends React.Component<intlProps> {
     for (const row of rows) {
       let exists = false;
       for (const i in archive.images) {
-        if (archive.images[i] == row.logo) {
+        if (archive.images[i] === row.logo) {
           exists = true;
           break;
         }
@@ -292,7 +292,7 @@ class ArchiveForm extends React.Component<intlProps> {
     const { archive } = this.state;
     // 请求接口删除
     deleteArchiveImage({ id: archive.id, image_index: index })
-      .then((res) => {
+      .then(() => {
         archive.logo = '';
         archive.images.splice(index, 1);
         this.setState({
@@ -401,7 +401,7 @@ class ArchiveForm extends React.Component<intlProps> {
     // 必须选择分类
     let categoryIds = [];
     let categoryId = 0;
-    if (typeof values.category_ids == 'number') {
+    if (typeof values.category_ids === 'number') {
       // 单分类
       categoryId = Number(values.category_ids);
     } else {
@@ -414,7 +414,7 @@ class ArchiveForm extends React.Component<intlProps> {
         categoryId = categoryIds[0];
       }
     }
-    if (categoryId == 0) {
+    if (categoryId === 0) {
       message.error(this.props.intl.formatMessage({ id: 'content.category.required' }));
       return;
     }
@@ -430,7 +430,7 @@ class ArchiveForm extends React.Component<intlProps> {
     }
     const res = await saveArchive(postData);
     hide();
-    if (res.code != 0) {
+    if (res.code !== 0) {
       if (res.data && res.data.id) {
         // 提示
         Modal.confirm({
@@ -801,7 +801,7 @@ class ArchiveForm extends React.Component<intlProps> {
                                   item.content
                               }
                             >
-                              {contentSetting.editor == 'markdown' ? (
+                              {contentSetting.editor === 'markdown' ? (
                                 <MarkdownEditor
                                   className="mb-normal"
                                   setContent={this.setExtraContent.bind(this, item.field_name)}
@@ -927,7 +927,7 @@ class ArchiveForm extends React.Component<intlProps> {
                       ))}
                     </Row>
                   </CollapseItem>
-                  {contentSetting.editor == 'markdown' ? (
+                  {contentSetting.editor === 'markdown' ? (
                     <MarkdownEditor
                       className="mb-normal"
                       setContent={this.setContent}
@@ -1003,19 +1003,19 @@ class ArchiveForm extends React.Component<intlProps> {
                       showSearch
                       name="category_ids"
                       width="lg"
-                      mode={contentSetting.multi_category == 1 ? 'multiple' : 'single'}
+                      mode={contentSetting.multi_category === 1 ? 'multiple' : 'single'}
                       request={async () => {
                         const res = await getCategories({ type: 1 });
                         const categories = (res.data || []).map((cat: any) => ({
                           spacer: cat.spacer,
                           label:
                             cat.title +
-                            (cat.status == 1
+                            (cat.status === 1
                               ? ''
                               : this.props.intl.formatMessage({ id: 'setting.nav.hide' })),
                           value: cat.id,
                         }));
-                        if (categories.length == 0) {
+                        if (categories.length === 0) {
                           Modal.error({
                             title: this.props.intl.formatMessage({ id: 'content.category.error' }),
                             onOk: () => {

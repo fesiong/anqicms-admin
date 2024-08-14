@@ -15,7 +15,7 @@ const AnchorForm: React.FC<AnchorFormProps> = (props) => {
 
   const onSubmit = async (values: any) => {
     let editingAnchor = Object.assign(props.editingAnchor, values);
-    let res = await pluginSaveAnchor(editingAnchor);
+    await pluginSaveAnchor(editingAnchor);
 
     props.onSubmit();
   };

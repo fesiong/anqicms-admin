@@ -75,7 +75,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
         name="type"
         label={intl.formatMessage({ id: 'plugin.order.type' })}
         readonly
-        initialValue={order.type == 'vip' ? intl.formatMessage({id: 'plugin.order.type.vip'}) : intl.formatMessage({ id: 'plugin.order.type.goods' })}
+        initialValue={order.type === 'vip' ? intl.formatMessage({id: 'plugin.order.type.vip'}) : intl.formatMessage({ id: 'plugin.order.type.goods' })}
       />
       <ProFormText name="order_id" label={intl.formatMessage({ id: 'plugin.order.order-id' })} readonly initialValue={order.order_id} />
       <ProFormText
@@ -162,7 +162,7 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
       )}
       <ProFormText name="remark" label={intl.formatMessage({ id: 'plugin.order.remark' })} readonly initialValue={order.remark} />
       <Divider />
-      {order.type == 'vip' ? (
+      {order.type === 'vip' ? (
         <div>
           <div><FormattedMessage id="plugin.order.vip" /></div>
           {order.details?.map((item: any, index: number) => (

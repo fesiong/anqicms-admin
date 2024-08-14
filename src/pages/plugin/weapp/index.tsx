@@ -50,7 +50,7 @@ const PluginWeapp: React.FC<any> = () => {
           </p>
           <p>
             <FormattedMessage id="plugin.weapp.default.help" />
-            <a href="https://www.anqicms.com/help-basic/3495.html" target="_blank">
+            <a href="https://www.anqicms.com/help-basic/3495.html" target="_blank" rel="noreferrer">
               https://www.anqicms.com/help-basic/3495.html
             </a>
           </p>

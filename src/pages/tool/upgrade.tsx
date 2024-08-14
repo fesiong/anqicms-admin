@@ -4,15 +4,12 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-var loading = false;
+let loading = false;
 
-const ToolUpgradeForm: React.FC<any> = (props) => {
+const ToolUpgradeForm: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [newVersion, setNewVersion] = useState<any>(null);
   const intl = useIntl();
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await getVersion();
@@ -24,6 +21,10 @@ const ToolUpgradeForm: React.FC<any> = (props) => {
       setNewVersion(res.data || null);
     });
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const upgradeSubmit = async () => {
     if (loading) {

@@ -139,7 +139,7 @@ const PluginUser: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button onClick={handleAddUser}><FormattedMessage id="plugin.user.add" /></Button>,
+          <Button key="add" onClick={handleAddUser}><FormattedMessage id="plugin.user.add" /></Button>,
           <UserFieldSetting key="setting">
             <Button><FormattedMessage id="plugin.user.setting" /></Button>
           </UserFieldSetting>,

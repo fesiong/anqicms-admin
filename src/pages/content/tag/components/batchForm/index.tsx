@@ -22,10 +22,10 @@ const BatchForm: React.FC<BatchFormProps> = (props) => {
     let done = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     let tags = values.tags.split('\n');
     for (let i in tags) {
-      if (tags[i].length == 0) {
+      if (tags[i].length === 0) {
         continue;
       }
-      let res = await saveTag({
+      await saveTag({
         title: tags[i],
       });
     }

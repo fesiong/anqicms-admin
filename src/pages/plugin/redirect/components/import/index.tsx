@@ -55,7 +55,7 @@ const RedirectImport: React.FC<RedirectImportProps> = (props) => {
           },
         }}
         layout="horizontal"
-        onFinish={async (values) => {
+        onFinish={async () => {
           setVisible(false);
         }}
       >

@@ -30,7 +30,7 @@ const AdminList: React.FC = () => {
   };
 
   const onSubmitEdit = async (values: any) => {
-    if (currentUser.id == editInfo.id || editInfo.id == 1) {
+    if (currentUser.id === editInfo.id || editInfo.id === 1) {
       // 自己无法禁用自己
       values.status = 1;
     }
@@ -48,7 +48,7 @@ const AdminList: React.FC = () => {
   };
 
   const handleRemove = (record: any) => {
-    if (currentUser.id == record.id || record.id == 1) {
+    if (currentUser.id === record.id || record.id === 1) {
       message.error(intl.formatMessage({ id: 'account.list.cannot-delete' }));
       return;
     }

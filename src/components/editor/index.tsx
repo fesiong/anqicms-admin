@@ -25,7 +25,9 @@ export type WangEditorProps = {
   ref: any;
 };
 
-var customSetMode: (mode: boolean) => void;
+type InsertImgFn = (url: string) => void;
+
+let customSetMode: (mode: boolean) => void;
 let codes: any = {};
 
 const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
@@ -33,75 +35,80 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
   const intl = useIntl();
 
-  useImperativeHandle(ref, () => ({
-    setInnerContent: setInnerContent,
-  }));
   function setInnerContent(content: string) {
     editorRef.current?.editor.txt.html(content);
   }
 
+  useImperativeHandle(ref, () => ({
+    setInnerContent: setInnerContent,
+  }));
+
   const handleSelectImages = (e: any) => {
     for (let i in e) {
-      let el = `<a href="${e[i].logo}" target="_blank">${e[i].file_name}</a>`;
-      if (
-        e[i].is_image ||
-        e[i].file_location.indexOf('.webp') != -1 ||
-        e[i].file_location.indexOf('.bmp') != -1 ||
-        e[i].file_location.indexOf('.png') != -1 ||
-        e[i].file_location.indexOf('.gif') != -1 ||
-        e[i].file_location.indexOf('.jpg') != -1 ||
-        e[i].file_location.indexOf('.jpeg') != -1 ||
-        e[i].file_location.indexOf('.svg') != -1
-      ) {
-        el = `<img src="${e[i].logo}" alt="${e[i].file_name}"/>`;
-      } else if (
-        e[i].file_location.indexOf('.mp4') != -1 ||
-        e[i].file_location.indexOf('.ogg') != -1 ||
-        e[i].file_location.indexOf('.webm') != -1
-      ) {
-        el = `<video controls="controls" controlslist="nodownload" poster=""><source src="${
-          e[i].logo
-        }" type="video/${e[i].file_location.substr(
-          e[i].file_location.lastIndexOf('.') + 1,
-        )}">${intl.formatMessage({ id: 'component.markdown.video.unsupport' })}</video>`;
-      } else if (
-        e[i].file_location.indexOf('.mp3') != -1 ||
-        e[i].file_location.indexOf('.wav') != -1
-      ) {
-        el = `<audio src="${e[i].logo}" controls="controls"><source src="${
-          e[i].logo
-        }" type="audio/${e[i].file_location.substr(
-          e[i].file_location.lastIndexOf('.') + 1,
-        )}">${intl.formatMessage({ id: 'component.markdown.audio.unsupport' })}</audio>`;
+      if (e.hasOwnProperty(i)) {
+        let el = `<a href="${e[i].logo}" target="_blank">${e[i].file_name}</a>`;
+        if (
+          e[i].is_image ||
+          e[i].file_location.indexOf('.webp') !== -1 ||
+          e[i].file_location.indexOf('.bmp') !== -1 ||
+          e[i].file_location.indexOf('.png') !== -1 ||
+          e[i].file_location.indexOf('.gif') !== -1 ||
+          e[i].file_location.indexOf('.jpg') !== -1 ||
+          e[i].file_location.indexOf('.jpeg') !== -1 ||
+          e[i].file_location.indexOf('.svg') !== -1
+        ) {
+          el = `<img src="${e[i].logo}" alt="${e[i].file_name}"/>`;
+        } else if (
+          e[i].file_location.indexOf('.mp4') !== -1 ||
+          e[i].file_location.indexOf('.ogg') !== -1 ||
+          e[i].file_location.indexOf('.webm') !== -1
+        ) {
+          el = `<video controls="controls" controlslist="nodownload" poster=""><source src="${
+            e[i].logo
+          }" type="video/${e[i].file_location.substr(
+            e[i].file_location.lastIndexOf('.') + 1,
+          )}">${intl.formatMessage({ id: 'component.markdown.video.unsupport' })}</video>`;
+        } else if (
+          e[i].file_location.indexOf('.mp3') !== -1 ||
+          e[i].file_location.indexOf('.wav') !== -1
+        ) {
+          el = `<audio src="${e[i].logo}" controls="controls"><source src="${
+            e[i].logo
+          }" type="audio/${e[i].file_location.substr(
+            e[i].file_location.lastIndexOf('.') + 1,
+          )}">${intl.formatMessage({ id: 'component.markdown.audio.unsupport' })}</audio>`;
+        }
+        editorRef.current?.editor.cmd.do('insertHTML', el);
       }
-      editorRef.current?.editor.cmd.do('insertHTML', el);
     }
   };
 
   const onChangeCode = (newCode: string) => {
-    if (codes[props.field] != newCode) {
+    if (codes[props.field] !== newCode) {
       codes[props.field] = newCode;
       props.setContent(codes[props.field]);
     }
   };
 
-  const handleUpload = async (resultFiles: any[], insertImgFn: Function) => {
+  const handleUpload = async (resultFiles: any[], insertImgFn: InsertImgFn) => {
     for (let i in resultFiles) {
-      const hide = message.loading(intl.formatMessage({ id: 'component.editor.inserting' }), 0);
-      let formData = new FormData();
-      formData.append('file', resultFiles[i]);
-      uploadAttachment(formData)
-        .then((res) => {
-          if (res.code !== 0) {
-            message.info(res.msg);
-          } else {
-            message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
-            insertImgFn(res.data.logo);
-          }
-        })
-        .finally(() => {
-          hide();
-        });
+      if (resultFiles.hasOwnProperty(i)) {
+        const hide = message.loading(intl.formatMessage({ id: 'component.editor.inserting' }), 0);
+        let formData = new FormData();
+        formData.append('file', resultFiles[i]);
+        uploadAttachment(formData)
+          .then((res) => {
+            if (res.code !== 0) {
+              message.info(res.msg);
+            } else {
+              message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
+              insertImgFn(res.data.logo);
+            }
+          })
+          .finally(() => {
+            hide();
+          });
+      }
     }
   };
 
@@ -116,7 +123,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
         config={{
           height: 500,
           // 支持拖拽上传图片
-          customUploadImg: (resultFiles: Function[], insertImgFn: Function) => {
+          customUploadImg: (resultFiles: any[], insertImgFn: InsertImgFn) => {
             handleUpload(resultFiles, insertImgFn);
           },
           uploadImgAccept: ['jpg', 'jpeg', 'png', 'gif', 'webp'],

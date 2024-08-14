@@ -10,15 +10,11 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Divider, Upload, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const PluginStorage: React.FC<any> = (props) => {
+const PluginStorage: React.FC<any> = () => {
   const [pushSetting, setPushSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
   const [storageType, setStorageType] = useState<string>('local');
   const intl = useIntl();
-
-  useEffect(() => {
-    getSetting();
-  }, []);
 
   const getSetting = async () => {
     const res = await pluginGetStorage();
@@ -27,6 +23,10 @@ const PluginStorage: React.FC<any> = (props) => {
     setStorageType(setting.storage_type);
     setFetched(true);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const changeStorageType = (e: any) => {
     setStorageType(e.target.value);
@@ -113,7 +113,7 @@ const PluginStorage: React.FC<any> = (props) => {
                 label={intl.formatMessage({ id: 'plugin.storage.url' })}
                 placeholder=""
               />
-              <div className={storageType == 'local' ? 'hidden' : ''}>
+              <div className={storageType === 'local' ? 'hidden' : ''}>
                 <ProFormRadio.Group
                   name="keep_local"
                   label={intl.formatMessage({ id: 'plugin.storage.keep-local' })}
@@ -130,7 +130,7 @@ const PluginStorage: React.FC<any> = (props) => {
                   extra={intl.formatMessage({ id: 'plugin.storage.keep-local.description' })}
                 />
               </div>
-              <div className={storageType != 'aliyun' ? 'hidden' : ''}>
+              <div className={storageType !== 'aliyun' ? 'hidden' : ''}>
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.aliyun" />
                 </Divider>
@@ -153,7 +153,7 @@ const PluginStorage: React.FC<any> = (props) => {
                   placeholder=""
                 />
               </div>
-              <div className={storageType != 'tencent' ? 'hidden' : ''}>
+              <div className={storageType !== 'tencent' ? 'hidden' : ''}>
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.tencent" />
                 </Divider>
@@ -167,7 +167,7 @@ const PluginStorage: React.FC<any> = (props) => {
                   })}
                 />
               </div>
-              <div className={storageType != 'qiniu' ? 'hidden' : ''}>
+              <div className={storageType !== 'qiniu' ? 'hidden' : ''}>
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.qiniu" />
                 </Divider>
@@ -217,7 +217,7 @@ const PluginStorage: React.FC<any> = (props) => {
                   ]}
                 />
               </div>
-              <div className={storageType != 'upyun' ? 'hidden' : ''}>
+              <div className={storageType !== 'upyun' ? 'hidden' : ''}>
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.upyun" />
                 </Divider>
@@ -237,7 +237,7 @@ const PluginStorage: React.FC<any> = (props) => {
                   placeholder=""
                 />
               </div>
-              <div className={storageType != 'ftp' ? 'hidden' : ''}>
+              <div className={storageType !== 'ftp' ? 'hidden' : ''}>
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.ftp" />
                 </Divider>
@@ -270,7 +270,7 @@ const PluginStorage: React.FC<any> = (props) => {
                   placeholder=""
                 />
               </div>
-              <div className={storageType != 'ssh' ? 'hidden' : ''}>
+              <div className={storageType !== 'ssh' ? 'hidden' : ''}>
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.ssh" />
                 </Divider>

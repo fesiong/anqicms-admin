@@ -38,15 +38,15 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
   const [containHtml, setContainHtml] = useState<boolean>(false);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     const res = await pluginGetMaterialCategories();
     let categories = res.data || [];
     setCategories(categories);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleSelectCategory = (categoryId: number) => {
     setCurrentCategoryId(categoryId);
@@ -54,6 +54,39 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       uploadedMaterials[i].category_id = categoryId;
     }
     setUploadedMaterials([].concat(...uploadedMaterials));
+  };
+
+  const updateUploadedMaterials = (str: string) => {
+    let items: any = str.split('\n');
+    let tmp = '';
+    for (let item of items) {
+      if (tmp) {
+        tmp += '<br/>' + item.trim();
+      } else {
+        tmp += item.trim();
+      }
+      if (getWordsCount(item) < 10) {
+        continue;
+      }
+      let exists = false;
+      for (let frag of uploadedMaterials) {
+        if (frag.content === tmp) {
+          exists = true;
+          tmp = '';
+          break;
+        }
+      }
+      if (!exists) {
+        uploadedMaterials.push({
+          content: tmp,
+          category_id: currentCategoryId,
+        });
+        tmp = '';
+      }
+    }
+    setUploadedMaterials([].concat(...uploadedMaterials));
+
+    return uploadedMaterials.length;
   };
 
   const handleUploadArticle = (e: any) => {
@@ -75,39 +108,6 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
       .finally(() => {
         hide();
       });
-  };
-
-  const updateUploadedMaterials = (str: string) => {
-    let items: any = str.split('\n');
-    let tmp = '';
-    for (let item of items) {
-      if (tmp) {
-        tmp += '<br/>' + item.trim();
-      } else {
-        tmp += item.trim();
-      }
-      if (getWordsCount(item) < 10) {
-        continue;
-      }
-      let exists = false;
-      for (let frag of uploadedMaterials) {
-        if (frag.content == tmp) {
-          exists = true;
-          tmp = '';
-          break;
-        }
-      }
-      if (!exists) {
-        uploadedMaterials.push({
-          content: tmp,
-          category_id: currentCategoryId,
-        });
-        tmp = '';
-      }
-    }
-    setUploadedMaterials([].concat(...uploadedMaterials));
-
-    return uploadedMaterials.length;
   };
 
   const handleClearUpload = () => {
@@ -183,7 +183,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
               setVisible(false);
               props.onCancel();
             })
-            .catch((err) => {
+            .catch(() => {
               message.error(intl.formatMessage({ id: 'plugin.material.import.upload-error' }));
             })
             .finally(() => {
@@ -199,7 +199,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
           setVisible(false);
           props.onCancel();
         })
-        .catch((err) => {
+        .catch(() => {
           message.error(intl.formatMessage({ id: 'plugin.material.import.upload-error' }));
         })
         .finally(() => {
@@ -227,7 +227,7 @@ const MaterialImport: React.FC<MaterialImportProps> = (props) => {
           },
         }}
         layout="horizontal"
-        onFinish={async (values) => {
+        onFinish={async () => {
           handleSubmitImport();
         }}
       >

@@ -25,16 +25,16 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
   const getSetting = async () => {
     const res = await pluginGetGuestbookSetting();
     let setting = res.data || { fields: [] };
     setSetting(setting);
     setFetched(true);
   };
+
+  useEffect(() => {
+    getSetting();
+  }, []);
 
   const handleRemoveItem = (index: number) => {
     Modal.confirm({
@@ -54,7 +54,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
   const handleSaveField = async (values: any) => {
     let exists = false;
     for (let i in setting.fields) {
-      if (setting.fields[i].field_name == values.field_name) {
+      if (setting.fields[i].field_name === values.field_name) {
         exists = true;
         setting.fields[i] = Object.assign(setting.fields[i], values);
       }

@@ -4,7 +4,7 @@ import React from 'react';
 import routes from '../../../config/routes';
 import './index.less';
 
-const GlobalHeaderContent: React.FC = (props) => {
+const GlobalHeaderContent: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const intl = useIntl();
 
@@ -31,7 +31,7 @@ const GlobalHeaderContent: React.FC = (props) => {
 
   const onClickMenu = async (current: any) => {
     // preview单独处理
-    if (current.key == '/preview') {
+    if (current.key === '/preview') {
       let baseUrl = '';
       if (!initialState.system) {
         const system = await initialState?.fetchSystemSetting?.();

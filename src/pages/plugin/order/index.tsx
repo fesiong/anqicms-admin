@@ -216,7 +216,7 @@ const PluginOrder: React.FC = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-          {record.status == 1 && (
+          {record.status === 1 && (
             <a
               onClick={() => {
                 handleSetDelivery(record);
@@ -225,7 +225,7 @@ const PluginOrder: React.FC = () => {
               <FormattedMessage id="plugin.order.delivery" />
             </a>
           )}
-          {record.status == 2 && (
+          {record.status === 2 && (
             <a
               onClick={() => {
                 handleSetFinished(record);
@@ -234,7 +234,7 @@ const PluginOrder: React.FC = () => {
               <FormattedMessage id="plugin.order.finish-order" />
             </a>
           )}
-          {record.status == 8 && (
+          {record.status === 8 && (
             <a
               onClick={() => {
                 handleSetRefund(record);
@@ -243,7 +243,7 @@ const PluginOrder: React.FC = () => {
               <FormattedMessage id="plugin.order.refund-process" />
             </a>
           )}
-          {(record.status == 1 || record.status == 2 || record.status == 3) && (
+          {(record.status === 1 || record.status === 2 || record.status === 3) && (
             <a
               onClick={() => {
                 handleApplyRefund(record);

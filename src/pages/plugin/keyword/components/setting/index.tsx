@@ -45,9 +45,9 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
     });
   };
 
-  handleSubmit = async (values: any) => {
+  handleSubmit = async (data: any) => {
     const { setting } = this.state;
-    values = Object.assign(setting, values);
+    let values = Object.assign(setting, data);
     values.max_count = Number(values.max_count);
 
     const hide = message.loading(this.props.intl.formatMessage({ id: 'setting.system.submitting' }), 0);
@@ -78,15 +78,15 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
     });
   };
 
-  handleAddField = (field: string, e: any) => {
+  handleAddField = (field: string) => {
     const { tmpInput, setting } = this.state;
-    if (field == 'title_replace') {
-      if (!tmpInput['from'] || tmpInput['from'] == tmpInput['to']) {
+    if (field === 'title_replace') {
+      if (!tmpInput['from'] || tmpInput['from'] === tmpInput['to']) {
         return;
       }
       let exists = false;
       for (let item of setting[field]) {
-        if (item.from == tmpInput['from']) {
+        if (item.from === tmpInput['from']) {
           exists = true;
           break;
         }

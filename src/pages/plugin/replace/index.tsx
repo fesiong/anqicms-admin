@@ -11,10 +11,8 @@ import React, { useState } from 'react';
 import './index.less';
 import { FormattedMessage, useIntl } from '@umijs/max';
 
-const PluginReplace: React.FC<any> = (props) => {
+const PluginReplace: React.FC<any> = () => {
   const formRef = React.createRef<ProFormInstance>();
-  const [sitemapSetting, setSitemapSetting] = useState<any>({});
-  const [fetched, setFetched] = useState<boolean>(false);
   const [keywords, setKeywords] = useState<any[]>([]);
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [fromValue, setFromValue] = useState<string>('');
@@ -27,9 +25,9 @@ const PluginReplace: React.FC<any> = (props) => {
   };
 
   const handleEditInputChange = (field: string, e: any) => {
-    if (field == 'from') {
+    if (field === 'from') {
       setFromValue(e.target.value);
-    } else if (field == 'to') {
+    } else if (field === 'to') {
       setToValue(e.target.value);
     }
   };
@@ -56,11 +54,11 @@ const PluginReplace: React.FC<any> = (props) => {
   };
 
   const onSubmit = async (values: any) => {
-    if (!values.places || values.places.length == 0) {
+    if (!values.places || values.places.length === 0) {
       message.error(intl.formatMessage({ id: 'plugin.replace.place.required' }));
       return;
     }
-    if (keywords.length == 0) {
+    if (keywords.length === 0) {
       message.error(intl.formatMessage({ id: 'plugin.replace.keyword.required' }));
       return;
     }

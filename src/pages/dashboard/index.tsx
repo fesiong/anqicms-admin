@@ -176,7 +176,7 @@ const Dashboard: React.FC = () => {
                       <FormattedMessage id="dashboard.guide.design" />
                     </span>
                     <FormattedMessage id="dashboard.guide.comma" />
-                    <a className="link" href="https://www.anqicms.com/help" target="_blank">
+                    <a className="link" href="https://www.anqicms.com/help" target="_blank" rel='noreferrer'>
                       <FormattedMessage id="dashboard.guide.help" />
                     </a>
                   </div>
@@ -477,9 +477,9 @@ const Dashboard: React.FC = () => {
                     <FormattedMessage id="setting.system.template-type" />
                   </div>
                   <div>
-                    {infoData.system?.template_type == 2
+                    {infoData.system?.template_type === 2
                       ? intl.formatMessage({ id: 'setting.system.template-type.pc-m' })
-                      : infoData.system?.template_type == 1
+                      : infoData.system?.template_type === 1
                       ? intl.formatMessage({ id: 'setting.system.template-type.code' })
                       : intl.formatMessage({ id: 'setting.system.template-type.auto' })}
                   </div>

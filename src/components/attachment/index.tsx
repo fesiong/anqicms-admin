@@ -1,4 +1,3 @@
-import { useIntl } from '@umijs/max';
 import { Modal } from 'antd';
 import React, { useState } from 'react';
 import AttachmentContent from './content';
@@ -16,19 +15,22 @@ export type AttachmentProps = {
 const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
-  const intl = useIntl();
 
-  const useDetail = (row: any) => {
+  const visibleControl = (flag: boolean) => {
+    if (props.manual) {
+      props.onCancel?.(flag);
+    } else {
+      setVisible(flag)
+    }
+  };
+
+  const setDetail = (row: any) => {
     if (!props.multiple) {
       props.onSelect(row);
       visibleControl(false);
     } else {
       setSelectedRowKeys(row);
     }
-  };
-
-  const visibleControl = (flag: boolean) => {
-    props.manual ? (props.onCancel ? props.onCancel(flag) : null) : setVisible(flag);
   };
 
   const onSubmit = () => {
@@ -62,7 +64,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
         <AttachmentContent
           multiple={props.multiple}
           onSelect={(e: any) => {
-            useDetail(e);
+            setDetail(e);
           }}
         />
       </Modal>

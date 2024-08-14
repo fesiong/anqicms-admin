@@ -21,7 +21,7 @@ import { Button, Card, Modal, Space, Tag, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import NavTypes from './components/navType';
 
-const SettingNavFrom: React.FC<any> = (props) => {
+const SettingNavFrom: React.FC<any> = () => {
   const [navs, setNavList] = useState<any>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [modules, setModules] = useState<any[]>([]);
@@ -34,13 +34,6 @@ const SettingNavFrom: React.FC<any> = (props) => {
   const [archives, setArchives] = useState<any[]>([]);
   const [defaultTitle, setDefaultTitle] = useState<string>('');
   const intl = useIntl();
-
-  useEffect(() => {
-    getNavList(typeId);
-    getCategoryList();
-    getModuleList();
-    getNavTypes();
-  }, []);
 
   const getNavList = async (typeId: number) => {
     const res = await getSettingNav({
@@ -84,6 +77,13 @@ const SettingNavFrom: React.FC<any> = (props) => {
     setInnerOptions(options);
   };
 
+  useEffect(() => {
+    getNavList(typeId);
+    getCategoryList();
+    getModuleList();
+    getNavTypes();
+  }, []);
+
   const editNav = (row: any) => {
     setEditingNav(row);
     setNavType(row.nav_type);
@@ -108,8 +108,8 @@ const SettingNavFrom: React.FC<any> = (props) => {
     setModalVisible(true);
   };
 
-  const onNavSubmit = async (values: any) => {
-    values = Object.assign(editingNav, values);
+  const onNavSubmit = async (data: any) => {
+    let values = Object.assign(editingNav, data);
     values.type_id = typeId;
     if (!values.title) {
       values.title = defaultTitle;
@@ -131,7 +131,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
 
   const getModuleName = (moduleId: number) => {
     for (let item of modules) {
-      if (item.id == moduleId) {
+      if (item.id === moduleId) {
         return item.title;
       }
     }
@@ -157,7 +157,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
               {navTypes.map((item) => (
                 <Button
                   key={item.id}
-                  type={typeId == item.id ? 'primary' : 'default'}
+                  type={typeId === item.id ? 'primary' : 'default'}
                   onClick={() => {
                     handleChangeNavType(item.id);
                   }}
@@ -181,7 +181,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
         <ProList<any>
           toolBarRender={() => {
             return [
-              <Button onClick={handleShowAddNav}>
+              <Button key="add" onClick={handleShowAddNav}>
                 <FormattedMessage id="setting.nav.add" />
               </Button>,
             ];
@@ -207,11 +207,11 @@ const SettingNavFrom: React.FC<any> = (props) => {
                   <Space size={0}>
                     {row.sub_title && <Tag>{row.sub_title}</Tag>}
                     <Tag color="blue">
-                      {row.nav_type == 2
+                      {row.nav_type === 2
                         ? intl.formatMessage({ id: 'setting.nav.outlink' }) + ': ' + row.link
-                        : row.nav_type == 3
+                        : row.nav_type === 3
                         ? intl.formatMessage({ id: 'setting.nav.archive' }) + ': ' + row.page_id
-                        : row.nav_type == 1
+                        : row.nav_type === 1
                         ? intl.formatMessage({ id: 'setting.nav.category' }) + ': ' + row.page_id
                         : intl.formatMessage({ id: 'setting.nav.internal' }) +
                           ': ' +
@@ -225,7 +225,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
             },
             actions: {
               render: (text: any, row: any) => [
-                row.parent_id == 0 && (
+                row.parent_id === 0 && (
                   <a onClick={() => editNav({ parent_id: row.id })} key="link">
                     <FormattedMessage id="setting.nav.children.add" />
                   </a>
@@ -269,10 +269,10 @@ const SettingNavFrom: React.FC<any> = (props) => {
                 },
               ];
               for (let item of navs) {
-                if (item.parent_id == 0) {
+                if (item.parent_id === 0) {
                   newNavs.push(item);
                   for (let sub of navs) {
-                    if (sub.parent_id == item.id) {
+                    if (sub.parent_id === item.id) {
                       sub.spacer = (item.spacer || '') + '└  ';
                       sub.title = sub.spacer + sub.title;
                       newNavs.push(sub);
@@ -327,14 +327,14 @@ const SettingNavFrom: React.FC<any> = (props) => {
               },
             ]}
           />
-          {nav_type == 0 && (
+          {nav_type === 0 && (
             <ProFormRadio.Group
               name="page_id"
               label={intl.formatMessage({ id: 'setting.nav.internal.name' })}
               options={innerOptions}
             />
           )}
-          {nav_type == 1 && (
+          {nav_type === 1 && (
             <ProFormSelect
               name="page_id"
               width="lg"
@@ -343,9 +343,9 @@ const SettingNavFrom: React.FC<any> = (props) => {
                 spacer: cat.spacer,
                 label:
                   cat.title +
-                  (cat.status == 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
+                  (cat.status === 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
                 value: cat.id,
-                disabled: cat.status != 1,
+                disabled: cat.status !== 1,
               }))}
               fieldProps={{
                 optionItemRender(item: any) {
@@ -357,7 +357,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
               }}
             />
           )}
-          {nav_type == 3 && (
+          {nav_type === 3 && (
             <ProFormSelect
               name="page_id"
               width="lg"
@@ -374,7 +374,7 @@ const SettingNavFrom: React.FC<any> = (props) => {
               }}
             />
           )}
-          {nav_type == 2 && (
+          {nav_type === 2 && (
             <ProFormText
               name="link"
               label={intl.formatMessage({ id: 'setting.nav.link' })}

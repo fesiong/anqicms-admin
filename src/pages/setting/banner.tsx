@@ -42,19 +42,19 @@ const SettingBannerFrom: React.FC<any> = () => {
     }, 0);
   };
 
-  useEffect(() => {
-    getBanners();
-  }, []);
-
   const getBanners = () => {
     getSettingBanners().then((res) => {
       let data = res.data || [];
       setBanners(data);
-      if (currentType == 'default' && data.length > 0) {
+      if (currentType === 'default' && data.length > 0) {
         setCurrentType(data[0].type);
       }
     });
   };
+
+  useEffect(() => {
+    getBanners();
+  }, []);
 
   const handleChangeType = (type: string) => {
     setCurrentType(type);
@@ -94,8 +94,8 @@ const SettingBannerFrom: React.FC<any> = () => {
     setModalVisible(true);
   };
 
-  const onBannerSubmit = async (values: any) => {
-    values = Object.assign(editingBanner, values);
+  const onBannerSubmit = async (data: any) => {
+    let values = Object.assign(editingBanner, data);
     const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
     saveSettingBanner(values)
       .then((res) => {
@@ -182,7 +182,7 @@ const SettingBannerFrom: React.FC<any> = () => {
               {banners.map((item: any) => (
                 <Button
                   key={item.type}
-                  type={currentType == item.type ? 'primary' : 'default'}
+                  type={currentType === item.type ? 'primary' : 'default'}
                   onClick={() => {
                     handleChangeType(item.type);
                   }}
@@ -194,12 +194,13 @@ const SettingBannerFrom: React.FC<any> = () => {
           </div>
         }
       >
-        {banners.map((item: any) =>
-          item.type == currentType ? (
+        {banners.map((item: any, index: number) =>
+          item.type === currentType ? (
             <ProTable
+              key={index}
               toolBarRender={() => {
                 return [
-                  <Button onClick={handleShowAdd}>
+                  <Button key="add" onClick={handleShowAdd}>
                     <FormattedMessage id="setting.action.add" />
                   </Button>,
                 ];

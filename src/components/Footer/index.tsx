@@ -61,11 +61,11 @@ const Footer: React.FC = () => {
       <span>
         © {currentYear} <FormattedMessage id="component.footer.copyright" />
       </span>
-      <a href="https://www.anqicms.com/help" target="_blank">
+      <a href="https://www.anqicms.com/help" target="_blank" rel='noreferrer'>
         <FormattedMessage id="component.footer.help" />
       </a>
       <span>|</span>
-      <a href="https://www.anqicms.com/manual" target="_blank">
+      <a href="https://www.anqicms.com/manual" target="_blank" rel='noreferrer'>
         <FormattedMessage id="component.footer.template-manual" />
       </a>
       <span>|</span>
@@ -92,7 +92,7 @@ const Footer: React.FC = () => {
           description={
             <div>
               <FormattedMessage id="component.footer.feedback.tips-before" />
-              <a href="https://www.anqicms.com/" target="_blank">
+              <a href="https://www.anqicms.com/" target="_blank" rel='noreferrer'>
                 AnqiCMS
               </a>
               <FormattedMessage id="component.footer.feedback.tips-after" />
