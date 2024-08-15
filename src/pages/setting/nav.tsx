@@ -114,7 +114,10 @@ const SettingNavFrom: React.FC<any> = () => {
     if (!values.title) {
       values.title = defaultTitle;
     }
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSettingNav(values)
       .then((res) => {
         message.success(res.msg);
@@ -208,11 +211,17 @@ const SettingNavFrom: React.FC<any> = () => {
                     {row.sub_title && <Tag>{row.sub_title}</Tag>}
                     <Tag color="blue">
                       {row.nav_type === 2
-                        ? intl.formatMessage({ id: 'setting.nav.outlink' }) + ': ' + row.link
+                        ? intl.formatMessage({ id: 'setting.nav.outlink' }) +
+                          ': ' +
+                          row.link
                         : row.nav_type === 3
-                        ? intl.formatMessage({ id: 'setting.nav.archive' }) + ': ' + row.page_id
+                        ? intl.formatMessage({ id: 'setting.nav.archive' }) +
+                          ': ' +
+                          row.page_id
                         : row.nav_type === 1
-                        ? intl.formatMessage({ id: 'setting.nav.category' }) + ': ' + row.page_id
+                        ? intl.formatMessage({ id: 'setting.nav.category' }) +
+                          ': ' +
+                          row.page_id
                         : intl.formatMessage({ id: 'setting.nav.internal' }) +
                           ': ' +
                           (row.page_id > 0
@@ -224,13 +233,13 @@ const SettingNavFrom: React.FC<any> = () => {
               },
             },
             actions: {
-              render: (text: any, row: any) => [
+              render: (_: any, row: any) => [
                 row.parent_id === 0 && (
-                  <a onClick={() => editNav({ parent_id: row.id })} key="link">
+                  <a onClick={() => editNav({ parent_id: row.id })} key="add">
                     <FormattedMessage id="setting.nav.children.add" />
                   </a>
                 ),
-                <a onClick={() => editNav(row)} key="link">
+                <a onClick={() => editNav(row)} key="edit">
                   <FormattedMessage id="setting.action.edit" />
                 </a>,
                 <a onClick={() => removeNav(row)} key="warning">
@@ -293,7 +302,9 @@ const SettingNavFrom: React.FC<any> = () => {
             name="sub_title"
             label={intl.formatMessage({ id: 'setting.nav.subtitle' })}
             width="lg"
-            extra={intl.formatMessage({ id: 'setting.nav.subtitle.description' })}
+            extra={intl.formatMessage({
+              id: 'setting.nav.subtitle.description',
+            })}
           />
           <ProFormText
             name="description"
@@ -341,18 +352,27 @@ const SettingNavFrom: React.FC<any> = () => {
               label={intl.formatMessage({ id: 'setting.nav.select-page' })}
               options={categories.map((cat: any) => ({
                 spacer: cat.spacer,
+                title: cat.title,
                 label:
                   cat.title +
-                  (cat.status === 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
+                  (cat.status === 1
+                    ? ''
+                    : intl.formatMessage({ id: 'setting.nav.hide' })),
                 value: cat.id,
                 disabled: cat.status !== 1,
               }))}
               fieldProps={{
                 optionItemRender(item: any) {
-                  return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}></div>;
+                  return (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: item.spacer + item.label,
+                      }}
+                    ></div>
+                  );
                 },
                 onChange: (_, a: any) => {
-                  setDefaultTitle(a.label);
+                  setDefaultTitle(a.title);
                 },
               }}
             />
@@ -363,13 +383,17 @@ const SettingNavFrom: React.FC<any> = () => {
               width="lg"
               label={intl.formatMessage({ id: 'setting.nav.select-archive' })}
               showSearch
-              options={archives.map((a: any) => ({ label: a.title, value: a.id }))}
+              options={archives.map((a: any) => ({
+                title: a.title,
+                label: a.title,
+                value: a.id,
+              }))}
               fieldProps={{
                 onSearch: (e) => {
                   onSearchArchives(e);
                 },
                 onChange: (_, a: any) => {
-                  setDefaultTitle(a.label);
+                  setDefaultTitle(a.title);
                 },
               }}
             />
