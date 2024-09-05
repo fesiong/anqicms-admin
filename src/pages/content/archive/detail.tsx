@@ -75,7 +75,9 @@ class ArchiveForm extends React.Component<intlProps> {
         contentSetting: setting.data || {},
       });
     } catch (err) {
-      message.error(this.props.intl.formatMessage({ id: 'content.networt.error' }));
+      message.error(
+        this.props.intl.formatMessage({ id: 'content.networt.error' }),
+      );
       return;
     }
     const res = await getModules();
@@ -114,7 +116,12 @@ class ArchiveForm extends React.Component<intlProps> {
               });
             } else {
               this.setState({
-                archive: { extra: {}, content: '', flag: [], category_ids: [categoryId] },
+                archive: {
+                  extra: {},
+                  content: '',
+                  flag: [],
+                  category_ids: [categoryId],
+                },
               });
             }
             this.defaultContent = archive?.content || '';
@@ -149,8 +156,13 @@ class ArchiveForm extends React.Component<intlProps> {
       }
       setStore('unsaveArchive', archive);
     }
-    if (this.state.content !== '' && this.state.content !== this.defaultContent) {
-      const confirmationMessage = this.props.intl.formatMessage({ id: 'content.confirm-giveup' });
+    if (
+      this.state.content !== '' &&
+      this.state.content !== this.defaultContent
+    ) {
+      const confirmationMessage = this.props.intl.formatMessage({
+        id: 'content.confirm-giveup',
+      });
       (e || window.event).returnValue = confirmationMessage;
       return confirmationMessage;
     }
@@ -284,7 +296,9 @@ class ArchiveForm extends React.Component<intlProps> {
     this.setState({
       archive,
     });
-    message.success(this.props.intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      this.props.intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   handleCleanLogo = (index: number, e: any) => {
@@ -355,7 +369,9 @@ class ArchiveForm extends React.Component<intlProps> {
   };
 
   handleSelectedKeywords = async (values: string[]) => {
-    const keywords = (this.formRef?.current?.getFieldValue('keywords') || '').split(',');
+    const keywords = (
+      this.formRef?.current?.getFieldValue('keywords') || ''
+    ).split(',');
     for (const item of values) {
       if (keywords.indexOf(item) === -1) {
         keywords.push(item);
@@ -415,7 +431,9 @@ class ArchiveForm extends React.Component<intlProps> {
       }
     }
     if (categoryId === 0) {
-      message.error(this.props.intl.formatMessage({ id: 'content.category.required' }));
+      message.error(
+        this.props.intl.formatMessage({ id: 'content.category.required' }),
+      );
       return;
     }
     postData.category_id = categoryId;
@@ -435,9 +453,15 @@ class ArchiveForm extends React.Component<intlProps> {
         // 提示
         Modal.confirm({
           title: res.msg,
-          content: this.props.intl.formatMessage({ id: 'setting.submit.confirm' }),
-          cancelText: this.props.intl.formatMessage({ id: 'setting.submit.cancel' }),
-          okText: this.props.intl.formatMessage({ id: 'setting.submit.ok-force' }),
+          content: this.props.intl.formatMessage({
+            id: 'content.submit.confirm',
+          }),
+          cancelText: this.props.intl.formatMessage({
+            id: 'content.submit.cancel',
+          }),
+          okText: this.props.intl.formatMessage({
+            id: 'content.submit.ok-force',
+          }),
           onOk: () => {
             values.force_save = true;
             this.onSubmit(values);
@@ -557,29 +581,54 @@ class ArchiveForm extends React.Component<intlProps> {
                     name="title"
                     label={
                       module.title_name ||
-                      this.props.intl.formatMessage({ id: 'content.title.name' })
+                      this.props.intl.formatMessage({
+                        id: 'content.title.name',
+                      })
                     }
                   />
                   <ProFormCheckbox.Group
                     name="flag"
-                    label={this.props.intl.formatMessage({ id: 'content.flag.name' })}
+                    label={this.props.intl.formatMessage({
+                      id: 'content.flag.name',
+                    })}
                     valueEnum={{
-                      h: this.props.intl.formatMessage({ id: 'content.flag.h' }),
-                      c: this.props.intl.formatMessage({ id: 'content.flag.c' }),
-                      f: this.props.intl.formatMessage({ id: 'content.flag.f' }),
-                      a: this.props.intl.formatMessage({ id: 'content.flag.a' }),
-                      s: this.props.intl.formatMessage({ id: 'content.flag.s' }),
-                      b: this.props.intl.formatMessage({ id: 'content.flag.b' }),
-                      p: this.props.intl.formatMessage({ id: 'content.flag.p' }),
-                      j: this.props.intl.formatMessage({ id: 'content.flag.j' }),
+                      h: this.props.intl.formatMessage({
+                        id: 'content.flag.h',
+                      }),
+                      c: this.props.intl.formatMessage({
+                        id: 'content.flag.c',
+                      }),
+                      f: this.props.intl.formatMessage({
+                        id: 'content.flag.f',
+                      }),
+                      a: this.props.intl.formatMessage({
+                        id: 'content.flag.a',
+                      }),
+                      s: this.props.intl.formatMessage({
+                        id: 'content.flag.s',
+                      }),
+                      b: this.props.intl.formatMessage({
+                        id: 'content.flag.b',
+                      }),
+                      p: this.props.intl.formatMessage({
+                        id: 'content.flag.p',
+                      }),
+                      j: this.props.intl.formatMessage({
+                        id: 'content.flag.j',
+                      }),
                     }}
                   />
                   <ProFormText
                     name="keywords"
-                    label={this.props.intl.formatMessage({ id: 'content.keywords.name' })}
+                    label={this.props.intl.formatMessage({
+                      id: 'content.keywords.name',
+                    })}
                     fieldProps={{
                       suffix: (
-                        <span className="link" onClick={this.handleChooseKeywords}>
+                        <span
+                          className="link"
+                          onClick={this.handleChooseKeywords}
+                        >
                           <FormattedMessage id="content.keywords.select" />
                         </span>
                       ),
@@ -587,18 +636,24 @@ class ArchiveForm extends React.Component<intlProps> {
                   />
                   <ProFormTextArea
                     name="description"
-                    label={this.props.intl.formatMessage({ id: 'content.description.name' })}
+                    label={this.props.intl.formatMessage({
+                      id: 'content.description.name',
+                    })}
                   />
 
                   <CollapseItem
-                    header={this.props.intl.formatMessage({ id: 'content.param.other' })}
+                    header={this.props.intl.formatMessage({
+                      id: 'content.param.other',
+                    })}
                     showArrow
                     key="1"
                   >
                     <Row gutter={20}>
                       <Col sm={12} xs={24}>
                         <ProFormText
-                          label={this.props.intl.formatMessage({ id: 'content.origin-url.name' })}
+                          label={this.props.intl.formatMessage({
+                            id: 'content.origin-url.name',
+                          })}
                           name="origin_url"
                           placeholder={this.props.intl.formatMessage({
                             id: 'content.field.default',
@@ -611,7 +666,9 @@ class ArchiveForm extends React.Component<intlProps> {
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="seo_title"
-                          label={this.props.intl.formatMessage({ id: 'content.seo-title.name' })}
+                          label={this.props.intl.formatMessage({
+                            id: 'content.seo-title.name',
+                          })}
                           placeholder={this.props.intl.formatMessage({
                             id: 'content.seo-title.placeholder',
                           })}
@@ -637,7 +694,9 @@ class ArchiveForm extends React.Component<intlProps> {
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="fixed_link"
-                          label={this.props.intl.formatMessage({ id: 'content.fixed-link.name' })}
+                          label={this.props.intl.formatMessage({
+                            id: 'content.fixed-link.name',
+                          })}
                           placeholder={this.props.intl.formatMessage({
                             id: 'content.canonical-url.placeholder',
                           })}
@@ -667,7 +726,8 @@ class ArchiveForm extends React.Component<intlProps> {
                               if (!data[i].remark) {
                                 data[i].remark = data[i].path;
                               } else {
-                                data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                                data[i].remark =
+                                  data[i].path + '(' + data[i].remark + ')';
                               }
                             }
                             return data;
@@ -685,7 +745,9 @@ class ArchiveForm extends React.Component<intlProps> {
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormDigit
-                          label={this.props.intl.formatMessage({ id: 'content.price.name' })}
+                          label={this.props.intl.formatMessage({
+                            id: 'content.price.name',
+                          })}
                           name="price"
                           fieldProps={{
                             precision: 0,
@@ -700,7 +762,9 @@ class ArchiveForm extends React.Component<intlProps> {
                       </Col>
                       <Col sm={12} xs={24}>
                         <ProFormDigit
-                          label={this.props.intl.formatMessage({ id: 'content.stock.name' })}
+                          label={this.props.intl.formatMessage({
+                            id: 'content.stock.name',
+                          })}
                           name="stock"
                           fieldProps={{
                             precision: 0,
@@ -713,13 +777,17 @@ class ArchiveForm extends React.Component<intlProps> {
                       <Col sm={12} xs={24}>
                         <ProFormSelect
                           name="read_level"
-                          label={this.props.intl.formatMessage({ id: 'content.read-level.name' })}
+                          label={this.props.intl.formatMessage({
+                            id: 'content.read-level.name',
+                          })}
                           request={async () => {
                             const res = await pluginGetUserGroups({});
                             return [
                               {
                                 level: 0,
-                                title: this.props.intl.formatMessage({ id: 'content.unlimit' }),
+                                title: this.props.intl.formatMessage({
+                                  id: 'content.unlimit',
+                                }),
                                 id: 0,
                               },
                             ].concat(res.data || []);
@@ -747,7 +815,9 @@ class ArchiveForm extends React.Component<intlProps> {
                       <Col sm={12} xs={24}>
                         <ProFormText
                           name="password"
-                          label={this.props.intl.formatMessage({ id: 'content.password.name' })}
+                          label={this.props.intl.formatMessage({
+                            id: 'content.password.name',
+                          })}
                           placeholder={this.props.intl.formatMessage({
                             id: 'content.password.placeholder',
                           })}
@@ -757,7 +827,11 @@ class ArchiveForm extends React.Component<intlProps> {
                         />
                       </Col>
                       {module.fields?.map((item: any, index: number) => (
-                        <Col sm={item.type === 'editor' ? 24 : 12} xs={24} key={index}>
+                        <Col
+                          sm={item.type === 'editor' ? 24 : 12}
+                          xs={24}
+                          key={index}
+                        >
                           {item.type === 'text' ? (
                             <ProFormText
                               name={['extra', item.field_name, 'value']}
@@ -765,8 +839,9 @@ class ArchiveForm extends React.Component<intlProps> {
                               required={item.required ? true : false}
                               placeholder={
                                 item.content &&
-                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
-                                  item.content
+                                this.props.intl.formatMessage({
+                                  id: 'content.param.default',
+                                }) + item.content
                               }
                             />
                           ) : item.type === 'number' ? (
@@ -776,8 +851,9 @@ class ArchiveForm extends React.Component<intlProps> {
                               required={item.required ? true : false}
                               placeholder={
                                 item.content &&
-                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
-                                  item.content
+                                this.props.intl.formatMessage({
+                                  id: 'content.param.default',
+                                }) + item.content
                               }
                             />
                           ) : item.type === 'textarea' ? (
@@ -787,8 +863,9 @@ class ArchiveForm extends React.Component<intlProps> {
                               required={item.required ? true : false}
                               placeholder={
                                 item.content &&
-                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
-                                  item.content
+                                this.props.intl.formatMessage({
+                                  id: 'content.param.default',
+                                }) + item.content
                               }
                             />
                           ) : item.type === 'editor' ? (
@@ -797,21 +874,28 @@ class ArchiveForm extends React.Component<intlProps> {
                               required={item.required ? true : false}
                               extra={
                                 item.content &&
-                                this.props.intl.formatMessage({ id: 'content.param.default' }) +
-                                  item.content
+                                this.props.intl.formatMessage({
+                                  id: 'content.param.default',
+                                }) + item.content
                               }
                             >
                               {contentSetting.editor === 'markdown' ? (
                                 <MarkdownEditor
                                   className="mb-normal"
-                                  setContent={this.setExtraContent.bind(this, item.field_name)}
+                                  setContent={this.setExtraContent.bind(
+                                    this,
+                                    item.field_name,
+                                  )}
                                   content={extraContent[item.field_name] || ''}
                                   ref={null}
                                 />
                               ) : (
                                 <WangEditor
                                   className="mb-normal"
-                                  setContent={this.setExtraContent.bind(this, item.field_name)}
+                                  setContent={this.setExtraContent.bind(
+                                    this,
+                                    item.field_name,
+                                  )}
                                   content={extraContent[item.field_name] || ''}
                                   key={item.field_name}
                                   field={item.field_name}
@@ -867,20 +951,27 @@ class ArchiveForm extends React.Component<intlProps> {
                                 <div className="ant-upload-item">
                                   <Image
                                     preview={{
-                                      src: archive.extra[item.field_name]?.value,
+                                      src: archive.extra[item.field_name]
+                                        ?.value,
                                     }}
                                     src={archive.extra[item.field_name]?.value}
                                   />
                                   <span
                                     className="delete"
-                                    onClick={this.handleCleanExtraField.bind(this, item.field_name)}
+                                    onClick={this.handleCleanExtraField.bind(
+                                      this,
+                                      item.field_name,
+                                    )}
                                   >
                                     <DeleteOutlined />
                                   </span>
                                 </div>
                               ) : (
                                 <AttachmentSelect
-                                  onSelect={this.handleUploadExtraField.bind(this, item.field_name)}
+                                  onSelect={this.handleUploadExtraField.bind(
+                                    this,
+                                    item.field_name,
+                                  )}
                                   open={false}
                                 >
                                   <div className="ant-upload-item">
@@ -901,17 +992,25 @@ class ArchiveForm extends React.Component<intlProps> {
                             >
                               {archive.extra[item.field_name]?.value ? (
                                 <div className="ant-upload-item ant-upload-file">
-                                  <span>{archive.extra[item.field_name]?.value}</span>
+                                  <span>
+                                    {archive.extra[item.field_name]?.value}
+                                  </span>
                                   <span
                                     className="delete"
-                                    onClick={this.handleCleanExtraField.bind(this, item.field_name)}
+                                    onClick={this.handleCleanExtraField.bind(
+                                      this,
+                                      item.field_name,
+                                    )}
                                   >
                                     <DeleteOutlined />
                                   </span>
                                 </div>
                               ) : (
                                 <AttachmentSelect
-                                  onSelect={this.handleUploadExtraField.bind(this, item.field_name)}
+                                  onSelect={this.handleUploadExtraField.bind(
+                                    this,
+                                    item.field_name,
+                                  )}
                                   open={false}
                                 >
                                   <Button>
@@ -953,7 +1052,9 @@ class ArchiveForm extends React.Component<intlProps> {
                           block
                           type="primary"
                           onClick={() => {
-                            this.onSubmit(this.formRef.current?.getFieldsValue());
+                            this.onSubmit(
+                              this.formRef.current?.getFieldsValue(),
+                            );
                           }}
                         >
                           <FormattedMessage id="content.submit.ok" />
@@ -963,7 +1064,8 @@ class ArchiveForm extends React.Component<intlProps> {
                         <Button
                           block
                           onClick={() => {
-                            const values = this.formRef.current?.getFieldsValue() || {};
+                            const values =
+                              this.formRef.current?.getFieldsValue() || {};
                             values.draft = true;
                             this.onSubmit(values);
                           }}
@@ -996,14 +1098,20 @@ class ArchiveForm extends React.Component<intlProps> {
                   <Card
                     className="aside-card"
                     size="small"
-                    title={this.props.intl.formatMessage({ id: 'content.category.name' })}
+                    title={this.props.intl.formatMessage({
+                      id: 'content.category.name',
+                    })}
                   >
                     <ProFormSelect
                       //label="所属分类"
                       showSearch
                       name="category_ids"
                       width="lg"
-                      mode={contentSetting.multi_category === 1 ? 'multiple' : 'single'}
+                      mode={
+                        contentSetting.multi_category === 1
+                          ? 'multiple'
+                          : 'single'
+                      }
                       request={async () => {
                         const res = await getCategories({ type: 1 });
                         const categories = (res.data || []).map((cat: any) => ({
@@ -1012,12 +1120,16 @@ class ArchiveForm extends React.Component<intlProps> {
                             cat.title +
                             (cat.status === 1
                               ? ''
-                              : this.props.intl.formatMessage({ id: 'setting.nav.hide' })),
+                              : this.props.intl.formatMessage({
+                                  id: 'setting.nav.hide',
+                                })),
                           value: cat.id,
                         }));
                         if (categories.length === 0) {
                           Modal.error({
-                            title: this.props.intl.formatMessage({ id: 'content.category.error' }),
+                            title: this.props.intl.formatMessage({
+                              id: 'content.category.error',
+                            }),
                             onOk: () => {
                               history.push('/archive/category');
                             },
@@ -1029,7 +1141,9 @@ class ArchiveForm extends React.Component<intlProps> {
                         optionItemRender(item) {
                           return (
                             <div
-                              dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}
+                              dangerouslySetInnerHTML={{
+                                __html: item.spacer + item.label,
+                              }}
                             ></div>
                           );
                         },
@@ -1037,7 +1151,8 @@ class ArchiveForm extends React.Component<intlProps> {
                       }}
                       extra={
                         <div>
-                          <FormattedMessage id="content.module.name" />: {module.title}
+                          <FormattedMessage id="content.module.name" />:{' '}
+                          {module.title}
                         </div>
                       }
                     />
@@ -1045,7 +1160,9 @@ class ArchiveForm extends React.Component<intlProps> {
                   <Card
                     className="aside-card"
                     size="small"
-                    title={this.props.intl.formatMessage({ id: 'content.images.name' })}
+                    title={this.props.intl.formatMessage({
+                      id: 'content.images.name',
+                    })}
                   >
                     <ProFormText>
                       {archive.images?.length
@@ -1085,20 +1202,26 @@ class ArchiveForm extends React.Component<intlProps> {
                   <Card
                     className="aside-card"
                     size="small"
-                    title={this.props.intl.formatMessage({ id: 'content.url-token.name' })}
+                    title={this.props.intl.formatMessage({
+                      id: 'content.url-token.name',
+                    })}
                   >
                     <ProFormText
                       name="url_token"
                       placeholder={this.props.intl.formatMessage({
                         id: 'content.url-token.placeholder',
                       })}
-                      extra={this.props.intl.formatMessage({ id: 'content.url-token.tips' })}
+                      extra={this.props.intl.formatMessage({
+                        id: 'content.url-token.tips',
+                      })}
                     />
                   </Card>
                   <Card
                     className="aside-card"
                     size="small"
-                    title={this.props.intl.formatMessage({ id: 'content.create-time.name' })}
+                    title={this.props.intl.formatMessage({
+                      id: 'content.create-time.name',
+                    })}
                   >
                     <ProFormDateTimePicker
                       name="created_moment"
@@ -1118,27 +1241,38 @@ class ArchiveForm extends React.Component<intlProps> {
                   <Card
                     className="aside-card"
                     size="small"
-                    title={this.props.intl.formatMessage({ id: 'content.tag.name' })}
+                    title={this.props.intl.formatMessage({
+                      id: 'content.tag.name',
+                    })}
                   >
                     <ProFormSelect
                       mode="tags"
                       name="tags"
                       valueEnum={searchedTags}
-                      placeholder={this.props.intl.formatMessage({ id: 'content.tag.placeholder' })}
+                      placeholder={this.props.intl.formatMessage({
+                        id: 'content.tag.placeholder',
+                      })}
                       fieldProps={{
                         tokenSeparators: [',', '，'],
                         onInputKeyDown: this.onChangeTagInput,
                         onFocus: this.onChangeTagInput,
                       }}
-                      extra={this.props.intl.formatMessage({ id: 'content.tag.placeholder' })}
+                      extra={this.props.intl.formatMessage({
+                        id: 'content.tag.placeholder',
+                      })}
                     />
                   </Card>
                   <Card
                     className="aside-card"
                     size="small"
-                    title={this.props.intl.formatMessage({ id: 'content.relation.name' })}
+                    title={this.props.intl.formatMessage({
+                      id: 'content.relation.name',
+                    })}
                     extra={
-                      <Tag className="link" onClick={this.handleShowArchiveSearchs}>
+                      <Tag
+                        className="link"
+                        onClick={this.handleShowArchiveSearchs}
+                      >
                         <FormattedMessage id="setting.action.add" />
                       </Tag>
                     }

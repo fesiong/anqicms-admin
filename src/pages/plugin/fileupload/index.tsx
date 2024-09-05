@@ -4,7 +4,12 @@ import {
   pluginUploadFile,
 } from '@/services/plugin/fileupload';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Modal, Space, Upload, message } from 'antd';
 import dayjs from 'dayjs';
@@ -20,7 +25,10 @@ const PluginFileupload: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.fileupload.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -43,7 +51,10 @@ const PluginFileupload: React.FC = () => {
   const handleUploadFile = (e: any) => {
     let formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -64,7 +75,8 @@ const PluginFileupload: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.fileupload.create-time' }),
       width: 200,
       dataIndex: 'created_time',
-      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) =>
+        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'setting.action' }),
@@ -104,7 +116,8 @@ const PluginFileupload: React.FC = () => {
               setVisible(true);
             }}
           >
-            <PlusOutlined /> <FormattedMessage id="plugin.fileupload.upload.name" />
+            <PlusOutlined />{' '}
+            <FormattedMessage id="plugin.fileupload.upload.name" />
           </Button>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
@@ -118,7 +131,7 @@ const PluginFileupload: React.FC = () => {
               <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-selec" />
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
@@ -150,7 +163,11 @@ const PluginFileupload: React.FC = () => {
           setVisible(false);
         }}
       >
-        <Alert message={intl.formatMessage({ id: 'plugin.fileupload.upload.support' })} />
+        <Alert
+          message={intl.formatMessage({
+            id: 'plugin.fileupload.upload.support',
+          })}
+        />
         <div className="mt-normal">
           <div className="text-center">
             <Upload

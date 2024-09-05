@@ -7,7 +7,11 @@ import {
   login,
 } from '@/services/admin';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
+import {
+  LoginForm,
+  ProFormCheckbox,
+  ProFormText,
+} from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
 import { Alert, Button, Input, Modal, Steps, message } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -86,7 +90,9 @@ const Login: React.FC = () => {
       }
       const res = await login({ ...values, type });
       if (res.code === 0) {
-        const defaultLoginSuccessMessage = intl.formatMessage({ id: 'pages.login.success' });
+        const defaultLoginSuccessMessage = intl.formatMessage({
+          id: 'pages.login.success',
+        });
         message.success(defaultLoginSuccessMessage);
 
         setStore('adminToken', res.data.token);
@@ -103,7 +109,9 @@ const Login: React.FC = () => {
       setUserLoginState(res);
     } catch (error) {
       console.log(error);
-      const defaultLoginFailureMessage = intl.formatMessage({ id: 'pages.login.failure' });
+      const defaultLoginFailureMessage = intl.formatMessage({
+        id: 'pages.login.failure',
+      });
       message.error(defaultLoginFailureMessage);
     }
   };
@@ -128,7 +136,10 @@ const Login: React.FC = () => {
       findPasswordVerify()
         .then((res) => {
           if (res.code !== 0) {
-            message.error(res.msg || intl.formatMessage({ id: 'pages.login.verify-failure' }));
+            message.error(
+              res.msg ||
+                intl.formatMessage({ id: 'pages.login.verify-failure' }),
+            );
           } else {
             setFindSetp(2);
           }
@@ -139,10 +150,15 @@ const Login: React.FC = () => {
       findPasswordReset(resetInfo)
         .then((res) => {
           if (res.code !== 0) {
-            message.error(res.msg || intl.formatMessage({ id: 'pages.login.verify-failure' }));
+            message.error(
+              res.msg ||
+                intl.formatMessage({ id: 'pages.login.verify-failure' }),
+            );
           } else {
             Modal.info({
-              title: intl.formatMessage({ id: 'pages.login.reset-account-success' }),
+              title: intl.formatMessage({
+                id: 'pages.login.reset-account-success',
+              }),
             });
             setFindSetp(0);
             setFindVisible(false);
@@ -158,7 +174,8 @@ const Login: React.FC = () => {
   const handleDownloadFile = () => {
     let alink = document.createElement('a');
 
-    alink.href = 'data:text/plan;charset=utf-8,' + encodeURIComponent(findStatus.token);
+    alink.href =
+      'data:text/plan;charset=utf-8,' + encodeURIComponent(findStatus.token);
 
     alink.download = findStatus.token + '.txt';
     document.body.appendChild(alink);
@@ -195,7 +212,9 @@ const Login: React.FC = () => {
         >
           {code !== 0 && (
             <LoginMessage
-              content={msg || intl.formatMessage({ id: 'pages.login.account-falure' })}
+              content={
+                msg || intl.formatMessage({ id: 'pages.login.account-falure' })
+              }
             />
           )}
           <ProFormText
@@ -204,11 +223,15 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <UserOutlined className={styles.prefixIcon} />,
             }}
-            placeholder={intl.formatMessage({ id: 'pages.login.username.placeholder' })}
+            placeholder={intl.formatMessage({
+              id: 'pages.login.username.placeholder',
+            })}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'pages.login.username.required' }),
+                message: intl.formatMessage({
+                  id: 'pages.login.username.required',
+                }),
               },
             ]}
           />
@@ -218,11 +241,15 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <LockOutlined className={styles.prefixIcon} />,
             }}
-            placeholder={intl.formatMessage({ id: 'pages.login.password.placeholder' })}
+            placeholder={intl.formatMessage({
+              id: 'pages.login.password.placeholder',
+            })}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'pages.login.password.required' }),
+                message: intl.formatMessage({
+                  id: 'pages.login.password.required',
+                }),
               },
             ]}
           />
@@ -292,9 +319,15 @@ const Login: React.FC = () => {
         }
       >
         <Steps current={findStep}>
-          <Steps.Step title={intl.formatMessage({ id: 'pages.login.step.select' })} />
-          <Steps.Step title={intl.formatMessage({ id: 'pages.login.step.verify' })} />
-          <Steps.Step title={intl.formatMessage({ id: 'pages.login.step.reset' })} />
+          <Steps.Step
+            title={intl.formatMessage({ id: 'pages.login.step.select' })}
+          />
+          <Steps.Step
+            title={intl.formatMessage({ id: 'pages.login.step.verify' })}
+          />
+          <Steps.Step
+            title={intl.formatMessage({ id: 'pages.login.step.reset' })}
+          />
         </Steps>
         <div className={styles.resetBox}>
           {findStep === 2 ? (
@@ -304,7 +337,9 @@ const Login: React.FC = () => {
                   name="user_name"
                   size="large"
                   prefix={<UserOutlined className={styles.prefixIcon} />}
-                  placeholder={intl.formatMessage({ id: 'pages.login.step.username' })}
+                  placeholder={intl.formatMessage({
+                    id: 'pages.login.step.username',
+                  })}
                   value={resetInfo.user_name || ''}
                   required
                   onChange={(e) => onChangeResetInfo('user_name', e)}
@@ -316,7 +351,9 @@ const Login: React.FC = () => {
                   size="large"
                   value={resetInfo.password || ''}
                   prefix={<LockOutlined className={styles.prefixIcon} />}
-                  placeholder={intl.formatMessage({ id: 'pages.login.step.password.placeholder' })}
+                  placeholder={intl.formatMessage({
+                    id: 'pages.login.step.password.placeholder',
+                  })}
                   onChange={(e) => onChangeResetInfo('password', e)}
                 />
               </div>
@@ -326,56 +363,60 @@ const Login: React.FC = () => {
               {findStatus.way === 'file' ? (
                 <div>
                   <h3>
-                    <FormattedMessage id="setting.login.step.file" />
+                    <FormattedMessage id="pages.login.step.file" />
                   </h3>
                   <p>
-                    <FormattedMessage id="setting.login.step.file.tips1" />
+                    <FormattedMessage id="pages.login.step.file.tips1" />
                     <a onClick={handleDownloadFile}>
-                      <FormattedMessage id="setting.login.step.file.tips1.download" />
+                      <FormattedMessage id="pages.login.step.file.tips1.download" />
                     </a>
-                    <FormattedMessage id="setting.login.step.file.tips1.download-file" />
+                    <FormattedMessage id="pages.login.step.file.tips1.download-file" />
                   </p>
                   <p>
-                    <FormattedMessage id="setting.login.step.file.tips2" />
+                    <FormattedMessage id="pages.login.step.file.tips2" />
                   </p>
                   <p>
-                    <FormattedMessage id="setting.login.step.file.tips3" />
+                    <FormattedMessage id="pages.login.step.file.tips3" />
                   </p>
                   <p>
-                    <FormattedMessage id="setting.login.step.file.tips4" />
+                    <FormattedMessage id="pages.login.step.file.tips4" />
                   </p>
                 </div>
               ) : (
                 <div>
                   <h3>
-                    <FormattedMessage id="setting.login.step.dns" />
+                    <FormattedMessage id="pages.login.step.dns" />
                   </h3>
                   <p>
-                    <FormattedMessage id="setting.login.step.dns.tips1" />
+                    <FormattedMessage id="pages.login.step.dns.tips1" />
                   </p>
                   <p>
-                    <FormattedMessage id="setting.login.step.dns.tips2.before" />
+                    <FormattedMessage id="pages.login.step.dns.tips2.before" />
                     <code>{findStatus.host}</code>
-                    <FormattedMessage id="setting.login.step.dns.tips2.after" />
+                    <FormattedMessage id="pages.login.step.dns.tips2.after" />
                   </p>
                   <div className={styles.copyItem}>
                     <span className={styles.copyText}>{findStatus.token}</span>
                     <CopyToClipboard
                       text={findStatus.token}
                       onCopy={() => {
-                        message.info(intl.formatMessage({ id: 'pages.login.step.copy-success' }));
+                        message.info(
+                          intl.formatMessage({
+                            id: 'pages.login.step.copy-success',
+                          }),
+                        );
                       }}
                     >
                       <Button className={styles.copyBtn}>
-                        <FormattedMessage id="setting.login.step.copy" />
+                        <FormattedMessage id="pages.login.step.copy" />
                       </Button>
                     </CopyToClipboard>
                   </div>
                   <p className={styles.copyTips}>
-                    <FormattedMessage id="setting.login.step.dns.tips2.tips" />
+                    <FormattedMessage id="pages.login.step.dns.tips2.tips" />
                   </p>
                   <p>
-                    <FormattedMessage id="setting.login.step.dns.tips3" />
+                    <FormattedMessage id="pages.login.step.dns.tips3" />
                   </p>
                 </div>
               )}
@@ -390,10 +431,10 @@ const Login: React.FC = () => {
                     chooseFindWay('file');
                   }}
                 >
-                  <FormattedMessage id="setting.login.step.file" />
+                  <FormattedMessage id="pages.login.step.file" />
                 </Button>
                 <p className={styles.resetTips}>
-                  <FormattedMessage id="setting.login.step.file.tips" />
+                  <FormattedMessage id="pages.login.step.file.tips" />
                 </p>
               </div>
               <div className={styles.chooseItem}>
@@ -404,10 +445,10 @@ const Login: React.FC = () => {
                     chooseFindWay('dns');
                   }}
                 >
-                  <FormattedMessage id="setting.login.step.dns" />
+                  <FormattedMessage id="pages.login.step.dns" />
                 </Button>
                 <p className={styles.resetTips}>
-                  <FormattedMessage id="setting.login.step.dns.tips" />
+                  <FormattedMessage id="pages.login.step.dns.tips" />
                 </p>
               </div>
             </div>

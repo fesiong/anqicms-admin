@@ -99,14 +99,19 @@ const ArchiveList: React.FC = () => {
   const loadModules = async () => {
     let res = await getModules({});
     setModules(
-      [{ title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 }].concat(res.data || []),
+      [
+        { title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 },
+      ].concat(res.data || []),
     );
   };
 
   const loadLatestUpdate = () => {
     let latestUpdate = getStore('latest_update') || {};
     // 最近7天更新过的文档
-    if (latestUpdate.timestamp > new Date().getTime() / 1000 - 60 * 60 * 24 * 7) {
+    if (
+      latestUpdate.timestamp >
+      new Date().getTime() / 1000 - 60 * 60 * 24 * 7
+    ) {
       setLatestUpdateId(latestUpdate.id || 0);
     }
   };
@@ -153,7 +158,10 @@ const ArchiveList: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -177,7 +185,10 @@ const ArchiveList: React.FC = () => {
   };
 
   const handleSetFlag = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     updateArchivesFlag({
       flag: values.flag.join(','),
       ids: selectedRowKeys,
@@ -194,7 +205,10 @@ const ArchiveList: React.FC = () => {
   };
 
   const handleSetStatus = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     updateArchivesStatus({
       status: Number(values.status),
       ids: selectedRowKeys,
@@ -211,7 +225,10 @@ const ArchiveList: React.FC = () => {
   };
 
   const handleSetTime = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     updateArchivesTime({
       time: Number(values.time),
       ids: selectedRowKeys,
@@ -247,7 +264,10 @@ const ArchiveList: React.FC = () => {
       message.error(intl.formatMessage({ id: 'content.category.required' }));
       return;
     }
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     updateArchivesCategory({
       category_id: categoryId,
       category_ids: categoryIds,
@@ -281,7 +301,9 @@ const ArchiveList: React.FC = () => {
             className="mb-normal"
             message={intl.formatMessage({ id: 'content.translate.tips' })}
           ></Alert>
-          <div className="">{intl.formatMessage({ id: 'content.translate.select-language' })}</div>
+          <div className="">
+            {intl.formatMessage({ id: 'content.translate.select-language' })}
+          </div>
           <Select
             style={{ width: '100%' }}
             onChange={(e) => {
@@ -293,30 +315,102 @@ const ArchiveList: React.FC = () => {
                 value: '',
                 disabled: true,
               },
-              { label: intl.formatMessage({ id: 'content.translate.en' }), value: 'en' },
-              { label: intl.formatMessage({ id: 'content.translate.zh-cn' }), value: 'zh-CN' },
-              { label: intl.formatMessage({ id: 'content.translate.zh-tw' }), value: 'zh-TW' },
-              { label: intl.formatMessage({ id: 'content.translate.vi' }), value: 'vi' },
-              { label: intl.formatMessage({ id: 'content.translate.id' }), value: 'id' },
-              { label: intl.formatMessage({ id: 'content.translate.hi' }), value: 'hi' },
-              { label: intl.formatMessage({ id: 'content.translate.it' }), value: 'it' },
-              { label: intl.formatMessage({ id: 'content.translate.el' }), value: 'el' },
-              { label: intl.formatMessage({ id: 'content.translate.es' }), value: 'es' },
-              { label: intl.formatMessage({ id: 'content.translate.pt' }), value: 'pt' },
-              { label: intl.formatMessage({ id: 'content.translate.sr' }), value: 'sr' },
-              { label: intl.formatMessage({ id: 'content.translate.my' }), value: 'my' },
-              { label: intl.formatMessage({ id: 'content.translate.bn' }), value: 'bn' },
-              { label: intl.formatMessage({ id: 'content.translate.th' }), value: 'th' },
-              { label: intl.formatMessage({ id: 'content.translate.tr' }), value: 'tr' },
-              { label: intl.formatMessage({ id: 'content.translate.ja' }), value: 'ja' },
-              { label: intl.formatMessage({ id: 'content.translate.lo' }), value: 'lo' },
-              { label: intl.formatMessage({ id: 'content.translate.ko' }), value: 'ko' },
-              { label: intl.formatMessage({ id: 'content.translate.ru' }), value: 'ru' },
-              { label: intl.formatMessage({ id: 'content.translate.fr' }), value: 'fr' },
-              { label: intl.formatMessage({ id: 'content.translate.de' }), value: 'de' },
-              { label: intl.formatMessage({ id: 'content.translate.fa' }), value: 'fa' },
-              { label: intl.formatMessage({ id: 'content.translate.ar' }), value: 'ar' },
-              { label: intl.formatMessage({ id: 'content.translate.ms' }), value: 'ms' },
+              {
+                label: intl.formatMessage({ id: 'content.translate.en' }),
+                value: 'en',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.zh-cn' }),
+                value: 'zh-CN',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.zh-tw' }),
+                value: 'zh-TW',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.vi' }),
+                value: 'vi',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.id' }),
+                value: 'id',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.hi' }),
+                value: 'hi',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.it' }),
+                value: 'it',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.el' }),
+                value: 'el',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.es' }),
+                value: 'es',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.pt' }),
+                value: 'pt',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.sr' }),
+                value: 'sr',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.my' }),
+                value: 'my',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.bn' }),
+                value: 'bn',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.th' }),
+                value: 'th',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.tr' }),
+                value: 'tr',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.ja' }),
+                value: 'ja',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.lo' }),
+                value: 'lo',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.ko' }),
+                value: 'ko',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.ru' }),
+                value: 'ru',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.fr' }),
+                value: 'fr',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.de' }),
+                value: 'de',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.fa' }),
+                value: 'fa',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.ar' }),
+                value: 'ar',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.translate.ms' }),
+                value: 'ms',
+              },
             ]}
           />
         </div>
@@ -348,7 +442,10 @@ const ArchiveList: React.FC = () => {
       title: intl.formatMessage({ id: 'content.pseudo.confirm' }),
       content: intl.formatMessage({ id: 'content.pseudo.content' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         anqiAiPseudoArchive({
           id: record.id,
         })
@@ -411,7 +508,10 @@ const ArchiveList: React.FC = () => {
       return;
     }
     updating = true;
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     updateArchivesReleasePlan({
       daily_limit: Number(values.daily_limit),
       start_hour: Number(values.start_hour),
@@ -474,7 +574,9 @@ const ArchiveList: React.FC = () => {
           <div style={{ maxWidth: 400 }}>
             <a href={entity.link} target="_blank">
               {latestUpdateId === entity.id && (
-                <Tooltip title={intl.formatMessage({ id: 'content.latest-update' })}>
+                <Tooltip
+                  title={intl.formatMessage({ id: 'content.latest-update' })}
+                >
                   <StarOutlined className="update-tag" />
                 </Tooltip>
               )}
@@ -506,7 +608,10 @@ const ArchiveList: React.FC = () => {
             request={async () => {
               let res = await getModules({});
               const tmpModules = [
-                { title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 },
+                {
+                  title: intl.formatMessage({ id: 'content.archive.all' }),
+                  id: 0,
+                },
               ]
                 .concat(res.data || [])
                 .map((item: any) => ({
@@ -550,7 +655,9 @@ const ArchiveList: React.FC = () => {
                   spacer: cat.spacer,
                   label:
                     cat.title +
-                    (cat.status === 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
+                    (cat.status === 1
+                      ? ''
+                      : intl.formatMessage({ id: 'setting.nav.hide' })),
                   value: cat.id,
                 }));
               return categories;
@@ -558,7 +665,13 @@ const ArchiveList: React.FC = () => {
             fieldProps={{
               ...fieldProps,
               optionItemRender(item: any) {
-                return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}></div>;
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: item.spacer + item.label,
+                    }}
+                  ></div>
+                );
               },
             }}
           />
@@ -609,9 +722,18 @@ const ArchiveList: React.FC = () => {
           <ProFormRadio.Group
             name="status"
             options={[
-              { label: intl.formatMessage({ id: 'content.status.normal' }), value: 'ok' },
-              { label: intl.formatMessage({ id: 'content.status.draft' }), value: 'draft' },
-              { label: intl.formatMessage({ id: 'content.status.plan' }), value: 'plan' },
+              {
+                label: intl.formatMessage({ id: 'content.status.normal' }),
+                value: 'ok',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.status.draft' }),
+                value: 'draft',
+              },
+              {
+                label: intl.formatMessage({ id: 'content.status.plan' }),
+                value: 'plan',
+              },
             ]}
           />
         );
@@ -624,7 +746,9 @@ const ArchiveList: React.FC = () => {
       render: (_, record) => {
         return (
           <div>
-            <div>{dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+            <div>
+              {dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}
+            </div>
             {record.created_time !== record.updated_time && (
               <div className="update-color">
                 {dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}
@@ -660,7 +784,9 @@ const ArchiveList: React.FC = () => {
                     onClick={() => {
                       handleTranslateArchive(record);
                     }}
-                    title={intl.formatMessage({ id: 'content.action.translate.tips' })}
+                    title={intl.formatMessage({
+                      id: 'content.action.translate.tips',
+                    })}
                   >
                     <FormattedMessage id="content.action.translate" />
                   </a>
@@ -670,7 +796,9 @@ const ArchiveList: React.FC = () => {
                     onClick={() => {
                       handleAiPseudoArchive(record);
                     }}
-                    title={intl.formatMessage({ id: 'content.action.aipseudo.tips' })}
+                    title={intl.formatMessage({
+                      id: 'content.action.aipseudo.tips',
+                    })}
                   >
                     <FormattedMessage id="content.action.aipseudo" />
                   </a>
@@ -680,7 +808,9 @@ const ArchiveList: React.FC = () => {
                     onClick={() => {
                       handleCopyArchive(record);
                     }}
-                    title={intl.formatMessage({ id: 'content.action.copy.tips' })}
+                    title={intl.formatMessage({
+                      id: 'content.action.copy.tips',
+                    })}
                   >
                     <FormattedMessage id="content.action.copy" />
                   </a>
@@ -715,7 +845,9 @@ const ArchiveList: React.FC = () => {
           <div className="module-tags">
             {modules.map((item: any) => (
               <div
-                className={'module-tag ' + (item.id === moduleId ? 'active' : '')}
+                className={
+                  'module-tag ' + (item.id === moduleId ? 'active' : '')
+                }
                 key={item.id}
                 onClick={() => {
                   onSelectModule(item.id);
@@ -823,7 +955,7 @@ const ArchiveList: React.FC = () => {
               <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-selec" />
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}
@@ -835,7 +967,11 @@ const ArchiveList: React.FC = () => {
           lastParams = params;
           return getArchives(params);
         }}
-        columns={contentSetting.use_sort ? (columns.splice(1, 0, sortColumn), columns) : columns}
+        columns={
+          contentSetting.use_sort
+            ? (columns.splice(1, 0, sortColumn), columns)
+            : columns
+        }
         rowSelection={{
           preserveSelectedRowKeys: true,
           onChange: (selectedRowKeys) => {
@@ -929,17 +1065,28 @@ const ArchiveList: React.FC = () => {
             request={async () => {
               let res = await getCategories({ type: 1 });
               return [
-                { spacer: '', title: intl.formatMessage({ id: 'content.please-select' }), id: 0 },
+                {
+                  spacer: '',
+                  title: intl.formatMessage({ id: 'content.please-select' }),
+                  id: 0,
+                },
               ].concat(res.data || []);
             }}
             fieldProps={{
-              mode: contentSetting.multi_category === 1 ? 'multiple' : undefined,
+              mode:
+                contentSetting.multi_category === 1 ? 'multiple' : undefined,
               fieldNames: {
                 label: 'title',
                 value: 'id',
               },
               optionItemRender(item: any) {
-                return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: item.spacer + item.title,
+                    }}
+                  ></div>
+                );
               },
             }}
           />
@@ -971,22 +1118,34 @@ const ArchiveList: React.FC = () => {
           <ProFormText
             name="daily_limit"
             label={intl.formatMessage({ id: 'content.plan.daily-limit' })}
-            placeholder={intl.formatMessage({ id: 'content.plan.daily-limit.placeholder' })}
-            addonAfter={intl.formatMessage({ id: 'content.plan.daily-limit.suffix' })}
+            placeholder={intl.formatMessage({
+              id: 'content.plan.daily-limit.placeholder',
+            })}
+            addonAfter={intl.formatMessage({
+              id: 'content.plan.daily-limit.suffix',
+            })}
           />
           <ProFormText
             name="start_hour"
             initialValue={8}
             label={intl.formatMessage({ id: 'content.plan.start-hour' })}
-            placeholder={intl.formatMessage({ id: 'content.plan.start-hour.placeholder' })}
-            addonAfter={intl.formatMessage({ id: 'content.plan.start-hour.suffix' })}
+            placeholder={intl.formatMessage({
+              id: 'content.plan.start-hour.placeholder',
+            })}
+            addonAfter={intl.formatMessage({
+              id: 'content.plan.start-hour.suffix',
+            })}
           />
           <ProFormText
             name="end_hour"
             initialValue={20}
             label={intl.formatMessage({ id: 'content.plan.end-hour' })}
-            placeholder={intl.formatMessage({ id: 'content.plan.end-hour.placeholder' })}
-            addonAfter={intl.formatMessage({ id: 'content.plan.start-hour.suffix' })}
+            placeholder={intl.formatMessage({
+              id: 'content.plan.end-hour.placeholder',
+            })}
+            addonAfter={intl.formatMessage({
+              id: 'content.plan.start-hour.suffix',
+            })}
           />
         </ModalForm>
       )}

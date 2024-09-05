@@ -29,7 +29,10 @@ const PluginComment: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.comment.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -52,7 +55,10 @@ const PluginComment: React.FC = () => {
   };
 
   const handleSetStatus = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginCheckComment({
       status: Number(values.status),
       ids: selectedRowKeys,
@@ -78,7 +84,8 @@ const PluginComment: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.comment.time' }),
       width: 160,
       dataIndex: 'created_time',
-      render: (_, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (_, record) =>
+        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'plugin.comment.item-title' }),
@@ -172,7 +179,7 @@ const PluginComment: React.FC = () => {
               <FormattedMessage id="content.option.batch-delete" />
             </Button>
             <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-selec" />
+              <FormattedMessage id="content.option.cancel-select" />
             </Button>
           </Space>
         )}

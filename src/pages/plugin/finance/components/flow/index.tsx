@@ -44,28 +44,28 @@ const PluginFinanceFlow: React.FC = () => {
       dataIndex: 'action',
       valueEnum: {
         1: {
-          text: intl.formatMessage({ id: 'plugin.finance.sale' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.sale' }),
         },
         2: {
-          text: intl.formatMessage({ id: 'plugin.finance.buy' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.buy' }),
         },
         3: {
-          text: intl.formatMessage({ id: 'plugin.finance.refund' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.refund' }),
         },
         4: {
-          text: intl.formatMessage({ id: 'plugin.finance.charge' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.charge' }),
         },
         5: {
-          text: intl.formatMessage({ id: 'plugin.finance.withdraw' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.withdraw' }),
         },
         6: {
-          text: intl.formatMessage({ id: 'plugin.finance.spread' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.spread' }),
         },
         7: {
-          text: intl.formatMessage({ id: 'plugin.finance.cashback' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.cashback' }),
         },
         8: {
-          text: intl.formatMessage({ id: 'plugin.finance.commission' }),
+          text: intl.formatMessage({ id: 'plugin.finance.type.commission' }),
         },
       },
     },

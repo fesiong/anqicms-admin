@@ -1,6 +1,9 @@
 import { get } from './tools';
 
-export async function getStatisticSpider(params?: any, options?: { [key: string]: any }) {
+export async function getStatisticSpider(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/statistic/spider',
     params,
@@ -8,7 +11,10 @@ export async function getStatisticSpider(params?: any, options?: { [key: string]
   });
 }
 
-export async function getStatisticTraffic(params?: any, options?: { [key: string]: any }) {
+export async function getStatisticTraffic(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/statistic/traffic',
     params,
@@ -16,7 +22,21 @@ export async function getStatisticTraffic(params?: any, options?: { [key: string
   });
 }
 
-export async function getStatisticInfo(params?: any, options?: { [key: string]: any }) {
+export async function getStatisticDates(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/dates',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/statistic/detail',
     params,
@@ -24,7 +44,10 @@ export async function getStatisticInfo(params?: any, options?: { [key: string]: 
   });
 }
 
-export async function getStatisticInclude(params?: any, options?: { [key: string]: any }) {
+export async function getStatisticInclude(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/statistic/include',
     params,
@@ -32,7 +55,10 @@ export async function getStatisticInclude(params?: any, options?: { [key: string
   });
 }
 
-export async function getStatisticIncludeInfo(params?: any, options?: { [key: string]: any }) {
+export async function getStatisticIncludeInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/statistic/include/detail',
     params,
@@ -40,7 +66,10 @@ export async function getStatisticIncludeInfo(params?: any, options?: { [key: st
   });
 }
 
-export async function getStatisticSummary(params?: any, options?: { [key: string]: any }) {
+export async function getStatisticSummary(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/statistic/summary',
     params,
@@ -48,7 +77,10 @@ export async function getStatisticSummary(params?: any, options?: { [key: string
   });
 }
 
-export async function getDashboardInfo(params?: any, options?: { [key: string]: any }) {
+export async function getDashboardInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/statistic/dashboard',
     params,

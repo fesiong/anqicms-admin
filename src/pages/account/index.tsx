@@ -30,7 +30,10 @@ const AccountSetting: React.FC = () => {
 
   const handleFinish = async (data: any) => {
     let values = Object.assign(initialState?.currentUser || {}, data);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveAdmin(values)
       .then(async (res) => {
         if (res.code === 0) {
@@ -46,7 +49,10 @@ const AccountSetting: React.FC = () => {
   };
   return (
     <GridContent>
-      <Card title={intl.formatMessage({ id: 'account.base.change-password' })} bordered={false}>
+      <Card
+        title={intl.formatMessage({ id: 'account.base.change-password' })}
+        bordered={false}
+      >
         <div className={styles.baseView}>
           {loading ? null : (
             <>
@@ -61,7 +67,9 @@ const AccountSetting: React.FC = () => {
                       },
                     },
                     submitButtonProps: {
-                      children: intl.formatMessage({ id: 'account.base.update' }),
+                      children: intl.formatMessage({
+                        id: 'account.base.update',
+                      }),
                     },
                   }}
                   initialValues={currentUser}
@@ -74,7 +82,9 @@ const AccountSetting: React.FC = () => {
                     rules={[
                       {
                         required: true,
-                        message: intl.formatMessage({ id: 'account.base.required' }),
+                        message: intl.formatMessage({
+                          id: 'account.base.username.required',
+                        }),
                       },
                     ]}
                   />
@@ -82,12 +92,16 @@ const AccountSetting: React.FC = () => {
                     width="md"
                     name="old_password"
                     label={intl.formatMessage({ id: 'account.base.password' })}
-                    placeholder={intl.formatMessage({ id: 'account.base.password.description' })}
+                    placeholder={intl.formatMessage({
+                      id: 'account.base.password.description',
+                    })}
                   />
                   <ProFormText.Password
                     width="md"
                     name="password"
-                    label={intl.formatMessage({ id: 'account.base.password.new' })}
+                    label={intl.formatMessage({
+                      id: 'account.base.password.new',
+                    })}
                   />
                 </ProForm>
               </div>
