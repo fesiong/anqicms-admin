@@ -8,19 +8,24 @@ export default {
   'content.flag.p': 'Picture[p]',
   'content.flag.j': 'Jump[j]',
   'content.archive.all': 'All documents',
-  'content.delete.confirm': 'Are you sure you want to delete the selected documents?',
+  'content.archive.total': '{range0}-{range1} of {total} items',
+  'content.delete.confirm':
+    'Are you sure you want to delete the selected documents?',
   'content.delete.success': 'successfully deleted',
   'content.delete.failure': 'failed to delete',
   'content.delete.deletting': 'deleting',
-  'content.recover.confirm': 'Are you sure you want to restore the selected documents?',
+  'content.recover.confirm':
+    'Are you sure you want to restore the selected documents?',
   'content.recover.success': 'Recovery successful',
   'content.recover.failure': 'Recovery failed',
   'content.recover.recovering': 'Recovering',
   'content.category.required': 'please select a type',
-  'content.translate.confirm': 'Are you sure you want to translate the selected documents?',
+  'content.translate.confirm':
+    'Are you sure you want to translate the selected documents?',
   'content.translate.tips':
     'If you need to use the document translation service, please bind your Anqi account first.',
-  'content.translate.select-language': 'Please select the translation target language',
+  'content.translate.select-language':
+    'Please select the translation target language',
   'content.translate.select': 'please choose',
   'content.translate.en': 'English',
   'content.translate.zh-cn': 'Simplified Chinese',
@@ -47,7 +52,8 @@ export default {
   'content.translate.ar': 'Arabic',
   'content.translate.ms': 'Malay',
   'content.translate.translating': 'translating',
-  'content.pseudo.confirm': 'Are you sure you want AI to rewrite the selected document?',
+  'content.pseudo.confirm':
+    'Are you sure you want AI to rewrite the selected document?',
   'content.pseudo.content':
     'If you need to use the document AI rewriting service, please bind your Anqi account first.',
   'content.sort.required': 'Please fill in a number greater than 0',
@@ -61,7 +67,8 @@ export default {
   'content.category.top': 'Top classification',
   'content.category.parent': 'Sub-headings',
   'content.category.all': 'all categories',
-  'content.category.error': 'Please create a category first and then publish the document',
+  'content.category.error':
+    'Please create a category first and then publish the document',
   'content.views.name': 'Browse',
   'content.status.draft': 'draft',
   'content.status.normal': 'normal',
@@ -72,7 +79,8 @@ export default {
   'content.create-update-time': 'Release/update time',
   'content.action.quick-edit': 'Quick edit',
   'content.action.translate': 'translate',
-  'content.action.translate.tips': 'Translate content into the corresponding language',
+  'content.action.translate.tips':
+    'Translate content into the corresponding language',
   'content.action.aipseudo': 'AI rewriting',
   'content.action.aipseudo.tips': 'AI rewrites this article',
   'content.action.copy': 'copy',
@@ -93,10 +101,14 @@ export default {
   'content.flag.select': 'Please select a new recommended attribute',
   'content.status.select': 'Please select a new status',
   'content.time.select': 'Please select a new document time',
-  'content.time.create-time': 'Update the release time (original time) of the selected document',
-  'content.time.update-time': 'Update the last editing time (update time) of the selected article',
-  'content.time.create-time-all': 'Update the release time (original time) of all documents',
-  'content.time.update-time-all': 'Update the last editing time (update time) of all articles',
+  'content.time.create-time':
+    'Update the release time (original time) of the selected document',
+  'content.time.update-time':
+    'Update the last editing time (update time) of the selected article',
+  'content.time.create-time-all':
+    'Update the release time (original time) of all documents',
+  'content.time.update-time-all':
+    'Update the last editing time (update time) of all articles',
   'content.category.select': 'Please select the category to transfer to',
   'content.please-select': 'please choose',
   'content.plan.name': 'Release tasks regularly',
@@ -115,7 +127,8 @@ export default {
   'content.title.required': 'Please fill in the title',
   'content.relation.name': 'Related Archives',
   'content.tag.name': 'Tag tag',
-  'content.tag.placeholder': 'Tags can be entered or selected, multiple tags available, separated',
+  'content.tag.placeholder':
+    'Tags can be entered or selected, multiple tags available, separated',
   'content.url-token.name': 'URL alias',
   'content.create-time.name': 'release time',
   'content.url-token.placeholder':
@@ -137,16 +150,20 @@ export default {
   'content.param.other': 'Other parameters',
   'content.origin-url.name': 'Original address',
   'content.field.default': 'No need to fill in by default',
-  'content.origin-url.description': 'The original address of the article is ignored by default.',
+  'content.origin-url.description':
+    'The original address of the article is ignored by default.',
   'content.seo-title.name': 'SEO title',
-  'content.seo-title.placeholder': 'The default is the article title, no need to fill in',
+  'content.seo-title.placeholder':
+    'The default is the article title, no need to fill in',
   'content.seo-title.description':
     'Note: If you want the content of the title tag of the page to be other than the article title, you can set it through the SEO title',
-  'content.category.seo-title.placeholder': 'The default is the category name, no need to fill in',
+  'content.category.seo-title.placeholder':
+    'The default is the category name, no need to fill in',
   'content.category.seo-title.description':
     'Note: If you want the content of the title tag of the page to be other than the category name, you can set it through the SEO title.',
   'content.canonical-url.name': 'canonical link',
-  'content.canonical-url.placeholder': 'The default is the document link, no need to fill in',
+  'content.canonical-url.placeholder':
+    'The default is the document link, no need to fill in',
   'content.canonical-url.description':
     'Note: If you want to point the current document to another page, you only need to fill it in here.',
   'content.fixed-link.name': 'Permalink',
@@ -154,7 +171,8 @@ export default {
     'Note: You only need to fill it out if you want the link to this document to be permanently fixed and not change with the pseudo-static rules. Relative link / start',
   'content.archive-template.name': 'Document template',
   'content.default-template': 'Default template',
-  'content.archive-template.description': 'Content templates that follow categories by default',
+  'content.archive-template.description':
+    'Content templates that follow categories by default',
   'content.price.name': 'price',
   'content.price.suffix': 'point',
   'content.papriceram.description':
@@ -174,12 +192,14 @@ export default {
   'content.submit.draft': 'save draft',
   'content.submit.aigenerate': 'AI writing',
   'content.images.name': 'Document picture',
-  'content.attachment.scan.confirm': "Are you sure you want to scan the site's uploads directory?",
+  'content.attachment.scan.confirm':
+    "Are you sure you want to scan the site's uploads directory?",
   'content.attachment.scan.content':
     'Scan the uploads directory of the site, and the images in the directory will be automatically synchronized to the database and displayed in the current image resource list. If the image does not have a thumbnail, a thumbnail will also be generated.',
   'content.attachment.scan.success':
     'Submitted to background processing, results will be rendered later',
-  'content.attachment.delete.image.confirm': 'Are you sure you want to delete the selected images?',
+  'content.attachment.delete.image.confirm':
+    'Are you sure you want to delete the selected images?',
   'content.attachment.delete.content':
     'After deletion, if you call the documents and pages of this resource, or a 404 error occurs when loading image resources, please make sure that there is no place to reference this resource before deleting it.',
   'content.attachment.move-to-category': 'Move to new category',
@@ -241,7 +261,8 @@ export default {
   'content.category.inherit.true': 'application',
   'content.category.inherit.description':
     'If a custom category template is set, you can choose to apply it to all subcategories, or only take effect on the current category.',
-  'content.category.delete.confirm': 'Are you sure you want to delete the selected category?',
+  'content.category.delete.confirm':
+    'Are you sure you want to delete the selected category?',
   'content.category.add-children': 'Add subcategory',
   'content.category.batch-add-children': 'Add subcategories in batches',
   'content.category.batch-add': 'Add categories in batches',
@@ -257,15 +278,18 @@ export default {
   'content.page.new': 'Add a single page',
   'content.page.name': 'Single page name',
   'content.page.description': 'Single page introduction',
-  'content.page.seo-title.placeholder': 'The default is a single page name, no need to fill in',
+  'content.page.seo-title.placeholder':
+    'The default is a single page name, no need to fill in',
   'content.page.seo-title.description':
     "Note: If you want the content of the page's title tag to be other than a single page name, you can set it through the SEO title",
   'content.page.template': 'Single page template',
   'content.page.status.tips':
     'After setting to hide, this single page will not appear in the front desk.',
-  'content.page.delete.confirm': 'Are you sure you want to delete the selected single page?',
+  'content.page.delete.confirm':
+    'Are you sure you want to delete the selected single page?',
   'content.page.template.name': 'Template name',
-  'content.module.field.delete.confirm': 'Are you sure you want to delete this field?',
+  'content.module.field.delete.confirm':
+    'Are you sure you want to delete this field?',
   'content.module.field.delete.content':
     'The content of this field in the corresponding document will also be deleted.',
   'content.module.field.error': 'The calling field must be in English letters',
@@ -293,7 +317,8 @@ export default {
   'content.module.setting': 'Model settings',
   'content.module.title': 'Model name',
   'content.module.field': 'Model table name',
-  'content.module.field.description': 'Only English lowercase letters are supported.',
+  'content.module.field.description':
+    'Only English lowercase letters are supported.',
   'content.module.url-token.tips.before':
     'Only supports English lowercase letters, defined by pseudo-static rules',
   'content.module.url-token.tips.after': 'transfer.',
@@ -302,7 +327,8 @@ export default {
     'Display the title prompt position when publishing the document.',
   'content.module.field.add': 'Add new field',
   'content.module.field.edit': 'Modify fields',
-  'content.module.field.name.description': 'Such as: article author, type, content source, etc.',
+  'content.module.field.name.description':
+    'Such as: article author, type, content source, etc.',
   'content.module.field.level.none': 'always show',
   'content.module.field.level.follow': 'Follow the document reading level',
   'content.module.field.isfilter': 'as filter parameter',
@@ -312,7 +338,8 @@ export default {
     'It is only valid when the field type is radio-select, multi-select, or drop-down type and does not follow the document reading level.',
   'content.module.field.default.description':
     'If it is: multiple values ​​for single selection, multi-selection, and drop-down, one per line.',
-  'content.module.delete.confirm': 'Are you sure you want to delete the selected model?',
+  'content.module.delete.confirm':
+    'Are you sure you want to delete the selected model?',
   'content.module.delete.content':
     'Categories and documents under this model will also be deleted, so please operate with caution.',
   'content.module.add': 'Add model',
@@ -323,9 +350,12 @@ export default {
   'content.tags.add': 'add tag',
   'content.tags.seo-title.description':
     'Note: If you want the content of the title tag of the page to be other than the tag name, you can set it through the SEO title',
-  'content.tags.seo-title.placeholder': 'The default is the label name, no need to fill in',
-  'content.tags.first-letter.description': 'Note: You can only fill in any one from A-Z',
+  'content.tags.seo-title.placeholder':
+    'The default is the label name, no need to fill in',
+  'content.tags.first-letter.description':
+    'Note: You can only fill in any one from A-Z',
   'content.tags.first-letter.name': 'index letter',
-  'content.tags.delete.confirm': 'Are you sure you want to delete the selected article tags?',
+  'content.tags.delete.confirm':
+    'Are you sure you want to delete the selected article tags?',
   'content.tags.batch-add': 'Add tags in batches',
 };

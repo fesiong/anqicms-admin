@@ -8,6 +8,7 @@ export default {
   'content.flag.p': '圖片[p]',
   'content.flag.j': '跳轉[j]',
   'content.archive.all': '所有文件',
+  'content.archive.total': '第 {range0}-{range1} 條/總共 {total} 條',
   'content.delete.confirm': '確定要刪除選取的文件嗎？',
   'content.delete.success': '刪除成功',
   'content.delete.failure': '刪除失敗',
@@ -121,7 +122,8 @@ export default {
     '如果你選擇的是未來的時間，則會被放入到待發布列表，等待時間到了才會正式發布',
   'content.preview': '文件預覽',
   'content.networt.error': '網路例外',
-  'content.confirm-giveup': '你有尚未儲存的內容，直接離開會導致內容遺失，確定要離開嗎？',
+  'content.confirm-giveup':
+    '你有尚未儲存的內容，直接離開會導致內容遺失，確定要離開嗎？',
   'content.submit.confirm': '是否需要繼續提交？',
   'content.submit.cancel': '返回修改',
   'content.submit.ok-force': '強制提交',
@@ -156,10 +158,12 @@ export default {
   'content.stock.suffix': '件',
   'content.read-level.name': '閱讀等級',
   'content.unlimit': '不限制',
-  'content.read-level.description': '如果選擇了閱讀等級，則要求使用者登入並達到指定等級才能閱讀',
+  'content.read-level.description':
+    '如果選擇了閱讀等級，則要求使用者登入並達到指定等級才能閱讀',
   'content.password.name': '文件密碼',
   'content.password.placeholder': '可以設定文檔密碼',
-  'content.password.description': '如果你想設定這篇文章為密碼查看，可以填寫密碼。',
+  'content.password.description':
+    '如果你想設定這篇文章為密碼查看，可以填寫密碼。',
   'content.param.default': '預設值:',
   'content.submit.ok': '提交',
   'content.submit.draft': '存草稿',
@@ -197,7 +201,8 @@ export default {
   'content.attachment.address': '資源地址',
   'content.attachment.edit': '修改檔名(ALT)',
   'content.attachment.explain': '相關說明',
-  'content.attachment.explain.tips1': '1.替換資源時，資源的URL位址不變，資源大小變成新資源的。',
+  'content.attachment.explain.tips1':
+    '1.替換資源時，資源的URL位址不變，資源大小變成新資源的。',
   'content.attachment.explain.tips2':
     '2.為避免頁面受大圖影響，當圖片過大時，自動依設定的圖片大小進行同比例縮小。',
   'content.attachment.explain.tips3':
@@ -211,7 +216,8 @@ export default {
   'content.category.rename': '重新命名分類',
   'content.category.input.required': '請填寫分類名稱',
   'content.notice': '新增分類',
-  'content.url-token.dublicate.tips': '已被其它分類佔用，請修改為新的別名以防系統出錯。',
+  'content.url-token.dublicate.tips':
+    '已被其它分類佔用，請修改為新的別名以防系統出錯。',
   'content.category.status': '顯示狀態',
   'content.category.status.hide': '隱藏',
   'content.category.status.ok': '顯示',
@@ -279,10 +285,12 @@ export default {
   'content.module.title': '模型名稱',
   'content.module.field': '模型表名',
   'content.module.field.description': '僅支援英文小寫字母。',
-  'content.module.url-token.tips.before': '僅支援英文小寫字母，偽靜態規則定義的',
+  'content.module.url-token.tips.before':
+    '僅支援英文小寫字母，偽靜態規則定義的',
   'content.module.url-token.tips.after': '調用。',
   'content.module.title-name': '標題名稱',
-  'content.module.title-name.description': '顯示在發佈文件的時候的標題提示位置。',
+  'content.module.title-name.description':
+    '顯示在發佈文件的時候的標題提示位置。',
   'content.module.field.add': '新增字段',
   'content.module.field.edit': '修改字段',
   'content.module.field.name.description': '如：文章作者、類型、內容來源等',
@@ -293,9 +301,11 @@ export default {
   'content.module.field.isfilter.no': '否',
   'content.module.field.isfilter.description':
     '只有欄位類型是單選、多選、下拉類型且不是跟隨文件閱讀等級的時候，才有效',
-  'content.module.field.default.description': '如果是：單選、多選、下拉的多個值，一行一個。',
+  'content.module.field.default.description':
+    '如果是：單選、多選、下拉的多個值，一行一個。',
   'content.module.delete.confirm': '確定要刪除選取的模型嗎？',
-  'content.module.delete.content': '此模型下的分類、文件也會一併刪除，請謹慎操作。',
+  'content.module.delete.content':
+    '此模型下的分類、文件也會一併刪除，請謹慎操作。',
   'content.module.add': '新增模型',
   'content.tag.batch-add': '批次新增標籤（一行一個）',
   'content.tags.name': '標籤名稱',

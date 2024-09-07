@@ -56,6 +56,7 @@ let lastParams: any = {
   category_id: 0,
   status: 'ok',
   flag: '',
+  exact: false,
 };
 
 const ArchiveList: React.FC = () => {
@@ -535,6 +536,12 @@ const ArchiveList: React.FC = () => {
     setQuickVisible(true);
   };
 
+  const getExactCount = () => {
+    message.loading('正在查询');
+    lastParams.exact = true;
+    actionRef.current?.reload?.();
+  };
+
   const sortColumn: ProColumnType = {
     title: intl.formatMessage({ id: 'content.sort.name' }),
     dataIndex: 'sort',
@@ -959,13 +966,17 @@ const ArchiveList: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params, sort) => {
+        request={async (params, sort) => {
+          // eslint-disable-next-line guard-for-in
           for (let i in sort) {
             params.sort = i;
             params.order = sort[i] === 'ascend' ? 'asc' : 'desc';
           }
+          params.exact = lastParams.exact;
           lastParams = params;
-          return getArchives(params);
+          const res = await getArchives(params);
+          lastParams.exact = res.exact || false;
+          return res;
         }}
         columns={
           contentSetting.use_sort
@@ -982,6 +993,21 @@ const ArchiveList: React.FC = () => {
           showSizeChanger: true,
           defaultCurrent: lastParams.current,
           defaultPageSize: lastParams.pageSize,
+          showTotal: (total, range) => (
+            <div>
+              {lastParams.exact === false && (
+                <Tooltip title="统计结果为预估值，点击获取准确统计值">
+                  <Tag className="link" color="orange" onClick={getExactCount}>
+                    统计结果为预估值
+                  </Tag>
+                </Tooltip>
+              )}
+              <FormattedMessage
+                id="content.archive.total"
+                values={{ total: total, range0: range[0], range1: range[1] }}
+              />
+            </div>
+          ),
         }}
       />
       {replaceVisible && (

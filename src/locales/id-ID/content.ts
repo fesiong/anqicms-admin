@@ -8,16 +8,20 @@ export default {
   'content.flag.p': 'Gambar[p]',
   'content.flag.j': 'Lompat[j]',
   'content.archive.all': 'Semua dokumen',
-  'content.delete.confirm': 'Apakah Anda yakin ingin menghapus dokumen yang dipilih?',
+  'content.archive.total': '{range0}-{range1} dari {total} item',
+  'content.delete.confirm':
+    'Apakah Anda yakin ingin menghapus dokumen yang dipilih?',
   'content.delete.success': 'berhasil dihapus',
   'content.delete.failure': 'gagal dihapus',
   'content.delete.deletting': 'menghapus',
-  'content.recover.confirm': 'Apakah Anda yakin ingin memulihkan dokumen yang dipilih?',
+  'content.recover.confirm':
+    'Apakah Anda yakin ingin memulihkan dokumen yang dipilih?',
   'content.recover.success': 'Pemulihan berhasil',
   'content.recover.failure': 'Pemulihan gagal',
   'content.recover.recovering': 'Memulihkan',
   'content.category.required': 'silakan pilih jenis',
-  'content.translate.confirm': 'Apakah Anda yakin ingin menerjemahkan dokumen yang dipilih?',
+  'content.translate.confirm':
+    'Apakah Anda yakin ingin menerjemahkan dokumen yang dipilih?',
   'content.translate.tips':
     'Jika Anda perlu menggunakan layanan terjemahan dokumen, harap ikat akun Anqi Anda terlebih dahulu.',
   'content.translate.select-language': 'Silakan pilih bahasa target terjemahan',
@@ -47,7 +51,8 @@ export default {
   'content.translate.ar': 'Arab',
   'content.translate.ms': 'Melayu',
   'content.translate.translating': 'menerjemahkan',
-  'content.pseudo.confirm': 'Apakah Anda yakin ingin AI menulis ulang dokumen yang dipilih?',
+  'content.pseudo.confirm':
+    'Apakah Anda yakin ingin AI menulis ulang dokumen yang dipilih?',
   'content.pseudo.content':
     'Jika Anda perlu menggunakan layanan penulisan ulang dokumen AI, harap ikat akun Anqi Anda terlebih dahulu.',
   'content.sort.required': 'Silakan isi angka yang lebih besar dari 0',
@@ -61,18 +66,21 @@ export default {
   'content.category.top': 'Klasifikasi teratas',
   'content.category.parent': 'Sub-judul',
   'content.category.all': 'semua Kategori',
-  'content.category.error': 'Silakan buat kategori terlebih dahulu lalu publikasikan dokumennya',
+  'content.category.error':
+    'Silakan buat kategori terlebih dahulu lalu publikasikan dokumennya',
   'content.views.name': 'Jelajahi',
   'content.status.draft': 'draf',
   'content.status.normal': 'normal',
   'content.status.plan': 'Akan dirilis',
   'content.keywords.name': 'Kata-kata kunci',
-  'content.keywords.description': 'Anda dapat menetapkan kata kunci satu per satu',
+  'content.keywords.description':
+    'Anda dapat menetapkan kata kunci satu per satu',
   'content.description.name': 'Perkenalan',
   'content.create-update-time': 'Waktu rilis/perbarui',
   'content.action.quick-edit': 'Edit cepat',
   'content.action.translate': 'menerjemahkan',
-  'content.action.translate.tips': 'Terjemahkan konten ke dalam bahasa yang sesuai',
+  'content.action.translate.tips':
+    'Terjemahkan konten ke dalam bahasa yang sesuai',
   'content.action.aipseudo': 'Penulisan ulang AI',
   'content.action.aipseudo.tips': 'AI menulis ulang artikel ini',
   'content.action.copy': 'menyalin',
@@ -93,11 +101,14 @@ export default {
   'content.flag.select': 'Silakan pilih atribut baru yang direkomendasikan',
   'content.status.select': 'Silakan pilih status baru',
   'content.time.select': 'Silakan pilih waktu dokumen baru',
-  'content.time.create-time': 'Perbarui waktu rilis (waktu asli) dokumen yang dipilih',
+  'content.time.create-time':
+    'Perbarui waktu rilis (waktu asli) dokumen yang dipilih',
   'content.time.update-time':
     'Perbarui waktu penyuntingan terakhir (update time) artikel yang dipilih',
-  'content.time.create-time-all': 'Perbarui waktu rilis (waktu asli) semua dokumen',
-  'content.time.update-time-all': 'Perbarui waktu pengeditan terakhir (update time) semua artikel',
+  'content.time.create-time-all':
+    'Perbarui waktu rilis (waktu asli) semua dokumen',
+  'content.time.update-time-all':
+    'Perbarui waktu pengeditan terakhir (update time) semua artikel',
   'content.category.select': 'Silakan pilih kategori tujuan transfer',
   'content.please-select': 'tolong pilih',
   'content.plan.name': 'Lepaskan tugas secara teratur',
@@ -116,7 +127,8 @@ export default {
   'content.title.required': 'Silakan isi judulnya',
   'content.relation.name': 'Dokumen terhubung',
   'content.tag.name': 'Tandai tanda',
-  'content.tag.placeholder': 'Tag dapat dimasukkan atau dipilih, tersedia beberapa tag, dipisahkan',
+  'content.tag.placeholder':
+    'Tag dapat dimasukkan atau dipilih, tersedia beberapa tag, dipisahkan',
   'content.url-token.name': 'alias URL',
   'content.create-time.name': 'waktu rilis',
   'content.url-token.placeholder':
@@ -138,16 +150,20 @@ export default {
   'content.param.other': 'Parameter lainnya',
   'content.origin-url.name': 'Alamat asli',
   'content.field.default': 'Tidak perlu mengisi secara default',
-  'content.origin-url.description': 'Alamat asli artikel diabaikan secara default.',
+  'content.origin-url.description':
+    'Alamat asli artikel diabaikan secara default.',
   'content.seo-title.name': 'Judul SEO',
-  'content.seo-title.placeholder': 'Defaultnya adalah judul artikel, tidak perlu diisi',
+  'content.seo-title.placeholder':
+    'Defaultnya adalah judul artikel, tidak perlu diisi',
   'content.seo-title.description':
     'Catatan: Jika Anda ingin isi tag judul halaman selain judul artikel, Anda dapat mengaturnya melalui judul SEO',
-  'content.category.seo-title.placeholder': 'Defaultnya adalah nama kategori, tidak perlu diisi',
+  'content.category.seo-title.placeholder':
+    'Defaultnya adalah nama kategori, tidak perlu diisi',
   'content.category.seo-title.description':
     'Catatan: Jika Anda ingin isi tag judul halaman selain nama kategori, Anda dapat mengaturnya melalui judul SEO.',
   'content.canonical-url.name': 'tautan kanonik',
-  'content.canonical-url.placeholder': 'Defaultnya adalah link dokumen, tidak perlu diisi',
+  'content.canonical-url.placeholder':
+    'Defaultnya adalah link dokumen, tidak perlu diisi',
   'content.canonical-url.description':
     'Catatan: Jika Anda ingin mengarahkan dokumen saat ini ke halaman lain, Anda hanya perlu mengisinya di sini.',
   'content.fixed-link.name': 'tautan permanen',
@@ -155,7 +171,8 @@ export default {
     'Catatan: Anda hanya perlu mengisinya jika ingin tautan ke dokumen ini diperbaiki secara permanen dan tidak diubah dengan aturan pseudo-statis. Tautan relatif / awal',
   'content.archive-template.name': 'Templat dokumen',
   'content.default-template': 'Templat bawaan',
-  'content.archive-template.description': 'Templat konten yang mengikuti kategori secara default',
+  'content.archive-template.description':
+    'Templat konten yang mengikuti kategori secara default',
   'content.price.name': 'harga',
   'content.price.suffix': 'titik',
   'content.papriceram.description':
@@ -175,7 +192,8 @@ export default {
   'content.submit.draft': 'menyimpan konsep',
   'content.submit.aigenerate': 'penulisan AI',
   'content.images.name': 'Gambar dokumen',
-  'content.attachment.scan.confirm': 'Apakah Anda yakin ingin memindai direktori upload situs?',
+  'content.attachment.scan.confirm':
+    'Apakah Anda yakin ingin memindai direktori upload situs?',
   'content.attachment.scan.content':
     'Pindai direktori unggahan situs, dan gambar dalam direktori tersebut akan secara otomatis disinkronkan ke database dan ditampilkan dalam daftar sumber daya gambar saat ini. Jika gambar tidak memiliki thumbnail, thumbnail juga akan dibuat.',
   'content.attachment.scan.success':
@@ -243,9 +261,11 @@ export default {
   'content.category.inherit.true': 'aplikasi',
   'content.category.inherit.description':
     'Jika templat kategori khusus ditetapkan, Anda dapat memilih untuk menerapkannya ke semua subkategori, atau hanya berlaku pada kategori saat ini.',
-  'content.category.delete.confirm': 'Apakah Anda yakin ingin menghapus kategori yang dipilih?',
+  'content.category.delete.confirm':
+    'Apakah Anda yakin ingin menghapus kategori yang dipilih?',
   'content.category.add-children': 'Tambahkan subkategori',
-  'content.category.batch-add-children': 'Tambahkan subkategori secara berkelompok',
+  'content.category.batch-add-children':
+    'Tambahkan subkategori secara berkelompok',
   'content.category.batch-add': 'Tambahkan kategori secara berkelompok',
   'content.category.batch-add-top': 'Tambahkan kategori tingkat atas',
   'content.category.batch-name': 'Nama klasifikasi batch',
@@ -259,17 +279,22 @@ export default {
   'content.page.new': 'Tambahkan satu halaman',
   'content.page.name': 'Nama halaman tunggal',
   'content.page.description': 'Pengenalan satu halaman',
-  'content.page.seo-title.placeholder': 'Defaultnya adalah nama halaman tunggal, tidak perlu diisi',
+  'content.page.seo-title.placeholder':
+    'Defaultnya adalah nama halaman tunggal, tidak perlu diisi',
   'content.page.seo-title.description':
     'Catatan: Jika Anda ingin isi tag judul halaman selain nama halaman tunggal, Anda dapat mengaturnya melalui judul SEO',
   'content.page.template': 'Templat satu halaman',
   'content.page.status.tips':
     'Setelah disetel untuk disembunyikan, satu halaman ini tidak akan muncul di meja depan.',
-  'content.page.delete.confirm': 'Apakah Anda yakin ingin menghapus satu halaman yang dipilih?',
+  'content.page.delete.confirm':
+    'Apakah Anda yakin ingin menghapus satu halaman yang dipilih?',
   'content.page.template.name': 'Nama templat',
-  'content.module.field.delete.confirm': 'Apakah Anda yakin ingin menghapus bidang ini?',
-  'content.module.field.delete.content': 'Konten bidang ini di dokumen terkait juga akan dihapus.',
-  'content.module.field.error': 'Bidang panggilan harus dalam huruf bahasa Inggris',
+  'content.module.field.delete.confirm':
+    'Apakah Anda yakin ingin menghapus bidang ini?',
+  'content.module.field.delete.content':
+    'Konten bidang ini di dokumen terkait juga akan dihapus.',
+  'content.module.field.error':
+    'Bidang panggilan harus dalam huruf bahasa Inggris',
   'content.module.field.name': 'nama parameter',
   'content.module.field.field-name': 'bidang panggilan',
   'content.module.field.field-name.description':
@@ -294,7 +319,8 @@ export default {
   'content.module.setting': 'Pengaturan model',
   'content.module.title': 'Nama model',
   'content.module.field': 'Nama tabel model',
-  'content.module.field.description': 'Hanya huruf kecil bahasa Inggris yang didukung.',
+  'content.module.field.description':
+    'Hanya huruf kecil bahasa Inggris yang didukung.',
   'content.module.url-token.tips.before':
     'Hanya mendukung huruf kecil bahasa Inggris, yang ditentukan oleh aturan pseudo-statis',
   'content.module.url-token.tips.after': 'transfer.',
@@ -303,7 +329,8 @@ export default {
     'Menampilkan posisi prompt judul saat menerbitkan dokumen.',
   'content.module.field.add': 'Tambahkan bidang baru',
   'content.module.field.edit': 'Ubah bidang',
-  'content.module.field.name.description': 'Seperti: penulis artikel, jenis, sumber konten, dll.',
+  'content.module.field.name.description':
+    'Seperti: penulis artikel, jenis, sumber konten, dll.',
   'content.module.field.level.none': 'selalu tampilkan',
   'content.module.field.level.follow': 'Ikuti tingkat membaca dokumen',
   'content.module.field.isfilter': 'sebagai parameter filter',
@@ -313,7 +340,8 @@ export default {
     'Ini hanya valid jika tipe bidangnya adalah tipe radio-select, multi-select, atau drop-down dan tidak mengikuti tingkat pembacaan dokumen.',
   'content.module.field.default.description':
     'Jika ya: beberapa nilai untuk pilihan tunggal, banyak pilihan, dan drop-down, satu per baris.',
-  'content.module.delete.confirm': 'Apakah Anda yakin ingin menghapus model yang dipilih?',
+  'content.module.delete.confirm':
+    'Apakah Anda yakin ingin menghapus model yang dipilih?',
   'content.module.delete.content':
     'Kategori dan dokumen dalam model ini juga akan dihapus, jadi harap beroperasi dengan hati-hati.',
   'content.module.add': 'Tambahkan model',
@@ -324,9 +352,12 @@ export default {
   'content.tags.add': 'tambahkan tanda',
   'content.tags.seo-title.description':
     'Catatan: Jika Anda ingin isi tag judul halaman selain nama tag, Anda dapat mengaturnya melalui judul SEO',
-  'content.tags.seo-title.placeholder': 'Defaultnya adalah nama label, tidak perlu diisi',
-  'content.tags.first-letter.description': 'Catatan: Anda hanya dapat mengisi salah satu dari A-Z',
+  'content.tags.seo-title.placeholder':
+    'Defaultnya adalah nama label, tidak perlu diisi',
+  'content.tags.first-letter.description':
+    'Catatan: Anda hanya dapat mengisi salah satu dari A-Z',
   'content.tags.first-letter.name': 'huruf indeks',
-  'content.tags.delete.confirm': 'Apakah Anda yakin ingin menghapus tag artikel yang dipilih?',
+  'content.tags.delete.confirm':
+    'Apakah Anda yakin ingin menghapus tag artikel yang dipilih?',
   'content.tags.batch-add': 'Tambahkan tag secara berkelompok',
 };

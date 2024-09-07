@@ -8,19 +8,24 @@ export default {
   'content.flag.p': 'Изображение[p]',
   'content.flag.j': 'Прыжок [дж]',
   'content.archive.all': 'Все документы',
-  'content.delete.confirm': 'Вы уверены, что хотите удалить выбранные документы?',
+  'content.archive.total': '{range0}-{range1} из {total} элементов',
+  'content.delete.confirm':
+    'Вы уверены, что хотите удалить выбранные документы?',
   'content.delete.success': 'успешно удалено',
   'content.delete.failure': 'не удалось удалить',
   'content.delete.deletting': 'удаление',
-  'content.recover.confirm': 'Вы уверены, что хотите восстановить выбранные документы?',
+  'content.recover.confirm':
+    'Вы уверены, что хотите восстановить выбранные документы?',
   'content.recover.success': 'Восстановление успешно',
   'content.recover.failure': 'Восстановление не удалось',
   'content.recover.recovering': 'Восстановление',
   'content.category.required': 'пожалуйста, выберите тип',
-  'content.translate.confirm': 'Вы уверены, что хотите перевести выбранные документы?',
+  'content.translate.confirm':
+    'Вы уверены, что хотите перевести выбранные документы?',
   'content.translate.tips':
     'Если вам нужно воспользоваться услугой перевода документов, сначала привяжите свою учетную запись Anqi.',
-  'content.translate.select-language': 'Пожалуйста, выберите целевой язык перевода',
+  'content.translate.select-language':
+    'Пожалуйста, выберите целевой язык перевода',
   'content.translate.select': 'пожалуйста, выбери',
   'content.translate.en': 'Английский',
   'content.translate.zh-cn': 'Упрощенный китайский',
@@ -47,7 +52,8 @@ export default {
   'content.translate.ar': 'арабский',
   'content.translate.ms': 'малайский',
   'content.translate.translating': 'Идет перевод',
-  'content.pseudo.confirm': 'Вы уверены, что хотите, чтобы ИИ переписал выбранный документ?',
+  'content.pseudo.confirm':
+    'Вы уверены, что хотите, чтобы ИИ переписал выбранный документ?',
   'content.pseudo.content':
     'Если вам нужно воспользоваться услугой переписывания документов AI, сначала привяжите свою учетную запись Anqi.',
   'content.sort.required': 'Пожалуйста, введите число больше 0',
@@ -61,13 +67,15 @@ export default {
   'content.category.top': 'Высшая классификация',
   'content.category.parent': 'Подзаголовки',
   'content.category.all': 'Все категории',
-  'content.category.error': 'Сначала создайте категорию, а затем опубликуйте документ.',
+  'content.category.error':
+    'Сначала создайте категорию, а затем опубликуйте документ.',
   'content.views.name': 'Просматривать',
   'content.status.draft': 'черновик',
   'content.status.normal': 'нормальный',
   'content.status.plan': 'Будет выпущен',
   'content.keywords.name': 'Ключевые слова',
-  'content.keywords.description': 'Вы можете установить ключевые слова индивидуально',
+  'content.keywords.description':
+    'Вы можете установить ключевые слова индивидуально',
   'content.description.name': 'Введение',
   'content.create-update-time': 'Время выпуска/обновления',
   'content.action.quick-edit': 'Быстрое редактирование',
@@ -93,10 +101,12 @@ export default {
   'content.flag.select': 'Пожалуйста, выберите новый рекомендуемый атрибут',
   'content.status.select': 'Пожалуйста, выберите новый статус',
   'content.time.select': 'Пожалуйста, выберите время нового документа',
-  'content.time.create-time': 'Обновить время выпуска (исходное время) выбранного документа.',
+  'content.time.create-time':
+    'Обновить время выпуска (исходное время) выбранного документа.',
   'content.time.update-time':
     'Обновить время последнего редактирования (время обновления) выбранной статьи.',
-  'content.time.create-time-all': 'Обновить время выпуска (исходное время) всех документов.',
+  'content.time.create-time-all':
+    'Обновить время выпуска (исходное время) всех документов.',
   'content.time.update-time-all':
     'Обновить время последнего редактирования (время обновления) всех статей.',
   'content.category.select': 'Пожалуйста, выберите категорию для перевода',
@@ -140,9 +150,11 @@ export default {
   'content.param.other': 'Другие параметры',
   'content.origin-url.name': 'Исходный адрес',
   'content.field.default': 'Не нужно заполнять по умолчанию',
-  'content.origin-url.description': 'Исходный адрес статьи по умолчанию игнорируется.',
+  'content.origin-url.description':
+    'Исходный адрес статьи по умолчанию игнорируется.',
   'content.seo-title.name': 'SEO-заголовок',
-  'content.seo-title.placeholder': 'По умолчанию — название статьи, заполнять не нужно.',
+  'content.seo-title.placeholder':
+    'По умолчанию — название статьи, заполнять не нужно.',
   'content.seo-title.description':
     'Примечание. Если вы хотите, чтобы содержимое тега заголовка страницы отличалось от заголовка статьи, вы можете установить его через заголовок SEO.',
   'content.category.seo-title.placeholder':
@@ -240,7 +252,8 @@ export default {
   'content.category.banner': 'Схема баннера',
   'content.category.thumb': 'миниатюра',
   'content.category.sort': 'Отобразить заказ',
-  'content.category.sort.description': 'По умолчанию — 99, чем меньше число, тем оно выше.',
+  'content.category.sort.description':
+    'По умолчанию — 99, чем меньше число, тем оно выше.',
   'content.category.template': 'Шаблон классификации',
   'content.category.default': 'значение по умолчанию',
   'content.category.inherit': 'Шаблон применен к подкатегориям',
@@ -248,7 +261,8 @@ export default {
   'content.category.inherit.true': 'приложение',
   'content.category.inherit.description':
     'Если установлен настраиваемый шаблон категории, вы можете применить его ко всем подкатегориям или применить только к текущей категории.',
-  'content.category.delete.confirm': 'Вы уверены, что хотите удалить выбранную категорию?',
+  'content.category.delete.confirm':
+    'Вы уверены, что хотите удалить выбранную категорию?',
   'content.category.add-children': 'Добавить подкатегорию',
   'content.category.batch-add-children': 'Добавляйте подкатегории партиями',
   'content.category.batch-add': 'Добавляйте категории партиями',
@@ -271,12 +285,15 @@ export default {
   'content.page.template': 'Одностраничный шаблон',
   'content.page.status.tips':
     'После настройки скрытия эта единственная страница не будет отображаться на стойке регистрации.',
-  'content.page.delete.confirm': 'Вы уверены, что хотите удалить выбранную страницу?',
+  'content.page.delete.confirm':
+    'Вы уверены, что хотите удалить выбранную страницу?',
   'content.page.template.name': 'Имя Шаблона',
-  'content.module.field.delete.confirm': 'Вы уверены, что хотите удалить это поле?',
+  'content.module.field.delete.confirm':
+    'Вы уверены, что хотите удалить это поле?',
   'content.module.field.delete.content':
     'Содержимое этого поля в соответствующем документе также будет удалено.',
-  'content.module.field.error': 'Поле для звонка должно быть английскими буквами.',
+  'content.module.field.error':
+    'Поле для звонка должно быть английскими буквами.',
   'content.module.field.name': 'имя параметра',
   'content.module.field.field-name': 'поле вызова',
   'content.module.field.field-name.description':
@@ -301,7 +318,8 @@ export default {
   'content.module.setting': 'Настройки модели',
   'content.module.title': 'Название модели',
   'content.module.field': 'Имя таблицы модели',
-  'content.module.field.description': 'Поддерживаются только английские строчные буквы.',
+  'content.module.field.description':
+    'Поддерживаются только английские строчные буквы.',
   'content.module.url-token.tips.before':
     'Поддерживает только английские строчные буквы, определенные псевдостатическими правилами.',
   'content.module.url-token.tips.after': 'передача.',
@@ -310,7 +328,8 @@ export default {
     'Отображение позиции заголовка при публикации документа.',
   'content.module.field.add': 'Добавить новое поле',
   'content.module.field.edit': 'Изменить поля',
-  'content.module.field.name.description': 'Например: автор статьи, тип, источник контента и т. д.',
+  'content.module.field.name.description':
+    'Например: автор статьи, тип, источник контента и т. д.',
   'content.module.field.level.none': 'всегда показывай',
   'content.module.field.level.follow': 'Следите за уровнем чтения документа',
   'content.module.field.isfilter': 'как параметр фильтра',
@@ -320,21 +339,25 @@ export default {
     'Это допустимо только в том случае, если тип поля имеет тип радиовыбора, множественного выбора или раскрывающегося списка и не соответствует уровню чтения документа.',
   'content.module.field.default.description':
     'Если да: несколько значений для одиночного выбора, множественного выбора и раскрывающегося списка, по одному на строку.',
-  'content.module.delete.confirm': 'Вы уверены, что хотите удалить выбранную модель?',
+  'content.module.delete.confirm':
+    'Вы уверены, что хотите удалить выбранную модель?',
   'content.module.delete.content':
     'Категории и документы этой модели также будут удалены, поэтому действуйте осторожно.',
   'content.module.add': 'Добавить модель',
   'content.tag.batch-add': 'Добавляйте теги партиями (по одному в строке).',
   'content.tags.name': 'Название тэга',
-  'content.tags.placeholder': 'Пожалуйста, заполните одну метку в каждой строке',
+  'content.tags.placeholder':
+    'Пожалуйста, заполните одну метку в каждой строке',
   'content.tags.edit': 'Изменить тег',
   'content.tags.add': 'добавить метку',
   'content.tags.seo-title.description':
     'Примечание. Если вы хотите, чтобы содержимое тега заголовка страницы отличалось от имени тега, вы можете установить его через заголовок SEO.',
-  'content.tags.seo-title.placeholder': 'По умолчанию используется имя метки, заполнять не нужно.',
+  'content.tags.seo-title.placeholder':
+    'По умолчанию используется имя метки, заполнять не нужно.',
   'content.tags.first-letter.description':
     'Примечание. Вы можете заполнить только любой элемент от А до Я.',
   'content.tags.first-letter.name': 'индексная буква',
-  'content.tags.delete.confirm': 'Вы уверены, что хотите удалить выбранные теги статей?',
+  'content.tags.delete.confirm':
+    'Вы уверены, что хотите удалить выбранные теги статей?',
   'content.tags.batch-add': 'Добавляйте теги пакетно',
 };

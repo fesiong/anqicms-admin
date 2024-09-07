@@ -8,16 +8,20 @@ export default {
   'content.flag.p': 'تصویر[p]',
   'content.flag.j': 'پرش[j]',
   'content.archive.all': 'تمام مدارک',
-  'content.delete.confirm': 'آیا مطمئن هستید که می خواهید اسناد انتخاب شده را حذف کنید؟',
+  'content.archive.total': '{range0}-{range1} از {total} مورد',
+  'content.delete.confirm':
+    'آیا مطمئن هستید که می خواهید اسناد انتخاب شده را حذف کنید؟',
   'content.delete.success': 'با موفقیت حذف شد',
   'content.delete.failure': 'حذف نشد',
   'content.delete.deletting': 'حذف کردن',
-  'content.recover.confirm': 'آیا مطمئن هستید که می خواهید اسناد انتخاب شده را بازیابی کنید؟',
+  'content.recover.confirm':
+    'آیا مطمئن هستید که می خواهید اسناد انتخاب شده را بازیابی کنید؟',
   'content.recover.success': 'بازیابی با موفقیت انجام شد',
   'content.recover.failure': 'بازیابی ناموفق بود',
   'content.recover.recovering': 'بهبودی',
   'content.category.required': 'لطفا یک نوع را انتخاب کنید',
-  'content.translate.confirm': 'آیا مطمئن هستید که می خواهید اسناد انتخاب شده را ترجمه کنید؟',
+  'content.translate.confirm':
+    'آیا مطمئن هستید که می خواهید اسناد انتخاب شده را ترجمه کنید؟',
   'content.translate.tips':
     'در صورت نیاز به استفاده از خدمات ترجمه اسناد، لطفاً ابتدا حساب Anqi خود را ببندید.',
   'content.translate.select-language': 'لطفاً زبان مقصد ترجمه را انتخاب کنید',
@@ -62,13 +66,15 @@ export default {
   'content.category.top': 'طبقه بندی برتر',
   'content.category.parent': 'عناوین فرعی',
   'content.category.all': 'همه دسته بندی ها',
-  'content.category.error': 'لطفا ابتدا یک دسته ایجاد کنید و سپس سند را منتشر کنید',
+  'content.category.error':
+    'لطفا ابتدا یک دسته ایجاد کنید و سپس سند را منتشر کنید',
   'content.views.name': 'مرور کردن',
   'content.status.draft': 'پیش نویس',
   'content.status.normal': 'طبیعی',
   'content.status.plan': 'منتشر خواهد شد',
   'content.keywords.name': 'کلید واژه ها',
-  'content.keywords.description': 'می توانید کلمات کلیدی را به صورت جداگانه تنظیم کنید',
+  'content.keywords.description':
+    'می توانید کلمات کلیدی را به صورت جداگانه تنظیم کنید',
   'content.description.name': 'معرفی',
   'content.create-update-time': 'زمان انتشار/به روز رسانی',
   'content.action.quick-edit': 'ویرایش سریع',
@@ -94,10 +100,14 @@ export default {
   'content.flag.select': 'لطفاً یک ویژگی توصیه شده جدید انتخاب کنید',
   'content.status.select': 'لطفا وضعیت جدیدی را انتخاب کنید',
   'content.time.select': 'لطفاً یک زمان سند جدید انتخاب کنید',
-  'content.time.create-time': 'زمان انتشار (زمان اصلی) سند انتخابی را به روز کنید',
-  'content.time.update-time': 'آخرین زمان ویرایش (زمان به روز رسانی) مقاله انتخابی را به روز کنید',
-  'content.time.create-time-all': 'زمان انتشار (زمان اصلی) همه اسناد را به روز کنید',
-  'content.time.update-time-all': 'آخرین زمان ویرایش (زمان به روز رسانی) همه مقالات را به روز کنید',
+  'content.time.create-time':
+    'زمان انتشار (زمان اصلی) سند انتخابی را به روز کنید',
+  'content.time.update-time':
+    'آخرین زمان ویرایش (زمان به روز رسانی) مقاله انتخابی را به روز کنید',
+  'content.time.create-time-all':
+    'زمان انتشار (زمان اصلی) همه اسناد را به روز کنید',
+  'content.time.update-time-all':
+    'آخرین زمان ویرایش (زمان به روز رسانی) همه مقالات را به روز کنید',
   'content.category.select': 'لطفاً دسته بندی را برای انتقال انتخاب کنید',
   'content.please-select': 'لطفا انتخاب کنید',
   'content.plan.name': 'وظایف را به طور منظم رها کنید',
@@ -139,16 +149,20 @@ export default {
   'content.param.other': 'سایر پارامترها',
   'content.origin-url.name': 'آدرس اصلی',
   'content.field.default': 'نیازی به پر کردن به صورت پیش فرض نیست',
-  'content.origin-url.description': 'آدرس اصلی مقاله به طور پیش فرض نادیده گرفته می شود.',
+  'content.origin-url.description':
+    'آدرس اصلی مقاله به طور پیش فرض نادیده گرفته می شود.',
   'content.seo-title.name': 'عنوان سئو',
-  'content.seo-title.placeholder': 'پیش فرض عنوان مقاله است، نیازی به پر کردن نیست',
+  'content.seo-title.placeholder':
+    'پیش فرض عنوان مقاله است، نیازی به پر کردن نیست',
   'content.seo-title.description':
     'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از عنوان مقاله باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
-  'content.category.seo-title.placeholder': 'پیش فرض نام دسته است، نیازی به پر کردن نیست',
+  'content.category.seo-title.placeholder':
+    'پیش فرض نام دسته است، نیازی به پر کردن نیست',
   'content.category.seo-title.description':
     'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از نام دسته باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
   'content.canonical-url.name': 'پیوند متعارف',
-  'content.canonical-url.placeholder': 'پیش فرض پیوند سند است، نیازی به پر کردن نیست',
+  'content.canonical-url.placeholder':
+    'پیش فرض پیوند سند است، نیازی به پر کردن نیست',
   'content.canonical-url.description':
     'توجه: اگر می خواهید سند فعلی را به صفحه دیگری هدایت کنید، فقط باید آن را در اینجا پر کنید.',
   'content.fixed-link.name': 'پیوند ثابت',
@@ -181,7 +195,8 @@ export default {
     'آیا مطمئن هستید که می خواهید دایرکتوری آپلودهای سایت را اسکن کنید؟',
   'content.attachment.scan.content':
     'دایرکتوری آپلودهای سایت را اسکن کنید، و تصاویر موجود در فهرست به طور خودکار با پایگاه داده همگام شده و در فهرست منابع تصویر فعلی نمایش داده می شوند، اگر تصویر تصویر کوچکی نداشته باشد، یک تصویر کوچک نیز ایجاد می شود.',
-  'content.attachment.scan.success': 'برای پردازش پس‌زمینه ارسال می‌شود، نتایج بعداً ارائه می‌شود',
+  'content.attachment.scan.success':
+    'برای پردازش پس‌زمینه ارسال می‌شود، نتایج بعداً ارائه می‌شود',
   'content.attachment.delete.image.confirm':
     'آیا مطمئن هستید که می خواهید تصاویر انتخاب شده را حذف کنید؟',
   'content.attachment.delete.content':
@@ -189,7 +204,8 @@ export default {
   'content.attachment.move-to-category': 'انتقال به دسته جدید',
   'content.attachment.unclassified': 'دستهبندی نشده',
   'content.attachment.edit.success': 'با موفقیت اصلاح شد',
-  'content.attachment.delete.confirm': 'آیا مطمئن هستید که می خواهید آن را حذف کنید؟',
+  'content.attachment.delete.confirm':
+    'آیا مطمئن هستید که می خواهید آن را حذف کنید؟',
   'content.attachment.replace.success': 'تعویض با موفقیت انجام شد',
   'content.attachment.replace.name': 'منابع را جایگزین کنید',
   'content.attachment.select-all': 'انتخاب همه',
@@ -236,7 +252,8 @@ export default {
   'content.category.banner': 'نمودار بنر',
   'content.category.thumb': 'بند انگشتی',
   'content.category.sort': 'سفارش نمایش',
-  'content.category.sort.description': 'پیش فرض 99 است، هر چه این عدد کوچکتر باشد، بیشتر است.',
+  'content.category.sort.description':
+    'پیش فرض 99 است، هر چه این عدد کوچکتر باشد، بیشتر است.',
   'content.category.template': 'الگوی طبقه بندی',
   'content.category.default': 'مقدار پیش فرض',
   'content.category.inherit': 'الگو برای زیر شاخه ها اعمال شد',
@@ -244,9 +261,11 @@ export default {
   'content.category.inherit.true': 'کاربرد',
   'content.category.inherit.description':
     'اگر یک الگوی دسته‌بندی سفارشی تنظیم شده باشد، می‌توانید انتخاب کنید که آن را برای همه زیرمجموعه‌ها اعمال کنید یا فقط روی دسته فعلی اعمال شود.',
-  'content.category.delete.confirm': 'آیا مطمئن هستید که می خواهید دسته انتخابی را حذف کنید؟',
+  'content.category.delete.confirm':
+    'آیا مطمئن هستید که می خواهید دسته انتخابی را حذف کنید؟',
   'content.category.add-children': 'اضافه کردن زیر مجموعه',
-  'content.category.batch-add-children': 'دسته های فرعی را به صورت دسته ای اضافه کنید',
+  'content.category.batch-add-children':
+    'دسته های فرعی را به صورت دسته ای اضافه کنید',
   'content.category.batch-add': 'دسته ها را به صورت دسته ای اضافه کنید',
   'content.category.batch-add-top': 'دسته های سطح بالا را اضافه کنید',
   'content.category.batch-name': 'نام دسته بندی دسته',
@@ -260,15 +279,20 @@ export default {
   'content.page.new': 'یک صفحه واحد اضافه کنید',
   'content.page.name': 'نام یک صفحه',
   'content.page.description': 'معرفی تک صفحه ای',
-  'content.page.seo-title.placeholder': 'پیش فرض یک نام صفحه است، نیازی به پر کردن نیست',
+  'content.page.seo-title.placeholder':
+    'پیش فرض یک نام صفحه است، نیازی به پر کردن نیست',
   'content.page.seo-title.description':
     'توجه: اگر می خواهید محتوای تگ عنوان صفحه غیر از یک نام صفحه باشد، می توانید آن را از طریق عنوان SEO تنظیم کنید.',
   'content.page.template': 'قالب تک صفحه ای',
-  'content.page.status.tips': 'پس از تنظیم مخفی کردن، این صفحه تنها در میز جلو ظاهر نمی شود.',
-  'content.page.delete.confirm': 'آیا مطمئن هستید که می خواهید صفحه واحد انتخاب شده را حذف کنید؟',
+  'content.page.status.tips':
+    'پس از تنظیم مخفی کردن، این صفحه تنها در میز جلو ظاهر نمی شود.',
+  'content.page.delete.confirm':
+    'آیا مطمئن هستید که می خواهید صفحه واحد انتخاب شده را حذف کنید؟',
   'content.page.template.name': 'نام الگو',
-  'content.module.field.delete.confirm': 'آیا مطمئن هستید که می خواهید این فیلد را حذف کنید؟',
-  'content.module.field.delete.content': 'محتوای این فیلد در سند مربوطه نیز حذف خواهد شد.',
+  'content.module.field.delete.confirm':
+    'آیا مطمئن هستید که می خواهید این فیلد را حذف کنید؟',
+  'content.module.field.delete.content':
+    'محتوای این فیلد در سند مربوطه نیز حذف خواهد شد.',
   'content.module.field.error': 'قسمت تماس باید با حروف انگلیسی باشد',
   'content.module.field.name': 'نام پارامتر',
   'content.module.field.field-name': 'فیلد تماس',
@@ -299,10 +323,12 @@ export default {
     'فقط از حروف کوچک انگلیسی که با قوانین شبه استاتیک تعریف شده اند پشتیبانی می کند',
   'content.module.url-token.tips.after': 'انتقال.',
   'content.module.title-name': 'نام عنوان',
-  'content.module.title-name.description': 'هنگام انتشار سند، موقعیت اعلان عنوان را نمایش دهید.',
+  'content.module.title-name.description':
+    'هنگام انتشار سند، موقعیت اعلان عنوان را نمایش دهید.',
   'content.module.field.add': 'فیلد جدید اضافه کنید',
   'content.module.field.edit': 'فیلدها را اصلاح کنید',
-  'content.module.field.name.description': 'مانند: نویسنده مقاله، نوع، منبع محتوا و غیره.',
+  'content.module.field.name.description':
+    'مانند: نویسنده مقاله، نوع، منبع محتوا و غیره.',
   'content.module.field.level.none': 'همیشه نشان دهید',
   'content.module.field.level.follow': 'سطح خواندن سند را دنبال کنید',
   'content.module.field.isfilter': 'به عنوان پارامتر فیلتر',
@@ -312,7 +338,8 @@ export default {
     'فقط زمانی معتبر است که نوع فیلد از نوع انتخابی رادیویی، چند انتخابی یا کشویی باشد و از سطح خواندن سند پیروی نکند.',
   'content.module.field.default.description':
     'اگر این است: چندین مقدار برای انتخاب تک، چند انتخابی و کشویی، یک در هر خط.',
-  'content.module.delete.confirm': 'آیا مطمئن هستید که می خواهید مدل انتخاب شده را حذف کنید؟',
+  'content.module.delete.confirm':
+    'آیا مطمئن هستید که می خواهید مدل انتخاب شده را حذف کنید؟',
   'content.module.delete.content':
     'دسته ها و اسناد تحت این مدل نیز حذف خواهند شد، بنابراین لطفا با احتیاط عمل کنید.',
   'content.module.add': 'اضافه کردن مدل',
@@ -323,8 +350,10 @@ export default {
   'content.tags.add': 'برچسب اضافه کنید',
   'content.tags.seo-title.description':
     'توجه: اگر می خواهید محتوای تگ عنوان صفحه به غیر از نام تگ باشد، می توانید آن را از طریق عنوان سئو تنظیم کنید.',
-  'content.tags.seo-title.placeholder': 'پیش فرض نام برچسب است، نیازی به پر کردن نیست',
-  'content.tags.first-letter.description': 'توجه: فقط می توانید هر یک از A-Z را پر کنید',
+  'content.tags.seo-title.placeholder':
+    'پیش فرض نام برچسب است، نیازی به پر کردن نیست',
+  'content.tags.first-letter.description':
+    'توجه: فقط می توانید هر یک از A-Z را پر کنید',
   'content.tags.first-letter.name': 'نامه شاخص',
   'content.tags.delete.confirm':
     'آیا مطمئن هستید که می خواهید برچسب های مقاله انتخاب شده را حذف کنید؟',

@@ -8,6 +8,7 @@ export default {
   'content.flag.p': '画像[p]',
   'content.flag.j': 'ジャンプ[j]',
   'content.archive.all': 'すべての文書',
+  'content.archive.total': '{合計} 個のアイテムのうち {range0}-{range1} 個',
   'content.delete.confirm': '選択したドキュメントを削除してもよろしいですか?',
   'content.delete.success': '正常に削除されました',
   'content.delete.failure': '削除に失敗しました',
@@ -17,7 +18,8 @@ export default {
   'content.recover.failure': '回復に失敗しました',
   'content.recover.recovering': '回復',
   'content.category.required': 'タイプを選択してください',
-  'content.translate.confirm': '選択したドキュメントを翻訳してもよろしいですか?',
+  'content.translate.confirm':
+    '選択したドキュメントを翻訳してもよろしいですか?',
   'content.translate.tips':
     '文書翻訳サービスを使用する必要がある場合は、最初に Anqi アカウントをバインドしてください。',
   'content.translate.select-language': '翻訳対象言語を選択してください',
@@ -61,7 +63,8 @@ export default {
   'content.category.top': '上位分類',
   'content.category.parent': '小見出し',
   'content.category.all': 'すべてのカテゴリ',
-  'content.category.error': 'まずカテゴリを作成してからドキュメントを公開してください',
+  'content.category.error':
+    'まずカテゴリを作成してからドキュメントを公開してください',
   'content.views.name': 'ブラウズ',
   'content.status.draft': '下書き',
   'content.status.normal': '普通',
@@ -93,10 +96,14 @@ export default {
   'content.flag.select': '新しい推奨属性を選択してください',
   'content.status.select': '新しいステータスを選択してください',
   'content.time.select': '新しいドキュメントの時間を選択してください',
-  'content.time.create-time': '選択したドキュメントのリリース時間 (元の時間) を更新します',
-  'content.time.update-time': '選択した記事の最終編集時刻（更新時刻）を更新します',
-  'content.time.create-time-all': 'すべてのドキュメントのリリース時刻 (元の時刻) を更新します。',
-  'content.time.update-time-all': '全記事の最終編集時刻（更新時刻）を更新します。',
+  'content.time.create-time':
+    '選択したドキュメントのリリース時間 (元の時間) を更新します',
+  'content.time.update-time':
+    '選択した記事の最終編集時刻（更新時刻）を更新します',
+  'content.time.create-time-all':
+    'すべてのドキュメントのリリース時刻 (元の時刻) を更新します。',
+  'content.time.update-time-all':
+    '全記事の最終編集時刻（更新時刻）を更新します。',
   'content.category.select': '転送先のカテゴリを選択してください',
   'content.please-select': '選んでください',
   'content.plan.name': 'タスクを定期的にリリースする',
@@ -104,7 +111,8 @@ export default {
   'content.plan.tips.before': 'あなたが選びました',
   'content.plan.tips.after': '書類',
   'content.plan.daily-limit': '1日あたりの量',
-  'content.plan.daily-limit.placeholder': '整数を入力しない場合は同日発送されます',
+  'content.plan.daily-limit.placeholder':
+    '整数を入力しない場合は同日発送されます',
   'content.plan.daily-limit.suffix': '章',
   'content.plan.start-hour': '毎日の開始時間',
   'content.plan.start-hour.placeholder': 'デフォルトの8時',
@@ -114,10 +122,12 @@ export default {
   'content.title.required': 'タイトルを入力してください',
   'content.relation.name': '関連ドキュメント',
   'content.tag.name': 'タグタグ',
-  'content.tag.placeholder': 'タグは入力または選択可能、複数のタグが使用可能、分離可能',
+  'content.tag.placeholder':
+    'タグは入力または選択可能、複数のタグが使用可能、分離可能',
   'content.url-token.name': 'URL エイリアス',
   'content.create-time.name': 'リリースタイム',
-  'content.url-token.placeholder': 'デフォルトで自動生成されるため、入力する必要はありません',
+  'content.url-token.placeholder':
+    'デフォルトで自動生成されるため、入力する必要はありません',
   'content.url-token.tips':
     '注: URL エイリアスには文字、数字、アンダースコアのみを入力でき、スペースを含めることはできません。',
   'content.create-time.description':
@@ -135,9 +145,11 @@ export default {
   'content.param.other': 'その他のパラメータ',
   'content.origin-url.name': '元のアドレス',
   'content.field.default': 'デフォルトでは入力する必要はありません',
-  'content.origin-url.description': '記事の元のアドレスはデフォルトでは無視されます。',
+  'content.origin-url.description':
+    '記事の元のアドレスはデフォルトでは無視されます。',
   'content.seo-title.name': 'SEOタイトル',
-  'content.seo-title.placeholder': 'デフォルトは記事タイトルなので入力する必要はありません',
+  'content.seo-title.placeholder':
+    'デフォルトは記事タイトルなので入力する必要はありません',
   'content.seo-title.description':
     '注: ページのタイトルタグの内容を記事タイトル以外にしたい場合は、SEO タイトルを通じて設定できます。',
   'content.category.seo-title.placeholder':
@@ -154,7 +166,8 @@ export default {
     '注: このドキュメントへのリンクを永続的に固定し、疑似静的ルールで変更しない場合にのみ入力する必要があります。 相対リンク/開始',
   'content.archive-template.name': 'ドキュメントテンプレート',
   'content.default-template': 'デフォルトのテンプレート',
-  'content.archive-template.description': 'デフォルトでカテゴリに従うコンテンツ テンプレート',
+  'content.archive-template.description':
+    'デフォルトでカテゴリに従うコンテンツ テンプレート',
   'content.price.name': '価格',
   'content.price.suffix': 'ポイント',
   'content.papriceram.description':
@@ -180,7 +193,8 @@ export default {
     'サイトのアップロード ディレクトリをスキャンすると、ディレクトリ内の画像がデータベースに自動的に同期され、画像にサムネイルがない場合は、サムネイルも生成されます。',
   'content.attachment.scan.success':
     'バックグラウンド処理に送信され、結果は後でレンダリングされます',
-  'content.attachment.delete.image.confirm': '選択した画像を削除してもよろしいですか?',
+  'content.attachment.delete.image.confirm':
+    '選択した画像を削除してもよろしいですか?',
   'content.attachment.delete.content':
     '削除後にこのリソースのドキュメントやページを呼び出したり、画像リソースの読み込み時に404エラーが発生した場合は、削除する前にこのリソースを参照する場所がないか確認してください。',
   'content.attachment.move-to-category': '新しいカテゴリーに移動',
@@ -233,7 +247,8 @@ export default {
   'content.category.banner': 'バナー図',
   'content.category.thumb': 'サムネイル',
   'content.category.sort': '表示順',
-  'content.category.sort.description': 'デフォルトは 99 で、数値が小さいほど高くなります。',
+  'content.category.sort.description':
+    'デフォルトは 99 で、数値が小さいほど高くなります。',
   'content.category.template': '分類テンプレート',
   'content.category.default': 'デフォルト値',
   'content.category.inherit': 'サブカテゴリに適用されるテンプレート',
@@ -241,7 +256,8 @@ export default {
   'content.category.inherit.true': '応用',
   'content.category.inherit.description':
     'カスタム カテゴリ テンプレートが設定されている場合は、それをすべてのサブカテゴリに適用するか、現在のカテゴリにのみ適用するかを選択できます。',
-  'content.category.delete.confirm': '選択したカテゴリを削除してもよろしいですか?',
+  'content.category.delete.confirm':
+    '選択したカテゴリを削除してもよろしいですか?',
   'content.category.add-children': 'サブカテゴリを追加',
   'content.category.batch-add-children': 'サブカテゴリをバッチで追加する',
   'content.category.batch-add': 'カテゴリをバッチで追加する',
@@ -262,10 +278,13 @@ export default {
   'content.page.seo-title.description':
     '注: ページのタイトル タグのコンテンツを単一のページ名以外にしたい場合は、SEO タイトルを通じて設定できます。',
   'content.page.template': '単一ページのテンプレート',
-  'content.page.status.tips': '非表示に設定すると、このページはフロントに表示されなくなります。',
-  'content.page.delete.confirm': '選択した単一ページを削除してもよろしいですか?',
+  'content.page.status.tips':
+    '非表示に設定すると、このページはフロントに表示されなくなります。',
+  'content.page.delete.confirm':
+    '選択した単一ページを削除してもよろしいですか?',
   'content.page.template.name': 'テンプレート名',
-  'content.module.field.delete.confirm': 'このフィールドを削除してもよろしいですか?',
+  'content.module.field.delete.confirm':
+    'このフィールドを削除してもよろしいですか?',
   'content.module.field.delete.content':
     '対応するドキュメントのこのフィールドの内容も削除されます。',
   'content.module.field.error': '呼び出しフィールドは英字である必要があります',
@@ -293,7 +312,8 @@ export default {
   'content.module.setting': 'モデル設定',
   'content.module.title': '機種名',
   'content.module.field': 'モデルテーブル名',
-  'content.module.field.description': '英語の小文字のみがサポートされています。',
+  'content.module.field.description':
+    '英語の小文字のみがサポートされています。',
   'content.module.url-token.tips.before':
     '擬似静的ルールで定義された英語の小文字のみをサポートします',
   'content.module.url-token.tips.after': '移行。',
@@ -302,7 +322,8 @@ export default {
     'ドキュメントを公開するときにタイトル プロンプトの位置を表示します。',
   'content.module.field.add': '新しいフィールドを追加',
   'content.module.field.edit': 'フィールドを変更する',
-  'content.module.field.name.description': '例: 記事の作成者、タイプ、コンテンツ ソースなど。',
+  'content.module.field.name.description':
+    '例: 記事の作成者、タイプ、コンテンツ ソースなど。',
   'content.module.field.level.none': 'いつも見せる',
   'content.module.field.level.follow': '文書の読み取りレベルに従う',
   'content.module.field.isfilter': 'フィルタパラメータとして',
@@ -323,8 +344,10 @@ export default {
   'content.tags.add': 'タグ付けする',
   'content.tags.seo-title.description':
     '注: ページのタイトル タグの内容をタグ名以外にしたい場合は、SEO タイトルを通じて設定できます。',
-  'content.tags.seo-title.placeholder': 'デフォルトはラベル名です。入力する必要はありません。',
-  'content.tags.first-letter.description': '注: A ～ Z のいずれか 1 つだけを入力できます。',
+  'content.tags.seo-title.placeholder':
+    'デフォルトはラベル名です。入力する必要はありません。',
+  'content.tags.first-letter.description':
+    '注: A ～ Z のいずれか 1 つだけを入力できます。',
   'content.tags.first-letter.name': 'インデックスレター',
   'content.tags.delete.confirm': '選択した記事タグを削除してもよろしいですか?',
   'content.tags.batch-add': 'タグをバッチで追加する',

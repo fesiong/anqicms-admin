@@ -8,6 +8,7 @@ export default {
   'content.flag.p': 'ছবি[p]',
   'content.flag.j': 'লাফ [j]',
   'content.archive.all': 'সকল কাগজপত্র',
+  'content.archive.total': '{total}টি আইটেমের মধ্যে {range0}-{range1}',
   'content.delete.confirm': 'আপনি কি নির্বাচিত নথি মুছে ফেলার বিষয়ে নিশ্চিত?',
   'content.delete.success': 'সফলভাবে মুছে ফেলা হয়েছে',
   'content.delete.failure': 'মুছে ফেলতে ব্যর্থ',
@@ -47,7 +48,8 @@ export default {
   'content.translate.ar': 'আরবি',
   'content.translate.ms': 'মলয়',
   'content.translate.translating': 'অনুবাদ',
-  'content.pseudo.confirm': 'আপনি কি নিশ্চিত যে AI নির্বাচিত নথিটি পুনরায় লিখতে চান?',
+  'content.pseudo.confirm':
+    'আপনি কি নিশ্চিত যে AI নির্বাচিত নথিটি পুনরায় লিখতে চান?',
   'content.pseudo.content':
     'আপনার যদি ডকুমেন্ট এআই রিরাইটিং পরিষেবা ব্যবহার করতে হয়, অনুগ্রহ করে প্রথমে আপনার আনকি অ্যাকাউন্ট বাঁধুন।',
   'content.sort.required': 'অনুগ্রহ করে 0-এর চেয়ে বড় একটি সংখ্যা পূরণ করুন',
@@ -77,7 +79,8 @@ export default {
   'content.action.aipseudo': 'এআই পুনর্লিখন',
   'content.action.aipseudo.tips': 'এআই এই নিবন্ধটি পুনরায় লিখছে',
   'content.action.copy': 'অনুলিপি',
-  'content.action.copy.tips': 'পাঠ্য অনুলিপি করুন এবং একটি নতুন নিবন্ধ পোস্ট করুন',
+  'content.action.copy.tips':
+    'পাঠ্য অনুলিপি করুন এবং একটি নতুন নিবন্ধ পোস্ট করুন',
   'content.action.recover': 'পুনরুদ্ধার',
   'content.action.more': 'আরও',
   'content.recycle.name': 'ডকুমেন্ট রিসাইকেল বিন',
@@ -94,10 +97,14 @@ export default {
   'content.flag.select': 'একটি নতুন প্রস্তাবিত বৈশিষ্ট্য নির্বাচন করুন',
   'content.status.select': 'একটি নতুন স্থিতি নির্বাচন করুন',
   'content.time.select': 'একটি নতুন নথি সময় নির্বাচন করুন',
-  'content.time.create-time': 'নির্বাচিত নথির প্রকাশের সময় (মূল সময়) আপডেট করুন',
-  'content.time.update-time': 'নির্বাচিত নিবন্ধের শেষ সম্পাদনার সময় (আপডেট সময়) আপডেট করুন',
-  'content.time.create-time-all': 'সমস্ত নথির প্রকাশের সময় (মূল সময়) আপডেট করুন',
-  'content.time.update-time-all': 'সব নিবন্ধের শেষ সম্পাদনার সময় (আপডেট সময়) আপডেট করুন',
+  'content.time.create-time':
+    'নির্বাচিত নথির প্রকাশের সময় (মূল সময়) আপডেট করুন',
+  'content.time.update-time':
+    'নির্বাচিত নিবন্ধের শেষ সম্পাদনার সময় (আপডেট সময়) আপডেট করুন',
+  'content.time.create-time-all':
+    'সমস্ত নথির প্রকাশের সময় (মূল সময়) আপডেট করুন',
+  'content.time.update-time-all':
+    'সব নিবন্ধের শেষ সম্পাদনার সময় (আপডেট সময়) আপডেট করুন',
   'content.category.select': 'স্থানান্তর করার জন্য বিভাগ নির্বাচন করুন',
   'content.please-select': 'পছন্দ কর',
   'content.plan.name': 'নিয়মিত কাজগুলো ছেড়ে দিন',
@@ -139,16 +146,20 @@ export default {
   'content.param.other': 'অন্যান্য পরামিতি',
   'content.origin-url.name': 'আসল ঠিকানা',
   'content.field.default': 'ডিফল্টভাবে পূরণ করার প্রয়োজন নেই',
-  'content.origin-url.description': 'নিবন্ধটির মূল ঠিকানাটি ডিফল্টরূপে উপেক্ষা করা হয়।',
+  'content.origin-url.description':
+    'নিবন্ধটির মূল ঠিকানাটি ডিফল্টরূপে উপেক্ষা করা হয়।',
   'content.seo-title.name': 'এসইও শিরোনাম',
-  'content.seo-title.placeholder': 'ডিফল্ট নিবন্ধ শিরোনাম, পূরণ করার প্রয়োজন নেই',
+  'content.seo-title.placeholder':
+    'ডিফল্ট নিবন্ধ শিরোনাম, পূরণ করার প্রয়োজন নেই',
   'content.seo-title.description':
     'দ্রষ্টব্য: আপনি যদি পৃষ্ঠার শিরোনাম ট্যাগের বিষয়বস্তু নিবন্ধের শিরোনাম ছাড়া অন্য হতে চান তবে আপনি SEO শিরোনামের মাধ্যমে এটি সেট করতে পারেন',
-  'content.category.seo-title.placeholder': 'ডিফল্ট হল বিভাগের নাম, পূরণ করার প্রয়োজন নেই',
+  'content.category.seo-title.placeholder':
+    'ডিফল্ট হল বিভাগের নাম, পূরণ করার প্রয়োজন নেই',
   'content.category.seo-title.description':
     'দ্রষ্টব্য: আপনি যদি পৃষ্ঠার শিরোনাম ট্যাগের বিষয়বস্তুটি বিভাগের নাম ছাড়া অন্য হতে চান তবে আপনি এটি SEO শিরোনামের মাধ্যমে সেট করতে পারেন।',
   'content.canonical-url.name': 'ক্যানোনিকাল লিঙ্ক',
-  'content.canonical-url.placeholder': 'ডিফল্ট ডকুমেন্ট লিঙ্ক, পূরণ করার প্রয়োজন নেই',
+  'content.canonical-url.placeholder':
+    'ডিফল্ট ডকুমেন্ট লিঙ্ক, পূরণ করার প্রয়োজন নেই',
   'content.canonical-url.description':
     'দ্রষ্টব্য: আপনি যদি বর্তমান নথিটিকে অন্য পৃষ্ঠায় নির্দেশ করতে চান তবে আপনাকে শুধুমাত্র এটি এখানে পূরণ করতে হবে।',
   'content.fixed-link.name': 'পার্মালিঙ্ক',
@@ -156,7 +167,8 @@ export default {
     'দ্রষ্টব্য: যদি আপনি এই নথির লিঙ্কটি স্থায়ীভাবে স্থির করতে চান এবং ছদ্ম-স্ট্যাটিক নিয়মগুলির সাথে পরিবর্তন না করতে চান তবেই আপনাকে এটি পূরণ করতে হবে৷ আপেক্ষিক লিঙ্ক / শুরু',
   'content.archive-template.name': 'নথি টেমপ্লেট',
   'content.default-template': 'ডিফল্ট টেমপ্লেট',
-  'content.archive-template.description': 'বিষয়বস্তু টেমপ্লেট যা ডিফল্টভাবে বিভাগ অনুসরণ করে',
+  'content.archive-template.description':
+    'বিষয়বস্তু টেমপ্লেট যা ডিফল্টভাবে বিভাগ অনুসরণ করে',
   'content.price.name': 'মূল্য',
   'content.price.suffix': 'বিন্দু',
   'content.papriceram.description':
@@ -182,7 +194,8 @@ export default {
     'সাইটের আপলোড ডিরেক্টরি স্ক্যান করুন, এবং ডিরেক্টরিতে থাকা চিত্রগুলি স্বয়ংক্রিয়ভাবে ডাটাবেসের সাথে সিঙ্ক্রোনাইজ করা হবে এবং বর্তমান চিত্র সংস্থান তালিকায় প্রদর্শিত হবে যদি ছবিতে থাম্বনেইল না থাকে তবে একটি থাম্বনেইলও তৈরি হবে৷',
   'content.attachment.scan.success':
     'পটভূমি প্রক্রিয়াকরণে জমা দেওয়া হয়েছে, ফলাফল পরে রেন্ডার করা হবে',
-  'content.attachment.delete.image.confirm': 'আপনি কি নির্বাচিত ছবি মুছে ফেলার বিষয়ে নিশ্চিত?',
+  'content.attachment.delete.image.confirm':
+    'আপনি কি নির্বাচিত ছবি মুছে ফেলার বিষয়ে নিশ্চিত?',
   'content.attachment.delete.content':
     'মুছে ফেলার পরে, আপনি যদি এই সংস্থানের নথি এবং পৃষ্ঠাগুলিকে কল করেন, বা চিত্র সংস্থান লোড করার সময় একটি 404 ত্রুটি ঘটে, দয়া করে নিশ্চিত করুন যে এই সংস্থানটি মুছে ফেলার আগে উল্লেখ করার কোনও জায়গা নেই৷',
   'content.attachment.move-to-category': 'নতুন বিভাগে যান',
@@ -235,7 +248,8 @@ export default {
   'content.category.banner': 'ব্যানার ডায়াগ্রাম',
   'content.category.thumb': 'থাম্বনেইল',
   'content.category.sort': 'প্রদর্শন আদেশ',
-  'content.category.sort.description': 'ডিফল্ট হল 99, সংখ্যা যত ছোট হবে, তত বেশি।',
+  'content.category.sort.description':
+    'ডিফল্ট হল 99, সংখ্যা যত ছোট হবে, তত বেশি।',
   'content.category.template': 'শ্রেণিবিন্যাস টেমপ্লেট',
   'content.category.default': 'ডিফল্ট মান',
   'content.category.inherit': 'টেমপ্লেট উপশ্রেণীতে প্রয়োগ করা হয়েছে',
@@ -243,32 +257,40 @@ export default {
   'content.category.inherit.true': 'আবেদন',
   'content.category.inherit.description':
     'যদি একটি কাস্টম বিভাগ টেমপ্লেট সেট করা হয়, আপনি এটি সমস্ত উপশ্রেণীতে প্রয়োগ করতে বেছে নিতে পারেন, অথবা শুধুমাত্র বর্তমান বিভাগে কার্যকর করতে পারেন৷',
-  'content.category.delete.confirm': 'আপনি কি নির্বাচিত বিভাগটি মুছে ফেলার বিষয়ে নিশ্চিত?',
+  'content.category.delete.confirm':
+    'আপনি কি নির্বাচিত বিভাগটি মুছে ফেলার বিষয়ে নিশ্চিত?',
   'content.category.add-children': 'উপশ্রেণী যোগ করুন',
   'content.category.batch-add-children': 'ব্যাচে উপশ্রেণী যোগ করুন',
   'content.category.batch-add': 'ব্যাচে বিভাগ যোগ করুন',
   'content.category.batch-add-top': 'শীর্ষ-স্তরের বিভাগ যোগ করুন',
   'content.category.batch-name': 'ব্যাচের শ্রেণিবিন্যাস নাম',
-  'content.category.batch-name.placeholder': 'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
-  'content.category.batch-name.tips1': 'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
-  'content.category.batch-name.tips2': 'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
-  'content.category.batch-name.tips3': 'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
+  'content.category.batch-name.placeholder':
+    'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
+  'content.category.batch-name.tips1':
+    'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
+  'content.category.batch-name.tips2':
+    'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
+  'content.category.batch-name.tips3':
+    'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
   'content.category.batch-name.tips4': 'ব্লগ',
   'content.page.input.required': 'পৃষ্ঠার নাম পূরণ করুন',
   'content.page.edit': 'একক পৃষ্ঠা পরিবর্তন করুন',
   'content.page.new': 'একটি একক পৃষ্ঠা যোগ করুন',
   'content.page.name': 'একক পৃষ্ঠার নাম',
   'content.page.description': 'একক পৃষ্ঠার ভূমিকা',
-  'content.page.seo-title.placeholder': 'ডিফল্ট একটি একক পৃষ্ঠার নাম, পূরণ করার প্রয়োজন নেই',
+  'content.page.seo-title.placeholder':
+    'ডিফল্ট একটি একক পৃষ্ঠার নাম, পূরণ করার প্রয়োজন নেই',
   'content.page.seo-title.description':
     'দ্রষ্টব্য: আপনি যদি পৃষ্ঠার শিরোনাম ট্যাগের বিষয়বস্তু একটি একক পৃষ্ঠার নাম ছাড়া অন্য হতে চান তবে আপনি SEO শিরোনামের মাধ্যমে এটি সেট করতে পারেন',
   'content.page.template': 'একক পৃষ্ঠার টেমপ্লেট',
   'content.page.status.tips':
     'লুকানোর জন্য সেট করার পরে, এই একক পৃষ্ঠা সামনের ডেস্কে প্রদর্শিত হবে না।',
-  'content.page.delete.confirm': 'আপনি কি নিশ্চিত যে আপনি নির্বাচিত একক পৃষ্ঠা মুছে ফেলতে চান?',
+  'content.page.delete.confirm':
+    'আপনি কি নিশ্চিত যে আপনি নির্বাচিত একক পৃষ্ঠা মুছে ফেলতে চান?',
   'content.page.template.name': 'টেম্পলেট নাম',
   'content.module.field.delete.confirm': 'আপনি কি এই ক্ষেত্রটি মুছতে চান?',
-  'content.module.field.delete.content': 'সংশ্লিষ্ট নথিতে এই ক্ষেত্রের বিষয়বস্তুও মুছে ফেলা হবে।',
+  'content.module.field.delete.content':
+    'সংশ্লিষ্ট নথিতে এই ক্ষেত্রের বিষয়বস্তুও মুছে ফেলা হবে।',
   'content.module.field.error': 'কলিং ক্ষেত্রটি অবশ্যই ইংরেজি অক্ষরে হতে হবে',
   'content.module.field.name': 'পরামিতি নাম',
   'content.module.field.field-name': 'কল ক্ষেত্র',
@@ -294,7 +316,8 @@ export default {
   'content.module.setting': 'মডেল সেটিংস',
   'content.module.title': 'ণশড',
   'content.module.field': 'মডেল টেবিলের নাম',
-  'content.module.field.description': 'শুধুমাত্র ইংরেজি ছোট হাতের অক্ষর সমর্থিত।',
+  'content.module.field.description':
+    'শুধুমাত্র ইংরেজি ছোট হাতের অক্ষর সমর্থিত।',
   'content.module.url-token.tips.before':
     'শুধুমাত্র ইংরেজি ছোট হাতের অক্ষর সমর্থন করে, ছদ্ম-স্ট্যাটিক নিয়ম দ্বারা সংজ্ঞায়িত',
   'content.module.url-token.tips.after': 'স্থানান্তর',
@@ -303,7 +326,8 @@ export default {
     'নথিটি প্রকাশ করার সময় শিরোনাম প্রম্পট অবস্থান প্রদর্শন করুন।',
   'content.module.field.add': 'নতুন ক্ষেত্র যোগ করুন',
   'content.module.field.edit': 'ক্ষেত্র পরিবর্তন করুন',
-  'content.module.field.name.description': 'যেমন: নিবন্ধের লেখক, প্রকার, বিষয়বস্তুর উৎস ইত্যাদি।',
+  'content.module.field.name.description':
+    'যেমন: নিবন্ধের লেখক, প্রকার, বিষয়বস্তুর উৎস ইত্যাদি।',
   'content.module.field.level.none': 'সবসময় প্রদর্শন',
   'content.module.field.level.follow': 'নথি পড়ার স্তর অনুসরণ করুন',
   'content.module.field.isfilter': 'ফিল্টার প্যারামিটার হিসাবে',
@@ -313,7 +337,8 @@ export default {
     'এটি শুধুমাত্র তখনই বৈধ যখন ক্ষেত্রের ধরনটি রেডিও-নির্বাচন, বহু-নির্বাচন, বা ড্রপ-ডাউন টাইপ এবং নথি পড়ার স্তর অনুসরণ করে না৷',
   'content.module.field.default.description':
     'যদি এটি হয়: একক নির্বাচনের জন্য একাধিক মান, বহু-নির্বাচন এবং ড্রপ-ডাউন, প্রতি লাইনে একটি।',
-  'content.module.delete.confirm': 'আপনি নির্বাচিত মডেল মুছে ফেলার বিষয়ে নিশ্চিত?',
+  'content.module.delete.confirm':
+    'আপনি নির্বাচিত মডেল মুছে ফেলার বিষয়ে নিশ্চিত?',
   'content.module.delete.content':
     'এই মডেলের অধীনে বিভাগ এবং নথিগুলিও মুছে ফেলা হবে, তাই দয়া করে সতর্কতার সাথে কাজ করুন৷',
   'content.module.add': 'মডেল যোগ করুন',
@@ -324,10 +349,12 @@ export default {
   'content.tags.add': 'ট্যাগ যোগ করুন',
   'content.tags.seo-title.description':
     'দ্রষ্টব্য: আপনি যদি পৃষ্ঠার শিরোনাম ট্যাগের বিষয়বস্তু ট্যাগের নাম ছাড়া অন্য হতে চান তবে আপনি এটি SEO শিরোনামের মাধ্যমে সেট করতে পারেন',
-  'content.tags.seo-title.placeholder': 'ডিফল্ট হল লেবেলের নাম, পূরণ করার দরকার নেই',
+  'content.tags.seo-title.placeholder':
+    'ডিফল্ট হল লেবেলের নাম, পূরণ করার দরকার নেই',
   'content.tags.first-letter.description':
     'দ্রষ্টব্য: আপনি শুধুমাত্র A-Z থেকে যেকোনো একটি পূরণ করতে পারেন',
   'content.tags.first-letter.name': 'সূচিপত্র',
-  'content.tags.delete.confirm': 'আপনি কি নির্বাচিত নিবন্ধ ট্যাগ মুছে ফেলার বিষয়ে নিশ্চিত?',
+  'content.tags.delete.confirm':
+    'আপনি কি নির্বাচিত নিবন্ধ ট্যাগ মুছে ফেলার বিষয়ে নিশ্চিত?',
   'content.tags.batch-add': 'ব্যাচে ট্যাগ যোগ করুন',
 };

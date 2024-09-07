@@ -8,6 +8,7 @@ export default {
   'content.flag.p': '图片[p]',
   'content.flag.j': '跳转[j]',
   'content.archive.all': '所有文档',
+  'content.archive.total': '第 {range0}-{range1} 条/总共 {total} 条',
   'content.delete.confirm': '确定要删除选中的文档吗？',
   'content.delete.success': '删除成功',
   'content.delete.failure': '删除失败',
@@ -116,12 +117,14 @@ export default {
   'content.url-token.name': 'URL别名',
   'content.create-time.name': '发布时间',
   'content.url-token.placeholder': '默认会自动生成，无需填写',
-  'content.url-token.tips': '注意：URL别名只能填写字母、数字和下划线，不能带空格',
+  'content.url-token.tips':
+    '注意：URL别名只能填写字母、数字和下划线，不能带空格',
   'content.create-time.description':
     '如果你选择的是未来的时间，则会被放入到待发布列表，等待时间到了才会正式发布',
   'content.preview': '文档预览',
   'content.networt.error': '网络异常',
-  'content.confirm-giveup': '你有尚未保存的内容，直接离开会导致内容丢失，确定要离开吗？',
+  'content.confirm-giveup':
+    '你有尚未保存的内容，直接离开会导致内容丢失，确定要离开吗？',
   'content.submit.confirm': '是否需要继续提交？',
   'content.submit.cancel': '返回修改',
   'content.submit.ok-force': '强制提交',
@@ -156,10 +159,12 @@ export default {
   'content.stock.suffix': '件',
   'content.read-level.name': '阅读等级',
   'content.unlimit': '不限制',
-  'content.read-level.description': '如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读',
+  'content.read-level.description':
+    '如果选择了阅读等级，则要求用户登录并达到指定等级才能阅读',
   'content.password.name': '文档密码',
   'content.password.placeholder': '可以设置文档密码',
-  'content.password.description': '如果你想设置这篇文章为密码查看，可以填写密码。',
+  'content.password.description':
+    '如果你想设置这篇文章为密码查看，可以填写密码。',
   'content.param.default': '默认值：',
   'content.submit.ok': '提交',
   'content.submit.draft': '存草稿',
@@ -197,7 +202,8 @@ export default {
   'content.attachment.address': '资源地址',
   'content.attachment.edit': '修改文件名(ALT)',
   'content.attachment.explain': '相关说明',
-  'content.attachment.explain.tips1': '1、替换资源时，资源的URL地址不变，资源大小变为新资源的。',
+  'content.attachment.explain.tips1':
+    '1、替换资源时，资源的URL地址不变，资源大小变为新资源的。',
   'content.attachment.explain.tips2':
     '2、为避免页面受大图影响，当图片过大时，自动按设置的图片大小进行同比例缩小。',
   'content.attachment.explain.tips3':
@@ -211,7 +217,8 @@ export default {
   'content.category.rename': '重命名分类',
   'content.category.input.required': '请填写分类名称',
   'content.notice': '新增分类',
-  'content.url-token.dublicate.tips': '已被其它分类占用，请修改为新的别名以防系统出错。',
+  'content.url-token.dublicate.tips':
+    '已被其它分类占用，请修改为新的别名以防系统出错。',
   'content.category.status': '显示状态',
   'content.category.status.hide': '隐藏',
   'content.category.status.ok': '显示',
@@ -279,10 +286,12 @@ export default {
   'content.module.title': '模型名称',
   'content.module.field': '模型表名',
   'content.module.field.description': '仅支持英文小写字母。',
-  'content.module.url-token.tips.before': '仅支持英文小写字母，伪静态规则定义的',
+  'content.module.url-token.tips.before':
+    '仅支持英文小写字母，伪静态规则定义的',
   'content.module.url-token.tips.after': '调用。',
   'content.module.title-name': '标题名称',
-  'content.module.title-name.description': '显示在发布文档的时候的标题提示位置。',
+  'content.module.title-name.description':
+    '显示在发布文档的时候的标题提示位置。',
   'content.module.field.add': '新增字段',
   'content.module.field.edit': '修改字段',
   'content.module.field.name.description': '如：文章作者、类型、内容来源等',
@@ -293,9 +302,11 @@ export default {
   'content.module.field.isfilter.no': '否',
   'content.module.field.isfilter.description':
     '只有字段类型是单选、多选、下拉类型并且不是跟随文档阅读等级的时候，才有效',
-  'content.module.field.default.description': '如果是：单选、多选、下拉的多个值，一行一个。',
+  'content.module.field.default.description':
+    '如果是：单选、多选、下拉的多个值，一行一个。',
   'content.module.delete.confirm': '确定要删除选中的模型吗？',
-  'content.module.delete.content': '该模型下的分类、文档也会一并被删除，请谨慎操作。',
+  'content.module.delete.content':
+    '该模型下的分类、文档也会一并被删除，请谨慎操作。',
   'content.module.add': '添加模型',
   'content.tag.batch-add': '批量添加标签（一行一个）',
   'content.tags.name': '标签名称',

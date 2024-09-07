@@ -8,19 +8,24 @@ export default {
   'content.flag.p': 'Imagem',
   'content.flag.j': 'Salte[j]',
   'content.archive.all': 'Todos os documentos',
-  'content.delete.confirm': 'Tem certeza de que deseja excluir os documentos selecionados?',
+  'content.archive.total': '{range0}-{range1} de {total} itens',
+  'content.delete.confirm':
+    'Tem certeza de que deseja excluir os documentos selecionados?',
   'content.delete.success': 'excluído com sucesso',
   'content.delete.failure': 'não foi possível excluir',
   'content.delete.deletting': 'excluindo',
-  'content.recover.confirm': 'Tem certeza de que deseja restaurar os documentos selecionados?',
+  'content.recover.confirm':
+    'Tem certeza de que deseja restaurar os documentos selecionados?',
   'content.recover.success': 'Recuperação bem-sucedida',
   'content.recover.failure': 'Falha na recuperação',
   'content.recover.recovering': 'Recuperando',
   'content.category.required': 'selecione um tipo',
-  'content.translate.confirm': 'Tem certeza de que deseja traduzir os documentos selecionados?',
+  'content.translate.confirm':
+    'Tem certeza de que deseja traduzir os documentos selecionados?',
   'content.translate.tips':
     'Se você precisar usar o serviço de tradução de documentos, primeiro vincule sua conta Anqi.',
-  'content.translate.select-language': 'Selecione o idioma de destino da tradução',
+  'content.translate.select-language':
+    'Selecione o idioma de destino da tradução',
   'content.translate.select': 'por favor escolha',
   'content.translate.en': 'Inglês',
   'content.translate.zh-cn': 'Chinês simplificado',
@@ -47,7 +52,8 @@ export default {
   'content.translate.ar': 'árabe',
   'content.translate.ms': 'malaio',
   'content.translate.translating': 'traduzindo',
-  'content.pseudo.confirm': 'Tem certeza de que deseja que a IA reescreva o documento selecionado?',
+  'content.pseudo.confirm':
+    'Tem certeza de que deseja que a IA reescreva o documento selecionado?',
   'content.pseudo.content':
     'Se você precisar usar o serviço de reescrita de documentos AI, primeiro vincule sua conta Anqi.',
   'content.sort.required': 'Por favor preencha um número maior que 0',
@@ -61,18 +67,21 @@ export default {
   'content.category.top': 'Classificação superior',
   'content.category.parent': 'Subtítulos',
   'content.category.all': 'todas as categorias',
-  'content.category.error': 'Por favor, crie uma categoria primeiro e depois publique o documento',
+  'content.category.error':
+    'Por favor, crie uma categoria primeiro e depois publique o documento',
   'content.views.name': 'Navegar',
   'content.status.draft': 'rascunho',
   'content.status.normal': 'normal',
   'content.status.plan': 'A ser lançado',
   'content.keywords.name': 'Palavras-chave',
-  'content.keywords.description': 'Você pode definir palavras-chave individualmente',
+  'content.keywords.description':
+    'Você pode definir palavras-chave individualmente',
   'content.description.name': 'Introdução',
   'content.create-update-time': 'Hora de lançamento/atualização',
   'content.action.quick-edit': 'Edição rápida',
   'content.action.translate': 'traduzir',
-  'content.action.translate.tips': 'Traduza o conteúdo para o idioma correspondente',
+  'content.action.translate.tips':
+    'Traduza o conteúdo para o idioma correspondente',
   'content.action.aipseudo': 'Reescrita de IA',
   'content.action.aipseudo.tips': 'AI reescreve este artigo',
   'content.action.copy': 'cópia de',
@@ -142,9 +151,11 @@ export default {
   'content.param.other': 'Outros parâmetros',
   'content.origin-url.name': 'Endereço original',
   'content.field.default': 'Não há necessidade de preencher por padrão',
-  'content.origin-url.description': 'O endereço original do artigo é ignorado por padrão.',
+  'content.origin-url.description':
+    'O endereço original do artigo é ignorado por padrão.',
   'content.seo-title.name': 'Título SEO',
-  'content.seo-title.placeholder': 'O padrão é o título do artigo, não há necessidade de preencher',
+  'content.seo-title.placeholder':
+    'O padrão é o título do artigo, não há necessidade de preencher',
   'content.seo-title.description':
     'Nota: Se quiser que o conteúdo da tag de título da página seja diferente do título do artigo, você pode defini-lo através do título SEO',
   'content.category.seo-title.placeholder':
@@ -152,7 +163,8 @@ export default {
   'content.category.seo-title.description':
     'Nota: Se quiser que o conteúdo da tag de título da página seja diferente do nome da categoria, você pode defini-lo através do título SEO.',
   'content.canonical-url.name': 'link canônico',
-  'content.canonical-url.placeholder': 'O padrão é o link do documento, não é necessário preencher',
+  'content.canonical-url.placeholder':
+    'O padrão é o link do documento, não é necessário preencher',
   'content.canonical-url.description':
     'Nota: Se quiser direcionar o documento atual para outra página, basta preenchê-lo aqui.',
   'content.fixed-link.name': 'Link permanente',
@@ -160,7 +172,8 @@ export default {
     'Nota: Você só precisa preenchê-lo se quiser que o link para este documento seja corrigido permanentemente e não seja alterado com as regras pseudoestáticas. Link relativo/início',
   'content.archive-template.name': 'Modelo de documento',
   'content.default-template': 'Modelo padrão',
-  'content.archive-template.description': 'Modelos de conteúdo que seguem categorias por padrão',
+  'content.archive-template.description':
+    'Modelos de conteúdo que seguem categorias por padrão',
   'content.price.name': 'preço',
   'content.price.suffix': 'apontar',
   'content.papriceram.description':
@@ -199,7 +212,8 @@ export default {
   'content.attachment.select-all': 'Selecionar tudo',
   'content.attachment.batch-delete': 'Exclua fotos em lotes',
   'content.attachment.filter': 'filtro',
-  'content.attachment.search': 'Insira a pesquisa por palavra-chave do nome do arquivo',
+  'content.attachment.search':
+    'Insira a pesquisa por palavra-chave do nome do arquivo',
   'content.attachment.all-source': 'Todos os recursos',
   'content.attachment.category.manage': 'Gerenciamento de classificação',
   'content.attachment.upload': 'Carregar novos recursos',
@@ -240,7 +254,8 @@ export default {
   'content.category.banner': 'Diagrama de banner',
   'content.category.thumb': 'miniatura',
   'content.category.sort': 'Ordem de exibição',
-  'content.category.sort.description': 'O padrão é 99, quanto menor o número, maior ele é.',
+  'content.category.sort.description':
+    'O padrão é 99, quanto menor o número, maior ele é.',
   'content.category.template': 'Modelo de classificação',
   'content.category.default': 'valor padrão',
   'content.category.inherit': 'Modelo aplicado a subcategorias',
@@ -248,7 +263,8 @@ export default {
   'content.category.inherit.true': 'aplicativo',
   'content.category.inherit.description':
     'Se um modelo de categoria personalizado estiver definido, você poderá optar por aplicá-lo a todas as subcategorias ou apenas ter efeito na categoria atual.',
-  'content.category.delete.confirm': 'Tem certeza de que deseja excluir a categoria selecionada?',
+  'content.category.delete.confirm':
+    'Tem certeza de que deseja excluir a categoria selecionada?',
   'content.category.add-children': 'Adicionar subcategoria',
   'content.category.batch-add-children': 'Adicione subcategorias em lotes',
   'content.category.batch-add': 'Adicione categorias em lotes',
@@ -271,12 +287,15 @@ export default {
   'content.page.template': 'Modelo de página única',
   'content.page.status.tips':
     'Após configurar para ocultar, esta única página não aparecerá na recepção.',
-  'content.page.delete.confirm': 'Tem certeza de que deseja excluir a única página selecionada?',
+  'content.page.delete.confirm':
+    'Tem certeza de que deseja excluir a única página selecionada?',
   'content.page.template.name': 'Nome do modelo',
-  'content.module.field.delete.confirm': 'Tem certeza de que deseja excluir este campo?',
+  'content.module.field.delete.confirm':
+    'Tem certeza de que deseja excluir este campo?',
   'content.module.field.delete.content':
     'O conteúdo deste campo no documento correspondente também será excluído.',
-  'content.module.field.error': 'O campo de chamada deve estar em letras inglesas',
+  'content.module.field.error':
+    'O campo de chamada deve estar em letras inglesas',
   'content.module.field.name': 'nome do parâmetro',
   'content.module.field.field-name': 'campo de chamada',
   'content.module.field.field-name.description':
@@ -301,7 +320,8 @@ export default {
   'content.module.setting': 'Configurações do modelo',
   'content.module.title': 'Nome do modelo',
   'content.module.field': 'Nome da tabela modelo',
-  'content.module.field.description': 'Somente letras minúsculas em inglês são suportadas.',
+  'content.module.field.description':
+    'Somente letras minúsculas em inglês são suportadas.',
   'content.module.url-token.tips.before':
     'Suporta apenas letras minúsculas em inglês, definidas por regras pseudoestáticas',
   'content.module.url-token.tips.after': 'transferir.',
@@ -321,7 +341,8 @@ export default {
     'Só é válido quando o tipo de campo é do tipo radio-select, multi-select ou drop-down e não segue o nível de leitura do documento.',
   'content.module.field.default.description':
     'Se for: vários valores para seleção única, seleção múltipla e menu suspenso, um por linha.',
-  'content.module.delete.confirm': 'Tem certeza de que deseja excluir o modelo selecionado?',
+  'content.module.delete.confirm':
+    'Tem certeza de que deseja excluir o modelo selecionado?',
   'content.module.delete.content':
     'Categorias e documentos neste modelo também serão excluídos, portanto, opere com cautela.',
   'content.module.add': 'Adicionar modelo',
@@ -334,7 +355,8 @@ export default {
     'Nota: Se quiser que o conteúdo da tag de título da página seja diferente do nome da tag, você pode defini-lo através do título SEO',
   'content.tags.seo-title.placeholder':
     'O padrão é o nome do rótulo, não há necessidade de preencher',
-  'content.tags.first-letter.description': 'Observação: você só pode preencher qualquer um de A-Z',
+  'content.tags.first-letter.description':
+    'Observação: você só pode preencher qualquer um de A-Z',
   'content.tags.first-letter.name': 'carta de índice',
   'content.tags.delete.confirm':
     'Tem certeza de que deseja excluir as tags de artigo selecionadas?',
