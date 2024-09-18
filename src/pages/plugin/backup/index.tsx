@@ -5,38 +5,79 @@ import {
   pluginBackupImport,
   pluginBackupRestore,
   pluginGetBackupList,
+  pluginGetBackupStatus,
 } from '@/services';
-import { downloadFile, sizeFormat, sleep } from '@/utils';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { downloadFile, sizeFormat } from '@/utils';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Modal, Radio, Space, Upload, message } from 'antd';
+import { Button, Modal, Progress, Radio, Space, Upload, message } from 'antd';
 import dayjs from 'dayjs';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 let running = false;
+let intXhr: any = null;
 
 const PluginUserGroup: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const [task, setTask] = useState<any>(null);
+
   let cleanUploads = false;
   const intl = useIntl();
+
+  const syncTask = async () => {
+    pluginGetBackupStatus().then((res) => {
+      if (res.data) {
+        running = true;
+        setTask(res.data);
+      } else {
+        if (running) {
+          running = false;
+          actionRef.current?.reload();
+        }
+        setTask(null);
+      }
+    });
+  };
+
+  useEffect(() => {
+    // 进入页面的时候查询一次task
+    syncTask();
+    // 定时查询task
+    intXhr = setInterval(() => {
+      syncTask();
+    }, 1500);
+    return () => {
+      running = false;
+      clearInterval(intXhr);
+    };
+  }, []);
 
   const handleBackupData = async () => {
     if (running) {
       return;
     }
+
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.backup.confirm' }),
       onOk: () => {
         running = true;
-        const hide = message.loading(intl.formatMessage({ id: 'plugin.backup.backuping' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'plugin.backup.backuping' }),
+          0,
+        );
         pluginBackupData({})
           .then((res) => {
             message.info(res.msg);
-            actionRef.current?.reload();
+            // 马上执行一遍
+            syncTask();
           })
           .finally(() => {
             hide();
-            running = false;
           });
       },
     });
@@ -51,16 +92,18 @@ const PluginUserGroup: React.FC = () => {
       content: intl.formatMessage({ id: 'plugin.backup.restore.content' }),
       onOk: () => {
         running = true;
-        const hide = message.loading(intl.formatMessage({ id: 'plugin.backup.restoring' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'plugin.backup.restoring' }),
+          0,
+        );
         pluginBackupRestore(record)
           .then(async (res) => {
-            await sleep(2000);
             message.info(res.msg);
-            actionRef.current?.reload();
+            // 马上执行一遍
+            syncTask();
           })
           .finally(() => {
             hide();
-            running = false;
           });
       },
     });
@@ -96,7 +139,10 @@ const PluginUserGroup: React.FC = () => {
   const handleUploadFile = async (e: any) => {
     const formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginBackupImport(formData)
       .then((res) => {
         message.success(res.msg);
@@ -133,7 +179,10 @@ const PluginUserGroup: React.FC = () => {
       ),
       onOk: () => {
         running = true;
-        const hide = message.loading(intl.formatMessage({ id: 'plugin.backup.cleaning' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'plugin.backup.cleaning' }),
+          0,
+        );
         pluginBackupCleanup({
           clean_uploads: cleanUploads,
         })
@@ -251,6 +300,22 @@ const PluginUserGroup: React.FC = () => {
           </div>
         )}
       />
+      {task !== null && (
+        <Modal
+          title={
+            task.type === 'backup'
+              ? intl.formatMessage({ id: 'plugin.backup.new' })
+              : intl.formatMessage({ id: 'plugin.backup.restore' })
+          }
+          open={true}
+          footer={null}
+        >
+          <div className="task-progress">
+            <Progress percent={task.finished ? 100 : task.percent} />
+          </div>
+          <div className="task-message">{task.message}</div>
+        </Modal>
+      )}
     </PageContainer>
   );
 };

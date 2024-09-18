@@ -1,6 +1,9 @@
 import { get, post } from '../tools';
 
-export async function pluginGetBackupList(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetBackupList(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/backup/list',
     params,
@@ -8,7 +11,10 @@ export async function pluginGetBackupList(params?: any, options?: { [key: string
   });
 }
 
-export async function pluginBackupData(body: any, options?: { [key: string]: any }) {
+export async function pluginBackupData(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/backup/dump',
     body,
@@ -16,14 +22,31 @@ export async function pluginBackupData(body: any, options?: { [key: string]: any
   });
 }
 
-export async function pluginBackupRestore(body: any, options?: { [key: string]: any }) {
+export async function pluginGetBackupStatus(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/plugin/backup/status',
+    params,
+    options,
+  });
+}
+
+export async function pluginBackupRestore(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/backup/restore',
     body,
     options,
   });
 }
-export async function pluginBackupDelete(body: any, options?: { [key: string]: any }) {
+export async function pluginBackupDelete(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/backup/delete',
     body,
@@ -31,7 +54,10 @@ export async function pluginBackupDelete(body: any, options?: { [key: string]: a
   });
 }
 
-export async function pluginBackupImport(body: any, options?: { [key: string]: any }) {
+export async function pluginBackupImport(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/backup/import',
     body,
@@ -39,7 +65,10 @@ export async function pluginBackupImport(body: any, options?: { [key: string]: a
   });
 }
 
-export async function pluginBackupCleanup(body: any, options?: { [key: string]: any }) {
+export async function pluginBackupCleanup(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/backup/cleanup',
     body,
