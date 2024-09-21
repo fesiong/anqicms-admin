@@ -968,6 +968,11 @@ export default {
   'plugin.timefactor.end-day.placeholder': '如：1',
   'plugin.timefactor.end-day.suffix': '天內的時間',
   'plugin.timefactor.end-day.description': '如果填0，則表示更新到當天',
+  'plugin.timefactor.daily-update': '每天最多更新',
+  'plugin.timefactor.daily-update.placeholder': '如：100',
+  'plugin.timefactor.daily-update.suffix': '篇',
+  'plugin.timefactor.daily-update.description':
+    '建議填入一個大於0的值，否則會更新所有符合條件的文章',
   'plugin.timefactor.republish': '是否重新推送',
   'plugin.timefactor.republish.no': '否',
   'plugin.timefactor.republish.yes': '是',

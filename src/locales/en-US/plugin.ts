@@ -1073,6 +1073,11 @@ export default {
   'plugin.timefactor.end-day.suffix': 'time within days',
   'plugin.timefactor.end-day.description':
     'If you fill in 0, it means it will be updated to the current day.',
+  'plugin.timefactor.daily-update': 'Maximum updates per day',
+  'plugin.timefactor.daily-update.placeholder': 'For example: 100',
+  'plugin.timefactor.daily-update.suffix': 'Articles',
+  'plugin.timefactor.daily-update.description':
+    'It is recommended to fill in a value greater than 0, otherwise all eligible articles will be updated',
   'plugin.timefactor.republish': 'Whether to re-push',
   'plugin.timefactor.republish.no': 'no',
   'plugin.timefactor.republish.yes': 'yes',

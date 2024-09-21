@@ -970,6 +970,11 @@ export default {
   'plugin.timefactor.end-day.placeholder': '如：1',
   'plugin.timefactor.end-day.suffix': '天内的时间',
   'plugin.timefactor.end-day.description': '如果填0，则表示更新到当天',
+  'plugin.timefactor.daily-update': '每天最多更新',
+  'plugin.timefactor.daily-update.placeholder': '如：100',
+  'plugin.timefactor.daily-update.suffix': '篇',
+  'plugin.timefactor.daily-update.description':
+    '建议填写一个大于0的值，否则会更新所有符合条件的文章',
   'plugin.timefactor.republish': '是否重新推送',
   'plugin.timefactor.republish.no': '否',
   'plugin.timefactor.republish.yes': '是',

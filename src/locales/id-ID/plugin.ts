@@ -1081,6 +1081,11 @@ export default {
   'plugin.timefactor.end-day.suffix': 'waktu dalam beberapa hari',
   'plugin.timefactor.end-day.description':
     'Jika diisi 0 berarti akan diupdate ke hari ini.',
+  'plugin.timefactor.daily-update': 'Pembaruan maksimum per hari',
+  'plugin.timefactor.daily-update.placeholder': 'Misalnya: 100',
+  'plugin.timefactor.daily-update.suffix': 'artikel',
+  'plugin.timefactor.daily-update.description':
+    'Disarankan untuk mengisi nilai lebih besar dari 0, jika tidak, semua artikel yang memenuhi syarat akan diperbarui',
   'plugin.timefactor.republish': 'Apakah akan mendorong kembali',
   'plugin.timefactor.republish.no': 'TIDAK',
   'plugin.timefactor.republish.yes': 'Ya',

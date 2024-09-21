@@ -1,18 +1,26 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import { LinkOutlined } from '@ant-design/icons';
-import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-components';
+import type {
+  Settings as LayoutSettings,
+  MenuDataItem,
+} from '@ant-design/pro-components';
+import type { RunTimeLayoutConfig, RuntimeConfig } from '@umijs/max';
 import { FormattedMessage, getLocale, history } from '@umijs/max';
-import type { RuntimeConfig, RunTimeLayoutConfig } from '@umijs/max';
+import { message } from 'antd';
 import { parse } from 'query-string';
 import defaultSettings from '../config/defaultSettings';
 import HeaderContent from './components/headerContent';
 import { getAdminInfo } from './services/admin';
 import { getAnqiInfo } from './services/anqi';
-import { getSettingSystem } from './services/setting';
-import { getSessionStore, getStore, removeStore, setSessionStore } from './utils/store';
 import config from './services/config';
-import { message } from 'antd';
+import { getSettingSystem } from './services/setting';
+import {
+  getSessionStore,
+  getStore,
+  removeStore,
+  setSessionStore,
+} from './utils/store';
 
 const loginPath = '/login';
 
@@ -90,7 +98,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     disableContentMargin: false,
     footerRender: () => <Footer />,
     links: [
-      <a key="anqicms" href="https://www.anqicms.com/" target="_blank" rel="noreferrer">
+      <a
+        key="anqicms"
+        href="https://www.anqicms.com/"
+        target="_blank"
+        rel="noreferrer"
+      >
         <LinkOutlined />
         <span>
           <FormattedMessage id="app.links.anqicms" />
@@ -100,15 +113,21 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     headerContentRender: () => <HeaderContent />,
     menuHeaderRender: undefined,
     menuDataRender: (menuData: MenuDataItem[]) => {
-      let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
-      if (initialState?.currentUser?.id !== 1 && initialState?.currentUser?.group_id !== 1) {
+      let permissions =
+        initialState?.currentUser?.group?.setting?.permissions || [];
+      if (
+        initialState?.currentUser?.id !== 1 &&
+        initialState?.currentUser?.group_id !== 1
+      ) {
         for (let i in menuData) {
           if (menuData[i].access) {
             // 需要处理
             let hasChildren = false;
             let tmpMenus = menuData[i];
             for (let j in tmpMenus.children) {
-              if (permissions.indexOf(tmpMenus.children[Number(j)].path) === -1) {
+              if (
+                permissions.indexOf(tmpMenus.children[Number(j)].path) === -1
+              ) {
                 tmpMenus.children[Number(j)].unaccessible = true;
               } else {
                 hasChildren = true;
@@ -121,7 +140,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         }
       }
 
-      if (initialState?.currentUser?.id !== 1 || !initialState?.system?.default_site) {
+      if (
+        initialState?.currentUser?.id !== 1 ||
+        !initialState?.system?.default_site
+      ) {
         for (let i in menuData) {
           if (menuData[i].path === '/website') {
             menuData[i].unaccessible = true;
@@ -189,8 +211,8 @@ export const request: RuntimeConfig['request'] = {
     [
       async function (response: any) {
         const { data } = response;
-        if(data.code === 1001) {
-          removeStore('adminToken')
+        if (data.code === 1001) {
+          removeStore('adminToken');
           message.warning({
             content: data.msg,
             key: 'error',
@@ -199,7 +221,7 @@ export const request: RuntimeConfig['request'] = {
           history.push('/login');
           return Promise.reject(data);
         } else if (data.codee === 1002) {
-          removeStore('adminToken')
+          removeStore('adminToken');
           message.warning({
             content: data.msg,
             key: 'error',
@@ -209,7 +231,7 @@ export const request: RuntimeConfig['request'] = {
         }
 
         return response;
-      }
-    ]
-  ]
+      },
+    ],
+  ],
 };

@@ -1070,6 +1070,11 @@ export default {
   'plugin.timefactor.end-day.suffix': 'দিনের মধ্যে সময়',
   'plugin.timefactor.end-day.description':
     'আপনি যদি 0 পূরণ করেন, তার মানে এটি বর্তমান দিনে আপডেট করা হবে।',
+  'plugin.timefactor.daily-update': 'প্রতিদিন সর্বোচ্চ আপডেট',
+  'plugin.timefactor.daily-update.placeholder': 'উদাহরণস্বরূপ: 100',
+  'plugin.timefactor.daily-update.suffix': 'নিবন্ধ',
+  'plugin.timefactor.daily-update.description':
+    '0-এর বেশি মান পূরণ করার পরামর্শ দেওয়া হচ্ছে, অন্যথায় সমস্ত যোগ্য নিবন্ধ আপডেট করা হবে',
   'plugin.timefactor.republish': 'পুনরায় ধাক্কা দিতে হবে কিনা',
   'plugin.timefactor.republish.no': 'না',
   'plugin.timefactor.republish.yes': 'হ্যাঁ',

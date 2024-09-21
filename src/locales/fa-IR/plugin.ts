@@ -1070,6 +1070,11 @@ export default {
   'plugin.timefactor.end-day.suffix': 'زمان در عرض چند روز',
   'plugin.timefactor.end-day.description':
     'اگر 0 را پر کنید، به این معنی است که به روز فعلی به روز می شود.',
+  'plugin.timefactor.daily-update': 'حداکثر به روز رسانی در روز',
+  'plugin.timefactor.daily-update.placeholder': 'به عنوان مثال: 100',
+  'plugin.timefactor.daily-update.suffix': 'article',
+  'plugin.timefactor.daily-update.description':
+    'توصیه می شود مقداری بیشتر از 0 پر کنید، در غیر این صورت همه مقالات واجد شرایط به روز می شوند',
   'plugin.timefactor.republish': 'آیا برای فشار مجدد',
   'plugin.timefactor.republish.no': 'نه',
   'plugin.timefactor.republish.yes': 'آره',

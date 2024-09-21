@@ -1093,6 +1093,11 @@ export default {
   'plugin.timefactor.end-day.suffix': 'время в днях',
   'plugin.timefactor.end-day.description':
     'Если вы заполните 0, это означает, что он будет обновлен до текущего дня.',
+  'plugin.timefactor.daily-update': 'Максимальное количество обновлений в день',
+  'plugin.timefactor.daily-update.placeholder': 'Например: 100',
+  'plugin.timefactor.daily-update.suffix': 'статья',
+  'plugin.timefactor.daily-update.description':
+    'Рекомендуется указать значение больше 0, в противном случае все подходящие статьи будут обновлены',
   'plugin.timefactor.republish': 'Стоит ли повторно нажимать',
   'plugin.timefactor.republish.no': 'нет',
   'plugin.timefactor.republish.yes': 'да',

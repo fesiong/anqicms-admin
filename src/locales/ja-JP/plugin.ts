@@ -1067,6 +1067,11 @@ export default {
   'plugin.timefactor.end-day.placeholder': '例: 1',
   'plugin.timefactor.end-day.suffix': '数日以内の時間',
   'plugin.timefactor.end-day.description': '0を入力すると当日に更新されます。',
+  'plugin.timefactor.daily-update': '1 日あたりの最大更新数',
+  'plugin.timefactor.daily-update.placeholder': '例: 100',
+  'plugin.timefactor.daily-update.suffix': '記事',
+  'plugin.timefactor.daily-update.description':
+    '0 より大きい値を入力することをお勧めします。そうでない場合は、対象となるすべての記事が更新されます',
   'plugin.timefactor.republish': '再プッシュするかどうか',
   'plugin.timefactor.republish.no': 'いいえ',
   'plugin.timefactor.republish.yes': 'はい',

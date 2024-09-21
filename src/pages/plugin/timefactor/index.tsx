@@ -61,22 +61,33 @@ const PluginTimeFactor: React.FC<any> = () => {
   }, []);
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     if (values.open) {
       if (!values.module_ids || values.module_ids.length === 0) {
-        message.error(intl.formatMessage({ id: 'plugin.timefactor.module.required' }));
+        message.error(
+          intl.formatMessage({ id: 'plugin.timefactor.module.required' }),
+        );
         return;
       }
       if (!values.types || values.types.length === 0) {
-        message.error(intl.formatMessage({ id: 'plugin.timefactor.types.required' }));
+        message.error(
+          intl.formatMessage({ id: 'plugin.timefactor.types.required' }),
+        );
         return;
       }
       if (values.start_day === 0) {
-        message.error(intl.formatMessage({ id: 'plugin.timefactor.start-day.required' }));
+        message.error(
+          intl.formatMessage({ id: 'plugin.timefactor.start-day.required' }),
+        );
         return;
       }
       if (values.start_day <= values.end_day) {
-        message.error(intl.formatMessage({ id: 'plugin.timefactor.end-day.error' }));
+        message.error(
+          intl.formatMessage({ id: 'plugin.timefactor.end-day.error' }),
+        );
       }
     }
     pluginSaveTimefactorSetting(values)
@@ -106,13 +117,27 @@ const PluginTimeFactor: React.FC<any> = () => {
         {fetched && (
           <div className="mt-normal">
             <ProForm onFinish={onSubmit} initialValues={setting}>
-              <Card size="small" title={intl.formatMessage({ id: 'plugin.timefactor.setting' })} bordered={false}>
+              <Card
+                size="small"
+                title={intl.formatMessage({ id: 'plugin.timefactor.setting' })}
+                bordered={false}
+              >
                 <ProFormRadio.Group
                   name="open"
                   label={intl.formatMessage({ id: 'plugin.timefactor.open' })}
                   options={[
-                    { label: intl.formatMessage({ id: 'plugin.timefactor.open.no' }), value: false },
-                    { label: intl.formatMessage({ id: 'plugin.timefactor.open.yes' }), value: true },
+                    {
+                      label: intl.formatMessage({
+                        id: 'plugin.timefactor.open.no',
+                      }),
+                      value: false,
+                    },
+                    {
+                      label: intl.formatMessage({
+                        id: 'plugin.timefactor.open.yes',
+                      }),
+                      value: true,
+                    },
                   ]}
                   fieldProps={{
                     onChange: (e) => {
@@ -124,46 +149,117 @@ const PluginTimeFactor: React.FC<any> = () => {
                   <>
                     <ProFormCheckbox.Group
                       name="types"
-                      label={intl.formatMessage({ id: 'plugin.timefactor.types' })}
+                      label={intl.formatMessage({
+                        id: 'plugin.timefactor.types',
+                      })}
                       options={[
-                        { value: 'created_time', label: intl.formatMessage({ id: 'plugin.timefactor.types.created-time' }) },
-                        { value: 'updated_time', label: intl.formatMessage({ id: 'plugin.timefactor.types.updated-time' }) },
+                        {
+                          value: 'created_time',
+                          label: intl.formatMessage({
+                            id: 'plugin.timefactor.types.created-time',
+                          }),
+                        },
+                        {
+                          value: 'updated_time',
+                          label: intl.formatMessage({
+                            id: 'plugin.timefactor.types.updated-time',
+                          }),
+                        },
                       ]}
-                      extra={intl.formatMessage({ id: 'plugin.timefactor.types.description' })}
+                      extra={intl.formatMessage({
+                        id: 'plugin.timefactor.types.description',
+                      })}
                     />
                     <ProForm.Group>
                       <ProFormDigit
                         name="start_day"
-                        label={intl.formatMessage({ id: 'plugin.timefactor.start-day' })}
-                        placeholder={intl.formatMessage({ id: 'plugin.timefactor.start-day.placeholder' })}
-                        addonAfter={intl.formatMessage({ id: 'plugin.timefactor.start-day.suffix' })}
-                        extra={intl.formatMessage({ id: 'plugin.timefactor.start-day.description' })}
+                        label={intl.formatMessage({
+                          id: 'plugin.timefactor.start-day',
+                        })}
+                        placeholder={intl.formatMessage({
+                          id: 'plugin.timefactor.start-day.placeholder',
+                        })}
+                        addonAfter={intl.formatMessage({
+                          id: 'plugin.timefactor.start-day.suffix',
+                        })}
+                        extra={intl.formatMessage({
+                          id: 'plugin.timefactor.start-day.description',
+                        })}
                       />
                       <ProFormDigit
                         name="end_day"
-                        label={intl.formatMessage({ id: 'plugin.timefactor.end-day.placeholder' })}
-                        placeholder="如：1"
-                        addonAfter={intl.formatMessage({ id: 'plugin.timefactor.end-day.suffix' })}
-                        extra={intl.formatMessage({ id: 'plugin.timefactor.end-day.description' })}
+                        label={intl.formatMessage({
+                          id: 'plugin.timefactor.end-day',
+                        })}
+                        placeholder={intl.formatMessage({
+                          id: 'plugin.timefactor.end-day.placeholder',
+                        })}
+                        addonAfter={intl.formatMessage({
+                          id: 'plugin.timefactor.end-day.suffix',
+                        })}
+                        extra={intl.formatMessage({
+                          id: 'plugin.timefactor.end-day.description',
+                        })}
+                      />
+                      <ProFormDigit
+                        name="daily_update"
+                        label={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-update',
+                        })}
+                        placeholder={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-update.placeholder',
+                        })}
+                        addonAfter={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-update.suffix',
+                        })}
+                        extra={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-update.description',
+                        })}
                       />
                     </ProForm.Group>
                     <ProFormRadio.Group
                       name="do_publish"
-                      label={intl.formatMessage({ id: 'plugin.timefactor.republish' })}
+                      label={intl.formatMessage({
+                        id: 'plugin.timefactor.republish',
+                      })}
                       options={[
-                        { label: intl.formatMessage({ id: 'plugin.timefactor.republish.no' }), value: false },
-                        { label: intl.formatMessage({ id: 'plugin.timefactor.republish.yes' }), value: true },
+                        {
+                          label: intl.formatMessage({
+                            id: 'plugin.timefactor.republish.no',
+                          }),
+                          value: false,
+                        },
+                        {
+                          label: intl.formatMessage({
+                            id: 'plugin.timefactor.republish.yes',
+                          }),
+                          value: true,
+                        },
                       ]}
-                      extra={intl.formatMessage({ id: 'plugin.timefactor.republish.description' })}
+                      extra={intl.formatMessage({
+                        id: 'plugin.timefactor.republish.description',
+                      })}
                     />
                   </>
                 )}
                 <ProFormRadio.Group
                   name="release_open"
-                  label={intl.formatMessage({ id: 'plugin.timefactor.release-draft' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.timefactor.release-draft',
+                  })}
                   options={[
-                    { label: intl.formatMessage({ id: 'plugin.timefactor.release-draft.no' }), value: false },
-                    { label: intl.formatMessage({ id: 'plugin.timefactor.release-draft.yes' }), value: true },
+                    {
+                      label: intl.formatMessage({
+                        id: 'plugin.timefactor.release-draft.no',
+                      }),
+                      value: false,
+                    },
+                    {
+                      label: intl.formatMessage({
+                        id: 'plugin.timefactor.release-draft.yes',
+                      }),
+                      value: true,
+                    },
                   ]}
                   fieldProps={{
                     onChange: (e) => {
@@ -176,37 +272,69 @@ const PluginTimeFactor: React.FC<any> = () => {
                     <div style={{ width: 200 }}>
                       <ProFormDigit
                         name="daily_limit"
-                        label={intl.formatMessage({ id: 'plugin.timefactor.daily-limit' })}
-                        placeholder={intl.formatMessage({ id: 'plugin.timefactor.daily-limit.placeholder' })}
-                        addonAfter={intl.formatMessage({ id: 'plugin.timefactor.daily-limit.suffix' })}
-                        extra={intl.formatMessage({ id: 'plugin.timefactor.daily-limit.description' })}
+                        label={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-limit',
+                        })}
+                        placeholder={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-limit.placeholder',
+                        })}
+                        addonAfter={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-limit.suffix',
+                        })}
+                        extra={intl.formatMessage({
+                          id: 'plugin.timefactor.daily-limit.description',
+                        })}
                       />
                     </div>
                     <ProForm.Group>
                       <ProFormDigit
                         name="start_time"
-                        label={intl.formatMessage({ id: 'plugin.timefactor.start-time' })}
-                        placeholder={intl.formatMessage({ id: 'plugin.timefactor.start-time.placeholder' })}
-                        addonAfter={intl.formatMessage({ id: 'plugin.timefactor.start-time.suffix' })}
-                        extra={intl.formatMessage({ id: 'plugin.timefactor.start-time.description' })}
+                        label={intl.formatMessage({
+                          id: 'plugin.timefactor.start-time',
+                        })}
+                        placeholder={intl.formatMessage({
+                          id: 'plugin.timefactor.start-time.placeholder',
+                        })}
+                        addonAfter={intl.formatMessage({
+                          id: 'plugin.timefactor.start-time.suffix',
+                        })}
+                        extra={intl.formatMessage({
+                          id: 'plugin.timefactor.start-time.description',
+                        })}
                       />
                       <ProFormDigit
                         name="end_time"
-                        label={intl.formatMessage({ id: 'plugin.timefactor.end-time' })}
-                        placeholder={intl.formatMessage({ id: 'plugin.timefactor.end-time.placeholder' })}
-                        addonAfter={intl.formatMessage({ id: 'plugin.timefactor.start-time.suffix' })}
-                        extra={intl.formatMessage({ id: 'plugin.timefactor.end-time.description' })}
+                        label={intl.formatMessage({
+                          id: 'plugin.timefactor.end-time',
+                        })}
+                        placeholder={intl.formatMessage({
+                          id: 'plugin.timefactor.end-time.placeholder',
+                        })}
+                        addonAfter={intl.formatMessage({
+                          id: 'plugin.timefactor.start-time.suffix',
+                        })}
+                        extra={intl.formatMessage({
+                          id: 'plugin.timefactor.end-time.description',
+                        })}
                       />
                     </ProForm.Group>
                   </>
                 )}
-                <ProFormCheckbox.Group name={'module_ids'} label={intl.formatMessage({ id: 'plugin.timefactor.module' })} options={modules} />
+                <ProFormCheckbox.Group
+                  name={'module_ids'}
+                  label={intl.formatMessage({ id: 'plugin.timefactor.module' })}
+                  options={modules}
+                />
                 <ProFormSelect
                   name={'category_ids'}
-                  label={intl.formatMessage({ id: 'plugin.timefactor.category' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.timefactor.category',
+                  })}
                   mode="multiple"
                   options={categories}
-                  placeholder={intl.formatMessage({ id: 'plugin.timefactor.category.placeholder' })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.timefactor.category.placeholder',
+                  })}
                 />
               </Card>
             </ProForm>
