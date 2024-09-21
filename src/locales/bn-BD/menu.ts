@@ -53,6 +53,7 @@ export default {
   'menu.plugin.timefactor': 'সময় ফ্যাক্টর-নির্ধারিত রিলিজ',
   'menu.plugin.interference': 'অ্যান্টি-সংগ্রহ হস্তক্ষেপ কোড',
   'menu.plugin.watermark': 'ছবিতে জলছাপ যোগ করুন',
+  'menu.plugin.limiter': 'ওয়েবসাইট নিরাপত্তা সুরক্ষা',
   'menu.design': 'টেমপ্লেট ডিজাইন',
   'menu.design.index': 'আমার টেমপ্লেট',
   'menu.design.editor': 'কোড পরিবর্তন করুন',

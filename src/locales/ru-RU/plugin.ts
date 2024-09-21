@@ -1,5 +1,6 @@
 export default {
-  'plugin.aigenerate.demand.required': 'Единое требование не может превышать 500 символов.',
+  'plugin.aigenerate.demand.required':
+    'Единое требование не может превышать 500 символов.',
   'plugin.aigenerate.checking': 'Проверка',
   'plugin.aigenerate.setting': 'Настройки автоматического письма AI',
   'plugin.aigenerate.isopen': 'Записывать ли автоматически',
@@ -30,7 +31,8 @@ export default {
   'plugin.aigenerate.openai.valid': 'эффективный',
   'plugin.aigenerate.openai.invalid': 'истекший',
   'plugin.aigenerate.enter-to-add': 'Нажмите Enter, чтобы добавить',
-  'plugin.aigenerate.spark.description': 'Адрес приложения API большой модели Spark',
+  'plugin.aigenerate.spark.description':
+    'Адрес приложения API большой модели Spark',
   'plugin.aigenerate.spark.version': 'Большая версия модели Spark',
   'plugin.aigenerate.default-category': 'Категория публикации по умолчанию',
   'plugin.aigenerate.default-category.description':
@@ -39,11 +41,13 @@ export default {
   'plugin.aigenerate.save-type.draft': 'Сохранить в ящик черновиков',
   'plugin.aigenerate.save-type.release': 'Обычный выпуск',
   'plugin.aigenerate.start-time': 'время начала каждый день',
-  'plugin.aigenerate.start-time.placeholder': 'По умолчанию начинается в 8 часов.',
+  'plugin.aigenerate.start-time.placeholder':
+    'По умолчанию начинается в 8 часов.',
   'plugin.aigenerate.start-time.description':
     'Пожалуйста, введите число от 0 до 23, 0 означает отсутствие ограничений.',
   'plugin.aigenerate.end-time': 'конец дня',
-  'plugin.aigenerate.end-time.placeholder': 'По умолчанию заканчивается в 22:00.',
+  'plugin.aigenerate.end-time.placeholder':
+    'По умолчанию заканчивается в 22:00.',
   'plugin.aigenerate.end-time.description':
     'Пожалуйста, введите число от 0 до 23, 0 означает отсутствие ограничений.',
   'plugin.aigenerate.daily-limit': 'Ежедневные выпуски',
@@ -52,7 +56,8 @@ export default {
   'plugin.aigenerate.insert-image': 'Обработка изображений статьи',
   'plugin.aigenerate.insert-image.default': 'по умолчанию',
   'plugin.aigenerate.insert-image.diy': 'Пользовательские вставки изображений',
-  'plugin.aigenerate.insert-image.category': 'Пользовательские вставки изображений',
+  'plugin.aigenerate.insert-image.category':
+    'Пользовательские вставки изображений',
   'plugin.aigenerate.insert-image.list': 'Список картинок для вставки',
   'plugin.aigenerate.replace': 'замена контента',
   'plugin.aigenerate.replace.tips1':
@@ -103,11 +108,13 @@ export default {
     'Автоматическое написание ИИ автоматически вызовет ключевые слова в библиотеке ключевых слов для завершения написания и напишет статью для каждого ключевого слова. Убедитесь, что количество статей в базе данных ключевых слов достаточно.',
   'plugin.aigenerate.tips3':
     'Функции автоматического написания статей с помощью ИИ и сбора статей используют общую библиотеку ключевых слов. Если ключевые слова были собраны для статей, они больше не будут использоваться для написания ИИ.',
-  'plugin.aigenerate.tips4': 'Сгенерированные статьи автоматически попадут в управление контентом.',
+  'plugin.aigenerate.tips4':
+    'Сгенерированные статьи автоматически попадут в управление контентом.',
   'plugin.anchor.edit': 'Изменить текст привязки',
   'plugin.anchor.new': 'Добавить текст привязки',
   'plugin.anchor.title': 'Название текста привязки',
-  'plugin.anchor.title.placeholder': 'Поиск якорного текста или якорных текстовых ссылок',
+  'plugin.anchor.title.placeholder':
+    'Поиск якорного текста или якорных текстовых ссылок',
   'plugin.anchor.link': 'анкорная текстовая ссылка',
   'plugin.anchor.link.description':
     'Поддерживает относительные и абсолютные ссылки, например: /a/123.html или https://www.anqicms.com/.',
@@ -134,26 +141,34 @@ export default {
   'plugin.anchor.extract.manual': 'Ручное извлечение',
   'plugin.anchor.extract.description':
     'Выберите способ извлечения ключевых слов привязки текста из тегов ключевых слов контента.',
-  'plugin.anchor.delete.confirm': 'Вы уверены, что хотите удалить выделенный текст привязки?',
+  'plugin.anchor.delete.confirm':
+    'Вы уверены, что хотите удалить выделенный текст привязки?',
   'plugin.anchor.batch-update': 'Пакетное обновление текста привязки',
   'plugin.anchor.export': 'Экспортировать текст привязки',
-  'plugin.anchor.export.confirm': 'Вы уверены, что хотите экспортировать весь якорный текст?',
+  'plugin.anchor.export.confirm':
+    'Вы уверены, что хотите экспортировать весь якорный текст?',
   'plugin.anchor.replace': 'заменять',
   'plugin.anchor.replace.confirm':
     'Вы уверены, что хотите выполнить операцию с пакетным обновлением якорного текста?',
   'plugin.anchor.replace-count': 'Сроки замены',
-  'plugin.backup.confirm': 'Вы уверены, что хотите выполнить резервное копирование базы данных?',
-  'plugin.backup.backuping': 'Выполняется операция резервного копирования данных, подождите. .',
+  'plugin.backup.confirm':
+    'Вы уверены, что хотите выполнить резервное копирование базы данных?',
+  'plugin.backup.backuping':
+    'Выполняется операция резервного копирования данных, подождите. .',
   'plugin.backup.restore': 'восстанавливаться',
   'plugin.backup.restore.confirm':
     'Вы уверены, что хотите восстановить данные из текущей резервной копии?',
   'plugin.backup.restore.content':
     'После восстановления существующие данные будут заменены текущими данными резервной копии. Пожалуйста, действуйте осторожно.',
-  'plugin.backup.restoring': 'Выполняется операция восстановления данных, подождите. .',
-  'plugin.backup.delete.confirm': 'Вы уверены, что хотите удалить этот фрагмент данных?',
+  'plugin.backup.restoring':
+    'Выполняется операция восстановления данных, подождите. .',
+  'plugin.backup.delete.confirm':
+    'Вы уверены, что хотите удалить этот фрагмент данных?',
   'plugin.backup.download': 'скачать',
-  'plugin.backup.download.confirm': 'Вы уверены, что хотите скачать его локально?',
-  'plugin.backup.cleanup.confirm': 'Вы уверены, что хотите удалить данные сайта?',
+  'plugin.backup.download.confirm':
+    'Вы уверены, что хотите скачать его локально?',
+  'plugin.backup.cleanup.confirm':
+    'Вы уверены, что хотите удалить данные сайта?',
   'plugin.backup.cleaning': 'Выполняется операция очистки, подождите. .',
   'plugin.backup.cleanup.tips1':
     'Эта операция удалит все статьи. В целях безопасности обязательно сначала выполните резервное копирование на случай непредвиденных обстоятельств.',
@@ -205,7 +220,8 @@ export default {
   'plugin.collector.translate.description':
     'За перевод взимается плата. Примечание. Переписывание и перевод ИИ нельзя включить одновременно, иначе результаты будут неверными.',
   'plugin.collector.to-language': 'Перевести целевой язык',
-  'plugin.collector.to-language.description': 'Действительно после выбора автоматического перевода',
+  'plugin.collector.to-language.description':
+    'Действительно после выбора автоматического перевода',
   'plugin.collector.daily-limit': 'Ежедневный объем сбора',
   'plugin.collector.daily-limit.description':
     'Максимальное количество статей, собираемых в день, 0 означает отсутствие ограничений.',
@@ -232,7 +248,8 @@ export default {
   'plugin.collector.link-exclude.tips':
     'При сборе статей, если эти ключевые слова встречаются в ссылке, они не будут собраны.',
   'plugin.collector.start': 'Начать сбор вручную',
-  'plugin.collector.start.confirm': 'Вы уверены, что хотите начать коллекционировать?',
+  'plugin.collector.start.confirm':
+    'Вы уверены, что хотите начать коллекционировать?',
   'plugin.collector.start.content':
     'Это немедленно начнет выполнение операции задачи сбора данных.',
   'plugin.collector.tips':
@@ -250,8 +267,10 @@ export default {
   'plugin.comment.new-status': 'Пожалуйста, выберите новый статус',
   'plugin.comment.batch-update-status': 'Статус пакетного обновления',
   'plugin.comment.view-edit': 'Посмотреть/Редактировать',
-  'plugin.comment.delete.confirm': 'Вы уверены, что хотите удалить выбранные комментарии?',
-  'plugin.fileupload.delete.confirm': 'Вы уверены, что хотите удалить выбранные файлы?',
+  'plugin.comment.delete.confirm':
+    'Вы уверены, что хотите удалить выбранные комментарии?',
+  'plugin.fileupload.delete.confirm':
+    'Вы уверены, что хотите удалить выбранные файлы?',
   'plugin.fileupload.upload.name': 'Загрузить новый файл',
   'plugin.fileupload.upload.support':
     'Примечание. Разрешается загружать только файлы подтверждения в формате txt/htm/html/xml.',
@@ -265,7 +284,8 @@ export default {
   'plugin.finance.after-amount': 'Сумма после изменения',
   'plugin.finance.status.unwithdraw': 'Не снято',
   'plugin.finance.status.withdraw': 'снято',
-  'plugin.finance.withdraw.confirm': 'Вы уверены, что хотите обработать вывод средств вручную?',
+  'plugin.finance.withdraw.confirm':
+    'Вы уверены, что хотите обработать вывод средств вручную?',
   'plugin.finance.withdraw.confirm.content':
     'Это эквивалентно подаче заявки на вывод средств со стороны пользователя.',
   'plugin.finance.order-id': 'номер заказа',
@@ -328,7 +348,8 @@ export default {
   'plugin.group.content_safe': 'Безопасность контента',
   'plugin.group.content_safe.no-verify':
     'Публикация комментариев/контента освобождается от проверки.',
-  'plugin.group.content_safe.no-captcha': 'Публикация комментариев/контента без кода подтверждения',
+  'plugin.group.content_safe.no-captcha':
+    'Публикация комментариев/контента без кода подтверждения',
   'plugin.group.share_reward': 'Срок действия группы пользователей',
   'plugin.group.share_reward.description':
     'Рекомендуется установить 5%-20, десятичная точка не может быть установлена. Приоритет коэффициента комиссии: коэффициент комиссии, установленный продуктом > коэффициент комиссии группы пользователей > коэффициент комиссии по умолчанию.',
@@ -339,7 +360,8 @@ export default {
   'plugin.group.discount.description':
     'Рекомендуется установить 90%-100%. После того, как пользователи перейдут на страницу по ссылке, предоставленной дистрибьютором, они смогут воспользоваться скидкой при оформлении заказа.',
   'plugin.group.permission': 'Настройки разрешения на распространение',
-  'plugin.group.delete.confirm': 'Вы уверены, что хотите удалить этот фрагмент данных?',
+  'plugin.group.delete.confirm':
+    'Вы уверены, что хотите удалить этот фрагмент данных?',
   'plugin.guestbook.reply.required':
     'Сначала настройте напоминание по электронной почте и найдите в функции «Напоминание по электронной почте».',
   'plugin.guestbook.replysubmit.required':
@@ -355,17 +377,21 @@ export default {
   'plugin.guestbook.create-time': 'Время сообщения',
   'plugin.guestbook.reply.subject': 'заголовок письма',
   'plugin.guestbook.reply.message': 'содержание электронного письма',
-  'plugin.guestbook.field.delete.confirm': 'Вы уверены, что хотите удалить это поле?',
+  'plugin.guestbook.field.delete.confirm':
+    'Вы уверены, что хотите удалить это поле?',
   'plugin.guestbook.field.delete.confirm.content':
     'Вы можете восстановить, обновив страницу перед сохранением.',
   'plugin.guestbook.setting': 'Настройки сообщений на сайте',
   'plugin.guestbook.return-message': 'Советы для успешного сообщения:',
-  'plugin.guestbook.return-message.placeholder': 'По умолчанию: Спасибо за ваше сообщение!',
+  'plugin.guestbook.return-message.placeholder':
+    'По умолчанию: Спасибо за ваше сообщение!',
   'plugin.guestbook.return-message.description':
     'Подсказка, которую пользователи видят после отправки сообщения. Например: Спасибо за ваше сообщение!',
-  'plugin.guestbook.delete.confirm': 'Вы уверены, что хотите удалить выбранное сообщение?',
+  'plugin.guestbook.delete.confirm':
+    'Вы уверены, что хотите удалить выбранное сообщение?',
   'plugin.guestbook.export': 'Экспортировать сообщения',
-  'plugin.guestbook.export.confirm': 'Вы уверены, что хотите экспортировать все сообщения?',
+  'plugin.guestbook.export.confirm':
+    'Вы уверены, что хотите экспортировать все сообщения?',
   'plugin.htmlcache.remote-file': 'удаленный файл',
   'plugin.htmlcache.local-file': 'локальные файлы',
   'plugin.htmlcache.push-status': 'push-статус',
@@ -381,7 +407,8 @@ export default {
     'Вы уверены, что хотите создать статический кеш столбца?',
   'plugin.htmlcache.generate.archive.confirm':
     'Вы уверены, что хотите создать статический кэш документа?',
-  'plugin.htmlcache.generate.tag.confirm': 'Вы уверены, что хотите создать статический кеш тегов?',
+  'plugin.htmlcache.generate.tag.confirm':
+    'Вы уверены, что хотите создать статический кеш тегов?',
   'plugin.htmlcache.clean.confirm':
     'Вы уверены, что хотите очистить статический кеш всего сайта? Если кэшированных файлов много, это может занять много времени.',
   'plugin.htmlcache.clean.confirm.content':
@@ -411,14 +438,18 @@ export default {
   'plugin.htmlcache.storage-type.ftp': 'FTP-передача',
   'plugin.htmlcache.storage-type.ssh': 'SFTP (SSH) передача',
   'plugin.htmlcache.storage-url': 'Статический адрес сайта',
-  'plugin.htmlcache.storage-url.placeholder': 'Например: https://www.anqicms.com',
+  'plugin.htmlcache.storage-url.placeholder':
+    'Например: https://www.anqicms.com',
   'plugin.htmlcache.aliyun.endpoint': 'Облачный узел Alibaba',
-  'plugin.htmlcache.aliyun.endpoint.placeholder': 'Например: http://oss-cn-hangzhou.aliyuncs.com.',
+  'plugin.htmlcache.aliyun.endpoint.placeholder':
+    'Например: http://oss-cn-hangzhou.aliyuncs.com.',
   'plugin.htmlcache.aliyun.bucket-name': 'Название облачного сегмента Alibaba',
-  'plugin.htmlcache.tencent.bucket-url': 'Адрес сегмента хранилища Tencent Cloud',
+  'plugin.htmlcache.tencent.bucket-url':
+    'Адрес сегмента хранилища Tencent Cloud',
   'plugin.htmlcache.tencent.bucket-url.placeholder':
     'Например: https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
-  'plugin.htmlcache.qiniu.bucket-name': 'Имя сегмента облачного хранилища Qiniu',
+  'plugin.htmlcache.qiniu.bucket-name':
+    'Имя сегмента облачного хранилища Qiniu',
   'plugin.htmlcache.qiniu.bucket-name.placeholder': 'Например: анкимс',
   'plugin.htmlcache.qiniu.region': 'Облачное хранилище Qiniu',
   'plugin.htmlcache.qiniu.region.z0': 'Восточный Китай',
@@ -427,10 +458,13 @@ export default {
   'plugin.htmlcache.qiniu.region.na0': 'Северная Америка',
   'plugin.htmlcache.qiniu.region.as0': 'Юго-Восточная Азия',
   'plugin.htmlcache.qiniu.region.cn-east2': 'Восточный Китай-Чжэцзян2',
-  'plugin.htmlcache.qiniu.region.fog-cn-east1': 'Хранение тумана Восточно-Китайский регион',
+  'plugin.htmlcache.qiniu.region.fog-cn-east1':
+    'Хранение тумана Восточно-Китайский регион',
   'plugin.htmlcache.upyun.operator': 'Еще один кадр облачного оператора',
-  'plugin.htmlcache.upyun.password': 'Возьмите пароль оператора облака еще раз.',
-  'plugin.htmlcache.upyun.bucket': 'Также обратите внимание на название службы облачного хранения.',
+  'plugin.htmlcache.upyun.password':
+    'Возьмите пароль оператора облака еще раз.',
+  'plugin.htmlcache.upyun.bucket':
+    'Также обратите внимание на название службы облачного хранения.',
   'plugin.htmlcache.ftp.tips':
     'Примечание. После тестирования PureFtp, поставляемый с Pagoda, нельзя использовать нормально.',
   'plugin.htmlcache.ftp.host': 'IP-адрес FTP',
@@ -459,8 +493,10 @@ export default {
   'plugin.htmlcache.push.name': 'Статические серверные операции',
   'plugin.htmlcache.push.last-time': 'Время последнего ручного нажатия:',
   'plugin.htmlcache.push.last-time.empty': 'Не нажимается вручную',
-  'plugin.htmlcache.push.all': 'Отправьте все статические файлы на статический сервер.',
-  'plugin.htmlcache.push.addon': 'Отправляйте на статический сервер только обновленные файлы.',
+  'plugin.htmlcache.push.all':
+    'Отправьте все статические файлы на статический сервер.',
+  'plugin.htmlcache.push.addon':
+    'Отправляйте на статический сервер только обновленные файлы.',
   'plugin.htmlcache.push.log.all': 'Все push-записи',
   'plugin.htmlcache.push.log.error': 'Отправить запись об ошибке',
   'plugin.htmlcache.build.process': 'Прогресс сборки',
@@ -481,7 +517,8 @@ export default {
     'Прежде чем включать статический веб-сайт, вам необходимо включить кеширование статических страниц. После включения статического веб-сайта поиск, сообщение, комментарий, переход 301 и другие функции, требующие отправки данных на серверную часть, будут недействительны, и веб-сайт будет иметь только эффекты отображения.',
   'plugin.htmlcache.description.4':
     'После включения статического веб-сайта следующие операции не будут автоматически перегенерированы, и операции по созданию статических страниц необходимо выполнять вручную: Настройка шаблонов (изменение шаблонов, включение шаблонов), Изменение настроек фона (глобальные настройки, настройки контента, контактная информация, навигация). и т.д.), модифицированные псевдостатические правила и другие изменения, влияющие на глобальную ситуацию.',
-  'plugin.importapi.token.required': 'Пожалуйста, введите токен длиной не более 128 символов.',
+  'plugin.importapi.token.required':
+    'Пожалуйста, введите токен длиной не более 128 символов.',
   'plugin.importapi.token.confirm': 'Вы уверены, что хотите обновить токен?',
   'plugin.importapi.token.confirm.content':
     'После обновления исходный токен становится недействительным, для работы используйте новый адрес API.',
@@ -506,7 +543,8 @@ export default {
   'plugin.importapi.field.description': 'Введение документа',
   'plugin.importapi.field.url-token':
     'Пользовательский псевдоним URL-адреса, поддерживает только цифры и английские буквы.',
-  'plugin.importapi.field.images': 'Изображения статьи могут быть установлены до 9 изображений.',
+  'plugin.importapi.field.images':
+    'Изображения статьи могут быть установлены до 9 изображений.',
   'plugin.importapi.field.logo':
     'Миниатюра документа может представлять собой абсолютный адрес, например: https://www.anqicms.com/logo.png, или относительный адрес, например: /logo.png.',
   'plugin.importapi.field.publish-time':
@@ -554,11 +592,13 @@ export default {
   'plugin.interference.disable-selection.no': 'Не отключено',
   'plugin.interference.disable-selection.yes': 'Запрещать',
   'plugin.interference.disable-copy': 'Отключить репликацию',
-  'plugin.interference.disable-right-click': 'Отключить щелчок правой кнопкой мыши',
+  'plugin.interference.disable-right-click':
+    'Отключить щелчок правой кнопкой мыши',
   'plugin.keyword.batch-import': 'Импортируйте ключевые слова пакетно.',
   'plugin.keyword.batch-import.tips':
     'Примечание. Для загрузки и импорта поддерживаются только файлы в формате CSV.',
-  'plugin.keyword.batch-import.step1': 'Первый шаг — загрузить файл шаблона CSV.',
+  'plugin.keyword.batch-import.step1':
+    'Первый шаг — загрузить файл шаблона CSV.',
   'plugin.keyword.batch-import.step1.btn': 'Скачать файл шаблона csv',
   'plugin.keyword.batch-import.step2': 'Второй шаг — загрузить CSV-файл.',
   'plugin.keyword.batch-import.step2.btn': 'Загрузить CSV-файл',
@@ -579,22 +619,27 @@ export default {
     'Если выбрано автоматическое расширение слов, количество расширений слов будет действительным.',
   'plugin.keyword.dig-setting.max-count.placeholder': 'По умолчанию 100000',
   'plugin.keyword.dig-setting.language': 'Язык ключевых слов',
-  'plugin.keyword.dig-setting.title-exclude': 'слова для исключения ключевых слов',
+  'plugin.keyword.dig-setting.title-exclude':
+    'слова для исключения ключевых слов',
   'plugin.keyword.dig-setting.title-exclude.description':
     'При расширении слов, если эти ключевые слова встречаются в ключевых словах, они не будут собраны.',
   'plugin.keyword.dig-setting.replace': 'Замена ключевых слов',
   'plugin.keyword.dig-setting.replace.tips1':
     'Отредактируйте пары ключевых слов, которые необходимо заменить, и замена будет выполнена автоматически при раскрытии слов.',
-  'plugin.keyword.delete.confirm': 'Вы уверены, что хотите удалить выбранные ключевые слова?',
-  'plugin.keyword.export.confirm': 'Вы уверены, что хотите экспортировать все ключевые слова?',
-  'plugin.keyword.collect.confirm': 'Вы уверены, что хотите собрать это ключевое слово?',
+  'plugin.keyword.delete.confirm':
+    'Вы уверены, что хотите удалить выбранные ключевые слова?',
+  'plugin.keyword.export.confirm':
+    'Вы уверены, что хотите экспортировать все ключевые слова?',
+  'plugin.keyword.collect.confirm':
+    'Вы уверены, что хотите собрать это ключевое слово?',
   'plugin.keyword.collect.doing': 'Сейчас собираю',
   'plugin.keyword.aigenerate.confirm':
     'Вы уверены, что хотите выполнить операции записи ИИ по этому ключевому слову?',
   'plugin.keyword.aigenerate.content':
     'Автоматическое написание AI требует оплаты. Убедитесь, что вы привязали свою учетную запись Anqi.',
   'plugin.keyword.aigenerate.doing': 'Создание',
-  'plugin.keyword.cleanup.confirm': 'Вы уверены, что хотите удалить все ключевые слова?',
+  'plugin.keyword.cleanup.confirm':
+    'Вы уверены, что хотите удалить все ключевые слова?',
   'plugin.keyword.cleanup.content':
     'Эта операция удалит все ключевые слова и не сможет быть восстановлена. Действуйте осторожно.',
   'plugin.keyword.level': 'Иерархия',
@@ -611,7 +656,8 @@ export default {
   'plugin.link.api.add': 'Добавить удобный интерфейс ссылок',
   'plugin.link.field.other-title': 'Ключевые слова другой стороны',
   'plugin.link.field.other-link': 'Другая ссылка',
-  'plugin.link.field.other-link.description': 'Например: https://www.anqicms.com/',
+  'plugin.link.field.other-link.description':
+    'Например: https://www.anqicms.com/',
   'plugin.link.field.nofollow':
     'Добавлять ли nofollow, необязательные значения: 0 — не добавлять, 1 — добавлять.',
   'plugin.link.field.back-link': 'Страница с противоположной ссылкой',
@@ -634,46 +680,57 @@ export default {
   'plugin.link.nofollow.no': 'нет добавленного',
   'plugin.link.nofollow.yes': 'добавить в',
   'plugin.link.more': 'больше вариантов',
-  'plugin.link.delete.confirm': 'Вы уверены, что хотите удалить выбранную дружескую ссылку?',
+  'plugin.link.delete.confirm':
+    'Вы уверены, что хотите удалить выбранную дружескую ссылку?',
   'plugin.link.status.wait': 'Для проверки',
   'plugin.link.status.ok': 'нормальный',
   'plugin.link.status.wrong-keyword': 'Ключевые слова несовместимы',
   'plugin.link.status.no-back-url': 'У другой стороны нет обратной ссылки',
   'plugin.link.other-title-link': 'Ключевые слова/ссылки другой стороны',
-  'plugin.link.other-contact-remark': 'Контактная информация/замечания другой стороны',
-  'plugin.link.status-check-time': 'Контактная информация/замечания другой стороны',
+  'plugin.link.other-contact-remark':
+    'Контактная информация/замечания другой стороны',
+  'plugin.link.status-check-time':
+    'Контактная информация/замечания другой стороны',
   'plugin.link.create-time': 'добавить время',
   'plugin.link.check': 'исследовать',
-  'plugin.material.category.delete.confirm': 'Вы уверены, что хотите удалить его?',
+  'plugin.material.category.delete.confirm':
+    'Вы уверены, что хотите удалить его?',
   'plugin.material.category.title': 'Название раздела',
   'plugin.material.category.count': 'Количество материала',
   'plugin.material.category.add': 'Новый раздел',
   'plugin.material.category.edit': 'Переименовать раздел:',
   'plugin.material.category.manage': 'Управление сектором',
-  'plugin.material.category.title.tips': 'Пожалуйста, заполните название раздела',
+  'plugin.material.category.title.tips':
+    'Пожалуйста, заполните название раздела',
   'plugin.material.import.selected': 'выбранный',
   'plugin.material.import.segment': 'фрагмент',
   'plugin.material.import.clear':
     'Вы уверены, что хотите удалить материалы контента, выбранные для загрузки?',
-  'plugin.material.delete.confirm': 'Вы уверены, что хотите удалить выбранный материал?',
-  'plugin.material.import.submit.tips.before': 'Среди выбранных вами материалов есть',
+  'plugin.material.delete.confirm':
+    'Вы уверены, что хотите удалить выбранный материал?',
+  'plugin.material.import.submit.tips.before':
+    'Среди выбранных вами материалов есть',
   'plugin.material.import.submit.tips.after':
     'Для этого материала не выбран раздел. Хотите продолжить отправку?',
-  'plugin.material.import.upload-error': 'Ошибка загрузки. Повторите попытку позже.',
+  'plugin.material.import.upload-error':
+    'Ошибка загрузки. Повторите попытку позже.',
   'plugin.material.import.batch-add': 'Добавляйте материалы партиями',
   'plugin.material.import.batch-add.tips':
     'Примечание. Вы можете загружать статьи, хранящиеся в формате txt или html.',
   'plugin.material.import.default-category': 'По умолчанию импортируется в:',
-  'plugin.material.import.default-category.placeholder': 'Выберите раздел для импорта',
+  'plugin.material.import.default-category.placeholder':
+    'Выберите раздел для импорта',
   'plugin.material.import.default-category.all': 'все',
   'plugin.material.import.select-file': 'Выберите для загрузки:',
-  'plugin.material.import.select-file.btn': 'Выберите файл статьи в формате Txt или html.',
+  'plugin.material.import.select-file.btn':
+    'Выберите файл статьи в формате Txt или html.',
   'plugin.material.import.paste': 'Или нажмите, чтобы вставить текст',
   'plugin.material.import.selected.count': 'Выбран материал абзаца:',
   'plugin.material.import.paste.clear': 'Прозрачный',
   'plugin.material.import.category.select': 'Выберите раздел',
   'plugin.material.import.merge-to-next': 'Слить',
-  'plugin.material.import.paste.title': 'Пожалуйста, вставьте сюда содержание статьи',
+  'plugin.material.import.paste.title':
+    'Пожалуйста, вставьте сюда содержание статьи',
   'plugin.material.import.paste.analysis': 'анализировать контент',
   'plugin.material.import.paste.description':
     'По умолчанию контент будет фильтровать все теги HTML и сохранять только текст. Если вам нужно сохранить html-теги, пожалуйста, проверьте',
@@ -733,12 +790,15 @@ export default {
   'plugin.order.setting.auto-finish.placeholder': 'По умолчанию 10 дней',
   'plugin.order.setting.auto-finish.suffix': 'небо',
   'plugin.order.setting.auto-close': 'Тайм-аут заказа закрыт',
-  'plugin.order.setting.auto-close.description': 'Не закрывается автоматически по умолчанию',
+  'plugin.order.setting.auto-close.description':
+    'Не закрывается автоматически по умолчанию',
   'plugin.order.setting.auto-close.suffix': 'минута',
   'plugin.order.setting.seller-percent': 'Доход от торговых продаж',
-  'plugin.order.setting.seller-percent.description': 'Процент выручки от продаж продавца',
+  'plugin.order.setting.seller-percent.description':
+    'Процент выручки от продаж продавца',
   'plugin.order.loading': 'загрузка',
-  'plugin.order.finish.confirm': 'Вы уверены, что хотите выполнить заказ вручную?',
+  'plugin.order.finish.confirm':
+    'Вы уверены, что хотите выполнить заказ вручную?',
   'plugin.order.finish.content': 'Эта операция необратима.',
   'plugin.order.apply-refund.confirm':
     'Вы уверены, что хотите подать заявку на возврат средств за этот заказ?',
@@ -833,11 +893,15 @@ export default {
   'plugin.redirect.to-url': 'Ссылка для перехода',
   'plugin.redirect.from-url.description':
     'Это может быть абсолютный адрес, начинающийся с «http(https)», или относительный адрес, начинающийся с «/».',
-  'plugin.redirect.delete.confirm': 'Вы уверены, что хотите удалить выбранную ссылку?',
-  'plugin.replace.add.required': 'Пожалуйста, заполните ключевые слова источника замены',
-  'plugin.replace.place.required': 'Пожалуйста, выберите альтернативное местоположение',
+  'plugin.redirect.delete.confirm':
+    'Вы уверены, что хотите удалить выбранную ссылку?',
+  'plugin.replace.add.required':
+    'Пожалуйста, заполните ключевые слова источника замены',
+  'plugin.replace.place.required':
+    'Пожалуйста, выберите альтернативное местоположение',
   'plugin.replace.keyword.required': 'Добавьте пожалуйста правила замены',
-  'plugin.replace.confirm': 'Вы уверены, что хотите выполнить полную замену сайта?',
+  'plugin.replace.confirm':
+    'Вы уверены, что хотите выполнить полную замену сайта?',
   'plugin.replace.tips':
     'Замена всего сайта — это сложная операция, поэтому при замене могут возникнуть ошибки. Перед заменой рекомендуется выполнить резервное копирование содержимого.',
   'plugin.replace.replace-tag': 'Заменять ли содержимое ярлыка',
@@ -853,7 +917,8 @@ export default {
   'plugin.replace.place.comment': 'Комментарий',
   'plugin.replace.place.attachment': 'Ресурсы изображений',
   'plugin.retailer.setting': 'конфигурация распределения',
-  'plugin.retailer.allow-self': 'Дистрибьюторы получают комиссионные от собственных покупок.',
+  'plugin.retailer.allow-self':
+    'Дистрибьюторы получают комиссионные от собственных покупок.',
   'plugin.retailer.allow-self.description':
     'Если комиссия за самозакупку включена, дистрибьютор может получить соответствующую комиссию, если он сам приобретет распространяемый товар. Если она отключена, дистрибьютор не сможет получить комиссию, если он сам приобретет распространяемый товар. Если вы автоматически становитесь дистрибьютором, не включайте комиссию за самостоятельную покупку.',
   'plugin.retailer.allow-self.no': 'закрытие',
@@ -876,7 +941,8 @@ export default {
   'plugin.retailer.change-name': 'Изменить настоящее имя',
   'plugin.retailer.cancel': 'Отмена',
   'plugin.retailer.add': 'Добавить дистрибьютора',
-  'plugin.retailer.add.name': 'Заполните идентификатор пользователя и настройте дистрибьютора',
+  'plugin.retailer.add.name':
+    'Заполните идентификатор пользователя и настройте дистрибьютора',
   'plugin.retailer.change-name.new': 'новое настоящее имя',
   'plugin.rewrite.formula.archive-detail': 'Детали документа:',
   'plugin.rewrite.formula.archive-list': 'Список документов:',
@@ -884,16 +950,21 @@ export default {
   'plugin.rewrite.formula.page-detail': 'Детали одной страницы:',
   'plugin.rewrite.formula.tag-list': 'Список тегов:',
   'plugin.rewrite.formula.tag-detail': 'Детали тега:',
-  'plugin.rewrite.formula1': 'Вариант 1: Цифровой режим (простой, рекомендуется)',
-  'plugin.rewrite.formula2': 'Вариант 2. Образец именования 1 (английский или пиньинь).',
-  'plugin.rewrite.formula3': 'Вариант 3. Схема именования 2 (английский или пиньинь + цифры).',
-  'plugin.rewrite.formula4': 'Вариант 4: Схема именования 3 (английский или пиньинь)',
+  'plugin.rewrite.formula1':
+    'Вариант 1: Цифровой режим (простой, рекомендуется)',
+  'plugin.rewrite.formula2':
+    'Вариант 2. Образец именования 1 (английский или пиньинь).',
+  'plugin.rewrite.formula3':
+    'Вариант 3. Схема именования 2 (английский или пиньинь + цифры).',
+  'plugin.rewrite.formula4':
+    'Вариант 4: Схема именования 3 (английский или пиньинь)',
   'plugin.rewrite.formula5':
     'Вариант 5: Пользовательский режим (расширенный режим, используйте его с осторожностью, если он настроен неправильно, главная страница не откроется)',
   'plugin.rewrite.setting': 'Настройки псевдостатической схемы',
   'plugin.rewrite.setting.select': 'Выберите псевдостатическое решение',
   'plugin.rewrite.setting.diy': 'Пользовательские псевдостатические правила',
-  'plugin.rewrite.setting.diy.explain': 'Описание пользовательского псевдостатического правила',
+  'plugin.rewrite.setting.diy.explain':
+    'Описание пользовательского псевдостатического правила',
   'plugin.rewrite.setting.diy.tips':
     'Скопируйте следующие правила в поле ввода для изменения. Всего имеется 6 строк, а именно сведения о документе, список документов, домашняя страница модели, страница, список тегов и сведения о тегах. === и предыдущую часть нельзя изменить.',
   'plugin.rewrite.variable.tips':
@@ -913,7 +984,8 @@ export default {
   'plugin.robots.view': 'Посмотреть роботов',
   'plugin.sendmail.setting': 'Настройки электронной почты',
   'plugin.sendmail.server': 'SMTP-сервер',
-  'plugin.sendmail.server.description': 'Например, почтовый ящик QQ — smtp.qq.com.',
+  'plugin.sendmail.server.description':
+    'Например, почтовый ящик QQ — smtp.qq.com.',
   'plugin.sendmail.use-ssl': 'Используйте SSL/TLS',
   'plugin.sendmail.use-ssl.no': 'Не использовать',
   'plugin.sendmail.port': 'SMTP-порт',
@@ -926,7 +998,8 @@ export default {
   'plugin.sendmail.password.description':
     'Код авторизации генерируется в настройках электронной почты.',
   'plugin.sendmail.recipient': 'Электронная почта получателя',
-  'plugin.sendmail.recipient.required': 'Пожалуйста, сначала настройте электронную почту',
+  'plugin.sendmail.recipient.required':
+    'Пожалуйста, сначала настройте электронную почту',
   'plugin.sendmail.recipient.description':
     'По умолчанию оно отправляется отправителю. Если вам нужно отправить его другим людям, заполните его здесь. Разделите нескольких получателей запятыми.',
   'plugin.sendmail.auto-reply': 'Автоматически отвечать клиентам',
@@ -935,7 +1008,8 @@ export default {
   'plugin.sendmail.auto-reply.description':
     'Если автоматический ответ клиентам включен, когда клиент оставляет сообщение, электронное письмо с автоматическим ответом будет автоматически отправлено на адрес электронной почты, указанный клиентом.',
   'plugin.sendmail.auto-reply.title': 'Заголовок автоответа',
-  'plugin.sendmail.auto-reply.title.description': 'Пожалуйста, заполните заголовок автоответчика',
+  'plugin.sendmail.auto-reply.title.description':
+    'Пожалуйста, заполните заголовок автоответчика',
   'plugin.sendmail.auto-reply.message': 'Содержание автоматического ответа',
   'plugin.sendmail.auto-reply.message.description':
     'Пожалуйста, заполните содержание автоматического ответа',
@@ -990,9 +1064,12 @@ export default {
   'plugin.storage.keep-local.yes': 'бронировать',
   'plugin.storage.keep-local.description':
     'При использовании облачного хранилища вы можете сохранить локальные архивы.',
-  'plugin.timefactor.module.required': 'Пожалуйста, выберите хотя бы одну модель документа',
-  'plugin.timefactor.types.required': 'Пожалуйста, выберите хотя бы один тип обновления',
-  'plugin.timefactor.start-day.required': 'Время запуска обновления не может быть равно 0.',
+  'plugin.timefactor.module.required':
+    'Пожалуйста, выберите хотя бы одну модель документа',
+  'plugin.timefactor.types.required':
+    'Пожалуйста, выберите хотя бы один тип обновления',
+  'plugin.timefactor.start-day.required':
+    'Время запуска обновления не может быть равно 0.',
   'plugin.timefactor.end-day.error':
     'Время результата обновления не может быть раньше времени запуска обновления.',
   'plugin.timefactor.tips':
@@ -1008,7 +1085,8 @@ export default {
   'plugin.timefactor.types.description': 'Выберите хотя бы один',
   'plugin.timefactor.start-day': 'Превосходить',
   'plugin.timefactor.start-day.suffix': 'Документы многодневной давности,',
-  'plugin.timefactor.start-day.description': 'Например: 30, введите целое число',
+  'plugin.timefactor.start-day.description':
+    'Например: 30, введите целое число',
   'plugin.timefactor.start-day.placeholder': 'Например: 30',
   'plugin.timefactor.end-day': 'Автоматически обновляться до',
   'plugin.timefactor.end-day.placeholder': 'Такие как: 1',
@@ -1020,7 +1098,8 @@ export default {
   'plugin.timefactor.republish.yes': 'да',
   'plugin.timefactor.republish.description':
     'При обновлении документа повторно отправьте его в поисковые системы.',
-  'plugin.timefactor.release-draft': 'Включить ли автоматическую публикацию документов черновиков',
+  'plugin.timefactor.release-draft':
+    'Включить ли автоматическую публикацию документов черновиков',
   'plugin.timefactor.release-draft.no': 'нет',
   'plugin.timefactor.release-draft.yes': 'давать возможность',
   'plugin.timefactor.daily-limit': 'Количество автоматических выпусков в день',
@@ -1046,7 +1125,8 @@ export default {
   'plugin.titleimage.open.yes': 'включать',
   'plugin.titleimage.open.description':
     'Если этот параметр включен, то если в документе нет изображения, изображение, содержащее заголовок документа, будет автоматически создано в качестве миниатюры документа.',
-  'plugin.titleimage.draw-sub': 'Создавать ли вторичное изображение заголовка для документа',
+  'plugin.titleimage.draw-sub':
+    'Создавать ли вторичное изображение заголовка для документа',
   'plugin.titleimage.draw-sub.description':
     'После его включения, если в документе нет изображения, изображение будет автоматически сгенерировано для тега h2 документа и вставлено в документ.',
   'plugin.titleimage.size': 'Создать размер изображения',
@@ -1072,7 +1152,8 @@ export default {
   'plugin.titleimage.font': 'Пользовательский шрифт',
   'plugin.titleimage.font.upload': 'Загрузите шрифт .ttf',
   'plugin.titleimage.preview.text': 'Предварительный просмотр текста',
-  'plugin.titleimage.preview.text.edit': 'Изменить текст предварительного просмотра',
+  'plugin.titleimage.preview.text.edit':
+    'Изменить текст предварительного просмотра',
   'plugin.transfer.provider.required': 'Пожалуйста, выберите систему веб-сайта',
   'plugin.transfer.token.required':
     'Пожалуйста, заполните токен связи, который может быть любым символом.',
@@ -1087,9 +1168,11 @@ export default {
   'plugin.transfer.step3': 'третий шаг',
   'plugin.transfer.step4': 'четвертый шаг',
   'plugin.transfer.step5': 'пятый шаг',
-  'plugin.transfer.step1.description': 'Выберите систему веб-сайта, которую необходимо перенести.',
+  'plugin.transfer.step1.description':
+    'Выберите систему веб-сайта, которую необходимо перенести.',
   'plugin.transfer.step2.description': 'Скачать файл интерфейса связи',
-  'plugin.transfer.step3.description': 'Заполните информацию для связи на сайте',
+  'plugin.transfer.step3.description':
+    'Заполните информацию для связи на сайте',
   'plugin.transfer.step4.description': 'Выберите, что перенести',
   'plugin.transfer.step5.description': 'Начать перенос содержимого веб-сайта',
   'plugin.transfer.step.prev': 'Предыдущий',
@@ -1100,14 +1183,16 @@ export default {
   'plugin.transfer.step3.tips':
     'Для каждого веб-сайта можно настроить только один токен. Если появится сообщение об ошибке, вручную удалите файл anqicms.config.php в корневом каталоге веб-сайта, чтобы настроить его заново.',
   'plugin.transfer.base-url': 'адрес веб-сайта',
-  'plugin.transfer.base-url.placeholder': 'URL-адрес, начинающийся с http или https',
+  'plugin.transfer.base-url.placeholder':
+    'URL-адрес, начинающийся с http или https',
   'plugin.transfer.token': 'Токен связи',
   'plugin.transfer.token.placeholder': 'Может быть любой персонаж',
   'plugin.transfer.step4.tips':
     'По умолчанию переносится все. Вы можете перенести только определенные части.',
   'plugin.transfer.types': 'Выберите, что перенести',
   'plugin.transfer.module': 'Выберите модель миграции',
-  'plugin.transfer.step5.tips': 'Во время процесса миграции не обновляйте эту страницу.',
+  'plugin.transfer.step5.tips':
+    'Во время процесса миграции не обновляйте эту страницу.',
   'plugin.transfer.base-url.name': 'Сайты, которые необходимо перенести:',
   'plugin.transfer.status': 'Текущий статус задачи:',
   'plugin.transfer.status.finished': 'завершенный',
@@ -1134,7 +1219,8 @@ export default {
   'plugin.user.is-retailer.no': 'нет',
   'plugin.user.is-retailer.yes': 'да',
   'plugin.user.invite-code': 'Код приглашения',
-  'plugin.user.invite-code.description': 'Пожалуйста, не меняйте его по своему желанию',
+  'plugin.user.invite-code.description':
+    'Пожалуйста, не меняйте его по своему желанию',
   'plugin.user.parent.user-id': 'Улучшенный идентификатор пользователя',
   'plugin.user.group': 'Группа пользователей VIP',
   'plugin.user.group.all': 'Все группы',
@@ -1143,7 +1229,8 @@ export default {
     'По истечении срока действия группа пользователей вернется к первой группе.',
   'plugin.user.extra-fields': 'дополнительные поля',
   'plugin.user.extra-fields.default': 'значение по умолчанию:',
-  'plugin.user.delete.confirm': 'Вы уверены, что хотите удалить этот фрагмент данных?',
+  'plugin.user.delete.confirm':
+    'Вы уверены, что хотите удалить этот фрагмент данных?',
   'plugin.watermark.generate.confirm':
     'Вы уверены, что хотите добавить водяной знак ко всем изображениям в библиотеке изображений?',
   'plugin.watermark.generate.content':
@@ -1187,9 +1274,11 @@ export default {
   'plugin.weapp.default.source':
     'Адрес исходного кода мини-программы: https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': 'Загрузите апплет по умолчанию',
-  'plugin.wechat.menu.delete.confirm': 'Вы уверены, что хотите удалить это меню?',
+  'plugin.wechat.menu.delete.confirm':
+    'Вы уверены, что хотите удалить это меню?',
   'plugin.wechat.menu.submit.error': 'Ошибка отправки',
-  'plugin.wechat.menu.submit.confirm': 'Вы уверены, что хотите обновить официальное меню аккаунта?',
+  'plugin.wechat.menu.submit.confirm':
+    'Вы уверены, что хотите обновить официальное меню аккаунта?',
   'plugin.wechat.menu.submit.content':
     'Эта операция синхронизирует вновь установленное меню с сервером WeChat.',
   'plugin.wechat.menu.name': 'Название меню',
@@ -1207,10 +1296,12 @@ export default {
   'plugin.wechat.menu.top': 'верхнее меню',
   'plugin.wechat.sort.description': 'Чем меньше значение, тем выше сортировка.',
   'plugin.wechat.reply': 'отвечать',
-  'plugin.wechat.reply.delete.confirm': 'Вы уверены, что хотите удалить этот фрагмент данных?',
+  'plugin.wechat.reply.delete.confirm':
+    'Вы уверены, что хотите удалить этот фрагмент данных?',
   'plugin.wechat.reply.keyword': 'Ключевые слова',
   'plugin.wechat.reply.content': 'Содержимое ответа',
-  'plugin.wechat.reply.content.description': 'Если вы хотите ответить, введите его здесь',
+  'plugin.wechat.reply.content.description':
+    'Если вы хотите ответить, введите его здесь',
   'plugin.wechat.reply.time': 'Время отклика',
   'plugin.wechat.reply.default': 'Ответ по умолчанию',
   'plugin.wechat.reply.default.yes': 'да',
@@ -1221,7 +1312,8 @@ export default {
   'plugin.wechat.reply.rule': 'Правила автоответа',
   'plugin.wechat.reply.rule.add': 'Добавить правила',
   'plugin.wechat.reply.rule.edit': 'Добавить правила',
-  'plugin.wechat.reply.keyword.description': 'Пользователь отправляет ключевое слово триггера',
+  'plugin.wechat.reply.keyword.description':
+    'Пользователь отправляет ключевое слово триггера',
   'plugin.wechat.setting': 'Настройка учетной записи службы WeChat',
   'plugin.wechat.appid': 'Сервисный аккаунтAppID',
   'plugin.wechat.app-secret': 'Сервисный аккаунтAppSecret',
@@ -1233,7 +1325,8 @@ export default {
   'plugin.wechat.verify-msg': 'Шаблон информации о коде подтверждения',
   'plugin.wechat.verify-msg.placeholder':
     'По умолчанию: код подтверждения: {code}, действителен в течение 30 минут.',
-  'plugin.wechat.verify-msg.description': 'Примечание. Шаблон должен содержать `{code}`.',
+  'plugin.wechat.verify-msg.description':
+    'Примечание. Шаблон должен содержать `{code}`.',
   'plugin.wechat.auto-reply.setting': 'Настройки автоответа',
   'plugin.wechat.menu.setting': 'Настройки меню',
   'plugin.wechat.official.setting': 'Официальные настройки аккаунта',
@@ -1242,4 +1335,42 @@ export default {
   'plugin.type.archive': 'Функция документа',
   'plugin.type.user-mall': 'Пользователь/торговый центр',
   'plugin.type.system': 'Системные функции',
+  'plugin.limiter.open.name': 'Включить защиту сайта',
+  'plugin.limiter.open.false': 'Закрыть',
+  'plugin.limiter.open.true': 'Открыть',
+  'plugin.limiter.description':
+    'После включения следующие настройки вступят в силу',
+  'plugin.limiter.max_requests': 'Временно заблокировать IP',
+  'plugin.limiter.max_requests.prefix':
+    'Достигнуто количество посещений за последние 5 минут',
+  'plugin.limiter.max_requests.suffix': 'раз',
+  'plugin.limiter.max_requests.description':
+    'Если не заполнено, по умолчанию используется 100 раз',
+  'plugin.limiter.block_hours': 'Продолжительность временного бана',
+  'plugin.limiter.block_hours.prefix': 'Временный бан',
+  'plugin.limiter.block_hours.suffix': 'часы',
+  'plugin.limiter.block_hours.description':
+    'Если не заполнено, значение по умолчанию составляет 1 час',
+  'plugin.limiter.white_ips': 'IP-адрес из белого списка',
+  'plugin.limiter.white_ips.description':
+    'По одному на строку, поддерживает IP и сегменты IP, например: 192.168.2.0/24',
+  'plugin.limiter.black_ips': 'IP-адреса из черного списка',
+  'plugin.limiter.black_ips.description':
+    'По одному на строку, поддерживает IP и сегменты IP, например: 192.168.2.0/24',
+  'plugin.limiter.block_agents': 'Ограничить определенный UserAgent',
+  'plugin.limiter.block_agents.description':
+    'По одному на строку, доступ с использованием этих UserAgents будет запрещен',
+  'plugin.limiter.allow_prefixes': 'Исключить определенные префиксы пути',
+  'plugin.limiter.allow_prefixes.placeholder': 'например:/api',
+  'plugin.limiter.allow_prefixes.description':
+    'По одному на строку, использование путей, содержащих эти префиксы, будет разрешено',
+  'plugin.limiter.is_allow_spider': 'Разрешить ли пауков',
+  'plugin.limiter.is_allow_spider.no': 'Нет',
+  'plugin.limiter.is_allow_spider.yes': 'Да',
+  'plugin.limiter.is_allow_spider.description':
+    'Если выбрано «Да», доступ паука будет разрешен. Чтобы не влиять на включение паука, выберите «Да»',
+  'plugin.limiter.blocked_ips': 'Временно заблокированные IP-адреса',
+  'plugin.limiter.blocked_ips.remove': 'Разблокировать',
+  'plugin.limiter.blocked_ips.remove.yes': 'Удалить',
+  'plugin.limiter.blocked_ips.ended': 'Истекло:',
 };

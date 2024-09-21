@@ -1,5 +1,6 @@
 export default {
-  'plugin.aigenerate.demand.required': 'Persyaratan terpadu tidak boleh melebihi 500 karakter.',
+  'plugin.aigenerate.demand.required':
+    'Persyaratan terpadu tidak boleh melebihi 500 karakter.',
   'plugin.aigenerate.checking': 'Memeriksa',
   'plugin.aigenerate.setting': 'Pengaturan penulisan otomatis AI',
   'plugin.aigenerate.isopen': 'Apakah akan menulis secara otomatis',
@@ -30,7 +31,8 @@ export default {
   'plugin.aigenerate.openai.valid': 'efisien',
   'plugin.aigenerate.openai.invalid': 'kedaluwarsa',
   'plugin.aigenerate.enter-to-add': 'Tekan enter untuk menambahkan',
-  'plugin.aigenerate.spark.description': 'Percikan alamat aplikasi API model besar',
+  'plugin.aigenerate.spark.description':
+    'Percikan alamat aplikasi API model besar',
   'plugin.aigenerate.spark.version': 'Percikan versi model besar',
   'plugin.aigenerate.default-category': 'Kategori artikel penerbitan default',
   'plugin.aigenerate.default-category.description':
@@ -39,11 +41,13 @@ export default {
   'plugin.aigenerate.save-type.draft': 'Simpan ke kotak draf',
   'plugin.aigenerate.save-type.release': 'Rilis biasa',
   'plugin.aigenerate.start-time': 'waktu mulai setiap hari',
-  'plugin.aigenerate.start-time.placeholder': 'Dimulai pada jam 8 secara default',
+  'plugin.aigenerate.start-time.placeholder':
+    'Dimulai pada jam 8 secara default',
   'plugin.aigenerate.start-time.description':
     'Silakan isi angka 0 sampai 23, 0 berarti tidak ada batasnya',
   'plugin.aigenerate.end-time': 'akhir hari',
-  'plugin.aigenerate.end-time.placeholder': 'Berakhir pada pukul 22:00 secara default',
+  'plugin.aigenerate.end-time.placeholder':
+    'Berakhir pada pukul 22:00 secara default',
   'plugin.aigenerate.end-time.description':
     'Silakan isi angka 0 sampai 23, 0 berarti tidak ada batasnya',
   'plugin.aigenerate.daily-limit': 'Rilis harian',
@@ -61,7 +65,8 @@ export default {
     'Aturan penggantian mendukung ekspresi reguler jika Anda sudah familiar dengan ekspresi reguler dan tidak dapat mencapai persyaratan penggantian melalui teks biasa, Anda dapat mencoba menggunakan aturan ekspresi reguler untuk menyelesaikan penggantian.',
   'plugin.aigenerate.replace.tips3':
     'Aturan ekspresi regulernya adalah: dimulai dengan { dan diakhiri dengan }, dan tulis kode aturan di tengahnya, misalnya {[0-9]+} untuk mencocokkan angka yang berurutan.',
-  'plugin.aigenerate.replace.rules': 'Beberapa aturan bawaan yang dapat digunakan dengan cepat.',
+  'plugin.aigenerate.replace.rules':
+    'Beberapa aturan bawaan yang dapat digunakan dengan cepat.',
   'plugin.aigenerate.replace.rule.email': '{alamat email}',
   'plugin.aigenerate.replace.rule.date': '{tanggal}',
   'plugin.aigenerate.replace.rule.time': '{waktu}',
@@ -74,7 +79,8 @@ export default {
   'plugin.aigenerate.replace.to': 'Ubah dengan',
   'plugin.aigenerate.empty': 'batal',
   'plugin.aigenerate.start': 'Mulai penulisan AI secara manual',
-  'plugin.aigenerate.start.confirm': 'Apakah Anda yakin ingin mulai menulis AI?',
+  'plugin.aigenerate.start.confirm':
+    'Apakah Anda yakin ingin mulai menulis AI?',
   'plugin.aigenerate.start.description':
     'Ini akan segera mulai menjalankan operasi tugas penulisan AI',
   'plugin.aigenerate.image.category': 'Klasifikasi gambar',
@@ -82,7 +88,8 @@ export default {
     'Gambar akan dipilih secara otomatis dari kategori sumber daya gambar yang ditentukan. Jika Anda memilih untuk mencoba pencocokan kata kunci dengan nama gambar, ia akan mencoba mencocokkan kata kunci artikel dengan nama gambar, dan jika pencocokan berhasil, gambar tersebut akan digunakan.',
   'plugin.aigenerate.image.category.default': 'Gambar yang tidak dikategorikan',
   'plugin.aigenerate.image.category.all': 'Semua gambar',
-  'plugin.aigenerate.image.category.match': 'Coba nama gambar yang cocok dengan kata kunci',
+  'plugin.aigenerate.image.category.match':
+    'Coba nama gambar yang cocok dengan kata kunci',
   'plugin.aigenerate.type': 'jenis',
   'plugin.aigenerate.type.undefine': 'belum diartikan',
   'plugin.aigenerate.type.generate': 'AI dihasilkan',
@@ -106,7 +113,8 @@ export default {
   'plugin.anchor.edit': 'Edit teks jangkar',
   'plugin.anchor.new': 'Tambahkan teks jangkar',
   'plugin.anchor.title': 'Nama teks jangkar',
-  'plugin.anchor.title.placeholder': 'Telusuri teks jangkar atau tautan teks jangkar',
+  'plugin.anchor.title.placeholder':
+    'Telusuri teks jangkar atau tautan teks jangkar',
   'plugin.anchor.link': 'tautan teks jangkar',
   'plugin.anchor.link.description':
     'Mendukung tautan relatif dan tautan absolut, seperti: /a/123.html atau https://www.anqicms.com/',
@@ -127,33 +135,43 @@ export default {
   'plugin.anchor.replace-way': 'Metode penggantian',
   'plugin.anchor.replace-way.auto': 'penggantian otomatis',
   'plugin.anchor.replace-way.manual': 'Penggantian manual',
-  'plugin.anchor.replace-way.description': 'Bagaimana konten menggantikan teks tautan',
+  'plugin.anchor.replace-way.description':
+    'Bagaimana konten menggantikan teks tautan',
   'plugin.anchor.extract': 'Metode ekstraksi',
   'plugin.anchor.extract.auto': 'Ekstraksi otomatis',
   'plugin.anchor.extract.manual': 'Ekstraksi manual',
   'plugin.anchor.extract.description':
     'Pilih cara mengekstrak kata kunci teks jangkar dari tag kata kunci konten',
-  'plugin.anchor.delete.confirm': 'Apakah Anda yakin ingin menghapus teks tautan yang dipilih?',
+  'plugin.anchor.delete.confirm':
+    'Apakah Anda yakin ingin menghapus teks tautan yang dipilih?',
   'plugin.anchor.batch-update': 'Perbarui teks jangkar secara bertahap',
   'plugin.anchor.export': 'Ekspor teks jangkar',
-  'plugin.anchor.export.confirm': 'Anda yakin ingin mengeksport semua teks anchor?',
+  'plugin.anchor.export.confirm':
+    'Anda yakin ingin mengeksport semua teks anchor?',
   'plugin.anchor.replace': 'mengganti',
   'plugin.anchor.replace.confirm':
     'Anda yakin ingin melakukan operasi teks anchor pembaruan batch?',
   'plugin.anchor.replace-count': 'Waktu penggantian',
-  'plugin.backup.confirm': 'Apakah Anda yakin ingin melakukan pencadangan basis data?',
-  'plugin.backup.backuping': 'Operasi pencadangan data sedang dilakukan, harap tunggu. .',
+  'plugin.backup.confirm':
+    'Apakah Anda yakin ingin melakukan pencadangan basis data?',
+  'plugin.backup.backuping':
+    'Operasi pencadangan data sedang dilakukan, harap tunggu. .',
   'plugin.backup.restore': 'pulih',
   'plugin.backup.restore.confirm':
     'Apakah Anda yakin ingin memulihkan menggunakan cadangan saat ini?',
   'plugin.backup.restore.content':
     'Setelah restorasi, data yang ada akan diganti dengan data cadangan saat ini. Silakan lanjutkan dengan hati-hati.',
-  'plugin.backup.restoring': 'Operasi pemulihan data sedang dilakukan, harap tunggu. .',
-  'plugin.backup.delete.confirm': 'Apakah Anda yakin ingin menghapus bagian data ini?',
+  'plugin.backup.restoring':
+    'Operasi pemulihan data sedang dilakukan, harap tunggu. .',
+  'plugin.backup.delete.confirm':
+    'Apakah Anda yakin ingin menghapus bagian data ini?',
   'plugin.backup.download': 'unduh',
-  'plugin.backup.download.confirm': 'Apakah Anda yakin ingin mengunduhnya secara lokal?',
-  'plugin.backup.cleanup.confirm': 'Apakah Anda yakin ingin menghapus data situs web?',
-  'plugin.backup.cleaning': 'Operasi pembersihan sedang berlangsung, harap tunggu. .',
+  'plugin.backup.download.confirm':
+    'Apakah Anda yakin ingin mengunduhnya secara lokal?',
+  'plugin.backup.cleanup.confirm':
+    'Apakah Anda yakin ingin menghapus data situs web?',
+  'plugin.backup.cleaning':
+    'Operasi pembersihan sedang berlangsung, harap tunggu. .',
   'plugin.backup.cleanup.tips1':
     'Operasi ini akan menghapus semua artikel. Demi alasan keamanan, pastikan untuk melakukan pencadangan terlebih dahulu jika terjadi keadaan yang tidak terduga.',
   'plugin.backup.cleanup.tips2':
@@ -204,7 +222,8 @@ export default {
   'plugin.collector.translate.description':
     'Ada biaya untuk penerjemahan. Catatan: Penulisan ulang dan terjemahan AI tidak dapat diaktifkan secara bersamaan, jika tidak, hasilnya akan salah.',
   'plugin.collector.to-language': 'Terjemahkan bahasa target',
-  'plugin.collector.to-language.description': 'Berlaku setelah memilih terjemahan otomatis',
+  'plugin.collector.to-language.description':
+    'Berlaku setelah memilih terjemahan otomatis',
   'plugin.collector.daily-limit': 'Kuantitas koleksi harian',
   'plugin.collector.daily-limit.description':
     'Jumlah maksimal artikel yang dikumpulkan per hari, 0 berarti tidak ada batasan',
@@ -232,7 +251,8 @@ export default {
     'Saat mengumpulkan artikel, jika kata kunci tersebut muncul di tautan, maka artikel tersebut tidak akan dikumpulkan.',
   'plugin.collector.start': 'Mulai pengumpulan secara manual',
   'plugin.collector.start.confirm': 'Apakah Anda yakin ingin mulai mengoleksi?',
-  'plugin.collector.start.content': 'Ini akan segera mulai menjalankan operasi tugas pengumpulan',
+  'plugin.collector.start.content':
+    'Ini akan segera mulai menjalankan operasi tugas pengumpulan',
   'plugin.collector.tips':
     'Untuk mengumpulkan artikel, Anda perlu menetapkan kata kunci inti terlebih dahulu. Silakan periksa fungsi "Manajemen Basis Data Kata Kunci" dan tambahkan kata kunci yang sesuai.',
   'plugin.collector.replace': 'Ganti kata kunci secara berkelompok',
@@ -248,8 +268,10 @@ export default {
   'plugin.comment.new-status': 'Silakan pilih status baru',
   'plugin.comment.batch-update-status': 'Status pembaruan batch',
   'plugin.comment.view-edit': 'Lihat/Edit',
-  'plugin.comment.delete.confirm': 'Apakah Anda yakin ingin menghapus komentar yang dipilih?',
-  'plugin.fileupload.delete.confirm': 'Apakah Anda yakin ingin menghapus file yang dipilih?',
+  'plugin.comment.delete.confirm':
+    'Apakah Anda yakin ingin menghapus komentar yang dipilih?',
+  'plugin.fileupload.delete.confirm':
+    'Apakah Anda yakin ingin menghapus file yang dipilih?',
   'plugin.fileupload.upload.name': 'Unggah file baru',
   'plugin.fileupload.upload.support':
     'Catatan: Hanya file verifikasi dalam format txt/htm/html/xml yang boleh diunggah.',
@@ -263,7 +285,8 @@ export default {
   'plugin.finance.after-amount': 'Jumlah setelah perubahan',
   'plugin.finance.status.unwithdraw': 'Tidak ditarik',
   'plugin.finance.status.withdraw': 'Ditarik',
-  'plugin.finance.withdraw.confirm': 'Apakah Anda yakin ingin memproses penarikan secara manual?',
+  'plugin.finance.withdraw.confirm':
+    'Apakah Anda yakin ingin memproses penarikan secara manual?',
   'plugin.finance.withdraw.confirm.content':
     'Ini setara dengan mengajukan penarikan dari sisi pengguna.',
   'plugin.finance.order-id': 'Id pemesanan',
@@ -296,7 +319,8 @@ export default {
   'plugin.finance.withdraw.apply': 'Aplikasi penarikan',
   'plugin.fulltext.tips':
     'Setelah mengaktifkan pencarian teks lengkap, Anda dapat mencari konten dokumen. Namun, pencarian teks lengkap akan memakan banyak memori server. Jika server Anda memiliki memori kecil, tidak disarankan untuk mengaktifkan pencarian teks lengkap.',
-  'plugin.fulltext.open.name': 'Apakah akan mengaktifkan pencarian teks lengkap',
+  'plugin.fulltext.open.name':
+    'Apakah akan mengaktifkan pencarian teks lengkap',
   'plugin.fulltext.open.false': 'penutup',
   'plugin.fulltext.open.true': 'menyalakan',
   'plugin.fulltext.use_content.false': 'Judul dan pendahuluan saja',
@@ -324,8 +348,10 @@ export default {
   'plugin.group.expire_day.description':
     'Setelah pembelian VIP berlaku berapa hari, silahkan isi 365 untuk 1 tahun.',
   'plugin.group.content_safe': 'Keamanan konten',
-  'plugin.group.content_safe.no-verify': 'Komentar/penerbitan konten dikecualikan dari peninjauan',
-  'plugin.group.content_safe.no-captcha': 'Komentar/postingan konten tanpa kode verifikasi',
+  'plugin.group.content_safe.no-verify':
+    'Komentar/penerbitan konten dikecualikan dari peninjauan',
+  'plugin.group.content_safe.no-captcha':
+    'Komentar/postingan konten tanpa kode verifikasi',
   'plugin.group.share_reward': 'Masa berlaku grup pengguna',
   'plugin.group.share_reward.description':
     'Disarankan untuk menyetel 5%-20, dan titik desimal tidak dapat disetel. Prioritas rasio komisi: Rasio komisi yang ditetapkan berdasarkan produk > Rasio komisi grup pengguna > Rasio komisi default',
@@ -336,10 +362,12 @@ export default {
   'plugin.group.discount.description':
     'Disarankan untuk mengatur 90%-100%. Setelah pengguna membuka halaman melalui link yang dibagikan oleh distributor, mereka dapat menikmati harga diskon saat melakukan pemesanan.',
   'plugin.group.permission': 'Pengaturan izin distribusi',
-  'plugin.group.delete.confirm': 'Apakah Anda yakin ingin menghapus bagian data ini?',
+  'plugin.group.delete.confirm':
+    'Apakah Anda yakin ingin menghapus bagian data ini?',
   'plugin.guestbook.reply.required':
     'Harap atur pengingat email terlebih dahulu dan cari "Pengingat Email" di fungsinya.',
-  'plugin.guestbook.replysubmit.required': 'Silakan isi judul email dan isi email',
+  'plugin.guestbook.replysubmit.required':
+    'Silakan isi judul email dan isi email',
   'plugin.guestbook.replysubmit.success': 'Email berhasil dikirim',
   'plugin.guestbook.view': 'Lihat Pesan',
   'plugin.guestbook.user-name': 'nama belakang',
@@ -351,17 +379,21 @@ export default {
   'plugin.guestbook.create-time': 'Waktu Pesan',
   'plugin.guestbook.reply.subject': 'judul surat',
   'plugin.guestbook.reply.message': 'isi email',
-  'plugin.guestbook.field.delete.confirm': 'Apakah Anda yakin ingin menghapus bidang ini?',
+  'plugin.guestbook.field.delete.confirm':
+    'Apakah Anda yakin ingin menghapus bidang ini?',
   'plugin.guestbook.field.delete.confirm.content':
     'Anda dapat memulihkan dengan menyegarkan halaman sebelum menyimpan.',
   'plugin.guestbook.setting': 'Pengaturan pesan situs web',
   'plugin.guestbook.return-message': 'Kiat agar pesan berhasil:',
-  'plugin.guestbook.return-message.placeholder': 'Default: Terima kasih atas pesan Anda!',
+  'plugin.guestbook.return-message.placeholder':
+    'Default: Terima kasih atas pesan Anda!',
   'plugin.guestbook.return-message.description':
     'Perintah yang dilihat pengguna setelah mengirimkan pesan. Misalnya: Terima kasih atas pesan Anda!',
-  'plugin.guestbook.delete.confirm': 'Apakah Anda yakin ingin menghapus pesan yang dipilih?',
+  'plugin.guestbook.delete.confirm':
+    'Apakah Anda yakin ingin menghapus pesan yang dipilih?',
   'plugin.guestbook.export': 'Ekspor pesan',
-  'plugin.guestbook.export.confirm': 'Anda yakin ingin mengeksport semua pesan?',
+  'plugin.guestbook.export.confirm':
+    'Anda yakin ingin mengeksport semua pesan?',
   'plugin.htmlcache.remote-file': 'berkas jarak jauh',
   'plugin.htmlcache.local-file': 'file lokal',
   'plugin.htmlcache.push-status': 'status dorong',
@@ -377,7 +409,8 @@ export default {
     'Apakah Anda yakin ingin membuat cache statis kolom?',
   'plugin.htmlcache.generate.archive.confirm':
     'Apakah Anda yakin ingin membuat cache statis dokumen?',
-  'plugin.htmlcache.generate.tag.confirm': 'Apakah Anda yakin ingin membuat cache tag statis?',
+  'plugin.htmlcache.generate.tag.confirm':
+    'Apakah Anda yakin ingin membuat cache tag statis?',
   'plugin.htmlcache.clean.confirm':
     'Apakah Anda yakin ingin menghapus cache statis seluruh situs? Jika ada banyak file yang di-cache, mungkin memerlukan waktu lama.',
   'plugin.htmlcache.clean.confirm.content':
@@ -394,7 +427,8 @@ export default {
   'plugin.htmlcache.isopen': 'Apakah akan mengaktifkan cache halaman statis',
   'plugin.htmlcache.index-time': 'Waktu cache halaman beranda',
   'plugin.htmlcache.index-time.suffix': 'Kedua',
-  'plugin.htmlcache.index-time.description': 'Jika Anda mengisi 0 detik, itu tidak akan di-cache.',
+  'plugin.htmlcache.index-time.description':
+    'Jika Anda mengisi 0 detik, itu tidak akan di-cache.',
   'plugin.htmlcache.category-time': 'Daftar waktu cache',
   'plugin.htmlcache.archive-time': 'Detail waktu cache',
   'plugin.htmlcache.storage-type': 'Server situs web statis',
@@ -406,14 +440,18 @@ export default {
   'plugin.htmlcache.storage-type.ftp': 'Pemindahan FTP',
   'plugin.htmlcache.storage-type.ssh': 'Transfer SFTP (SSH).',
   'plugin.htmlcache.storage-url': 'Alamat situs web statis',
-  'plugin.htmlcache.storage-url.placeholder': 'Seperti: https://www.anqicms.com',
+  'plugin.htmlcache.storage-url.placeholder':
+    'Seperti: https://www.anqicms.com',
   'plugin.htmlcache.aliyun.endpoint': 'Simpul Awan Alibaba',
-  'plugin.htmlcache.aliyun.endpoint.placeholder': 'Misalnya: http://oss-cn-hangzhou.aliyuncs.com',
+  'plugin.htmlcache.aliyun.endpoint.placeholder':
+    'Misalnya: http://oss-cn-hangzhou.aliyuncs.com',
   'plugin.htmlcache.aliyun.bucket-name': 'Nama keranjang Alibaba Cloud',
-  'plugin.htmlcache.tencent.bucket-url': 'Alamat keranjang penyimpanan Tencent Cloud',
+  'plugin.htmlcache.tencent.bucket-url':
+    'Alamat keranjang penyimpanan Tencent Cloud',
   'plugin.htmlcache.tencent.bucket-url.placeholder':
     'Misalnya: https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
-  'plugin.htmlcache.qiniu.bucket-name': 'Nama keranjang penyimpanan cloud Qiniu',
+  'plugin.htmlcache.qiniu.bucket-name':
+    'Nama keranjang penyimpanan cloud Qiniu',
   'plugin.htmlcache.qiniu.bucket-name.placeholder': 'Misalnya: anqicms',
   'plugin.htmlcache.qiniu.region': 'Tempat penyimpanan awan Qiniu',
   'plugin.htmlcache.qiniu.region.z0': 'Cina Timur',
@@ -422,7 +460,8 @@ export default {
   'plugin.htmlcache.qiniu.region.na0': 'Amerika Utara',
   'plugin.htmlcache.qiniu.region.as0': 'Asia Tenggara',
   'plugin.htmlcache.qiniu.region.cn-east2': 'Cina Timur-Zhejiang2',
-  'plugin.htmlcache.qiniu.region.fog-cn-east1': 'Penyimpanan Kabut Wilayah Cina Timur',
+  'plugin.htmlcache.qiniu.region.fog-cn-east1':
+    'Penyimpanan Kabut Wilayah Cina Timur',
   'plugin.htmlcache.upyun.operator': 'Gambar lain dari operator cloud',
   'plugin.htmlcache.upyun.password': 'Ambil kembali kata sandi operator cloud',
   'plugin.htmlcache.upyun.bucket': 'Lihat juga nama layanan penyimpanan cloud',
@@ -455,7 +494,8 @@ export default {
   'plugin.htmlcache.push.last-time': 'Waktu tekan manual terakhir:',
   'plugin.htmlcache.push.last-time.empty': 'Tidak didorong secara manual',
   'plugin.htmlcache.push.all': 'Dorong semua file statis ke server statis',
-  'plugin.htmlcache.push.addon': 'Hanya dorong file yang diperbarui ke server statis',
+  'plugin.htmlcache.push.addon':
+    'Hanya dorong file yang diperbarui ke server statis',
   'plugin.htmlcache.push.log.all': 'Semua catatan dorong',
   'plugin.htmlcache.push.log.error': 'Dorong catatan kesalahan',
   'plugin.htmlcache.build.process': 'Bangun kemajuan',
@@ -477,7 +517,8 @@ export default {
   'plugin.htmlcache.description.4':
     'Setelah mengaktifkan situs web statis, operasi berikut tidak akan dibuat ulang secara otomatis, dan operasi pembuatan halaman statis perlu dilakukan secara manual: Menyesuaikan templat (memodifikasi templat, mengaktifkan templat), Memodifikasi pengaturan latar belakang (pengaturan global, pengaturan konten, informasi kontak, navigasi , dll.), Modifikasi aturan pseudo-statis dan perubahan lain yang mempengaruhi situasi global',
   'plugin.importapi.token.required': 'Silakan isi Token, dalam 128 karakter',
-  'plugin.importapi.token.confirm': 'Apakah Anda yakin ingin memperbarui Token?',
+  'plugin.importapi.token.confirm':
+    'Apakah Anda yakin ingin memperbarui Token?',
   'plugin.importapi.token.confirm.content':
     'Setelah pembaruan, Token asli menjadi tidak valid, silakan gunakan alamat API baru untuk pengoperasian.',
   'plugin.importapi.token.copy.success': 'Berhasil disalin',
@@ -492,7 +533,8 @@ export default {
   'plugin.importapi.request-type': 'Jenis permintaan:',
   'plugin.importapi.post-fields': 'Bidang formulir POST:',
   'plugin.importapi.field.remark': 'menjelaskan',
-  'plugin.importapi.field.archive-id': 'ID Dokumen, dibuat secara otomatis secara default',
+  'plugin.importapi.field.archive-id':
+    'ID Dokumen, dibuat secara otomatis secara default',
   'plugin.importapi.field.title': 'Judul dokumen',
   'plugin.importapi.field.content': 'Konten dokumen',
   'plugin.importapi.field.category-id': 'ID Kategori',
@@ -500,7 +542,8 @@ export default {
   'plugin.importapi.field.description': 'Pengenalan dokumen',
   'plugin.importapi.field.url-token':
     'Alias ​​URL khusus, hanya mendukung angka dan huruf bahasa Inggris',
-  'plugin.importapi.field.images': 'Gambar artikel dapat diatur maksimal 9 gambar.',
+  'plugin.importapi.field.images':
+    'Gambar artikel dapat diatur maksimal 9 gambar.',
   'plugin.importapi.field.logo':
     'Thumbnail dokumen dapat berupa alamat absolut, seperti: https://www.anqicms.com/logo.png atau alamat relatif, seperti: /logo.png',
   'plugin.importapi.field.publish-time':
@@ -552,14 +595,16 @@ export default {
   'plugin.keyword.batch-import': 'Impor kata kunci secara berkelompok',
   'plugin.keyword.batch-import.tips':
     'Catatan: Hanya file dalam format csv yang didukung untuk diunggah dan diimpor.',
-  'plugin.keyword.batch-import.step1': 'Langkah pertama adalah mendownload file template csv',
+  'plugin.keyword.batch-import.step1':
+    'Langkah pertama adalah mendownload file template csv',
   'plugin.keyword.batch-import.step1.btn': 'Unduh file templat csv',
   'plugin.keyword.batch-import.step2': 'Langkah kedua adalah upload file csv',
   'plugin.keyword.batch-import.step2.btn': 'Unggah file csv',
   'plugin.keyword.edit': 'Sunting kata kunci',
   'plugin.keyword.add': 'Tambahkan kata kunci',
   'plugin.keyword.title': 'Nama kata kunci',
-  'plugin.keyword.title.placeholder': 'Mendukung penambahan batch, satu kata kunci per baris',
+  'plugin.keyword.title.placeholder':
+    'Mendukung penambahan batch, satu kata kunci per baris',
   'plugin.keyword.archive-category': 'Klasifikasi dokumen',
   'plugin.keyword.archive-category-id': 'ID klasifikasi dokumen',
   'plugin.keyword.manual-dig': 'Dengan tangan memperluas kata',
@@ -578,16 +623,20 @@ export default {
   'plugin.keyword.dig-setting.replace': 'Penggantian kata kunci',
   'plugin.keyword.dig-setting.replace.tips1':
     'Edit pasangan kata kunci yang perlu diganti, dan penggantian akan otomatis dilakukan saat kata diperluas.',
-  'plugin.keyword.delete.confirm': 'Apakah Anda yakin ingin menghapus kata kunci yang dipilih?',
-  'plugin.keyword.export.confirm': 'Apakah Anda yakin ingin mengekspor semua kata kunci?',
-  'plugin.keyword.collect.confirm': 'Apakah Anda yakin ingin mengumpulkan kata kunci ini?',
+  'plugin.keyword.delete.confirm':
+    'Apakah Anda yakin ingin menghapus kata kunci yang dipilih?',
+  'plugin.keyword.export.confirm':
+    'Apakah Anda yakin ingin mengekspor semua kata kunci?',
+  'plugin.keyword.collect.confirm':
+    'Apakah Anda yakin ingin mengumpulkan kata kunci ini?',
   'plugin.keyword.collect.doing': 'Saat ini sedang mengumpulkan',
   'plugin.keyword.aigenerate.confirm':
     'Apakah Anda yakin ingin melakukan operasi penulisan AI pada kata kunci ini?',
   'plugin.keyword.aigenerate.content':
     'Penulisan otomatis AI memerlukan pembayaran, pastikan Anda telah mengikat akun Anqi Anda.',
   'plugin.keyword.aigenerate.doing': 'Menghasilkan',
-  'plugin.keyword.cleanup.confirm': 'Apakah Anda yakin ingin menghapus semua kata kunci untuk ini?',
+  'plugin.keyword.cleanup.confirm':
+    'Apakah Anda yakin ingin menghapus semua kata kunci untuk ini?',
   'plugin.keyword.cleanup.content':
     'Operasi ini akan menghapus semua kata kunci dan tidak dapat dipulihkan, harap operasikan dengan hati-hati',
   'plugin.keyword.level': 'Hirarki',
@@ -604,16 +653,19 @@ export default {
   'plugin.link.api.add': 'Tambahkan antarmuka tautan ramah',
   'plugin.link.field.other-title': 'Kata kunci dari pihak lain',
   'plugin.link.field.other-link': 'Tautan lainnya',
-  'plugin.link.field.other-link.description': 'Seperti: https://www.anqicms.com/',
+  'plugin.link.field.other-link.description':
+    'Seperti: https://www.anqicms.com/',
   'plugin.link.field.nofollow':
     'Apakah akan menambahkan nofollow, nilai opsional: 0 untuk tidak ditambahkan, 1 untuk ditambahkan',
   'plugin.link.field.back-link': 'Halaman tautan di seberang',
   'plugin.link.field.back-link.description':
     'URL halaman tempat pihak lain menempatkan link ke situs ini',
   'plugin.link.field.self-title': 'kata kunci saya',
-  'plugin.link.field.self-title.description': 'Kata kunci yang saya masukkan ke halaman pihak lain',
+  'plugin.link.field.self-title.description':
+    'Kata kunci yang saya masukkan ke halaman pihak lain',
   'plugin.link.field.self-link': 'tautan saya',
-  'plugin.link.field.self-link.description': 'Tautan yang saya pasang di halaman pihak lain',
+  'plugin.link.field.self-link.description':
+    'Tautan yang saya pasang di halaman pihak lain',
   'plugin.link.field.contact': 'Informasi kontak pihak lain',
   'plugin.link.field.contact.description':
     'Isi QQ, WeChat, nomor telepon, dll untuk memudahkan kontak tindak lanjut',
@@ -625,7 +677,8 @@ export default {
   'plugin.link.nofollow.no': 'tidak ditambahkan',
   'plugin.link.nofollow.yes': 'Tambahkan',
   'plugin.link.more': 'lebih banyak pilihan',
-  'plugin.link.delete.confirm': 'Apakah Anda yakin ingin menghapus tautan ramah yang dipilih?',
+  'plugin.link.delete.confirm':
+    'Apakah Anda yakin ingin menghapus tautan ramah yang dipilih?',
   'plugin.link.status.wait': 'Untuk diuji',
   'plugin.link.status.ok': 'normal',
   'plugin.link.status.wrong-keyword': 'Kata kunci tidak konsisten',
@@ -646,16 +699,20 @@ export default {
   'plugin.material.import.segment': 'pecahan',
   'plugin.material.import.clear':
     'Apakah Anda yakin ingin menghapus materi konten yang telah Anda pilih untuk diunggah?',
-  'plugin.material.delete.confirm': 'Apakah Anda yakin ingin menghapus materi yang dipilih?',
-  'plugin.material.import.submit.tips.before': 'Di antara bahan yang Anda pilih, ada',
+  'plugin.material.delete.confirm':
+    'Apakah Anda yakin ingin menghapus materi yang dipilih?',
+  'plugin.material.import.submit.tips.before':
+    'Di antara bahan yang Anda pilih, ada',
   'plugin.material.import.submit.tips.after':
     'Tidak ada bagian yang dipilih untuk materi ini. Apakah Anda ingin melanjutkan pengiriman?',
-  'plugin.material.import.upload-error': 'Kesalahan pengunggahan, harap coba lagi nanti',
+  'plugin.material.import.upload-error':
+    'Kesalahan pengunggahan, harap coba lagi nanti',
   'plugin.material.import.batch-add': 'Tambahkan bahan secara bertahap',
   'plugin.material.import.batch-add.tips':
     'Catatan: Anda dapat mengunggah artikel yang disimpan dalam bentuk txt atau html.',
   'plugin.material.import.default-category': 'Secara default diimpor ke:',
-  'plugin.material.import.default-category.placeholder': 'Pilih bagian yang akan diimpor',
+  'plugin.material.import.default-category.placeholder':
+    'Pilih bagian yang akan diimpor',
   'plugin.material.import.default-category.all': 'semua',
   'plugin.material.import.select-file': 'Pilih untuk mengunggah:',
   'plugin.material.import.select-file.btn': 'Pilih file artikel Txt atau html',
@@ -724,16 +781,20 @@ export default {
   'plugin.order.setting.auto-finish.placeholder': 'Standarnya 10 hari',
   'plugin.order.setting.auto-finish.suffix': 'langit',
   'plugin.order.setting.auto-close': 'Batas waktu pesanan ditutup',
-  'plugin.order.setting.auto-close.description': 'Tidak otomatis ditutup secara default',
+  'plugin.order.setting.auto-close.description':
+    'Tidak otomatis ditutup secara default',
   'plugin.order.setting.auto-close.suffix': 'menit',
   'plugin.order.setting.seller-percent': 'Pendapatan penjualan pedagang',
-  'plugin.order.setting.seller-percent.description': 'Persentase pendapatan penjualan pedagang',
+  'plugin.order.setting.seller-percent.description':
+    'Persentase pendapatan penjualan pedagang',
   'plugin.order.loading': 'memuat',
-  'plugin.order.finish.confirm': 'Apakah Anda yakin ingin menyelesaikan pesanan secara manual?',
+  'plugin.order.finish.confirm':
+    'Apakah Anda yakin ingin menyelesaikan pesanan secara manual?',
   'plugin.order.finish.content': 'Operasi ini tidak dapat diubah.',
   'plugin.order.apply-refund.confirm':
     'Apakah Anda yakin ingin mengajukan pengembalian dana untuk pesanan ini?',
-  'plugin.order.apply-refund.content': 'Setelah refund, dana akan dikembalikan ke jalur semula.',
+  'plugin.order.apply-refund.content':
+    'Setelah refund, dana akan dikembalikan ke jalur semula.',
   'plugin.order.delivery': 'Mengirimkan',
   'plugin.order.delivery-process': 'Pemrosesan pengiriman',
   'plugin.order.finish-order': 'Pesanan lengkap',
@@ -798,7 +859,8 @@ export default {
   'plugin.push.google.json': 'konten JSON',
   'plugin.push.google.description':
     'Tidak tersedia di dalam negeri. Silakan merujuk ke dokumen untuk mendapatkan JSON: https://www.anqicms.com/google-indexing-help.html',
-  'plugin.push.other-js': '360/Toutiao dan JS lainnya dikirimkan secara otomatis',
+  'plugin.push.other-js':
+    '360/Toutiao dan JS lainnya dikirimkan secara otomatis',
   'plugin.push.other-js.add': 'Tambahkan kode JS',
   'plugin.push.other-js.tips1':
     'Anda dapat menempatkan kode JS seperti pengiriman otomatis Baidu JS, penyertaan otomatis 360, dan penyertaan otomatis Toutiao.',
@@ -813,7 +875,8 @@ export default {
   'plugin.redirect.import': 'Impor tautan',
   'plugin.redirect.import.tips':
     'Catatan: Hanya file dalam format csv yang didukung untuk diunggah dan diimpor.',
-  'plugin.redirect.import.step1': 'Langkah pertama adalah mendownload file template csv',
+  'plugin.redirect.import.step1':
+    'Langkah pertama adalah mendownload file template csv',
   'plugin.redirect.import.step1.download': 'Unduh file templat csv',
   'plugin.redirect.import.step2': 'Langkah kedua adalah upload file csv',
   'plugin.redirect.import.step2.upload': 'Unggah file csv',
@@ -823,11 +886,13 @@ export default {
   'plugin.redirect.to-url': 'Tautan lompat',
   'plugin.redirect.from-url.description':
     'Ini bisa berupa alamat absolut yang dimulai dengan `http(https)`, atau alamat relatif yang dimulai dengan `/`',
-  'plugin.redirect.delete.confirm': 'Apakah Anda yakin ingin menghapus tautan yang dipilih?',
+  'plugin.redirect.delete.confirm':
+    'Apakah Anda yakin ingin menghapus tautan yang dipilih?',
   'plugin.replace.add.required': 'Silakan isi kata kunci sumber pengganti',
   'plugin.replace.place.required': 'Silakan pilih lokasi alternatif',
   'plugin.replace.keyword.required': 'Harap tambahkan aturan penggantian',
-  'plugin.replace.confirm': 'Apakah Anda yakin ingin melakukan penggantian situs secara penuh?',
+  'plugin.replace.confirm':
+    'Apakah Anda yakin ingin melakukan penggantian situs secara penuh?',
   'plugin.replace.tips':
     'Penggantian seluruh situs adalah operasi lanjutan, dan kesalahan penggantian mungkin terjadi. Disarankan untuk melakukan pencadangan konten sebelum penggantian.',
   'plugin.replace.replace-tag': 'Apakah akan mengganti konten label',
@@ -843,7 +908,8 @@ export default {
   'plugin.replace.place.comment': 'Komentar',
   'plugin.replace.place.attachment': 'Sumber daya gambar',
   'plugin.retailer.setting': 'konfigurasi distribusi',
-  'plugin.retailer.allow-self': 'Distributor mendapat komisi dari pembelian mereka sendiri',
+  'plugin.retailer.allow-self':
+    'Distributor mendapat komisi dari pembelian mereka sendiri',
   'plugin.retailer.allow-self.description':
     'Jika komisi pembelian mandiri diaktifkan, distributor dapat memperoleh komisi terkait jika ia membeli sendiri barang yang didistribusikan. Jika dimatikan, distributor tidak dapat memperoleh komisi jika ia membeli sendiri barang yang didistribusikan. Jika Anda otomatis menjadi distributor, jangan aktifkan komisi pembelian mandiri.',
   'plugin.retailer.allow-self.no': 'penutup',
@@ -875,9 +941,12 @@ export default {
   'plugin.rewrite.formula.tag-list': 'Daftar tag:',
   'plugin.rewrite.formula.tag-detail': 'Detail tanda:',
   'plugin.rewrite.formula1': 'Opsi 1: Mode digital (sederhana, disarankan)',
-  'plugin.rewrite.formula2': 'Opsi 2: Pola penamaan 1 (Bahasa Inggris atau Pinyin)',
-  'plugin.rewrite.formula3': 'Opsi 3: Pola penamaan 2 (Bahasa Inggris atau Pinyin + angka)',
-  'plugin.rewrite.formula4': 'Opsi 4: Pola penamaan 3 (Bahasa Inggris atau Pinyin)',
+  'plugin.rewrite.formula2':
+    'Opsi 2: Pola penamaan 1 (Bahasa Inggris atau Pinyin)',
+  'plugin.rewrite.formula3':
+    'Opsi 3: Pola penamaan 2 (Bahasa Inggris atau Pinyin + angka)',
+  'plugin.rewrite.formula4':
+    'Opsi 4: Pola penamaan 3 (Bahasa Inggris atau Pinyin)',
   'plugin.rewrite.formula5':
     'Opsi 5: Mode khusus (mode lanjutan, harap gunakan dengan hati-hati, jika tidak diatur dengan benar, halaman depan tidak akan terbuka)',
   'plugin.rewrite.setting': 'Pengaturan skema pseudo-statis',
@@ -903,7 +972,8 @@ export default {
   'plugin.robots.view': 'Lihat Robot',
   'plugin.sendmail.setting': 'Pengaturan email',
   'plugin.sendmail.server': 'server SMTP',
-  'plugin.sendmail.server.description': 'Misalnya, kotak surat QQ adalah smtp.qq.com',
+  'plugin.sendmail.server.description':
+    'Misalnya, kotak surat QQ adalah smtp.qq.com',
   'plugin.sendmail.use-ssl': 'Gunakan SSL/TLS',
   'plugin.sendmail.use-ssl.no': 'Jangan gunakan',
   'plugin.sendmail.port': 'Pelabuhan SMTP',
@@ -913,9 +983,11 @@ export default {
   'plugin.sendmail.account.description':
     'Defaultnya adalah akun email, seperti email QQ Anda, seperti 123456@qq.com',
   'plugin.sendmail.password': 'kata sandi SMTP',
-  'plugin.sendmail.password.description': 'Kode otorisasi dihasilkan di pengaturan email.',
+  'plugin.sendmail.password.description':
+    'Kode otorisasi dihasilkan di pengaturan email.',
   'plugin.sendmail.recipient': 'Penerima e-mail',
-  'plugin.sendmail.recipient.required': 'Silakan atur email Anda terlebih dahulu',
+  'plugin.sendmail.recipient.required':
+    'Silakan atur email Anda terlebih dahulu',
   'plugin.sendmail.recipient.description':
     'Secara default, dikirim ke pengirim. Jika Anda perlu mengirimkannya ke orang lain, silakan isi di sini. Harap gunakan koma untuk memisahkan beberapa penerima.',
   'plugin.sendmail.auto-reply': 'Membalas pelanggan secara otomatis',
@@ -924,9 +996,11 @@ export default {
   'plugin.sendmail.auto-reply.description':
     'Jika balasan otomatis ke pelanggan diaktifkan, maka ketika pelanggan meninggalkan pesan, maka email balasan otomatis akan otomatis terkirim ke alamat email yang diisi oleh pelanggan.',
   'plugin.sendmail.auto-reply.title': 'Judul balasan otomatis',
-  'plugin.sendmail.auto-reply.title.description': 'Silakan isi judul balasan otomatis',
+  'plugin.sendmail.auto-reply.title.description':
+    'Silakan isi judul balasan otomatis',
   'plugin.sendmail.auto-reply.message': 'Konten balasan otomatis',
-  'plugin.sendmail.auto-reply.message.description': 'Silakan isi konten balasan otomatis',
+  'plugin.sendmail.auto-reply.message.description':
+    'Silakan isi konten balasan otomatis',
   'plugin.sendmail.send-type': 'Kirim adegan',
   'plugin.sendmail.send-type.guestbook': 'Ada pesan baru di situs web',
   'plugin.sendmail.send-type.report': 'situs web harian setiap hari',
@@ -978,16 +1052,20 @@ export default {
   'plugin.storage.keep-local.yes': 'menyimpan',
   'plugin.storage.keep-local.description':
     'Saat menggunakan penyimpanan cloud, Anda dapat memilih untuk menyimpan arsip lokal',
-  'plugin.timefactor.module.required': 'Silakan pilih setidaknya satu model dokumen',
-  'plugin.timefactor.types.required': 'Silakan pilih setidaknya satu jenis pembaruan',
-  'plugin.timefactor.start-day.required': 'Waktu yang memicu pembaruan tidak boleh 0',
+  'plugin.timefactor.module.required':
+    'Silakan pilih setidaknya satu model dokumen',
+  'plugin.timefactor.types.required':
+    'Silakan pilih setidaknya satu jenis pembaruan',
+  'plugin.timefactor.start-day.required':
+    'Waktu yang memicu pembaruan tidak boleh 0',
   'plugin.timefactor.end-day.error':
     'Waktu hasil pembaruan tidak boleh lebih awal dari waktu pemicu pembaruan',
   'plugin.timefactor.tips':
     'Fungsi penerbitan terjadwal faktor waktu dokumen menyediakan kemampuan untuk memperbarui waktu dokumen secara berkala. Anda dapat mengatur dokumen tertentu agar otomatis diperbarui ke waktu terbaru secara terjadwal, dan dokumen dalam draf dapat diterbitkan secara berkala sesuai waktu yang ditentukan. Program ini akan mencoba memeriksa pembaruan setiap jam.',
   'plugin.timefactor.setting':
     'Dokumentasikan pengaturan rilis yang dijadwalkan berdasarkan faktor waktu',
-  'plugin.timefactor.open': 'Apakah akan mengaktifkan pembaruan waktu dokumen lama',
+  'plugin.timefactor.open':
+    'Apakah akan mengaktifkan pembaruan waktu dokumen lama',
   'plugin.timefactor.open.no': 'TIDAK',
   'plugin.timefactor.open.yes': 'memungkinkan',
   'plugin.timefactor.types': 'Jenis pembaruan',
@@ -1001,7 +1079,8 @@ export default {
   'plugin.timefactor.end-day': 'Perbarui secara otomatis ke',
   'plugin.timefactor.end-day.placeholder': 'Seperti: 1',
   'plugin.timefactor.end-day.suffix': 'waktu dalam beberapa hari',
-  'plugin.timefactor.end-day.description': 'Jika diisi 0 berarti akan diupdate ke hari ini.',
+  'plugin.timefactor.end-day.description':
+    'Jika diisi 0 berarti akan diupdate ke hari ini.',
   'plugin.timefactor.republish': 'Apakah akan mendorong kembali',
   'plugin.timefactor.republish.no': 'TIDAK',
   'plugin.timefactor.republish.yes': 'Ya',
@@ -1019,12 +1098,15 @@ export default {
   'plugin.timefactor.start-time': 'Waktu mulai penerbitan harian',
   'plugin.timefactor.start-time.placeholder': 'Seperti: 8',
   'plugin.timefactor.start-time.suffix': 'titik',
-  'plugin.timefactor.start-time.description': 'Misal: jam 8, maka setiap hari dimulai jam 8',
+  'plugin.timefactor.start-time.description':
+    'Misal: jam 8, maka setiap hari dimulai jam 8',
   'plugin.timefactor.end-time': 'Akhir waktu',
   'plugin.timefactor.end-time.placeholder': 'Seperti: 18',
-  'plugin.timefactor.end-time.description': 'Jika diisi 0 berarti berakhir pada pukul 23.00',
+  'plugin.timefactor.end-time.description':
+    'Jika diisi 0 berarti berakhir pada pukul 23.00',
   'plugin.timefactor.module': 'Model terbuka',
-  'plugin.timefactor.category': 'Kategori yang tidak berpartisipasi dalam pembaruan',
+  'plugin.timefactor.category':
+    'Kategori yang tidak berpartisipasi dalam pembaruan',
   'plugin.timefactor.category.placeholder':
     'Jika Anda ingin mengecualikan kategori tertentu, Anda dapat memilih di sini',
   'plugin.titleimage.open': 'Konfigurasi gambar otomatis judul',
@@ -1050,7 +1132,8 @@ export default {
   'plugin.titleimage.noise': 'Tambahkan titik interferensi',
   'plugin.titleimage.noise.no': 'tidak ditambahkan',
   'plugin.titleimage.noise.yes': 'Tambahkan',
-  'plugin.titleimage.noise.description': 'Hanya berfungsi jika latar belakang default digunakan',
+  'plugin.titleimage.noise.description':
+    'Hanya berfungsi jika latar belakang default digunakan',
   'plugin.titleimage.bg-image': 'latar belakang kustom',
   'plugin.titleimage.bg-image.description':
     'Anda dapat menyesuaikan latar belakang. Jika Anda tidak mengunggah latar belakang khusus, sistem akan secara otomatis menghasilkan latar belakang warna solid.',
@@ -1073,7 +1156,8 @@ export default {
   'plugin.transfer.step3': 'langkah ketiga',
   'plugin.transfer.step4': 'langkah keempat',
   'plugin.transfer.step5': 'langkah kelima',
-  'plugin.transfer.step1.description': 'Pilih sistem situs web yang perlu dimigrasi',
+  'plugin.transfer.step1.description':
+    'Pilih sistem situs web yang perlu dimigrasi',
   'plugin.transfer.step2.description': 'Unduh file antarmuka komunikasi',
   'plugin.transfer.step3.description': 'Isi informasi komunikasi situs web',
   'plugin.transfer.step4.description': 'Pilih apa yang akan dimigrasikan',
@@ -1092,7 +1176,8 @@ export default {
   'plugin.transfer.step4.tips': 'Secara default, semuanya dimigrasikan.',
   'plugin.transfer.types': 'Pilih apa yang akan dimigrasikan',
   'plugin.transfer.module': 'Pilih model migrasi',
-  'plugin.transfer.step5.tips': 'Selama proses migrasi, mohon jangan segarkan halaman ini.',
+  'plugin.transfer.step5.tips':
+    'Selama proses migrasi, mohon jangan segarkan halaman ini.',
   'plugin.transfer.base-url.name': 'Situs yang perlu ditransfer:',
   'plugin.transfer.status': 'Status tugas saat ini:',
   'plugin.transfer.status.finished': 'lengkap',
@@ -1119,7 +1204,8 @@ export default {
   'plugin.user.is-retailer.no': 'TIDAK',
   'plugin.user.is-retailer.yes': 'Ya',
   'plugin.user.invite-code': 'Kode undangan',
-  'plugin.user.invite-code.description': 'Tolong jangan mengubahnya sesuka hati',
+  'plugin.user.invite-code.description':
+    'Tolong jangan mengubahnya sesuka hati',
   'plugin.user.parent.user-id': 'ID pengguna unggul',
   'plugin.user.group': 'Grup pengguna VIP',
   'plugin.user.group.all': 'Semua kelompok',
@@ -1128,7 +1214,8 @@ export default {
     'Setelah habis masa berlakunya, grup pengguna akan kembali ke grup pertama',
   'plugin.user.extra-fields': 'bidang tambahan',
   'plugin.user.extra-fields.default': 'nilai bawaan:',
-  'plugin.user.delete.confirm': 'Apakah Anda yakin ingin menghapus bagian data ini?',
+  'plugin.user.delete.confirm':
+    'Apakah Anda yakin ingin menghapus bagian data ini?',
   'plugin.watermark.generate.confirm':
     'Apakah Anda yakin ingin menambahkan tanda air ke semua gambar di perpustakaan gambar?',
   'plugin.watermark.generate.content':
@@ -1172,9 +1259,11 @@ export default {
   'plugin.weapp.default.source':
     'Alamat kode sumber program mini: https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': 'Unduh applet default',
-  'plugin.wechat.menu.delete.confirm': 'Apakah Anda yakin ingin menghapus menu ini?',
+  'plugin.wechat.menu.delete.confirm':
+    'Apakah Anda yakin ingin menghapus menu ini?',
   'plugin.wechat.menu.submit.error': 'Kirim kesalahan',
-  'plugin.wechat.menu.submit.confirm': 'Apakah Anda yakin ingin memperbarui menu akun resmi?',
+  'plugin.wechat.menu.submit.confirm':
+    'Apakah Anda yakin ingin memperbarui menu akun resmi?',
   'plugin.wechat.menu.submit.content':
     'Operasi ini akan menyinkronkan menu yang baru diatur ke server WeChat.',
   'plugin.wechat.menu.name': 'Nama menu',
@@ -1190,12 +1279,15 @@ export default {
   'plugin.wechat.menu.submit': 'Perbarui menu akun resmi',
   'plugin.wechat.menu.add': 'Tambahkan menu',
   'plugin.wechat.menu.top': 'menu teratas',
-  'plugin.wechat.sort.description': 'Semakin kecil nilainya, semakin tinggi pengurutannya.',
+  'plugin.wechat.sort.description':
+    'Semakin kecil nilainya, semakin tinggi pengurutannya.',
   'plugin.wechat.reply': 'membalas',
-  'plugin.wechat.reply.delete.confirm': 'Apakah Anda yakin ingin menghapus bagian data ini?',
+  'plugin.wechat.reply.delete.confirm':
+    'Apakah Anda yakin ingin menghapus bagian data ini?',
   'plugin.wechat.reply.keyword': 'Kata-kata kunci',
   'plugin.wechat.reply.content': 'Balasan konten',
-  'plugin.wechat.reply.content.description': 'Jika Anda ingin membalas, masukkan di sini',
+  'plugin.wechat.reply.content.description':
+    'Jika Anda ingin membalas, masukkan di sini',
   'plugin.wechat.reply.time': 'Waktu merespon',
   'plugin.wechat.reply.default': 'Balasan bawaan',
   'plugin.wechat.reply.default.yes': 'Ya',
@@ -1206,7 +1298,8 @@ export default {
   'plugin.wechat.reply.rule': 'Aturan balasan otomatis',
   'plugin.wechat.reply.rule.add': 'Tambahkan aturan',
   'plugin.wechat.reply.rule.edit': 'Tambahkan aturan',
-  'plugin.wechat.reply.keyword.description': 'Pengguna mengirimkan kata kunci pemicu',
+  'plugin.wechat.reply.keyword.description':
+    'Pengguna mengirimkan kata kunci pemicu',
   'plugin.wechat.setting': 'Konfigurasi akun layanan WeChat',
   'plugin.wechat.appid': 'Akun layananAppID',
   'plugin.wechat.app-secret': 'Akun LayananAppSecret',
@@ -1216,8 +1309,10 @@ export default {
   'plugin.wechat.verify-key.description':
     'Pengguna bisa mendapatkan kode verifikasi dengan membalas kata kunci ini',
   'plugin.wechat.verify-msg': 'Templat informasi kode verifikasi',
-  'plugin.wechat.verify-msg.placeholder': 'Default: Kode verifikasi: {code}, valid dalam 30 menit',
-  'plugin.wechat.verify-msg.description': 'Catatan: Templat harus berisi `{code}`',
+  'plugin.wechat.verify-msg.placeholder':
+    'Default: Kode verifikasi: {code}, valid dalam 30 menit',
+  'plugin.wechat.verify-msg.description':
+    'Catatan: Templat harus berisi `{code}`',
   'plugin.wechat.auto-reply.setting': 'Pengaturan balasan otomatis',
   'plugin.wechat.menu.setting': 'Pengaturan Menu',
   'plugin.wechat.official.setting': 'Pengaturan akun resmi',
@@ -1226,4 +1321,42 @@ export default {
   'plugin.type.archive': 'Fungsi dokumen',
   'plugin.type.user-mall': 'Pengguna/mal',
   'plugin.type.system': 'Fungsi sistem',
+  'plugin.limiter.open.name': 'Aktifkan perlindungan keamanan situs web',
+  'plugin.limiter.open.false': 'Tutup',
+  'plugin.limiter.open.true': 'Buka',
+  'plugin.limiter.description':
+    'Setelah diaktifkan, pengaturan berikut akan berlaku',
+  'plugin.limiter.max_requests': 'Larang IP untuk sementara',
+  'plugin.limiter.max_requests.prefix':
+    'Jumlah kunjungan dalam 5 menit terakhir tercapai',
+  'plugin.limiter.max_requests.suffix': 'kali',
+  'plugin.limiter.max_requests.description':
+    'Jika tidak diisi, defaultnya adalah 100 kali',
+  'plugin.limiter.block_hours': 'Durasi larangan sementara',
+  'plugin.limiter.block_hours.prefix': 'Larangan sementara',
+  'plugin.limiter.block_hours.suffix': 'jam',
+  'plugin.limiter.block_hours.description':
+    'Jika tidak diisi, defaultnya adalah 1 jam',
+  'plugin.limiter.white_ips': 'IP Daftar Putih',
+  'plugin.limiter.white_ips.description':
+    'Satu per baris, mendukung segmen IP dan IP, seperti: 192.168.2.0/24',
+  'plugin.limiter.black_ips': 'IP Daftar Hitam',
+  'plugin.limiter.black_ips.description':
+    'Satu per baris, mendukung segmen IP dan IP, seperti: 192.168.2.0/24',
+  'plugin.limiter.block_agents': 'Batasi Agen Pengguna tertentu',
+  'plugin.limiter.block_agents.description':
+    'Satu per baris, akses menggunakan Agen Pengguna ini akan ditolak',
+  'plugin.limiter.allow_prefixes': 'Kecualikan awalan jalur tertentu',
+  'plugin.limiter.allow_prefixes.placeholder': 'seperti:/api',
+  'plugin.limiter.allow_prefixes.description':
+    'Satu per baris, jalur yang berisi awalan ini akan diizinkan',
+  'plugin.limiter.is_allow_spider': 'Apakah akan mengizinkan laba-laba',
+  'plugin.limiter.is_allow_spider.no': 'Tidak',
+  'plugin.limiter.is_allow_spider.yes': 'Ya',
+  'plugin.limiter.is_allow_spider.description':
+    'Jika ya dipilih, akses laba-laba akan diizinkan. Agar tidak mempengaruhi penyertaan laba-laba, silakan pilih ya',
+  'plugin.limiter.blocked_ips': 'IP yang diblokir sementara',
+  'plugin.limiter.blocked_ips.remove': 'Buka blokir',
+  'plugin.limiter.blocked_ips.remove.yes': 'Hapus',
+  'plugin.limiter.blocked_ips.ended': 'Kedaluwarsa:',
 };

@@ -53,6 +53,7 @@ export default {
   'menu.plugin.timefactor': 'انتشار برنامه ریزی شده با فاکتور زمان',
   'menu.plugin.interference': 'کد تداخل ضد جمع آوری',
   'menu.plugin.watermark': 'اضافه کردن واترمارک به تصاویر',
+  'menu.plugin.limiter': 'محافظت از امنیت وب سایت',
   'menu.design': 'طراحی قالب',
   'menu.design.index': 'قالب من',
   'menu.design.editor': 'کد را اصلاح کنید',

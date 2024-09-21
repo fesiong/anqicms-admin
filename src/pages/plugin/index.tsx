@@ -20,6 +20,7 @@ import icon_htmlcache from '@/images/icon_htmlcache.png';
 import icon_importapi from '@/images/icon_importapi.png';
 import icon_interference from '@/images/icon_interference.png';
 import icon_keyword from '@/images/icon_keyword.png';
+import icon_limiter from '@/images/icon_limiter.png';
 import icon_material from '@/images/icon_material.png';
 import icon_order from '@/images/icon_order.png';
 import icon_pay from '@/images/icon_pay.png';
@@ -51,8 +52,12 @@ const PluginIndex: React.FC = () => {
     setType(val);
   };
 
-  let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
-  if (initialState?.currentUser?.id !== 1 && initialState?.currentUser?.group_id !== 1) {
+  let permissions =
+    initialState?.currentUser?.group?.setting?.permissions || [];
+  if (
+    initialState?.currentUser?.id !== 1 &&
+    initialState?.currentUser?.group_id !== 1
+  ) {
     for (let i in routes) {
       if (routes[i].path === '/plugin') {
         // 需要处理
@@ -135,6 +140,8 @@ const PluginIndex: React.FC = () => {
         return icon_interference;
       case 'watermark':
         return icon_watermark;
+      case 'limiter':
+        return icon_limiter;
     }
   };
 
@@ -207,7 +214,9 @@ const PluginIndex: React.FC = () => {
                         <img className="avatar" src={getIcon(inner.icon)} />
                         <div className="info">
                           <div className="title">
-                            <FormattedMessage id={'menu.plugin.' + inner.name} />
+                            <FormattedMessage
+                              id={'menu.plugin.' + inner.name}
+                            />
                           </div>
                         </div>
                       </div>

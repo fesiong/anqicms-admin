@@ -53,6 +53,7 @@ export default {
   'menu.plugin.timefactor': 'Time Factor-scheduled',
   'menu.plugin.interference': 'Anti-collection',
   'menu.plugin.watermark': 'Watermark',
+  'menu.plugin.limiter': 'Limiter',
   'menu.design': 'Template',
   'menu.design.index': 'My Template',
   'menu.design.editor': 'Modify Code',

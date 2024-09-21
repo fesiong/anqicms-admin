@@ -22,7 +22,8 @@ export default {
   'plugin.aigenerate.source.anqicms': '安企CMS官網',
   'plugin.aigenerate.source.openai': '自備OpenAIKey',
   'plugin.aigenerate.source.spark': '星火大模型',
-  'plugin.aigenerate.source.description': '聲明：僅有使用安企CMS搭建的海外網站可選自備OpenAIKey。',
+  'plugin.aigenerate.source.description':
+    '聲明：僅有使用安企CMS搭建的海外網站可選自備OpenAIKey。',
   'plugin.aigenerate.source.check-openai': '檢查OpenAI接口',
   'plugin.aigenerate.openai.description':
     'OpenAI Key 一般以 sk- 開頭，可以加入多個key，程式會每次會隨機選擇一個key使用。',
@@ -51,7 +52,8 @@ export default {
   'plugin.aigenerate.insert-image.category': '自訂插入圖片',
   'plugin.aigenerate.insert-image.list': '供插入的圖片列表',
   'plugin.aigenerate.replace': '內容替換',
-  'plugin.aigenerate.replace.tips1': '編輯需要替換的關鍵字對，會在發布文件的時候自動執行替換。',
+  'plugin.aigenerate.replace.tips1':
+    '編輯需要替換的關鍵字對，會在發布文件的時候自動執行替換。',
   'plugin.aigenerate.replace.tips2':
     '替換規則支援正規表示式，如果你對正規表示式熟悉，並且透過普通文字無法達成替換需求的，可以嘗試使用正規表示式規則來完成替換。',
   'plugin.aigenerate.replace.tips3':
@@ -103,7 +105,8 @@ export default {
   'plugin.anchor.link.description':
     '支援相對連結和絕對連接，如：/a/123.html 或 https://www.anqicms.com/',
   'plugin.anchor.weight': '錨文本權重',
-  'plugin.anchor.weight.description': '請輸入數字，0-9，數字越大，權重越高，高權重擁有優先替換權',
+  'plugin.anchor.weight.description':
+    '請輸入數字，0-9，數字越大，權重越高，高權重擁有優先替換權',
   'plugin.anchor.import': '導入錨文本',
   'plugin.anchor.import.description': '說明：只支援csv格式的檔案上傳並匯入',
   'plugin.anchor.step1': '第一步',
@@ -112,7 +115,8 @@ export default {
   'plugin.anchor.step2.upload': '上傳csv文件',
   'plugin.anchor.setting': '錨文本設置',
   'plugin.anchor.density': '錨文本密度',
-  'plugin.anchor.density.description': '例如：每100字替換一個錨文本，就填寫100，預設100',
+  'plugin.anchor.density.description':
+    '例如：每100字替換一個錨文本，就填寫100，預設100',
   'plugin.anchor.replace-way': '替換方式',
   'plugin.anchor.replace-way.auto': '自動替換',
   'plugin.anchor.replace-way.manual': '手動替換',
@@ -120,7 +124,8 @@ export default {
   'plugin.anchor.extract': '提取方式',
   'plugin.anchor.extract.auto': '自動擷取',
   'plugin.anchor.extract.manual': '手動提取',
-  'plugin.anchor.extract.description': '選擇從內容的關鍵字標籤擷取錨文本關鍵字的方式',
+  'plugin.anchor.extract.description':
+    '選擇從內容的關鍵字標籤擷取錨文本關鍵字的方式',
   'plugin.anchor.delete.confirm': '確定要刪除選取的錨文本嗎？',
   'plugin.anchor.batch-update': '批次更新錨文本',
   'plugin.anchor.export': '導出錨文本',
@@ -132,7 +137,8 @@ export default {
   'plugin.backup.backuping': '正在執行資料備份操作，請稍候。 。',
   'plugin.backup.restore': '恢復',
   'plugin.backup.restore.confirm': '確定要用目前備份執行還原嗎？',
-  'plugin.backup.restore.content': '恢復後，將會以目前的備份資料取代現有資料。請謹慎操作。',
+  'plugin.backup.restore.content':
+    '恢復後，將會以目前的備份資料取代現有資料。請謹慎操作。',
   'plugin.backup.restoring': '正在執行資料復原操作，請稍候。 。',
   'plugin.backup.delete.confirm': '確定要刪除該條資料嗎？',
   'plugin.backup.download': '下載',
@@ -170,7 +176,8 @@ export default {
   'plugin.collector.category.notice': '必須設定一個分類否則無法正常採集',
   'plugin.collector.min-title': '標題最少字數',
   'plugin.collector.min-title.placeholder': '預設10個字',
-  'plugin.collector.min-title.description': '採集文章的時候，標題字數少於指定的字數，則不會收集',
+  'plugin.collector.min-title.description':
+    '採集文章的時候，標題字數少於指定的字數，則不會收集',
   'plugin.collector.min-content': '內容最少字數',
   'plugin.collector.min-content.placeholder': '預設400個字',
   'plugin.collector.min-content.description':
@@ -178,7 +185,8 @@ export default {
   'plugin.collector.pseudo': '是否AI改寫',
   'plugin.collector.pseudo.no': '否',
   'plugin.collector.pseudo.yes': '進行AI改寫',
-  'plugin.collector.pseudo.description': 'AI改寫只支援文章採集和問答組合。需要付費。',
+  'plugin.collector.pseudo.description':
+    'AI改寫只支援文章採集和問答組合。需要付費。',
   'plugin.collector.translate': '是否翻譯',
   'plugin.collector.translate.no': '否',
   'plugin.collector.translate.yes': '進行翻譯',
@@ -193,18 +201,23 @@ export default {
   'plugin.collector.insert-image.contain': '保留原圖片',
   'plugin.collector.insert-image.insert': '保留原圖片',
   'plugin.collector.title-exclude': '標題排除詞',
-  'plugin.collector.title-exclude.tips': '採集文章的時候，標題出現這些關鍵字，則不會收集',
+  'plugin.collector.title-exclude.tips':
+    '採集文章的時候，標題出現這些關鍵字，則不會收集',
   'plugin.collector.title-prefix': '標題開頭排除詞',
-  'plugin.collector.title-prefix.tips': '採集文章的時候，標題開頭出現這些關鍵字，則不會收集',
+  'plugin.collector.title-prefix.tips':
+    '採集文章的時候，標題開頭出現這些關鍵字，則不會收集',
   'plugin.collector.title-suffix': '標題結尾排除詞',
-  'plugin.collector.title-suffix.tips': '採集文章的時候，標題結尾出現這些關鍵字，則不會採集',
+  'plugin.collector.title-suffix.tips':
+    '採集文章的時候，標題結尾出現這些關鍵字，則不會採集',
   'plugin.collector.content-exclude-line': '內容忽略行',
   'plugin.collector.content-exclude-line.tips':
     '採集文章的時候，內容出現這些字的那一行，將會被移除',
   'plugin.collector.content-exclude': '內容排除',
-  'plugin.collector.content-exclude.tips': '採集文章的時候，內容出現這些字詞，則整篇文章都丟棄',
+  'plugin.collector.content-exclude.tips':
+    '採集文章的時候，內容出現這些字詞，則整篇文章都丟棄',
   'plugin.collector.link-exclude': '連結忽略',
-  'plugin.collector.link-exclude.tips': '採集文章的時候，連結出現這些關鍵字的，則不會採集',
+  'plugin.collector.link-exclude.tips':
+    '採集文章的時候，連結出現這些關鍵字的，則不會採集',
   'plugin.collector.start': '手動開始採集',
   'plugin.collector.start.confirm': '確定要開始採集嗎？',
   'plugin.collector.start.content': '這將馬上開始執行一次採集任務操作',
@@ -226,7 +239,8 @@ export default {
   'plugin.comment.delete.confirm': '確定要刪除選取的評論嗎？',
   'plugin.fileupload.delete.confirm': '確定要刪除選取的檔案嗎？',
   'plugin.fileupload.upload.name': '上傳新文件',
-  'plugin.fileupload.upload.support': '說明：只允許上傳 txt/htm/html/xml 格式的驗證文件',
+  'plugin.fileupload.upload.support':
+    '說明：只允許上傳 txt/htm/html/xml 格式的驗證文件',
   'plugin.fileupload.upload.btn': '上傳文件',
   'plugin.fileupload.view': '查看',
   'plugin.fileupload.create-time': '上傳時間',
@@ -254,7 +268,8 @@ export default {
   'plugin.finance.type.cashback': '返現',
   'plugin.finance.type.commission': '佣金',
   'plugin.finance.withdraw.finish.confirm': '確定要手動處理完成提現嗎？',
-  'plugin.finance.withdraw.finish.content': '如果你線下打款給用戶了，可以在這裡點擊完成',
+  'plugin.finance.withdraw.finish.content':
+    '如果你線下打款給用戶了，可以在這裡點擊完成',
   'plugin.finance.withdraw.amount': '提現金額',
   'plugin.finance.withdraw.status.waiting': '等待處理',
   'plugin.finance.withdraw.status.agree': '已同意',
@@ -308,7 +323,8 @@ export default {
     '建議設定90%-100%，用戶透過經銷商分享的連結來到頁面後，下單可以享受的折扣價',
   'plugin.group.permission': '分銷權限設定',
   'plugin.group.delete.confirm': '確定要刪除該條資料嗎？',
-  'plugin.guestbook.reply.required': '請先進行郵件提醒設置，在功能中搜“郵件提醒”',
+  'plugin.guestbook.reply.required':
+    '請先進行郵件提醒設置，在功能中搜“郵件提醒”',
   'plugin.guestbook.replysubmit.required': '請填寫郵件標題和郵件內容',
   'plugin.guestbook.replysubmit.success': '郵件發送成功',
   'plugin.guestbook.view': '查看留言',
@@ -322,11 +338,13 @@ export default {
   'plugin.guestbook.reply.subject': '郵件標題',
   'plugin.guestbook.reply.message': '郵件內容',
   'plugin.guestbook.field.delete.confirm': '確定要刪除該欄位嗎？',
-  'plugin.guestbook.field.delete.confirm.content': '你可以在儲存之前，透過刷新頁面來恢復。',
+  'plugin.guestbook.field.delete.confirm.content':
+    '你可以在儲存之前，透過刷新頁面來恢復。',
   'plugin.guestbook.setting': '網站留言設定',
   'plugin.guestbook.return-message': '留言成功提示:',
   'plugin.guestbook.return-message.placeholder': '預設：感謝您的留言！',
-  'plugin.guestbook.return-message.description': '用戶提交留言後看到的提示。例如：感謝您的留言！',
+  'plugin.guestbook.return-message.description':
+    '用戶提交留言後看到的提示。例如：感謝您的留言！',
   'plugin.guestbook.delete.confirm': '確定要刪除選取的留言嗎？',
   'plugin.guestbook.export': '導出留言',
   'plugin.guestbook.export.confirm': '確定要匯出全部的留言嗎？',
@@ -350,7 +368,8 @@ export default {
   'plugin.htmlcache.push.all.confirm': '確定要全量推送靜態檔案到靜態伺服器嗎？',
   'plugin.htmlcache.push.all.confirm.content':
     '僅當配置了靜態伺服器後可用，全量推送需要耗時較長時間，如未進行全域變更可以使用增量推送。',
-  'plugin.htmlcache.push.addon.confirm': '確定要增量推送靜態檔案到靜態伺服器嗎？',
+  'plugin.htmlcache.push.addon.confirm':
+    '確定要增量推送靜態檔案到靜態伺服器嗎？',
   'plugin.htmlcache.push.addon.confirm.content':
     '僅當配置了靜態伺服器後可用，增量推送僅會推送更新的的靜態快取檔案。',
   'plugin.htmlcache.isopen': '是否開啟靜態頁面緩存',
@@ -370,7 +389,8 @@ export default {
   'plugin.htmlcache.storage-url': '靜態網址',
   'plugin.htmlcache.storage-url.placeholder': '如：https://www.anqicms.com',
   'plugin.htmlcache.aliyun.endpoint': '阿里雲節點',
-  'plugin.htmlcache.aliyun.endpoint.placeholder': '例如：http://oss-cn-hangzhou.aliyuncs.com',
+  'plugin.htmlcache.aliyun.endpoint.placeholder':
+    '例如：http://oss-cn-hangzhou.aliyuncs.com',
   'plugin.htmlcache.aliyun.bucket-name': '阿里雲端儲存桶名稱',
   'plugin.htmlcache.tencent.bucket-url': '騰訊雲端儲存桶地址',
   'plugin.htmlcache.tencent.bucket-url.placeholder':
@@ -399,7 +419,8 @@ export default {
   'plugin.htmlcache.ssh.username': 'SSH 使用者名稱',
   'plugin.htmlcache.ssh.password': 'SSH 密碼',
   'plugin.htmlcache.ssh.or-key': '或SSH 金鑰',
-  'plugin.htmlcache.ssh.or-key.description': '如果你的SSH伺服器是使用金鑰登錄，請上傳',
+  'plugin.htmlcache.ssh.or-key.description':
+    '如果你的SSH伺服器是使用金鑰登錄，請上傳',
   'plugin.htmlcache.ssh.or-key.upload': '上傳文件',
   'plugin.htmlcache.ssh.webroot': 'SSH 上傳根目錄',
   'plugin.htmlcache.generate.name': '生成操作',
@@ -438,9 +459,11 @@ export default {
     '啟用靜態網站後，以下的操作不會自動重新生成，需要手動執行靜態頁面生成操作： 調整了模板（修改模板、啟用模板） 、 修改後台設定（全域設定、內容設定、聯絡資訊、導航等） 、修改了偽靜態規則、 其它影響全域的改動',
   'plugin.importapi.token.required': '請填寫Token，128字符以內',
   'plugin.importapi.token.confirm': '確定要更新Token嗎？',
-  'plugin.importapi.token.confirm.content': '更新後，原Token失效，請使用新api位址操作。',
+  'plugin.importapi.token.confirm.content':
+    '更新後，原Token失效，請使用新api位址操作。',
   'plugin.importapi.token.copy.success': '複製成功',
-  'plugin.importapi.tips': '透過AI寫作等第三方平台產生的內容可以對接API導入本系統。',
+  'plugin.importapi.tips':
+    '透過AI寫作等第三方平台產生的內容可以對接API導入本系統。',
   'plugin.importapi.token.name': '我的Token：',
   'plugin.importapi.token.copy': '點選複製',
   'plugin.importapi.token.update': '更新Token',
@@ -462,7 +485,8 @@ export default {
     '文件的縮圖，可以是絕對地址，如: https://www.anqicms.com/logo.png 或相對地址，如: /logo.png',
   'plugin.importapi.field.publish-time':
     '格式：2006-01-02 15:04:05 文件的發佈時間，可以是未來的時間，如果是未來的時間，則文檔會在等到時間到了才正式發布。',
-  'plugin.importapi.field.tag': '文件Tag標籤，多個tag以英文逗號分隔,例如：aaa,bbb,ccc',
+  'plugin.importapi.field.tag':
+    '文件Tag標籤，多個tag以英文逗號分隔,例如：aaa,bbb,ccc',
   'plugin.importapi.field.diy': '其他自訂字段',
   'plugin.importapi.field.diy.remark':
     '如果你還傳了其他自訂字段，並且在文件表中存在該字段，則也支援。',
@@ -490,9 +514,11 @@ export default {
   'plugin.importapi.token.reset': '重置Token',
   'plugin.importapi.token.new': '新的Token',
   'plugin.importapi.token.new.placeholder': '請填寫新的Token',
-  'plugin.importapi.token.new.description': 'Token一般由數字、字母組合構成，長於10位，小於128位',
+  'plugin.importapi.token.new.description':
+    'Token一般由數字、字母組合構成，長於10位，小於128位',
   'plugin.interference.isopen': '開啟防採集幹擾碼',
-  'plugin.interference.isopen.description': '只有開啟了功能，以下的設定才有效。',
+  'plugin.interference.isopen.description':
+    '只有開啟了功能，以下的設定才有效。',
   'plugin.interference.isopen.no': '關閉',
   'plugin.interference.isopen.yes': '開啟',
   'plugin.interference.mode': '防干擾模式',
@@ -521,7 +547,8 @@ export default {
   'plugin.keyword.dig-setting.auto-dig.no': '否',
   'plugin.keyword.dig-setting.auto-dig.yes': '自動',
   'plugin.keyword.dig-setting.max-count': '拓詞數量',
-  'plugin.keyword.dig-setting.max-count.description': '選擇了自動拓詞，則拓詞數量才有效',
+  'plugin.keyword.dig-setting.max-count.description':
+    '選擇了自動拓詞，則拓詞數量才有效',
   'plugin.keyword.dig-setting.max-count.placeholder': '預設100000',
   'plugin.keyword.dig-setting.language': '關鍵字語種',
   'plugin.keyword.dig-setting.title-exclude': '關鍵字排除詞',
@@ -535,10 +562,12 @@ export default {
   'plugin.keyword.collect.confirm': '確定要對這個關鍵字執行採集操作嗎？',
   'plugin.keyword.collect.doing': '正在採集中',
   'plugin.keyword.aigenerate.confirm': '確定要對這個關鍵字執行AI寫作操作嗎？',
-  'plugin.keyword.aigenerate.content': 'AI自動寫作需要付費，請確保已綁定安企帳號。',
+  'plugin.keyword.aigenerate.content':
+    'AI自動寫作需要付費，請確保已綁定安企帳號。',
   'plugin.keyword.aigenerate.doing': '正在生成中',
   'plugin.keyword.cleanup.confirm': '確定要對這清空全部關鍵字嗎？',
-  'plugin.keyword.cleanup.content': '該操作會刪除所有的關鍵字，且不可恢復，請謹慎操作',
+  'plugin.keyword.cleanup.content':
+    '該操作會刪除所有的關鍵字，且不可恢復，請謹慎操作',
   'plugin.keyword.level': '層級',
   'plugin.keyword.article-count': '已收集文章',
   'plugin.keyword.collect': '手動採集',
@@ -593,10 +622,12 @@ export default {
   'plugin.material.import.clear': '確定要清除已選擇上傳的內容素材嗎？',
   'plugin.material.delete.confirm': '確定要刪除選取的素材嗎？',
   'plugin.material.import.submit.tips.before': '你選擇的素材中，有',
-  'plugin.material.import.submit.tips.after': '個素材未選擇板塊，是否要繼續提交？',
+  'plugin.material.import.submit.tips.after':
+    '個素材未選擇板塊，是否要繼續提交？',
   'plugin.material.import.upload-error': '上傳錯誤，請稍後重試',
   'plugin.material.import.batch-add': '大量添加素材',
-  'plugin.material.import.batch-add.tips': '說明：可以上傳存放在txt或html的文章。',
+  'plugin.material.import.batch-add.tips':
+    '說明：可以上傳存放在txt或html的文章。',
   'plugin.material.import.default-category': '預設導入到：',
   'plugin.material.import.default-category.placeholder': '選擇要匯入的板塊',
   'plugin.material.import.default-category.all': '全部',
@@ -742,7 +773,8 @@ export default {
     '國內無法使用。 JSON取得請參考文件：https://www.anqicms.com/google-indexing-help.html',
   'plugin.push.other-js': '360/頭條等JS自動提交',
   'plugin.push.other-js.add': '新增JS代碼',
-  'plugin.push.other-js.tips1': '可放置百度JS自動提交、360自動收錄、頭條自動收錄等JS代碼。',
+  'plugin.push.other-js.tips1':
+    '可放置百度JS自動提交、360自動收錄、頭條自動收錄等JS代碼。',
   'plugin.push.other-js.tips2':
     '這些程式碼需要在模板中手動調用，請在公共的模板結尾添加 `{{- pluginJsCode|safe }}` 程式碼來調用。',
   'plugin.push.other-js.tips3': '留言/留言等彈跳窗，會自動載入這些JS程式碼。',
@@ -767,7 +799,8 @@ export default {
   'plugin.replace.place.required': '請選擇替換位置',
   'plugin.replace.keyword.required': '請新增替換規則',
   'plugin.replace.confirm': '確定要執行全站替換操作嗎？',
-  'plugin.replace.tips': '全站替換是進階操作，有可能會出現替換錯誤，建議在替換前，先執行內容備份。',
+  'plugin.replace.tips':
+    '全站替換是進階操作，有可能會出現替換錯誤，建議在替換前，先執行內容備份。',
   'plugin.replace.replace-tag': '是否替換標籤內容',
   'plugin.replace.place': '替換位置',
   'plugin.replace.keyword': '替換規則',
@@ -789,9 +822,11 @@ export default {
   'plugin.retailer.become-retailer': '成為經銷商方式',
   'plugin.retailer.become-retailer.manual': '手動處理',
   'plugin.retailer.become-retailer.auto': '自動成為',
-  'plugin.retailer.become-retailer.description': '選擇人工處理的話，需要到使用者管理中設置',
+  'plugin.retailer.become-retailer.description':
+    '選擇人工處理的話，需要到使用者管理中設置',
   'plugin.retailer.cancel.confirm': '確定要取消該使用者的經銷商資格嗎？',
-  'plugin.retailer.cancel.content': '如果經銷商門檻為自動成為經銷商的話，則該取消無效',
+  'plugin.retailer.cancel.content':
+    '如果經銷商門檻為自動成為經銷商的話，則該取消無效',
   'plugin.retailer.user-id': '使用者ID',
   'plugin.retailer.user-name': '使用者名稱',
   'plugin.retailer.real-name': '真實姓名',
@@ -833,7 +868,8 @@ export default {
   'plugin.robots.content': 'Robots內容',
   'plugin.robots.content.tips1':
     '1.robots.txt可以告訴百度您網站的哪些頁面可以被抓取，哪些頁面不可以被抓取。',
-  'plugin.robots.content.tips2': '2、您可以透過Robots工具來建立、校驗、更新您的robots.txt檔案。',
+  'plugin.robots.content.tips2':
+    '2、您可以透過Robots工具來建立、校驗、更新您的robots.txt檔案。',
   'plugin.robots.view': '看Robots',
   'plugin.sendmail.setting': '郵件設定',
   'plugin.sendmail.server': 'SMTP伺服器',
@@ -844,7 +880,8 @@ export default {
   'plugin.sendmail.port.description':
     '預設伺服器連接埠為 25，使用 SSL 協定預設連接埠為 465, TLS 協定預設連接埠為 587 ，詳細參數請詢問郵件服務商',
   'plugin.sendmail.account': 'SMTP帳戶',
-  'plugin.sendmail.account.description': '預設是郵箱帳號，如您的QQ信箱，如123456@qq.com',
+  'plugin.sendmail.account.description':
+    '預設是郵箱帳號，如您的QQ信箱，如123456@qq.com',
   'plugin.sendmail.password': 'SMTP密碼',
   'plugin.sendmail.password.description': '在郵箱設定中產生的授權碼。',
   'plugin.sendmail.recipient': '收件者信箱',
@@ -884,13 +921,17 @@ export default {
   'plugin.sitemap.exclude-tag.no': '產生',
   'plugin.sitemap.exclude-tag.yes': '不生成',
   'plugin.sitemap.exculde-module': '排除的文檔模型',
-  'plugin.sitemap.exculde-module.description': '如果你想排除某些文件模型，可以在這裡選擇',
+  'plugin.sitemap.exculde-module.description':
+    '如果你想排除某些文件模型，可以在這裡選擇',
   'plugin.sitemap.exculde-category': '排除的分類',
-  'plugin.sitemap.exculde-category.description': '如果你想排除某些分類，你可以在這裡選擇',
+  'plugin.sitemap.exculde-category.description':
+    '如果你想排除某些分類，你可以在這裡選擇',
   'plugin.sitemap.exculde-page': '排除的單頁',
-  'plugin.sitemap.exculde-page.description': '如果你想排除某些單頁，你可以在這裡選擇',
+  'plugin.sitemap.exculde-page.description':
+    '如果你想排除某些單頁，你可以在這裡選擇',
   'plugin.sitemap.action': '手動操作',
-  'plugin.sitemap.action.tips': '提示：修改Sitemap設定後，請手動產生Sitemap，讓設定生效。',
+  'plugin.sitemap.action.tips':
+    '提示：修改Sitemap設定後，請手動產生Sitemap，讓設定生效。',
   'plugin.sitemap.last-time': '上次生成時間',
   'plugin.sitemap.build': '手動產生Sitemap',
   'plugin.sitemap.view': '查看Sitemap',
@@ -903,7 +944,8 @@ export default {
   'plugin.storage.keep-local': '本地存檔',
   'plugin.storage.keep-local.no': '不保留',
   'plugin.storage.keep-local.yes': '保留',
-  'plugin.storage.keep-local.description': '使用雲端儲存的時候，可以選擇保留本機存檔',
+  'plugin.storage.keep-local.description':
+    '使用雲端儲存的時候，可以選擇保留本機存檔',
   'plugin.timefactor.module.required': '請至少選擇一個文檔模型',
   'plugin.timefactor.types.required': '請至少選擇一個更新類型',
   'plugin.timefactor.start-day.required': '觸發更新的時間不能為0',
@@ -929,13 +971,15 @@ export default {
   'plugin.timefactor.republish': '是否重新推送',
   'plugin.timefactor.republish.no': '否',
   'plugin.timefactor.republish.yes': '是',
-  'plugin.timefactor.republish.description': '更新文件的同時，重新提交給嘗試搜尋引擎。',
+  'plugin.timefactor.republish.description':
+    '更新文件的同時，重新提交給嘗試搜尋引擎。',
   'plugin.timefactor.release-draft': '是否啟用草稿箱文件自動發布',
   'plugin.timefactor.release-draft.no': '否',
   'plugin.timefactor.release-draft.yes': '啟用',
   'plugin.timefactor.daily-limit': '每天自動發布數量',
   'plugin.timefactor.daily-limit.suffix': '篇',
-  'plugin.timefactor.daily-limit.description': '設定後，每天從草稿箱發布指定數量的文章，預設100',
+  'plugin.timefactor.daily-limit.description':
+    '設定後，每天從草稿箱發布指定數量的文章，預設100',
   'plugin.timefactor.daily-limit.placeholder': '如：30',
   'plugin.timefactor.start-time': '每天發布開始時間',
   'plugin.timefactor.start-time.placeholder': '如：8',
@@ -946,7 +990,8 @@ export default {
   'plugin.timefactor.end-time.description': '如果填0，則表示23點結束',
   'plugin.timefactor.module': '開啟的模型',
   'plugin.timefactor.category': '不參與更新的分類',
-  'plugin.timefactor.category.placeholder': '如果你想排除某些分類，你可以在這裡選擇',
+  'plugin.timefactor.category.placeholder':
+    '如果你想排除某些分類，你可以在這裡選擇',
   'plugin.titleimage.open': '標題自動配圖配置',
   'plugin.titleimage.open.no': '關閉',
   'plugin.titleimage.open.yes': '開啟',
@@ -1030,7 +1075,8 @@ export default {
   'plugin.user.phone': '手機號',
   'plugin.user.email': '郵件地址',
   'plugin.user.password': '密碼',
-  'plugin.user.password.description': '如果需要給該使用者修改密碼，請在此填寫，不少於6位',
+  'plugin.user.password.description':
+    '如果需要給該使用者修改密碼，請在此填寫，不少於6位',
   'plugin.user.is-retailer': '是否經銷員',
   'plugin.user.is-retailer.no': '不是',
   'plugin.user.is-retailer.yes': '是',
@@ -1066,7 +1112,8 @@ export default {
   'plugin.watermark.batch-add': '批量給圖片庫的圖片添加浮水印',
   'plugin.watermark.min-size': '最小添加浮水印圖片',
   'plugin.watermark.min-size.suffix': '像素',
-  'plugin.watermark.min-size.description': '長寬同時小於這個尺寸的圖片，不會添加浮水印',
+  'plugin.watermark.min-size.description':
+    '長寬同時小於這個尺寸的圖片，不會添加浮水印',
   'plugin.weapp.appid': '小程式AppID',
   'plugin.weapp.app-secret': '小程式AppSecret',
   'plugin.weapp.push.setting': '訊息推播配置',
@@ -1085,7 +1132,8 @@ export default {
   'plugin.wechat.menu.delete.confirm': '確定要刪除該條選單嗎？',
   'plugin.wechat.menu.submit.error': '提交出錯',
   'plugin.wechat.menu.submit.confirm': '確定要更新公眾號選單嗎？',
-  'plugin.wechat.menu.submit.content': '此操作將會將新設定的選單同步到微信伺服器。',
+  'plugin.wechat.menu.submit.content':
+    '此操作將會將新設定的選單同步到微信伺服器。',
   'plugin.wechat.menu.name': '菜單名稱',
   'plugin.wechat.menu.type': '類型',
   'plugin.wechat.menu.type.click': '文字選單',
@@ -1094,7 +1142,8 @@ export default {
   'plugin.wechat.menu.value.description':
     '文字選單請填寫文字，連結選單請填寫url地址，不超過128字符',
   'plugin.wechat.menu': '微信選單',
-  'plugin.wechat.menu.tips': '注意：一級菜單最多3個，每個一級菜單的二級菜單最多5個。',
+  'plugin.wechat.menu.tips':
+    '注意：一級菜單最多3個，每個一級菜單的二級菜單最多5個。',
   'plugin.wechat.menu.submit': '更新公眾號選單',
   'plugin.wechat.menu.add': '新增選單',
   'plugin.wechat.menu.top': '頂級菜單',
@@ -1107,7 +1156,8 @@ export default {
   'plugin.wechat.reply.time': '回覆時間',
   'plugin.wechat.reply.default': '預設回覆',
   'plugin.wechat.reply.default.yes': '是',
-  'plugin.wechat.reply.default.description': '選擇為預設回覆後，如果未符合至關鍵字，則會回覆此內容',
+  'plugin.wechat.reply.default.description':
+    '選擇為預設回覆後，如果未符合至關鍵字，則會回覆此內容',
   'plugin.wechat.reply.default.set-no': '不是',
   'plugin.wechat.reply.default.set-yes': '設為預設',
   'plugin.wechat.reply.rule': '自動回覆規則',
@@ -1132,4 +1182,38 @@ export default {
   'plugin.type.archive': '文件功能',
   'plugin.type.user-mall': '用戶/商城',
   'plugin.type.system': '系統功能',
+  'plugin.limiter.open.name': '開啟網站安全防護',
+  'plugin.limiter.open.false': '關閉',
+  'plugin.limiter.open.true': '開啟',
+  'plugin.limiter.description': '開啟後，下面的設定才生效',
+  'plugin.limiter.max_requests': '暫時封鎖IP',
+  'plugin.limiter.max_requests.prefix': '最近5分鐘造訪次數達到',
+  'plugin.limiter.max_requests.suffix': '次',
+  'plugin.limiter.max_requests.description': '如果不填寫，預設100次',
+  'plugin.limiter.block_hours': '臨時封禁時長',
+  'plugin.limiter.block_hours.prefix': '暫時封鎖',
+  'plugin.limiter.block_hours.suffix': '小時',
+  'plugin.limiter.block_hours.description': '如果不填寫，預設1小時',
+  'plugin.limiter.white_ips': '白名單IP',
+  'plugin.limiter.white_ips.description':
+    '一行一個，支援IP和IP段，如：192.168.2.0/24',
+  'plugin.limiter.black_ips': '黑名單IP',
+  'plugin.limiter.black_ips.description':
+    '一行一個，支援IP和IP段，如：192.168.2.0/24',
+  'plugin.limiter.block_agents': '限制特定UserAgent',
+  'plugin.limiter.block_agents.description':
+    '一行一個，使用這些UserAgent的存取將會被拒絕',
+  'plugin.limiter.allow_prefixes': '排除特定路徑前綴',
+  'plugin.limiter.allow_prefixes.placeholder': '如：/api',
+  'plugin.limiter.allow_prefixes.description':
+    '一行一個，使用包含這些前綴的路徑將會被放行',
+  'plugin.limiter.is_allow_spider': '是否放行蜘蛛',
+  'plugin.limiter.is_allow_spider.no': '否',
+  'plugin.limiter.is_allow_spider.yes': '是',
+  'plugin.limiter.is_allow_spider.description':
+    '如果選擇了是，則蜘蛛訪問將會被放行，為了不影響蜘蛛收錄，請選擇是',
+  'plugin.limiter.blocked_ips': '被暫時封鎖的IP',
+  'plugin.limiter.blocked_ips.remove': '取消封鎖',
+  'plugin.limiter.blocked_ips.remove.yes': '解除',
+  'plugin.limiter.blocked_ips.ended': '到期：',
 };

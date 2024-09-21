@@ -1,10 +1,12 @@
 export default {
-  'plugin.aigenerate.demand.required': 'O requisito unificado não pode exceder 500 caracteres.',
+  'plugin.aigenerate.demand.required':
+    'O requisito unificado não pode exceder 500 caracteres.',
   'plugin.aigenerate.checking': 'Verificando',
   'plugin.aigenerate.setting': 'Configurações de escrita automática de IA',
   'plugin.aigenerate.isopen': 'Se deve escrever automaticamente',
   'plugin.aigenerate.isopen.no': 'não',
-  'plugin.aigenerate.isopen.yes': 'Escreva automaticamente de acordo com o plano',
+  'plugin.aigenerate.isopen.yes':
+    'Escreva automaticamente de acordo com o plano',
   'plugin.aigenerate.language': 'Idioma de redação de artigos',
   'plugin.aigenerate.double-title': 'Gere títulos duplos',
   'plugin.aigenerate.double-title.description': 'Apenas suporte chinês',
@@ -30,9 +32,11 @@ export default {
   'plugin.aigenerate.openai.valid': 'eficiente',
   'plugin.aigenerate.openai.invalid': 'expirado',
   'plugin.aigenerate.enter-to-add': 'Pressione Enter para adicionar',
-  'plugin.aigenerate.spark.description': 'Endereço de aplicativo de API de modelo grande do Spark',
+  'plugin.aigenerate.spark.description':
+    'Endereço de aplicativo de API de modelo grande do Spark',
   'plugin.aigenerate.spark.version': 'Versão do modelo grande do Spark',
-  'plugin.aigenerate.default-category': 'Categoria de artigo de publicação padrão',
+  'plugin.aigenerate.default-category':
+    'Categoria de artigo de publicação padrão',
   'plugin.aigenerate.default-category.description':
     'Se as palavras-chave não forem classificadas em categorias, os artigos coletados serão classificados aleatoriamente em uma das categorias por padrão. Você deve definir uma categoria, caso contrário, os artigos coletados não poderão ser coletados normalmente.',
   'plugin.aigenerate.save-type': 'Método de processamento de artigos',
@@ -75,7 +79,8 @@ export default {
   'plugin.aigenerate.replace.to': 'Substituir com',
   'plugin.aigenerate.empty': 'nulo',
   'plugin.aigenerate.start': 'Comece a escrever IA manualmente',
-  'plugin.aigenerate.start.confirm': 'Tem certeza de que deseja começar a escrever sobre IA?',
+  'plugin.aigenerate.start.confirm':
+    'Tem certeza de que deseja começar a escrever sobre IA?',
   'plugin.aigenerate.start.description':
     'Isso iniciará imediatamente a execução de uma operação de tarefa de gravação de IA',
   'plugin.aigenerate.image.category': 'Classificação de imagens',
@@ -108,7 +113,8 @@ export default {
   'plugin.anchor.edit': 'Editar texto âncora',
   'plugin.anchor.new': 'Adicionar texto âncora',
   'plugin.anchor.title': 'Nome do texto âncora',
-  'plugin.anchor.title.placeholder': 'Pesquise texto âncora ou links de texto âncora',
+  'plugin.anchor.title.placeholder':
+    'Pesquise texto âncora ou links de texto âncora',
   'plugin.anchor.link': 'link de texto âncora',
   'plugin.anchor.link.description':
     'Suporta links relativos e links absolutos, como: /a/123.html ou https://www.anqicms.com/',
@@ -129,31 +135,41 @@ export default {
   'plugin.anchor.replace-way': 'Método de substituição',
   'plugin.anchor.replace-way.auto': 'substituição automática',
   'plugin.anchor.replace-way.manual': 'Substituição manual',
-  'plugin.anchor.replace-way.description': 'Como o conteúdo substitui o texto âncora',
+  'plugin.anchor.replace-way.description':
+    'Como o conteúdo substitui o texto âncora',
   'plugin.anchor.extract': 'Método de extração',
   'plugin.anchor.extract.auto': 'Extração automática',
   'plugin.anchor.extract.manual': 'Extração manual',
   'plugin.anchor.extract.description':
     'Escolha como extrair palavras-chave do texto âncora das tags de palavras-chave do conteúdo',
-  'plugin.anchor.delete.confirm': 'Tem certeza de que deseja excluir o texto âncora selecionado?',
+  'plugin.anchor.delete.confirm':
+    'Tem certeza de que deseja excluir o texto âncora selecionado?',
   'plugin.anchor.batch-update': 'Atualizar texto âncora em lotes',
   'plugin.anchor.export': 'Exportar texto âncora',
-  'plugin.anchor.export.confirm': 'Você tem certeza que deseja exportar todos os textos âncora?',
+  'plugin.anchor.export.confirm':
+    'Você tem certeza que deseja exportar todos os textos âncora?',
   'plugin.anchor.replace': 'substituir',
   'plugin.anchor.replace.confirm':
     'Você tem certeza de que deseja executar uma operação de texto âncora de atualização em lote?',
   'plugin.anchor.replace-count': 'Tempos de substituição',
-  'plugin.backup.confirm': 'Tem certeza de que deseja realizar um backup do banco de dados?',
-  'plugin.backup.backuping': 'A operação de backup de dados está sendo executada, aguarde. .',
+  'plugin.backup.confirm':
+    'Tem certeza de que deseja realizar um backup do banco de dados?',
+  'plugin.backup.backuping':
+    'A operação de backup de dados está sendo executada, aguarde. .',
   'plugin.backup.restore': 'recuperar',
-  'plugin.backup.restore.confirm': 'Tem certeza de que deseja restaurar usando o backup atual?',
+  'plugin.backup.restore.confirm':
+    'Tem certeza de que deseja restaurar usando o backup atual?',
   'plugin.backup.restore.content':
     'Após a restauração, os dados existentes serão substituídos pelos dados de backup atuais. Por favor, proceda com cautela.',
-  'plugin.backup.restoring': 'A operação de recuperação de dados está sendo executada, aguarde. .',
-  'plugin.backup.delete.confirm': 'Tem certeza de que deseja excluir este dado?',
+  'plugin.backup.restoring':
+    'A operação de recuperação de dados está sendo executada, aguarde. .',
+  'plugin.backup.delete.confirm':
+    'Tem certeza de que deseja excluir este dado?',
   'plugin.backup.download': 'download',
-  'plugin.backup.download.confirm': 'Tem certeza de que deseja baixá-lo localmente?',
-  'plugin.backup.cleanup.confirm': 'Tem certeza de que deseja limpar os dados do site?',
+  'plugin.backup.download.confirm':
+    'Tem certeza de que deseja baixá-lo localmente?',
+  'plugin.backup.cleanup.confirm':
+    'Tem certeza de que deseja limpar os dados do site?',
   'plugin.backup.cleaning': 'Operação de limpeza em andamento. Aguarde. .',
   'plugin.backup.cleanup.tips1':
     'Esta operação excluirá todos os artigos. Por razões de segurança, certifique-se de realizar primeiro um backup em caso de circunstâncias imprevistas.',
@@ -171,7 +187,8 @@ export default {
     'Nota: Se o arquivo de backup for muito grande e você precisar baixá-lo, use ferramentas FTP para baixar o arquivo de backup. O arquivo de backup está no diretório /data/backup/ do diretório raiz do site.',
   'plugin.collector.setting': 'Configurações de aquisição e substituição de IA',
   'plugin.collector.auto-collect': 'Se deve coletar automaticamente',
-  'plugin.collector.auto-collect.yes': 'Cobrança automática de acordo com o plano',
+  'plugin.collector.auto-collect.yes':
+    'Cobrança automática de acordo com o plano',
   'plugin.collector.auto-collect.no': 'não',
   'plugin.collector.language': 'Colete idiomas de artigos',
   'plugin.collector.mode': 'Modo de aquisição',
@@ -205,7 +222,8 @@ export default {
   'plugin.collector.translate.description':
     'Há uma taxa para tradução. Nota: A reescrita e a tradução da IA ​​não podem ser habilitadas ao mesmo tempo, caso contrário os resultados estarão errados.',
   'plugin.collector.to-language': 'Traduzir o idioma alvo',
-  'plugin.collector.to-language.description': 'Válido após selecionar tradução automática',
+  'plugin.collector.to-language.description':
+    'Válido após selecionar tradução automática',
   'plugin.collector.daily-limit': 'Quantidade diária de coleta',
   'plugin.collector.daily-limit.description':
     'O número máximo de artigos coletados por dia, 0 significa sem limite',
@@ -232,7 +250,8 @@ export default {
   'plugin.collector.link-exclude.tips':
     'Ao coletar artigos, caso essas palavras-chave apareçam no link, elas não serão coletadas.',
   'plugin.collector.start': 'Iniciar a coleta manualmente',
-  'plugin.collector.start.confirm': 'Tem certeza de que deseja começar a coletar?',
+  'plugin.collector.start.confirm':
+    'Tem certeza de que deseja começar a coletar?',
   'plugin.collector.start.content':
     'Isso iniciará imediatamente a execução de uma operação de tarefa de coleta',
   'plugin.collector.tips':
@@ -250,8 +269,10 @@ export default {
   'plugin.comment.new-status': 'Selecione um novo status',
   'plugin.comment.batch-update-status': 'Status de atualização em lote',
   'plugin.comment.view-edit': 'Visualizar edição',
-  'plugin.comment.delete.confirm': 'Tem certeza de que deseja excluir os comentários selecionados?',
-  'plugin.fileupload.delete.confirm': 'Tem certeza de que deseja excluir os arquivos selecionados?',
+  'plugin.comment.delete.confirm':
+    'Tem certeza de que deseja excluir os comentários selecionados?',
+  'plugin.fileupload.delete.confirm':
+    'Tem certeza de que deseja excluir os arquivos selecionados?',
   'plugin.fileupload.upload.name': 'Carregar novo arquivo',
   'plugin.fileupload.upload.support':
     'Nota: Somente arquivos de verificação no formato txt/htm/html/xml podem ser carregados.',
@@ -265,7 +286,8 @@ export default {
   'plugin.finance.after-amount': 'Valor após alteração',
   'plugin.finance.status.unwithdraw': 'Não retirado',
   'plugin.finance.status.withdraw': 'Retirado',
-  'plugin.finance.withdraw.confirm': 'Tem certeza de que deseja processar o saque manualmente?',
+  'plugin.finance.withdraw.confirm':
+    'Tem certeza de que deseja processar o saque manualmente?',
   'plugin.finance.withdraw.confirm.content':
     'Isso equivale apenas a solicitar a retirada do lado do usuário.',
   'plugin.finance.order-id': 'ID do pedido',
@@ -343,7 +365,8 @@ export default {
   'plugin.group.delete.confirm': 'Tem certeza de que deseja excluir este dado?',
   'plugin.guestbook.reply.required':
     'Configure primeiro o lembrete por e-mail e pesquise "Lembrete por e-mail" na função.',
-  'plugin.guestbook.replysubmit.required': 'Preencha o título e o conteúdo do e-mail',
+  'plugin.guestbook.replysubmit.required':
+    'Preencha o título e o conteúdo do e-mail',
   'plugin.guestbook.replysubmit.success': 'Email enviado com sucesso',
   'plugin.guestbook.view': 'Ver mensagem',
   'plugin.guestbook.user-name': 'nome de usuário',
@@ -355,17 +378,21 @@ export default {
   'plugin.guestbook.create-time': 'Hora da mensagem',
   'plugin.guestbook.reply.subject': 'título do e-mail',
   'plugin.guestbook.reply.message': 'conteúdo do e-mail',
-  'plugin.guestbook.field.delete.confirm': 'Tem certeza de que deseja excluir este campo?',
+  'plugin.guestbook.field.delete.confirm':
+    'Tem certeza de que deseja excluir este campo?',
   'plugin.guestbook.field.delete.confirm.content':
     'Você pode restaurar atualizando a página antes de salvar.',
   'plugin.guestbook.setting': 'Configurações de mensagem do site',
   'plugin.guestbook.return-message': 'Dicas para uma mensagem de sucesso:',
-  'plugin.guestbook.return-message.placeholder': 'Padrão: Obrigado pela sua mensagem!',
+  'plugin.guestbook.return-message.placeholder':
+    'Padrão: Obrigado pela sua mensagem!',
   'plugin.guestbook.return-message.description':
     'O prompt que os usuários veem após enviar uma mensagem. Por exemplo: Obrigado pela sua mensagem!',
-  'plugin.guestbook.delete.confirm': 'Tem certeza de que deseja excluir a mensagem selecionada?',
+  'plugin.guestbook.delete.confirm':
+    'Tem certeza de que deseja excluir a mensagem selecionada?',
   'plugin.guestbook.export': 'Exportar mensagens',
-  'plugin.guestbook.export.confirm': 'Tem a certeza que deseja exportar todas as mensagens?',
+  'plugin.guestbook.export.confirm':
+    'Tem a certeza que deseja exportar todas as mensagens?',
   'plugin.htmlcache.remote-file': 'arquivo remoto',
   'plugin.htmlcache.local-file': 'ficheiros locais',
   'plugin.htmlcache.push-status': 'status de envio',
@@ -408,7 +435,8 @@ export default {
   'plugin.htmlcache.storage-type.aliyun': 'Armazenamento em nuvem Alibaba',
   'plugin.htmlcache.storage-type.tencent': 'Armazenamento em nuvem Tencent',
   'plugin.htmlcache.storage-type.qiniu': 'Armazenamento em nuvem Qiniu',
-  'plugin.htmlcache.storage-type.upyun': 'Outra chance de armazenamento em nuvem',
+  'plugin.htmlcache.storage-type.upyun':
+    'Outra chance de armazenamento em nuvem',
   'plugin.htmlcache.storage-type.ftp': 'Transferência FTP',
   'plugin.htmlcache.storage-type.ssh': 'Transferência SFTP (SSH)',
   'plugin.htmlcache.storage-url': 'Endereço do site estático',
@@ -417,10 +445,12 @@ export default {
   'plugin.htmlcache.aliyun.endpoint.placeholder':
     'Por exemplo: http://oss-cn-hangzhou.aliyuncs.com',
   'plugin.htmlcache.aliyun.bucket-name': 'Nome do intervalo do Alibaba Cloud',
-  'plugin.htmlcache.tencent.bucket-url': 'Endereço do bucket de armazenamento em nuvem Tencent',
+  'plugin.htmlcache.tencent.bucket-url':
+    'Endereço do bucket de armazenamento em nuvem Tencent',
   'plugin.htmlcache.tencent.bucket-url.placeholder':
     'Por exemplo: https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
-  'plugin.htmlcache.qiniu.bucket-name': 'Nome do intervalo de armazenamento em nuvem Qiniu',
+  'plugin.htmlcache.qiniu.bucket-name':
+    'Nome do intervalo de armazenamento em nuvem Qiniu',
   'plugin.htmlcache.qiniu.bucket-name.placeholder': 'Por exemplo: anqicms',
   'plugin.htmlcache.qiniu.region': 'Área de armazenamento em nuvem Qiniu',
   'plugin.htmlcache.qiniu.region.z0': 'Leste da China',
@@ -429,9 +459,11 @@ export default {
   'plugin.htmlcache.qiniu.region.na0': 'América do Norte',
   'plugin.htmlcache.qiniu.region.as0': 'Sudeste da Ásia',
   'plugin.htmlcache.qiniu.region.cn-east2': 'Leste da China-Zhejiang2',
-  'plugin.htmlcache.qiniu.region.fog-cn-east1': 'Armazenamento de Nevoeiro Região Leste da China',
+  'plugin.htmlcache.qiniu.region.fog-cn-east1':
+    'Armazenamento de Nevoeiro Região Leste da China',
   'plugin.htmlcache.upyun.operator': 'Outra foto do operador de nuvem',
-  'plugin.htmlcache.upyun.password': 'Pegue a senha do operador de nuvem novamente',
+  'plugin.htmlcache.upyun.password':
+    'Pegue a senha do operador de nuvem novamente',
   'plugin.htmlcache.upyun.bucket':
     'Dê uma olhada também no nome do serviço de armazenamento em nuvem',
   'plugin.htmlcache.ftp.tips':
@@ -462,8 +494,10 @@ export default {
   'plugin.htmlcache.push.name': 'Operações de servidor estático',
   'plugin.htmlcache.push.last-time': 'Hora do último envio manual:',
   'plugin.htmlcache.push.last-time.empty': 'Não empurrado manualmente',
-  'plugin.htmlcache.push.all': 'Envie todos os arquivos estáticos para o servidor estático',
-  'plugin.htmlcache.push.addon': 'Envie apenas arquivos atualizados para o servidor estático',
+  'plugin.htmlcache.push.all':
+    'Envie todos os arquivos estáticos para o servidor estático',
+  'plugin.htmlcache.push.addon':
+    'Envie apenas arquivos atualizados para o servidor estático',
   'plugin.htmlcache.push.log.all': 'Todos os registros push',
   'plugin.htmlcache.push.log.error': 'Registro de erro push',
   'plugin.htmlcache.build.process': 'Construir progresso',
@@ -484,8 +518,10 @@ export default {
     'Antes de habilitar um site estático, você precisa habilitar o cache de página estática. Depois de habilitar um site estático, a pesquisa, mensagem, comentário, salto 301 e outras funções que exigem o envio de dados ao backend serão inválidas e o site terá apenas efeitos de exibição.',
   'plugin.htmlcache.description.4':
     'Depois de ativar um site estático, as seguintes operações não serão regeneradas automaticamente e as operações de geração de páginas estáticas precisam ser executadas manualmente: Ajustar modelos (modificar modelos, ativar modelos), Modificar configurações de plano de fundo (configurações globais, configurações de conteúdo, informações de contato, navegação , etc.), regras pseudoestáticas modificadas e outras mudanças que afetam a situação global',
-  'plugin.importapi.token.required': 'Por favor preencha o Token, com até 128 caracteres',
-  'plugin.importapi.token.confirm': 'Tem certeza de que deseja atualizar o Token?',
+  'plugin.importapi.token.required':
+    'Por favor preencha o Token, com até 128 caracteres',
+  'plugin.importapi.token.confirm':
+    'Tem certeza de que deseja atualizar o Token?',
   'plugin.importapi.token.confirm.content':
     'Após a atualização, o Token original torna-se inválido, use o novo endereço API para operação.',
   'plugin.importapi.token.copy.success': 'Copiado com sucesso',
@@ -500,7 +536,8 @@ export default {
   'plugin.importapi.request-type': 'Tipo de solicitação:',
   'plugin.importapi.post-fields': 'Campos do formulário POST:',
   'plugin.importapi.field.remark': 'ilustrar',
-  'plugin.importapi.field.archive-id': 'ID do documento, gerado automaticamente por padrão',
+  'plugin.importapi.field.archive-id':
+    'ID do documento, gerado automaticamente por padrão',
   'plugin.importapi.field.title': 'Título do documento',
   'plugin.importapi.field.content': 'Conteúdo do documento',
   'plugin.importapi.field.category-id': 'Categoria ID',
@@ -508,7 +545,8 @@ export default {
   'plugin.importapi.field.description': 'Introdução ao documento',
   'plugin.importapi.field.url-token':
     'Alias ​​de URL personalizado, compatível apenas com números e letras em inglês',
-  'plugin.importapi.field.images': 'As imagens do artigo podem ser configuradas em até 9 fotos.',
+  'plugin.importapi.field.images':
+    'As imagens do artigo podem ser configuradas em até 9 fotos.',
   'plugin.importapi.field.logo':
     'A miniatura do documento pode ser um endereço absoluto, como: https://www.anqicms.com/logo.png ou um endereço relativo, como: /logo.png',
   'plugin.importapi.field.publish-time':
@@ -524,9 +562,11 @@ export default {
     'Se deve substituir documentos com o mesmo título e ID quando existirem. Os valores suportados são: false|true Quando true for preenchido, o conteúdo mais recente será substituído. Quando definido como false, um erro será exibido.',
   'plugin.importapi.return-type': 'Formato de retorno:',
   'plugin.importapi.return-example.success': 'Exemplo de resultado correto:',
-  'plugin.importapi.return-example.failure': 'Exemplo de resultados incorretos:',
+  'plugin.importapi.return-example.failure':
+    'Exemplo de resultados incorretos:',
   'plugin.importapi.category-api': 'Obtenha interface de classificação',
-  'plugin.importapi.category-api.fields': 'Formulário POST/campos de parâmetros de consulta:',
+  'plugin.importapi.category-api.fields':
+    'Formulário POST/campos de parâmetros de consulta:',
   'plugin.importapi.category-api.fields.empty': 'nenhum',
   'plugin.importapi.category-api.module-id':
     'O ID do modelo da classificação a ser obtida, preencha o número, valores suportados: 0=todos, 1,2...ID do modelo correspondente',
@@ -534,7 +574,8 @@ export default {
   'plugin.importapi.train-mopdule.url': 'Endereço do website:',
   'plugin.importapi.train-mopdule.token': 'Variáveis ​​globais:',
   'plugin.importapi.train-mopdule.download': 'Download do módulo:',
-  'plugin.importapi.train-mopdule.download.text': 'Clique para fazer o download',
+  'plugin.importapi.train-mopdule.download.text':
+    'Clique para fazer o download',
   'plugin.importapi.train-mopdule.support-version': 'Versões suportadas:',
   'plugin.importapi.train-mopdule.support-version.text':
     'Suporte ao coletor de locomotivas versão 9.0 ou superior para importar e usar o módulo de lançamento',
@@ -556,18 +597,22 @@ export default {
   'plugin.interference.disable-selection.no': 'Não desativado',
   'plugin.interference.disable-selection.yes': 'Desativar',
   'plugin.interference.disable-copy': 'Desabilitar replicação',
-  'plugin.interference.disable-right-click': 'Desativar clique com o botão direito do mouse',
+  'plugin.interference.disable-right-click':
+    'Desativar clique com o botão direito do mouse',
   'plugin.keyword.batch-import': 'Importe palavras-chave em lotes',
   'plugin.keyword.batch-import.tips':
     'Nota: Somente arquivos no formato csv são suportados para upload e importação.',
-  'plugin.keyword.batch-import.step1': 'A primeira etapa é baixar o arquivo de modelo csv',
+  'plugin.keyword.batch-import.step1':
+    'A primeira etapa é baixar o arquivo de modelo csv',
   'plugin.keyword.batch-import.step1.btn': 'Baixe o arquivo de modelo csv',
-  'plugin.keyword.batch-import.step2': 'A segunda etapa é fazer upload do arquivo csv',
+  'plugin.keyword.batch-import.step2':
+    'A segunda etapa é fazer upload do arquivo csv',
   'plugin.keyword.batch-import.step2.btn': 'Carregar arquivo csv',
   'plugin.keyword.edit': 'Editar palavras-chave',
   'plugin.keyword.add': 'Adicionar palavras-chave',
   'plugin.keyword.title': 'Nome da palavra-chave',
-  'plugin.keyword.title.placeholder': 'Suporta adição em lote, uma palavra-chave por linha',
+  'plugin.keyword.title.placeholder':
+    'Suporta adição em lote, uma palavra-chave por linha',
   'plugin.keyword.archive-category': 'Classificação de documentos',
   'plugin.keyword.archive-category-id': 'ID de classificação do documento',
   'plugin.keyword.manual-dig': 'Expandir manualmente as palavras',
@@ -580,7 +625,8 @@ export default {
     'Se a expansão automática de palavras for selecionada, o número de expansões de palavras será válido.',
   'plugin.keyword.dig-setting.max-count.placeholder': 'Padrão 100.000',
   'plugin.keyword.dig-setting.language': 'Idioma da palavra-chave',
-  'plugin.keyword.dig-setting.title-exclude': 'palavras de exclusão de palavras-chave',
+  'plugin.keyword.dig-setting.title-exclude':
+    'palavras de exclusão de palavras-chave',
   'plugin.keyword.dig-setting.title-exclude.description':
     'Ao expandir palavras, se essas palavras-chave aparecerem nas palavras-chave, elas não serão coletadas.',
   'plugin.keyword.dig-setting.replace': 'Substituição de palavra-chave',
@@ -588,8 +634,10 @@ export default {
     'Edite os pares de palavras-chave que precisam ser substituídos e a substituição será realizada automaticamente ao expandir as palavras.',
   'plugin.keyword.delete.confirm':
     'Tem certeza de que deseja excluir as palavras-chave selecionadas?',
-  'plugin.keyword.export.confirm': 'Tem certeza de que deseja exportar todas as palavras-chave?',
-  'plugin.keyword.collect.confirm': 'Tem certeza de que deseja coletar esta palavra-chave?',
+  'plugin.keyword.export.confirm':
+    'Tem certeza de que deseja exportar todas as palavras-chave?',
+  'plugin.keyword.collect.confirm':
+    'Tem certeza de que deseja coletar esta palavra-chave?',
   'plugin.keyword.collect.doing': 'Atualmente coletando',
   'plugin.keyword.aigenerate.confirm':
     'Tem certeza de que deseja realizar operações de gravação de IA nesta palavra-chave?',
@@ -624,7 +672,8 @@ export default {
   'plugin.link.field.self-title.description':
     'As palavras-chave que coloquei na página da outra parte',
   'plugin.link.field.self-link': 'meu link',
-  'plugin.link.field.self-link.description': 'O link que coloquei na página da outra parte',
+  'plugin.link.field.self-link.description':
+    'O link que coloquei na página da outra parte',
   'plugin.link.field.contact': 'Informações de contato da outra parte',
   'plugin.link.field.contact.description':
     'Preencha QQ, WeChat, número de telefone, etc. para facilitar o contato de acompanhamento',
@@ -636,17 +685,21 @@ export default {
   'plugin.link.nofollow.no': 'não adicionado',
   'plugin.link.nofollow.yes': 'adicionar à',
   'plugin.link.more': 'mais opções',
-  'plugin.link.delete.confirm': 'Tem certeza de que deseja excluir o link amigável selecionado?',
+  'plugin.link.delete.confirm':
+    'Tem certeza de que deseja excluir o link amigável selecionado?',
   'plugin.link.status.wait': 'Para ser testado',
   'plugin.link.status.ok': 'normal',
   'plugin.link.status.wrong-keyword': 'Palavras-chave são inconsistentes',
   'plugin.link.status.no-back-url': 'A outra parte não tem backlink',
   'plugin.link.other-title-link': 'Palavras-chave/links da outra parte',
-  'plugin.link.other-contact-remark': 'Informações de contato/observações da outra parte',
-  'plugin.link.status-check-time': 'Informações de contato/observações da outra parte',
+  'plugin.link.other-contact-remark':
+    'Informações de contato/observações da outra parte',
+  'plugin.link.status-check-time':
+    'Informações de contato/observações da outra parte',
   'plugin.link.create-time': 'tempo extra',
   'plugin.link.check': 'examinar',
-  'plugin.material.category.delete.confirm': 'Tem certeza de que deseja excluí-lo?',
+  'plugin.material.category.delete.confirm':
+    'Tem certeza de que deseja excluí-lo?',
   'plugin.material.category.title': 'Nome da Seção',
   'plugin.material.category.count': 'Quantidade de materiais',
   'plugin.material.category.add': 'Nova seção',
@@ -657,19 +710,24 @@ export default {
   'plugin.material.import.segment': 'fragmento',
   'plugin.material.import.clear':
     'Tem certeza de que deseja limpar os materiais de conteúdo selecionados para upload?',
-  'plugin.material.delete.confirm': 'Tem certeza de que deseja excluir o material selecionado?',
-  'plugin.material.import.submit.tips.before': 'Entre os materiais que você selecionou, estão',
+  'plugin.material.delete.confirm':
+    'Tem certeza de que deseja excluir o material selecionado?',
+  'plugin.material.import.submit.tips.before':
+    'Entre os materiais que você selecionou, estão',
   'plugin.material.import.submit.tips.after':
     'Nenhuma seção foi selecionada para este material. Deseja continuar enviando?',
-  'plugin.material.import.upload-error': 'Erro de upload, tente novamente mais tarde',
+  'plugin.material.import.upload-error':
+    'Erro de upload, tente novamente mais tarde',
   'plugin.material.import.batch-add': 'Adicione materiais em lotes',
   'plugin.material.import.batch-add.tips':
     'Nota: Você pode fazer upload de artigos armazenados em txt ou html.',
   'plugin.material.import.default-category': 'Por padrão importado para:',
-  'plugin.material.import.default-category.placeholder': 'Selecione a seção a ser importada',
+  'plugin.material.import.default-category.placeholder':
+    'Selecione a seção a ser importada',
   'plugin.material.import.default-category.all': 'todos',
   'plugin.material.import.select-file': 'Escolha fazer upload:',
-  'plugin.material.import.select-file.btn': 'Selecione o arquivo de artigo Txt ou HTML',
+  'plugin.material.import.select-file.btn':
+    'Selecione o arquivo de artigo Txt ou HTML',
   'plugin.material.import.paste': 'Ou clique para colar o texto',
   'plugin.material.import.selected.count': 'Material do parágrafo selecionado:',
   'plugin.material.import.paste.clear': 'Claro',
@@ -735,13 +793,15 @@ export default {
   'plugin.order.setting.auto-finish.placeholder': 'Padrão 10 dias',
   'plugin.order.setting.auto-finish.suffix': 'céu',
   'plugin.order.setting.auto-close': 'Tempo limite do pedido encerrado',
-  'plugin.order.setting.auto-close.description': 'Não fechado automaticamente por padrão',
+  'plugin.order.setting.auto-close.description':
+    'Não fechado automaticamente por padrão',
   'plugin.order.setting.auto-close.suffix': 'minuto',
   'plugin.order.setting.seller-percent': 'Receita de vendas do comerciante',
   'plugin.order.setting.seller-percent.description':
     'Porcentagem de receita de vendas do comerciante',
   'plugin.order.loading': 'carregando',
-  'plugin.order.finish.confirm': 'Tem certeza de que deseja concluir o pedido manualmente?',
+  'plugin.order.finish.confirm':
+    'Tem certeza de que deseja concluir o pedido manualmente?',
   'plugin.order.finish.content': 'Esta operação é irreversível.',
   'plugin.order.apply-refund.confirm':
     'Tem certeza de que deseja solicitar o reembolso deste pedido?',
@@ -826,9 +886,11 @@ export default {
   'plugin.redirect.import': 'Link de importação',
   'plugin.redirect.import.tips':
     'Nota: Somente arquivos no formato csv são suportados para upload e importação.',
-  'plugin.redirect.import.step1': 'A primeira etapa é baixar o arquivo de modelo csv',
+  'plugin.redirect.import.step1':
+    'A primeira etapa é baixar o arquivo de modelo csv',
   'plugin.redirect.import.step1.download': 'Baixe o arquivo de modelo csv',
-  'plugin.redirect.import.step2': 'A segunda etapa é fazer upload do arquivo csv',
+  'plugin.redirect.import.step2':
+    'A segunda etapa é fazer upload do arquivo csv',
   'plugin.redirect.import.step2.upload': 'Carregar arquivo csv',
   'plugin.redirect.edit': 'Editar link',
   'plugin.redirect.add': 'Adicionar um link',
@@ -836,11 +898,14 @@ export default {
   'plugin.redirect.to-url': 'Link de salto',
   'plugin.redirect.from-url.description':
     'Pode ser um endereço absoluto começando com `http(https)` ou um endereço relativo começando com `/`',
-  'plugin.redirect.delete.confirm': 'Tem certeza de que deseja excluir o link selecionado?',
-  'plugin.replace.add.required': 'Preencha as palavras-chave de origem substitutas',
+  'plugin.redirect.delete.confirm':
+    'Tem certeza de que deseja excluir o link selecionado?',
+  'plugin.replace.add.required':
+    'Preencha as palavras-chave de origem substitutas',
   'plugin.replace.place.required': 'Selecione um local alternativo',
   'plugin.replace.keyword.required': 'Adicione regras de substituição',
-  'plugin.replace.confirm': 'Tem certeza de que deseja realizar uma substituição completa do site?',
+  'plugin.replace.confirm':
+    'Tem certeza de que deseja realizar uma substituição completa do site?',
   'plugin.replace.tips':
     'A substituição de todo o site é uma operação avançada e podem ocorrer erros de substituição. É recomendável realizar um backup do conteúdo antes da substituição.',
   'plugin.replace.replace-tag': 'Se deve substituir o conteúdo do rótulo',
@@ -856,7 +921,8 @@ export default {
   'plugin.replace.place.comment': 'Comente',
   'plugin.replace.place.attachment': 'Recursos de imagem',
   'plugin.retailer.setting': 'configuração de distribuição',
-  'plugin.retailer.allow-self': 'Distribuidores ganham comissões por suas próprias compras',
+  'plugin.retailer.allow-self':
+    'Distribuidores ganham comissões por suas próprias compras',
   'plugin.retailer.allow-self.description':
     'Se a comissão de autocompra estiver ativada, o distribuidor poderá obter a comissão correspondente se ele próprio comprar os produtos distribuídos. Se estiver desativada, o distribuidor não poderá obter a comissão se ele próprio comprar os produtos distribuídos. Se você se tornar automaticamente um distribuidor, não habilite a comissão de autocompra.',
   'plugin.retailer.allow-self.no': 'fecho',
@@ -879,7 +945,8 @@ export default {
   'plugin.retailer.change-name': 'Alterar nome verdadeiro',
   'plugin.retailer.cancel': 'Cancelar',
   'plugin.retailer.add': 'Adicionar distribuidor',
-  'plugin.retailer.add.name': 'Preencha o ID do usuário e configure o distribuidor',
+  'plugin.retailer.add.name':
+    'Preencha o ID do usuário e configure o distribuidor',
   'plugin.retailer.change-name.new': 'novo nome verdadeiro',
   'plugin.rewrite.formula.archive-detail': 'Detalhes do documento:',
   'plugin.rewrite.formula.archive-list': 'Lista de documentos:',
@@ -888,15 +955,19 @@ export default {
   'plugin.rewrite.formula.tag-list': 'Lista de tags:',
   'plugin.rewrite.formula.tag-detail': 'Detalhes da etiqueta:',
   'plugin.rewrite.formula1': 'Opção 1: modo digital (simples, recomendado)',
-  'plugin.rewrite.formula2': 'Opção 2: padrão de nomenclatura 1 (inglês ou pinyin)',
-  'plugin.rewrite.formula3': 'Opção 3: padrão de nomenclatura 2 (inglês ou pinyin + números)',
-  'plugin.rewrite.formula4': 'Opção 4: padrão de nomenclatura 3 (inglês ou pinyin)',
+  'plugin.rewrite.formula2':
+    'Opção 2: padrão de nomenclatura 1 (inglês ou pinyin)',
+  'plugin.rewrite.formula3':
+    'Opção 3: padrão de nomenclatura 2 (inglês ou pinyin + números)',
+  'plugin.rewrite.formula4':
+    'Opção 4: padrão de nomenclatura 3 (inglês ou pinyin)',
   'plugin.rewrite.formula5':
     'Opção 5: Modo personalizado (modo avançado, use-o com cuidado, se estiver configurado incorretamente, a página inicial não abrirá)',
   'plugin.rewrite.setting': 'Configurações do esquema pseudoestático',
   'plugin.rewrite.setting.select': 'Escolha uma solução pseudoestática',
   'plugin.rewrite.setting.diy': 'Regras pseudoestáticas personalizadas',
-  'plugin.rewrite.setting.diy.explain': 'Descrição da regra pseudoestática personalizada',
+  'plugin.rewrite.setting.diy.explain':
+    'Descrição da regra pseudoestática personalizada',
   'plugin.rewrite.setting.diy.tips':
     'Copie as seguintes regras na caixa de entrada para modificar. Existem 6 linhas no total, ou seja, detalhes do documento, lista de documentos, página inicial do modelo, página, lista de tags e detalhes de tags. === e a parte anterior não pode ser modificada.',
   'plugin.rewrite.variable.tips':
@@ -916,7 +987,8 @@ export default {
   'plugin.robots.view': 'Ver robôs',
   'plugin.sendmail.setting': 'Configurações de e-mail',
   'plugin.sendmail.server': 'Servidor SMTP',
-  'plugin.sendmail.server.description': 'Por exemplo, a caixa de correio QQ é smtp.qq.com',
+  'plugin.sendmail.server.description':
+    'Por exemplo, a caixa de correio QQ é smtp.qq.com',
   'plugin.sendmail.use-ssl': 'Utilizar SSL/TLS',
   'plugin.sendmail.use-ssl.no': 'Não use',
   'plugin.sendmail.port': 'Porta SMTP',
@@ -938,14 +1010,17 @@ export default {
   'plugin.sendmail.auto-reply.description':
     'Se a resposta automática aos clientes estiver ativada, quando o cliente deixar uma mensagem, um e-mail de resposta automática será enviado automaticamente para o endereço de e-mail preenchido pelo cliente.',
   'plugin.sendmail.auto-reply.title': 'Título da resposta automática',
-  'plugin.sendmail.auto-reply.title.description': 'Preencha o título da resposta automática',
+  'plugin.sendmail.auto-reply.title.description':
+    'Preencha o título da resposta automática',
   'plugin.sendmail.auto-reply.message': 'Conteúdo de resposta automática',
-  'plugin.sendmail.auto-reply.message.description': 'Preencha o conteúdo da resposta automática',
+  'plugin.sendmail.auto-reply.message.description':
+    'Preencha o conteúdo da resposta automática',
   'plugin.sendmail.send-type': 'Enviar cena',
   'plugin.sendmail.send-type.guestbook': 'Há novas mensagens no site',
   'plugin.sendmail.send-type.report': 'site diário diariamente',
   'plugin.sendmail.send-type.new-order': 'Há novos pedidos no site',
-  'plugin.sendmail.send-type.pay-order': 'Existe uma ordem de pagamento no site',
+  'plugin.sendmail.send-type.pay-order':
+    'Existe uma ordem de pagamento no site',
   'plugin.sendmail.send-type.description':
     'Uma vez selecionado, os e-mails serão enviados no cenário selecionado.',
   'plugin.sendmail.test.sending': 'Enviando e-mail de teste',
@@ -992,16 +1067,20 @@ export default {
   'plugin.storage.keep-local.yes': 'reserva',
   'plugin.storage.keep-local.description':
     'Ao usar o armazenamento em nuvem, você pode optar por manter os arquivos locais',
-  'plugin.timefactor.module.required': 'Selecione pelo menos um modelo de documento',
-  'plugin.timefactor.types.required': 'Selecione pelo menos um tipo de atualização',
-  'plugin.timefactor.start-day.required': 'O tempo que aciona a atualização não pode ser 0',
+  'plugin.timefactor.module.required':
+    'Selecione pelo menos um modelo de documento',
+  'plugin.timefactor.types.required':
+    'Selecione pelo menos um tipo de atualização',
+  'plugin.timefactor.start-day.required':
+    'O tempo que aciona a atualização não pode ser 0',
   'plugin.timefactor.end-day.error':
     'O horário do resultado da atualização não pode ser anterior ao horário do acionador da atualização',
   'plugin.timefactor.tips':
     'A função de publicação programada pelo fator tempo do documento oferece a capacidade de atualizar regularmente o horário do documento. Você pode definir determinados documentos para serem atualizados automaticamente para o horário mais recente de forma programada, e os documentos em rascunhos podem ser publicados regularmente de acordo com o horário definido. O programa tentará verificar atualizações a cada hora.',
   'plugin.timefactor.setting':
     'Configurações de liberação programada por fator de tempo do documento',
-  'plugin.timefactor.open': 'Se deve ativar atualizações de horário de documentos antigos',
+  'plugin.timefactor.open':
+    'Se deve ativar atualizações de horário de documentos antigos',
   'plugin.timefactor.open.no': 'não',
   'plugin.timefactor.open.yes': 'habilitar',
   'plugin.timefactor.types': 'Tipo de atualização',
@@ -1010,7 +1089,8 @@ export default {
   'plugin.timefactor.types.description': 'Escolha pelo menos um',
   'plugin.timefactor.start-day': 'Ultrapassarem',
   'plugin.timefactor.start-day.suffix': 'Documentos de dias atrás,',
-  'plugin.timefactor.start-day.description': 'Por exemplo: 30, preencha o número inteiro',
+  'plugin.timefactor.start-day.description':
+    'Por exemplo: 30, preencha o número inteiro',
   'plugin.timefactor.start-day.placeholder': 'Tais como: 30',
   'plugin.timefactor.end-day': 'Atualizar automaticamente para',
   'plugin.timefactor.end-day.placeholder': 'Tais como: 1',
@@ -1038,7 +1118,8 @@ export default {
     'Por exemplo: 8, então todos os dias começam às 8 horas',
   'plugin.timefactor.end-time': 'Fim do tempo',
   'plugin.timefactor.end-time.placeholder': 'Tais como: 18',
-  'plugin.timefactor.end-time.description': 'Se você preencher 0, significa que terminará às 23:00',
+  'plugin.timefactor.end-time.description':
+    'Se você preencher 0, significa que terminará às 23:00',
   'plugin.timefactor.module': 'Modelo aberto',
   'plugin.timefactor.category': 'Categorias que não participam de atualizações',
   'plugin.timefactor.category.placeholder':
@@ -1048,7 +1129,8 @@ export default {
   'plugin.titleimage.open.yes': 'ligar',
   'plugin.titleimage.open.description':
     'Quando habilitado, quando o documento não possui imagem, uma imagem contendo o título do documento será gerada automaticamente como imagem em miniatura do documento.',
-  'plugin.titleimage.draw-sub': 'Se deve gerar uma imagem de título secundária para o documento',
+  'plugin.titleimage.draw-sub':
+    'Se deve gerar uma imagem de título secundária para o documento',
   'plugin.titleimage.draw-sub.description':
     'Após ligá-lo, quando o documento não possuir imagem, uma imagem será gerada automaticamente para a tag h2 do documento e inserida no documento.',
   'plugin.titleimage.size': 'Gerar tamanho de imagem',
@@ -1065,7 +1147,8 @@ export default {
   'plugin.titleimage.noise': 'Adicionar pontos de interferência',
   'plugin.titleimage.noise.no': 'não adicionado',
   'plugin.titleimage.noise.yes': 'adicionar à',
-  'plugin.titleimage.noise.description': 'Só funciona se o plano de fundo padrão for usado',
+  'plugin.titleimage.noise.description':
+    'Só funciona se o plano de fundo padrão for usado',
   'plugin.titleimage.bg-image': 'plano de fundo personalizado',
   'plugin.titleimage.bg-image.description':
     'Você pode personalizar o plano de fundo. Se não carregar um plano de fundo personalizado, o sistema gerará automaticamente um plano de fundo de cor sólida.',
@@ -1088,9 +1171,12 @@ export default {
   'plugin.transfer.step3': 'terceiro passo',
   'plugin.transfer.step4': 'o quarto passo',
   'plugin.transfer.step5': 'o quinto passo',
-  'plugin.transfer.step1.description': 'Selecione o sistema do site que precisa ser migrado',
-  'plugin.transfer.step2.description': 'Baixe o arquivo da interface de comunicação',
-  'plugin.transfer.step3.description': 'Preencha as informações de comunicação do site',
+  'plugin.transfer.step1.description':
+    'Selecione o sistema do site que precisa ser migrado',
+  'plugin.transfer.step2.description':
+    'Baixe o arquivo da interface de comunicação',
+  'plugin.transfer.step3.description':
+    'Preencha as informações de comunicação do site',
   'plugin.transfer.step4.description': 'Selecione o que migrar',
   'plugin.transfer.step5.description': 'Comece a transferir o conteúdo do site',
   'plugin.transfer.step.prev': 'Anterior',
@@ -1108,7 +1194,8 @@ export default {
     'Por padrão, tudo é migrado. Você pode optar por migrar apenas algumas partes dele.',
   'plugin.transfer.types': 'Selecione o que migrar',
   'plugin.transfer.module': 'Selecione um modelo de migração',
-  'plugin.transfer.step5.tips': 'Durante o processo de migração, não atualize esta página.',
+  'plugin.transfer.step5.tips':
+    'Durante o processo de migração, não atualize esta página.',
   'plugin.transfer.base-url.name': 'Sites que precisam ser transferidos:',
   'plugin.transfer.status': 'Status atual da tarefa:',
   'plugin.transfer.status.finished': 'concluído',
@@ -1147,7 +1234,8 @@ export default {
   'plugin.user.delete.confirm': 'Tem certeza de que deseja excluir este dado?',
   'plugin.watermark.generate.confirm':
     'Tem certeza de que deseja adicionar marca d’água a todas as imagens da biblioteca de imagens?',
-  'plugin.watermark.generate.content': "Imagens com marca d'água não serão adicionadas novamente.",
+  'plugin.watermark.generate.content':
+    "Imagens com marca d'água não serão adicionadas novamente.",
   'plugin.watermark.open': "Se deve ativar a marca d'água",
   'plugin.watermark.open.no': 'fecho',
   'plugin.watermark.open.yes': 'ligar',
@@ -1187,7 +1275,8 @@ export default {
   'plugin.weapp.default.source':
     'Endereço do código-fonte do miniprograma: https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': 'Baixe o miniaplicativo padrão',
-  'plugin.wechat.menu.delete.confirm': 'Tem certeza de que deseja excluir este menu?',
+  'plugin.wechat.menu.delete.confirm':
+    'Tem certeza de que deseja excluir este menu?',
   'plugin.wechat.menu.submit.error': 'Erro de envio',
   'plugin.wechat.menu.submit.confirm':
     'Tem certeza de que deseja atualizar o menu oficial da conta?',
@@ -1206,9 +1295,11 @@ export default {
   'plugin.wechat.menu.submit': 'Atualizar menu oficial da conta',
   'plugin.wechat.menu.add': 'Adicionar cardápio',
   'plugin.wechat.menu.top': 'menu de cima',
-  'plugin.wechat.sort.description': 'Quanto menor o valor, maior será a classificação.',
+  'plugin.wechat.sort.description':
+    'Quanto menor o valor, maior será a classificação.',
   'plugin.wechat.reply': 'responder',
-  'plugin.wechat.reply.delete.confirm': 'Tem certeza de que deseja excluir este dado?',
+  'plugin.wechat.reply.delete.confirm':
+    'Tem certeza de que deseja excluir este dado?',
   'plugin.wechat.reply.keyword': 'Palavras-chave',
   'plugin.wechat.reply.content': 'Responder conteúdo',
   'plugin.wechat.reply.content.description': 'Se quiser responder, digite aqui',
@@ -1222,7 +1313,8 @@ export default {
   'plugin.wechat.reply.rule': 'Regras de resposta automática',
   'plugin.wechat.reply.rule.add': 'Adicionar regras',
   'plugin.wechat.reply.rule.edit': 'Adicionar regras',
-  'plugin.wechat.reply.keyword.description': 'O usuário envia a palavra-chave do gatilho',
+  'plugin.wechat.reply.keyword.description':
+    'O usuário envia a palavra-chave do gatilho',
   'plugin.wechat.setting': 'Configuração da conta de serviço WeChat',
   'plugin.wechat.appid': 'Conta de serviçoAppID',
   'plugin.wechat.app-secret': 'Conta de serviçoAppSecret',
@@ -1234,7 +1326,8 @@ export default {
   'plugin.wechat.verify-msg': 'Modelo de informações de código de verificação',
   'plugin.wechat.verify-msg.placeholder':
     'Padrão: código de verificação: {code}, válido por 30 minutos',
-  'plugin.wechat.verify-msg.description': 'Nota: O modelo precisa conter `{code}`',
+  'plugin.wechat.verify-msg.description':
+    'Nota: O modelo precisa conter `{code}`',
   'plugin.wechat.auto-reply.setting': 'Configurações de resposta automática',
   'plugin.wechat.menu.setting': 'Configurações do menu',
   'plugin.wechat.official.setting': 'Configurações oficiais da conta',
@@ -1243,4 +1336,42 @@ export default {
   'plugin.type.archive': 'Função de documento',
   'plugin.type.user-mall': 'Usuário/shopping',
   'plugin.type.system': 'Funções do sistema',
+  'plugin.limiter.open.name': 'Ativar proteção de segurança do site',
+  'plugin.limiter.open.false': 'Fechar',
+  'plugin.limiter.open.true': 'Abrir',
+  'plugin.limiter.description':
+    'Depois de ligá-lo, as seguintes configurações entrarão em vigor',
+  'plugin.limiter.max_requests': 'Banir IP temporariamente',
+  'plugin.limiter.max_requests.prefix':
+    'O número de visitas alcançadas nos últimos 5 minutos',
+  'plugin.limiter.max_requests.suffix': 'vezes',
+  'plugin.limiter.max_requests.description':
+    'Se não preenchido, o padrão é 100 vezes',
+  'plugin.limiter.block_hours': 'Duração do banimento temporário',
+  'plugin.limiter.block_hours.prefix': 'Banimento temporário',
+  'plugin.limiter.block_hours.suffix': 'horas',
+  'plugin.limiter.block_hours.description':
+    'Se não preenchido, o padrão é 1 hora',
+  'plugin.limiter.white_ips': 'IP da lista branca',
+  'plugin.limiter.white_ips.description':
+    'Um por linha, suporta segmentos IP e IP, como: 192.168.2.0/24',
+  'plugin.limiter.black_ips': 'IP da lista negra',
+  'plugin.limiter.black_ips.description':
+    'Um por linha, suporta segmentos IP e IP, como: 192.168.2.0/24',
+  'plugin.limiter.block_agents': 'Limitar UserAgent específico',
+  'plugin.limiter.block_agents.description':
+    'Um por linha, o acesso usando estes UserAgents será negado',
+  'plugin.limiter.allow_prefixes': 'Excluir prefixos de caminho específicos',
+  'plugin.limiter.allow_prefixes.placeholder': 'como:/api',
+  'plugin.limiter.allow_prefixes.description':
+    'Um por linha, serão permitidos caminhos contendo esses prefixos',
+  'plugin.limiter.is_allow_spider': 'Se permitir spiders',
+  'plugin.limiter.is_allow_spider.no': 'Não',
+  'plugin.limiter.is_allow_spider.yes': 'Sim',
+  'plugin.limiter.is_allow_spider.description':
+    'Se sim for selecionado, o acesso do spider será permitido Para não afetar a inclusão do spider, selecione sim',
+  'plugin.limiter.blocked_ips': 'IPs temporariamente bloqueados',
+  'plugin.limiter.blocked_ips.remove': 'Desbloquear',
+  'plugin.limiter.blocked_ips.remove.yes': 'Remover',
+  'plugin.limiter.blocked_ips.ended': 'Expirado:',
 };

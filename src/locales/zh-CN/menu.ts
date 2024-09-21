@@ -53,6 +53,7 @@ export default {
   'menu.plugin.timefactor': '时间因子-定时发布',
   'menu.plugin.interference': '防采集干扰码',
   'menu.plugin.watermark': '图片添加水印',
+  'menu.plugin.limiter': '网站安全防护',
   'menu.design': '模板设计',
   'menu.design.index': '我的模板',
   'menu.design.editor': '修改代码',

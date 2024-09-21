@@ -386,6 +386,13 @@ export default [
         component: '@/pages/plugin/watermark/index',
         icon: 'watermark',
       },
+      {
+        path: '/plugin/limiter',
+        name: 'limiter',
+        type: 'system',
+        component: '@/pages/plugin/limiter/index',
+        icon: 'limiter',
+      },
     ],
   },
   {

@@ -1,5 +1,6 @@
 export default {
-  'plugin.aigenerate.demand.required': '統一要件は 500 文字を超えることはできません。',
+  'plugin.aigenerate.demand.required':
+    '統一要件は 500 文字を超えることはできません。',
   'plugin.aigenerate.checking': 'チェック中',
   'plugin.aigenerate.setting': 'AI自動書記設定',
   'plugin.aigenerate.isopen': '自動で書き込むかどうか',
@@ -30,7 +31,8 @@ export default {
   'plugin.aigenerate.openai.valid': '効率的',
   'plugin.aigenerate.openai.invalid': '期限切れ',
   'plugin.aigenerate.enter-to-add': 'Enterを押して追加します',
-  'plugin.aigenerate.spark.description': 'Spark 大規模モデル API アプリケーションのアドレス',
+  'plugin.aigenerate.spark.description':
+    'Spark 大規模モデル API アプリケーションのアドレス',
   'plugin.aigenerate.spark.version': 'スパークラージモデルバージョン',
   'plugin.aigenerate.default-category': 'デフォルトの公開記事カテゴリ',
   'plugin.aigenerate.default-category.description':
@@ -61,7 +63,8 @@ export default {
     '置換ルールは正規表現をサポートしており、正規表現に精通しており、通常のテキストでは置換要件を達成できない場合は、正規表現ルールを使用して置換を完了することができます。',
   'plugin.aigenerate.replace.tips3':
     '正規表現のルールは、{ で始まり } で終わり、途中に連続する数字と一致するルール コード ({[0-9]+} など) を記述します。',
-  'plugin.aigenerate.replace.rules': 'いくつかの組み込みルールはすぐに使用できます。',
+  'plugin.aigenerate.replace.rules':
+    'いくつかの組み込みルールはすぐに使用できます。',
   'plugin.aigenerate.replace.rule.email': '{電子メールアドレス}',
   'plugin.aigenerate.replace.rule.date': '{日付}',
   'plugin.aigenerate.replace.rule.time': '{時間}',
@@ -82,7 +85,8 @@ export default {
     '画像は、指定した画像リソース カテゴリから自動的に選択されます。画像名とのキーワード マッチングを試行することを選択した場合、記事のキーワードと画像名を照合しようとし、照合が成功すると、その画像が使用されます。',
   'plugin.aigenerate.image.category.default': '未分類の写真',
   'plugin.aigenerate.image.category.all': 'すべての写真',
-  'plugin.aigenerate.image.category.match': '画像名と一致するキーワードを試してください',
+  'plugin.aigenerate.image.category.match':
+    '画像名と一致するキーワードを試してください',
   'plugin.aigenerate.type': 'タイプ',
   'plugin.aigenerate.type.undefine': '未定義',
   'plugin.aigenerate.type.generate': 'AIが生成した',
@@ -101,11 +105,13 @@ export default {
     'AI自動執筆は、キーワードライブラリのキーワードを自動で呼び出して執筆を完了し、キーワードごとに記事を執筆します。キーワード データベース内の記事数が十分であることを確認してください。',
   'plugin.aigenerate.tips3':
     'AI自動執筆機能と記事収集機能はキーワードライブラリを共有しており、記事用にキーワードが収集されている場合は、AI執筆には使用されなくなります。',
-  'plugin.aigenerate.tips4': '生成された記事は自動的にコンテンツ管理に入ります。',
+  'plugin.aigenerate.tips4':
+    '生成された記事は自動的にコンテンツ管理に入ります。',
   'plugin.anchor.edit': 'アンカーテキストを編集する',
   'plugin.anchor.new': 'アンカーテキストを追加する',
   'plugin.anchor.title': 'アンカーテキスト名',
-  'plugin.anchor.title.placeholder': 'アンカー テキストまたはアンカー テキスト リンクを検索する',
+  'plugin.anchor.title.placeholder':
+    'アンカー テキストまたはアンカー テキスト リンクを検索する',
   'plugin.anchor.link': 'アンカーテキストリンク',
   'plugin.anchor.link.description':
     '/a/123.html または https://www.anqicms.com/ などの相対リンクと絶対リンクをサポートします。',
@@ -126,37 +132,48 @@ export default {
   'plugin.anchor.replace-way': '交換方法',
   'plugin.anchor.replace-way.auto': '自動交換',
   'plugin.anchor.replace-way.manual': '手動交換',
-  'plugin.anchor.replace-way.description': 'コンテンツがアンカーテキストを置き換える方法',
+  'plugin.anchor.replace-way.description':
+    'コンテンツがアンカーテキストを置き換える方法',
   'plugin.anchor.extract': '抽出方法',
   'plugin.anchor.extract.auto': '自動抽出',
   'plugin.anchor.extract.manual': '手動抽出',
   'plugin.anchor.extract.description':
     'コンテンツのキーワードタグからアンカーテキストキーワードを抽出する方法を選択します',
-  'plugin.anchor.delete.confirm': '選択したアンカー テキストを削除してもよろしいですか?',
+  'plugin.anchor.delete.confirm':
+    '選択したアンカー テキストを削除してもよろしいですか?',
   'plugin.anchor.batch-update': 'アンカーテキストをバッチで更新する',
   'plugin.anchor.export': 'アンカーテキストをエクスポートする',
-  'plugin.anchor.export.confirm': 'アンカーテキストをすべてエクスポートしますか？',
+  'plugin.anchor.export.confirm':
+    'アンカーテキストをすべてエクスポートしますか？',
   'plugin.anchor.replace': '交換する',
   'plugin.anchor.replace.confirm': 'アンカーテキストの一括更新を実行しますか？',
   'plugin.anchor.replace-count': '交換時期',
-  'plugin.backup.confirm': 'データベースのバックアップを実行してもよろしいですか?',
-  'plugin.backup.backuping': 'データのバックアップ操作が実行中です。お待​​ちください。 。',
+  'plugin.backup.confirm':
+    'データベースのバックアップを実行してもよろしいですか?',
+  'plugin.backup.backuping':
+    'データのバックアップ操作が実行中です。お待​​ちください。 。',
   'plugin.backup.restore': '回復する',
-  'plugin.backup.restore.confirm': '現在のバックアップを使用して復元してもよろしいですか?',
+  'plugin.backup.restore.confirm':
+    '現在のバックアップを使用して復元してもよろしいですか?',
   'plugin.backup.restore.content':
     '復元後、既存のデータは現在のバックアップ データに置き換えられます。慎重に進めてください。',
-  'plugin.backup.restoring': 'データ復旧操作が実行中です。お待​​ちください。 。',
+  'plugin.backup.restoring':
+    'データ復旧操作が実行中です。お待​​ちください。 。',
   'plugin.backup.delete.confirm': 'このデータを削除してもよろしいですか?',
   'plugin.backup.download': 'ダウンロード',
-  'plugin.backup.download.confirm': 'ローカルにダウンロードしてもよろしいですか?',
-  'plugin.backup.cleanup.confirm': 'Web サイトのデータを消去してもよろしいですか?',
-  'plugin.backup.cleaning': 'クリーニング操作が進行中です。お待​​ちください。 。',
+  'plugin.backup.download.confirm':
+    'ローカルにダウンロードしてもよろしいですか?',
+  'plugin.backup.cleanup.confirm':
+    'Web サイトのデータを消去してもよろしいですか?',
+  'plugin.backup.cleaning':
+    'クリーニング操作が進行中です。お待​​ちください。 。',
   'plugin.backup.cleanup.tips1':
     'この操作によりすべての記事が削除されます。安全上の理由から、不測の事態に備えて最初に必ずバックアップを実行してください。',
   'plugin.backup.cleanup.tips2':
     'Uploads フォルダーはデフォルトでは消去されません。消去する必要がある場合はチェックしてください。',
   'plugin.backup.cleanup.upload.false': '写真をクリーニングしない',
-  'plugin.backup.cleanup.upload.true': 'アップロードされた画像をクリーンアップする',
+  'plugin.backup.cleanup.upload.true':
+    'アップロードされた画像をクリーンアップする',
   'plugin.backup.time': 'バックアップ時間',
   'plugin.backup.name': 'バックアップ名',
   'plugin.backup.size': 'バックアップサイズ',
@@ -229,7 +246,8 @@ export default {
     '記事を収集する際、リンク内にこれらのキーワードが含まれている場合は収集されません。',
   'plugin.collector.start': '収集を手動で開始する',
   'plugin.collector.start.confirm': '収集を開始してもよろしいですか?',
-  'plugin.collector.start.content': 'これにより、収集タスク操作の実行がすぐに開始されます。',
+  'plugin.collector.start.content':
+    'これにより、収集タスク操作の実行がすぐに開始されます。',
   'plugin.collector.tips':
     '記事を収集するには、まずコアキーワードを設定する必要があります。「キーワードデータベース管理」機能を確認し、該当するキーワードを追加してください。',
   'plugin.collector.replace': 'キーワードを一括で置換する',
@@ -245,8 +263,10 @@ export default {
   'plugin.comment.new-status': '新しいステータスを選択してください',
   'plugin.comment.batch-update-status': '一括更新ステータス',
   'plugin.comment.view-edit': '表示/編集',
-  'plugin.comment.delete.confirm': '選択したコメントを削除してもよろしいですか?',
-  'plugin.fileupload.delete.confirm': '選択したファイルを削除してもよろしいですか?',
+  'plugin.comment.delete.confirm':
+    '選択したコメントを削除してもよろしいですか?',
+  'plugin.fileupload.delete.confirm':
+    '選択したファイルを削除してもよろしいですか?',
   'plugin.fileupload.upload.name': '新しいファイルをアップロードする',
   'plugin.fileupload.upload.support':
     '注: アップロードできるのは、txt/htm/html/xml 形式の検証ファイルのみです。',
@@ -261,7 +281,8 @@ export default {
   'plugin.finance.status.unwithdraw': '撤回されていない',
   'plugin.finance.status.withdraw': '引きこもった',
   'plugin.finance.withdraw.confirm': '出金を手動で処理してもよろしいですか?',
-  'plugin.finance.withdraw.confirm.content': 'これはまさにユーザー側からの退会申請に相当します。',
+  'plugin.finance.withdraw.confirm.content':
+    'これはまさにユーザー側からの退会申請に相当します。',
   'plugin.finance.order-id': '注文ID',
   'plugin.finance.direction': '資金調達の方向性',
   'plugin.finance.direction.in': 'お金を稼ぐ',
@@ -276,7 +297,8 @@ export default {
   'plugin.finance.type.spread': 'プロモーション',
   'plugin.finance.type.cashback': 'キャッシュバック',
   'plugin.finance.type.commission': '手数料',
-  'plugin.finance.withdraw.finish.confirm': '出金を手動で完了してもよろしいですか?',
+  'plugin.finance.withdraw.finish.confirm':
+    '出金を手動で完了してもよろしいですか?',
   'plugin.finance.withdraw.finish.content':
     'ユーザーにオフラインで支払いを行った場合は、ここをクリックして支払いを完了できます。',
   'plugin.finance.withdraw.amount': '出金金額',
@@ -319,8 +341,10 @@ export default {
   'plugin.group.expire_day.description':
     'VIP を購入した後、有効期間は 1 年間です。有効期限が切れると、最初のユーザー グループに戻ります。',
   'plugin.group.content_safe': 'コンテンツのセキュリティ',
-  'plugin.group.content_safe.no-verify': 'コメント/コンテンツの公開は審査の対象外です',
-  'plugin.group.content_safe.no-captcha': '確認コードなしでコメント/コンテンツを投稿する',
+  'plugin.group.content_safe.no-verify':
+    'コメント/コンテンツの公開は審査の対象外です',
+  'plugin.group.content_safe.no-captcha':
+    '確認コードなしでコメント/コンテンツを投稿する',
   'plugin.group.share_reward': 'ユーザーグループの有効期間',
   'plugin.group.share_reward.description':
     '5%～20の設定を推奨し、小数点の設定はできません。コミッション比率の優先順位: 製品ごとに設定されたコミッション比率 > ユーザー グループのコミッション比率 > デフォルトのコミッション比率',
@@ -334,7 +358,8 @@ export default {
   'plugin.group.delete.confirm': 'このデータを削除してもよろしいですか?',
   'plugin.guestbook.reply.required':
     'まずメールリマインダーを設定し、機能内で「メールリマインダー」を検索してください。',
-  'plugin.guestbook.replysubmit.required': 'メールタイトルとメール内容をご記入ください',
+  'plugin.guestbook.replysubmit.required':
+    'メールタイトルとメール内容をご記入ください',
   'plugin.guestbook.replysubmit.success': 'メールは正常に送信されました',
   'plugin.guestbook.view': 'メッセージを見る',
   'plugin.guestbook.user-name': 'ユーザー名',
@@ -346,16 +371,21 @@ export default {
   'plugin.guestbook.create-time': 'メッセージ時間',
   'plugin.guestbook.reply.subject': 'メールタイトル',
   'plugin.guestbook.reply.message': 'メールの内容',
-  'plugin.guestbook.field.delete.confirm': 'このフィールドを削除してもよろしいですか?',
-  'plugin.guestbook.field.delete.confirm.content': '保存する前にページを更新すると復元できます。',
+  'plugin.guestbook.field.delete.confirm':
+    'このフィールドを削除してもよろしいですか?',
+  'plugin.guestbook.field.delete.confirm.content':
+    '保存する前にページを更新すると復元できます。',
   'plugin.guestbook.setting': 'Webサイトのメッセージ設定',
   'plugin.guestbook.return-message': 'メッセージを成功させるためのヒント:',
-  'plugin.guestbook.return-message.placeholder': 'デフォルト: メッセージありがとうございます!',
+  'plugin.guestbook.return-message.placeholder':
+    'デフォルト: メッセージありがとうございます!',
   'plugin.guestbook.return-message.description':
     'メッセージを送信した後にユーザーに表示されるプロンプト。例: メッセージありがとうございます!',
-  'plugin.guestbook.delete.confirm': '選択したメッセージを削除してもよろしいですか?',
+  'plugin.guestbook.delete.confirm':
+    '選択したメッセージを削除してもよろしいですか?',
   'plugin.guestbook.export': 'メッセージをエクスポートする',
-  'plugin.guestbook.export.confirm': '本当にすべてのメッセージをエクスポートしますか？',
+  'plugin.guestbook.export.confirm':
+    '本当にすべてのメッセージをエクスポートしますか？',
   'plugin.htmlcache.remote-file': 'リモートファイル',
   'plugin.htmlcache.local-file': 'ローカルファイル',
   'plugin.htmlcache.push-status': 'プッシュステータス',
@@ -363,13 +393,16 @@ export default {
   'plugin.htmlcache.push-status.failure': '失敗',
   'plugin.htmlcache.re-push': '再送信',
   'plugin.htmlcache.push-log': 'プッシュレコード',
-  'plugin.htmlcache.generate.all.confirm': 'サイト全体の静的キャッシュを生成してもよろしいですか?',
+  'plugin.htmlcache.generate.all.confirm':
+    'サイト全体の静的キャッシュを生成してもよろしいですか?',
   'plugin.htmlcache.generate.home.confirm':
     'ホームページの静的キャッシュを生成してもよろしいですか?',
-  'plugin.htmlcache.generate.category.confirm': '列の静的キャッシュを生成してもよろしいですか?',
+  'plugin.htmlcache.generate.category.confirm':
+    '列の静的キャッシュを生成してもよろしいですか?',
   'plugin.htmlcache.generate.archive.confirm':
     'ドキュメントの静的キャッシュを生成してもよろしいですか?',
-  'plugin.htmlcache.generate.tag.confirm': 'タグの静的キャッシュを生成してもよろしいですか?',
+  'plugin.htmlcache.generate.tag.confirm':
+    'タグの静的キャッシュを生成してもよろしいですか?',
   'plugin.htmlcache.clean.confirm':
     'サイト全体の静的キャッシュをクリアしてもよろしいですか?キャッシュされたファイルが多い場合、時間がかかることがあります。',
   'plugin.htmlcache.clean.confirm.content':
@@ -386,7 +419,8 @@ export default {
   'plugin.htmlcache.isopen': '静的ページキャッシュを有効にするかどうか',
   'plugin.htmlcache.index-time': 'ホームページのキャッシュ時間',
   'plugin.htmlcache.index-time.suffix': '2番',
-  'plugin.htmlcache.index-time.description': '0秒を入力するとキャッシュされません。',
+  'plugin.htmlcache.index-time.description':
+    '0秒を入力するとキャッシュされません。',
   'plugin.htmlcache.category-time': 'リストキャッシュ時間',
   'plugin.htmlcache.archive-time': '詳細キャッシュ時間',
   'plugin.htmlcache.storage-type': '静的ウェブサイトサーバー',
@@ -400,9 +434,11 @@ export default {
   'plugin.htmlcache.storage-url': '静的な Web サイトのアドレス',
   'plugin.htmlcache.storage-url.placeholder': '例: https://www.anqicms.com',
   'plugin.htmlcache.aliyun.endpoint': 'アリババクラウドノード',
-  'plugin.htmlcache.aliyun.endpoint.placeholder': '例: http://oss-cn-hangzhou.aliyuncs.com',
+  'plugin.htmlcache.aliyun.endpoint.placeholder':
+    '例: http://oss-cn-hangzhou.aliyuncs.com',
   'plugin.htmlcache.aliyun.bucket-name': 'Alibaba Cloud バケット名',
-  'plugin.htmlcache.tencent.bucket-url': 'Tencent クラウド ストレージ バケット アドレス',
+  'plugin.htmlcache.tencent.bucket-url':
+    'Tencent クラウド ストレージ バケット アドレス',
   'plugin.htmlcache.tencent.bucket-url.placeholder':
     '例: https://aa-1257021234.cos.ap-guangzhou.myqcloud.com',
   'plugin.htmlcache.qiniu.bucket-name': 'Qiniu クラウド ストレージ バケット名',
@@ -416,8 +452,10 @@ export default {
   'plugin.htmlcache.qiniu.region.cn-east2': '中国東部-浙江省2',
   'plugin.htmlcache.qiniu.region.fog-cn-east1': 'フォグストレージ中国東部地域',
   'plugin.htmlcache.upyun.operator': 'クラウドオペレーターの別ショット',
-  'plugin.htmlcache.upyun.password': 'クラウドオペレーターのパスワードを再度取得します',
-  'plugin.htmlcache.upyun.bucket': 'クラウドストレージサービス名にも注目してください',
+  'plugin.htmlcache.upyun.password':
+    'クラウドオペレーターのパスワードを再度取得します',
+  'plugin.htmlcache.upyun.bucket':
+    'クラウドストレージサービス名にも注目してください',
   'plugin.htmlcache.ftp.tips':
     '注: テスト後、Pagoda に付属の PureFtp は正常に使用できなくなります。',
   'plugin.htmlcache.ftp.host': 'FTPのIPアドレス',
@@ -446,8 +484,10 @@ export default {
   'plugin.htmlcache.push.name': '静的サーバー操作',
   'plugin.htmlcache.push.last-time': '最後に手動でプッシュした時間:',
   'plugin.htmlcache.push.last-time.empty': '手動で押していない',
-  'plugin.htmlcache.push.all': 'すべての静的ファイルを静的サーバーにプッシュします',
-  'plugin.htmlcache.push.addon': '更新されたファイルのみを静的サーバーにプッシュする',
+  'plugin.htmlcache.push.all':
+    'すべての静的ファイルを静的サーバーにプッシュします',
+  'plugin.htmlcache.push.addon':
+    '更新されたファイルのみを静的サーバーにプッシュする',
   'plugin.htmlcache.push.log.all': 'すべてのプッシュレコード',
   'plugin.htmlcache.push.log.error': 'プッシュエラーレコード',
   'plugin.htmlcache.build.process': 'ビルドの進行状況',
@@ -490,7 +530,8 @@ export default {
   'plugin.importapi.field.category-id': 'カテゴリID',
   'plugin.importapi.field.keywords': '文書のキーワード',
   'plugin.importapi.field.description': '資料紹介',
-  'plugin.importapi.field.url-token': 'カスタム URL エイリアス。数字と英字のみをサポートします。',
+  'plugin.importapi.field.url-token':
+    'カスタム URL エイリアス。数字と英字のみをサポートします。',
   'plugin.importapi.field.images': '記事画像は最大9枚まで設定できます。',
   'plugin.importapi.field.logo':
     'ドキュメントのサムネイルには、https://www.anqicms.com/logo.png などの絶対アドレス、または /logo.png などの相対アドレスを指定できます。',
@@ -509,7 +550,8 @@ export default {
   'plugin.importapi.return-example.success': '正しい結果の例:',
   'plugin.importapi.return-example.failure': '間違った結果の例:',
   'plugin.importapi.category-api': '分類インターフェイスを取得する',
-  'plugin.importapi.category-api.fields': 'POST フォーム / クエリパラメータフィールド:',
+  'plugin.importapi.category-api.fields':
+    'POST フォーム / クエリパラメータフィールド:',
   'plugin.importapi.category-api.fields.empty': 'なし',
   'plugin.importapi.category-api.module-id':
     '取得する分類のモデル ID、番号を入力します。サポートされる値: 0=すべて、1、2...対応するモデル ID',
@@ -518,7 +560,8 @@ export default {
   'plugin.importapi.train-mopdule.token': 'グローバル変数:',
   'plugin.importapi.train-mopdule.download': 'モジュールのダウンロード:',
   'plugin.importapi.train-mopdule.download.text': 'クリックしてダウンロード',
-  'plugin.importapi.train-mopdule.support-version': 'サポートされているバージョン:',
+  'plugin.importapi.train-mopdule.support-version':
+    'サポートされているバージョン:',
   'plugin.importapi.train-mopdule.support-version.text':
     'リリース モジュールをインポートして使用するには、機関車コレクター バージョン 9.0 以降をサポートします。',
   'plugin.importapi.train-mopdule.example': '構成例:',
@@ -528,7 +571,8 @@ export default {
   'plugin.importapi.token.new.description':
     'トークンは通常、10 桁以上 128 桁未満の数字と文字の組み合わせで構成されます。',
   'plugin.interference.isopen': '干渉防止コード収集をオンにする',
-  'plugin.interference.isopen.description': '以下の設定は、機能がオンの場合にのみ有効です。',
+  'plugin.interference.isopen.description':
+    '以下の設定は、機能がオンの場合にのみ有効です。',
   'plugin.interference.isopen.no': '閉鎖',
   'plugin.interference.isopen.yes': 'オンにする',
   'plugin.interference.mode': '干渉防止モード',
@@ -544,13 +588,16 @@ export default {
     '注: CSV 形式のファイルのみアップロードとインポートがサポートされています。',
   'plugin.keyword.batch-import.step1':
     '最初のステップは、csv テンプレート ファイルをダウンロードすることです',
-  'plugin.keyword.batch-import.step1.btn': 'CSVテンプレートファイルをダウンロード',
-  'plugin.keyword.batch-import.step2': '2 番目のステップは、csv ファイルをアップロードすることです',
+  'plugin.keyword.batch-import.step1.btn':
+    'CSVテンプレートファイルをダウンロード',
+  'plugin.keyword.batch-import.step2':
+    '2 番目のステップは、csv ファイルをアップロードすることです',
   'plugin.keyword.batch-import.step2.btn': 'csvファイルをアップロードする',
   'plugin.keyword.edit': 'キーワードを編集する',
   'plugin.keyword.add': 'キーワードを追加する',
   'plugin.keyword.title': 'キーワード名',
-  'plugin.keyword.title.placeholder': 'バッチ追加をサポート、1 行に 1 つのキーワード',
+  'plugin.keyword.title.placeholder':
+    'バッチ追加をサポート、1 行に 1 つのキーワード',
   'plugin.keyword.archive-category': '文書の分類',
   'plugin.keyword.archive-category-id': '文書分類ID',
   'plugin.keyword.manual-dig': '手動拓語',
@@ -569,8 +616,10 @@ export default {
   'plugin.keyword.dig-setting.replace': 'キーワードの置換',
   'plugin.keyword.dig-setting.replace.tips1':
     '置換する必要があるキーワードのペアを編集すると、単語を展開するときに置換が自動的に実行されます。',
-  'plugin.keyword.delete.confirm': '選択したキーワードを削除してもよろしいですか?',
-  'plugin.keyword.export.confirm': 'すべてのキーワードをエクスポートしてもよろしいですか?',
+  'plugin.keyword.delete.confirm':
+    '選択したキーワードを削除してもよろしいですか?',
+  'plugin.keyword.export.confirm':
+    'すべてのキーワードをエクスポートしてもよろしいですか?',
   'plugin.keyword.collect.confirm': 'このキーワードを収集してもよろしいですか?',
   'plugin.keyword.collect.doing': '現在収集中',
   'plugin.keyword.aigenerate.confirm':
@@ -578,7 +627,8 @@ export default {
   'plugin.keyword.aigenerate.content':
     'AI 自動書き込みには支払いが必要です。Anqi アカウントがバインドされていることを確認してください。',
   'plugin.keyword.aigenerate.doing': '生成中',
-  'plugin.keyword.cleanup.confirm': 'このキーワードをすべてクリアしてもよろしいですか?',
+  'plugin.keyword.cleanup.confirm':
+    'このキーワードをすべてクリアしてもよろしいですか?',
   'plugin.keyword.cleanup.content':
     'この操作によりすべてのキーワードが削除され、元に戻すことはできません。慎重に操作してください。',
   'plugin.keyword.level': '階層',
@@ -590,7 +640,8 @@ export default {
   'plugin.keyword.import': 'キーワードをインポートする',
   'plugin.keyword.cleanup': 'キーワードデータベースをクリアする',
   'plugin.link.api.title': 'フレンドリーリンクAPI',
-  'plugin.link.api.list': 'フレンドリー リンク リスト インターフェイスを取得する',
+  'plugin.link.api.list':
+    'フレンドリー リンク リスト インターフェイスを取得する',
   'plugin.link.api.verify': '認証インターフェース',
   'plugin.link.api.add': 'フレンドリーリンクインターフェースを追加',
   'plugin.link.field.other-title': '相手のキーワード',
@@ -599,9 +650,11 @@ export default {
   'plugin.link.field.nofollow':
     'nofollowを追加するかどうか、オプションの値: 追加しない場合は0、追加する場合は1',
   'plugin.link.field.back-link': '反対側のリンクページ',
-  'plugin.link.field.back-link.description': '相手方が当サイトへリンクを張ったページのURL',
+  'plugin.link.field.back-link.description':
+    '相手方が当サイトへリンクを張ったページのURL',
   'plugin.link.field.self-title': '私のキーワード',
-  'plugin.link.field.self-title.description': '相手のページに自分が入れたキーワード',
+  'plugin.link.field.self-title.description':
+    '相手のページに自分が入れたキーワード',
   'plugin.link.field.self-link': '私のリンク',
   'plugin.link.field.self-link.description': '相手のページに貼ったリンク',
   'plugin.link.field.contact': '相手方の連絡先',
@@ -615,7 +668,8 @@ export default {
   'plugin.link.nofollow.no': '追加されていません',
   'plugin.link.nofollow.yes': 'に追加',
   'plugin.link.more': 'より多くのオプション',
-  'plugin.link.delete.confirm': '選択したフレンドリ リンクを削除してもよろしいですか?',
+  'plugin.link.delete.confirm':
+    '選択したフレンドリ リンクを削除してもよろしいですか?',
   'plugin.link.status.wait': 'テストされる',
   'plugin.link.status.ok': '普通',
   'plugin.link.status.wrong-keyword': 'キーワードが矛盾しています',
@@ -640,16 +694,19 @@ export default {
   'plugin.material.import.submit.tips.before': '選んだ素材の中には、',
   'plugin.material.import.submit.tips.after':
     'この資料にはセクションが選択されていません。送信を続けますか?',
-  'plugin.material.import.upload-error': 'アップロード エラー。後でもう一度お試しください。',
+  'plugin.material.import.upload-error':
+    'アップロード エラー。後でもう一度お試しください。',
   'plugin.material.import.batch-add': '材料をバッチで追加する',
   'plugin.material.import.batch-add.tips':
     '注: txt または html に保存されている記事をアップロードできます。',
-  'plugin.material.import.default-category': 'デフォルトでは、次の場所にインポートされます。',
+  'plugin.material.import.default-category':
+    'デフォルトでは、次の場所にインポートされます。',
   'plugin.material.import.default-category.placeholder':
     'インポートするセクションを選択してください',
   'plugin.material.import.default-category.all': '全て',
   'plugin.material.import.select-file': 'アップロードを選択します:',
-  'plugin.material.import.select-file.btn': 'Txt または HTML 記事ファイルを選択してください',
+  'plugin.material.import.select-file.btn':
+    'Txt または HTML 記事ファイルを選択してください',
   'plugin.material.import.paste': 'またはクリックしてテキストを貼り付けます',
   'plugin.material.import.selected.count': '選択された段落マテリアル:',
   'plugin.material.import.paste.clear': 'クリア',
@@ -715,14 +772,16 @@ export default {
   'plugin.order.setting.auto-finish.placeholder': 'デフォルトは10日',
   'plugin.order.setting.auto-finish.suffix': '空',
   'plugin.order.setting.auto-close': '注文タイムアウトが終了しました',
-  'plugin.order.setting.auto-close.description': 'デフォルトでは自動的に閉じられません',
+  'plugin.order.setting.auto-close.description':
+    'デフォルトでは自動的に閉じられません',
   'plugin.order.setting.auto-close.suffix': '分',
   'plugin.order.setting.seller-percent': '加盟店売上収益',
   'plugin.order.setting.seller-percent.description': '加盟店売上収益の割合',
   'plugin.order.loading': '読み込み中',
   'plugin.order.finish.confirm': '注文を手動で完了してもよろしいですか?',
   'plugin.order.finish.content': 'この操作は元に戻すことができません。',
-  'plugin.order.apply-refund.confirm': 'この注文の返金を申請してもよろしいですか?',
+  'plugin.order.apply-refund.confirm':
+    'この注文の返金を申請してもよろしいですか?',
   'plugin.order.apply-refund.content': '返金後は元のルートに返金されます。',
   'plugin.order.delivery': '船',
   'plugin.order.delivery-process': '出荷処理',
@@ -788,7 +847,8 @@ export default {
   'plugin.push.google.json': 'JSONコンテンツ',
   'plugin.push.google.description':
     '国内では入手できません。 JSON を取得するにはドキュメントを参照してください: https://www.anqicms.com/google-indexing-help.html',
-  'plugin.push.other-js': '360/Toutiao およびその他の JS は自動的に送信されます',
+  'plugin.push.other-js':
+    '360/Toutiao およびその他の JS は自動的に送信されます',
   'plugin.push.other-js.add': 'JSコードを追加',
   'plugin.push.other-js.tips1':
     'Baidu JS 自動送信、360 自動包含、Toutiao 自動包含などの JS コードを配置できます。',
@@ -805,8 +865,10 @@ export default {
     '注: CSV 形式のファイルのみアップロードとインポートがサポートされています。',
   'plugin.redirect.import.step1':
     '最初のステップは、csv テンプレート ファイルをダウンロードすることです',
-  'plugin.redirect.import.step1.download': 'CSVテンプレートファイルをダウンロード',
-  'plugin.redirect.import.step2': '2 番目のステップは、csv ファイルをアップロードすることです',
+  'plugin.redirect.import.step1.download':
+    'CSVテンプレートファイルをダウンロード',
+  'plugin.redirect.import.step2':
+    '2 番目のステップは、csv ファイルをアップロードすることです',
   'plugin.redirect.import.step2.upload': 'csvファイルをアップロードする',
   'plugin.redirect.edit': 'リンクを編集',
   'plugin.redirect.add': 'リンクを追加する',
@@ -834,7 +896,8 @@ export default {
   'plugin.replace.place.comment': 'コメント',
   'plugin.replace.place.attachment': '画像リソース',
   'plugin.retailer.setting': 'ディストリビューション構成',
-  'plugin.retailer.allow-self': 'ディストリビューターは自身の購入から手数料を受け取ります',
+  'plugin.retailer.allow-self':
+    'ディストリビューターは自身の購入から手数料を受け取ります',
   'plugin.retailer.allow-self.description':
     '自己購入手数料がオンの場合、配信者は配信商品を自分で購入すると相応の手数料を得ることができますが、オフの場合、配信者は自分で配信商品を購入しても手数料を得ることができません。自動的にディストリビューターになる場合は、自己購入手数料を有効にしないでください。',
   'plugin.retailer.allow-self.no': '閉鎖',
@@ -844,7 +907,8 @@ export default {
   'plugin.retailer.become-retailer.auto': '自動的になる',
   'plugin.retailer.become-retailer.description':
     '手動処理​​を選択した場合は、ユーザー管理で設定する必要があります。',
-  'plugin.retailer.cancel.confirm': 'このユーザーの販売代理店資格を取り消してもよろしいですか?',
+  'plugin.retailer.cancel.confirm':
+    'このユーザーの販売代理店資格を取り消してもよろしいですか?',
   'plugin.retailer.cancel.content':
     '自動的に販売代理店となる基準を満たしている場合、キャンセルは無効となります。',
   'plugin.retailer.user-id': 'ユーザーID',
@@ -856,7 +920,8 @@ export default {
   'plugin.retailer.change-name': '本名を変更する',
   'plugin.retailer.cancel': 'キャンセル',
   'plugin.retailer.add': 'ディストリビュータを追加',
-  'plugin.retailer.add.name': 'ユーザーIDを入力し、ディストリビューターを設定します',
+  'plugin.retailer.add.name':
+    'ユーザーIDを入力し、ディストリビューターを設定します',
   'plugin.retailer.change-name.new': '新しい本名',
   'plugin.rewrite.formula.archive-detail': '文書の詳細:',
   'plugin.rewrite.formula.archive-list': 'ドキュメントリスト:',
@@ -865,9 +930,12 @@ export default {
   'plugin.rewrite.formula.tag-list': 'タグリスト:',
   'plugin.rewrite.formula.tag-detail': 'タグの詳細:',
   'plugin.rewrite.formula1': 'オプション 1: デジタル モード (シンプル、推奨)',
-  'plugin.rewrite.formula2': 'オプション 2: 命名パターン 1 (英語またはピンイン)',
-  'plugin.rewrite.formula3': 'オプション 3: 命名パターン 2 (英語またはピンイン + 数字)',
-  'plugin.rewrite.formula4': 'オプション 4: 命名パターン 3 (英語またはピンイン)',
+  'plugin.rewrite.formula2':
+    'オプション 2: 命名パターン 1 (英語またはピンイン)',
+  'plugin.rewrite.formula3':
+    'オプション 3: 命名パターン 2 (英語またはピンイン + 数字)',
+  'plugin.rewrite.formula4':
+    'オプション 4: 命名パターン 3 (英語またはピンイン)',
   'plugin.rewrite.formula5':
     'オプション 5: カスタム モード (詳細モード。正しく設定されていない場合、フロントエンド ページが開かなくなるため、注意して使用してください)',
   'plugin.rewrite.setting': '擬似静的スキームの設定',
@@ -893,7 +961,8 @@ export default {
   'plugin.robots.view': 'ロボットを見る',
   'plugin.sendmail.setting': 'メール設定',
   'plugin.sendmail.server': 'SMTPサーバー',
-  'plugin.sendmail.server.description': 'たとえば、QQ メールボックスは smtp.qq.com です。',
+  'plugin.sendmail.server.description':
+    'たとえば、QQ メールボックスは smtp.qq.com です。',
   'plugin.sendmail.use-ssl': 'SSL/TLSを使用する',
   'plugin.sendmail.use-ssl.no': '使ってはいけません',
   'plugin.sendmail.port': 'SMTPポート',
@@ -914,11 +983,14 @@ export default {
   'plugin.sendmail.auto-reply.description':
     '顧客への自動返信がオンになっている場合、お客様がメッセージを残すと、お客様が入力したメールアドレスに自動返信メールが自動的に送信されます。',
   'plugin.sendmail.auto-reply.title': '自動返信タイトル',
-  'plugin.sendmail.auto-reply.title.description': '自動返信のタイトルを入力してください',
+  'plugin.sendmail.auto-reply.title.description':
+    '自動返信のタイトルを入力してください',
   'plugin.sendmail.auto-reply.message': '自動返信内容',
-  'plugin.sendmail.auto-reply.message.description': '自動返信内容をご記入ください',
+  'plugin.sendmail.auto-reply.message.description':
+    '自動返信内容をご記入ください',
   'plugin.sendmail.send-type': 'シーンの送信',
-  'plugin.sendmail.send-type.guestbook': 'ウェブサイトに新しいメッセージがあります',
+  'plugin.sendmail.send-type.guestbook':
+    'ウェブサイトに新しいメッセージがあります',
   'plugin.sendmail.send-type.report': '毎日のウェブサイト 毎日',
   'plugin.sendmail.send-type.new-order': 'ウェブサイトに新規注文が入っています',
   'plugin.sendmail.send-type.pay-order': 'ウェブサイトに支払い命令があります',
@@ -968,13 +1040,18 @@ export default {
   'plugin.storage.keep-local.yes': '予約する',
   'plugin.storage.keep-local.description':
     'クラウド ストレージを使用する場合、ローカル アーカイブを保持することを選択できます',
-  'plugin.timefactor.module.required': '少なくとも 1 つのドキュメント モデルを選択してください',
-  'plugin.timefactor.types.required': '少なくとも 1 つの更新タイプを選択してください',
-  'plugin.timefactor.start-day.required': '更新をトリガーする時間を 0 にすることはできません',
-  'plugin.timefactor.end-day.error': '更新結果時刻を更新トリガー時刻よりも前にすることはできません',
+  'plugin.timefactor.module.required':
+    '少なくとも 1 つのドキュメント モデルを選択してください',
+  'plugin.timefactor.types.required':
+    '少なくとも 1 つの更新タイプを選択してください',
+  'plugin.timefactor.start-day.required':
+    '更新をトリガーする時間を 0 にすることはできません',
+  'plugin.timefactor.end-day.error':
+    '更新結果時刻を更新トリガー時刻よりも前にすることはできません',
   'plugin.timefactor.tips':
     'ドキュメント時間要素のスケジュールされた公開機能により、ドキュメント時間を定期的に更新する機能が提供されます。スケジュールに基づいて特定のドキュメントを自動的に最新の時刻に更新するように設定したり、下書きのドキュメントを設定した時刻に従って定期的に公開したりできます。 プログラムは 1 時間ごとに更新を確認しようとします。',
-  'plugin.timefactor.setting': '時間要素に応じたスケジュールされたリリース設定を文書化する',
+  'plugin.timefactor.setting':
+    '時間要素に応じたスケジュールされたリリース設定を文書化する',
   'plugin.timefactor.open': '古いドキュメントの時刻更新を有効にするかどうか',
   'plugin.timefactor.open.no': 'いいえ',
   'plugin.timefactor.open.yes': '有効にする',
@@ -995,7 +1072,8 @@ export default {
   'plugin.timefactor.republish.yes': 'はい',
   'plugin.timefactor.republish.description':
     'ドキュメントの更新中に、ドキュメントを再送信して検索エンジンを試してください。',
-  'plugin.timefactor.release-draft': 'ドラフトボックスドキュメントの自動公開を有効にするかどうか',
+  'plugin.timefactor.release-draft':
+    'ドラフトボックスドキュメントの自動公開を有効にするかどうか',
   'plugin.timefactor.release-draft.no': 'いいえ',
   'plugin.timefactor.release-draft.yes': '有効にする',
   'plugin.timefactor.daily-limit': '1 日あたりの自動リリースの数',
@@ -1006,19 +1084,22 @@ export default {
   'plugin.timefactor.start-time': '毎日の公開開始時間',
   'plugin.timefactor.start-time.placeholder': '例: 8',
   'plugin.timefactor.start-time.suffix': 'ポイント',
-  'plugin.timefactor.start-time.description': '例: 8 の場合、毎日は 8 時に始まります',
+  'plugin.timefactor.start-time.description':
+    '例: 8 の場合、毎日は 8 時に始まります',
   'plugin.timefactor.end-time': '終了時間',
   'plugin.timefactor.end-time.placeholder': '例: 18',
   'plugin.timefactor.end-time.description': '0を入れると23:00に終了します',
   'plugin.timefactor.module': 'オープンモデル',
   'plugin.timefactor.category': '更新に参加しないカテゴリ',
-  'plugin.timefactor.category.placeholder': '特定のカテゴリを除外したい場合は、ここで選択できます',
+  'plugin.timefactor.category.placeholder':
+    '特定のカテゴリを除外したい場合は、ここで選択できます',
   'plugin.titleimage.open': 'タイトル自動画像設定',
   'plugin.titleimage.open.no': '閉鎖',
   'plugin.titleimage.open.yes': 'オンにする',
   'plugin.titleimage.open.description':
     '有効にすると、ドキュメントに画像がない場合、ドキュメントのタイトルを含む画像がドキュメントのサムネイル画像として自動的に生成されます。',
-  'plugin.titleimage.draw-sub': 'ドキュメントの 2 番目のタイトル画像を生成するかどうか',
+  'plugin.titleimage.draw-sub':
+    'ドキュメントの 2 番目のタイトル画像を生成するかどうか',
   'plugin.titleimage.draw-sub.description':
     'オンにすると、文書に画像がない場合、文書のh2タグに対して画像が自動生成され、文書に挿入されます。',
   'plugin.titleimage.size': '画像サイズの生成',
@@ -1035,7 +1116,8 @@ export default {
   'plugin.titleimage.noise': '干渉箇所の追加',
   'plugin.titleimage.noise.no': '追加されていません',
   'plugin.titleimage.noise.yes': 'に追加',
-  'plugin.titleimage.noise.description': 'デフォルトの背景が使用されている場合にのみ機能します',
+  'plugin.titleimage.noise.description':
+    'デフォルトの背景が使用されている場合にのみ機能します',
   'plugin.titleimage.bg-image': 'カスタム背景',
   'plugin.titleimage.bg-image.description':
     '背景をカスタマイズできます。カスタム背景をアップロードしない場合、システムは単色の背景を自動的に生成します。',
@@ -1045,8 +1127,10 @@ export default {
   'plugin.titleimage.preview.text': 'テキストのプレビュー',
   'plugin.titleimage.preview.text.edit': 'プレビューテキストを変更する',
   'plugin.transfer.provider.required': 'ウェブサイトシステムを選択してください',
-  'plugin.transfer.token.required': '通信トークンを入力してください。任意の文字を使用できます。',
-  'plugin.transfer.base-url.required': 'ウェブサイトのアドレスを入力してください',
+  'plugin.transfer.token.required':
+    '通信トークンを入力してください。任意の文字を使用できます。',
+  'plugin.transfer.base-url.required':
+    'ウェブサイトのアドレスを入力してください',
   'plugin.transfer.signal.error': 'コミュニケーションエラー',
   'plugin.transfer.signal.success': '通信成功',
   'plugin.transfer.transfering': '実行中',
@@ -1057,9 +1141,12 @@ export default {
   'plugin.transfer.step3': '第三段階',
   'plugin.transfer.step4': '4番目のステップ',
   'plugin.transfer.step5': '5番目のステップ',
-  'plugin.transfer.step1.description': '移行する必要がある Web サイト システムを選択してください',
-  'plugin.transfer.step2.description': '通信インターフェースファイルのダウンロード',
-  'plugin.transfer.step3.description': 'ウェブサイトのコミュニケーション情報を入力します',
+  'plugin.transfer.step1.description':
+    '移行する必要がある Web サイト システムを選択してください',
+  'plugin.transfer.step2.description':
+    '通信インターフェースファイルのダウンロード',
+  'plugin.transfer.step3.description':
+    'ウェブサイトのコミュニケーション情報を入力します',
   'plugin.transfer.step4.description': '移行するものを選択してください',
   'plugin.transfer.step5.description': 'Web サイトのコンテンツの転送を開始する',
   'plugin.transfer.step.prev': '前の',
@@ -1077,7 +1164,8 @@ export default {
     'デフォルトでは、すべてが移行されます。その一部のみを移行するように選択できます。',
   'plugin.transfer.types': '移行するものを選択してください',
   'plugin.transfer.module': '移行モデルの選択',
-  'plugin.transfer.step5.tips': '移行プロセス中は、このページを更新しないでください。',
+  'plugin.transfer.step5.tips':
+    '移行プロセス中は、このページを更新しないでください。',
   'plugin.transfer.base-url.name': '移転が必要なサイト:',
   'plugin.transfer.status': '現在のタスクのステータス:',
   'plugin.transfer.status.finished': '完了しました',
@@ -1116,7 +1204,8 @@ export default {
   'plugin.user.delete.confirm': 'このデータを削除してもよろしいですか?',
   'plugin.watermark.generate.confirm':
     '画像ライブラリ内のすべての画像に透かしを追加してもよろしいですか?',
-  'plugin.watermark.generate.content': '透かしが入った画像は再度追加されません。',
+  'plugin.watermark.generate.content':
+    '透かしが入った画像は再度追加されません。',
   'plugin.watermark.open': 'ウォーターマークを有効にするかどうか',
   'plugin.watermark.open.no': '閉鎖',
   'plugin.watermark.open.yes': 'オンにする',
@@ -1135,7 +1224,8 @@ export default {
   'plugin.watermark.position.right-bottom': '右下隅',
   'plugin.watermark.size': 'ウォーターマークのサイズ',
   'plugin.watermark.opacity': '透かしの透明度',
-  'plugin.watermark.batch-add': '画像ライブラリ内の画像にウォーターマークをバッチで追加する',
+  'plugin.watermark.batch-add':
+    '画像ライブラリ内の画像にウォーターマークをバッチで追加する',
   'plugin.watermark.min-size': '最小限の透かし画像',
   'plugin.watermark.min-size.suffix': 'ピクセル',
   'plugin.watermark.min-size.description':
@@ -1155,9 +1245,11 @@ export default {
   'plugin.weapp.default.source':
     'ミニプログラムのソースコードアドレス: https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': 'デフォルトのアプレットをダウンロードする',
-  'plugin.wechat.menu.delete.confirm': 'このメニューを削除してもよろしいですか?',
+  'plugin.wechat.menu.delete.confirm':
+    'このメニューを削除してもよろしいですか?',
   'plugin.wechat.menu.submit.error': '送信エラー',
-  'plugin.wechat.menu.submit.confirm': '公式アカウントのメニューを更新してもよろしいですか?',
+  'plugin.wechat.menu.submit.confirm':
+    '公式アカウントのメニューを更新してもよろしいですか?',
   'plugin.wechat.menu.submit.content':
     'この操作により、新しく設定されたメニューが WeChat サーバーに同期されます。',
   'plugin.wechat.menu.name': 'メニュー名',
@@ -1173,12 +1265,14 @@ export default {
   'plugin.wechat.menu.submit': '公式アカウントメニューを更新',
   'plugin.wechat.menu.add': 'メニューの追加',
   'plugin.wechat.menu.top': 'トップメニュー',
-  'plugin.wechat.sort.description': '値が小さいほど、ソートのレベルが高くなります。',
+  'plugin.wechat.sort.description':
+    '値が小さいほど、ソートのレベルが高くなります。',
   'plugin.wechat.reply': '返事',
   'plugin.wechat.reply.delete.confirm': 'このデータを削除してもよろしいですか?',
   'plugin.wechat.reply.keyword': 'キーワード',
   'plugin.wechat.reply.content': '返信内容',
-  'plugin.wechat.reply.content.description': '返信したい場合はここに入力してください',
+  'plugin.wechat.reply.content.description':
+    '返信したい場合はここに入力してください',
   'plugin.wechat.reply.time': '反応時間',
   'plugin.wechat.reply.default': 'デフォルトの応答',
   'plugin.wechat.reply.default.yes': 'はい',
@@ -1189,7 +1283,8 @@ export default {
   'plugin.wechat.reply.rule': '自動返信ルール',
   'plugin.wechat.reply.rule.add': 'ルールの追加',
   'plugin.wechat.reply.rule.edit': 'ルールの追加',
-  'plugin.wechat.reply.keyword.description': 'ユーザーがトリガーキーワードを送信',
+  'plugin.wechat.reply.keyword.description':
+    'ユーザーがトリガーキーワードを送信',
   'plugin.wechat.setting': 'WeChat サービス アカウントの構成',
   'plugin.wechat.appid': 'サービスアカウントAppID',
   'plugin.wechat.app-secret': 'サービスアカウントAppSecret',
@@ -1199,7 +1294,8 @@ export default {
   'plugin.wechat.verify-key.description':
     'ユーザーはこのキーワードに返信することで認証コードを取得できます',
   'plugin.wechat.verify-msg': '認証コード情報テンプレート',
-  'plugin.wechat.verify-msg.placeholder': 'デフォルト: 確認コード: {code}、30 分以内に有効',
+  'plugin.wechat.verify-msg.placeholder':
+    'デフォルト: 確認コード: {code}、30 分以内に有効',
   'plugin.wechat.verify-msg.description':
     '注: テンプレートには `{code}` が含まれている必要があります',
   'plugin.wechat.auto-reply.setting': '自動返信設定',
@@ -1210,4 +1306,40 @@ export default {
   'plugin.type.archive': 'ドキュメント機能',
   'plugin.type.user-mall': 'ユーザー/モール',
   'plugin.type.system': 'システム機能',
+  'plugin.limiter.open.name': 'Web サイトのセキュリティ保護をオンにする',
+  'plugin.limiter.open.false': '閉じる',
+  'plugin.limiter.open.true': '開く',
+  'plugin.limiter.description': 'オンにすると、次の設定が有効になります',
+  'plugin.limiter.max_requests': 'IP を一時的に禁止',
+  'plugin.limiter.max_requests.prefix': '過去 5 分間に到達した訪問数',
+  'plugin.limiter.max_requests.suffix': '回',
+  'plugin.limiter.max_requests.description':
+    '未入力の場合、デフォルトは 100 回です',
+  'plugin.limiter.block_hours': '一時的な禁止期間',
+  'plugin.limiter.block_hours.prefix': '一時禁止',
+  'plugin.limiter.block_hours.suffix': '時間',
+  'plugin.limiter.block_hours.description':
+    '入力しない場合、デフォルトは 1 時間です',
+  'plugin.limiter.white_ips': 'ホワイトリスト IP',
+  'plugin.limiter.white_ips.description':
+    '1 行に 1 つ、192.168.2.0/24 などの IP および IP セグメントをサポート',
+  'plugin.limiter.black_ips': 'ブラックリスト IP',
+  'plugin.limiter.black_ips.description':
+    '1 行に 1 つ、192.168.2.0/24 などの IP および IP セグメントをサポート',
+  'plugin.limiter.block_agents': '特定の UserAgent を制限する',
+  'plugin.limiter.block_agents.description':
+    '1 行に 1 つ、これらの UserAgent を使用したアクセスは拒否されます',
+  'plugin.limiter.allow_prefixes': '特定のパス接頭辞を除外します',
+  'plugin.limiter.allow_prefixes.placeholder': '例:/api',
+  'plugin.limiter.allow_prefixes.description':
+    '1 行に 1 つ、これらのプレフィックスを含むパスが許可されます',
+  'plugin.limiter.is_allow_spider': 'スパイダーを許可するかどうか',
+  'plugin.limiter.is_allow_spider.no': 'いいえ',
+  'plugin.limiter.is_allow_spider.yes': 'はい',
+  'plugin.limiter.is_allow_spider.description':
+    'はいを選択した場合、スパイダーへのアクセスが許可されます。スパイダーの追加に影響を与えないように、はいを選択してください。',
+  'plugin.limiter.blocked_ips': '一時的にブロックされた IP',
+  'plugin.limiter.blocked_ips.remove': 'ブロックを解除',
+  'plugin.limiter.blocked_ips.remove.yes': '削除',
+  'plugin.limiter.blocked_ips.ended': '期限切れ:',
 };

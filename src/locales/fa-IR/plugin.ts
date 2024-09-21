@@ -1,5 +1,6 @@
 export default {
-  'plugin.aigenerate.demand.required': 'نیاز یکپارچه نمی تواند بیش از 500 کاراکتر باشد.',
+  'plugin.aigenerate.demand.required':
+    'نیاز یکپارچه نمی تواند بیش از 500 کاراکتر باشد.',
   'plugin.aigenerate.checking': 'چک کردن',
   'plugin.aigenerate.setting': 'تنظیمات نوشتن خودکار هوش مصنوعی',
   'plugin.aigenerate.isopen': 'به طور خودکار بنویسیم یا نه',
@@ -39,11 +40,13 @@ export default {
   'plugin.aigenerate.save-type.draft': 'ذخیره در جعبه پیش نویس',
   'plugin.aigenerate.save-type.release': 'انتشار عادی',
   'plugin.aigenerate.start-time': 'زمان شروع هر روز',
-  'plugin.aigenerate.start-time.placeholder': 'به طور پیش فرض از ساعت 8 شروع می شود',
+  'plugin.aigenerate.start-time.placeholder':
+    'به طور پیش فرض از ساعت 8 شروع می شود',
   'plugin.aigenerate.start-time.description':
     'لطفا یک عدد از 0 تا 23 را وارد کنید، 0 به معنای بدون محدودیت است',
   'plugin.aigenerate.end-time': 'پایان روز',
-  'plugin.aigenerate.end-time.placeholder': 'به طور پیش فرض در ساعت 22:00 به پایان می رسد',
+  'plugin.aigenerate.end-time.placeholder':
+    'به طور پیش فرض در ساعت 22:00 به پایان می رسد',
   'plugin.aigenerate.end-time.description':
     'لطفا یک عدد از 0 تا 23 را وارد کنید، 0 به معنای بدون محدودیت است',
   'plugin.aigenerate.daily-limit': 'انتشارات روزانه',
@@ -84,7 +87,8 @@ export default {
     'تصاویر به طور خودکار از دسته منبع تصویر مشخص شده انتخاب می شوند. اگر انتخاب کنید تطبیق کلمه کلیدی با نام تصویر را امتحان کنید، سعی می شود کلمات کلیدی مقاله را با نام تصویر مطابقت دهد و در صورت موفقیت آمیز بودن، از تصویر استفاده می شود.',
   'plugin.aigenerate.image.category.default': 'تصاویر دسته بندی نشده',
   'plugin.aigenerate.image.category.all': 'همه تصاویر',
-  'plugin.aigenerate.image.category.match': 'نام تصویر مطابق با کلمه کلیدی را امتحان کنید',
+  'plugin.aigenerate.image.category.match':
+    'نام تصویر مطابق با کلمه کلیدی را امتحان کنید',
   'plugin.aigenerate.type': 'نوع',
   'plugin.aigenerate.type.undefine': 'تعریف نشده',
   'plugin.aigenerate.type.generate': 'هوش مصنوعی تولید شد',
@@ -103,11 +107,13 @@ export default {
     'نوشتن خودکار هوش مصنوعی به طور خودکار کلمات کلیدی موجود در کتابخانه کلمات کلیدی را برای تکمیل نوشتن فراخوانی می کند و برای هر کلمه کلیدی مقاله می نویسد. لطفا اطمینان حاصل کنید که تعداد مقالات در پایگاه داده کلمات کلیدی کافی است.',
   'plugin.aigenerate.tips3':
     'توابع نوشتن خودکار هوش مصنوعی و مجموعه مقالات، کتابخانه کلمات کلیدی را به اشتراک می گذارند، اگر کلمات کلیدی برای مقالات جمع آوری شده باشند، دیگر برای نوشتن هوش مصنوعی استفاده نخواهند شد.',
-  'plugin.aigenerate.tips4': 'مقالات تولید شده به طور خودکار وارد مدیریت محتوا می شوند.',
+  'plugin.aigenerate.tips4':
+    'مقالات تولید شده به طور خودکار وارد مدیریت محتوا می شوند.',
   'plugin.anchor.edit': 'متن لنگر را ویرایش کنید',
   'plugin.anchor.new': 'متن لنگر اضافه کنید',
   'plugin.anchor.title': 'نام متن لنگر',
-  'plugin.anchor.title.placeholder': 'پیوندهای انکر تکست یا انکر تکست را جستجو کنید',
+  'plugin.anchor.title.placeholder':
+    'پیوندهای انکر تکست یا انکر تکست را جستجو کنید',
   'plugin.anchor.link': 'لینک متن لنگر',
   'plugin.anchor.link.description':
     'پشتیبانی از پیوندهای نسبی و پیوندهای مطلق، مانند: /a/123.html یا https://www.anqicms.com/',
@@ -128,34 +134,43 @@ export default {
   'plugin.anchor.replace-way': 'روش جایگزینی',
   'plugin.anchor.replace-way.auto': 'تعویض خودکار',
   'plugin.anchor.replace-way.manual': 'تعویض دستی',
-  'plugin.anchor.replace-way.description': 'چگونه محتوا جایگزین انکر تکست می شود',
+  'plugin.anchor.replace-way.description':
+    'چگونه محتوا جایگزین انکر تکست می شود',
   'plugin.anchor.extract': 'روش استخراج',
   'plugin.anchor.extract.auto': 'استخراج خودکار',
   'plugin.anchor.extract.manual': 'استخراج دستی',
   'plugin.anchor.extract.description':
     'نحوه استخراج کلمات کلیدی متن لنگر را از برچسب های کلمه کلیدی محتوا انتخاب کنید',
-  'plugin.anchor.delete.confirm': 'آیا مطمئن هستید که می خواهید متن لنگر انتخابی را حذف کنید؟',
+  'plugin.anchor.delete.confirm':
+    'آیا مطمئن هستید که می خواهید متن لنگر انتخابی را حذف کنید؟',
   'plugin.anchor.batch-update': 'متن لنگر را به صورت دسته ای به روز کنید',
   'plugin.anchor.export': 'متن لنگر را صادر کنید',
-  'plugin.anchor.export.confirm': 'مطمئنی که می‌خواهید تمام متن‌های مرکز را صادرت کنید؟',
+  'plugin.anchor.export.confirm':
+    'مطمئنی که می‌خواهید تمام متن‌های مرکز را صادرت کنید؟',
   'plugin.anchor.replace': 'جایگزین کردن',
   'plugin.anchor.replace.confirm':
     'مطمئن هستید که می‌خواهید یک عملیات متن‌نوشته‌ی آغاز گروه انجام دهید؟',
   'plugin.anchor.replace-count': 'زمان تعویض',
   'plugin.backup.confirm':
     'آیا مطمئن هستید که می خواهید یک نسخه پشتیبان از پایگاه داده انجام دهید؟',
-  'plugin.backup.backuping': 'عملیات پشتیبان گیری از داده ها در حال انجام است، لطفاً صبر کنید. .',
+  'plugin.backup.backuping':
+    'عملیات پشتیبان گیری از داده ها در حال انجام است، لطفاً صبر کنید. .',
   'plugin.backup.restore': 'بهبود می یابند',
   'plugin.backup.restore.confirm':
     'آیا مطمئن هستید که می خواهید با استفاده از نسخه پشتیبان فعلی بازیابی کنید؟',
   'plugin.backup.restore.content':
     'پس از بازیابی، داده های موجود با داده های پشتیبان فعلی جایگزین می شوند. لطفا با احتیاط ادامه دهید',
-  'plugin.backup.restoring': 'عملیات بازیابی اطلاعات در حال انجام است، لطفا صبر کنید. .',
-  'plugin.backup.delete.confirm': 'آیا مطمئن هستید که می خواهید این بخش از داده ها را حذف کنید؟',
+  'plugin.backup.restoring':
+    'عملیات بازیابی اطلاعات در حال انجام است، لطفا صبر کنید. .',
+  'plugin.backup.delete.confirm':
+    'آیا مطمئن هستید که می خواهید این بخش از داده ها را حذف کنید؟',
   'plugin.backup.download': 'دانلود',
-  'plugin.backup.download.confirm': 'آیا مطمئن هستید که می خواهید آن را به صورت محلی دانلود کنید؟',
-  'plugin.backup.cleanup.confirm': 'آیا مطمئن هستید که می خواهید داده های وب سایت را پاک کنید؟',
-  'plugin.backup.cleaning': 'عملیات تمیز کردن در حال انجام است، لطفاً صبر کنید. .',
+  'plugin.backup.download.confirm':
+    'آیا مطمئن هستید که می خواهید آن را به صورت محلی دانلود کنید؟',
+  'plugin.backup.cleanup.confirm':
+    'آیا مطمئن هستید که می خواهید داده های وب سایت را پاک کنید؟',
+  'plugin.backup.cleaning':
+    'عملیات تمیز کردن در حال انجام است، لطفاً صبر کنید. .',
   'plugin.backup.cleanup.tips1':
     'این عملیات تمام مقالات را حذف می کند. به دلایل ایمنی، لطفاً در صورت بروز شرایط غیرقابل پیش‌بینی، ابتدا یک نسخه پشتیبان تهیه کنید.',
   'plugin.backup.cleanup.tips2':
@@ -206,7 +221,8 @@ export default {
   'plugin.collector.translate.description':
     'برای ترجمه هزینه دارد. توجه: بازنویسی و ترجمه هوش مصنوعی را نمی توان همزمان فعال کرد، در غیر این صورت نتایج اشتباه خواهد بود.',
   'plugin.collector.to-language': 'ترجمه زبان مقصد',
-  'plugin.collector.to-language.description': 'پس از انتخاب ترجمه خودکار معتبر است',
+  'plugin.collector.to-language.description':
+    'پس از انتخاب ترجمه خودکار معتبر است',
   'plugin.collector.daily-limit': 'مقدار جمع آوری روزانه',
   'plugin.collector.daily-limit.description':
     'حداکثر تعداد مقالات جمع آوری شده در روز، 0 به معنای بدون محدودیت است',
@@ -233,8 +249,10 @@ export default {
   'plugin.collector.link-exclude.tips':
     'هنگام جمع آوری مقالات، اگر این کلمات کلیدی در لینک ظاهر شوند، جمع آوری نمی شوند.',
   'plugin.collector.start': 'مجموعه را به صورت دستی شروع کنید',
-  'plugin.collector.start.confirm': 'آیا مطمئن هستید که می خواهید شروع به جمع آوری کنید؟',
-  'plugin.collector.start.content': 'این بلافاصله اجرای عملیات جمع آوری را آغاز می کند',
+  'plugin.collector.start.confirm':
+    'آیا مطمئن هستید که می خواهید شروع به جمع آوری کنید؟',
+  'plugin.collector.start.content':
+    'این بلافاصله اجرای عملیات جمع آوری را آغاز می کند',
   'plugin.collector.tips':
     'برای جمع آوری مقالات، ابتدا باید کلیدواژه های اصلی را تنظیم کنید، لطفاً عملکرد "مدیریت پایگاه داده کلمات کلیدی" را بررسی کنید و کلمات کلیدی مربوطه را اضافه کنید.',
   'plugin.collector.replace': 'کلمات کلیدی را به صورت دسته ای جایگزین کنید',
@@ -250,7 +268,8 @@ export default {
   'plugin.comment.new-status': 'لطفا وضعیت جدیدی را انتخاب کنید',
   'plugin.comment.batch-update-status': 'وضعیت به روز رسانی دسته ای',
   'plugin.comment.view-edit': 'مشاهده/ویرایش',
-  'plugin.comment.delete.confirm': 'آیا مطمئن هستید که می خواهید نظرات انتخاب شده را حذف کنید؟',
+  'plugin.comment.delete.confirm':
+    'آیا مطمئن هستید که می خواهید نظرات انتخاب شده را حذف کنید؟',
   'plugin.fileupload.delete.confirm':
     'آیا مطمئن هستید که می خواهید فایل های انتخاب شده را حذف کنید؟',
   'plugin.fileupload.upload.name': 'آپلود فایل جدید',
@@ -268,7 +287,8 @@ export default {
   'plugin.finance.status.withdraw': 'برداشته شد',
   'plugin.finance.withdraw.confirm':
     'آیا مطمئن هستید که می خواهید برداشت را به صورت دستی پردازش کنید؟',
-  'plugin.finance.withdraw.confirm.content': 'این فقط معادل درخواست برای برداشت از سمت کاربر است.',
+  'plugin.finance.withdraw.confirm.content':
+    'این فقط معادل درخواست برای برداشت از سمت کاربر است.',
   'plugin.finance.order-id': 'شماره سفارش',
   'plugin.finance.direction': 'جهت تامین مالی',
   'plugin.finance.direction.in': 'پول درآوردن',
@@ -327,7 +347,8 @@ export default {
   'plugin.group.expire_day.description':
     'پس از خرید وی آی پی به مدت 1 سال اعتبار دارد 365 را پر کنید.',
   'plugin.group.content_safe': 'امنیت محتوا',
-  'plugin.group.content_safe.no-verify': 'نظرات/انتشار محتوا از بررسی مستثنی است',
+  'plugin.group.content_safe.no-verify':
+    'نظرات/انتشار محتوا از بررسی مستثنی است',
   'plugin.group.content_safe.no-captcha': 'نظرات / ارسال محتوا بدون کد تأیید',
   'plugin.group.share_reward': 'دوره اعتبار گروه کاربر',
   'plugin.group.share_reward.description':
@@ -339,10 +360,12 @@ export default {
   'plugin.group.discount.description':
     'توصیه می شود پس از ورود کاربران به صفحه از طریق لینک به اشتراک گذاشته شده توسط توزیع کننده، 90٪ - 100٪ را تنظیم کنید، هنگام سفارش می توانند از قیمت تخفیف برخوردار شوند.',
   'plugin.group.permission': 'تنظیمات مجوز توزیع',
-  'plugin.group.delete.confirm': 'آیا مطمئن هستید که می خواهید این بخش از داده ها را حذف کنید؟',
+  'plugin.group.delete.confirm':
+    'آیا مطمئن هستید که می خواهید این بخش از داده ها را حذف کنید؟',
   'plugin.guestbook.reply.required':
     'لطفاً ابتدا یادآور ایمیل را تنظیم کنید و "یادآور ایمیل" را در تابع جستجو کنید.',
-  'plugin.guestbook.replysubmit.required': 'لطفا عنوان ایمیل و محتوای ایمیل را وارد کنید',
+  'plugin.guestbook.replysubmit.required':
+    'لطفا عنوان ایمیل و محتوای ایمیل را وارد کنید',
   'plugin.guestbook.replysubmit.success': 'نامه با موفقیت ارسال شد',
   'plugin.guestbook.view': 'مشاهده پیام',
   'plugin.guestbook.user-name': 'نام کاربری',
@@ -354,7 +377,8 @@ export default {
   'plugin.guestbook.create-time': 'زمان پیام',
   'plugin.guestbook.reply.subject': 'عنوان پست الکترونیکی',
   'plugin.guestbook.reply.message': 'محتوای ایمیل',
-  'plugin.guestbook.field.delete.confirm': 'آیا مطمئن هستید که می خواهید این فیلد را حذف کنید؟',
+  'plugin.guestbook.field.delete.confirm':
+    'آیا مطمئن هستید که می خواهید این فیلد را حذف کنید؟',
   'plugin.guestbook.field.delete.confirm.content':
     'می توانید قبل از ذخیره، صفحه را با رفرش کردن بازیابی کنید.',
   'plugin.guestbook.setting': 'تنظیمات پیام وب سایت',
@@ -362,9 +386,11 @@ export default {
   'plugin.guestbook.return-message.placeholder': 'پیش فرض: از پیام شما متشکرم!',
   'plugin.guestbook.return-message.description':
     'اعلانی که کاربران پس از ارسال پیام مشاهده می کنند. به عنوان مثال: از پیام شما متشکرم!',
-  'plugin.guestbook.delete.confirm': 'آیا مطمئن هستید که می خواهید پیام انتخاب شده را حذف کنید؟',
+  'plugin.guestbook.delete.confirm':
+    'آیا مطمئن هستید که می خواهید پیام انتخاب شده را حذف کنید؟',
   'plugin.guestbook.export': 'صادرات پیام ها',
-  'plugin.guestbook.export.confirm': 'مطمئنی که می‌خواهید تمام پیغام‌ها را صادرت کنید؟',
+  'plugin.guestbook.export.confirm':
+    'مطمئنی که می‌خواهید تمام پیغام‌ها را صادرت کنید؟',
   'plugin.htmlcache.remote-file': 'فایل از راه دور',
   'plugin.htmlcache.local-file': 'فایل های محلی',
   'plugin.htmlcache.push-status': 'وضعیت فشار',
@@ -398,7 +424,8 @@ export default {
   'plugin.htmlcache.isopen': 'فعال کردن کش صفحه استاتیک',
   'plugin.htmlcache.index-time': 'زمان کش صفحه اصلی',
   'plugin.htmlcache.index-time.suffix': 'دومین',
-  'plugin.htmlcache.index-time.description': 'اگر 0 ثانیه را پر کنید، کش نمی شود.',
+  'plugin.htmlcache.index-time.description':
+    'اگر 0 ثانیه را پر کنید، کش نمی شود.',
   'plugin.htmlcache.category-time': 'زمان حافظه پنهان را فهرست کنید',
   'plugin.htmlcache.archive-time': 'جزئیات زمان کش',
   'plugin.htmlcache.storage-type': 'سرور وب سایت استاتیک',
@@ -430,7 +457,8 @@ export default {
   'plugin.htmlcache.qiniu.region.fog-cn-east1': 'ذخیره مه منطقه شرق چین',
   'plugin.htmlcache.upyun.operator': 'عکس دیگری از اپراتور ابر',
   'plugin.htmlcache.upyun.password': 'دوباره رمز عبور اپراتور ابر را بگیرید',
-  'plugin.htmlcache.upyun.bucket': 'همچنین به نام سرویس ذخیره سازی ابری نگاهی بیندازید',
+  'plugin.htmlcache.upyun.bucket':
+    'همچنین به نام سرویس ذخیره سازی ابری نگاهی بیندازید',
   'plugin.htmlcache.ftp.tips':
     'توجه: پس از آزمایش، PureFtp که با Pagoda ارائه می شود، به طور معمول قابل استفاده نیست.',
   'plugin.htmlcache.ftp.host': 'آدرس IP FTP',
@@ -459,8 +487,10 @@ export default {
   'plugin.htmlcache.push.name': 'عملیات استاتیک سرور',
   'plugin.htmlcache.push.last-time': 'آخرین زمان فشار دستی:',
   'plugin.htmlcache.push.last-time.empty': 'به صورت دستی هل داده نمی شود',
-  'plugin.htmlcache.push.all': 'تمام فایل های استاتیک را به سرور استاتیک فشار دهید',
-  'plugin.htmlcache.push.addon': 'فقط فایل های به روز شده را به سرور استاتیک فشار دهید',
+  'plugin.htmlcache.push.all':
+    'تمام فایل های استاتیک را به سرور استاتیک فشار دهید',
+  'plugin.htmlcache.push.addon':
+    'فقط فایل های به روز شده را به سرور استاتیک فشار دهید',
   'plugin.htmlcache.push.log.all': 'همه رکوردهای فشار',
   'plugin.htmlcache.push.log.error': 'رکورد خطای فشار',
   'plugin.htmlcache.build.process': 'پیشرفت ایجاد کنید',
@@ -482,7 +512,8 @@ export default {
   'plugin.htmlcache.description.4':
     'پس از فعال کردن یک وب سایت استاتیک، عملیات زیر به طور خودکار بازسازی نمی شود و عملیات تولید صفحه استاتیک باید به صورت دستی انجام شود: تنظیم الگوها (تغییر قالب ها، فعال کردن قالب ها)، تغییر تنظیمات پس زمینه (تنظیمات جهانی، تنظیمات محتوا، اطلاعات تماس، پیمایش و غیره)، قوانین شبه استاتیک اصلاح شده و سایر تغییراتی که بر وضعیت جهانی تأثیر می گذارد',
   'plugin.importapi.token.required': 'لطفاً Token را در 128 کاراکتر پر کنید',
-  'plugin.importapi.token.confirm': 'آیا مطمئن هستید که می خواهید Token را به روز کنید؟',
+  'plugin.importapi.token.confirm':
+    'آیا مطمئن هستید که می خواهید Token را به روز کنید؟',
   'plugin.importapi.token.confirm.content':
     'پس از به‌روزرسانی، توکن اصلی نامعتبر می‌شود، لطفاً از آدرس API جدید برای عملیات استفاده کنید.',
   'plugin.importapi.token.copy.success': 'با موفقیت کپی شد',
@@ -497,7 +528,8 @@ export default {
   'plugin.importapi.request-type': 'نوع درخواست:',
   'plugin.importapi.post-fields': 'فیلدهای فرم POST:',
   'plugin.importapi.field.remark': 'نشان دادن',
-  'plugin.importapi.field.archive-id': 'شناسه سند، به طور پیش فرض به طور خودکار ایجاد می شود',
+  'plugin.importapi.field.archive-id':
+    'شناسه سند، به طور پیش فرض به طور خودکار ایجاد می شود',
   'plugin.importapi.field.title': 'عنوان سند',
   'plugin.importapi.field.content': 'محتوای سند',
   'plugin.importapi.field.category-id': 'شناسه دسته',
@@ -505,7 +537,8 @@ export default {
   'plugin.importapi.field.description': 'معرفی سند',
   'plugin.importapi.field.url-token':
     'نام مستعار URL سفارشی، فقط از اعداد و حروف انگلیسی پشتیبانی می کند',
-  'plugin.importapi.field.images': 'تصاویر مقاله را می توان تا 9 عکس تنظیم کرد.',
+  'plugin.importapi.field.images':
+    'تصاویر مقاله را می توان تا 9 عکس تنظیم کرد.',
   'plugin.importapi.field.logo':
     'تصویر کوچک سند می تواند یک آدرس مطلق باشد، مانند: https://www.anqicms.com/logo.png یا یک آدرس نسبی، مانند: /logo.png',
   'plugin.importapi.field.publish-time':
@@ -564,7 +597,8 @@ export default {
   'plugin.keyword.edit': 'ویرایش کلمات کلیدی',
   'plugin.keyword.add': 'کلمات کلیدی را اضافه کنید',
   'plugin.keyword.title': 'نام کلمه کلیدی',
-  'plugin.keyword.title.placeholder': 'پشتیبانی از اضافه کردن دسته ای، یک کلمه کلیدی در هر خط',
+  'plugin.keyword.title.placeholder':
+    'پشتیبانی از اضافه کردن دسته ای، یک کلمه کلیدی در هر خط',
   'plugin.keyword.archive-category': 'طبقه بندی اسناد',
   'plugin.keyword.archive-category-id': 'شناسه طبقه بندی اسناد',
   'plugin.keyword.manual-dig': 'گسترش کلمات دستی',
@@ -585,8 +619,10 @@ export default {
     'جفت‌های کلیدواژه‌هایی را که باید جایگزین شوند، ویرایش کنید و در هنگام گسترش کلمات، جایگزینی به‌طور خودکار انجام می‌شود.',
   'plugin.keyword.delete.confirm':
     'آیا مطمئن هستید که می خواهید کلمات کلیدی انتخاب شده را حذف کنید؟',
-  'plugin.keyword.export.confirm': 'آیا مطمئن هستید که می خواهید همه کلمات کلیدی را صادر کنید؟',
-  'plugin.keyword.collect.confirm': 'آیا مطمئن هستید که می خواهید این کلمه کلیدی را جمع آوری کنید؟',
+  'plugin.keyword.export.confirm':
+    'آیا مطمئن هستید که می خواهید همه کلمات کلیدی را صادر کنید؟',
+  'plugin.keyword.collect.confirm':
+    'آیا مطمئن هستید که می خواهید این کلمه کلیدی را جمع آوری کنید؟',
   'plugin.keyword.collect.doing': 'در حال جمع آوری',
   'plugin.keyword.aigenerate.confirm':
     'آیا مطمئن هستید که می خواهید عملیات نوشتن هوش مصنوعی را روی این کلمه کلیدی انجام دهید؟',
@@ -618,9 +654,11 @@ export default {
   'plugin.link.field.back-link.description':
     'URL صفحه ای که طرف مقابل پیوند این سایت را در آن قرار داده است',
   'plugin.link.field.self-title': 'کلمات کلیدی من',
-  'plugin.link.field.self-title.description': 'کلمات کلیدی که در صفحه طرف مقابل قرار می دهم',
+  'plugin.link.field.self-title.description':
+    'کلمات کلیدی که در صفحه طرف مقابل قرار می دهم',
   'plugin.link.field.self-link': 'لینک من',
-  'plugin.link.field.self-link.description': 'لینکی که در صفحه طرف مقابل گذاشتم',
+  'plugin.link.field.self-link.description':
+    'لینکی که در صفحه طرف مقابل گذاشتم',
   'plugin.link.field.contact': 'اطلاعات تماس طرف مقابل',
   'plugin.link.field.contact.description':
     'QQ، WeChat، شماره تلفن و غیره را برای تسهیل تماس تکمیلی پر کنید',
@@ -643,7 +681,8 @@ export default {
   'plugin.link.status-check-time': 'اطلاعات تماس / اظهارات طرف مقابل',
   'plugin.link.create-time': 'اضافه کردن زمان',
   'plugin.link.check': 'معاینه کردن',
-  'plugin.material.category.delete.confirm': 'آیا مطمئن هستید که می خواهید آن را حذف کنید؟',
+  'plugin.material.category.delete.confirm':
+    'آیا مطمئن هستید که می خواهید آن را حذف کنید؟',
   'plugin.material.category.title': 'نام بخش',
   'plugin.material.category.count': 'مقدار مواد',
   'plugin.material.category.add': 'بخش جدید',
@@ -654,19 +693,24 @@ export default {
   'plugin.material.import.segment': 'قطعه',
   'plugin.material.import.clear':
     'آیا مطمئن هستید که می خواهید مطالب محتوایی را که برای آپلود انتخاب کرده اید پاک کنید؟',
-  'plugin.material.delete.confirm': 'آیا مطمئن هستید که می خواهید مطالب انتخاب شده را حذف کنید؟',
-  'plugin.material.import.submit.tips.before': 'از جمله موادی که انتخاب کردید، وجود دارد',
+  'plugin.material.delete.confirm':
+    'آیا مطمئن هستید که می خواهید مطالب انتخاب شده را حذف کنید؟',
+  'plugin.material.import.submit.tips.before':
+    'از جمله موادی که انتخاب کردید، وجود دارد',
   'plugin.material.import.submit.tips.after':
     'هیچ بخشی برای این مطلب انتخاب نشده است آیا می خواهید به ارسال ادامه دهید؟',
-  'plugin.material.import.upload-error': 'خطای آپلود، لطفاً بعداً دوباره امتحان کنید',
+  'plugin.material.import.upload-error':
+    'خطای آپلود، لطفاً بعداً دوباره امتحان کنید',
   'plugin.material.import.batch-add': 'مواد را به صورت دسته ای اضافه کنید',
   'plugin.material.import.batch-add.tips':
     'توجه: می توانید مقالات ذخیره شده در txt یا html را آپلود کنید.',
   'plugin.material.import.default-category': 'به طور پیش فرض وارد شده به:',
-  'plugin.material.import.default-category.placeholder': 'بخشی را برای وارد کردن انتخاب کنید',
+  'plugin.material.import.default-category.placeholder':
+    'بخشی را برای وارد کردن انتخاب کنید',
   'plugin.material.import.default-category.all': 'همه',
   'plugin.material.import.select-file': 'برای آپلود انتخاب کنید:',
-  'plugin.material.import.select-file.btn': 'فایل مقاله Txt یا html را انتخاب کنید',
+  'plugin.material.import.select-file.btn':
+    'فایل مقاله Txt یا html را انتخاب کنید',
   'plugin.material.import.paste': 'یا برای چسباندن متن کلیک کنید',
   'plugin.material.import.selected.count': 'مواد پاراگراف انتخاب شده:',
   'plugin.material.import.paste.clear': 'پاک کردن',
@@ -732,16 +776,19 @@ export default {
   'plugin.order.setting.auto-finish.placeholder': '10 روز پیش فرض',
   'plugin.order.setting.auto-finish.suffix': 'آسمان',
   'plugin.order.setting.auto-close': 'پایان زمان سفارش بسته شد',
-  'plugin.order.setting.auto-close.description': 'به طور پیش فرض به طور خودکار بسته نمی شود',
+  'plugin.order.setting.auto-close.description':
+    'به طور پیش فرض به طور خودکار بسته نمی شود',
   'plugin.order.setting.auto-close.suffix': 'دقیقه',
   'plugin.order.setting.seller-percent': 'درآمد فروش تاجر',
   'plugin.order.setting.seller-percent.description': 'درصد درآمد فروش تاجر',
   'plugin.order.loading': 'بارگذاری',
-  'plugin.order.finish.confirm': 'آیا مطمئن هستید که می خواهید سفارش را به صورت دستی تکمیل کنید؟',
+  'plugin.order.finish.confirm':
+    'آیا مطمئن هستید که می خواهید سفارش را به صورت دستی تکمیل کنید؟',
   'plugin.order.finish.content': 'این عمل غیر قابل برگشت است.',
   'plugin.order.apply-refund.confirm':
     'آیا مطمئن هستید که می خواهید برای بازپرداخت این سفارش درخواست دهید؟',
-  'plugin.order.apply-refund.content': 'پس از بازپرداخت، وجه به مسیر اصلی بازگردانده می شود.',
+  'plugin.order.apply-refund.content':
+    'پس از بازپرداخت، وجه به مسیر اصلی بازگردانده می شود.',
   'plugin.order.delivery': 'کشتی',
   'plugin.order.delivery-process': 'پردازش حمل و نقل',
   'plugin.order.finish-order': 'سفارش کامل',
@@ -806,11 +853,13 @@ export default {
   'plugin.push.google.json': 'محتوای JSON',
   'plugin.push.google.description':
     'در داخل کشور موجود نیست. لطفاً برای دریافت JSON به سند مراجعه کنید: https://www.anqicms.com/google-indexing-help.html',
-  'plugin.push.other-js': '360/Toutiao و سایر JS ها به طور خودکار ارسال می کنند',
+  'plugin.push.other-js':
+    '360/Toutiao و سایر JS ها به طور خودکار ارسال می کنند',
   'plugin.push.other-js.add': 'کد JS را اضافه کنید',
   'plugin.push.other-js.tips1':
     'می توانید کدهای JS مانند ارسال خودکار Baidu JS، گنجاندن خودکار 360 و گنجاندن خودکار Toutiao را قرار دهید.',
-  'plugin.push.other-js.tips2': 'این کدها باید به صورت دستی در قالب فراخوانی شوند.',
+  'plugin.push.other-js.tips2':
+    'این کدها باید به صورت دستی در قالب فراخوانی شوند.',
   'plugin.push.other-js.tips3':
     'پنجره های پاپ آپ مانند پیام ها / نظرات به طور خودکار این کدهای JS را بارگیری می کنند.',
   'plugin.push.other-js.name': 'نام کد',
@@ -830,11 +879,13 @@ export default {
   'plugin.redirect.to-url': 'لینک پرش',
   'plugin.redirect.from-url.description':
     'این می تواند یک آدرس مطلق باشد که با «http(https)» شروع می شود، یا یک آدرس نسبی که با «/» شروع می شود',
-  'plugin.redirect.delete.confirm': 'آیا مطمئن هستید که می خواهید پیوند انتخاب شده را حذف کنید؟',
+  'plugin.redirect.delete.confirm':
+    'آیا مطمئن هستید که می خواهید پیوند انتخاب شده را حذف کنید؟',
   'plugin.replace.add.required': 'لطفاً کلمات کلیدی منبع جایگزین را پر کنید',
   'plugin.replace.place.required': 'لطفاً یک مکان جایگزین انتخاب کنید',
   'plugin.replace.keyword.required': 'لطفا قوانین جایگزین را اضافه کنید',
-  'plugin.replace.confirm': 'آیا مطمئن هستید که می خواهید یک سایت جایگزین کامل انجام دهید؟',
+  'plugin.replace.confirm':
+    'آیا مطمئن هستید که می خواهید یک سایت جایگزین کامل انجام دهید؟',
   'plugin.replace.tips':
     'جایگزینی کل سایت یک عملیات پیشرفته است و ممکن است خطاهای جایگزینی رخ دهد.',
   'plugin.replace.replace-tag': 'آیا برای جایگزینی محتوای برچسب',
@@ -850,7 +901,8 @@ export default {
   'plugin.replace.place.comment': 'اظهار نظر',
   'plugin.replace.place.attachment': 'منابع تصویری',
   'plugin.retailer.setting': 'پیکربندی توزیع',
-  'plugin.retailer.allow-self': 'توزیع کنندگان از خریدهای خود کمیسیون دریافت می کنند',
+  'plugin.retailer.allow-self':
+    'توزیع کنندگان از خریدهای خود کمیسیون دریافت می کنند',
   'plugin.retailer.allow-self.description':
     'در صورت روشن بودن پورسانت خودخریدی، توزیع کننده می تواند در صورتی که کالای توزیع شده را خودش خریداری کند، در صورت خاموش بودن، اگر خود کالای توزیع شده را خریداری کند، نمی تواند پورسانت را دریافت کند. اگر به طور خودکار توزیع کننده می شوید، کمیسیون خرید خود را فعال نکنید.',
   'plugin.retailer.allow-self.no': 'بسته',
@@ -873,7 +925,8 @@ export default {
   'plugin.retailer.change-name': 'تغییر نام واقعی',
   'plugin.retailer.cancel': 'لغو کنید',
   'plugin.retailer.add': 'توزیع کننده را اضافه کنید',
-  'plugin.retailer.add.name': 'شناسه کاربری را پر کنید و توزیع کننده را راه اندازی کنید',
+  'plugin.retailer.add.name':
+    'شناسه کاربری را پر کنید و توزیع کننده را راه اندازی کنید',
   'plugin.retailer.change-name.new': 'نام واقعی جدید',
   'plugin.rewrite.formula.archive-detail': 'جزئیات سند:',
   'plugin.rewrite.formula.archive-list': 'لیست اسناد:',
@@ -883,7 +936,8 @@ export default {
   'plugin.rewrite.formula.tag-detail': 'جزئیات برچسب:',
   'plugin.rewrite.formula1': 'گزینه 1: حالت دیجیتال (ساده، توصیه می شود)',
   'plugin.rewrite.formula2': 'گزینه 2: الگوی نامگذاری 1 (انگلیسی یا پینیین)',
-  'plugin.rewrite.formula3': 'گزینه 3: نامگذاری الگوی 2 (انگلیسی یا پینیین + اعداد)',
+  'plugin.rewrite.formula3':
+    'گزینه 3: نامگذاری الگوی 2 (انگلیسی یا پینیین + اعداد)',
   'plugin.rewrite.formula4': 'گزینه 4: الگوی نامگذاری 3 (انگلیسی یا پینیین)',
   'plugin.rewrite.formula5':
     'گزینه 5: حالت سفارشی (حالت پیشرفته، لطفاً با احتیاط از آن استفاده کنید، اگر به درستی تنظیم شود، صفحه جلویی باز نمی شود)',
@@ -910,7 +964,8 @@ export default {
   'plugin.robots.view': 'مشاهده ربات ها',
   'plugin.sendmail.setting': 'تنظیمات ایمیل',
   'plugin.sendmail.server': 'سرور SMTP',
-  'plugin.sendmail.server.description': 'به عنوان مثال، صندوق پستی QQ smtp.qq.com است',
+  'plugin.sendmail.server.description':
+    'به عنوان مثال، صندوق پستی QQ smtp.qq.com است',
   'plugin.sendmail.use-ssl': 'از SSL/TLS استفاده کنید',
   'plugin.sendmail.use-ssl.no': 'استفاده نکن',
   'plugin.sendmail.port': 'پورت SMTP',
@@ -931,9 +986,11 @@ export default {
   'plugin.sendmail.auto-reply.description':
     'اگر پاسخ خودکار به مشتریان روشن باشد، زمانی که مشتری پیامی را ترک می‌کند، یک ایمیل پاسخ خودکار به صورت خودکار به آدرس ایمیلی که مشتری تکمیل کرده ارسال می‌شود.',
   'plugin.sendmail.auto-reply.title': 'عنوان پاسخ خودکار',
-  'plugin.sendmail.auto-reply.title.description': 'لطفا عنوان پاسخ خودکار را پر کنید',
+  'plugin.sendmail.auto-reply.title.description':
+    'لطفا عنوان پاسخ خودکار را پر کنید',
   'plugin.sendmail.auto-reply.message': 'محتوای پاسخ خودکار',
-  'plugin.sendmail.auto-reply.message.description': 'لطفاً محتوای پاسخ خودکار را پر کنید',
+  'plugin.sendmail.auto-reply.message.description':
+    'لطفاً محتوای پاسخ خودکار را پر کنید',
   'plugin.sendmail.send-type': 'ارسال صحنه',
   'plugin.sendmail.send-type.guestbook': 'پیام های جدیدی در وب سایت وجود دارد',
   'plugin.sendmail.send-type.report': 'وب سایت روزانه روزانه',
@@ -986,13 +1043,16 @@ export default {
   'plugin.storage.keep-local.description':
     'هنگام استفاده از فضای ذخیره سازی ابری، می توانید انتخاب کنید که بایگانی های محلی نگهداری شوند',
   'plugin.timefactor.module.required': 'لطفاً حداقل یک مدل سند را انتخاب کنید',
-  'plugin.timefactor.types.required': 'لطفاً حداقل یک نوع به‌روزرسانی را انتخاب کنید',
-  'plugin.timefactor.start-day.required': 'زمانی که به‌روزرسانی را آغاز می‌کند نمی‌تواند 0 باشد',
+  'plugin.timefactor.types.required':
+    'لطفاً حداقل یک نوع به‌روزرسانی را انتخاب کنید',
+  'plugin.timefactor.start-day.required':
+    'زمانی که به‌روزرسانی را آغاز می‌کند نمی‌تواند 0 باشد',
   'plugin.timefactor.end-day.error':
     'زمان نتیجه به‌روزرسانی نمی‌تواند زودتر از زمان شروع به‌روزرسانی باشد',
   'plugin.timefactor.tips':
     'تابع انتشار برنامه‌ریزی‌شده با فاکتور زمان، امکان به‌روزرسانی منظم زمان سند را فراهم می‌کند. می‌توانید اسناد خاصی را تنظیم کنید که به‌طور خودکار به آخرین زمان بر اساس زمان‌بندی به‌روزرسانی شوند، و اسناد در پیش‌نویس‌ها می‌توانند به‌طور منظم طبق زمان تعیین‌شده منتشر شوند. برنامه سعی می کند هر ساعت به روز رسانی را بررسی کند.',
-  'plugin.timefactor.setting': 'تنظیمات انتشار برنامه‌ریزی‌شده با فاکتور زمان سند',
+  'plugin.timefactor.setting':
+    'تنظیمات انتشار برنامه‌ریزی‌شده با فاکتور زمان سند',
   'plugin.timefactor.open': 'فعال کردن به‌روزرسانی‌های زمان اسناد قدیمی',
   'plugin.timefactor.open.no': 'نه',
   'plugin.timefactor.open.yes': 'فعال کردن',
@@ -1002,7 +1062,8 @@ export default {
   'plugin.timefactor.types.description': 'حداقل یکی را انتخاب کنید',
   'plugin.timefactor.start-day': 'تجاوز',
   'plugin.timefactor.start-day.suffix': 'اسناد چند روز پیش',
-  'plugin.timefactor.start-day.description': 'به عنوان مثال: 30، عدد صحیح را پر کنید',
+  'plugin.timefactor.start-day.description':
+    'به عنوان مثال: 30، عدد صحیح را پر کنید',
   'plugin.timefactor.start-day.placeholder': 'مانند: 30',
   'plugin.timefactor.end-day': 'به‌روزرسانی خودکار به',
   'plugin.timefactor.end-day.placeholder': 'مانند: 1',
@@ -1014,7 +1075,8 @@ export default {
   'plugin.timefactor.republish.yes': 'آره',
   'plugin.timefactor.republish.description':
     'در حین به روز رسانی سند، آن را دوباره ارسال کنید تا موتورهای جستجو را امتحان کنید.',
-  'plugin.timefactor.release-draft': 'آیا برای فعال کردن انتشار خودکار اسناد پیش نویس جعبه',
+  'plugin.timefactor.release-draft':
+    'آیا برای فعال کردن انتشار خودکار اسناد پیش نویس جعبه',
   'plugin.timefactor.release-draft.no': 'نه',
   'plugin.timefactor.release-draft.yes': 'فعال کردن',
   'plugin.timefactor.daily-limit': 'تعداد انتشار خودکار در روز',
@@ -1025,10 +1087,12 @@ export default {
   'plugin.timefactor.start-time': 'زمان شروع انتشار روزانه',
   'plugin.timefactor.start-time.placeholder': 'مانند: 8',
   'plugin.timefactor.start-time.suffix': 'نقطه',
-  'plugin.timefactor.start-time.description': 'به عنوان مثال: 8، سپس هر روز از ساعت 8 شروع می شود',
+  'plugin.timefactor.start-time.description':
+    'به عنوان مثال: 8، سپس هر روز از ساعت 8 شروع می شود',
   'plugin.timefactor.end-time': 'زمان پایان',
   'plugin.timefactor.end-time.placeholder': 'مانند: 18',
-  'plugin.timefactor.end-time.description': 'اگر 0 را پر کنید، یعنی ساعت 23:00 تمام می شود',
+  'plugin.timefactor.end-time.description':
+    'اگر 0 را پر کنید، یعنی ساعت 23:00 تمام می شود',
   'plugin.timefactor.module': 'مدل باز',
   'plugin.timefactor.category': 'دسته‌هایی که در به‌روزرسانی‌ها شرکت نمی‌کنند',
   'plugin.timefactor.category.placeholder':
@@ -1043,7 +1107,8 @@ export default {
     'پس از روشن کردن آن، زمانی که سند تصویری نداشته باشد، یک تصویر به طور خودکار برای تگ h2 سند ایجاد می شود و در سند درج می شود.',
   'plugin.titleimage.size': 'اندازه تصویر را تولید کنید',
   'plugin.titleimage.width': 'عرض پیکسل',
-  'plugin.titleimage.width.placeholder': 'آیا برای ایجاد یک متن با پیش فرض 800 عنوان و عکس ثانویه',
+  'plugin.titleimage.width.placeholder':
+    'آیا برای ایجاد یک متن با پیش فرض 800 عنوان و عکس ثانویه',
   'plugin.titleimage.height': 'ارتفاع پیکسل',
   'plugin.titleimage.height.placeholder': 'پیش فرض 600',
   'plugin.titleimage.color': 'رنگ فونت',
@@ -1065,7 +1130,8 @@ export default {
   'plugin.titleimage.preview.text': 'پیش نمایش متن',
   'plugin.titleimage.preview.text.edit': 'متن پیش نمایش را تغییر دهید',
   'plugin.transfer.provider.required': 'لطفا یک سیستم وب سایت را انتخاب کنید',
-  'plugin.transfer.token.required': 'لطفاً رمز ارتباطی را که می تواند هر کاراکتری باشد پر کنید',
+  'plugin.transfer.token.required':
+    'لطفاً رمز ارتباطی را که می تواند هر کاراکتری باشد پر کنید',
   'plugin.transfer.base-url.required': 'لطفا آدرس سایت را وارد کنید',
   'plugin.transfer.signal.error': 'خطای ارتباطی',
   'plugin.transfer.signal.success': 'ارتباط موفق',
@@ -1077,7 +1143,8 @@ export default {
   'plugin.transfer.step3': 'مرحله سوم',
   'plugin.transfer.step4': 'مرحله چهارم',
   'plugin.transfer.step5': 'مرحله پنجم',
-  'plugin.transfer.step1.description': 'سیستم وب سایتی را که باید منتقل شود انتخاب کنید',
+  'plugin.transfer.step1.description':
+    'سیستم وب سایتی را که باید منتقل شود انتخاب کنید',
   'plugin.transfer.step2.description': 'دانلود فایل رابط ارتباطی',
   'plugin.transfer.step3.description': 'اطلاعات ارتباطی وب سایت را پر کنید',
   'plugin.transfer.step4.description': 'انتخاب کنید چه چیزی را منتقل کنید',
@@ -1087,7 +1154,8 @@ export default {
   'plugin.transfer.step.download': 'دانلود',
   'plugin.transfer.step2.tips':
     'لطفا فایل دانلود شده را در پوشه اصلی وب سایت خود آپلود کنید. پس از دانلود و قرار دادن آن در پوشه اصلی وب سایت خود، برای ادامه روی Next کلیک کنید.',
-  'plugin.transfer.step3.tips': 'فقط یک نشانه برای هر وب سایت قابل پیکربندی است.',
+  'plugin.transfer.step3.tips':
+    'فقط یک نشانه برای هر وب سایت قابل پیکربندی است.',
   'plugin.transfer.base-url': 'آدرس وب سایت',
   'plugin.transfer.base-url.placeholder': 'URL که با http یا https شروع می شود',
   'plugin.transfer.token': 'نشانه ارتباطی',
@@ -1095,7 +1163,8 @@ export default {
   'plugin.transfer.step4.tips': 'به طور پیش فرض، همه چیز منتقل شده است.',
   'plugin.transfer.types': 'انتخاب کنید چه چیزی را منتقل کنید',
   'plugin.transfer.module': 'یک مدل مهاجرت را انتخاب کنید',
-  'plugin.transfer.step5.tips': 'در طول فرآیند مهاجرت، لطفاً این صفحه را بازخوانی نکنید.',
+  'plugin.transfer.step5.tips':
+    'در طول فرآیند مهاجرت، لطفاً این صفحه را بازخوانی نکنید.',
   'plugin.transfer.base-url.name': 'سایت هایی که باید منتقل شوند:',
   'plugin.transfer.status': 'وضعیت فعلی کار:',
   'plugin.transfer.status.finished': 'تکمیل شد',
@@ -1127,13 +1196,16 @@ export default {
   'plugin.user.group': 'گروه کاربری VIP',
   'plugin.user.group.all': 'همه گروه ها',
   'plugin.user.expire': 'گروه کاربری منقضی می شود',
-  'plugin.user.expire.description': 'پس از انقضا، گروه کاربری به گروه اول بازخواهد گشت',
+  'plugin.user.expire.description':
+    'پس از انقضا، گروه کاربری به گروه اول بازخواهد گشت',
   'plugin.user.extra-fields': 'زمینه های اضافی',
   'plugin.user.extra-fields.default': 'مقدار پیش فرض:',
-  'plugin.user.delete.confirm': 'آیا مطمئن هستید که می خواهید این بخش از داده ها را حذف کنید؟',
+  'plugin.user.delete.confirm':
+    'آیا مطمئن هستید که می خواهید این بخش از داده ها را حذف کنید؟',
   'plugin.watermark.generate.confirm':
     'آیا مطمئنید که می‌خواهید واترمارک را به تمام تصاویر موجود در کتابخانه عکس اضافه کنید؟',
-  'plugin.watermark.generate.content': 'تصاویری که واترمارک شده اند دیگر اضافه نخواهند شد.',
+  'plugin.watermark.generate.content':
+    'تصاویری که واترمارک شده اند دیگر اضافه نخواهند شد.',
   'plugin.watermark.open': 'فعال کردن واترمارک یا نه',
   'plugin.watermark.open.no': 'بسته',
   'plugin.watermark.open.yes': 'روشن کن',
@@ -1173,7 +1245,8 @@ export default {
   'plugin.weapp.default.source':
     'آدرس کد منبع برنامه مینی: https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': 'اپلت پیش فرض را دانلود کنید',
-  'plugin.wechat.menu.delete.confirm': 'آیا مطمئن هستید که می خواهید این منو را حذف کنید؟',
+  'plugin.wechat.menu.delete.confirm':
+    'آیا مطمئن هستید که می خواهید این منو را حذف کنید؟',
   'plugin.wechat.menu.submit.error': 'ارسال خطا',
   'plugin.wechat.menu.submit.confirm':
     'آیا مطمئن هستید که می خواهید منوی حساب رسمی را به روز کنید؟',
@@ -1192,13 +1265,15 @@ export default {
   'plugin.wechat.menu.submit': 'منوی حساب رسمی را به روز کنید',
   'plugin.wechat.menu.add': 'اضافه کردن منو',
   'plugin.wechat.menu.top': 'منوی بالا',
-  'plugin.wechat.sort.description': 'هر چه مقدار کوچکتر باشد، مرتب سازی بالاتر است.',
+  'plugin.wechat.sort.description':
+    'هر چه مقدار کوچکتر باشد، مرتب سازی بالاتر است.',
   'plugin.wechat.reply': 'پاسخ',
   'plugin.wechat.reply.delete.confirm':
     'آیا مطمئن هستید که می خواهید این بخش از داده ها را حذف کنید؟',
   'plugin.wechat.reply.keyword': 'کلید واژه ها',
   'plugin.wechat.reply.content': 'مطالب را پاسخ دهید',
-  'plugin.wechat.reply.content.description': 'اگر می خواهید پاسخ دهید، آن را در اینجا وارد کنید',
+  'plugin.wechat.reply.content.description':
+    'اگر می خواهید پاسخ دهید، آن را در اینجا وارد کنید',
   'plugin.wechat.reply.time': 'زمان پاسخ',
   'plugin.wechat.reply.default': 'پاسخ پیش فرض',
   'plugin.wechat.reply.default.yes': 'آره',
@@ -1209,7 +1284,8 @@ export default {
   'plugin.wechat.reply.rule': 'قوانین پاسخ خودکار',
   'plugin.wechat.reply.rule.add': 'قوانین را اضافه کنید',
   'plugin.wechat.reply.rule.edit': 'قوانین را اضافه کنید',
-  'plugin.wechat.reply.keyword.description': 'کاربر کلمه کلیدی ماشه را ارسال می کند',
+  'plugin.wechat.reply.keyword.description':
+    'کاربر کلمه کلیدی ماشه را ارسال می کند',
   'plugin.wechat.setting': 'پیکربندی حساب سرویس وی چت',
   'plugin.wechat.appid': 'خدمات حساب AppID',
   'plugin.wechat.app-secret': 'خدمات AccountAppSecret',
@@ -1219,7 +1295,8 @@ export default {
   'plugin.wechat.verify-key.description':
     'کاربران می توانند با پاسخ دادن به این کلمه کلیدی کد تایید را دریافت کنند',
   'plugin.wechat.verify-msg': 'الگوی اطلاعات کد تأیید',
-  'plugin.wechat.verify-msg.placeholder': 'پیش‌فرض: کد تأیید: {code}، تا 30 دقیقه اعتبار دارد',
+  'plugin.wechat.verify-msg.placeholder':
+    'پیش‌فرض: کد تأیید: {code}، تا 30 دقیقه اعتبار دارد',
   'plugin.wechat.verify-msg.description': 'توجه: الگو باید حاوی «{code}» باشد',
   'plugin.wechat.auto-reply.setting': 'تنظیمات پاسخ خودکار',
   'plugin.wechat.menu.setting': 'تنظیمات منو',
@@ -1229,4 +1306,42 @@ export default {
   'plugin.type.archive': 'تابع سند',
   'plugin.type.user-mall': 'کاربر/مرکز خرید',
   'plugin.type.system': 'توابع سیستم',
+  'plugin.limiter.open.name': 'روشن کردن حفاظت از امنیت وب سایت',
+  'plugin.limiter.open.false': 'بستن',
+  'plugin.limiter.open.true': 'باز کردن',
+  'plugin.limiter.description':
+    'پس از روشن کردن آن، تنظیمات زیر اعمال خواهند شد',
+  'plugin.limiter.max_requests': 'به طور موقت IP را ممنوع کنید',
+  'plugin.limiter.max_requests.prefix':
+    'تعداد بازدیدهای انجام شده در 5 دقیقه گذشته',
+  'plugin.limiter.max_requests.suffix': 'times',
+  'plugin.limiter.max_requests.description':
+    'اگر پر نشده باشد، پیش فرض 100 بار است',
+  'plugin.limiter.block_hours': 'مدت ممنوعیت موقت',
+  'plugin.limiter.block_hours.prefix': 'ممنوعیت موقت',
+  'plugin.limiter.block_hours.suffix': 'ساعت',
+  'plugin.limiter.block_hours.description':
+    'اگر پر نشده باشد، پیش فرض 1 ساعت است',
+  'plugin.limiter.white_ips': 'IP لیست سفید',
+  'plugin.limiter.white_ips.description':
+    'یک در هر خط، از بخش های IP و IP پشتیبانی می کند، مانند: 192.168.2.0/24',
+  'plugin.limiter.black_ips': 'IP لیست سیاه',
+  'plugin.limiter.black_ips.description':
+    'یک در هر خط، از بخش های IP و IP پشتیبانی می کند، مانند: 192.168.2.0/24',
+  'plugin.limiter.block_agents': 'محدود کردن UserAgent خاص',
+  'plugin.limiter.block_agents.description':
+    'یکی در هر خط، دسترسی با استفاده از این UserAgents ممنوع خواهد شد',
+  'plugin.limiter.allow_prefixes': 'حذف پیشوندهای مسیر خاص',
+  'plugin.limiter.allow_prefixes.placeholder': 'مانند:/api',
+  'plugin.limiter.allow_prefixes.description':
+    'یکی در هر خط، مسیرهای حاوی این پیشوندها مجاز خواهند بود',
+  'plugin.limiter.is_allow_spider': 'آیا به عنکبوت‌ها اجازه داده شود یا نه',
+  'plugin.limiter.is_allow_spider.no': 'نه',
+  'plugin.limiter.is_allow_spider.yes': 'بله',
+  'plugin.limiter.is_allow_spider.description':
+    'اگر "بله" انتخاب شده باشد، دسترسی عنکبوت مجاز خواهد بود برای اینکه بر گنجاندن عنکبوت تأثیری نداشته باشد، لطفاً بله را انتخاب کنید',
+  'plugin.limiter.blocked_ips': 'IPهای مسدود شده موقت',
+  'plugin.limiter.blocked_ips.remove': 'رفع انسداد',
+  'plugin.limiter.blocked_ips.remove.yes': 'حذف',
+  'plugin.limiter.blocked_ips.ended': 'منقضی شده:',
 };

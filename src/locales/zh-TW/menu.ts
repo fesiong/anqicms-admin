@@ -53,6 +53,7 @@ export default {
   'menu.plugin.timefactor': '時間因子-定時發布',
   'menu.plugin.interference': '防採集幹擾碼',
   'menu.plugin.watermark': '圖片添加浮水印',
+  'menu.plugin.limiter': '網站安全防護',
   'menu.design': '模板設計',
   'menu.design.index': '我的模板',
   'menu.design.editor': '修改程式碼',

@@ -53,6 +53,7 @@ export default {
   'menu.plugin.timefactor': '時間要因に応じたスケジュールされたリリース',
   'menu.plugin.interference': '収集妨害防止コード',
   'menu.plugin.watermark': '写真に透かしを追加する',
+  'menu.plugin.limiter': 'Webサイトのセキュリティ保護',
   'menu.design': 'テンプレートデザイン',
   'menu.design.index': '私のテンプレート',
   'menu.design.editor': 'コードを変更する',

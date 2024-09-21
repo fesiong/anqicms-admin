@@ -47,12 +47,15 @@ export default {
   'menu.plugin.fulltext': 'исследовать все',
   'menu.plugin.backup': 'Резервное копирование и восстановление',
   'menu.plugin.replace': 'Полная замена сайта',
-  'menu.plugin.titleimage': 'Автоматически сопоставлять заголовок с изображениями',
+  'menu.plugin.titleimage':
+    'Автоматически сопоставлять заголовок с изображениями',
   'menu.plugin.htmlcache': 'Статическое кэширование страниц',
   'menu.plugin.aigenerate': 'автоматическое письмо с искусственным интеллектом',
-  'menu.plugin.timefactor': 'Запланированный выпуск с учетом временного фактора',
+  'menu.plugin.timefactor':
+    'Запланированный выпуск с учетом временного фактора',
   'menu.plugin.interference': 'Код вмешательства в сбор средств',
   'menu.plugin.watermark': 'Добавить водяной знак к фотографиям',
+  'menu.plugin.limiter': 'Защита безопасности веб-сайта',
   'menu.design': 'дизайн шаблона',
   'menu.design.index': 'мой шаблон',
   'menu.design.editor': 'Изменить код',

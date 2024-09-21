@@ -53,6 +53,7 @@ export default {
   'menu.plugin.timefactor': 'Rilis yang dijadwalkan berdasarkan faktor waktu',
   'menu.plugin.interference': 'Kode interferensi anti-koleksi',
   'menu.plugin.watermark': 'Tambahkan tanda air ke gambar',
+  'menu.plugin.limiter': 'Perlindungan keamanan situs web',
   'menu.design': 'desain templat',
   'menu.design.index': 'templat saya',
   'menu.design.editor': 'Ubah kode',

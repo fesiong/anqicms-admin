@@ -22,7 +22,8 @@ export default {
   'plugin.aigenerate.source.anqicms': '安企CMS官网',
   'plugin.aigenerate.source.openai': '自备OpenAIKey',
   'plugin.aigenerate.source.spark': '星火大模型',
-  'plugin.aigenerate.source.description': '声明：仅有使用安企CMS搭建的海外网站可选自备OpenAIKey。',
+  'plugin.aigenerate.source.description':
+    '声明：仅有使用安企CMS搭建的海外网站可选自备OpenAIKey。',
   'plugin.aigenerate.source.check-openai': '检查OpenAI接口',
   'plugin.aigenerate.openai.description':
     'OpenAI Key 一般以 sk- 开头，可以添加多个key，程序会每次会随机选择一个key使用。',
@@ -51,7 +52,8 @@ export default {
   'plugin.aigenerate.insert-image.category': '自定义插入图片',
   'plugin.aigenerate.insert-image.list': '供插入的图片列表',
   'plugin.aigenerate.replace': '内容替换',
-  'plugin.aigenerate.replace.tips1': '编辑需要替换的关键词对，会在发布文档的时候自动执行替换。',
+  'plugin.aigenerate.replace.tips1':
+    '编辑需要替换的关键词对，会在发布文档的时候自动执行替换。',
   'plugin.aigenerate.replace.tips2':
     '替换规则支持正则表达式，如果你对正则表达式熟悉，并且通过普通文本无法达成替换需求的，可以尝试使用正则表达式规则来完成替换。',
   'plugin.aigenerate.replace.tips3':
@@ -103,7 +105,8 @@ export default {
   'plugin.anchor.link.description':
     '支持相对链接和绝对连接，如：/a/123.html 或 https://www.anqicms.com/',
   'plugin.anchor.weight': '锚文本权重',
-  'plugin.anchor.weight.description': '请输入数字，0-9，数字越大，权重越高，高权重拥有优先替换权',
+  'plugin.anchor.weight.description':
+    '请输入数字，0-9，数字越大，权重越高，高权重拥有优先替换权',
   'plugin.anchor.import': '导入锚文本',
   'plugin.anchor.import.description': '说明：只支持csv格式的文件上传并导入',
   'plugin.anchor.step1': '第一步',
@@ -112,7 +115,8 @@ export default {
   'plugin.anchor.step2.upload': '上传csv文件',
   'plugin.anchor.setting': '锚文本设置',
   'plugin.anchor.density': '锚文本密度',
-  'plugin.anchor.density.description': '例如：每100字替换一个锚文本，就填写100，默认100',
+  'plugin.anchor.density.description':
+    '例如：每100字替换一个锚文本，就填写100，默认100',
   'plugin.anchor.replace-way': '替换方式',
   'plugin.anchor.replace-way.auto': '自动替换',
   'plugin.anchor.replace-way.manual': '手动替换',
@@ -120,7 +124,8 @@ export default {
   'plugin.anchor.extract': '提取方式',
   'plugin.anchor.extract.auto': '自动提取',
   'plugin.anchor.extract.manual': '手动提取',
-  'plugin.anchor.extract.description': '选择从内容的关键词标签里提取锚文本关键词的方式',
+  'plugin.anchor.extract.description':
+    '选择从内容的关键词标签里提取锚文本关键词的方式',
   'plugin.anchor.delete.confirm': '确定要删除选中的锚文本吗？',
   'plugin.anchor.batch-update': '批量更新锚文本',
   'plugin.anchor.export': '导出锚文本',
@@ -132,7 +137,8 @@ export default {
   'plugin.backup.backuping': '正在执行数据备份操作，请稍候。。',
   'plugin.backup.restore': '恢复',
   'plugin.backup.restore.confirm': '确定要用当前备份执行恢复吗？',
-  'plugin.backup.restore.content': '恢复后，将会用当前的备份数据替换现有数据。请谨慎操作。',
+  'plugin.backup.restore.content':
+    '恢复后，将会用当前的备份数据替换现有数据。请谨慎操作。',
   'plugin.backup.restoring': '正在执行数据恢复操作，请稍候。。',
   'plugin.backup.delete.confirm': '确定要删除该条数据吗？',
   'plugin.backup.download': '下载',
@@ -170,7 +176,8 @@ export default {
   'plugin.collector.category.notice': '必须设置一个分类否则无法正常采集',
   'plugin.collector.min-title': '标题最少字数',
   'plugin.collector.min-title.placeholder': '默认10个字',
-  'plugin.collector.min-title.description': '采集文章的时候，标题字数少于指定的字数，则不会采集',
+  'plugin.collector.min-title.description':
+    '采集文章的时候，标题字数少于指定的字数，则不会采集',
   'plugin.collector.min-content': '内容最少字数',
   'plugin.collector.min-content.placeholder': '默认400个字',
   'plugin.collector.min-content.description':
@@ -178,7 +185,8 @@ export default {
   'plugin.collector.pseudo': '是否AI改写',
   'plugin.collector.pseudo.no': '否',
   'plugin.collector.pseudo.yes': '进行AI改写',
-  'plugin.collector.pseudo.description': 'AI改写只支持文章采集和问答组合。需要付费。',
+  'plugin.collector.pseudo.description':
+    'AI改写只支持文章采集和问答组合。需要付费。',
   'plugin.collector.translate': '是否翻译',
   'plugin.collector.translate.no': '否',
   'plugin.collector.translate.yes': '进行翻译',
@@ -193,18 +201,23 @@ export default {
   'plugin.collector.insert-image.contain': '保留原图片',
   'plugin.collector.insert-image.insert': '保留原图片',
   'plugin.collector.title-exclude': '标题排除词',
-  'plugin.collector.title-exclude.tips': '采集文章的时候，标题出现这些关键词，则不会采集',
+  'plugin.collector.title-exclude.tips':
+    '采集文章的时候，标题出现这些关键词，则不会采集',
   'plugin.collector.title-prefix': '标题开头排除词',
-  'plugin.collector.title-prefix.tips': '采集文章的时候，标题开头出现这些关键词，则不会采集',
+  'plugin.collector.title-prefix.tips':
+    '采集文章的时候，标题开头出现这些关键词，则不会采集',
   'plugin.collector.title-suffix': '标题结尾排除词',
-  'plugin.collector.title-suffix.tips': '采集文章的时候，标题结尾出现这些关键词，则不会采集',
+  'plugin.collector.title-suffix.tips':
+    '采集文章的时候，标题结尾出现这些关键词，则不会采集',
   'plugin.collector.content-exclude-line': '内容忽略行',
   'plugin.collector.content-exclude-line.tips':
     '采集文章的时候，内容出现这些词的那一行，将会被移除',
   'plugin.collector.content-exclude': '内容排除',
-  'plugin.collector.content-exclude.tips': '采集文章的时候，内容出现这些词，则整篇文章都丢弃',
+  'plugin.collector.content-exclude.tips':
+    '采集文章的时候，内容出现这些词，则整篇文章都丢弃',
   'plugin.collector.link-exclude': '链接忽略',
-  'plugin.collector.link-exclude.tips': '采集文章的时候，链接出现这些关键词的，则不会采集',
+  'plugin.collector.link-exclude.tips':
+    '采集文章的时候，链接出现这些关键词的，则不会采集',
   'plugin.collector.start': '手动开始采集',
   'plugin.collector.start.confirm': '确定要开始采集吗？',
   'plugin.collector.start.content': '这将马上开始执行一次采集任务操作',
@@ -226,7 +239,8 @@ export default {
   'plugin.comment.delete.confirm': '确定要删除选中的评论吗？',
   'plugin.fileupload.delete.confirm': '确定要删除选中的文件吗？',
   'plugin.fileupload.upload.name': '上传新文件',
-  'plugin.fileupload.upload.support': '说明：只允许上传 txt/htm/html/xml 格式的验证文件',
+  'plugin.fileupload.upload.support':
+    '说明：只允许上传 txt/htm/html/xml 格式的验证文件',
   'plugin.fileupload.upload.btn': '上传文件',
   'plugin.fileupload.view': '查看',
   'plugin.fileupload.create-time': '上传时间',
@@ -238,7 +252,8 @@ export default {
   'plugin.finance.status.unwithdraw': '未提现',
   'plugin.finance.status.withdraw': '已提现',
   'plugin.finance.withdraw.confirm': '确定要手动处理提现吗？',
-  'plugin.finance.withdraw.confirm.content': '这里仅仅是相当于从用户侧申请提现。',
+  'plugin.finance.withdraw.confirm.content':
+    '这里仅仅是相当于从用户侧申请提现。',
   'plugin.finance.order-id': '订单ID',
   'plugin.finance.direction': '资金方向',
   'plugin.finance.direction.in': '进账',
@@ -254,7 +269,8 @@ export default {
   'plugin.finance.type.cashback': '返现',
   'plugin.finance.type.commission': '佣金',
   'plugin.finance.withdraw.finish.confirm': '确定要手动处理完成提现吗？',
-  'plugin.finance.withdraw.finish.content': '如果你线下打款给用户了，可以在这里点击完成',
+  'plugin.finance.withdraw.finish.content':
+    '如果你线下打款给用户了，可以在这里点击完成',
   'plugin.finance.withdraw.amount': '提现金额',
   'plugin.finance.withdraw.status.waiting': '等待处理',
   'plugin.finance.withdraw.status.agree': '已同意',
@@ -308,7 +324,8 @@ export default {
     '建议设置90%-100%，用户通过分销员分享的链接来到页面后，下单可以享受的折扣价',
   'plugin.group.permission': '分销权限设置',
   'plugin.group.delete.confirm': '确定要删除该条数据吗？',
-  'plugin.guestbook.reply.required': '请先进行邮件提醒设置，在功能里搜“邮件提醒”',
+  'plugin.guestbook.reply.required':
+    '请先进行邮件提醒设置，在功能里搜“邮件提醒”',
   'plugin.guestbook.replysubmit.required': '请填写邮件标题和邮件内容',
   'plugin.guestbook.replysubmit.success': '邮件发送成功',
   'plugin.guestbook.view': '查看留言',
@@ -322,11 +339,13 @@ export default {
   'plugin.guestbook.reply.subject': '邮件标题',
   'plugin.guestbook.reply.message': '邮件内容',
   'plugin.guestbook.field.delete.confirm': '确定要删除该字段吗？',
-  'plugin.guestbook.field.delete.confirm.content': '你可以在保存之前，通过刷新页面来恢复。',
+  'plugin.guestbook.field.delete.confirm.content':
+    '你可以在保存之前，通过刷新页面来恢复。',
   'plugin.guestbook.setting': '网站留言设置',
   'plugin.guestbook.return-message': '留言成功提示:',
   'plugin.guestbook.return-message.placeholder': '默认：感谢您的留言！',
-  'plugin.guestbook.return-message.description': '用户提交留言后看到的提示。例如：感谢您的留言！',
+  'plugin.guestbook.return-message.description':
+    '用户提交留言后看到的提示。例如：感谢您的留言！',
   'plugin.guestbook.delete.confirm': '确定要删除选中的留言吗？',
   'plugin.guestbook.export': '导出留言',
   'plugin.guestbook.export.confirm': '确定要导出全部的留言吗？',
@@ -350,7 +369,8 @@ export default {
   'plugin.htmlcache.push.all.confirm': '确定要全量推送静态文件到静态服务器吗？',
   'plugin.htmlcache.push.all.confirm.content':
     '仅当配置了静态服务器后可用，全量推送需要耗时较长时间，如未进行全局改动可以使用增量推送。',
-  'plugin.htmlcache.push.addon.confirm': '确定要增量推送静态文件到静态服务器吗？',
+  'plugin.htmlcache.push.addon.confirm':
+    '确定要增量推送静态文件到静态服务器吗？',
   'plugin.htmlcache.push.addon.confirm.content':
     '仅当配置了静态服务器后可用，增量推送仅会推送更新的的静态缓存文件。',
   'plugin.htmlcache.isopen': '是否开启静态页面缓存',
@@ -370,7 +390,8 @@ export default {
   'plugin.htmlcache.storage-url': '静态网站地址',
   'plugin.htmlcache.storage-url.placeholder': '如：https://www.anqicms.com',
   'plugin.htmlcache.aliyun.endpoint': '阿里云节点',
-  'plugin.htmlcache.aliyun.endpoint.placeholder': '例如：http://oss-cn-hangzhou.aliyuncs.com',
+  'plugin.htmlcache.aliyun.endpoint.placeholder':
+    '例如：http://oss-cn-hangzhou.aliyuncs.com',
   'plugin.htmlcache.aliyun.bucket-name': '阿里云存储桶名称',
   'plugin.htmlcache.tencent.bucket-url': '腾讯云存储桶地址',
   'plugin.htmlcache.tencent.bucket-url.placeholder':
@@ -399,7 +420,8 @@ export default {
   'plugin.htmlcache.ssh.username': 'SSH 用户名',
   'plugin.htmlcache.ssh.password': 'SSH 密码',
   'plugin.htmlcache.ssh.or-key': '或SSH 密钥',
-  'plugin.htmlcache.ssh.or-key.description': '如果你的SSH服务器是使用密钥登录，请上传',
+  'plugin.htmlcache.ssh.or-key.description':
+    '如果你的SSH服务器是使用密钥登录，请上传',
   'plugin.htmlcache.ssh.or-key.upload': '上传文件',
   'plugin.htmlcache.ssh.webroot': 'SSH 上传根目录',
   'plugin.htmlcache.generate.name': '生成操作',
@@ -438,9 +460,11 @@ export default {
     '启用静态网站后，以下的操作不会自动重新生成，需要手动执行静态页面生成操作：<span className="text-red">调整了模板（修改模板、启用模板）</span>、<span className="text-red">修改后台设置（全局设置、内容设置、联系方式、导航等）</span>、<span className="text-red">修改了伪静态规则</span>、<span className="text-red">其它影响全局的改动</span>',
   'plugin.importapi.token.required': '请填写Token，128字符以内',
   'plugin.importapi.token.confirm': '确定要更新Token吗？',
-  'plugin.importapi.token.confirm.content': '更新后，原Token失效，请使用新api地址操作。',
+  'plugin.importapi.token.confirm.content':
+    '更新后，原Token失效，请使用新api地址操作。',
   'plugin.importapi.token.copy.success': '复制成功',
-  'plugin.importapi.tips': '通过AI写作等第三方平台产生的内容可以对接API导入本系统。',
+  'plugin.importapi.tips':
+    '通过AI写作等第三方平台产生的内容可以对接API导入本系统。',
   'plugin.importapi.token.name': '我的Token：',
   'plugin.importapi.token.copy': '点击复制',
   'plugin.importapi.token.update': '更新Token',
@@ -462,7 +486,8 @@ export default {
     '文档的缩略图，可以是绝对地址，如: https://www.anqicms.com/logo.png 或相对地址，如: /logo.png',
   'plugin.importapi.field.publish-time':
     '格式：2006-01-02 15:04:05  文档的发布时间，可以是未来的时间，如果是未来的时间，则文档会在等到时间到了才正式发布。',
-  'plugin.importapi.field.tag': '文档Tag标签，多个tag用英文逗号分隔,例如：aaa,bbb,ccc',
+  'plugin.importapi.field.tag':
+    '文档Tag标签，多个tag用英文逗号分隔,例如：aaa,bbb,ccc',
   'plugin.importapi.field.diy': '其他自定义字段',
   'plugin.importapi.field.diy.remark':
     '如果你还传了其他自定义字段，并且文档表中存在该字段，则也支持。',
@@ -490,9 +515,11 @@ export default {
   'plugin.importapi.token.reset': '重置Token',
   'plugin.importapi.token.new': '新的Token',
   'plugin.importapi.token.new.placeholder': '请填写新的Token',
-  'plugin.importapi.token.new.description': 'Token一般由数字、字母组合构成，长于10位，小于128位',
+  'plugin.importapi.token.new.description':
+    'Token一般由数字、字母组合构成，长于10位，小于128位',
   'plugin.interference.isopen': '开启防采集干扰码',
-  'plugin.interference.isopen.description': '只有开启了功能，下面的设置才有效。',
+  'plugin.interference.isopen.description':
+    '只有开启了功能，下面的设置才有效。',
   'plugin.interference.isopen.no': '关闭',
   'plugin.interference.isopen.yes': '开启',
   'plugin.interference.mode': '防干扰模式',
@@ -521,7 +548,8 @@ export default {
   'plugin.keyword.dig-setting.auto-dig.no': '否',
   'plugin.keyword.dig-setting.auto-dig.yes': '自动',
   'plugin.keyword.dig-setting.max-count': '拓词数量',
-  'plugin.keyword.dig-setting.max-count.description': '选择了自动拓词，则拓词数量才有效',
+  'plugin.keyword.dig-setting.max-count.description':
+    '选择了自动拓词，则拓词数量才有效',
   'plugin.keyword.dig-setting.max-count.placeholder': '默认100000',
   'plugin.keyword.dig-setting.language': '关键词语种',
   'plugin.keyword.dig-setting.title-exclude': '关键词排除词',
@@ -535,10 +563,12 @@ export default {
   'plugin.keyword.collect.confirm': '确定要对这个关键词执行采集操作吗？',
   'plugin.keyword.collect.doing': '正在采集中',
   'plugin.keyword.aigenerate.confirm': '确定要对这个关键词执行AI写作操作吗？',
-  'plugin.keyword.aigenerate.content': 'AI自动写作需要付费，请确保已绑定安企账号。',
+  'plugin.keyword.aigenerate.content':
+    'AI自动写作需要付费，请确保已绑定安企账号。',
   'plugin.keyword.aigenerate.doing': '正在生成中',
   'plugin.keyword.cleanup.confirm': '确定要对这清空全部关键词吗？',
-  'plugin.keyword.cleanup.content': '该操作会删除所有的关键词，并且不可恢复，请谨慎操作',
+  'plugin.keyword.cleanup.content':
+    '该操作会删除所有的关键词，并且不可恢复，请谨慎操作',
   'plugin.keyword.level': '层级',
   'plugin.keyword.article-count': '已采集文章',
   'plugin.keyword.collect': '手动采集',
@@ -593,10 +623,12 @@ export default {
   'plugin.material.import.clear': '确定要清除已选择上传的内容素材吗？',
   'plugin.material.delete.confirm': '确定要删除选中的素材吗？',
   'plugin.material.import.submit.tips.before': '你选择的素材中，有',
-  'plugin.material.import.submit.tips.after': '个素材未选择板块，是否要继续提交？',
+  'plugin.material.import.submit.tips.after':
+    '个素材未选择板块，是否要继续提交？',
   'plugin.material.import.upload-error': '上传错误，请稍后重试',
   'plugin.material.import.batch-add': '批量添加素材',
-  'plugin.material.import.batch-add.tips': '说明：可以上传存放在txt或html的文章。',
+  'plugin.material.import.batch-add.tips':
+    '说明：可以上传存放在txt或html的文章。',
   'plugin.material.import.default-category': '默认导入到：',
   'plugin.material.import.default-category.placeholder': '选择要导入的板块',
   'plugin.material.import.default-category.all': '全部',
@@ -742,14 +774,16 @@ export default {
     '国内无法使用。JSON获取请参考文档：https://www.anqicms.com/google-indexing-help.html',
   'plugin.push.other-js': '360/头条等JS自动提交',
   'plugin.push.other-js.add': '添加JS代码',
-  'plugin.push.other-js.tips1': '可以放置百度JS自动提交、360自动收录、头条自动收录等JS代码。',
+  'plugin.push.other-js.tips1':
+    '可以放置百度JS自动提交、360自动收录、头条自动收录等JS代码。',
   'plugin.push.other-js.tips2':
     '这些代码需要在模板中手动调用，请在公共的模板结尾添加 `{{- pluginJsCode|safe }}` 代码来调用。',
   'plugin.push.other-js.tips3': '留言/评论等弹窗，会自动加载这些JS代码。',
   'plugin.push.other-js.name': '代码名称',
   'plugin.push.other-js.name.placeholder': '如：百度统计',
   'plugin.push.other-js.code': 'JS代码',
-  'plugin.push.other-js.code.placeholder': '需要包含<script>开头，和</script>结尾',
+  'plugin.push.other-js.code.placeholder':
+    '需要包含<script>开头，和</script>结尾',
   'plugin.redirect.import': '导入链接',
   'plugin.redirect.import.tips': '说明：只支持csv格式的文件上传并导入',
   'plugin.redirect.import.step1': '第一步，下载csv模板文件',
@@ -767,7 +801,8 @@ export default {
   'plugin.replace.place.required': '请选择替换位置',
   'plugin.replace.keyword.required': '请添加替换规则',
   'plugin.replace.confirm': '确定要执行全站替换操作吗？',
-  'plugin.replace.tips': '全站替换是高级操作，有可能会出现替换错误，建议在替换前，先执行内容备份。',
+  'plugin.replace.tips':
+    '全站替换是高级操作，有可能会出现替换错误，建议在替换前，先执行内容备份。',
   'plugin.replace.replace-tag': '是否替换标签内容',
   'plugin.replace.place': '替换位置',
   'plugin.replace.keyword': '替换规则',
@@ -789,9 +824,11 @@ export default {
   'plugin.retailer.become-retailer': '成为分销员方式',
   'plugin.retailer.become-retailer.manual': '人工处理',
   'plugin.retailer.become-retailer.auto': '自动成为',
-  'plugin.retailer.become-retailer.description': '选择人工处理的话，需要到用户管理中设置',
+  'plugin.retailer.become-retailer.description':
+    '选择人工处理的话，需要到用户管理中设置',
   'plugin.retailer.cancel.confirm': '确定要取消该用户的分销员资格吗？',
-  'plugin.retailer.cancel.content': '如果分销员门槛为自动成为分销员的话，则该取消无效',
+  'plugin.retailer.cancel.content':
+    '如果分销员门槛为自动成为分销员的话，则该取消无效',
   'plugin.retailer.user-id': '用户ID',
   'plugin.retailer.user-name': '用户名',
   'plugin.retailer.real-name': '真实姓名',
@@ -833,7 +870,8 @@ export default {
   'plugin.robots.content': 'Robots内容',
   'plugin.robots.content.tips1':
     '1、robots.txt可以告诉百度您网站的哪些页面可以被抓取，哪些页面不可以被抓取。',
-  'plugin.robots.content.tips2': '2、您可以通过Robots工具来创建、校验、更新您的robots.txt文件。',
+  'plugin.robots.content.tips2':
+    '2、您可以通过Robots工具来创建、校验、更新您的robots.txt文件。',
   'plugin.robots.view': '查看Robots',
   'plugin.sendmail.setting': '邮件设置',
   'plugin.sendmail.server': 'SMTP服务器',
@@ -844,7 +882,8 @@ export default {
   'plugin.sendmail.port.description':
     '默认服务器端口为 25，使用 SSL 协议默认端口为 465, TLS 协议默认端口为 587 ，详细参数请询问邮箱服务商',
   'plugin.sendmail.account': 'SMTP帐户',
-  'plugin.sendmail.account.description': '默认是邮箱账号，如您的QQ邮箱，如123456@qq.com',
+  'plugin.sendmail.account.description':
+    '默认是邮箱账号，如您的QQ邮箱，如123456@qq.com',
   'plugin.sendmail.password': 'SMTP密码',
   'plugin.sendmail.password.description': '在邮箱设置中生成的授权码。',
   'plugin.sendmail.recipient': '收件人邮箱',
@@ -884,13 +923,17 @@ export default {
   'plugin.sitemap.exclude-tag.no': '生成',
   'plugin.sitemap.exclude-tag.yes': '不生成',
   'plugin.sitemap.exculde-module': '排除的文档模型',
-  'plugin.sitemap.exculde-module.description': '如果你想排除某些文档模型，可以在这里选择',
+  'plugin.sitemap.exculde-module.description':
+    '如果你想排除某些文档模型，可以在这里选择',
   'plugin.sitemap.exculde-category': '排除的分类',
-  'plugin.sitemap.exculde-category.description': '如果你想排除某些分类，可以在这里选择',
+  'plugin.sitemap.exculde-category.description':
+    '如果你想排除某些分类，可以在这里选择',
   'plugin.sitemap.exculde-page': '排除的单页',
-  'plugin.sitemap.exculde-page.description': '如果你想排除某些单页，可以在这里选择',
+  'plugin.sitemap.exculde-page.description':
+    '如果你想排除某些单页，可以在这里选择',
   'plugin.sitemap.action': '手动操作',
-  'plugin.sitemap.action.tips': '提示：修改Sitemap配置后，请手动生成Sitemap，让配置生效。',
+  'plugin.sitemap.action.tips':
+    '提示：修改Sitemap配置后，请手动生成Sitemap，让配置生效。',
   'plugin.sitemap.last-time': '上次生成时间',
   'plugin.sitemap.build': '手动生成Sitemap',
   'plugin.sitemap.view': '查看Sitemap',
@@ -903,7 +946,8 @@ export default {
   'plugin.storage.keep-local': '本地存档',
   'plugin.storage.keep-local.no': '不保留',
   'plugin.storage.keep-local.yes': '保留',
-  'plugin.storage.keep-local.description': '使用云存储的时候，可以选择保留本地存档',
+  'plugin.storage.keep-local.description':
+    '使用云存储的时候，可以选择保留本地存档',
   'plugin.timefactor.module.required': '请至少选择一个文档模型',
   'plugin.timefactor.types.required': '请至少选择一个更新类型',
   'plugin.timefactor.start-day.required': '触发更新的时间不能为0',
@@ -929,13 +973,15 @@ export default {
   'plugin.timefactor.republish': '是否重新推送',
   'plugin.timefactor.republish.no': '否',
   'plugin.timefactor.republish.yes': '是',
-  'plugin.timefactor.republish.description': '更新文档的同时，重新提交给尝试搜索引擎。',
+  'plugin.timefactor.republish.description':
+    '更新文档的同时，重新提交给尝试搜索引擎。',
   'plugin.timefactor.release-draft': '是否启用草稿箱文档自动发布',
   'plugin.timefactor.release-draft.no': '否',
   'plugin.timefactor.release-draft.yes': '启用',
   'plugin.timefactor.daily-limit': '每天自动发布数量',
   'plugin.timefactor.daily-limit.suffix': '篇',
-  'plugin.timefactor.daily-limit.description': '设定后，每天从草稿箱发布指定数量的文章，默认100',
+  'plugin.timefactor.daily-limit.description':
+    '设定后，每天从草稿箱发布指定数量的文章，默认100',
   'plugin.timefactor.daily-limit.placeholder': '如：30',
   'plugin.timefactor.start-time': '每天发布开始时间',
   'plugin.timefactor.start-time.placeholder': '如：8',
@@ -946,7 +992,8 @@ export default {
   'plugin.timefactor.end-time.description': '如果填0，则表示23点结束',
   'plugin.timefactor.module': '开启的模型',
   'plugin.timefactor.category': '不参与更新的分类',
-  'plugin.timefactor.category.placeholder': '如果你想排除某些分类，可以在这里选择',
+  'plugin.timefactor.category.placeholder':
+    '如果你想排除某些分类，可以在这里选择',
   'plugin.titleimage.open': '标题自动配图配置',
   'plugin.titleimage.open.no': '关闭',
   'plugin.titleimage.open.yes': '开启',
@@ -1030,7 +1077,8 @@ export default {
   'plugin.user.phone': '手机号',
   'plugin.user.email': '邮箱地址',
   'plugin.user.password': '密码',
-  'plugin.user.password.description': '如果需要给该用户修改密码，请在这里填写，不少于6位',
+  'plugin.user.password.description':
+    '如果需要给该用户修改密码，请在这里填写，不少于6位',
   'plugin.user.is-retailer': '是否分销员',
   'plugin.user.is-retailer.no': '不是',
   'plugin.user.is-retailer.yes': '是',
@@ -1066,7 +1114,8 @@ export default {
   'plugin.watermark.batch-add': '批量给图片库的图片添加水印',
   'plugin.watermark.min-size': '最小添加水印图片',
   'plugin.watermark.min-size.suffix': '像素',
-  'plugin.watermark.min-size.description': '长宽同时小于这个尺寸的图片，不会添加水印',
+  'plugin.watermark.min-size.description':
+    '长宽同时小于这个尺寸的图片，不会添加水印',
   'plugin.weapp.appid': '小程序AppID',
   'plugin.weapp.app-secret': '小程序AppSecret',
   'plugin.weapp.push.setting': '消息推送配置',
@@ -1079,12 +1128,14 @@ export default {
   'plugin.weapp.default.tips':
     '安企CMS(AnQiCMS)默认小程序，同时支持百度智能小程序，微信小程序，QQ小程序，支付宝小程序，头条小程序。',
   'plugin.weapp.default.help': '小程序使用帮助：',
-  'plugin.weapp.default.source': '小程序源码地址：https://github.com/fesiong/anqicms-app/releases',
+  'plugin.weapp.default.source':
+    '小程序源码地址：https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': '下载默认小程序',
   'plugin.wechat.menu.delete.confirm': '确定要删除该条菜单吗？',
   'plugin.wechat.menu.submit.error': '提交出错',
   'plugin.wechat.menu.submit.confirm': '确定要更新公众号菜单吗？',
-  'plugin.wechat.menu.submit.content': '该操作将会将新设置的菜单同步到微信服务器。',
+  'plugin.wechat.menu.submit.content':
+    '该操作将会将新设置的菜单同步到微信服务器。',
   'plugin.wechat.menu.name': '菜单名称',
   'plugin.wechat.menu.type': '类型',
   'plugin.wechat.menu.type.click': '文本菜单',
@@ -1093,7 +1144,8 @@ export default {
   'plugin.wechat.menu.value.description':
     '文本菜单请填写文字，链接菜单请填写url地址，不超过128字符',
   'plugin.wechat.menu': '微信菜单',
-  'plugin.wechat.menu.tips': '注意：一级菜单最多3个，每个一级菜单的二级菜单最多5个。',
+  'plugin.wechat.menu.tips':
+    '注意：一级菜单最多3个，每个一级菜单的二级菜单最多5个。',
   'plugin.wechat.menu.submit': '更新公众号菜单',
   'plugin.wechat.menu.add': '添加菜单',
   'plugin.wechat.menu.top': '顶级菜单',
@@ -1132,4 +1184,38 @@ export default {
   'plugin.type.archive': '文档功能',
   'plugin.type.user-mall': '用户/商城',
   'plugin.type.system': '系统功能',
+  'plugin.limiter.open.name': '开启网站安全防护',
+  'plugin.limiter.open.false': '关闭',
+  'plugin.limiter.open.true': '开启',
+  'plugin.limiter.description': '开启后，下面的设置才生效',
+  'plugin.limiter.max_requests': '临时封禁IP',
+  'plugin.limiter.max_requests.prefix': '最近5分钟访问次数达到',
+  'plugin.limiter.max_requests.suffix': '次',
+  'plugin.limiter.max_requests.description': '如果不填写，默认100次',
+  'plugin.limiter.block_hours': '临时封禁时长',
+  'plugin.limiter.block_hours.prefix': '临时封禁',
+  'plugin.limiter.block_hours.suffix': '小时',
+  'plugin.limiter.block_hours.description': '如果不填写，默认1小时',
+  'plugin.limiter.white_ips': '白名单IP',
+  'plugin.limiter.white_ips.description':
+    '一行一个，支持IP和IP段，如：192.168.2.0/24',
+  'plugin.limiter.black_ips': '黑名单IP',
+  'plugin.limiter.black_ips.description':
+    '一行一个，支持IP和IP段，如：192.168.2.0/24',
+  'plugin.limiter.block_agents': '限制特定UserAgent',
+  'plugin.limiter.block_agents.description':
+    '一行一个，使用这些UserAgent的访问将会被拒绝',
+  'plugin.limiter.allow_prefixes': '排除特定路径前缀',
+  'plugin.limiter.allow_prefixes.placeholder': '如：/api',
+  'plugin.limiter.allow_prefixes.description':
+    '一行一个，使用包含这些前缀的路径将会被放行',
+  'plugin.limiter.is_allow_spider': '是否放行蜘蛛',
+  'plugin.limiter.is_allow_spider.no': '否',
+  'plugin.limiter.is_allow_spider.yes': '是',
+  'plugin.limiter.is_allow_spider.description':
+    '如果选择了是，则蜘蛛访问将会被放行，为了不影响蜘蛛收录，请选择是',
+  'plugin.limiter.blocked_ips': '被临时封禁的IP',
+  'plugin.limiter.blocked_ips.remove': '取消封禁',
+  'plugin.limiter.blocked_ips.remove.yes': '解除',
+  'plugin.limiter.blocked_ips.ended': '到期：',
 };
