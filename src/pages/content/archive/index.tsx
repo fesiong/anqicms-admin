@@ -749,6 +749,7 @@ const ArchiveList: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'content.create-update-time' }),
       hideInSearch: true,
+      sorter: true,
       dataIndex: 'created_time',
       render: (_, record) => {
         return (

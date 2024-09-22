@@ -20,6 +20,7 @@ import {
   getStore,
   removeStore,
   setSessionStore,
+  setStore,
 } from './utils/store';
 
 const loginPath = '/login';
@@ -229,7 +230,10 @@ export const request: RuntimeConfig['request'] = {
           });
           return Promise.reject(data);
         }
-
+        // 检查 header中是否有 update-token, 有的话，就更新 adminToken
+        if (response['headers']['update-token']) {
+          setStore('adminToken', response['headers']['update-token']);
+        }
         return response;
       },
     ],

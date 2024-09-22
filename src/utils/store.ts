@@ -4,7 +4,7 @@ let storage: any = {};
 if (typeof localStorage !== 'undefined') {
   storage = localStorage;
 }
-const keyPfx = 'sh-';
+const keyPfx = 'anqi-';
 
 export function setStore(key: string, value: any) {
   let data = JSON.stringify(value);
