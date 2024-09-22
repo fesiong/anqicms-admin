@@ -61,10 +61,6 @@ const PluginTimeFactor: React.FC<any> = () => {
   }, []);
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(
-      intl.formatMessage({ id: 'setting.system.submitting' }),
-      0,
-    );
     if (values.open) {
       if (!values.module_ids || values.module_ids.length === 0) {
         message.error(
@@ -90,6 +86,10 @@ const PluginTimeFactor: React.FC<any> = () => {
         );
       }
     }
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginSaveTimefactorSetting(values)
       .then((res) => {
         message.success(res.msg);
