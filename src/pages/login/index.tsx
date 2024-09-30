@@ -377,6 +377,13 @@ const Login: React.FC = () => {
                   </p>
                   <p>
                     <FormattedMessage id="pages.login.step.file.tips3" />
+                    <a
+                      href={`${siteInfo.base_url}/${findStatus.token}.txt`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <FormattedMessage id="pages.login.step.file.visit" />
+                    </a>
                   </p>
                   <p>
                     <FormattedMessage id="pages.login.step.file.tips4" />

@@ -32,14 +32,17 @@ export default {
   'pages.login.step.file.tips3': '3. 確認驗證文件可以正常訪問',
   'pages.login.step.file.tips4': '4. 請點選「完成驗證」按鈕',
   'pages.login.step.dns': 'DNS驗證',
-  'pages.login.step.dns.tips1': '1. 登入您的網域供應商網站（例如 wanwang.aliyun.com 和 dns.com）',
+  'pages.login.step.dns.tips1':
+    '1. 登入您的網域供應商網站（例如 wanwang.aliyun.com 和 dns.com）',
   'pages.login.step.dns.tips2.before': '2. 將下面的 TXT 記錄複製到',
   'pages.login.step.dns.tips2.after': '的 DNS 配置中',
   'pages.login.step.copy-success': '內容已複製',
   'pages.login.step.copy': '複製',
-  'pages.login.step.dns.tips2.tips': '請注意：DNS 變更可能要過一段時間才會生效。請解析後等待幾分鐘再點完成驗證。',
+  'pages.login.step.dns.tips2.tips':
+    '請注意：DNS 變更可能要過一段時間才會生效。請解析後等待幾分鐘再點完成驗證。',
   'pages.login.step.dns.tips3': '3. 請點選「完成驗證」按鈕',
   'pages.login.step.file.tips': '驗證文件放置於網站的public目錄下',
   'pages.login.step.dns.tips': '新增一條TXT網域解析完成驗證',
+  'pages.login.step.file.visit': '嘗試訪問',
   'app.links.anqicms': '安企CMS(AnqiCMS)',
 };

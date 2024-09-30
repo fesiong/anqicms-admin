@@ -32,14 +32,17 @@ export default {
   'pages.login.step.file.tips3': '3. 确认验证文件可以正常访问',
   'pages.login.step.file.tips4': '4. 请点击“完成验证”按钮',
   'pages.login.step.dns': 'DNS验证',
-  'pages.login.step.dns.tips1': '1. 登录到您的域名提供商网站（例如 wanwang.aliyun.com 和 dns.com）',
+  'pages.login.step.dns.tips1':
+    '1. 登录到您的域名提供商网站（例如 wanwang.aliyun.com 和 dns.com）',
   'pages.login.step.dns.tips2.before': '2. 将下面的 TXT 记录复制到 ',
   'pages.login.step.dns.tips2.after': ' 的 DNS 配置中',
   'pages.login.step.copy-success': '内容已复制',
   'pages.login.step.copy': '复制',
-  'pages.login.step.dns.tips2.tips': '请注意：DNS 更改可能要过一段时间才会生效。请解析后等待几分钟再点完成验证。',
+  'pages.login.step.dns.tips2.tips':
+    '请注意：DNS 更改可能要过一段时间才会生效。请解析后等待几分钟再点完成验证。',
   'pages.login.step.dns.tips3': '3. 请点击“完成验证”按钮',
   'pages.login.step.file.tips': '验证文件放置于网站的public目录下',
   'pages.login.step.dns.tips': '添加一条TXT域名解析完成验证',
+  'pages.login.step.file.visit': '尝试访问',
   'app.links.anqicms': '安企CMS(AnqiCMS)',
 };

@@ -54,6 +54,7 @@ export default {
   'menu.plugin.interference': '防采集干扰码',
   'menu.plugin.watermark': '图片添加水印',
   'menu.plugin.limiter': '网站安全防护',
+  'menu.plugin.multilang': '多语言支持',
   'menu.design': '模板设计',
   'menu.design.index': '我的模板',
   'menu.design.editor': '修改代码',
