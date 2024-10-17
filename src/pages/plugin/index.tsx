@@ -22,6 +22,7 @@ import icon_interference from '@/images/icon_interference.png';
 import icon_keyword from '@/images/icon_keyword.png';
 import icon_limiter from '@/images/icon_limiter.png';
 import icon_material from '@/images/icon_material.png';
+import icon_multilang from '@/images/icon_multilang.png';
 import icon_order from '@/images/icon_order.png';
 import icon_pay from '@/images/icon_pay.png';
 import icon_push from '@/images/icon_push.png';
@@ -36,6 +37,7 @@ import icon_storage from '@/images/icon_storage.png';
 import icon_timefactor from '@/images/icon_timefactor.png';
 import icon_titleimage from '@/images/icon_titleimage.png';
 import icon_transfer from '@/images/icon_transfer.png';
+import icon_translate from '@/images/icon_translate.png';
 import icon_user from '@/images/icon_user.png';
 import icon_watermark from '@/images/icon_watermark.png';
 import icon_weapp from '@/images/icon_weapp.png';
@@ -142,6 +144,10 @@ const PluginIndex: React.FC = () => {
         return icon_watermark;
       case 'limiter':
         return icon_limiter;
+      case 'multilang':
+        return icon_multilang;
+      case 'translate':
+        return icon_translate;
     }
   };
 

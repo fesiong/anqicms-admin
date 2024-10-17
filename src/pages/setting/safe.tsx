@@ -1,6 +1,6 @@
+import NewContainer from '@/components/NewContainer';
 import { getSettingSafe, saveSettingSafe } from '@/services';
 import {
-  PageContainer,
   ProForm,
   ProFormRadio,
   ProFormText,
@@ -12,12 +12,19 @@ import React, { useEffect, useState } from 'react';
 
 const SettingSafeFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
     const res = await getSettingSafe();
     let setting = res.data || null;
     setSetting(setting);
+  };
+
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
   };
 
   useEffect(() => {
@@ -30,7 +37,10 @@ const SettingSafeFrom: React.FC<any> = () => {
     values.daily_limit = Number(values.daily_limit);
     values.content_limit = Number(values.content_limit);
     values.interval_limit = Number(values.interval_limit);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSettingSafe(values)
       .then((res) => {
         message.success(res.msg);
@@ -44,8 +54,8 @@ const SettingSafeFrom: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         {setting && (
           <ProForm
             initialValues={setting}
@@ -62,10 +72,14 @@ const SettingSafeFrom: React.FC<any> = () => {
                 },
                 {
                   value: 1,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'setting.safe.admin-captcha.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.admin-captcha.description',
+              })}
             />
             <ProFormRadio.Group
               name="captcha"
@@ -73,59 +87,83 @@ const SettingSafeFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
                   label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'setting.safe.captcha.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.captcha.description',
+              })}
             />
             <ProFormText
               name="daily_limit"
               label={intl.formatMessage({ id: 'setting.safe.daily-limit' })}
               width="lg"
               fieldProps={{
-                suffix: intl.formatMessage({ id: 'setting.safe.daily-limit.suffix' }),
+                suffix: intl.formatMessage({
+                  id: 'setting.safe.daily-limit.suffix',
+                }),
               }}
-              extra={intl.formatMessage({ id: 'setting.safe.daily-limit.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.daily-limit.description',
+              })}
             />
             <ProFormText
               name="content_limit"
               label={intl.formatMessage({ id: 'setting.safe.content-limit' })}
               width="lg"
               fieldProps={{
-                suffix: intl.formatMessage({ id: 'setting.safe.content-limit.suffix' }),
+                suffix: intl.formatMessage({
+                  id: 'setting.safe.content-limit.suffix',
+                }),
               }}
-              extra={intl.formatMessage({ id: 'setting.safe.daily-limit.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.daily-limit.description',
+              })}
             />
             <ProFormText
               name="interval_limit"
               label={intl.formatMessage({ id: 'setting.safe.interval-limit' })}
               width="lg"
               fieldProps={{
-                suffix: intl.formatMessage({ id: 'setting.safe.interval-limit.suffix' }),
+                suffix: intl.formatMessage({
+                  id: 'setting.safe.interval-limit.suffix',
+                }),
               }}
-              extra={intl.formatMessage({ id: 'setting.safe.daily-limit.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.daily-limit.description',
+              })}
             />
             <ProFormTextArea
               name="content_forbidden"
-              label={intl.formatMessage({ id: 'setting.safe.content-forbidden' })}
+              label={intl.formatMessage({
+                id: 'setting.safe.content-forbidden',
+              })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.safe.content-forbidden.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.content-forbidden.description',
+              })}
             />
             <ProFormTextArea
               name="ua_forbidden"
               label={intl.formatMessage({ id: 'setting.safe.ua-forbidden' })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.safe.ua-forbidden.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.ua-forbidden.description',
+              })}
             />
             <ProFormTextArea
               name="ip_forbidden"
               label={intl.formatMessage({ id: 'setting.safe.ip-forbidden' })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.safe.ip-forbidden.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.ip-forbidden.description',
+              })}
             />
             <ProFormRadio.Group
               name="api_open"
@@ -133,14 +171,18 @@ const SettingSafeFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
                   label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'setting.safe.api-open.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.safe.api-open.description',
+              })}
             />
             <ProFormRadio.Group
               name="api_publish"
@@ -148,18 +190,22 @@ const SettingSafeFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.safe.api-publish.draft' }),
+                  label: intl.formatMessage({
+                    id: 'setting.safe.api-publish.draft',
+                  }),
                 },
                 {
                   value: 1,
-                  label: intl.formatMessage({ id: 'setting.safe.api-publish.normal' }),
+                  label: intl.formatMessage({
+                    id: 'setting.safe.api-publish.normal',
+                  }),
                 },
               ]}
             />
           </ProForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

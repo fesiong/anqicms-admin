@@ -1364,4 +1364,56 @@ export default {
   'plugin.limiter.blocked_ips.remove': 'Buka blokir',
   'plugin.limiter.blocked_ips.remove.yes': 'Hapus',
   'plugin.limiter.blocked_ips.ended': 'Kedaluwarsa:',
+  'content.multilang.remove.confirm':
+    'Apakah Anda yakin ingin menghapus situs multibahasa ini? ',
+  'content.multilang.sync.confirm':
+    'Apakah Anda yakin ingin menyinkronkan konten situs? ',
+  'content.multilang.name': 'nama',
+  'content.multilang.is-main': 'situs utama',
+  'content.multilang.domain': 'Nama domain',
+  'konten.multilang.bahasa': 'Bahasa',
+  'content.multilang.sync-time': 'Waktu sinkronisasi konten',
+  'setting.multilang.sync': 'Konten tersinkronisasi',
+  'setting.multilang.login': 'Latar belakang masuk',
+  'plugin.multilang.open.name':
+    'Apakah akan mengaktifkan dukungan situs multi-bahasa',
+  'plugin.multilang.open.false': 'Tidak',
+  'plugin.multilang.open.true': 'Ya',
+  'plugin.multilang.open.description':
+    'Setelah mengaktifkan dukungan situs multi-bahasa, Anda akan dapat mendukung tampilan multi-bahasa di situs web Anda',
+  'plugin.multilang.type': 'Formulir tampilan multi-situs',
+  'plugin.multilang.type.domain': 'Nama domain independen',
+  'plugin.multilang.type.direction': 'Direktori independen',
+  'plugin.multilang.type.same-url': 'URL tidak berubah',
+  'plugin.multilang.type.description':
+    'Hasil tampilan berbeda-beda dalam bentuk yang berbeda. Bentuk nama domain independen adalah nama domain tersendiri untuk setiap bahasa, bentuk direktori independen adalah direktori untuk setiap bahasa, dan bentuk konstanta URL apakah semua bahasa mengarah ke URL yang sama',
+  'plugin.multilang.default_lingual': 'Bahasa situs utama',
+  'plugin.multilang.auto_translate':
+    'Apakah akan menerjemahkan secara otomatis',
+  'plugin.multilang.auto_translate.false': 'Tidak',
+  'plugin.multilang.auto_translate.true': 'Ya',
+  'plugin.multilang.auto_translate.description':
+    'Terjemahan otomatis adalah fungsi berbayar, silakan periksa situs web resmi untuk harga spesifik',
+  'plugin.multilang.sites': 'Daftar situs multi-bahasa',
+  'content.multilang.add': 'Tambahkan situs',
+  'content.multilang.edit': 'Edit situs multibahasa',
+  'content.multilang.select': 'Pilih situs',
+  'content.multilang.select.description':
+    'Pilih situs yang sudah dibuat sebagai situs multi-bahasa',
+  'plugin.multilang.bahasa': 'bahasa situs',
+  'plugin.translate.lang': 'Terjemahkan bahasa',
+  'content.translate.origin-content': 'teks asli',
+  'plugin.translate.result': 'Hasil terjemahan',
+  'plugin.translate.tips':
+    'Antarmuka terjemahan menggunakan antarmuka resmi secara default. Terjemahan Baidu dan Terjemahan Youdao bersifat opsional dan perlu dikonfigurasi sendiri',
+  'plugin.translate.view-log': 'Lihat catatan terjemahan',
+  'plugin.translate.engine': 'Pilih antarmuka terjemahan',
+  'plugin.translate.engine.anqicms': 'Antarmuka resmi',
+  'plugin.translate.engine.baidu': 'Terjemahan Baidu',
+  'plugin.translate.engine.youdao': 'Terjemahan Youdao',
+  'plugin.translate.engine.baidu.app-id': 'APPID',
+  'plugin.translate.engine.baidu.app-secret': 'Kunci',
+  'plugin.translate.engine.youdao.app-id': 'ID Aplikasi',
+  'plugin.translate.engine.youdao.app-secret': 'Kunci rahasia aplikasi',
+  'plugin.translate.logs': 'Catatan terjemahan',
 };

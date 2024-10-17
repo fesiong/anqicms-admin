@@ -54,6 +54,8 @@ export default {
   'menu.plugin.interference': 'کد تداخل ضد جمع آوری',
   'menu.plugin.watermark': 'اضافه کردن واترمارک به تصاویر',
   'menu.plugin.limiter': 'محافظت از امنیت وب سایت',
+  'menu.plugin.multilang': 'پشتیبانی از سایت چند زبانه',
+  'menu.plugin.translate': 'پیکربندی ترجمه',
   'menu.design': 'طراحی قالب',
   'menu.design.index': 'قالب من',
   'menu.design.editor': 'کد را اصلاح کنید',

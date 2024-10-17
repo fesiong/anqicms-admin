@@ -54,6 +54,8 @@ export default {
   'menu.plugin.interference': '防採集幹擾碼',
   'menu.plugin.watermark': '圖片添加浮水印',
   'menu.plugin.limiter': '網站安全防護',
+  'menu.plugin.multilang': '多語言網站支援',
+  'menu.plugin.translate': '翻譯配置',
   'menu.design': '模板設計',
   'menu.design.index': '我的模板',
   'menu.design.editor': '修改程式碼',

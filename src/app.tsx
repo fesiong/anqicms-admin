@@ -200,6 +200,10 @@ export const request: RuntimeConfig['request'] = {
       if (siteId) {
         config.headers['Site-Id'] = siteId;
       }
+      const subSiteId = getSessionStore('sub-site-id');
+      if (subSiteId) {
+        config.headers['Sub-Site-Id'] = subSiteId;
+      }
       const selectLang = getLocale();
       if (selectLang) {
         config.headers['Accept-Language'] = selectLang;

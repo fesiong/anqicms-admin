@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import AiGenerate from '@/components/aiGenerate';
 import ArchiveSearch from '@/components/archiveSearch';
 import AttachmentSelect from '@/components/attachment';
@@ -20,7 +21,6 @@ import { getTags } from '@/services/tag';
 import { getStore, removeStore, setStore } from '@/utils/store';
 import { CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  PageContainer,
   ProForm,
   ProFormCheckbox,
   ProFormDateTimePicker,
@@ -59,6 +59,7 @@ class ArchiveForm extends React.Component<intlProps> {
 
     aiVisible: false,
     aiTitle: '',
+    newKey: '',
   };
 
   submitted = false;
@@ -68,7 +69,7 @@ class ArchiveForm extends React.Component<intlProps> {
 
   editorRef = React.createRef<any>();
 
-  componentDidMount = async () => {
+  initArchive = async () => {
     try {
       const setting = await getSettingContent();
       this.setState({
@@ -140,8 +141,23 @@ class ArchiveForm extends React.Component<intlProps> {
         }
       },
     );
+  };
+
+  componentDidMount = async () => {
+    this.initArchive();
 
     window.addEventListener('beforeunload', this.beforeunload);
+  };
+
+  onTabChange = (key: string) => {
+    this.setState({
+      fetched: false,
+    });
+    this.initArchive().then(() => {
+      this.setState({
+        newKey: key,
+      });
+    });
   };
 
   beforeunload = (e: any) => {
@@ -558,16 +574,18 @@ class ArchiveForm extends React.Component<intlProps> {
       contentSetting,
       archiveSearchVisible,
       relations,
+      newKey,
     } = this.state;
     return (
-      <PageContainer
+      <NewContainer
         title={
           archive.id > 0
             ? this.props.intl.formatMessage({ id: 'content.archive.edit' })
             : this.props.intl.formatMessage({ id: 'content.archive.add' })
         }
+        onTabChange={(key) => this.onTabChange(key)}
       >
-        <Card onKeyDown={this.handleKeyDown}>
+        <Card key={newKey} onKeyDown={this.handleKeyDown}>
           {fetched && (
             <ProForm
               initialValues={archive}
@@ -1317,7 +1335,7 @@ class ArchiveForm extends React.Component<intlProps> {
             onSubmit={this.handleSelectedArchives}
           />
         )}
-      </PageContainer>
+      </NewContainer>
     );
   }
 }

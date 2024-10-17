@@ -6,6 +6,7 @@ import {
   saveAiGenerateSetting,
 } from '@/services';
 import { getCategories } from '@/services/category';
+import { supportLanguages } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
@@ -68,7 +69,11 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
   handleSubmit = async (values: any) => {
     const { setting } = this.state;
     if (values.demand.length > 500) {
-      message.error(this.props.intl.formatMessage({ id: 'plugin.aigenerate.demand.required' }));
+      message.error(
+        this.props.intl.formatMessage({
+          id: 'plugin.aigenerate.demand.required',
+        }),
+      );
       return;
     }
     const postData = Object.assign(setting, values);
@@ -211,7 +216,8 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
   };
 
   render() {
-    const { visible, fetched, setting, tmpInput, insertImage, aiEngine } = this.state;
+    const { visible, fetched, setting, tmpInput, insertImage, aiEngine } =
+      this.state;
 
     return (
       <>
@@ -225,7 +231,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         {fetched && (
           <ModalForm
             width={800}
-            title={this.props.intl.formatMessage({ id: 'plugin.aigenerate.setting' })}
+            title={this.props.intl.formatMessage({
+              id: 'plugin.aigenerate.setting',
+            })}
             initialValues={setting}
             open={visible}
             //layout="horizontal"
@@ -241,130 +249,54 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
           >
             <ProFormRadio.Group
               name="open"
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.isopen' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.isopen',
+              })}
               options={[
                 {
-                  label: this.props.intl.formatMessage({ id: 'plugin.aigenerate.isopen.no' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.isopen.no',
+                  }),
                   value: false,
                 },
                 {
-                  label: this.props.intl.formatMessage({ id: 'plugin.aigenerate.isopen.yes' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.isopen.yes',
+                  }),
                   value: true,
                 },
               ]}
             />
             <ProFormRadio.Group
               name="language"
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.language' })}
-              options={[
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.zh-cn' }),
-                  value: 'zh',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.en' }),
-                  value: 'en',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.zh-tw' }),
-                  value: 'zh-tw',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.vi' }),
-                  value: 'vi',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.id' }),
-                  value: 'id',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.hi' }),
-                  value: 'hi',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.it' }),
-                  value: 'it',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.el' }),
-                  value: 'el',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.es' }),
-                  value: 'es',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.pt' }),
-                  value: 'pt',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.sr' }),
-                  value: 'sr',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.my' }),
-                  value: 'my',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.bn' }),
-                  value: 'bn',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.th' }),
-                  value: 'th',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.tr' }),
-                  value: 'tr',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.ja' }),
-                  value: 'ja',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.lo' }),
-                  value: 'lo',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.ko' }),
-                  value: 'ko',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.ru' }),
-                  value: 'ru',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.fr' }),
-                  value: 'fr',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.de' }),
-                  value: 'de',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.fa' }),
-                  value: 'fa',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.ar' }),
-                  value: 'ar',
-                },
-                {
-                  label: this.props.intl.formatMessage({ id: 'content.translate.ms' }),
-                  value: 'ms',
-                },
-              ]}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.language',
+              })}
+              options={supportLanguages.map((item) => {
+                return {
+                  label: this.props.intl.formatMessage({
+                    id: 'content.translate.' + item.label,
+                  }),
+                  value: item.value,
+                };
+              })}
             />
             <ProFormRadio.Group
               name="double_title"
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.double-title' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.double-title',
+              })}
               options={[
                 {
-                  label: this.props.intl.formatMessage({ id: 'content.module.field.isfilter.no' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'content.module.field.isfilter.no',
+                  }),
                   value: false,
                 },
                 {
-                  label: this.props.intl.formatMessage({ id: 'content.module.field.isfilter.yes' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'content.module.field.isfilter.yes',
+                  }),
                   value: true,
                 },
               ]}
@@ -418,27 +350,39 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             />
             <ProFormTextArea
               name="demand"
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.demand' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.demand',
+              })}
               fieldProps={{
                 maxLength: 500,
               }}
-              extra={this.props.intl.formatMessage({ id: 'plugin.aigenerate.demand.description' })}
+              extra={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.demand.description',
+              })}
             />
             <ProFormRadio.Group
               name="ai_engine"
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.source' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.source',
+              })}
               options={[
                 {
-                  label: this.props.intl.formatMessage({ id: 'plugin.aigenerate.source.anqicms' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.source.anqicms',
+                  }),
                   value: '',
                 },
                 {
-                  label: this.props.intl.formatMessage({ id: 'plugin.aigenerate.source.openai' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.source.openai',
+                  }),
                   value: 'openai',
                   disabled: !setting.api_valid,
                 },
                 {
-                  label: this.props.intl.formatMessage({ id: 'plugin.aigenerate.source.spark' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.source.spark',
+                  }),
                   value: 'spark',
                 },
               ]}
@@ -463,70 +407,93 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               }
             />
             {aiEngine === 'openai' && (
-              <ProFormText
-                label="OpenAI Keys"
-                extra={
-                  <div>
-                    <div className="text-muted">
-                      <div>
-                        <span className="text-red">*</span>
-                        <FormattedMessage id="plugin.aigenerate.openai.description" />
+              <>
+                {' '}
+                <ProFormText
+                  label="OpenAI Keys"
+                  extra={
+                    <div>
+                      <div className="text-muted">
+                        <div>
+                          <span className="text-red">*</span>
+                          <FormattedMessage id="plugin.aigenerate.openai.description" />
+                        </div>
+                      </div>
+                      <div className="tag-lists">
+                        <Space size={[12, 12]} wrap>
+                          {setting.open_ai_keys?.map(
+                            (tag: any, index: number) => (
+                              <span className="edit-tag" key={index}>
+                                <span className="key">{tag.key}</span>
+                                <span className="divide">
+                                  <span className="value">
+                                    {tag.invalid
+                                      ? this.props.intl.formatMessage({
+                                          id: 'plugin.aigenerate.openai.invalid',
+                                        })
+                                      : this.props.intl.formatMessage({
+                                          id: 'plugin.aigenerate.openai.valid',
+                                        })}
+                                  </span>
+                                </span>
+                                <span
+                                  className="close"
+                                  onClick={this.handleRemove.bind(
+                                    this,
+                                    'open_ai_keys',
+                                    index,
+                                  )}
+                                >
+                                  ×
+                                </span>
+                              </span>
+                            ),
+                          )}
+                        </Space>
                       </div>
                     </div>
-                    <div className="tag-lists">
-                      <Space size={[12, 12]} wrap>
-                        {setting.open_ai_keys?.map((tag: any, index: number) => (
-                          <span className="edit-tag" key={index}>
-                            <span className="key">{tag.key}</span>
-                            <span className="divide">
-                              <span className="value">
-                                {tag.invalid
-                                  ? this.props.intl.formatMessage({
-                                      id: 'plugin.aigenerate.openai.invalid',
-                                    })
-                                  : this.props.intl.formatMessage({
-                                      id: 'plugin.aigenerate.openai.valid',
-                                    })}
-                              </span>
-                            </span>
-                            <span
-                              className="close"
-                              onClick={this.handleRemove.bind(this, 'open_ai_keys', index)}
-                            >
-                              ×
-                            </span>
-                          </span>
-                        ))}
-                      </Space>
-                    </div>
-                  </div>
-                }
-              >
-                <Input.Group compact>
-                  <Input
-                    value={tmpInput.key || ''}
-                    onChange={this.handleChangeTmpInput.bind(this, 'key')}
-                    onPressEnter={this.handleAddField.bind(this, 'open_ai_keys')}
-                    suffix={
-                      <a onClick={this.handleAddField.bind(this, 'open_ai_keys')}>
-                        <FormattedMessage id="plugin.aigenerate.enter-to-add" />
-                      </a>
-                    }
-                  />
-                </Input.Group>
-              </ProFormText>
+                  }
+                >
+                  <Input.Group compact>
+                    <Input
+                      value={tmpInput.key || ''}
+                      onChange={this.handleChangeTmpInput.bind(this, 'key')}
+                      onPressEnter={this.handleAddField.bind(
+                        this,
+                        'open_ai_keys',
+                      )}
+                      suffix={
+                        <a
+                          onClick={this.handleAddField.bind(
+                            this,
+                            'open_ai_keys',
+                          )}
+                        >
+                          <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                        </a>
+                      }
+                    />
+                  </Input.Group>
+                </ProFormText>
+              </>
             )}
             {aiEngine === 'spark' && (
               <>
                 <div className="mb-normal">
                   <FormattedMessage id="plugin.aigenerate.spark.description" />:
-                  <a href="https://xinghuo.xfyun.cn/sparkapi?ch=gjp" target="_blank">
+                  <a
+                    href="https://xinghuo.xfyun.cn/sparkapi?ch=gjp"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     https://xinghuo.xfyun.cn/sparkapi?ch=gjp
                   </a>
                 </div>
                 <ProFormRadio.Group
                   name={['spark', 'version']}
-                  label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.spark.version' })}
+                  label={this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.spark.version',
+                  })}
                   options={[
                     { label: 'Spark Lite(Free)', value: '1.5' },
                     { label: 'Spark V2.0', value: '2.0' },
@@ -540,7 +507,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               </>
             )}
             <ProFormSelect
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.default-category' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.default-category',
+              })}
               name="category_ids"
               mode="multiple"
               required
@@ -557,16 +526,26 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   value: 'id',
                 },
                 optionItemRender(item: any) {
-                  return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
+                  return (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: item.spacer + item.title,
+                      }}
+                    ></div>
+                  );
                 },
               }}
             />
             <ProFormRadio.Group
               name="save_type"
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.save-type' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.save-type',
+              })}
               options={[
                 {
-                  label: this.props.intl.formatMessage({ id: 'plugin.aigenerate.save-type.draft' }),
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.save-type.draft',
+                  }),
                   value: 0,
                 },
                 {
@@ -580,7 +559,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             <ProForm.Group>
               <ProFormDigit
                 name="start_hour"
-                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.start-time' })}
+                label={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.start-time',
+                })}
                 placeholder=""
                 extra={this.props.intl.formatMessage({
                   id: 'plugin.aigenerate.start-time.description',
@@ -588,7 +569,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               />
               <ProFormDigit
                 name="end_hour"
-                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.end-time' })}
+                label={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.end-time',
+                })}
                 placeholder=""
                 extra={this.props.intl.formatMessage({
                   id: 'plugin.aigenerate.end-time.description',
@@ -596,7 +579,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               />
               <ProFormDigit
                 name="daily_limit"
-                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.daily-limit' })}
+                label={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.daily-limit',
+                })}
                 placeholder=""
                 extra={this.props.intl.formatMessage({
                   id: 'plugin.aigenerate.daily-limit.description',
@@ -605,7 +590,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             </ProForm.Group>
             <ProFormRadio.Group
               name="insert_image"
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.insert-image' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.insert-image',
+              })}
               options={[
                 {
                   label: this.props.intl.formatMessage({
@@ -634,7 +621,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             />
             {insertImage === 2 && (
               <ProFormText
-                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.insert-image.list' })}
+                label={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.insert-image.list',
+                })}
               >
                 <div className="insert-image">
                   <Row gutter={[16, 16]} className="image-list">
@@ -643,10 +632,18 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                         <div className="image-item">
                           <div className="inner">
                             <div className="link">
-                              <Image className="img" preview={true} src={item} />
+                              <Image
+                                className="img"
+                                preview={true}
+                                src={item}
+                              />
                               <span
                                 className="close"
-                                onClick={this.handleRemove.bind(this, 'images', index)}
+                                onClick={this.handleRemove.bind(
+                                  this,
+                                  'images',
+                                  index,
+                                )}
                               >
                                 <FormattedMessage id="setting.system.delete" />
                               </span>
@@ -683,7 +680,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
             )}
             {insertImage === 3 && (
               <ProFormSelect
-                label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.image.category' })}
+                label={this.props.intl.formatMessage({
+                  id: 'plugin.aigenerate.image.category',
+                })}
                 name="image_category_id"
                 required
                 extra={this.props.intl.formatMessage({
@@ -722,7 +721,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               />
             )}
             <ProFormText
-              label={this.props.intl.formatMessage({ id: 'plugin.aigenerate.replace' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.aigenerate.replace',
+              })}
               extra={
                 <div>
                   <div className="text-muted">
@@ -772,24 +773,32 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
-                      {setting.content_replace?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag.from}</span>
-                          <span className="divide">
-                            <FormattedMessage id="plugin.aigenerate.replace.to" />
+                      {setting.content_replace?.map(
+                        (tag: any, index: number) => (
+                          <span className="edit-tag" key={index}>
+                            <span className="key">{tag.from}</span>
+                            <span className="divide">
+                              <FormattedMessage id="plugin.aigenerate.replace.to" />
+                            </span>
+                            <span className="value">
+                              {tag.to ||
+                                this.props.intl.formatMessage({
+                                  id: 'plugin.aigenerate.empty',
+                                })}
+                            </span>
+                            <span
+                              className="close"
+                              onClick={this.handleRemove.bind(
+                                this,
+                                'content_replace',
+                                index,
+                              )}
+                            >
+                              ×
+                            </span>
                           </span>
-                          <span className="value">
-                            {tag.to ||
-                              this.props.intl.formatMessage({ id: 'plugin.aigenerate.empty' })}
-                          </span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'content_replace', index)}
-                          >
-                            ×
-                          </span>
-                        </span>
-                      ))}
+                        ),
+                      )}
                     </Space>
                   </div>
                 </div>
@@ -800,7 +809,10 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   style={{ width: '40%' }}
                   value={tmpInput.from || ''}
                   onChange={this.handleChangeTmpInput.bind(this, 'from')}
-                  onPressEnter={this.handleAddField.bind(this, 'content_replace')}
+                  onPressEnter={this.handleAddField.bind(
+                    this,
+                    'content_replace',
+                  )}
                 />
                 <span className="input-divide">
                   <FormattedMessage id="plugin.aigenerate.replace.to" />
@@ -809,9 +821,17 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   style={{ width: '50%' }}
                   value={tmpInput.to || ''}
                   onChange={this.handleChangeTmpInput.bind(this, 'to')}
-                  onPressEnter={this.handleAddField.bind(this, 'content_replace')}
+                  onPressEnter={this.handleAddField.bind(
+                    this,
+                    'content_replace',
+                  )}
                   suffix={
-                    <a onClick={this.handleAddField.bind(this, 'content_replace')}>
+                    <a
+                      onClick={this.handleAddField.bind(
+                        this,
+                        'content_replace',
+                      )}
+                    >
                       <FormattedMessage id="plugin.aigenerate.enter-to-add" />
                     </a>
                   }

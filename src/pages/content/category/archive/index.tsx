@@ -1,6 +1,7 @@
+import NewContainer from '@/components/NewContainer';
 import { deleteCategory, getCategories, getModules } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
@@ -15,19 +16,34 @@ const ArchiveCategory: React.FC = () => {
   const [currentCategory, setCurrentCategory] = useState<any>({});
   const [modules, setModules] = useState<any[]>([]);
   const [multiVisible, setMultiVisible] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
+  const [isSubSite, setIsSubSite] = useState<boolean>(false);
   const intl = useIntl();
 
-  useEffect(() => {
-    getModules().then((res) => {
-      setModules(res.data || []);
+  const readModules = async () => {
+    const res = await getModules();
+    setModules(res.data || []);
+  };
+
+  const onTabChange = (key: string, isSubSite: boolean) => {
+    readModules().then(() => {
+      setNewKey(key);
+      setIsSubSite(isSubSite);
     });
+  };
+
+  useEffect(() => {
+    readModules();
   }, []);
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.category.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -51,7 +67,10 @@ const ArchiveCategory: React.FC = () => {
 
   const handleEditCategory = async (record: any) => {
     history.push(
-      '/archive/category/detail?id=' + (record.id || 'new') + '&parent_id=' + record.parent_id,
+      '/archive/category/detail?id=' +
+        (record.id || 'new') +
+        '&parent_id=' +
+        record.parent_id,
     );
   };
 
@@ -92,7 +111,10 @@ const ArchiveCategory: React.FC = () => {
       render: (dom, entity) => {
         return (
           <>
-            <div className="spacer" dangerouslySetInnerHTML={{ __html: entity.spacer }}></div>
+            <div
+              className="spacer"
+              dangerouslySetInnerHTML={{ __html: entity.spacer }}
+            ></div>
             <a href={entity.link} target="_blank">
               {dom}
             </a>
@@ -140,33 +162,41 @@ const ArchiveCategory: React.FC = () => {
       render: (_, record) => (
         <Space size={20}>
           <a
-            key="edit"
+            key="list"
             onClick={() => {
               handleShowArchives(record);
             }}
           >
             <FormattedMessage id="menu.archive.list" />
           </a>
-          <a
-            key="edit"
-            onClick={() => {
-              handleEditCategory({ parent_id: record.id, module_id: record.module_id, status: 1 });
-            }}
-          >
-            <FormattedMessage id="content.category.add-children" />
-          </a>
-          <a
-            key="edit"
-            onClick={() => {
-              handleAddMultiCategory({
-                parent_id: record.id,
-                module_id: record.module_id,
-                status: 1,
-              });
-            }}
-          >
-            <FormattedMessage id="content.category.batch-add-children" />
-          </a>
+          {!isSubSite && (
+            <>
+              <a
+                key="add-child"
+                onClick={() => {
+                  handleEditCategory({
+                    parent_id: record.id,
+                    module_id: record.module_id,
+                    status: 1,
+                  });
+                }}
+              >
+                <FormattedMessage id="content.category.add-children" />
+              </a>
+              <a
+                key="add"
+                onClick={() => {
+                  handleAddMultiCategory({
+                    parent_id: record.id,
+                    module_id: record.module_id,
+                    status: 1,
+                  });
+                }}
+              >
+                <FormattedMessage id="content.category.batch-add-children" />
+              </a>
+            </>
+          )}
           <a
             key="edit"
             onClick={() => {
@@ -190,29 +220,43 @@ const ArchiveCategory: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
+        key={newKey}
         headerTitle={intl.formatMessage({ id: 'menu.archive.category' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button
-            key="add"
-            onClick={() => {
-              handleAddMultiCategory({ parent_id: 0, module_id: null, status: 1 });
-            }}
-          >
-            <FormattedMessage id="content.category.batch-add" />
-          </Button>,
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              handleEditCategory({ parent_id: 0, module_id: null, status: 1 });
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="content.category.batch-add-top" />
-          </Button>,
+          !isSubSite && (
+            <Button
+              key="add"
+              onClick={() => {
+                handleAddMultiCategory({
+                  parent_id: 0,
+                  module_id: null,
+                  status: 1,
+                });
+              }}
+            >
+              <FormattedMessage id="content.category.batch-add" />
+            </Button>
+          ),
+          !isSubSite && (
+            <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                handleEditCategory({
+                  parent_id: 0,
+                  module_id: null,
+                  status: 1,
+                });
+              }}
+            >
+              <PlusOutlined />{' '}
+              <FormattedMessage id="content.category.batch-add-top" />
+            </Button>
+          ),
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>
@@ -268,7 +312,7 @@ const ArchiveCategory: React.FC = () => {
           }}
         />
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import ReplaceKeywords from '@/components/replaceKeywords';
 import {
   anqiAiPseudoArchive,
@@ -14,12 +15,12 @@ import {
   updateArchivesTime,
 } from '@/services';
 import { getCategories } from '@/services/category';
+import { supportLanguages } from '@/utils';
 import { getStore } from '@/utils/store';
 import { PlusOutlined, StarOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ModalForm,
-  PageContainer,
   ProColumnType,
   ProColumns,
   ProFormCheckbox,
@@ -76,6 +77,8 @@ const ArchiveList: React.FC = () => {
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
   const [firstFetch, setFirstFetch] = useState<boolean>(false);
   const [latestUpdateId, setLatestUpdateId] = useState<number>(0);
+  const [newKey, setNewKey] = useState<string>('');
+  const [isSubSite, setIsSubSite] = useState<boolean>(false);
   const intl = useIntl();
 
   const flagEnum: any = {
@@ -115,6 +118,16 @@ const ArchiveList: React.FC = () => {
     ) {
       setLatestUpdateId(latestUpdate.id || 0);
     }
+  };
+
+  const onTabChange = (key: string, isSubSite: boolean) => {
+    setModuleId(lastParams.module_id);
+    loadModules();
+    loadContentSetting();
+    loadLatestUpdate();
+
+    setNewKey(key);
+    setIsSubSite(isSubSite);
   };
 
   useEffect(() => {
@@ -293,7 +306,7 @@ const ArchiveList: React.FC = () => {
     history.push('/archive/detail?copyid=' + record.id);
   };
 
-  const handleTranslateArchive = async (record: any) => {
+  const handleTranslate = (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.translate.confirm' }),
       content: (
@@ -310,157 +323,83 @@ const ArchiveList: React.FC = () => {
             onChange={(e) => {
               toLanguage = e;
             }}
-            options={[
-              {
-                label: intl.formatMessage({ id: 'content.translate.select' }),
-                value: '',
-                disabled: true,
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.en' }),
-                value: 'en',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.zh-cn' }),
-                value: 'zh-CN',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.zh-tw' }),
-                value: 'zh-TW',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.vi' }),
-                value: 'vi',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.id' }),
-                value: 'id',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.hi' }),
-                value: 'hi',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.it' }),
-                value: 'it',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.el' }),
-                value: 'el',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.es' }),
-                value: 'es',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.pt' }),
-                value: 'pt',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.sr' }),
-                value: 'sr',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.my' }),
-                value: 'my',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.bn' }),
-                value: 'bn',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.th' }),
-                value: 'th',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.tr' }),
-                value: 'tr',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.ja' }),
-                value: 'ja',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.lo' }),
-                value: 'lo',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.ko' }),
-                value: 'ko',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.ru' }),
-                value: 'ru',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.fr' }),
-                value: 'fr',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.de' }),
-                value: 'de',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.fa' }),
-                value: 'fa',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.ar' }),
-                value: 'ar',
-              },
-              {
-                label: intl.formatMessage({ id: 'content.translate.ms' }),
-                value: 'ms',
-              },
-            ]}
+            options={supportLanguages.map((item) => {
+              return {
+                label: intl.formatMessage({
+                  id: 'content.translate.' + item.label,
+                }),
+                value: item.value,
+              };
+            })}
           />
         </div>
       ),
       onOk: async () => {
+        if (!selectedRowKeys) return true;
         const hide = message.loading(
           intl.formatMessage({ id: 'content.translate.translating' }),
           0,
         );
-        anqiTranslateArchive({
-          id: record.id,
-          to_language: toLanguage,
-        })
-          .then((res) => {
-            if (res.code === 0) {
-              actionRef.current?.reload?.();
-            }
-            message.info(res.msg);
-          })
-          .finally(() => {
-            hide();
-          });
+        try {
+          let msg = '';
+          for (let item of selectedRowKeys) {
+            const res = await anqiTranslateArchive({
+              id: item,
+              to_language: toLanguage,
+            });
+            msg = res.msg;
+          }
+          hide();
+          message.info(msg);
+          setSelectedRowKeys([]);
+          actionRef.current?.reloadAndRest?.();
+
+          return true;
+        } catch (error) {
+          hide();
+          return true;
+        }
       },
     });
   };
 
-  const handleAiPseudoArchive = async (record: any) => {
+  const handleTranslateArchive = async (record: any) => {
+    handleTranslate([record.id]);
+  };
+
+  const handleAiPseudo = async (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.pseudo.confirm' }),
       content: intl.formatMessage({ id: 'content.pseudo.content' }),
       onOk: async () => {
+        if (!selectedRowKeys) return true;
         const hide = message.loading(
           intl.formatMessage({ id: 'setting.system.submitting' }),
           0,
         );
-        anqiAiPseudoArchive({
-          id: record.id,
-        })
-          .then((res) => {
-            if (res.code === 0) {
-              actionRef.current?.reload?.();
-            }
-            message.info(res.msg);
-          })
-          .finally(() => {
-            hide();
-          });
+        try {
+          let msg = '';
+          for (let item of selectedRowKeys) {
+            const res = await anqiAiPseudoArchive({
+              id: item,
+            });
+            msg = res.msg;
+          }
+          hide();
+          message.info(msg);
+          setSelectedRowKeys([]);
+          actionRef.current?.reloadAndRest?.();
+
+          return true;
+        } catch (error) {
+          hide();
+          return true;
+        }
       },
     });
+  };
+  const handleAiPseudoArchive = async (record: any) => {
+    handleAiPseudo([record.id]);
   };
 
   const parseFlag = (flag: string) => {
@@ -537,7 +476,7 @@ const ArchiveList: React.FC = () => {
   };
 
   const getExactCount = () => {
-    message.loading('正在查询');
+    message.loading(intl.formatMessage({ id: 'content.count.loading' }));
     lastParams.exact = true;
     actionRef.current?.reload?.();
   };
@@ -847,8 +786,9 @@ const ArchiveList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
+        key={newKey}
         headerTitle={
           <div className="module-tags">
             {modules.map((item: any) => (
@@ -894,19 +834,21 @@ const ArchiveList: React.FC = () => {
           >
             <FormattedMessage id="content.replace.name" />
           </Button>,
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              if (moduleId > 0) {
-                history.push('/archive/detail?module_id=' + moduleId);
-              } else {
-                history.push('/archive/detail');
-              }
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="content.archive.add" />
-          </Button>,
+          !isSubSite && (
+            <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                if (moduleId > 0) {
+                  history.push('/archive/detail?module_id=' + moduleId);
+                } else {
+                  history.push('/archive/detail');
+                }
+              }}
+            >
+              <PlusOutlined /> <FormattedMessage id="content.archive.add" />
+            </Button>
+          ),
         ]}
         columnsState={{
           persistenceKey: 'archive-table',
@@ -957,6 +899,22 @@ const ArchiveList: React.FC = () => {
             <Button
               size={'small'}
               onClick={async () => {
+                await handleTranslate(selectedRowKeys);
+              }}
+            >
+              <FormattedMessage id="content.option.batch-translate" />
+            </Button>
+            <Button
+              size={'small'}
+              onClick={async () => {
+                await handleAiPseudo(selectedRowKeys);
+              }}
+            >
+              <FormattedMessage id="content.option.batch-pseudo" />
+            </Button>
+            <Button
+              size={'small'}
+              onClick={async () => {
                 await handleRemove(selectedRowKeys);
               }}
             >
@@ -997,9 +955,13 @@ const ArchiveList: React.FC = () => {
           showTotal: (total, range) => (
             <div>
               {lastParams.exact === false && (
-                <Tooltip title="统计结果为预估值，点击获取准确统计值">
+                <Tooltip
+                  title={intl.formatMessage({
+                    id: 'content.count.tips.tooltip',
+                  })}
+                >
                   <Tag className="link" color="orange" onClick={getExactCount}>
-                    统计结果为预估值
+                    <FormattedMessage id="content.count.tips" />
                   </Tag>
                 </Tooltip>
               )}
@@ -1188,7 +1150,7 @@ const ArchiveList: React.FC = () => {
           onCancel={() => setQuickVisible(false)}
         />
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

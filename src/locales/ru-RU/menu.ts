@@ -56,6 +56,8 @@ export default {
   'menu.plugin.interference': 'Код вмешательства в сбор средств',
   'menu.plugin.watermark': 'Добавить водяной знак к фотографиям',
   'menu.plugin.limiter': 'Защита безопасности веб-сайта',
+  'menu.plugin.multilang': 'Многоязычная поддержка сайта',
+  'menu.plugin.translate': 'Конфигурация перевода',
   'menu.design': 'дизайн шаблона',
   'menu.design.index': 'мой шаблон',
   'menu.design.editor': 'Изменить код',

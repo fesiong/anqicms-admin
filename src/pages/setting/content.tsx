@@ -1,4 +1,5 @@
 import AttachmentSelect from '@/components/attachment';
+import NewContainer from '@/components/NewContainer';
 import {
   convertImagetoWebp,
   getSettingContent,
@@ -7,20 +8,20 @@ import {
 } from '@/services/setting';
 import { PlusOutlined } from '@ant-design/icons';
 import {
-  PageContainer,
   ProForm,
   ProFormGroup,
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Modal, message } from 'antd';
+import { Button, Card, message, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const SettingContactFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [defaultThumb, setDefaultThumb] = useState<string>('');
   const [resize_image, setResizeImage] = useState<number>(0);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -31,13 +32,21 @@ const SettingContactFrom: React.FC<any> = () => {
     setResizeImage(setting?.resize_image || 0);
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
   }, []);
 
   const handleSelectLogo = (row: any) => {
     setDefaultThumb(row.logo);
-    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   const handleRemoveLogo = (e: any) => {
@@ -53,7 +62,9 @@ const SettingContactFrom: React.FC<any> = () => {
   const handleConvertToWebp = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'setting.content.confirm-convert-webp' }),
-      content: intl.formatMessage({ id: 'setting.content.confirm-convert-webp.content' }),
+      content: intl.formatMessage({
+        id: 'setting.content.confirm-convert-webp.content',
+      }),
       onOk: () => {
         convertImagetoWebp({}).then((res) => {
           message.info(res.msg);
@@ -65,7 +76,9 @@ const SettingContactFrom: React.FC<any> = () => {
   const handleRebuildThumb = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'setting.content.confirm-thumbnal' }),
-      content: intl.formatMessage({ id: 'setting.content.confirm-thumbnal.content' }),
+      content: intl.formatMessage({
+        id: 'setting.content.confirm-thumbnal.content',
+      }),
       onOk: () => {
         rebuildThumb({}).then((res) => {
           message.info(res.msg);
@@ -86,8 +99,13 @@ const SettingContactFrom: React.FC<any> = () => {
     values.thumb_height = Number(values.thumb_height);
     values.quality = Number(values.quality);
     values.use_sort = Number(values.use_sort);
+    values.max_page = Number(values.max_page);
+    values.max_limit = Number(values.max_limit);
 
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSettingContent(values)
       .then((res) => {
         message.success(res.msg);
@@ -101,8 +119,8 @@ const SettingContactFrom: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         {setting && (
           <ProForm
             initialValues={setting}
@@ -115,22 +133,32 @@ const SettingContactFrom: React.FC<any> = () => {
               options={[
                 {
                   value: '',
-                  label: intl.formatMessage({ id: 'setting.content.editor.fulltext' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.editor.fulltext',
+                  }),
                 },
                 {
                   value: 'markdown',
-                  label: intl.formatMessage({ id: 'setting.content.editor.markdown' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.editor.markdown',
+                  }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'setting.content.editor.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.content.editor.description',
+              })}
             />
             <ProFormRadio.Group
               name="remote_download"
-              label={intl.formatMessage({ id: 'setting.content.remote-download' })}
+              label={intl.formatMessage({
+                id: 'setting.content.remote-download',
+              })}
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
@@ -140,11 +168,15 @@ const SettingContactFrom: React.FC<any> = () => {
             />
             <ProFormRadio.Group
               name="filter_outlink"
-              label={intl.formatMessage({ id: 'setting.content.outlink-filter' })}
+              label={intl.formatMessage({
+                id: 'setting.content.outlink-filter',
+              })}
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
@@ -158,29 +190,41 @@ const SettingContactFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.urltoken.long' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.urltoken.long',
+                  }),
                 },
                 {
                   value: 1,
-                  label: intl.formatMessage({ id: 'setting.content.urltoken.short' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.urltoken.short',
+                  }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'setting.content.urltoken.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.content.urltoken.description',
+              })}
             />
             <ProFormRadio.Group
               name="multi_category"
-              label={intl.formatMessage({ id: 'setting.content.multi-category' })}
+              label={intl.formatMessage({
+                id: 'setting.content.multi-category',
+              })}
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
                   label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'setting.content.multi-category.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.content.multi-category.description',
+              })}
             />
             <ProFormRadio.Group
               name="use_sort"
@@ -188,14 +232,50 @@ const SettingContactFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
                   label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'setting.content.archive-sort.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.content.archive-sort.description',
+              })}
+            />
+            <ProFormText
+              name="max_page"
+              label={intl.formatMessage({ id: 'setting.content.max-page' })}
+              width="lg"
+              placeholder={intl.formatMessage({
+                id: 'setting.content.max-page.placeholder',
+              })}
+              fieldProps={{
+                suffix: intl.formatMessage({
+                  id: 'setting.content.max-page.suffix',
+                }),
+              }}
+              extra={intl.formatMessage({
+                id: 'setting.content.max-page.description',
+              })}
+            />
+            <ProFormText
+              name="max_limit"
+              label={intl.formatMessage({ id: 'setting.content.max-limit' })}
+              width="lg"
+              placeholder={intl.formatMessage({
+                id: 'setting.content.max-limit.placeholder',
+              })}
+              fieldProps={{
+                suffix: intl.formatMessage({
+                  id: 'setting.content.max-limit.suffix',
+                }),
+              }}
+              extra={intl.formatMessage({
+                id: 'setting.content.max-limit.description',
+              })}
             />
             <ProFormRadio.Group
               name="use_webp"
@@ -203,7 +283,9 @@ const SettingContactFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
@@ -228,11 +310,15 @@ const SettingContactFrom: React.FC<any> = () => {
               name="quality"
               label={intl.formatMessage({ id: 'setting.content.quality' })}
               width="lg"
-              placeholder={intl.formatMessage({ id: 'setting.content.quality.placeholder' })}
+              placeholder={intl.formatMessage({
+                id: 'setting.content.quality.placeholder',
+              })}
               fieldProps={{
                 suffix: '%',
               }}
-              extra={intl.formatMessage({ id: 'setting.content.quality.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.content.quality.description',
+              })}
             />
             <ProFormRadio.Group
               name="resize_image"
@@ -245,7 +331,9 @@ const SettingContactFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.notenable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.notenable',
+                  }),
                 },
                 {
                   value: 1,
@@ -256,11 +344,17 @@ const SettingContactFrom: React.FC<any> = () => {
             {resize_image === 1 && (
               <ProFormText
                 name="resize_width"
-                label={intl.formatMessage({ id: 'setting.content.resize-width' })}
+                label={intl.formatMessage({
+                  id: 'setting.content.resize-width',
+                })}
                 width="lg"
-                placeholder={intl.formatMessage({ id: 'setting.content.resize-width.placeholder' })}
+                placeholder={intl.formatMessage({
+                  id: 'setting.content.resize-width.placeholder',
+                })}
                 fieldProps={{
-                  suffix: intl.formatMessage({ id: 'setting.content.resize-width.suffix' }),
+                  suffix: intl.formatMessage({
+                    id: 'setting.content.resize-width.suffix',
+                  }),
                 }}
               />
             )}
@@ -270,24 +364,34 @@ const SettingContactFrom: React.FC<any> = () => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.thumb-crop.bylong' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.thumb-crop.bylong',
+                  }),
                 },
                 {
                   value: 1,
-                  label: intl.formatMessage({ id: 'setting.content.thumb-crop.byshort' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.thumb-crop.byshort',
+                  }),
                 },
                 {
                   value: 2,
-                  label: intl.formatMessage({ id: 'setting.content.thumb-crop.short-crop' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.thumb-crop.short-crop',
+                  }),
                 },
               ]}
             />
-            <ProFormGroup title={intl.formatMessage({ id: 'setting.content.thumb-size' })}>
+            <ProFormGroup
+              title={intl.formatMessage({ id: 'setting.content.thumb-size' })}
+            >
               <ProFormText
                 name="thumb_width"
                 width="sm"
                 fieldProps={{
-                  suffix: intl.formatMessage({ id: 'setting.content.thumb-size.width' }),
+                  suffix: intl.formatMessage({
+                    id: 'setting.content.thumb-size.width',
+                  }),
                 }}
               />
               ×
@@ -295,7 +399,9 @@ const SettingContactFrom: React.FC<any> = () => {
                 name="thumb_height"
                 width="sm"
                 fieldProps={{
-                  suffix: intl.formatMessage({ id: 'setting.content.thumb-size.height' }),
+                  suffix: intl.formatMessage({
+                    id: 'setting.content.thumb-size.height',
+                  }),
                 }}
               />
             </ProFormGroup>
@@ -308,9 +414,13 @@ const SettingContactFrom: React.FC<any> = () => {
               </span>
             </div>
             <ProFormText
-              label={intl.formatMessage({ id: 'setting.content.default-thumb' })}
+              label={intl.formatMessage({
+                id: 'setting.content.default-thumb',
+              })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.content.default-thumb.description' })}
+              extra={intl.formatMessage({
+                id: 'setting.content.default-thumb.description',
+              })}
             >
               <AttachmentSelect onSelect={handleSelectLogo} open={false}>
                 <div className="ant-upload-item">
@@ -335,7 +445,7 @@ const SettingContactFrom: React.FC<any> = () => {
           </ProForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

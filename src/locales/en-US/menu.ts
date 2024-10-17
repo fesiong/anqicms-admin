@@ -54,6 +54,8 @@ export default {
   'menu.plugin.interference': 'Anti-collection',
   'menu.plugin.watermark': 'Watermark',
   'menu.plugin.limiter': 'Limiter',
+  'menu.plugin.multilang': 'Multi-language Site',
+  'menu.plugin.translate': 'Translation',
   'menu.design': 'Template',
   'menu.design.index': 'My Template',
   'menu.design.editor': 'Modify Code',

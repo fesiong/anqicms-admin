@@ -50,7 +50,7 @@ const PluginUserGroup: React.FC = () => {
     // 定时查询task
     intXhr = setInterval(() => {
       syncTask();
-    }, 1500);
+    }, 1000);
     return () => {
       running = false;
       clearInterval(intXhr);

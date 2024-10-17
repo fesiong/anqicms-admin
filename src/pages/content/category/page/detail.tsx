@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import AttachmentSelect from '@/components/attachment';
 import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
@@ -10,7 +11,6 @@ import {
 } from '@/services';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  PageContainer,
   ProForm,
   ProFormDigit,
   ProFormInstance,
@@ -37,6 +37,7 @@ const PageCategoryDetail: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [category, setCategory] = useState<any>({ status: 1 });
   const [modules, setModules] = useState<any[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const changeModule = (e: any) => {
@@ -86,6 +87,13 @@ const PageCategoryDetail: React.FC = () => {
     });
   };
 
+  const onTabChange = (key: string) => {
+    setLoaded(false);
+    initData().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     initData();
   }, []);
@@ -124,7 +132,9 @@ const PageCategoryDetail: React.FC = () => {
       }
     }
     setCategoryImages([].concat(categoryImages));
-    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   const handleCleanImages = (index: number, e: any) => {
@@ -135,7 +145,9 @@ const PageCategoryDetail: React.FC = () => {
 
   const handleSelectLogo = (row: any) => {
     setCategoryLogo(row.logo);
-    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   const handleCleanLogo = (e: any) => {
@@ -154,14 +166,15 @@ const PageCategoryDetail: React.FC = () => {
   };
 
   return (
-    <PageContainer
+    <NewContainer
+      onTabChange={(key) => onTabChange(key)}
       title={
         category.id > 0
           ? intl.formatMessage({ id: 'content.page.edit' })
           : intl.formatMessage({ id: 'content.page.new' })
       }
     >
-      <Card onKeyDown={handleKeyDown}>
+      <Card key={newKey} onKeyDown={handleKeyDown}>
         {loaded && (
           <ProForm
             formRef={formRef}
@@ -171,7 +184,10 @@ const PageCategoryDetail: React.FC = () => {
           >
             <Row gutter={20}>
               <Col sm={18} xs={24}>
-                <ProFormText name="title" label={intl.formatMessage({ id: 'content.page.name' })} />
+                <ProFormText
+                  name="title"
+                  label={intl.formatMessage({ id: 'content.page.name' })}
+                />
                 <ProFormTextArea
                   name="description"
                   label={intl.formatMessage({ id: 'content.page.description' })}
@@ -179,13 +195,19 @@ const PageCategoryDetail: React.FC = () => {
                 <ProFormText
                   name="seo_title"
                   label={intl.formatMessage({ id: 'content.seo-title.name' })}
-                  placeholder={intl.formatMessage({ id: 'content.page.seo-title.placeholder' })}
-                  extra={intl.formatMessage({ id: 'content.page.seo-title.description' })}
+                  placeholder={intl.formatMessage({
+                    id: 'content.page.seo-title.placeholder',
+                  })}
+                  extra={intl.formatMessage({
+                    id: 'content.page.seo-title.description',
+                  })}
                 />
                 <ProFormText
                   name="keywords"
                   label={intl.formatMessage({ id: 'content.keywords.name' })}
-                  extra={intl.formatMessage({ id: 'content.keywords.description' })}
+                  extra={intl.formatMessage({
+                    id: 'content.keywords.description',
+                  })}
                 />
                 <ProFormRadio.Group
                   name="status"
@@ -193,11 +215,15 @@ const PageCategoryDetail: React.FC = () => {
                   options={[
                     {
                       value: 0,
-                      label: intl.formatMessage({ id: 'content.category.status.hide' }),
+                      label: intl.formatMessage({
+                        id: 'content.category.status.hide',
+                      }),
                     },
                     {
                       value: 1,
-                      label: intl.formatMessage({ id: 'content.category.status.ok' }),
+                      label: intl.formatMessage({
+                        id: 'content.category.status.ok',
+                      }),
                     },
                   ]}
                   extra={intl.formatMessage({ id: 'content.page.status.tips' })}
@@ -268,13 +294,20 @@ const PageCategoryDetail: React.FC = () => {
                             }}
                             src={item}
                           />
-                          <span className="delete" onClick={handleCleanImages.bind(this, index)}>
+                          <span
+                            className="delete"
+                            onClick={handleCleanImages.bind(this, index)}
+                          >
                             <DeleteOutlined />
                           </span>
                         </div>
                       ))
                     : null}
-                  <AttachmentSelect onSelect={handleSelectImages} open={false} multiple={true}>
+                  <AttachmentSelect
+                    onSelect={handleSelectImages}
+                    open={false}
+                    multiple={true}
+                  >
                     <div className="ant-upload-item">
                       <div className="add">
                         <PlusOutlined />
@@ -323,7 +356,9 @@ const PageCategoryDetail: React.FC = () => {
                   <ProFormText
                     name="url_token"
                     label=""
-                    placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+                    placeholder={intl.formatMessage({
+                      id: 'content.url-token.placeholder',
+                    })}
                     extra={intl.formatMessage({ id: 'content.url-token.tips' })}
                   />
                 </Card>
@@ -334,7 +369,9 @@ const PageCategoryDetail: React.FC = () => {
                 >
                   <ProFormDigit
                     name="sort"
-                    extra={intl.formatMessage({ id: 'content.category.sort.description' })}
+                    extra={intl.formatMessage({
+                      id: 'content.category.sort.description',
+                    })}
                   />
                 </Card>
                 <Card
@@ -351,14 +388,17 @@ const PageCategoryDetail: React.FC = () => {
                       const data = [
                         {
                           path: '',
-                          remark: intl.formatMessage({ id: 'content.default-template' }),
+                          remark: intl.formatMessage({
+                            id: 'content.default-template',
+                          }),
                         },
                       ].concat(res.data || []);
                       for (const i in data) {
                         if (!data[i].remark) {
                           data[i].remark = data[i].path;
                         } else {
-                          data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                          data[i].remark =
+                            data[i].path + '(' + data[i].remark + ')';
                         }
                       }
                       return data;
@@ -371,7 +411,8 @@ const PageCategoryDetail: React.FC = () => {
                     }}
                     extra={
                       <div>
-                        <FormattedMessage id="content.category.default" />: page/detail.html
+                        <FormattedMessage id="content.category.default" />:
+                        page/detail.html
                       </div>
                     }
                   />
@@ -381,7 +422,7 @@ const PageCategoryDetail: React.FC = () => {
           </ProForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

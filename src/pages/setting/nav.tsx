@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   deleteSettingNav,
   getArchives,
@@ -9,7 +10,6 @@ import {
 } from '@/services';
 import {
   ModalForm,
-  PageContainer,
   ProFormDigit,
   ProFormRadio,
   ProFormSelect,
@@ -33,6 +33,7 @@ const SettingNavFrom: React.FC<any> = () => {
   const [typeId, setTypeId] = useState<number>(1);
   const [archives, setArchives] = useState<any[]>([]);
   const [defaultTitle, setDefaultTitle] = useState<string>('');
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getNavList = async (typeId: number) => {
@@ -75,6 +76,16 @@ const SettingNavFrom: React.FC<any> = () => {
     }
 
     setInnerOptions(options);
+  };
+
+  const onTabChange = (key: string) => {
+    // 重复执行useEffect
+    getNavList(typeId);
+    getCategoryList();
+    getModuleList();
+    getNavTypes();
+
+    setNewKey(key);
   };
 
   useEffect(() => {
@@ -152,8 +163,9 @@ const SettingNavFrom: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card
+        key={newKey}
         title={
           <div>
             <Space>
@@ -414,7 +426,7 @@ const SettingNavFrom: React.FC<any> = () => {
           />
         </ModalForm>
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

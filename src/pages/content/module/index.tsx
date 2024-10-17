@@ -1,9 +1,11 @@
+import NewContainer from '@/components/NewContainer';
 import { deleteModule, getModules } from '@/services';
+import { getSessionStore } from '@/utils/store';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ModuleForm from './components/moduleForm';
 
 const ModuleList: React.FC = () => {
@@ -11,14 +13,28 @@ const ModuleList: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [currentModule, setCurrentModule] = useState<any>({});
+  const [newKey, setNewKey] = useState<string>('');
+  const [isSubSite, setIsSubSite] = useState<boolean>(false);
   const intl = useIntl();
+
+  const onTabChange = (key: string, isSubSite: boolean) => {
+    setNewKey(key);
+    setIsSubSite(isSubSite);
+  };
+
+  useEffect(() => {
+    setIsSubSite(getSessionStore('is-sub-site'));
+  }, []);
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.module.delete.confirm' }),
       content: intl.formatMessage({ id: 'content.module.delete.content' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -135,22 +151,25 @@ const ModuleList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
+        key={newKey}
         headerTitle={intl.formatMessage({ id: 'menu.archive.module' })}
         actionRef={actionRef}
         rowKey="id"
         search={{}}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              handleEditModule({});
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="content.module.add" />
-          </Button>,
+          !isSubSite && (
+            <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                handleEditModule({});
+              }}
+            >
+              <PlusOutlined /> <FormattedMessage id="content.module.add" />
+            </Button>
+          ),
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>
@@ -203,7 +222,7 @@ const ModuleList: React.FC = () => {
           }}
         />
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

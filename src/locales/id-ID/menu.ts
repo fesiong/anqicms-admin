@@ -54,6 +54,8 @@ export default {
   'menu.plugin.interference': 'Kode interferensi anti-koleksi',
   'menu.plugin.watermark': 'Tambahkan tanda air ke gambar',
   'menu.plugin.limiter': 'Perlindungan keamanan situs web',
+  'menu.plugin.multilang': 'Dukungan situs multi-bahasa',
+  'menu.plugin.translate': 'Konfigurasi terjemahan',
   'menu.design': 'desain templat',
   'menu.design.index': 'templat saya',
   'menu.design.editor': 'Ubah kode',

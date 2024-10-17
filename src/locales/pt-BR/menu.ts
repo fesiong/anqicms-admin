@@ -54,6 +54,8 @@ export default {
   'menu.plugin.interference': 'Código de interferência anti-cobrança',
   'menu.plugin.watermark': "Adicione marca d'água às fotos",
   'menu.plugin.limiter': 'Proteção de segurança do site',
+  'menu.plugin.multilang': 'Suporte a sites multilíngues',
+  'menu.plugin.translate': 'Configuração de tradução',
   'menu.design': 'design de modelo',
   'menu.design.index': 'meu modelo',
   'menu.design.editor': 'Modificar código',

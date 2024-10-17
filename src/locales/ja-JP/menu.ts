@@ -54,6 +54,8 @@ export default {
   'menu.plugin.interference': '収集妨害防止コード',
   'menu.plugin.watermark': '写真に透かしを追加する',
   'menu.plugin.limiter': 'Webサイトのセキュリティ保護',
+  'menu.plugin.multilang': '多言語サイトのサポート',
+  'menu.plugin.translate': '翻訳設定',
   'menu.design': 'テンプレートデザイン',
   'menu.design.index': '私のテンプレート',
   'menu.design.editor': 'コードを変更する',

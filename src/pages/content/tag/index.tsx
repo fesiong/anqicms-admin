@@ -1,6 +1,7 @@
+import NewContainer from '@/components/NewContainer';
 import { deleteTag, getTags } from '@/services/tag';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
@@ -14,13 +15,23 @@ const ArticleTag: React.FC = () => {
   const [currentTag, setCurrentTag] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [batchVisible, setBatchVisible] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
+  const [isSubSite, setIsSubSite] = useState<boolean>(false);
   const intl = useIntl();
+
+  const onTabChange = (key: string, isSubSite: boolean) => {
+    setNewKey(key);
+    setIsSubSite(isSubSite);
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.tags.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -107,30 +118,35 @@ const ArticleTag: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
+        key={newKey}
         headerTitle={intl.formatMessage({ id: 'menu.archive.tag' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button
-            type="default"
-            key="add2"
-            onClick={() => {
-              handleAddTags();
-            }}
-          >
-            <FormattedMessage id="content.tags.batch-add" />
-          </Button>,
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              handleEditTag({});
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="content.tags.add" />
-          </Button>,
+          !isSubSite && (
+            <Button
+              type="default"
+              key="add2"
+              onClick={() => {
+                handleAddTags();
+              }}
+            >
+              <FormattedMessage id="content.tags.batch-add" />
+            </Button>
+          ),
+          !isSubSite && (
+            <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                handleEditTag({});
+              }}
+            >
+              <PlusOutlined /> <FormattedMessage id="content.tags.add" />
+            </Button>
+          ),
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>
@@ -195,7 +211,7 @@ const ArticleTag: React.FC = () => {
           }}
         />
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

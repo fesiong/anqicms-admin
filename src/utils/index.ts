@@ -60,7 +60,11 @@ export const sizeFormat = (num: number) => {
 };
 
 // 只支持csv，excel
-export const exportFile = (titles: string[], data: any[][], fileType?: string) => {
+export const exportFile = (
+  titles: string[],
+  data: any[][],
+  fileType?: string,
+) => {
   let type = fileType || 'csv';
 
   let textType = {
@@ -169,7 +173,10 @@ export const downloadFile = (url: string, params?: any, newName?: string) => {
         message.error('文件打包失败' + res.statusText);
         return;
       }
-      let tmpName = res.headers.get('Content-Disposition')?.split(';')[1]?.split('filename')[1];
+      let tmpName = res.headers
+        .get('Content-Disposition')
+        ?.split(';')[1]
+        ?.split('filename')[1];
       if (tmpName) {
         if (tmpName.indexOf("'") !== -1) {
           tmpName = tmpName.substring(tmpName.lastIndexOf("'") + 1);
@@ -208,3 +215,336 @@ export const downloadFile = (url: string, params?: any, newName?: string) => {
       return Promise.resolve({});
     });
 };
+
+export const supportLanguages = [
+  {
+    cn: '英语',
+    value: 'en',
+    label: 'en',
+  },
+  {
+    cn: '简体中文',
+    value: 'zh-cn',
+    label: 'zh-cn',
+  },
+  {
+    cn: '繁体中文',
+    value: 'zh-tw',
+    label: 'zh-tw',
+  },
+  {
+    cn: '越南语',
+    value: 'vi',
+    label: 'vi',
+  },
+  {
+    cn: '印尼语',
+    value: 'id',
+    label: 'id',
+  },
+  {
+    cn: '印地语',
+    value: 'hi',
+    label: 'hi',
+  },
+  {
+    cn: '意大利语',
+    value: 'it',
+    label: 'it',
+  },
+  {
+    cn: '希腊语',
+    value: 'el',
+    label: 'el',
+  },
+  {
+    cn: '西班牙语',
+    value: 'es',
+    label: 'es',
+  },
+  {
+    cn: '葡萄牙语',
+    value: 'pt',
+    label: 'pt',
+  },
+  {
+    cn: '塞尔维亚语',
+    value: 'sr',
+    label: 'sr',
+  },
+  {
+    cn: '缅甸语',
+    value: 'my',
+    label: 'my',
+  },
+  {
+    cn: '孟加拉语',
+    value: 'bn',
+    label: 'bn',
+  },
+  {
+    cn: '泰语',
+    value: 'th',
+    label: 'th',
+  },
+  {
+    cn: '土耳其语',
+    value: 'tr',
+    label: 'tr',
+  },
+  {
+    cn: '日语',
+    value: 'ja',
+    label: 'ja',
+  },
+  {
+    cn: '老挝语',
+    value: 'lo',
+    label: 'lo',
+  },
+  {
+    cn: '韩语',
+    value: 'ko',
+    label: 'ko',
+  },
+  {
+    cn: '俄语',
+    value: 'ru',
+    label: 'ru',
+  },
+  {
+    cn: '法语',
+    value: 'fr',
+    label: 'fr',
+  },
+  {
+    cn: '德语',
+    value: 'de',
+    label: 'de',
+  },
+  {
+    cn: '波斯语',
+    value: 'fa',
+    label: 'fa',
+  },
+  {
+    cn: '阿拉伯语',
+    value: 'ar',
+    label: 'ar',
+  },
+  {
+    cn: '马来语',
+    value: 'ms',
+    label: 'ms',
+  },
+  {
+    cn: '爪哇语',
+    value: 'jw',
+    label: 'jw',
+  },
+  {
+    cn: '泰卢固语',
+    value: 'te',
+    label: 'te',
+  },
+  {
+    cn: '泰米尔语',
+    value: 'ta',
+    label: 'ta',
+  },
+  {
+    cn: '马拉地语',
+    value: 'mr',
+    label: 'mr',
+  },
+  {
+    cn: '乌尔都语',
+    value: 'ur',
+    label: 'ur',
+  },
+  {
+    cn: '波兰语',
+    value: 'pl',
+    label: 'pl',
+  },
+  {
+    cn: '乌克兰语',
+    value: 'uk',
+    label: 'uk',
+  },
+  {
+    cn: '旁遮普语',
+    value: 'pa',
+    label: 'pa',
+  },
+  {
+    cn: '罗马尼亚语',
+    value: 'ro',
+    label: 'ro',
+  },
+  {
+    cn: '爱沙尼亚语',
+    value: 'et',
+    label: 'et',
+  },
+  {
+    cn: '奥塞梯语',
+    value: 'os',
+    label: 'os',
+  },
+  {
+    cn: '白俄罗斯语',
+    value: 'be',
+    label: 'be',
+  },
+  {
+    cn: '保加利亚语',
+    value: 'bg',
+    label: 'bg',
+  },
+  {
+    cn: '冰岛语',
+    value: 'is',
+    label: 'is',
+  },
+  {
+    cn: '波斯尼亚语',
+    value: 'bs',
+    label: 'bs',
+  },
+  {
+    cn: '藏语',
+    value: 'bo',
+    label: 'bo',
+  },
+  {
+    cn: '丹麦语',
+    value: 'da',
+    label: 'da',
+  },
+  {
+    cn: '菲律宾语',
+    value: 'tl',
+    label: 'tl',
+  },
+  {
+    cn: '芬兰语',
+    value: 'fi',
+    label: 'fi',
+  },
+  {
+    cn: '瑞典语',
+    value: 'sv',
+    label: 'sv',
+  },
+  {
+    cn: '刚果语',
+    value: 'kg',
+    label: 'kg',
+  },
+  {
+    cn: '格鲁吉亚语',
+    value: 'ka',
+    label: 'ka',
+  },
+  {
+    cn: '哈萨克语',
+    value: 'kk',
+    label: 'kk',
+  },
+  {
+    cn: '荷兰语',
+    value: 'nl',
+    label: 'nl',
+  },
+  {
+    cn: '吉尔吉斯语',
+    value: 'ky',
+    label: 'ky',
+  },
+  {
+    cn: '加利西亚语',
+    value: 'gl',
+    label: 'gl',
+  },
+  {
+    cn: '加泰罗尼亚语',
+    value: 'ca',
+    label: 'ca',
+  },
+  {
+    cn: '捷克语',
+    value: 'cs',
+    label: 'cs',
+  },
+  {
+    cn: '卡纳达语',
+    value: 'kn',
+    label: 'kn',
+  },
+  {
+    cn: '蒙古语',
+    value: 'mn',
+    label: 'mn',
+  },
+  {
+    cn: '克罗地亚语',
+    value: 'hr',
+    label: 'hr',
+  },
+  {
+    cn: '拉脱维亚语',
+    value: 'lv',
+    label: 'lv',
+  },
+  {
+    cn: '立陶宛语',
+    value: 'lt',
+    label: 'lt',
+  },
+  {
+    cn: '挪威语',
+    value: 'no',
+    label: 'no',
+  },
+  {
+    cn: '尼泊尔语',
+    value: 'ne',
+    label: 'ne',
+  },
+  {
+    cn: '普什图语',
+    value: 'ps',
+    label: 'ps',
+  },
+  {
+    cn: '斯洛伐克语',
+    value: 'sk',
+    label: 'sk',
+  },
+  {
+    cn: '土库曼语',
+    value: 'tk',
+    label: 'tk',
+  },
+  {
+    cn: '乌兹别克语',
+    value: 'uz',
+    label: 'uz',
+  },
+  {
+    cn: '希伯来语',
+    value: 'iw',
+    label: 'iw',
+  },
+  {
+    cn: '匈牙利语',
+    value: 'hu',
+    label: 'hu',
+  },
+  {
+    cn: '亚美尼亚语',
+    value: 'hy',
+    label: 'hy',
+  },
+];

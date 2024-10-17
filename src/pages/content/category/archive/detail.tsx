@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import AttachmentSelect from '@/components/attachment';
 import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
@@ -11,7 +12,6 @@ import {
 } from '@/services';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  PageContainer,
   ProForm,
   ProFormDigit,
   ProFormInstance,
@@ -38,6 +38,7 @@ const ArchiveCategoryDetail: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [category, setCategory] = useState<any>({ status: 1 });
   const [modules, setModules] = useState<any[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const changeModule = (e: any, tmpModels?: any) => {
@@ -88,6 +89,13 @@ const ArchiveCategoryDetail: React.FC = () => {
     });
   };
 
+  const onTabChange = (key: string) => {
+    setLoaded(false);
+    initData().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     initData();
   }, []);
@@ -99,7 +107,9 @@ const ArchiveCategoryDetail: React.FC = () => {
     cat.images = categoryImages;
     cat.logo = categoryLogo;
     if (cat.title === '') {
-      message.error(intl.formatMessage({ id: 'content.category.input.required' }));
+      message.error(
+        intl.formatMessage({ id: 'content.category.input.required' }),
+      );
       return;
     }
     let res = await saveCategory(cat);
@@ -141,7 +151,9 @@ const ArchiveCategoryDetail: React.FC = () => {
       }
     }
     setCategoryImages([].concat(categoryImages));
-    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   const handleCleanImages = (index: number, e: any) => {
@@ -152,7 +164,9 @@ const ArchiveCategoryDetail: React.FC = () => {
 
   const handleSelectLogo = (row: any) => {
     setCategoryLogo(row.logo);
-    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   const handleCleanLogo = (e: any) => {
@@ -171,14 +185,15 @@ const ArchiveCategoryDetail: React.FC = () => {
   };
 
   return (
-    <PageContainer
+    <NewContainer
+      onTabChange={(key) => onTabChange(key)}
       title={
         category.id > 0
           ? intl.formatMessage({ id: 'content.category.edit' })
           : intl.formatMessage({ id: 'content.category.new' })
       }
     >
-      <Card onKeyDown={handleKeyDown}>
+      <Card key={newKey} onKeyDown={handleKeyDown}>
         {loaded && (
           <ProForm
             formRef={formRef}
@@ -195,7 +210,9 @@ const ArchiveCategoryDetail: React.FC = () => {
                   request={async () => {
                     return modules;
                   }}
-                  readonly={category.id || category.module_id > 0 ? true : false}
+                  readonly={
+                    category.id || category.module_id > 0 ? true : false
+                  }
                   fieldProps={{
                     fieldNames: {
                       label: 'title',
@@ -231,13 +248,17 @@ const ArchiveCategoryDetail: React.FC = () => {
                     categories = [
                       {
                         id: 0,
-                        title: intl.formatMessage({ id: 'content.category.top' }),
+                        title: intl.formatMessage({
+                          id: 'content.category.top',
+                        }),
                         spacer: '',
                       },
                     ].concat(categories);
                     return categories;
                   }}
-                  readonly={category.id || category.module_id > 0 ? false : true}
+                  readonly={
+                    category.id || category.module_id > 0 ? false : true
+                  }
                   fieldProps={{
                     fieldNames: {
                       label: 'title',
@@ -246,7 +267,9 @@ const ArchiveCategoryDetail: React.FC = () => {
                     optionItemRender(item: any) {
                       return (
                         <div
-                          dangerouslySetInnerHTML={{ __html: (item.spacer || '') + item.title }}
+                          dangerouslySetInnerHTML={{
+                            __html: (item.spacer || '') + item.title,
+                          }}
                         ></div>
                       );
                     },
@@ -258,18 +281,26 @@ const ArchiveCategoryDetail: React.FC = () => {
                 />
                 <ProFormTextArea
                   name="description"
-                  label={intl.formatMessage({ id: 'content.category.description' })}
+                  label={intl.formatMessage({
+                    id: 'content.category.description',
+                  })}
                 />
                 <ProFormText
                   name="seo_title"
                   label={intl.formatMessage({ id: 'content.seo-title.name' })}
-                  placeholder={intl.formatMessage({ id: 'content.category.seo-title.placeholder' })}
-                  extra={intl.formatMessage({ id: 'content.category.seo-title.description' })}
+                  placeholder={intl.formatMessage({
+                    id: 'content.category.seo-title.placeholder',
+                  })}
+                  extra={intl.formatMessage({
+                    id: 'content.category.seo-title.description',
+                  })}
                 />
                 <ProFormText
                   name="keywords"
                   label={intl.formatMessage({ id: 'content.keywords.name' })}
-                  extra={intl.formatMessage({ id: 'content.keywords.description' })}
+                  extra={intl.formatMessage({
+                    id: 'content.keywords.description',
+                  })}
                 />
                 <ProFormRadio.Group
                   name="status"
@@ -277,14 +308,20 @@ const ArchiveCategoryDetail: React.FC = () => {
                   options={[
                     {
                       value: 0,
-                      label: intl.formatMessage({ id: 'content.category.status.hide' }),
+                      label: intl.formatMessage({
+                        id: 'content.category.status.hide',
+                      }),
                     },
                     {
                       value: 1,
-                      label: intl.formatMessage({ id: 'content.category.status.ok' }),
+                      label: intl.formatMessage({
+                        id: 'content.category.status.ok',
+                      }),
                     },
                   ]}
-                  extra={intl.formatMessage({ id: 'content.category.status.description' })}
+                  extra={intl.formatMessage({
+                    id: 'content.category.status.description',
+                  })}
                 />
                 {loaded && (
                   <>
@@ -352,13 +389,20 @@ const ArchiveCategoryDetail: React.FC = () => {
                             }}
                             src={item}
                           />
-                          <span className="delete" onClick={handleCleanImages.bind(this, index)}>
+                          <span
+                            className="delete"
+                            onClick={handleCleanImages.bind(this, index)}
+                          >
                             <DeleteOutlined />
                           </span>
                         </div>
                       ))
                     : null}
-                  <AttachmentSelect onSelect={handleSelectImages} open={false} multiple={true}>
+                  <AttachmentSelect
+                    onSelect={handleSelectImages}
+                    open={false}
+                    multiple={true}
+                  >
                     <div className="ant-upload-item">
                       <div className="add">
                         <PlusOutlined />
@@ -406,7 +450,9 @@ const ArchiveCategoryDetail: React.FC = () => {
                 >
                   <ProFormText
                     name="url_token"
-                    placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+                    placeholder={intl.formatMessage({
+                      id: 'content.url-token.placeholder',
+                    })}
                     extra={intl.formatMessage({ id: 'content.url-token.tips' })}
                   />
                 </Card>
@@ -417,13 +463,17 @@ const ArchiveCategoryDetail: React.FC = () => {
                 >
                   <ProFormDigit
                     name="sort"
-                    extra={intl.formatMessage({ id: 'content.category.sort.description' })}
+                    extra={intl.formatMessage({
+                      id: 'content.category.sort.description',
+                    })}
                   />
                 </Card>
                 <Card
                   className="aside-card"
                   size="small"
-                  title={intl.formatMessage({ id: 'content.category.template' })}
+                  title={intl.formatMessage({
+                    id: 'content.category.template',
+                  })}
                 >
                   <ProFormSelect
                     showSearch
@@ -433,14 +483,17 @@ const ArchiveCategoryDetail: React.FC = () => {
                       const data = [
                         {
                           path: '',
-                          remark: intl.formatMessage({ id: 'content.default-template' }),
+                          remark: intl.formatMessage({
+                            id: 'content.default-template',
+                          }),
                         },
                       ].concat(res.data || []);
                       for (const i in data) {
                         if (!data[i].remark) {
                           data[i].remark = data[i].path;
                         } else {
-                          data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                          data[i].remark =
+                            data[i].path + '(' + data[i].remark + ')';
                         }
                       }
                       return data;
@@ -469,20 +522,28 @@ const ArchiveCategoryDetail: React.FC = () => {
                     options={[
                       {
                         value: 0,
-                        label: intl.formatMessage({ id: 'content.category.inherit.false' }),
+                        label: intl.formatMessage({
+                          id: 'content.category.inherit.false',
+                        }),
                       },
                       {
                         value: 1,
-                        label: intl.formatMessage({ id: 'content.category.inherit.true' }),
+                        label: intl.formatMessage({
+                          id: 'content.category.inherit.true',
+                        }),
                       },
                     ]}
-                    extra={intl.formatMessage({ id: 'content.category.inherit.description' })}
+                    extra={intl.formatMessage({
+                      id: 'content.category.inherit.description',
+                    })}
                   />
                 </Card>
                 <Card
                   className="aside-card"
                   size="small"
-                  title={intl.formatMessage({ id: 'content.archive-template.name' })}
+                  title={intl.formatMessage({
+                    id: 'content.archive-template.name',
+                  })}
                 >
                   <ProFormSelect
                     showSearch
@@ -492,14 +553,17 @@ const ArchiveCategoryDetail: React.FC = () => {
                       const data = [
                         {
                           path: '',
-                          remark: intl.formatMessage({ id: 'content.default-template' }),
+                          remark: intl.formatMessage({
+                            id: 'content.default-template',
+                          }),
                         },
                       ].concat(res.data || []);
                       for (const i in data) {
                         if (!data[i].remark) {
                           data[i].remark = data[i].path;
                         } else {
-                          data[i].remark = data[i].path + '(' + data[i].remark + ')';
+                          data[i].remark =
+                            data[i].path + '(' + data[i].remark + ')';
                         }
                       }
                       return data;
@@ -523,7 +587,7 @@ const ArchiveCategoryDetail: React.FC = () => {
           </ProForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

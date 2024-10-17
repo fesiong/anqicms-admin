@@ -1,11 +1,17 @@
+import NewContainer from '@/components/NewContainer';
 import { getSettingIndex, saveSettingIndex } from '@/services/setting';
-import { PageContainer, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  ProForm,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const SettingIndexFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -14,12 +20,21 @@ const SettingIndexFrom: React.FC<any> = () => {
     setSetting(setting);
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
   }, []);
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSettingIndex(values)
       .then((res) => {
         message.success(res.msg);
@@ -33,8 +48,8 @@ const SettingIndexFrom: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         {setting && (
           <ProForm
             initialValues={setting}
@@ -64,7 +79,7 @@ const SettingIndexFrom: React.FC<any> = () => {
           </ProForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

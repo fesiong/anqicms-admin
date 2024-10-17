@@ -1,6 +1,7 @@
+import NewContainer from '@/components/NewContainer';
 import { deleteCategory, getCategories } from '@/services/category';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
@@ -11,13 +12,23 @@ let lastParams: any = {};
 const PageCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
+  const [isSubSite, setIsSubSite] = useState<boolean>(false);
   const intl = useIntl();
+
+  const onTabChange = (key: string, isSubSite: boolean) => {
+    setNewKey(key);
+    setIsSubSite(isSubSite);
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.page.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -61,7 +72,10 @@ const PageCategory: React.FC = () => {
       render: (dom, entity) => {
         return (
           <>
-            <div className="spacer" dangerouslySetInnerHTML={{ __html: entity.spacer }}></div>
+            <div
+              className="spacer"
+              dangerouslySetInnerHTML={{ __html: entity.spacer }}
+            ></div>
             <a href={entity.link} target="_blank">
               {dom}
             </a>
@@ -118,22 +132,25 @@ const PageCategory: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
+        key={newKey}
         headerTitle={intl.formatMessage({ id: 'menu.archive.page' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              handleEditCategory({ status: 1 });
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="content.page.new" />
-          </Button>,
+          !isSubSite && (
+            <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                handleEditCategory({ status: 1 });
+              }}
+            >
+              <PlusOutlined /> <FormattedMessage id="content.page.new" />
+            </Button>
+          ),
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>
@@ -171,7 +188,7 @@ const PageCategory: React.FC = () => {
           defaultPageSize: lastParams.pageSize,
         }}
       />
-    </PageContainer>
+    </NewContainer>
   );
 };
 

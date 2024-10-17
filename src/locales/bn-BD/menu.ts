@@ -54,6 +54,8 @@ export default {
   'menu.plugin.interference': 'অ্যান্টি-সংগ্রহ হস্তক্ষেপ কোড',
   'menu.plugin.watermark': 'ছবিতে জলছাপ যোগ করুন',
   'menu.plugin.limiter': 'ওয়েবসাইট নিরাপত্তা সুরক্ষা',
+  'menu.plugin.multilang': 'মাল্টি-ভাষা সাইট সমর্থন',
+  'menu.plugin.translate': 'অনুবাদ কনফিগারেশন',
   'menu.design': 'টেমপ্লেট ডিজাইন',
   'menu.design.index': 'আমার টেমপ্লেট',
   'menu.design.editor': 'কোড পরিবর্তন করুন',

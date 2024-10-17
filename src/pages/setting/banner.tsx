@@ -1,17 +1,31 @@
 import AttachmentSelect from '@/components/attachment';
-import { deleteSettingBanner, getSettingBanners, saveSettingBanner } from '@/services';
+import NewContainer from '@/components/NewContainer';
+import {
+  deleteSettingBanner,
+  getSettingBanners,
+  saveSettingBanner,
+} from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ModalForm,
-  PageContainer,
   ProColumns,
   ProFormSelect,
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Divider, Image, Input, InputRef, Modal, Space, message } from 'antd';
+import {
+  Button,
+  Card,
+  Divider,
+  Image,
+  Input,
+  InputRef,
+  message,
+  Modal,
+  Space,
+} from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
 const SettingBannerFrom: React.FC<any> = () => {
@@ -20,6 +34,7 @@ const SettingBannerFrom: React.FC<any> = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [banners, setBanners] = useState<any[]>([]);
   const [currentType, setCurrentType] = useState<string>('default');
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const [name, setName] = useState('');
@@ -29,7 +44,9 @@ const SettingBannerFrom: React.FC<any> = () => {
     setName(event.target.value);
   };
 
-  const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+  const addItem = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
+  ) => {
     e.preventDefault();
     if (!name) {
       message.error(intl.formatMessage({ id: 'setting.banner.name.require' }));
@@ -42,13 +59,19 @@ const SettingBannerFrom: React.FC<any> = () => {
     }, 0);
   };
 
-  const getBanners = () => {
+  const getBanners = async () => {
     getSettingBanners().then((res) => {
       let data = res.data || [];
       setBanners(data);
       if (currentType === 'default' && data.length > 0) {
         setCurrentType(data[0].type);
       }
+    });
+  };
+
+  const onTabChange = (key: string) => {
+    getBanners().then(() => {
+      setNewKey(key);
     });
   };
 
@@ -96,7 +119,10 @@ const SettingBannerFrom: React.FC<any> = () => {
 
   const onBannerSubmit = async (data: any) => {
     let values = Object.assign(editingBanner, data);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSettingBanner(values)
       .then((res) => {
         message.success(res.msg);
@@ -119,7 +145,10 @@ const SettingBannerFrom: React.FC<any> = () => {
       width: 800,
       render: (_, record) => (
         <div className="text-center">
-          <Image src={record.logo} style={{ height: 150, objectFit: 'contain' }}></Image>
+          <Image
+            src={record.logo}
+            style={{ height: 150, objectFit: 'contain' }}
+          ></Image>
         </div>
       ),
     },
@@ -174,8 +203,9 @@ const SettingBannerFrom: React.FC<any> = () => {
   ];
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card
+        key={newKey}
         title={
           <div>
             <Space>
@@ -206,7 +236,10 @@ const SettingBannerFrom: React.FC<any> = () => {
                 ];
               }}
               rowKey="name"
-              headerTitle={currentType + intl.formatMessage({ id: 'setting.banner.group-list' })}
+              headerTitle={
+                currentType +
+                intl.formatMessage({ id: 'setting.banner.group-list' })
+              }
               columnsState={{
                 persistenceKey: 'banner-table',
                 persistenceType: 'localStorage',
@@ -233,7 +266,10 @@ const SettingBannerFrom: React.FC<any> = () => {
             <ProFormSelect
               name="type"
               label={intl.formatMessage({ id: 'setting.banner.group' })}
-              options={banners.map((a: any) => ({ label: a.type, value: a.type }))}
+              options={banners.map((a: any) => ({
+                label: a.type,
+                value: a.type,
+              }))}
               fieldProps={{
                 dropdownRender: (menu) => (
                   <>
@@ -241,13 +277,19 @@ const SettingBannerFrom: React.FC<any> = () => {
                     <Divider style={{ margin: '8px 0' }} />
                     <Space style={{ padding: '0 8px 4px' }}>
                       <Input
-                        placeholder={intl.formatMessage({ id: 'setting.banner.group.placeholder' })}
+                        placeholder={intl.formatMessage({
+                          id: 'setting.banner.group.placeholder',
+                        })}
                         ref={inputRef}
                         value={name}
                         onChange={onNameChange}
                         onKeyDown={(e) => e.stopPropagation()}
                       />
-                      <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                      <Button
+                        type="text"
+                        icon={<PlusOutlined />}
+                        onClick={addItem}
+                      >
                         {intl.formatMessage({ id: 'setting.banner.group.add' })}
                       </Button>
                     </Space>
@@ -255,7 +297,9 @@ const SettingBannerFrom: React.FC<any> = () => {
                 ),
               }}
             />
-            <ProFormText label={intl.formatMessage({ id: 'setting.banner.logo-name' })}>
+            <ProFormText
+              label={intl.formatMessage({ id: 'setting.banner.logo-name' })}
+            >
               <AttachmentSelect onSelect={handleSelectLogo} open={false}>
                 <div className="ant-upload-item">
                   {editingBanner.logo ? (
@@ -280,15 +324,20 @@ const SettingBannerFrom: React.FC<any> = () => {
               name="link"
               label={intl.formatMessage({ id: 'setting.banner.link-name' })}
             />
-            <ProFormText name="alt" label={intl.formatMessage({ id: 'setting.banner.alt-name' })} />
+            <ProFormText
+              name="alt"
+              label={intl.formatMessage({ id: 'setting.banner.alt-name' })}
+            />
             <ProFormText
               name="description"
-              label={intl.formatMessage({ id: 'setting.banner.description-name' })}
+              label={intl.formatMessage({
+                id: 'setting.banner.description-name',
+              })}
             />
           </ModalForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

@@ -1,5 +1,6 @@
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
+import NewContainer from '@/components/NewContainer';
 import {
   deleteSystemFavicon,
   getSettingSystem,
@@ -8,7 +9,6 @@ import {
 } from '@/services/setting';
 import { PlusOutlined } from '@ant-design/icons';
 import {
-  PageContainer,
   ProForm,
   ProFormRadio,
   ProFormSelect,
@@ -16,7 +16,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useModel } from '@umijs/max';
-import { Button, Card, Col, Modal, Row, Upload, message } from 'antd';
+import { Button, Card, Col, message, Modal, Row, Upload } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const SettingSystemFrom: React.FC<any> = () => {
@@ -25,6 +25,7 @@ const SettingSystemFrom: React.FC<any> = () => {
   const [siteLogo, setSiteLogo] = useState<string>('');
   const [site_close, setSiteClose] = useState<number>(0);
   const [extraFields, setExtraFields] = useState<any[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -36,13 +37,21 @@ const SettingSystemFrom: React.FC<any> = () => {
     setExtraFields(setting.system.extra_fields || []);
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
   }, []);
 
   const handleSelectLogo = (row: any) => {
     setSiteLogo(row.logo);
-    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   const handleRemoveLogo = (e: any) => {
@@ -66,7 +75,10 @@ const SettingSystemFrom: React.FC<any> = () => {
   const handleUploadFavicon = async (e: any) => {
     const formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSystemFavicon(formData)
       .then((res) => {
         message.success(res.msg);
@@ -79,7 +91,10 @@ const SettingSystemFrom: React.FC<any> = () => {
 
   const onSubmit = async (values: any) => {
     values.site_logo = siteLogo;
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSettingSystem(values)
       .then(async (res) => {
         message.success(res.msg);
@@ -127,8 +142,8 @@ const SettingSystemFrom: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         {setting.system && (
           <ProForm
             initialValues={setting.system}
@@ -139,11 +154,15 @@ const SettingSystemFrom: React.FC<any> = () => {
               name="site_name"
               label={intl.formatMessage({ id: 'setting.system.site-name' })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.system.site-name-description' })}
+              extra={intl.formatMessage({
+                id: 'setting.system.site-name-description',
+              })}
               rules={[
                 {
                   required: true,
-                  message: intl.formatMessage({ id: 'setting.system.site-name-error' }),
+                  message: intl.formatMessage({
+                    id: 'setting.system.site-name-error',
+                  }),
                 },
               ]}
             />
@@ -151,11 +170,15 @@ const SettingSystemFrom: React.FC<any> = () => {
               name="base_url"
               label={intl.formatMessage({ id: 'setting.system.base-url' })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.system.base-url-description' })}
+              extra={intl.formatMessage({
+                id: 'setting.system.base-url-description',
+              })}
               rules={[
                 {
                   required: true,
-                  message: intl.formatMessage({ id: 'setting.system.base-url-error' }),
+                  message: intl.formatMessage({
+                    id: 'setting.system.base-url-error',
+                  }),
                 },
               ]}
             />
@@ -163,12 +186,16 @@ const SettingSystemFrom: React.FC<any> = () => {
               name="mobile_url"
               label={intl.formatMessage({ id: 'setting.system.mobile-url' })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.system.mobile-url-description' })}
+              extra={intl.formatMessage({
+                id: 'setting.system.mobile-url-description',
+              })}
             />
             <ProFormText
               label={intl.formatMessage({ id: 'setting.system.site-logo' })}
               width="lg"
-              extra={intl.formatMessage({ id: 'setting.system.site-logo-description' })}
+              extra={intl.formatMessage({
+                id: 'setting.system.site-logo-description',
+              })}
             >
               <AttachmentSelect onSelect={handleSelectLogo} open={false}>
                 <div className="ant-upload-item">
@@ -192,7 +219,9 @@ const SettingSystemFrom: React.FC<any> = () => {
             </ProFormText>
             <ProFormText
               label={intl.formatMessage({ id: 'setting.system.site-ico' })}
-              extra={intl.formatMessage({ id: 'setting.system.site-ico-description' })}
+              extra={intl.formatMessage({
+                id: 'setting.system.site-ico-description',
+              })}
             >
               <Upload
                 name="file"
@@ -204,7 +233,10 @@ const SettingSystemFrom: React.FC<any> = () => {
                 <div className="ant-upload-item">
                   {setting.system?.favicon ? (
                     <>
-                      <img src={setting.system.favicon} style={{ width: '100%' }} />
+                      <img
+                        src={setting.system.favicon}
+                        style={{ width: '100%' }}
+                      />
                       <a className="delete" onClick={handleRemoveFavicon}>
                         <FormattedMessage id="setting.system.delete" />
                       </a>
@@ -227,7 +259,11 @@ const SettingSystemFrom: React.FC<any> = () => {
               extra={
                 <div>
                   <FormattedMessage id="setting.system.site-icp-description-before" />
-                  <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">
+                  <a
+                    href="https://beian.miit.gov.cn/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     beian.miit.gov.cn
                   </a>
                   <FormattedMessage id="setting.system.site-icp-description-after" />
@@ -237,9 +273,15 @@ const SettingSystemFrom: React.FC<any> = () => {
             <ProFormTextArea
               name="site_copyright"
               width="lg"
-              label={intl.formatMessage({ id: 'setting.system.site-copyright' })}
-              placeholder={intl.formatMessage({ id: 'setting.system.site-copyright-placeholder' })}
-              extra={intl.formatMessage({ id: 'setting.system.site-copyright-description' })}
+              label={intl.formatMessage({
+                id: 'setting.system.site-copyright',
+              })}
+              placeholder={intl.formatMessage({
+                id: 'setting.system.site-copyright-placeholder',
+              })}
+              extra={intl.formatMessage({
+                id: 'setting.system.site-copyright-description',
+              })}
             />
             <ProFormSelect
               name="language"
@@ -252,7 +294,9 @@ const SettingSystemFrom: React.FC<any> = () => {
                 }
                 return names;
               }}
-              extra={intl.formatMessage({ id: 'setting.system.language-description' })}
+              extra={intl.formatMessage({
+                id: 'setting.system.language-description',
+              })}
             />
             <ProFormText
               name="admin_url"
@@ -260,7 +304,9 @@ const SettingSystemFrom: React.FC<any> = () => {
               width="lg"
               fieldProps={{
                 suffix: '/system/',
-                placeholder: intl.formatMessage({ id: 'setting.system.admin-url-placeholder' }),
+                placeholder: intl.formatMessage({
+                  id: 'setting.system.admin-url-placeholder',
+                }),
               }}
               extra={
                 <div>
@@ -280,7 +326,9 @@ const SettingSystemFrom: React.FC<any> = () => {
             <ProFormRadio.Group
               name="site_close"
               label={intl.formatMessage({ id: 'setting.system.site-close' })}
-              extra={intl.formatMessage({ id: 'setting.system.site-close-description' })}
+              extra={intl.formatMessage({
+                id: 'setting.system.site-close-description',
+              })}
               fieldProps={{
                 onChange: (e: any) => {
                   setSiteClose(e.target.value);
@@ -304,15 +352,23 @@ const SettingSystemFrom: React.FC<any> = () => {
             {(site_close === 1 || site_close === 2) && (
               <ProFormTextArea
                 name="site_close_tips"
-                label={intl.formatMessage({ id: 'setting.system.site-close-tips' })}
+                label={intl.formatMessage({
+                  id: 'setting.system.site-close-tips',
+                })}
                 width="lg"
-                extra={intl.formatMessage({ id: 'setting.system.site-close-tips-description' })}
+                extra={intl.formatMessage({
+                  id: 'setting.system.site-close-tips-description',
+                })}
               />
             )}
             <ProFormRadio.Group
               name="ban_spider"
-              label={intl.formatMessage({ id: 'setting.system.spider-visible' })}
-              extra={intl.formatMessage({ id: 'setting.system.spider-visible-description' })}
+              label={intl.formatMessage({
+                id: 'setting.system.spider-visible',
+              })}
+              extra={intl.formatMessage({
+                id: 'setting.system.spider-visible-description',
+              })}
               options={[
                 {
                   value: 0,
@@ -320,7 +376,9 @@ const SettingSystemFrom: React.FC<any> = () => {
                 },
                 {
                   value: 1,
-                  label: intl.formatMessage({ id: 'setting.system.ban-spider' }),
+                  label: intl.formatMessage({
+                    id: 'setting.system.ban-spider',
+                  }),
                 },
               ]}
             />
@@ -347,16 +405,22 @@ const SettingSystemFrom: React.FC<any> = () => {
                   <Col span={8}>
                     <ProFormText
                       name={['extra_fields', index, 'name']}
-                      label={intl.formatMessage({ id: 'setting.system.param-name' })}
+                      label={intl.formatMessage({
+                        id: 'setting.system.param-name',
+                      })}
                       required={true}
                       width="lg"
-                      extra={intl.formatMessage({ id: 'setting.system.param-name-description' })}
+                      extra={intl.formatMessage({
+                        id: 'setting.system.param-name-description',
+                      })}
                     />
                   </Col>
                   <Col span={8}>
                     <ProFormText
                       name={['extra_fields', index, 'value']}
-                      label={intl.formatMessage({ id: 'setting.system.param-value' })}
+                      label={intl.formatMessage({
+                        id: 'setting.system.param-value',
+                      })}
                       required={true}
                       width="lg"
                     />
@@ -364,7 +428,9 @@ const SettingSystemFrom: React.FC<any> = () => {
                   <Col span={6}>
                     <ProFormText
                       name={['extra_fields', index, 'remark']}
-                      label={intl.formatMessage({ id: 'setting.system.remark' })}
+                      label={intl.formatMessage({
+                        id: 'setting.system.remark',
+                      })}
                       width="lg"
                     />
                   </Col>
@@ -373,7 +439,9 @@ const SettingSystemFrom: React.FC<any> = () => {
                       style={{ marginTop: '30px' }}
                       onClick={() => {
                         Modal.confirm({
-                          title: intl.formatMessage({ id: 'setting.system.confirm-delete-param' }),
+                          title: intl.formatMessage({
+                            id: 'setting.system.confirm-delete-param',
+                          }),
                           onOk: () => {
                             extraFields.splice(index, 1);
                             setExtraFields([].concat(extraFields));
@@ -390,7 +458,7 @@ const SettingSystemFrom: React.FC<any> = () => {
           </ProForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

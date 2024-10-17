@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   UploadDesignInfo,
   activeDesignInfo,
@@ -8,7 +9,6 @@ import {
 import {
   ActionType,
   ModalForm,
-  PageContainer,
   ProColumns,
   ProFormText,
   ProTable,
@@ -22,13 +22,21 @@ let autoCleanup = false;
 const DesignIndex: React.FC = () => {
   const [addVisible, setAddVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
+
+  const onTabChange = (key: string) => {
+    setNewKey(key);
+  };
 
   const handleUseTemplate = (template: any) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'design.confirm-enable' }),
       onOk: () => {
-        const hide = message.loading(intl.formatMessage({ id: 'design.switching-template' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'design.switching-template' }),
+          0,
+        );
         activeDesignInfo({ package: template.package });
         setTimeout(() => {
           hide();
@@ -54,7 +62,10 @@ const DesignIndex: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'design.confirm-delete' }),
       onOk: () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         deleteDesignInfo({ package: packageName })
           .then((res) => {
             message.info(res.msg);
@@ -70,13 +81,19 @@ const DesignIndex: React.FC = () => {
   const handleUploadZip = (e: any) => {
     const formData = new FormData();
     formData.append('file', e.file);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     UploadDesignInfo(formData)
       .then((res) => {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
+          message.info(
+            res.msg ||
+              intl.formatMessage({ id: 'setting.system.upload-success' }),
+          );
           setAddVisible(false);
           actionRef.current?.reload();
         }
@@ -121,7 +138,10 @@ const DesignIndex: React.FC = () => {
         </div>
       ),
       onOk: () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         restoreDesignData({
           package: record.package,
           auto_backup: autoBackup,
@@ -191,7 +211,9 @@ const DesignIndex: React.FC = () => {
             </Button>
           )}
           {record.preview_data && record.status === 1 && (
-            <Tooltip title={intl.formatMessage({ id: 'design.data.install.example' })}>
+            <Tooltip
+              title={intl.formatMessage({ id: 'design.data.install.example' })}
+            >
               <Button
                 type="link"
                 onClick={() => {
@@ -235,8 +257,9 @@ const DesignIndex: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
       <ProTable<any>
+        key={newKey}
         headerTitle={intl.formatMessage({ id: 'design.list' })}
         toolBarRender={() => [
           <Button
@@ -276,7 +299,10 @@ const DesignIndex: React.FC = () => {
             setAddVisible(false);
           }}
         >
-          <ProFormText name="tpl" label={intl.formatMessage({ id: 'design.package.zip' })}>
+          <ProFormText
+            name="tpl"
+            label={intl.formatMessage({ id: 'design.package.zip' })}
+          >
             <Upload
               name="file"
               showUploadList={false}
@@ -293,7 +319,7 @@ const DesignIndex: React.FC = () => {
           </div>
         </ModalForm>
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

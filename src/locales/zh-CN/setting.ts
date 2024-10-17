@@ -18,28 +18,35 @@ export default {
   'setting.system.site-name-description': '该名称会以后缀形式显示在网站标题上',
   'setting.system.site-name-error': '请输入网站名称！',
   'setting.system.base-url': '网站地址',
-  'setting.system.base-url-description': '指该网站的PC端访问网址，如：https://www.anqicms.com，用来生成全站的绝对地址',
+  'setting.system.base-url-description':
+    '指该网站的PC端访问网址，如：https://www.anqicms.com，用来生成全站的绝对地址',
   'setting.system.base-url-error': '请输入网站首页地址！',
   'setting.system.mobile-url': '移动端地址',
-  'setting.system.mobile-url-description': '指该网站的手机端访问网址，如：https://m.anqicms.com，如果模板类型为PC+手机站，需要设置。',
+  'setting.system.mobile-url-description':
+    '指该网站的手机端访问网址，如：https://m.anqicms.com，如果模板类型为PC+手机站，需要设置。',
   'setting.system.site-logo': '网站LOGO',
   'setting.system.site-logo-description': '网站LOGO会显示在页头',
   'setting.system.delete': '删除',
   'setting.system.upload': '上传',
   'setting.system.site-ico': 'ico图标',
-  'setting.system.site-ico-description': '会生成favicon.ico，并上传到public目录',
+  'setting.system.site-ico-description':
+    '会生成favicon.ico，并上传到public目录',
   'setting.system.site-icp': '备案号码',
   'setting.system.site-icp-description-before': 'ICP备案查询地址：',
-  'setting.system.site-icp-description-after': '，只需填主体备案号即可。没有则不填。',
+  'setting.system.site-icp-description-after':
+    '，只需填主体备案号即可。没有则不填。',
   'setting.system.site-copyright': '版权信息',
   'setting.system.site-copyright-placeholder': '版权信息会显示在页尾',
   'setting.system.site-copyright-description': '这里支持填写html标签',
   'setting.system.language': '默认语言包',
-  'setting.system.language-description': '前端一些内置的文字，会按语言包的设定来显示',
+  'setting.system.language-description':
+    '前端一些内置的文字，会按语言包的设定来显示',
   'setting.system.admin-url': '后台地址',
   'setting.system.admin-url-placeholder': 'http或https开头的域名',
-  'setting.system.admin-url-description-before': '你可以给后台单独设置独立的域名地址，加强安全性。如：https://admin.anqicms.com',
-  'setting.system.admin-url-description-after': '在设置之前，必须先解析域名，并绑定域名，否则会无法访问后台。',
+  'setting.system.admin-url-description-before':
+    '你可以给后台单独设置独立的域名地址，加强安全性。如：https://admin.anqicms.com',
+  'setting.system.admin-url-description-after':
+    '在设置之前，必须先解析域名，并绑定域名，否则会无法访问后台。',
   'setting.system.admin-url-description-notice': '注意：',
   'setting.system.admin-url-description-notice-value': '不能填写本站域名！',
   'setting.system.site-close': '网站状态',
@@ -48,46 +55,69 @@ export default {
   'setting.system.close': '闭站',
   'setting.system.spider': '仅蜘蛛可见',
   'setting.system.site-close-tips': '闭站提示',
-  'setting.system.site-close-tips-description': '站点关闭后，将会显示上面的提示。支持html标签',
+  'setting.system.site-close-tips-description':
+    '站点关闭后，将会显示上面的提示。支持html标签',
   'setting.system.spider-visible': '对搜索引擎的可见性',
-  'setting.system.spider-visible-description': '如果设置为不可见，则系统则会拦截所有的UA中包含spider、bot关键词的搜索引擎蜘蛛，并返回403。',
+  'setting.system.spider-visible-description':
+    '如果设置为不可见，则系统则会拦截所有的UA中包含spider、bot关键词的搜索引擎蜘蛛，并返回403。',
   'setting.system.visible': '可见',
   'setting.system.ban-spider': '禁止蜘蛛抓取',
   'setting.system.diy-params': '自定义参数',
   'setting.system.add-param': '添加参数',
   'setting.system.param-name': '参数名',
-  'setting.system.param-name-description': '保存后会转换成驼峰命名，可通过该名称调用',
+  'setting.system.param-name-description':
+    '保存后会转换成驼峰命名，可通过该名称调用',
   'setting.system.param-value': '参数值',
   'setting.system.remark': '注站',
   'setting.system.confirm-delete-param': '确定要删除这个参数吗？',
   'setting.system.confirm-delete': '确定要删除吗？',
-  'setting.content.confirm-convert-webp': '确定要将图库中不是webp的图片转成webp吗？',
-  'setting.content.confirm-convert-webp.content': '该功能可能会因为替换不彻底而导致部分页面引用的旧图片地址显示不正常，该部分需要手工去发现并修复。',
+  'setting.content.confirm-convert-webp':
+    '确定要将图库中不是webp的图片转成webp吗？',
+  'setting.content.confirm-convert-webp.content':
+    '该功能可能会因为替换不彻底而导致部分页面引用的旧图片地址显示不正常，该部分需要手工去发现并修复。',
   'setting.content.confirm-thumbnal': '确定要重修生成缩略图吗？',
-  'setting.content.confirm-thumbnal.content': '如果你是刚改的缩略图尺寸，还没保存，请先取消，并提交保存，再点击生成。',
+  'setting.content.confirm-thumbnal.content':
+    '如果你是刚改的缩略图尺寸，还没保存，请先取消，并提交保存，再点击生成。',
   'setting.content.editor': '默认编辑器选择',
   'setting.content.editor.fulltext': '富文本编辑器',
   'setting.content.editor.markdown': 'Markdown编辑器',
-  'setting.content.editor.description': '一般使用富文本编辑器即可，Markdown 使用门槛较高',
+  'setting.content.editor.description':
+    '一般使用富文本编辑器即可，Markdown 使用门槛较高',
   'setting.content.remote-download': '下载远程图片',
   'setting.content.outlink-filter': '自动过滤外链',
   'setting.content.urltoken': '自定义URL格式',
   'setting.content.urltoken.long': '全拼音',
   'setting.content.urltoken.short': '首字母',
-  'setting.content.urltoken.description': '默认是标题的全拼音，如果选择首字母的话，则会只取每个字的第一个字母（英文则是每个单词的第一个字母）',
+  'setting.content.urltoken.description':
+    '默认是标题的全拼音，如果选择首字母的话，则会只取每个字的第一个字母（英文则是每个单词的第一个字母）',
   'setting.content.multi-category': '文档多分类支持',
   'setting.content.notenable': '停用',
   'setting.content.enable': '启用',
-  'setting.content.multi-category.description': '默认不启用多分类支持，启用多分类可能会导致网站加载变慢',
+  'setting.content.multi-category.description':
+    '默认不启用多分类支持，启用多分类可能会导致网站加载变慢',
   'setting.content.archive-sort': '启用文档排序',
-  'setting.content.archive-sort.description': '默认不启用文档排序支持，启用文档可能会导致网站加载变慢',
+  'setting.content.archive-sort.description':
+    '默认不启用文档排序支持，启用文档可能会导致网站加载变慢',
   'setting.content.use-webp': '启用Webp图片格式',
-  'setting.content.use-webp.description': '如果你希望上传的jpg、png等图片，都全部转为webp图片格式(可以减少体积),则选择启用。只对修改后的上传的图片生效。',
-  'setting.content.use-webp.description.tips': '如果你想将以上传的图片转为webp，请点击 ',
+  'setting.content.use-webp.description':
+    '如果你希望上传的jpg、png等图片，都全部转为webp图片格式(可以减少体积),则选择启用。只对修改后的上传的图片生效。',
+  'setting.content.use-webp.description.tips':
+    '如果你想将以上传的图片转为webp，请点击 ',
   'setting.content.use-webp.description.convert': '使用webp转换工具',
+  'setting.content.max-page': '列表最大显示页码',
+  'setting.content.max-page.placeholder': '默认最大显示1000页',
+  'setting.content.max-page.suffix': '页',
+  'setting.content.max-page.description':
+    '为了防止单页读取内容过多影响网站性能，请不要设置太大',
+  'setting.content.max-limit': '列表单页最大显示条数',
+  'setting.content.max-limit.placeholder': '默认最大限制100条',
+  'setting.content.max-limit.suffix': '条',
+  'setting.content.max-limit.description':
+    '为了防止单页读取内容过多影响网站性能，请不要设置太大',
   'setting.content.quality': '图片质量',
   'setting.content.quality.placeholder': '默认：90',
-  'setting.content.quality.description': '图片质量只对jpg格式和webp格式生效。默认质量为90%',
+  'setting.content.quality.description':
+    '图片质量只对jpg格式和webp格式生效。默认质量为90%',
   'setting.content.resize-image': '自动压缩大图',
   'setting.content.resize-width': '压缩到指定宽度',
   'setting.content.resize-width.placeholder': '默认：800',
@@ -100,13 +130,17 @@ export default {
   'setting.content.thumb-size.width': '像素宽',
   'setting.content.thumb-size.height': '像素高',
   'setting.content.default-thumb': '默认缩略图',
-  'setting.content.default-thumb.description': '如果文章没有缩略图，继续调用将会使用默认缩略图代替',
+  'setting.content.default-thumb.description':
+    '如果文章没有缩略图，继续调用将会使用默认缩略图代替',
   'setting.content.make-thumb': '批量生成缩略图',
-  'setting.system.thumb-size.tips': '如果你更改了缩略图尺寸，请先提交保存，然后再点击重新',
+  'setting.system.thumb-size.tips':
+    '如果你更改了缩略图尺寸，请先提交保存，然后再点击重新',
   'setting.safe.admin-captcha': '后台访问验证码',
-  'setting.safe.admin-captcha.description': '为了你的网站安全，建议开启后台验证码',
+  'setting.safe.admin-captcha.description':
+    '为了你的网站安全，建议开启后台验证码',
   'setting.safe.captcha': '登陆/留言/评论验证码',
-  'setting.safe.captcha.description': '如需开启验证码，请参考验证码标签使用js调用刷新验证码和提交验证数据。开启后，前台用户登录、留言、评论都需要验证码',
+  'setting.safe.captcha.description':
+    '如需开启验证码，请参考验证码标签使用js调用刷新验证码和提交验证数据。开启后，前台用户登录、留言、评论都需要验证码',
   'setting.safe.daily-limit': '同IP每日提交限制',
   'setting.safe.daily-limit.suffix': '次',
   'setting.safe.daily-limit.description': '0表示不限制',
@@ -115,17 +149,22 @@ export default {
   'setting.safe.interval-limit': '留言提交间隔',
   'setting.safe.interval-limit.suffix': '秒',
   'setting.safe.content-forbidden': '留言敏感词过滤',
-  'setting.safe.content-forbidden.description': '一行一个，提交的留言、评论内容包含有这些词的将会被拒绝。',
+  'setting.safe.content-forbidden.description':
+    '一行一个，提交的留言、评论内容包含有这些词的将会被拒绝。',
   'setting.safe.ua-forbidden': '限制UserAgent',
-  'setting.safe.ua-forbidden.description': '一行一个，使用这些UserAgent访问的链接将会被拒绝。',
+  'setting.safe.ua-forbidden.description':
+    '一行一个，使用这些UserAgent访问的链接将会被拒绝。',
   'setting.safe.ip-forbidden': '限制IP地址',
-  'setting.safe.ip-forbidden.description': '一行一个，使用这些IP访问的链接将会被拒绝。ip支持的格式：单个IP: 192.168.0.1，某个IP段: 192.168.0.0/16',
+  'setting.safe.ip-forbidden.description':
+    '一行一个，使用这些IP访问的链接将会被拒绝。ip支持的格式：单个IP: 192.168.0.1，某个IP段: 192.168.0.0/16',
   'setting.safe.api-open': '启用API接口',
-  'setting.safe.api-open.description': '启用后，才能请求API地址。文档导入接口不受限制',
+  'setting.safe.api-open.description':
+    '启用后，才能请求API地址。文档导入接口不受限制',
   'setting.safe.api-publish': 'API发布结果',
   'setting.safe.api-publish.draft': '进入草稿箱',
   'setting.safe.api-publish.normal': '正常发布',
-  'setting.sensitive.confirm-sync': '确定要同步敏感词列表吗？该操作会从安企CMS官网同步最新的敏感词到本地，并替换',
+  'setting.sensitive.confirm-sync':
+    '确定要同步敏感词列表吗？该操作会从安企CMS官网同步最新的敏感词到本地，并替换',
   'setting.sensitive.sync-failure': '同步失败',
   'setting.sensitive.sync': '同步敏感词',
   'setting.sensitive.sync.list': '敏感词列表',
@@ -181,7 +220,8 @@ export default {
   'setting.nav.hide': '(隐藏)',
   'setting.nav.select-archive': '选择文档',
   'setting.nav.link': '填写链接',
-  'setting.nav.link.description': '连接使用http或https开头，如： https://www.anqicms.com/',
+  'setting.nav.link.description':
+    '连接使用http或https开头，如： https://www.anqicms.com/',
   'setting.nav.sort': '显示顺序',
   'setting.nav.sort.description': '值越小，排序越靠前，默认99',
 };

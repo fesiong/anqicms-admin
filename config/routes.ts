@@ -393,6 +393,20 @@ export default [
         component: '@/pages/plugin/limiter/index',
         icon: 'limiter',
       },
+      {
+        path: '/plugin/translate',
+        name: 'translate',
+        type: 'content',
+        component: '@/pages/plugin/translate/index',
+        icon: 'translate',
+      },
+      {
+        path: '/plugin/multilang',
+        name: 'multilang',
+        type: 'system',
+        component: '@/pages/plugin/multilang/index',
+        icon: 'multilang',
+      },
     ],
   },
   {

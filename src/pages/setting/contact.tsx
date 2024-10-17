@@ -1,16 +1,18 @@
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
+import NewContainer from '@/components/NewContainer';
 import { getSettingContact, saveSettingContact } from '@/services/setting';
 import { PlusOutlined } from '@ant-design/icons';
-import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
+import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Col, Modal, Row, message } from 'antd';
+import { Button, Card, Col, message, Modal, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const SettingContactFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [qrcode, setQrcode] = useState<string>('');
   const [extraFields, setExtraFields] = useState<any[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -21,13 +23,21 @@ const SettingContactFrom: React.FC<any> = () => {
     setExtraFields(setting.extra_fields || []);
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
   }, []);
 
   const handleSelectLogo = (row: any) => {
     setQrcode(row.logo);
-    message.success(intl.formatMessage({ id: 'setting.system.upload-success' }));
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
   };
 
   const handleRemoveLogo = (e: any) => {
@@ -42,7 +52,10 @@ const SettingContactFrom: React.FC<any> = () => {
 
   const onSubmit = async (values: any) => {
     values.qrcode = qrcode;
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveSettingContact(values)
       .then((res) => {
         message.success(res.msg);
@@ -56,8 +69,8 @@ const SettingContactFrom: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         {setting && (
           <ProForm
             initialValues={setting}
@@ -89,7 +102,10 @@ const SettingContactFrom: React.FC<any> = () => {
               label={intl.formatMessage({ id: 'setting.contact.wechat' })}
               width="lg"
             />
-            <ProFormText label={intl.formatMessage({ id: 'setting.contact.qrcode' })} width="lg">
+            <ProFormText
+              label={intl.formatMessage({ id: 'setting.contact.qrcode' })}
+              width="lg"
+            >
               <AttachmentSelect onSelect={handleSelectLogo} open={false}>
                 <div className="ant-upload-item">
                   {qrcode ? (
@@ -150,16 +166,22 @@ const SettingContactFrom: React.FC<any> = () => {
                   <Col span={8}>
                     <ProFormText
                       name={['extra_fields', index, 'name']}
-                      label={intl.formatMessage({ id: 'setting.system.param-name' })}
+                      label={intl.formatMessage({
+                        id: 'setting.system.param-name',
+                      })}
                       required={true}
                       width="lg"
-                      extra={intl.formatMessage({ id: 'setting.system.param-name-description' })}
+                      extra={intl.formatMessage({
+                        id: 'setting.system.param-name-description',
+                      })}
                     />
                   </Col>
                   <Col span={8}>
                     <ProFormText
                       name={['extra_fields', index, 'value']}
-                      label={intl.formatMessage({ id: 'setting.system.param-value' })}
+                      label={intl.formatMessage({
+                        id: 'setting.system.param-value',
+                      })}
                       required={true}
                       width="lg"
                     />
@@ -167,7 +189,9 @@ const SettingContactFrom: React.FC<any> = () => {
                   <Col span={6}>
                     <ProFormText
                       name={['extra_fields', index, 'remark']}
-                      label={intl.formatMessage({ id: 'setting.system.remark' })}
+                      label={intl.formatMessage({
+                        id: 'setting.system.remark',
+                      })}
                       width="lg"
                     />
                   </Col>
@@ -176,7 +200,9 @@ const SettingContactFrom: React.FC<any> = () => {
                       style={{ marginTop: '30px' }}
                       onClick={() => {
                         Modal.confirm({
-                          title: intl.formatMessage({ id: 'setting.system.confirm-delete-param' }),
+                          title: intl.formatMessage({
+                            id: 'setting.system.confirm-delete-param',
+                          }),
                           onOk: () => {
                             extraFields.splice(index, 1);
                             setExtraFields([].concat(extraFields));
@@ -193,7 +219,7 @@ const SettingContactFrom: React.FC<any> = () => {
           </ProForm>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 
