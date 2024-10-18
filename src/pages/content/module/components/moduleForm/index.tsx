@@ -9,7 +9,17 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Col, Input, Modal, Radio, Row, Space, Tag, message } from 'antd';
+import {
+  Button,
+  Col,
+  Input,
+  Modal,
+  Radio,
+  Row,
+  Space,
+  Tag,
+  message,
+} from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
 export type ModuleFormProps = {
@@ -46,9 +56,14 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
   const handleRemoveItem = (record: any, index: number) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.module.field.delete.confirm' }),
-      content: intl.formatMessage({ id: 'content.module.field.delete.content' }),
+      content: intl.formatMessage({
+        id: 'content.module.field.delete.content',
+      }),
       onOk: async () => {
-        deleteModuleField({ id: props.module.id, field_name: record.field_name });
+        deleteModuleField({
+          id: props.module.id,
+          field_name: record.field_name,
+        });
         setting.fields.splice(index, 1);
         setting.fields = [].concat(setting.fields);
         setSetting(setting);
@@ -96,7 +111,10 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
       return;
     }
     submitting = true;
-    let hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    let hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveModule(setting)
       .then((res) => {
         if (res.code === 0) {
@@ -145,11 +163,15 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
 
       valueEnum: {
         false: {
-          text: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
+          text: intl.formatMessage({
+            id: 'content.module.field.isrequired.no',
+          }),
           status: 'Default',
         },
         true: {
-          text: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
+          text: intl.formatMessage({
+            id: 'content.module.field.isrequired.yes',
+          }),
           status: 'Success',
         },
       },
@@ -204,6 +226,22 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                 <Col>
                   <div style={{ lineHeight: '32px', width: '120px' }}>
                     <FormattedMessage id="content.module.title" />:
+                  </div>
+                </Col>
+                <Col flex={1}>
+                  <Input
+                    name="name"
+                    defaultValue={setting.name}
+                    onChange={(e: any) => {
+                      handleChangeInput('name', e);
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row className="mt-normal" gutter={16}>
+                <Col>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.seo-title.name" />:
                   </div>
                 </Col>
                 <Col flex={1}>
@@ -291,11 +329,15 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                     options={[
                       {
                         value: 0,
-                        label: intl.formatMessage({ id: 'content.category.status.hide' }),
+                        label: intl.formatMessage({
+                          id: 'content.category.status.hide',
+                        }),
                       },
                       {
                         value: 1,
-                        label: intl.formatMessage({ id: 'content.category.status.ok' }),
+                        label: intl.formatMessage({
+                          id: 'content.category.status.ok',
+                        }),
                       },
                     ]}
                   />
@@ -341,7 +383,8 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
           width={600}
           title={
             currentField.name
-              ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' })
+              ? currentField.name +
+                intl.formatMessage({ id: 'content.module.field.edit' })
               : intl.formatMessage({ id: 'content.module.field.add' })
           }
           open={editVisible}
@@ -360,40 +403,70 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
             name="name"
             required
             label={intl.formatMessage({ id: 'content.module.field.name' })}
-            extra={intl.formatMessage({ id: 'content.module.field.name.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.name.description',
+            })}
           />
           <ProFormText
             name="field_name"
-            label={intl.formatMessage({ id: 'content.module.field.field-name' })}
+            label={intl.formatMessage({
+              id: 'content.module.field.field-name',
+            })}
             disabled={currentField.field_name ? true : false}
-            extra={intl.formatMessage({ id: 'content.module.field.field-name.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.field-name.description',
+            })}
           />
           <ProFormRadio.Group
             name="type"
             label={intl.formatMessage({ id: 'content.module.field.type' })}
             disabled={currentField.field_name ? true : false}
             valueEnum={{
-              text: intl.formatMessage({ id: 'content.module.field.type.text' }),
-              number: intl.formatMessage({ id: 'content.module.field.type.number' }),
-              textarea: intl.formatMessage({ id: 'content.module.field.type.textarea' }),
-              editor: intl.formatMessage({ id: 'content.module.field.type.editor' }),
-              radio: intl.formatMessage({ id: 'content.module.field.type.radio' }),
-              checkbox: intl.formatMessage({ id: 'content.module.field.type.checkbox' }),
-              select: intl.formatMessage({ id: 'content.module.field.type.select' }),
-              image: intl.formatMessage({ id: 'content.module.field.type.image' }),
-              file: intl.formatMessage({ id: 'content.module.field.type.file' }),
+              text: intl.formatMessage({
+                id: 'content.module.field.type.text',
+              }),
+              number: intl.formatMessage({
+                id: 'content.module.field.type.number',
+              }),
+              textarea: intl.formatMessage({
+                id: 'content.module.field.type.textarea',
+              }),
+              editor: intl.formatMessage({
+                id: 'content.module.field.type.editor',
+              }),
+              radio: intl.formatMessage({
+                id: 'content.module.field.type.radio',
+              }),
+              checkbox: intl.formatMessage({
+                id: 'content.module.field.type.checkbox',
+              }),
+              select: intl.formatMessage({
+                id: 'content.module.field.type.select',
+              }),
+              image: intl.formatMessage({
+                id: 'content.module.field.type.image',
+              }),
+              file: intl.formatMessage({
+                id: 'content.module.field.type.file',
+              }),
             }}
           />
           <ProFormRadio.Group
             name="required"
-            label={intl.formatMessage({ id: 'content.module.field.isrequired' })}
+            label={intl.formatMessage({
+              id: 'content.module.field.isrequired',
+            })}
             options={[
               {
-                label: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.isrequired.no',
+                }),
                 value: false,
               },
               {
-                label: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.isrequired.yes',
+                }),
                 value: true,
               },
             ]}
@@ -403,11 +476,15 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
             label={intl.formatMessage({ id: 'content.read-level.name' })}
             options={[
               {
-                label: intl.formatMessage({ id: 'content.module.field.level.none' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.level.none',
+                }),
                 value: false,
               },
               {
-                label: intl.formatMessage({ id: 'content.module.field.level.follow' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.level.follow',
+                }),
                 value: true,
               },
             ]}
@@ -417,15 +494,21 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
             label={intl.formatMessage({ id: 'content.module.field.isfilter' })}
             options={[
               {
-                label: intl.formatMessage({ id: 'content.module.field.isfilter.no' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.isfilter.no',
+                }),
                 value: false,
               },
               {
-                label: intl.formatMessage({ id: 'content.module.field.isfilter.yes' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.isfilter.yes',
+                }),
                 value: true,
               },
             ]}
-            extra={intl.formatMessage({ id: 'content.module.field.isfilter.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.isfilter.description',
+            })}
           />
           <ProFormTextArea
             label={intl.formatMessage({ id: 'content.param.default' })}
@@ -433,7 +516,9 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
             fieldProps={{
               rows: 4,
             }}
-            extra={intl.formatMessage({ id: 'content.module.field.default.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.default.description',
+            })}
           />
         </ModalForm>
       )}

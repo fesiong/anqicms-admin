@@ -73,7 +73,7 @@ const ModuleList: React.FC = () => {
     },
     {
       title: intl.formatMessage({ id: 'content.module.title' }),
-      dataIndex: 'title',
+      dataIndex: 'name',
     },
     {
       title: intl.formatMessage({ id: 'content.module.field' }),
