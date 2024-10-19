@@ -111,6 +111,9 @@ export default {
     'আপনি যদি আপলোড করা ছবিকে ওয়েবপিতে রূপান্তর করতে চান, অনুগ্রহ করে ক্লিক করুন',
   'setting.content.use-webp.description.convert':
     'ওয়েবপি রূপান্তর টুল ব্যবহার করুন',
+  'setting.content.convert-gif': 'GIF ছবিকে Webp-এ রূপান্তর করুন',
+  'setting.content.convert-gif.description':
+    'যদি চালু করা হয়, GIF ইমেজ স্বয়ংক্রিয়ভাবে ওয়েবপি ফরম্যাটে রূপান্তরিত হবে এর ফলে GIF অ্যানিমেশন ইফেক্ট নষ্ট হয়ে যাবে এবং একটি স্ট্যাটিক ইমেজ হয়ে যাবে। ',
   'setting.content.max-page': 'তালিকায় প্রদর্শিত সর্বোচ্চ পৃষ্ঠা সংখ্যা',
   'setting.content.max-page.placeholder':
     'ডিফল্ট সর্বোচ্চ প্রদর্শন পৃষ্ঠা হল 1000',

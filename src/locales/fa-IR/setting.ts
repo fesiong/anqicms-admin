@@ -115,6 +115,9 @@ export default {
     'اگر می خواهید تصویر آپلود شده را به webp تبدیل کنید، لطفا کلیک کنید',
   'setting.content.use-webp.description.convert':
     'از ابزار تبدیل webp استفاده کنید',
+  'setting.content.convert-gif': 'تبدیل تصاویر GIF به Webp',
+  'setting.content.convert-gif.description':
+    'اگر روشن باشد، تصویر GIF به طور خودکار به فرمت webp تبدیل می شود و باعث می شود افکت انیمیشن GIF از بین برود و به یک تصویر ثابت تبدیل شود. ',
   'setting.content.max-page': 'حداکثر تعداد صفحه نمایش داده شده در لیست',
   'setting.content.max-page.placeholder': 'حداکثر صفحه نمایش پیش فرض 1000 است',
   'setting.content.max-page.suffix': 'page',

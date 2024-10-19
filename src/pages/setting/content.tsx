@@ -21,15 +21,17 @@ const SettingContactFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [defaultThumb, setDefaultThumb] = useState<string>('');
   const [resize_image, setResizeImage] = useState<number>(0);
+  const [useWebp, setUseWebp] = useState<number>(0);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
     const res = await getSettingContent();
     let setting = res.data || null;
-    setSetting(setting);
     setDefaultThumb(setting?.default_thumb || '');
     setResizeImage(setting?.resize_image || 0);
+    setUseWebp(setting?.use_webp || 0);
+    setSetting(setting);
   };
 
   const onTabChange = (key: string) => {
@@ -292,6 +294,11 @@ const SettingContactFrom: React.FC<any> = () => {
                   label: intl.formatMessage({ id: 'setting.content.enable' }),
                 },
               ]}
+              fieldProps={{
+                onChange: (e) => {
+                  setUseWebp(e.target.value);
+                },
+              }}
               extra={
                 <div>
                   <span>
@@ -306,6 +313,33 @@ const SettingContactFrom: React.FC<any> = () => {
                 </div>
               }
             />
+            {useWebp === 1 && (
+              <ProFormRadio.Group
+                name="convert_gif"
+                label={intl.formatMessage({
+                  id: 'setting.content.convert-gif',
+                })}
+                options={[
+                  {
+                    value: 0,
+                    label: intl.formatMessage({
+                      id: 'setting.content.notenable',
+                    }),
+                  },
+                  {
+                    value: 1,
+                    label: intl.formatMessage({ id: 'setting.content.enable' }),
+                  },
+                ]}
+                extra={
+                  <div>
+                    <span>
+                      <FormattedMessage id="setting.content.convert-gif.description" />
+                    </span>
+                  </div>
+                }
+              />
+            )}
             <ProFormText
               name="quality"
               label={intl.formatMessage({ id: 'setting.content.quality' })}

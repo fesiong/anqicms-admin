@@ -116,6 +116,9 @@ export default {
     'Если вы хотите преобразовать загруженное изображение в WebP, нажмите',
   'setting.content.use-webp.description.convert':
     'Используйте инструмент преобразования веб-страниц',
+  'setting.content.convert-gif': 'Конвертировать изображения GIF в Webp',
+  'setting.content.convert-gif.description':
+    'Если этот параметр включен, изображение GIF будет автоматически преобразовано в формат WebP. Это приведет к потере эффекта анимации GIF и превращению его в статическое изображение. ',
   'setting.content.max-page':
     'Максимальное количество страниц, отображаемых в списке',
   'setting.content.max-page.placeholder':

@@ -113,6 +113,9 @@ export default {
   'setting.content.use-webp.description.tips':
     'アップロードした画像をWebPに変換したい場合は、クリックしてください',
   'setting.content.use-webp.description.convert': 'WebP変換ツールを使用する',
+  'setting.content.convert-gif': 'GIF画像をWebPに変換',
+  'setting.content.convert-gif.description':
+    'オンにすると、GIF 画像は自動的に WebP 形式に変換され、GIF アニメーション効果が失われ、静止画像になります。 ',
   'setting.content.max-page': 'リストに表示される最大ページ番号',
   'setting.content.max-page.placeholder':
     'デフォルトの最大表示ページは 1000 です',

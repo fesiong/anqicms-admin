@@ -116,6 +116,9 @@ export default {
     'Se você deseja converter a imagem enviada para webp, clique em',
   'setting.content.use-webp.description.convert':
     'Use a ferramenta de conversão webp',
+  'setting.content.convert-gif': 'Converter imagens GIF em Webp',
+  'setting.content.convert-gif.description':
+    'Se ativado, a imagem GIF será automaticamente convertida para o formato webp. Isso fará com que o efeito de animação GIF seja perdido e se torne uma imagem estática. ',
   'setting.content.max-page': 'O número máximo de páginas exibidas na lista',
   'setting.content.max-page.placeholder':
     'A página de exibição máxima padrão é 1000',

@@ -104,6 +104,9 @@ export default {
   'setting.content.use-webp.description.tips':
     '如果你想将以上传的图片转为webp，请点击 ',
   'setting.content.use-webp.description.convert': '使用webp转换工具',
+  'setting.content.convert-gif': '转换GIF图片为Webp',
+  'setting.content.convert-gif.description':
+    '如果开启，则GIF图片会自动转为webp格式，这样会导致GIF动画效果丢失，变成静态图片。',
   'setting.content.max-page': '列表最大显示页码',
   'setting.content.max-page.placeholder': '默认最大显示1000页',
   'setting.content.max-page.suffix': '页',

@@ -115,6 +115,9 @@ export default {
   'setting.content.use-webp.description.tips':
     'If you want to convert the uploaded image to webp, please click',
   'setting.content.use-webp.description.convert': 'Use webp conversion tool',
+  'setting.content.convert-gif': 'Convert GIF images to Webp',
+  'setting.content.convert-gif.description':
+    'If enabled, GIF images will be automatically converted to webp format, which will cause the GIF animation effect to be lost and become a static image. ',
   'setting.content.max-page':
     'The maximum number of pages displayed in the list',
   'setting.content.max-page.placeholder':

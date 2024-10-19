@@ -113,6 +113,9 @@ export default {
   'setting.content.use-webp.description.tips':
     'Jika Anda ingin mengubah gambar yang diunggah ke webp, silakan klik',
   'setting.content.use-webp.description.convert': 'Gunakan alat konversi webp',
+  'setting.content.convert-gif': 'Konversi gambar GIF ke Webp',
+  'setting.content.convert-gif.description':
+    'Jika diaktifkan, gambar GIF akan otomatis dikonversi ke format webp. Hal ini akan menyebabkan efek animasi GIF hilang dan menjadi gambar statis. ',
   'setting.content.max-page':
     'Nomor halaman maksimum yang ditampilkan dalam daftar',
   'setting.content.max-page.placeholder':
