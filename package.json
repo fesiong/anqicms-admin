@@ -33,6 +33,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-monaco-editor": "^0.48.0",
+    "spark-md5": "^3.0.2",
     "wangeditor-for-react": "^1.5.6"
   },
   "devDependencies": {

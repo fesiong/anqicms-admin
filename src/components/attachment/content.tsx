@@ -1,7 +1,22 @@
-import { getAttachmentCategories, getAttachments, uploadAttachment } from '@/services/attachment';
+import {
+  getAttachmentCategories,
+  getAttachments,
+  uploadAttachment,
+} from '@/services/attachment';
+import { calculateFileMd5 } from '@/utils';
 import { CloseOutlined } from '@ant-design/icons';
 import { ActionType, ProList } from '@ant-design/pro-components';
-import { Avatar, Button, Checkbox, Image, Input, Select, Space, Upload, message } from 'antd';
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  Image,
+  Input,
+  Select,
+  Space,
+  Upload,
+  message,
+} from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
@@ -24,22 +39,78 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
     });
   }, []);
 
-  const handleUploadImage = (e: any) => {
-    let formData = new FormData();
-    formData.append('file', e.file);
-    formData.append('category_id', categoryId + '');
-    uploadAttachment(formData).then((res) => {
-      if (res.code !== 0) {
-        message.info(res.msg);
-      } else {
-        message.info(res.msg || '上传成功');
-        if (props.multiple) {
-          setSelectedRowKeys([]);
-          props.onSelect([]);
-        }
-        actionRef.current?.reload();
-      }
+  const handleUploadImage = async (e: any) => {
+    // 上传前先计算MD5
+    let hide = message.loading({
+      content: '正在上传',
+      duration: 0,
+      key: 'uploading',
     });
+    const size = e.file.size;
+    const md5Value = await calculateFileMd5(e.file);
+    const chunkSize = 2 * 1024 * 1024; // 每个分片大小 2MB
+    const totalChunks = Math.ceil(size / chunkSize);
+    let formData = new FormData();
+    formData.append('category_id', categoryId + '');
+    formData.append('file_name', e.file.name);
+    formData.append('md5', md5Value as string);
+    if (totalChunks > 1) {
+      // 大于 chunkSize 的，使用分片上传
+      formData.append('chunks', totalChunks + '');
+      for (let i = 0; i < totalChunks; i++) {
+        const chunk = e.file.slice(i * chunkSize, (i + 1) * chunkSize);
+        chunk.name = e.file.name;
+        chunk.uid = e.file.uid;
+        formData.set('chunk', i + '');
+        formData.set('file', chunk);
+        try {
+          const res = await uploadAttachment(formData);
+          if (res.code !== 0) {
+            message.info(res.msg);
+            hide();
+          } else {
+            hide = message.loading({
+              content:
+                '正在上传 - ' + Math.ceil(((i + 1) * 100) / totalChunks) + '%',
+              duration: 0,
+              key: 'uploading',
+            });
+            if (res.data) {
+              // 上传完成
+              hide();
+              message.info(res.msg || '上传成功');
+              if (props.multiple) {
+                setSelectedRowKeys([]);
+                props.onSelect([]);
+              }
+              actionRef.current?.reload();
+            }
+          }
+        } catch (err) {
+          hide();
+          message.info('upload failed');
+        }
+      }
+    } else {
+      // 小于 chunkSize 的，直接上传
+      formData.append('file', e.file);
+      uploadAttachment(formData)
+        .then((res) => {
+          if (res.code !== 0) {
+            message.info(res.msg);
+          } else {
+            message.info(res.msg || '上传成功');
+            if (props.multiple) {
+              setSelectedRowKeys([]);
+              props.onSelect([]);
+            }
+            actionRef.current?.reload();
+          }
+        })
+        .finally(() => {
+          hide();
+        });
+    }
   };
 
   const handleChangeCategory = (e: any) => {
@@ -91,7 +162,11 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
       <div className="material-header">
         <Space size={16}>
           <span>选择文件</span>
-          <Select defaultValue={categoryId} style={{ width: 120 }} onChange={handleChangeCategory}>
+          <Select
+            defaultValue={categoryId}
+            style={{ width: 120 }}
+            onChange={handleChangeCategory}
+          >
             <Select.Option value={0}>全部资源</Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
@@ -99,7 +174,10 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
               </Select.Option>
             ))}
           </Select>
-          <Input.Search placeholder="输入文件名关键词搜索" onSearch={handleSearch} />
+          <Input.Search
+            placeholder="输入文件名关键词搜索"
+            onSearch={handleSearch}
+          />
           <Upload
             name="file"
             showUploadList={false}
@@ -150,7 +228,9 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
               render: (_: any, row: any) => {
                 return (
                   <div className="image-item">
-                    {props.multiple && <Checkbox className="checkbox" value={row} />}
+                    {props.multiple && (
+                      <Checkbox className="checkbox" value={row} />
+                    )}
                     <div className="inner" title={row.file_name}>
                       {row.thumb ? (
                         <Image
@@ -164,7 +244,9 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
                       ) : (
                         <a href={row.logo} target="_blank" rel="noreferrer">
                           <Avatar className="default-img" size={100}>
-                            {row.file_location.substring(row.file_location.lastIndexOf('.'))}
+                            {row.file_location.substring(
+                              row.file_location.lastIndexOf('.'),
+                            )}
                           </Avatar>
                         </a>
                       )}

@@ -1,5 +1,6 @@
 import config from '@/services/config';
 import { message } from 'antd';
+import SparkMD5 from 'spark-md5';
 import { getStore } from './store';
 
 /**
@@ -214,6 +215,41 @@ export const downloadFile = (url: string, params?: any, newName?: string) => {
       hide();
       return Promise.resolve({});
     });
+};
+
+export const calculateFileMd5 = (file: any) => {
+  return new Promise((resolve, reject) => {
+    const chunkSize = 2 * 1024 * 1024; // 每个分片大小 2MB
+    const spark = new SparkMD5.ArrayBuffer();
+    const fileReader = new FileReader();
+    const chunks = Math.ceil(file.size / chunkSize);
+    let currentChunk = 0;
+
+    const loadNext = () => {
+      const start = currentChunk * chunkSize;
+      const end =
+        start + chunkSize >= file.size ? file.size : start + chunkSize;
+      fileReader.readAsArrayBuffer(file.slice(start, end));
+    };
+
+    fileReader.onload = (e: any) => {
+      spark.append(e.target.result); // 向 MD5 对象添加数据
+      currentChunk++;
+
+      if (currentChunk < chunks) {
+        loadNext(); // 继续读取下一个分片
+      } else {
+        const md5Value = spark.end(); // 计算最终的 MD5
+        resolve(md5Value);
+      }
+    };
+
+    fileReader.onerror = () => {
+      reject('File reading error');
+    };
+
+    loadNext(); // 开始读取第一个分片
+  });
 };
 
 export const supportLanguages = [

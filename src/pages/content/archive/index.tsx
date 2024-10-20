@@ -46,6 +46,7 @@ import {
 } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
+import QuickImportModal from './components/quickImport';
 import './index.less';
 import QuickEditForm from './quickEdit';
 
@@ -77,6 +78,7 @@ const ArchiveList: React.FC = () => {
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
   const [firstFetch, setFirstFetch] = useState<boolean>(false);
   const [latestUpdateId, setLatestUpdateId] = useState<number>(0);
+  const [importVisible, setImportVisible] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const [isSubSite, setIsSubSite] = useState<boolean>(false);
   const intl = useIntl();
@@ -827,6 +829,14 @@ const ArchiveList: React.FC = () => {
             <FormattedMessage id="content.recycle.name" />
           </Button>,
           <Button
+            key="import"
+            onClick={() => {
+              setImportVisible(true);
+            }}
+          >
+            <FormattedMessage id="content.quick-import.name" />
+          </Button>,
+          <Button
             key="replace"
             onClick={() => {
               setReplaceVisible(true);
@@ -1148,6 +1158,17 @@ const ArchiveList: React.FC = () => {
             loadLatestUpdate();
           }}
           onCancel={() => setQuickVisible(false)}
+        />
+      )}
+      {importVisible && (
+        <QuickImportModal
+          open={importVisible}
+          onOpenChange={(flag) => {
+            setImportVisible(flag);
+            if (flag === false) {
+              actionRef.current?.reload?.();
+            }
+          }}
         />
       )}
     </NewContainer>

@@ -7,7 +7,7 @@ import {
   pluginGetBackupList,
   pluginGetBackupStatus,
 } from '@/services';
-import { downloadFile, sizeFormat } from '@/utils';
+import { calculateFileMd5, downloadFile, sizeFormat } from '@/utils';
 import {
   ActionType,
   PageContainer,
@@ -138,19 +138,74 @@ const PluginUserGroup: React.FC = () => {
 
   const handleUploadFile = async (e: any) => {
     const formData = new FormData();
-    formData.append('file', e.file);
-    const hide = message.loading(
-      intl.formatMessage({ id: 'setting.system.submitting' }),
-      0,
-    );
-    pluginBackupImport(formData)
-      .then((res) => {
-        message.success(res.msg);
-        actionRef.current?.reload();
-      })
-      .finally(() => {
-        hide();
-      });
+    let hide = message.loading({
+      content: intl.formatMessage({
+        id: 'setting.system.submitting',
+      }),
+      duration: 0,
+      key: 'uploading',
+    });
+    const size = e.file.size;
+    const md5Value = await calculateFileMd5(e.file);
+    const chunkSize = 2 * 1024 * 1024; // 每个分片大小 2MB
+    const totalChunks = Math.ceil(size / chunkSize);
+    formData.append('file_name', e.file.name);
+    formData.append('md5', md5Value as string);
+    if (totalChunks > 1) {
+      // 大于 chunkSize 的，使用分片上传
+      formData.append('chunks', totalChunks + '');
+      for (let i = 0; i < totalChunks; i++) {
+        const chunk = e.file.slice(i * chunkSize, (i + 1) * chunkSize);
+        chunk.name = e.file.name;
+        chunk.uid = e.file.uid;
+        formData.set('chunk', i + '');
+        formData.set('file', chunk);
+        try {
+          const res = await pluginBackupImport(formData);
+          if (res.code !== 0) {
+            message.info(res.msg);
+            hide();
+          } else {
+            hide = message.loading({
+              content:
+                intl.formatMessage({
+                  id: 'setting.system.submitting',
+                }) +
+                ' - ' +
+                Math.ceil(((i + 1) * 100) / totalChunks) +
+                '%',
+              duration: 0,
+              key: 'uploading',
+            });
+            if (res.data) {
+              // 上传完成
+              hide();
+              message.info(
+                res.msg ||
+                  intl.formatMessage({
+                    id: 'setting.system.upload-success',
+                  }),
+              );
+              actionRef.current?.reload();
+            }
+          }
+        } catch (err) {
+          hide();
+          message.info('upload failed');
+        }
+      }
+    } else {
+      // 小于 chunkSize 的，直接上传
+      formData.append('file', e.file);
+      pluginBackupImport(formData)
+        .then((res) => {
+          message.success(res.msg);
+          actionRef.current?.reload();
+        })
+        .finally(() => {
+          hide();
+        });
+    }
   };
 
   const onChangeData = (e: any) => {

@@ -1,6 +1,9 @@
 import { get, post } from './tools';
 
-export async function getArchives(params?: any, options?: { [key: string]: any }) {
+export async function getArchives(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/archive/list',
     params,
@@ -8,7 +11,10 @@ export async function getArchives(params?: any, options?: { [key: string]: any }
   });
 }
 
-export async function getArchiveInfo(params: any, options?: { [key: string]: any }) {
+export async function getArchiveInfo(
+  params: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/archive/detail',
     params,
@@ -24,7 +30,10 @@ export async function saveArchive(body: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function deleteArchiveImage(body: any, options?: { [key: string]: any }) {
+export async function deleteArchiveImage(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/delete/image',
     body,
@@ -32,7 +41,10 @@ export async function deleteArchiveImage(body: any, options?: { [key: string]: a
   });
 }
 
-export async function deleteArchive(body: any, options?: { [key: string]: any }) {
+export async function deleteArchive(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/delete',
     body,
@@ -40,7 +52,10 @@ export async function deleteArchive(body: any, options?: { [key: string]: any })
   });
 }
 
-export async function recoverArchive(body: any, options?: { [key: string]: any }) {
+export async function recoverArchive(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/recover',
     body,
@@ -48,7 +63,10 @@ export async function recoverArchive(body: any, options?: { [key: string]: any }
   });
 }
 
-export async function releaseArchive(body: any, options?: { [key: string]: any }) {
+export async function releaseArchive(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/release',
     body,
@@ -56,7 +74,10 @@ export async function releaseArchive(body: any, options?: { [key: string]: any }
   });
 }
 
-export async function updateArchivesFlag(body: any, options?: { [key: string]: any }) {
+export async function updateArchivesFlag(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/recommend',
     body,
@@ -64,7 +85,10 @@ export async function updateArchivesFlag(body: any, options?: { [key: string]: a
   });
 }
 
-export async function updateArchivesStatus(body: any, options?: { [key: string]: any }) {
+export async function updateArchivesStatus(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/status',
     body,
@@ -72,7 +96,10 @@ export async function updateArchivesStatus(body: any, options?: { [key: string]:
   });
 }
 
-export async function updateArchivesTime(body: any, options?: { [key: string]: any }) {
+export async function updateArchivesTime(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/time',
     body,
@@ -80,7 +107,10 @@ export async function updateArchivesTime(body: any, options?: { [key: string]: a
   });
 }
 
-export async function updateArchivesCategory(body: any, options?: { [key: string]: any }) {
+export async function updateArchivesCategory(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/category',
     body,
@@ -88,7 +118,10 @@ export async function updateArchivesCategory(body: any, options?: { [key: string
   });
 }
 
-export async function updateArchivesSort(body: any, options?: { [key: string]: any }) {
+export async function updateArchivesSort(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/sort',
     body,
@@ -96,9 +129,34 @@ export async function updateArchivesSort(body: any, options?: { [key: string]: a
   });
 }
 
-export async function updateArchivesReleasePlan(body: any, options?: { [key: string]: any }) {
+export async function updateArchivesReleasePlan(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/archive/plan',
+    body,
+    options,
+  });
+}
+
+export async function getQuickImportArchiveStatus(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/archive/import/status',
+    params,
+    options,
+  });
+}
+
+export async function archiveQuickImport(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/archive/import',
     body,
     options,
   });

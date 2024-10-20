@@ -7,9 +7,13 @@ import {
   scanUploadsAttachment,
   uploadAttachment,
 } from '@/services/attachment';
-import { sizeFormat } from '@/utils';
+import { calculateFileMd5, sizeFormat } from '@/utils';
 import { LoadingOutlined } from '@ant-design/icons';
-import { ModalForm, PageContainer, ProFormText } from '@ant-design/pro-components';
+import {
+  ModalForm,
+  PageContainer,
+  ProFormText,
+} from '@ant-design/pro-components';
 import { FormattedMessage, injectIntl } from '@umijs/max';
 import {
   Alert,
@@ -93,47 +97,117 @@ class ImageList extends React.Component<intlProps> {
 
   scanUploadsDir = () => {
     Modal.confirm({
-      title: this.props.intl.formatMessage({ id: 'content.attachment.scan.confirm' }),
-      content: this.props.intl.formatMessage({ id: 'content.attachment.scan.content' }),
+      title: this.props.intl.formatMessage({
+        id: 'content.attachment.scan.confirm',
+      }),
+      content: this.props.intl.formatMessage({
+        id: 'content.attachment.scan.content',
+      }),
       onOk: async () => {
         scanUploadsAttachment({}).then((res) => {
           message.info(
-            res.msg || this.props.intl.formatMessage({ id: 'content.attachment.scan.success' }),
+            res.msg ||
+              this.props.intl.formatMessage({
+                id: 'content.attachment.scan.success',
+              }),
           );
         });
       },
     });
   };
 
-  handleUploadImage = (e: any) => {
-    const hide = message.loading(
-      this.props.intl.formatMessage({ id: 'setting.system.submitting' }),
-      0,
-    );
+  handleUploadImage = async (e: any) => {
+    // 上传前先计算MD5
+    let hide = message.loading({
+      content: this.props.intl.formatMessage({
+        id: 'setting.system.submitting',
+      }),
+      duration: 0,
+      key: 'uploading',
+    });
     const { categoryId } = this.state;
+    const size = e.file.size;
+    const md5Value = await calculateFileMd5(e.file);
+    const chunkSize = 2 * 1024 * 1024; // 每个分片大小 2MB
+    const totalChunks = Math.ceil(size / chunkSize);
     let formData = new FormData();
-    formData.append('file', e.file);
     formData.append('category_id', categoryId + '');
-    uploadAttachment(formData)
-      .then((res) => {
-        if (res.code !== 0) {
-          message.info(res.msg);
-        } else {
-          message.info(
-            res.msg || this.props.intl.formatMessage({ id: 'setting.system.upload-success' }),
-          );
-          this.getImageList();
+    formData.append('file_name', e.file.name);
+    formData.append('md5', md5Value as string);
+    if (totalChunks > 1) {
+      // 大于 chunkSize 的，使用分片上传
+      formData.append('chunks', totalChunks + '');
+      for (let i = 0; i < totalChunks; i++) {
+        const chunk = e.file.slice(i * chunkSize, (i + 1) * chunkSize);
+        chunk.name = e.file.name;
+        chunk.uid = e.file.uid;
+        formData.set('chunk', i + '');
+        formData.set('file', chunk);
+        try {
+          const res = await uploadAttachment(formData);
+          if (res.code !== 0) {
+            message.info(res.msg);
+            hide();
+          } else {
+            hide = message.loading({
+              content:
+                this.props.intl.formatMessage({
+                  id: 'setting.system.submitting',
+                }) +
+                ' - ' +
+                Math.ceil(((i + 1) * 100) / totalChunks) +
+                '%',
+              duration: 0,
+              key: 'uploading',
+            });
+            if (res.data) {
+              // 上传完成
+              hide();
+              message.info(
+                res.msg ||
+                  this.props.intl.formatMessage({
+                    id: 'setting.system.upload-success',
+                  }),
+              );
+              this.getImageList();
+            }
+          }
+        } catch (err) {
+          hide();
+          message.info('upload failed');
         }
-      })
-      .finally(() => {
-        hide();
-      });
+      }
+    } else {
+      // 小于 chunkSize 的，直接上传
+      formData.append('file', e.file);
+      uploadAttachment(formData)
+        .then((res) => {
+          if (res.code !== 0) {
+            message.info(res.msg);
+          } else {
+            message.info(
+              res.msg ||
+                this.props.intl.formatMessage({
+                  id: 'setting.system.upload-success',
+                }),
+            );
+            this.getImageList();
+          }
+        })
+        .finally(() => {
+          hide();
+        });
+    }
   };
 
   handleDeleteImage = () => {
     Modal.confirm({
-      title: this.props.intl.formatMessage({ id: 'content.attachment.delete.image.confirm' }),
-      content: this.props.intl.formatMessage({ id: 'content.attachment.delete.content' }),
+      title: this.props.intl.formatMessage({
+        id: 'content.attachment.delete.image.confirm',
+      }),
+      content: this.props.intl.formatMessage({
+        id: 'content.attachment.delete.content',
+      }),
       onOk: async () => {
         const { selectedIds } = this.state;
         for (let id of selectedIds) {
@@ -173,7 +247,8 @@ class ImageList extends React.Component<intlProps> {
     const { images } = this.state;
     this.setState({
       selectedIds: e,
-      indeterminate: e.length === 0 ? false : e.length < images.length ? true : false,
+      indeterminate:
+        e.length === 0 ? false : e.length < images.length ? true : false,
       selectedAll: e.length === images.length ? true : false,
     });
   };
@@ -217,7 +292,9 @@ class ImageList extends React.Component<intlProps> {
     const { tmpCategoryId, categories } = this.state;
     Modal.confirm({
       icon: null,
-      title: this.props.intl.formatMessage({ id: 'content.attachment.move-to-category' }),
+      title: this.props.intl.formatMessage({
+        id: 'content.attachment.move-to-category',
+      }),
       content: (
         <div>
           <Select
@@ -226,7 +303,9 @@ class ImageList extends React.Component<intlProps> {
             style={{ width: 200 }}
           >
             <Select.Option value={0}>
-              {this.props.intl.formatMessage({ id: 'content.attachment.unclassified' })}
+              {this.props.intl.formatMessage({
+                id: 'content.attachment.unclassified',
+              })}
             </Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
@@ -287,7 +366,10 @@ class ImageList extends React.Component<intlProps> {
         message.info(res.msg);
       } else {
         message.info(
-          res.msg || this.props.intl.formatMessage({ id: 'content.attachment.edit.success' }),
+          res.msg ||
+            this.props.intl.formatMessage({
+              id: 'content.attachment.edit.success',
+            }),
         );
         this.setState({
           currentAttach: currentAttach,
@@ -301,7 +383,9 @@ class ImageList extends React.Component<intlProps> {
   handleRemoveAttach = () => {
     const { currentAttach } = this.state;
     Modal.confirm({
-      title: this.props.intl.formatMessage({ id: 'content.attachment.delete.confirm' }),
+      title: this.props.intl.formatMessage({
+        id: 'content.attachment.delete.confirm',
+      }),
       onOk: () => {
         this.setState(
           {
@@ -326,7 +410,10 @@ class ImageList extends React.Component<intlProps> {
         message.info(res.msg);
       } else {
         message.info(
-          res.msg || this.props.intl.formatMessage({ id: 'content.attachment.replace.success' }),
+          res.msg ||
+            this.props.intl.formatMessage({
+              id: 'content.attachment.replace.success',
+            }),
         );
         this.setState({
           currentAttach: Object.assign(currentAttach, res.data || {}),
@@ -377,16 +464,24 @@ class ImageList extends React.Component<intlProps> {
       <PageContainer>
         <Card
           className="image-page"
-          title={this.props.intl.formatMessage({ id: 'menu.archive.attachment' })}
+          title={this.props.intl.formatMessage({
+            id: 'menu.archive.attachment',
+          })}
           extra={
             <div className="meta">
               <Space size={16}>
                 {selectedIds.length > 0 && (
                   <>
-                    <Button className="btn-gray" onClick={this.handleUpdateToCategory}>
+                    <Button
+                      className="btn-gray"
+                      onClick={this.handleUpdateToCategory}
+                    >
                       <FormattedMessage id="content.attachment.move-to-category" />
                     </Button>
-                    <Button className="btn-gray" onClick={this.handleDeleteImage}>
+                    <Button
+                      className="btn-gray"
+                      onClick={this.handleDeleteImage}
+                    >
                       <FormattedMessage id="content.attachment.batch-delete" />
                     </Button>
                   </>
@@ -402,7 +497,9 @@ class ImageList extends React.Component<intlProps> {
                   <FormattedMessage id="content.attachment.filter" />
                 </span>
                 <Input.Search
-                  placeholder={this.props.intl.formatMessage({ id: 'content.attachment.search' })}
+                  placeholder={this.props.intl.formatMessage({
+                    id: 'content.attachment.search',
+                  })}
                   onSearch={this.handleSearch}
                 />
                 <Select
@@ -461,7 +558,9 @@ class ImageList extends React.Component<intlProps> {
                 <Empty
                   className="empty-normal"
                   image={<LoadingOutlined style={{ fontSize: '72px' }} />}
-                  description={this.props.intl.formatMessage({ id: 'content.attachment.loading' })}
+                  description={this.props.intl.formatMessage({
+                    id: 'content.attachment.loading',
+                  })}
                 ></Empty>
               ) : total > 0 ? (
                 <Row gutter={[16, 16]} className="image-list">
@@ -470,7 +569,10 @@ class ImageList extends React.Component<intlProps> {
                       <div className="image-item">
                         <div className="inner">
                           <Checkbox className="checkbox" value={item.id} />
-                          <div className="link" onClick={this.handlePreview.bind(this, item)}>
+                          <div
+                            className="link"
+                            onClick={this.handlePreview.bind(this, item)}
+                          >
                             {item.thumb ? (
                               <Image
                                 className="img"
@@ -480,7 +582,9 @@ class ImageList extends React.Component<intlProps> {
                               />
                             ) : (
                               <Avatar className="default-img" size={120}>
-                                {item.file_location.substring(item.file_location.lastIndexOf('.'))}
+                                {item.file_location.substring(
+                                  item.file_location.lastIndexOf('.'),
+                                )}
                               </Avatar>
                             )}
                           </div>
@@ -495,7 +599,9 @@ class ImageList extends React.Component<intlProps> {
               ) : (
                 <Empty
                   className="empty-normal"
-                  description={this.props.intl.formatMessage({ id: 'content.attachment.empty' })}
+                  description={this.props.intl.formatMessage({
+                    id: 'content.attachment.empty',
+                  })}
                 >
                   <Upload
                     name="file"
@@ -525,7 +631,9 @@ class ImageList extends React.Component<intlProps> {
         </Card>
         <Modal
           width={900}
-          title={this.props.intl.formatMessage({ id: 'content.attachment.detail' })}
+          title={this.props.intl.formatMessage({
+            id: 'content.attachment.detail',
+          })}
           onCancel={this.hideAttachDetail}
           onOk={this.hideAttachDetail}
           open={detailVisible}
@@ -537,7 +645,8 @@ class ImageList extends React.Component<intlProps> {
                   width={'100%'}
                   className="img"
                   preview={{
-                    src: currentAttach.logo + '?t=' + currentAttach.updated_time,
+                    src:
+                      currentAttach.logo + '?t=' + currentAttach.updated_time,
                   }}
                   src={currentAttach.logo + '?t=' + currentAttach.updated_time}
                   alt={currentAttach.file_name}
@@ -573,21 +682,27 @@ class ImageList extends React.Component<intlProps> {
                     <FormattedMessage id="content.attachment.upload-at" />:
                   </div>
                   <div className="value">
-                    {dayjs(currentAttach.updated_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                    {dayjs(currentAttach.updated_time * 1000).format(
+                      'YYYY-MM-DD HH:mm:ss',
+                    )}
                   </div>
                 </div>
                 <div className="item">
                   <div className="name">
                     <FormattedMessage id="content.attachment.size" />:
                   </div>
-                  <div className="value">{sizeFormat(currentAttach.file_size)}</div>
+                  <div className="value">
+                    {sizeFormat(currentAttach.file_size)}
+                  </div>
                 </div>
                 {currentAttach.width > 0 && (
                   <div className="item">
                     <div className="name">
                       <FormattedMessage id="content.attachment.ratio" />:
                     </div>
-                    <div className="value">{currentAttach.width + '×' + currentAttach.height}</div>
+                    <div className="value">
+                      {currentAttach.width + '×' + currentAttach.height}
+                    </div>
                   </div>
                 )}
                 <div className="item">
@@ -638,7 +753,9 @@ class ImageList extends React.Component<intlProps> {
         {editVisible && (
           <ModalForm
             width={600}
-            title={this.props.intl.formatMessage({ id: 'content.attachment.edit' })}
+            title={this.props.intl.formatMessage({
+              id: 'content.attachment.edit',
+            })}
             open={editVisible}
             initialValues={currentAttach}
             layout="horizontal"
@@ -647,7 +764,9 @@ class ImageList extends React.Component<intlProps> {
           >
             <div className="mb-normal">
               <Alert
-                message={this.props.intl.formatMessage({ id: 'content.attachment.alt.alert' })}
+                message={this.props.intl.formatMessage({
+                  id: 'content.attachment.alt.alert',
+                })}
               />
             </div>
             <ProFormText name="file_name" />
