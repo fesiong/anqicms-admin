@@ -1,6 +1,9 @@
 import { get, post } from '../tools';
 
-export async function pluginGetAnchors(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetAnchors(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/anchor/list',
     params,
@@ -8,7 +11,10 @@ export async function pluginGetAnchors(params?: any, options?: { [key: string]: 
   });
 }
 
-export async function pluginGetAnchorInfo(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetAnchorInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/anchor/detail',
     params,
@@ -16,7 +22,10 @@ export async function pluginGetAnchorInfo(params?: any, options?: { [key: string
   });
 }
 
-export async function pluginSaveAnchor(body: any, options?: { [key: string]: any }) {
+export async function pluginSaveAnchor(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/anchor/detail',
     body,
@@ -24,7 +33,10 @@ export async function pluginSaveAnchor(body: any, options?: { [key: string]: any
   });
 }
 
-export async function pluginReplaceAnchor(body: any, options?: { [key: string]: any }) {
+export async function pluginReplaceAnchor(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/anchor/replace',
     body,
@@ -32,7 +44,10 @@ export async function pluginReplaceAnchor(body: any, options?: { [key: string]: 
   });
 }
 
-export async function pluginDeleteAnchor(body: any, options?: { [key: string]: any }) {
+export async function pluginDeleteAnchor(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/anchor/delete',
     body,
@@ -40,7 +55,10 @@ export async function pluginDeleteAnchor(body: any, options?: { [key: string]: a
   });
 }
 
-export async function pluginExportAnchor(body?: any, options?: { [key: string]: any }) {
+export async function pluginExportAnchor(
+  body?: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/anchor/export',
     body,
@@ -48,7 +66,10 @@ export async function pluginExportAnchor(body?: any, options?: { [key: string]: 
   });
 }
 
-export async function pluginImportAnchor(body: any, options?: { [key: string]: any }) {
+export async function pluginImportAnchor(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/anchor/import',
     body,
@@ -56,7 +77,10 @@ export async function pluginImportAnchor(body: any, options?: { [key: string]: a
   });
 }
 
-export async function pluginGetAnchorSetting(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetAnchorSetting(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/anchor/setting',
     params,
@@ -64,9 +88,23 @@ export async function pluginGetAnchorSetting(params?: any, options?: { [key: str
   });
 }
 
-export async function pluginSaveAnchorSetting(body: any, options?: { [key: string]: any }) {
+export async function pluginSaveAnchorSetting(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/anchor/setting',
+    body,
+    options,
+  });
+}
+
+export async function addTitleToAnchor(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/anchor/addfromtitle',
     body,
     options,
   });

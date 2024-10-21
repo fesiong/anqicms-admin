@@ -1,6 +1,7 @@
 import NewContainer from '@/components/NewContainer';
 import ReplaceKeywords from '@/components/replaceKeywords';
 import {
+  addTitleToAnchor,
   anqiAiPseudoArchive,
   anqiTranslateArchive,
   deleteArchive,
@@ -483,6 +484,36 @@ const ArchiveList: React.FC = () => {
     actionRef.current?.reload?.();
   };
 
+  const handleAddAnchor = (selectedRowKeys: any[]) => {
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.option.batch-add-anchor.confirm',
+      }),
+      onOk: async () => {
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
+        if (!selectedRowKeys) return true;
+        try {
+          await addTitleToAnchor({
+            type: 'category',
+            ids: selectedRowKeys,
+          });
+          hide();
+          message.success(intl.formatMessage({ id: 'content.submit.success' }));
+          setSelectedRowKeys([]);
+          actionRef.current?.reloadAndRest?.();
+          return true;
+        } catch (error) {
+          hide();
+          message.error(intl.formatMessage({ id: 'content.submit.failure' }));
+          return true;
+        }
+      },
+    });
+  };
+
   const sortColumn: ProColumnType = {
     title: intl.formatMessage({ id: 'content.sort.name' }),
     dataIndex: 'sort',
@@ -921,6 +952,12 @@ const ArchiveList: React.FC = () => {
               }}
             >
               <FormattedMessage id="content.option.batch-pseudo" />
+            </Button>
+            <Button
+              size={'small'}
+              onClick={() => handleAddAnchor(selectedRowKeys)}
+            >
+              <FormattedMessage id="content.option.batch-add-anchor" />
             </Button>
             <Button
               size={'small'}

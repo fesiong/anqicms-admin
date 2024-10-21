@@ -180,6 +180,11 @@ export default {
   'content.option.batch-recover': 'ব্যাচ পুনরুদ্ধার',
   'content.option.batch-translate': 'ব্যাচ অনুবাদ',
   'content.option.batch-pseudo': 'ব্যাচ এআই রিরাইটিং',
+  'content.option.batch-add-anchor': 'অ্যাঙ্কর টেক্সটে শিরোনাম যোগ করুন',
+  'content.option.batch-add-anchor.confirm':
+    'আপনি কি নিশ্চিত যে আপনি অ্যাঙ্কর টেক্সট তালিকায় শিরোনাম যোগ করতে চান? ',
+  'content.submit.success': 'সফলভাবে জমা দিন',
+  'content.submit.failure': 'জমা দিতে ব্যর্থ',
   'content.option.cancel-select': 'নির্বাচন বাতিল করুন',
   'content.flag.name': 'প্রস্তাবিত বৈশিষ্ট্য',
   'content.flag.select': 'একটি নতুন প্রস্তাবিত বৈশিষ্ট্য নির্বাচন করুন',

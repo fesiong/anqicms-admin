@@ -1,6 +1,9 @@
 import { get, post } from './tools';
 
-export async function getCategories(params?: any, options?: { [key: string]: any }) {
+export async function getCategories(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/category/list',
     params,
@@ -8,7 +11,10 @@ export async function getCategories(params?: any, options?: { [key: string]: any
   });
 }
 
-export async function getCategoryInfo(params?: any, options?: { [key: string]: any }) {
+export async function getCategoryInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/category/detail',
     params,
@@ -16,7 +22,10 @@ export async function getCategoryInfo(params?: any, options?: { [key: string]: a
   });
 }
 
-export async function saveCategory(body: any, options?: { [key: string]: any }) {
+export async function saveCategory(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/category/detail',
     body,
@@ -24,7 +33,10 @@ export async function saveCategory(body: any, options?: { [key: string]: any }) 
   });
 }
 
-export async function deleteCategory(body: any, options?: { [key: string]: any }) {
+export async function deleteCategory(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/category/delete',
     body,

@@ -183,6 +183,11 @@ export default {
   'content.option.batch-recover': 'Пакетное восстановление',
   'content.option.batch-translate': 'Пакетный перевод',
   'content.option.batch-pseudo': 'Пакетное переписывание ИИ',
+  'content.option.batch-add-anchor': 'Добавить заголовок к тексту привязки',
+  'content.option.batch-add-anchor.confirm':
+    'Вы уверены, что хотите добавить заголовок в список текстов привязки? ',
+  'content.submit.success': 'Отправить успешно',
+  'content.submit.failure': 'Отправить не удалось',
   'content.option.cancel-select': 'отменить выбор',
   'content.flag.name': 'Рекомендуемые объекты',
   'content.flag.select': 'Пожалуйста, выберите новый рекомендуемый атрибут',

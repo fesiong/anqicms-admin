@@ -180,6 +180,11 @@ export default {
   'content.option.batch-recover': 'بازیابی دسته ای',
   'content.option.batch-translate': 'ترجمه دسته ای',
   'content.option.batch-pseudo': 'بازنویسی دسته ای هوش مصنوعی',
+  'content.option.batch-add-anchor': 'افزودن عنوان به anchor text',
+  'content.option.batch-add-anchor.confirm':
+    'آیا مطمئن هستید که می خواهید عنوان را به لیست متن لنگر اضافه کنید؟ ',
+  'content.submit.success': 'با موفقیت ارسال شود',
+  'content.submit.failure': 'ارسال نشد',
   'content.option.cancel-select': 'لغو انتخاب',
   'content.flag.name': 'خواص توصیه شده',
   'content.flag.select': 'لطفاً یک ویژگی توصیه شده جدید انتخاب کنید',

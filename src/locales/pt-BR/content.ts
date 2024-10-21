@@ -186,6 +186,11 @@ export default {
   'content.option.batch-recover': 'Recuperação em lote',
   'content.option.batch-translate': 'Tradução em lote',
   'content.option.batch-pseudo': 'Reescrita de IA em lote',
+  'content.option.batch-add-anchor': 'Adicionar título ao texto âncora',
+  'content.option.batch-add-anchor.confirm':
+    'Tem certeza de que deseja adicionar o título à lista de texto âncora? ',
+  'content.submit.success': 'Enviado com sucesso',
+  'content.submit.failure': 'Falha no envio',
   'content.option.cancel-select': 'cancelar seleção',
   'content.flag.name': 'Propriedades recomendadas',
   'content.flag.select': 'Selecione um novo atributo recomendado',

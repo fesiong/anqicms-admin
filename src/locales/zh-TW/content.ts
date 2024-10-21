@@ -172,6 +172,11 @@ export default {
   'content.option.batch-recover': '大量恢復',
   'content.option.batch-translate': '批次翻譯',
   'content.option.batch-pseudo': '批次AI改寫',
+  'content.option.batch-add-anchor': '新增標題到錨文本',
+  'content.option.batch-add-anchor.confirm':
+    '確定要將標題新增至錨文本清單嗎？ ',
+  'content.submit.success': '提交成功',
+  'content.submit.failure': '提交失敗',
   'content.option.cancel-select': '取消選擇',
   'content.flag.name': '推薦屬性',
   'content.flag.select': '請選擇新的推薦屬性',

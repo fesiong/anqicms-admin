@@ -182,6 +182,11 @@ export default {
   'content.option.batch-recover': 'Batch recovery',
   'content.option.batch-translate': 'Batch translation',
   'content.option.batch-pseudo': 'Batch AI rewrite',
+  'content.option.batch-add-anchor': 'Add title to anchor text',
+  'content.option.batch-add-anchor.confirm':
+    'Are you sure you want to add the title to the anchor text list? ',
+  'content.submit.success': 'Submission successful',
+  'content.submit.failure': 'Submission failed',
   'content.option.cancel-select': 'cancel selection',
   'content.flag.name': 'Recommended properties',
   'content.flag.select': 'Please select a new recommended attribute',

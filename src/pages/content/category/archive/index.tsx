@@ -1,5 +1,10 @@
 import NewContainer from '@/components/NewContainer';
-import { deleteCategory, getCategories, getModules } from '@/services';
+import {
+  addTitleToAnchor,
+  deleteCategory,
+  getCategories,
+  getModules,
+} from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
@@ -59,6 +64,36 @@ const ArchiveCategory: React.FC = () => {
         } catch (error) {
           hide();
           message.error(intl.formatMessage({ id: 'content.delete.failure' }));
+          return true;
+        }
+      },
+    });
+  };
+
+  const handleAddAnchor = (selectedRowKeys: any[]) => {
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.option.batch-add-anchor.confirm',
+      }),
+      onOk: async () => {
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
+        if (!selectedRowKeys) return true;
+        try {
+          await addTitleToAnchor({
+            type: 'category',
+            ids: selectedRowKeys,
+          });
+          hide();
+          message.success(intl.formatMessage({ id: 'content.submit.success' }));
+          setSelectedRowKeys([]);
+          actionRef.current?.reloadAndRest?.();
+          return true;
+        } catch (error) {
+          hide();
+          message.error(intl.formatMessage({ id: 'content.submit.failure' }));
           return true;
         }
       },
@@ -260,6 +295,12 @@ const ArchiveCategory: React.FC = () => {
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
           <Space>
+            <Button
+              size={'small'}
+              onClick={() => handleAddAnchor(selectedRowKeys)}
+            >
+              <FormattedMessage id="content.option.batch-add-anchor" />
+            </Button>
             <Button
               size={'small'}
               onClick={() => {

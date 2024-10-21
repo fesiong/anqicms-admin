@@ -183,6 +183,11 @@ export default {
   'content.option.batch-recover': 'Pemulihan batch',
   'content.option.batch-translate': 'Terjemahan batch',
   'content.option.batch-pseudo': 'Penulisan ulang AI batch',
+  'content.option.batch-add-anchor': 'Tambahkan judul ke teks tautan',
+  'content.option.batch-add-anchor.confirm':
+    'Apakah Anda yakin ingin menambahkan judul ke daftar teks tautan? ',
+  'content.submit.success': 'Kirim berhasil',
+  'content.submit.failure': 'Pengiriman gagal',
   'content.option.cancel-select': 'membatalkan pilihan',
   'content.flag.name': 'Properti yang direkomendasikan',
   'content.flag.select': 'Silakan pilih atribut baru yang direkomendasikan',

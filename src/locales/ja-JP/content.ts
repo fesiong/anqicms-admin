@@ -177,6 +177,11 @@ export default {
   'content.option.batch-recover': 'バッチリカバリ',
   'content.option.batch-translate': 'バッチ翻訳',
   'content.option.batch-pseudo': 'AI 一括書き換え',
+  'content.option.batch-add-anchor': 'アンカー テキストにタイトルを追加',
+  'content.option.batch-add-anchor.confirm':
+    'タイトルをアンカー テキスト リストに追加してもよろしいですか? ',
+  'content.submit.success': '正常に送信されました',
+  'content.submit.failure': '送信失敗',
   'content.option.cancel-select': '選択をキャンセルする',
   'content.flag.name': '推奨物件',
   'content.flag.select': '新しい推奨属性を選択してください',
