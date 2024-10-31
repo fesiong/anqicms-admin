@@ -424,6 +424,7 @@ class ArchiveForm extends React.Component<intlProps> {
     delete postData.relations;
     postData.price = Number(values.price);
     postData.stock = Number(values.stock);
+    // eslint-disable-next-line guard-for-in
     for (let field in extraContent) {
       if (!postData.extra[field]) {
         postData.extra[field] = {};

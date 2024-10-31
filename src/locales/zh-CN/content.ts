@@ -400,6 +400,8 @@ export default {
   'content.module.delete.content':
     '该模型下的分类、文档也会一并被删除，请谨慎操作。',
   'content.module.add': '添加模型',
+  'content.module.fields.name': '文档自定义字段',
+  'content.module.category_fields.name': '分类自定义字段',
   'content.tag.batch-add': '批量添加标签（一行一个）',
   'content.tags.name': '标签名称',
   'content.tags.placeholder': '请按照一行一个标签来填写',

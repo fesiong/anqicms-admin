@@ -434,6 +434,8 @@ export default {
   'content.module.delete.content':
     'Categories and documents under this model will also be deleted, so please operate with caution.',
   'content.module.add': 'Add model',
+  'content.module.fields.name': 'Document custom fields',
+  'content.module.category_fields.name': 'Category custom fields',
   'content.tag.batch-add': 'Add tags in batches (one per line)',
   'content.tags.name': 'Tag name',
   'content.tags.placeholder': 'Please fill in one label per line',

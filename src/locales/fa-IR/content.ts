@@ -433,6 +433,8 @@ export default {
   'content.module.delete.content':
     'دسته ها و اسناد تحت این مدل نیز حذف خواهند شد، بنابراین لطفا با احتیاط عمل کنید.',
   'content.module.add': 'اضافه کردن مدل',
+  'content.module.fields.name': 'فیلدهای سفارشی سند',
+  'content.module.category_fields.name': 'فیلدهای سفارشی دسته',
   'content.tag.batch-add': 'اضافه کردن برچسب ها به صورت دسته ای (یکی در هر خط)',
   'content.tags.name': 'نام را تگ کنید',
   'content.tags.placeholder': 'لطفاً در هر خط یک برچسب وارد کنید',

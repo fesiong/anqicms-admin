@@ -440,6 +440,8 @@ export default {
   'content.module.delete.content':
     'Categorias e documentos neste modelo também serão excluídos, portanto, opere com cautela.',
   'content.module.add': 'Adicionar modelo',
+  'content.module.fields.name': 'Campos personalizados do documento',
+  'content.module.category_fields.name': 'Campos personalizados de categoria',
   'content.tag.batch-add': 'Adicione tags em lotes (uma por linha)',
   'content.tags.name': 'Nome da etiqueta',
   'content.tags.placeholder': 'Preencha um rótulo por linha',

@@ -436,6 +436,8 @@ export default {
   'content.module.delete.content':
     'Категории и документы этой модели также будут удалены, поэтому действуйте осторожно.',
   'content.module.add': 'Добавить модель',
+  'content.module.fields.name': 'Настраиваемые поля документа',
+  'content.module.category_fields.name': 'Настраиваемые поля категории',
   'content.tag.batch-add': 'Добавляйте теги партиями (по одному в строке).',
   'content.tags.name': 'Название тэга',
   'content.tags.placeholder':

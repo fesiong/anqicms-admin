@@ -428,6 +428,8 @@ export default {
   'content.module.delete.content':
     'このモデル以下のカテゴリやドキュメントも削除されますので、慎重に操作してください。',
   'content.module.add': 'モデルの追加',
+  'content.module.fields.name': 'ドキュメントのカスタムフィールド',
+  'content.module.category_fields.name': 'カテゴリのカスタムフィールド',
   'content.tag.batch-add': 'タグをバッチで追加します (1 行に 1 つ)',
   'content.tags.name': 'タグ名',
   'content.tags.placeholder': '1 行に 1 つのラベルを入力してください',

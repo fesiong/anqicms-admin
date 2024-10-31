@@ -13,6 +13,7 @@ import {
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   ProForm,
+  ProFormCheckbox,
   ProFormDigit,
   ProFormInstance,
   ProFormRadio,
@@ -33,7 +34,10 @@ const ArchiveCategoryDetail: React.FC = () => {
   const [content, setContent] = useState<string>('');
   const [categoryImages, setCategoryImages] = useState<string[]>([]);
   const [categoryLogo, setCategoryLogo] = useState<string>('');
-  const [currentModule, setCurrentModule] = useState<any>({});
+  const [currentModule, setCurrentModule] = useState<any>({
+    category_fields: [],
+  });
+  const [extraContent, setExtraContent] = useState<any>({});
   const [contentSetting, setContentSetting] = useState<any>({});
   const [loaded, setLoaded] = useState<boolean>(false);
   const [category, setCategory] = useState<any>({ status: 1 });
@@ -46,7 +50,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     for (let item of newModules) {
       if (item.id === e) {
         setCurrentModule(item);
-        break;
+        return item;
       }
     }
   };
@@ -75,8 +79,15 @@ const ArchiveCategoryDetail: React.FC = () => {
       }
       cat.module_id = moduleId;
     }
-    changeModule(moduleId, modRes.data);
-
+    let module = changeModule(moduleId, modRes.data);
+    let extraContent: any = {};
+    for (let i in module.category_fields) {
+      if (module.category_fields[i].type === 'editor') {
+        extraContent[module.category_fields[i].field_name] =
+          cat.extra[module.category_fields[i].field_name] || '';
+      }
+    }
+    setExtraContent(extraContent);
     setCategory(cat);
 
     setContent(cat.content || '');
@@ -111,6 +122,13 @@ const ArchiveCategoryDetail: React.FC = () => {
         intl.formatMessage({ id: 'content.category.input.required' }),
       );
       return;
+    }
+    // eslint-disable-next-line guard-for-in
+    for (let field in extraContent) {
+      if (!cat.extra[field]) {
+        cat.extra[field] = null;
+      }
+      cat.extra[field] = extraContent[field];
     }
     let res = await saveCategory(cat);
     if (res.code === 0) {
@@ -172,6 +190,32 @@ const ArchiveCategoryDetail: React.FC = () => {
   const handleCleanLogo = (e: any) => {
     e.stopPropagation();
     setCategoryLogo('');
+  };
+
+  const updateExtraContent = async (field: string, html: string) => {
+    extraContent[field] = html;
+    setExtraContent(extraContent);
+  };
+
+  const handleCleanExtraField = (field: string) => {
+    const extra: any = {};
+    extra[field] = null;
+    formRef.current?.setFieldsValue({ extra });
+
+    delete category.extra[field];
+    setCategory(category);
+  };
+
+  const handleUploadExtraField = (field: string, row: any) => {
+    const extra: any = {};
+    extra[field] = row.logo;
+    formRef.current?.setFieldsValue({ extra });
+    if (!category.extra[field]) {
+      category.extra[field] = null;
+    }
+    category.extra[field] = row.logo;
+
+    setCategory(category);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -323,6 +367,197 @@ const ArchiveCategoryDetail: React.FC = () => {
                     id: 'content.category.status.description',
                   })}
                 />
+                {currentModule.category_fields?.map(
+                  (item: any, index: number) => (
+                    <Col
+                      sm={item.type === 'editor' ? 24 : 12}
+                      xs={24}
+                      key={index}
+                    >
+                      {item.type === 'text' ? (
+                        <ProFormText
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                          required={item.required ? true : false}
+                          placeholder={
+                            item.content &&
+                            intl.formatMessage({
+                              id: 'content.param.default',
+                            }) + item.content
+                          }
+                        />
+                      ) : item.type === 'number' ? (
+                        <ProFormDigit
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                          required={item.required ? true : false}
+                          placeholder={
+                            item.content &&
+                            intl.formatMessage({
+                              id: 'content.param.default',
+                            }) + item.content
+                          }
+                        />
+                      ) : item.type === 'textarea' ? (
+                        <ProFormTextArea
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                          required={item.required ? true : false}
+                          placeholder={
+                            item.content &&
+                            intl.formatMessage({
+                              id: 'content.param.default',
+                            }) + item.content
+                          }
+                        />
+                      ) : item.type === 'editor' ? (
+                        <ProFormText
+                          label={item.name}
+                          required={item.required ? true : false}
+                          extra={
+                            item.content &&
+                            intl.formatMessage({
+                              id: 'content.param.default',
+                            }) + item.content
+                          }
+                        >
+                          {contentSetting.editor === 'markdown' ? (
+                            <MarkdownEditor
+                              className="mb-normal"
+                              setContent={(html) =>
+                                updateExtraContent(item.field_name, html)
+                              }
+                              content={extraContent[item.field_name] || ''}
+                              ref={null}
+                            />
+                          ) : (
+                            <WangEditor
+                              className="mb-normal"
+                              setContent={(html) =>
+                                updateExtraContent(item.field_name, html)
+                              }
+                              content={extraContent[item.field_name] || ''}
+                              key={item.field_name}
+                              field={item.field_name}
+                              ref={null}
+                            />
+                          )}
+                        </ProFormText>
+                      ) : item.type === 'radio' ? (
+                        <ProFormRadio.Group
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                          request={async () => {
+                            const tmpData = item.content.split('\n');
+                            const data = [];
+                            for (const item1 of tmpData) {
+                              data.push({ label: item1, value: item1 });
+                            }
+                            return data;
+                          }}
+                        />
+                      ) : item.type === 'checkbox' ? (
+                        <ProFormCheckbox.Group
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                          request={async () => {
+                            const tmpData = item.content.split('\n');
+                            const data = [];
+                            for (const item1 of tmpData) {
+                              data.push({ label: item1, value: item1 });
+                            }
+                            return data;
+                          }}
+                        />
+                      ) : item.type === 'select' ? (
+                        <ProFormSelect
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                          request={async () => {
+                            const tmpData = item.content.split('\n');
+                            const data = [];
+                            for (const item1 of tmpData) {
+                              data.push({ label: item1, value: item1 });
+                            }
+                            return data;
+                          }}
+                        />
+                      ) : item.type === 'image' ? (
+                        <ProFormText
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                        >
+                          {category.extra[item.field_name] ? (
+                            <div className="ant-upload-item">
+                              <Image
+                                preview={{
+                                  src: category.extra[item.field_name],
+                                }}
+                                src={category.extra[item.field_name]}
+                              />
+                              <span
+                                className="delete"
+                                onClick={() =>
+                                  handleCleanExtraField(item.field_name)
+                                }
+                              >
+                                <DeleteOutlined />
+                              </span>
+                            </div>
+                          ) : (
+                            <AttachmentSelect
+                              onSelect={(row) =>
+                                handleUploadExtraField(item.field_name, row)
+                              }
+                              open={false}
+                            >
+                              <div className="ant-upload-item">
+                                <div className="add">
+                                  <PlusOutlined />
+                                  <div style={{ marginTop: 8 }}>
+                                    <FormattedMessage id="setting.system.upload" />
+                                  </div>
+                                </div>
+                              </div>
+                            </AttachmentSelect>
+                          )}
+                        </ProFormText>
+                      ) : item.type === 'file' ? (
+                        <ProFormText
+                          name={['extra', item.field_name]}
+                          label={item.name}
+                        >
+                          {category.extra[item.field_name] ? (
+                            <div className="ant-upload-item ant-upload-file">
+                              <span>{category.extra[item.field_name]}</span>
+                              <span
+                                className="delete"
+                                onClick={() =>
+                                  handleCleanExtraField(item.field_name)
+                                }
+                              >
+                                <DeleteOutlined />
+                              </span>
+                            </div>
+                          ) : (
+                            <AttachmentSelect
+                              onSelect={(row) =>
+                                handleUploadExtraField(item.field_name, row)
+                              }
+                              open={false}
+                            >
+                              <Button>
+                                <FormattedMessage id="setting.system.upload" />
+                              </Button>
+                            </AttachmentSelect>
+                          )}
+                        </ProFormText>
+                      ) : (
+                        ''
+                      )}
+                    </Col>
+                  ),
+                )}
                 {loaded && (
                   <>
                     {contentSetting.editor === 'markdown' ? (

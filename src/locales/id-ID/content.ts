@@ -437,6 +437,8 @@ export default {
   'content.module.delete.content':
     'Kategori dan dokumen dalam model ini juga akan dihapus, jadi harap beroperasi dengan hati-hati.',
   'content.module.add': 'Tambahkan model',
+  'content.module.fields.name': 'Dokumenkan bidang khusus',
+  'content.module.category_fields.name': 'Kategori bidang khusus',
   'content.tag.batch-add': 'Tambahkan tag secara berkelompok (satu per baris)',
   'content.tags.name': 'Nama tanda',
   'content.tags.placeholder': 'Silakan isi satu label per baris',

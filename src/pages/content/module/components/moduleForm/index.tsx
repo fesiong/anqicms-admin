@@ -33,7 +33,8 @@ export type ModuleFormProps = {
 let submitting = false;
 
 const ModuleForm: React.FC<ModuleFormProps> = (props) => {
-  const actionRef = useRef<ActionType>();
+  const actionArchiveRef = useRef<ActionType>();
+  const actionCategoryRef = useRef<ActionType>();
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [currentField, setCurrentField] = useState<any>({});
   const [setting, setSetting] = useState<any>({ fields: [] });
@@ -60,15 +61,25 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
         id: 'content.module.field.delete.content',
       }),
       onOk: async () => {
-        deleteModuleField({
-          id: props.module.id,
-          field_name: record.field_name,
-        });
-        setting.fields.splice(index, 1);
-        setting.fields = [].concat(setting.fields);
+        if (record.form === 'archive') {
+          // archive 需要请求后端
+          deleteModuleField({
+            id: props.module.id,
+            field_name: record.field_name,
+          });
+          setting.fields.splice(index, 1);
+          setting.fields = [].concat(setting.fields);
+        } else if (record.form === 'category') {
+          // category不需要请求后端
+          setting.category_fields.splice(index, 1);
+          setting.category_fields = [].concat(setting.category_fields);
+        }
         setSetting(setting);
-        if (actionRef.current) {
-          actionRef.current.reload();
+        if (actionArchiveRef.current) {
+          actionArchiveRef.current.reload();
+        }
+        if (actionCategoryRef.current) {
+          actionCategoryRef.current.reload();
         }
       },
     });
@@ -81,22 +92,41 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
       return;
     }
     let exists = false;
-    if (!setting.fields) {
-      setting.fields = [];
-    }
-    for (let i in setting.fields) {
-      if (setting.fields[i].field_name === values.field_name) {
-        exists = true;
-        setting.fields[i] = values;
+    if (currentField.form === 'archive') {
+      if (!setting.fields) {
+        setting.fields = [];
       }
+      for (let i in setting.fields) {
+        if (setting.fields[i].field_name === values.field_name) {
+          exists = true;
+          setting.fields[i] = values;
+        }
+      }
+      if (!exists) {
+        setting.fields.push(values);
+      }
+      setting.fields = [].concat(setting.fields);
+    } else if (currentField.form === 'category') {
+      if (!setting.category_fields) {
+        setting.category_fields = [];
+      }
+      for (let i in setting.category_fields) {
+        if (setting.category_fields[i].field_name === values.field_name) {
+          exists = true;
+          setting.category_fields[i] = values;
+        }
+      }
+      if (!exists) {
+        setting.category_fields.push(values);
+      }
+      setting.category_fields = [].concat(setting.category_fields);
     }
-    if (!exists) {
-      setting.fields.push(values);
-    }
-    setting.fields = [].concat(setting.fields);
     setSetting(setting);
-    if (actionRef.current) {
-      actionRef.current.reload();
+    if (actionArchiveRef.current) {
+      actionArchiveRef.current.reload();
+    }
+    if (actionCategoryRef.current) {
+      actionCategoryRef.current.reload();
     }
     setEditVisible(false);
   };
@@ -120,8 +150,11 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
         if (res.code === 0) {
           message.success(res.msg);
           setEditVisible(false);
-          if (actionRef.current) {
-            actionRef.current.reload();
+          if (actionArchiveRef.current) {
+            actionArchiveRef.current.reload();
+          }
+          if (actionCategoryRef.current) {
+            actionCategoryRef.current.reload();
           }
           props.onSubmit();
         } else {
@@ -209,7 +242,7 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
   return (
     <>
       <Modal
-        width={800}
+        width={1000}
         title={intl.formatMessage({ id: 'content.module.setting' })}
         open={props.open}
         onCancel={() => {
@@ -345,15 +378,19 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               </Row>
             </div>
             <ProTable<any>
+              headerTitle={intl.formatMessage({
+                id: 'content.module.fields.name',
+              })}
+              key="fields-table"
               rowKey="name"
               search={false}
-              actionRef={actionRef}
+              actionRef={actionArchiveRef}
               toolBarRender={() => [
                 <Button
                   key="add"
                   type="primary"
                   onClick={() => {
-                    setCurrentField({});
+                    setCurrentField({ form: 'archive' });
                     setEditVisible(true);
                   }}
                 >
@@ -364,7 +401,46 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               tableAlertOptionRender={false}
               request={async () => {
                 return {
-                  data: setting.fields || [],
+                  data: (setting.fields || []).map(
+                    (item: any) => ((item.form = 'archive'), item),
+                  ),
+                  success: true,
+                };
+              }}
+              columnsState={{
+                persistenceKey: 'module-fields-table',
+                persistenceType: 'localStorage',
+              }}
+              columns={columns}
+              pagination={false}
+            />
+            <ProTable<any>
+              headerTitle={intl.formatMessage({
+                id: 'content.module.category_fields.name',
+              })}
+              key="category_fields-table"
+              rowKey="name"
+              search={false}
+              actionRef={actionCategoryRef}
+              toolBarRender={() => [
+                <Button
+                  key="add"
+                  type="primary"
+                  onClick={() => {
+                    setCurrentField({ form: 'category' });
+                    setEditVisible(true);
+                  }}
+                >
+                  <FormattedMessage id="content.module.field.add" />
+                </Button>,
+              ]}
+              tableAlertRender={false}
+              tableAlertOptionRender={false}
+              request={async () => {
+                return {
+                  data: (setting.category_fields || []).map(
+                    (item: any) => ((item.form = 'category'), item),
+                  ),
                   success: true,
                 };
               }}

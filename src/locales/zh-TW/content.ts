@@ -397,6 +397,8 @@ export default {
   'content.module.delete.content':
     '此模型下的分類、文件也會一併刪除，請謹慎操作。',
   'content.module.add': '新增模型',
+  'content.module.fields.name': '文件自訂欄位',
+  'content.module.category_fields.name': '分類自訂欄位',
   'content.tag.batch-add': '批次新增標籤（一行一個）',
   'content.tags.name': '標籤名稱',
   'content.tags.placeholder': '請依照一行一個標籤來填寫',

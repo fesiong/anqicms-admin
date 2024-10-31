@@ -435,6 +435,8 @@ export default {
   'content.module.delete.content':
     'এই মডেলের অধীনে বিভাগ এবং নথিগুলিও মুছে ফেলা হবে, তাই দয়া করে সতর্কতার সাথে কাজ করুন৷',
   'content.module.add': 'মডেল যোগ করুন',
+  'content.module.fields.name': 'নথি কাস্টম ক্ষেত্র',
+  'content.module.category_fields.name': 'বিভাগ কাস্টম ক্ষেত্র',
   'content.tag.batch-add': 'ব্যাচে ট্যাগ যোগ করুন (প্রতি লাইনে একটি)',
   'content.tags.name': 'নাম যোগ করা',
   'content.tags.placeholder': 'প্রতি লাইনে একটি লেবেল পূরণ করুন',
