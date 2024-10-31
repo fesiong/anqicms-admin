@@ -1,4 +1,5 @@
 import {
+  getSubsiteAdminLoginUrl,
   pluginGetMultiLangConfig,
   pluginGetMultiLangSites,
   pluginGetMultiLangSyncStatus,
@@ -201,15 +202,13 @@ const PluginMultiLang: React.FC<any> = () => {
   };
 
   const handleLoginAdmin = (record: any) => {
-    if (record.base_url.lastIndexOf('/') > 7) {
-      let link =
-        record.base_url.substr(0, record.base_url.lastIndexOf('/')) +
-        '/system/login?admin-login=true&site-id=' +
-        record.id;
-      window.open(link);
-    } else {
-      window.open(record.base_url + '/system/login');
-    }
+    getSubsiteAdminLoginUrl({ site_id: record.id }).then((res) => {
+      if (res.code !== 0) {
+        message.error(res.msg);
+      } else {
+        window.open(res.data);
+      }
+    });
   };
 
   const columns: ProColumns<any>[] = [

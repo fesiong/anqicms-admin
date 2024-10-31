@@ -1,4 +1,9 @@
-import { deleteAdminInfo, getAdminGroups, getAdminList, saveAdmin } from '@/services';
+import {
+  deleteAdminInfo,
+  getAdminGroups,
+  getAdminList,
+  saveAdmin,
+} from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -77,16 +82,19 @@ const AdminList: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'account.base.group' }),
       dataIndex: 'group.title',
+      render: (text, record) => record.group?.title || text,
     },
     {
       title: intl.formatMessage({ id: 'account.list.create-time' }),
       dataIndex: 'created_time',
-      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) =>
+        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'account.list.login-time' }),
       dataIndex: 'login_time',
-      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) =>
+        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'website.status' }),
@@ -175,7 +183,9 @@ const AdminList: React.FC = () => {
             name="password"
             label={intl.formatMessage({ id: 'account.list.password' })}
             width="lg"
-            placeholder={intl.formatMessage({ id: 'account.list.password.placeholder' })}
+            placeholder={intl.formatMessage({
+              id: 'account.list.password.placeholder',
+            })}
           />
           <ProFormSelect
             name="group_id"

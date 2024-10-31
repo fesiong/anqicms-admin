@@ -202,7 +202,9 @@ const AdminGroupList: React.FC = () => {
               1: intl.formatMessage({ id: 'setting.content.enable' }),
             }}
           />
-          <ProFormText label={intl.formatMessage({ id: 'account.group.permission' })}>
+          <ProFormText
+            label={intl.formatMessage({ id: 'account.group.permission' })}
+          >
             <Collapse defaultActiveKey={'0'}>
               {permissionGroups.map((group: any, index: number) => (
                 <Panel header={group.name} key={index}>

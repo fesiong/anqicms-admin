@@ -515,7 +515,7 @@ export default [
     path: '/website',
     name: 'website',
     icon: 'Cluster',
-    access: 'canAdmin',
+    access: 'canSuper',
     hideInTop: true,
     component: '@/pages/website',
   },

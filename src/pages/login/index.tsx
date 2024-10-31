@@ -14,6 +14,7 @@ import {
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
 import { Alert, Button, Input, Modal, Steps, message } from 'antd';
+import { parse } from 'query-string';
 import React, { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
@@ -61,12 +62,6 @@ const Login: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    handleGetCaptcha();
-
-    initSiteInfo();
-  }, []);
-
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     const anqiUser = await initialState?.fetchAnqiUser?.();
@@ -81,6 +76,50 @@ const Login: React.FC = () => {
       }));
     }
   };
+
+  const loginFromAdmin = async (data: any) => {
+    const res = await login(data);
+    if (res.code === 0) {
+      const defaultLoginSuccessMessage = intl.formatMessage({
+        id: 'pages.login.success',
+      });
+      message.success(defaultLoginSuccessMessage);
+
+      setStore('adminToken', res.data.token);
+      await fetchUserInfo();
+      /** 此方法会跳转到 redirect 参数所在的位置 */
+      if (!history) return;
+      history.push('/dashboard');
+      return;
+    } else {
+      //error
+      message.error(res.msg);
+    }
+  };
+
+  useEffect(() => {
+    handleGetCaptcha();
+
+    initSiteInfo();
+
+    const query = parse(history.location.search) || {};
+    if (query['admin-login'] === 'true') {
+      let sign = query['sign'];
+      let site_id = query['site_id'];
+      let user_name = query['user_name'];
+      let nonce = query['nonce'];
+
+      const data = {
+        type: type,
+        user_name: user_name,
+        sign: sign,
+        nonce: nonce,
+        site_id: Number(site_id),
+      };
+
+      loginFromAdmin(data);
+    }
+  }, []);
 
   const handleSubmit = async (values: any) => {
     try {

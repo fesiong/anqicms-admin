@@ -1,6 +1,9 @@
 import { get, post } from './tools';
 
-export async function getWebsiteList(params?: any, options?: { [key: string]: any }) {
+export async function getWebsiteList(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/website/list',
     params,
@@ -8,7 +11,10 @@ export async function getWebsiteList(params?: any, options?: { [key: string]: an
   });
 }
 
-export async function getWebsiteInfo(params: any, options?: { [key: string]: any }) {
+export async function getWebsiteInfo(
+  params: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/website/info',
     params,
@@ -16,7 +22,10 @@ export async function getWebsiteInfo(params: any, options?: { [key: string]: any
   });
 }
 
-export async function saveWebsiteInfo(body: any, options?: { [key: string]: any }) {
+export async function saveWebsiteInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/website/save',
     body,
@@ -24,7 +33,10 @@ export async function saveWebsiteInfo(body: any, options?: { [key: string]: any 
   });
 }
 
-export async function deleteWebsiteInfo(body: any, options?: { [key: string]: any }) {
+export async function deleteWebsiteInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/website/delete',
     body,
@@ -32,10 +44,24 @@ export async function deleteWebsiteInfo(body: any, options?: { [key: string]: an
   });
 }
 
-export async function getSiteInfo(params: any, options?: { [key: string]: any }) {
+export async function getSiteInfo(
+  params: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/siteinfo',
     params,
+    options,
+  });
+}
+
+export async function getSubsiteAdminLoginUrl(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/website/login',
+    body,
     options,
   });
 }

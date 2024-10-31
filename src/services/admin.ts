@@ -8,7 +8,10 @@ export async function login(body: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function getAdminList(params?: any, options?: { [key: string]: any }) {
+export async function getAdminList(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/admin/list',
     params,
@@ -16,7 +19,10 @@ export async function getAdminList(params?: any, options?: { [key: string]: any 
   });
 }
 
-export async function getAdminInfo(params?: any, options?: { [key: string]: any }) {
+export async function getAdminInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/admin/detail',
     params,
@@ -24,7 +30,10 @@ export async function getAdminInfo(params?: any, options?: { [key: string]: any 
   });
 }
 
-export async function deleteAdminInfo(body: any, options?: { [key: string]: any }) {
+export async function deleteAdminInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/admin/delete',
     body,
@@ -32,7 +41,10 @@ export async function deleteAdminInfo(body: any, options?: { [key: string]: any 
   });
 }
 
-export async function getAdminLoginLogs(params?: any, options?: { [key: string]: any }) {
+export async function getAdminLoginLogs(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/admin/logs/login',
     params,
@@ -40,7 +52,10 @@ export async function getAdminLoginLogs(params?: any, options?: { [key: string]:
   });
 }
 
-export async function getAdminActionLogs(params?: any, options?: { [key: string]: any }) {
+export async function getAdminActionLogs(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/admin/logs/action',
     params,
@@ -56,7 +71,10 @@ export async function saveAdmin(body: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function getCaptcha(params?: any, options?: { [key: string]: any }) {
+export async function getCaptcha(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/captcha',
     params,
@@ -64,7 +82,10 @@ export async function getCaptcha(params?: any, options?: { [key: string]: any })
   });
 }
 
-export async function getPermissionMenus(params?: any, options?: { [key: string]: any }) {
+export async function getPermissionMenus(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/admin/menus',
     params,
@@ -72,7 +93,10 @@ export async function getPermissionMenus(params?: any, options?: { [key: string]
   });
 }
 
-export async function getAdminGroups(params?: any, options?: { [key: string]: any }) {
+export async function getAdminGroups(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/admin/group/list',
     params,
@@ -80,7 +104,10 @@ export async function getAdminGroups(params?: any, options?: { [key: string]: an
   });
 }
 
-export async function getAdminGroupInfo(params?: any, options?: { [key: string]: any }) {
+export async function getAdminGroupInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/admin/group/detail',
     params,
@@ -88,7 +115,10 @@ export async function getAdminGroupInfo(params?: any, options?: { [key: string]:
   });
 }
 
-export async function saveAdminGroupInfo(body: any, options?: { [key: string]: any }) {
+export async function saveAdminGroupInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/admin/group/detail',
     body,
@@ -96,7 +126,10 @@ export async function saveAdminGroupInfo(body: any, options?: { [key: string]: a
   });
 }
 
-export async function deleteAdminGroupInfo(body: any, options?: { [key: string]: any }) {
+export async function deleteAdminGroupInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/admin/group/delete',
     body,
@@ -104,7 +137,10 @@ export async function deleteAdminGroupInfo(body: any, options?: { [key: string]:
   });
 }
 
-export async function findPasswordChoose(body: any, options?: { [key: string]: any }) {
+export async function findPasswordChoose(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/password/choose',
     body,
@@ -112,7 +148,10 @@ export async function findPasswordChoose(body: any, options?: { [key: string]: a
   });
 }
 
-export async function findPasswordVerify(params?: any, options?: { [key: string]: any }) {
+export async function findPasswordVerify(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/password/verify',
     params,
@@ -120,7 +159,10 @@ export async function findPasswordVerify(params?: any, options?: { [key: string]
   });
 }
 
-export async function findPasswordReset(body: any, options?: { [key: string]: any }) {
+export async function findPasswordReset(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/password/reset',
     body,

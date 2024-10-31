@@ -64,7 +64,11 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
   // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
+  let pathName = history.location.pathname;
+  if (pathName.indexOf('/system') === 0) {
+    pathName = pathName.substring(7);
+  }
+  if (pathName !== loginPath) {
     const currentUser = await fetchUserInfo();
     const system = await fetchSystemSetting();
     const anqiUser = await fetchAnqiUser();
@@ -91,7 +95,7 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   const query = parse(history.location.search) || {};
   if (query['admin-login'] === 'true') {
-    setSessionStore('site-id', query['site-id']);
+    setSessionStore('site-id', query['site_id']);
   }
   return {
     breadcrumbRender: false,
@@ -148,6 +152,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         for (let i in menuData) {
           if (menuData[i].path === '/website') {
             menuData[i].unaccessible = true;
+            break;
           }
         }
       }
