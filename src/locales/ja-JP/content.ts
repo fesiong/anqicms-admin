@@ -359,6 +359,12 @@ export default {
   'content.category.batch-name.tips2': '例: ヘルプを使用する|ヘルプ',
   'content.category.batch-name.tips3': '例: ヘルプを使用する|ヘルプ',
   'content.category.batch-name.tips4': 'ブログ',
+  'content.category.update-count.name': '更新ドキュメント数',
+  'content.category.update-count.confirm':
+    'カテゴリのドキュメント数を手動で更新してもよろしいですか? ',
+  'content.category.update-count.description':
+    '通常、手動で更新する必要はありませんが、統計が間違っていることが判明した場合は、手動で更新できます。 ',
+  'content.category.archive-count': 'ドキュメントの数',
   'content.page.input.required': 'ページ名を入力してください',
   'content.page.edit': '単一ページを変更する',
   'content.page.new': '単一のページを追加する',

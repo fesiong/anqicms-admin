@@ -366,6 +366,12 @@ export default {
   'content.category.batch-name.tips2': 'Seperti: gunakan bantuan|bantuan',
   'content.category.batch-name.tips3': 'Seperti: gunakan bantuan|bantuan',
   'content.category.batch-name.tips4': 'blog',
+  'content.category.update-count.name': 'Perbarui jumlah dokumen',
+  'content.category.update-count.confirm':
+    'Apakah Anda yakin ingin memperbarui jumlah dokumen kategori secara manual? ',
+  'content.category.update-count.description':
+    'Umumnya, tidak perlu memperbarui secara manual, namun bila Anda menemukan bahwa statistiknya salah, Anda dapat memperbarui secara manual. ',
+  'content.category.archive-count': 'Jumlah dokumen',
   'content.page.input.required': 'Silakan isi nama halaman',
   'content.page.edit': 'Ubah satu halaman',
   'content.page.new': 'Tambahkan satu halaman',

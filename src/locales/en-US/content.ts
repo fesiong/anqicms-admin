@@ -364,6 +364,12 @@ export default {
   'content.category.batch-name.tips2': 'Such as: use help|help',
   'content.category.batch-name.tips3': 'Such as: use help|help',
   'content.category.batch-name.tips4': 'blog',
+  'content.category.update-count.name': 'Update document count',
+  'content.category.update-count.confirm':
+    'Are you sure you want to manually update the document count of the category? ',
+  'content.category.update-count.description':
+    'Generally, manual update is not required, but when you find that the statistics are incorrect, you can update it manually. ',
+  'content.category.archive-count': 'Number of documents',
   'content.page.input.required': 'Please fill in the page name',
   'content.page.edit': 'Modify single page',
   'content.page.new': 'Add a single page',

@@ -364,6 +364,12 @@ export default {
   'content.category.batch-name.tips2': 'مانند: استفاده از کمک|کمک',
   'content.category.batch-name.tips3': 'مانند: استفاده از کمک|کمک',
   'content.category.batch-name.tips4': 'وبلاگ',
+  'content.category.update-count.name': 'به‌روزرسانی تعداد اسناد',
+  'content.category.update-count.confirm':
+    'آیا مطمئن هستید که می خواهید تعداد اسناد دسته را به صورت دستی به روز کنید؟ ',
+  'content.category.update-count.description':
+    'به طور کلی، نیازی به به روز رسانی دستی نیست، اما وقتی متوجه شدید که آمار اشتباه است، می توانید به صورت دستی به روز رسانی کنید. ',
+  'content.category.archive-count': 'تعداد اسناد',
   'content.page.input.required': 'لطفا نام صفحه را وارد کنید',
   'content.page.edit': 'تک صفحه را اصلاح کنید',
   'content.page.new': 'یک صفحه واحد اضافه کنید',

@@ -335,6 +335,11 @@ export default {
   'content.category.batch-name.tips2': '如：使用幫助|help',
   'content.category.batch-name.tips3': '如：使用幫助|help',
   'content.category.batch-name.tips4': '部落格',
+  'content.category.update-count.name': '更新文件計數',
+  'content.category.update-count.confirm': '確定要手動更新分類的文件計數嗎？ ',
+  'content.category.update-count.description':
+    '一般上是不需要手動更新的，但當你發現統計數據不對的時候，就可以手動更新。 ',
+  'content.category.archive-count': '文檔數量',
   'content.page.input.required': '請填寫單頁面名稱',
   'content.page.edit': '修改單頁',
   'content.page.new': '新增單頁面',

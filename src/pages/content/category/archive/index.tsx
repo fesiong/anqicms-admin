@@ -4,6 +4,7 @@ import {
   deleteCategory,
   getCategories,
   getModules,
+  updateCategoryArchiveCount,
 } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
@@ -127,6 +128,31 @@ const ArchiveCategory: React.FC = () => {
     return null;
   };
 
+  const handleUpdateArchiveCount = () => {
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.category.update-count.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'content.category.update-count.description',
+      }),
+      onOk: () => {
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
+        updateCategoryArchiveCount({})
+          .then((res) => {
+            message.info(res.msg);
+            actionRef.current?.reload?.();
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: 'ID',
@@ -173,6 +199,11 @@ const ArchiveCategory: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'content.archive-template.name' }),
       dataIndex: 'detail_template',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({ id: 'content.category.archive-count' }),
+      dataIndex: 'archive_count',
       hideInSearch: true,
     },
     {
@@ -262,6 +293,14 @@ const ArchiveCategory: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
+          <Button
+            key="count"
+            onClick={() => {
+              handleUpdateArchiveCount();
+            }}
+          >
+            <FormattedMessage id="content.category.update-count.name" />
+          </Button>,
           !isSubSite && (
             <Button
               key="add"

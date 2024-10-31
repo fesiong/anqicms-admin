@@ -338,6 +338,11 @@ export default {
   'content.category.batch-name.tips2': '如：使用帮助|help',
   'content.category.batch-name.tips3': '如：使用帮助|help',
   'content.category.batch-name.tips4': '博客',
+  'content.category.update-count.name': '更新文档计数',
+  'content.category.update-count.confirm': '确定要手动更新分类的文档计数吗？',
+  'content.category.update-count.description':
+    '一般上是不需要手动更新的，但当你发现统计数据不对的时候，就可以手动更新。',
+  'content.category.archive-count': '文档数量',
   'content.page.input.required': '请填写单页面名称',
   'content.page.edit': '修改单页面',
   'content.page.new': '添加单页面',

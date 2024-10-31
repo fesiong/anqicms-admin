@@ -1,4 +1,5 @@
 import NewContainer from '@/components/NewContainer';
+import AttachmentSelect from '@/components/attachment';
 import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
 import {
@@ -7,6 +8,7 @@ import {
   getTagInfo,
   saveTag,
 } from '@/services';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   ProForm,
   ProFormInstance,
@@ -15,7 +17,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Card, Col, Row, message } from 'antd';
+import { Button, Card, Col, Image, Row, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
@@ -26,6 +28,7 @@ const ArchiveTagDetail: React.FC = () => {
   const [contentSetting, setContentSetting] = useState<any>({});
   const [loaded, setLoaded] = useState<boolean>(false);
   const [tag, setTag] = useState<any>({});
+  const [tagLogo, setTagLogo] = useState<string>('');
   const [newKey, setNewKey] = useState<string>('');
   const editorRef = useRef(null);
 
@@ -38,6 +41,7 @@ const ArchiveTagDetail: React.FC = () => {
     }
     const res1 = await getTagInfo({ id: id });
     setTag(res1?.data || {});
+    setTagLogo(res1?.data.logo || '');
     setContent(res1?.data?.content || '');
     const res2 = await getSettingContent();
     setContentSetting(res2.data || {});
@@ -55,9 +59,22 @@ const ArchiveTagDetail: React.FC = () => {
     });
   };
 
+  const handleSelectLogo = (row: any) => {
+    setTagLogo(row.logo);
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
+  };
+
+  const handleCleanLogo = (e: any) => {
+    e.stopPropagation();
+    setTagLogo('');
+  };
+
   const onSubmit = async (values: any) => {
     let tagInfo = Object.assign(tag, values);
     tagInfo.content = content;
+    tagInfo.logo = tagLogo;
     if (tagInfo.title === '') {
       message.error(intl.formatMessage({ id: 'content.title.required' }));
       return;
@@ -206,6 +223,36 @@ const ArchiveTagDetail: React.FC = () => {
                       },
                     }}
                   />
+                </Card>
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({ id: 'content.category.thumb' })}
+                >
+                  {tagLogo ? (
+                    <div className="ant-upload-item">
+                      <Image
+                        preview={{
+                          src: tagLogo,
+                        }}
+                        src={tagLogo}
+                      />
+                      <span className="delete" onClick={handleCleanLogo}>
+                        <DeleteOutlined />
+                      </span>
+                    </div>
+                  ) : (
+                    <AttachmentSelect onSelect={handleSelectLogo} open={false}>
+                      <div className="ant-upload-item">
+                        <div className="add">
+                          <PlusOutlined />
+                          <div style={{ marginTop: 8 }}>
+                            <FormattedMessage id="setting.system.upload" />
+                          </div>
+                        </div>
+                      </div>
+                    </AttachmentSelect>
+                  )}
                 </Card>
                 <Card
                   className="aside-card"

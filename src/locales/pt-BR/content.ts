@@ -369,6 +369,12 @@ export default {
   'content.category.batch-name.tips2': 'Tais como: use ajuda | ajuda',
   'content.category.batch-name.tips3': 'Tais como: use ajuda | ajuda',
   'content.category.batch-name.tips4': 'blog',
+  'content.category.update-count.name': 'Atualizar contagem de documentos',
+  'content.category.update-count.confirm':
+    'Tem certeza que deseja atualizar manualmente a contagem de documentos da categoria? ',
+  'content.category.update-count.description':
+    'Geralmente, não há necessidade de atualizar manualmente, mas quando você descobrir que as estatísticas estão erradas, você pode atualizar manualmente. ',
+  'content.category.archive-count': 'Número de documentos',
   'content.page.input.required': 'Por favor preencha o nome da página',
   'content.page.edit': 'Modificar página única',
   'content.page.new': 'Adicione uma única página',

@@ -366,6 +366,12 @@ export default {
   'content.category.batch-name.tips3':
     'যেমন: সাহায্য ব্যবহার করুন| সাহায্য করুন',
   'content.category.batch-name.tips4': 'ব্লগ',
+  'content.category.update-count.name': 'নথির সংখ্যা আপডেট করুন',
+  'content.category.update-count.confirm':
+    'আপনি কি নিশ্চিত যে আপনি বিভাগের নথির সংখ্যা ম্যানুয়ালি আপডেট করতে চান? ',
+  'content.category.update-count.description':
+    'সাধারণত, ম্যানুয়ালি আপডেট করার দরকার নেই, কিন্তু যখন আপনি দেখতে পান যে পরিসংখ্যান ভুল, আপনি নিজে আপডেট করতে পারেন৷ ',
+  'content.category.archive-count': 'নথির সংখ্যা',
   'content.page.input.required': 'পৃষ্ঠার নাম পূরণ করুন',
   'content.page.edit': 'একক পৃষ্ঠা পরিবর্তন করুন',
   'content.page.new': 'একটি একক পৃষ্ঠা যোগ করুন',

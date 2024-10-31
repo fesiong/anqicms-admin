@@ -365,6 +365,12 @@ export default {
   'content.category.batch-name.tips2': 'Например: используйте help|help',
   'content.category.batch-name.tips3': 'Например: используйте help|help',
   'content.category.batch-name.tips4': 'блог',
+  'content.category.update-count.name': 'Обновить количество документов',
+  'content.category.update-count.confirm':
+    'Вы уверены, что хотите вручную обновить количество документов в категории? ',
+  'content.category.update-count.description':
+    'Как правило, нет необходимости обновлять вручную, но если вы обнаружите, что статистика неверна, вы можете обновить ее вручную. ',
+  'content.category.archive-count': 'Количество документов',
   'content.page.input.required': 'Пожалуйста, введите название страницы',
   'content.page.edit': 'Изменить одну страницу',
   'content.page.new': 'Добавить одну страницу',

@@ -43,3 +43,14 @@ export async function deleteCategory(
     options,
   });
 }
+
+export async function updateCategoryArchiveCount(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/category/count',
+    body,
+    options,
+  });
+}
