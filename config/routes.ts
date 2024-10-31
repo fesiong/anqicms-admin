@@ -115,6 +115,11 @@ export default [
         component: '@/pages/content/tag/index',
       },
       {
+        hideInMenu: true,
+        path: '/archive/tag/detail',
+        component: '@/pages/content/tag/detail',
+      },
+      {
         path: '/archive/page',
         name: 'page',
         component: '@/pages/content/category/page',

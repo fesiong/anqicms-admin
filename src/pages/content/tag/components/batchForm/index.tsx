@@ -1,5 +1,10 @@
+import { getCategories } from '@/services';
 import { saveTag } from '@/services/tag';
-import { ModalForm, ProFormTextArea } from '@ant-design/pro-components';
+import {
+  ModalForm,
+  ProFormSelect,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import { message } from 'antd';
 import React, { useState } from 'react';
@@ -19,7 +24,10 @@ const BatchForm: React.FC<BatchFormProps> = (props) => {
       return;
     }
     setLoading(true);
-    let done = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    let done = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     let tags = values.tags.split('\n');
     for (let i in tags) {
       if (tags[i].length === 0) {
@@ -27,6 +35,7 @@ const BatchForm: React.FC<BatchFormProps> = (props) => {
       }
       await saveTag({
         title: tags[i],
+        category_id: Number(values.category_id),
       });
     }
     setLoading(false);
@@ -54,6 +63,45 @@ const BatchForm: React.FC<BatchFormProps> = (props) => {
         onSubmit(values);
       }}
     >
+      <ProFormSelect
+        label={intl.formatMessage({ id: 'content.category.name' })}
+        showSearch
+        name="category_id"
+        request={async () => {
+          const res = await getCategories({ type: 1 });
+          const categories = (res.data || []).map((cat: any) => ({
+            spacer: cat.spacer,
+            label:
+              cat.title +
+              (cat.status === 1
+                ? ''
+                : intl.formatMessage({
+                    id: 'setting.nav.hide',
+                  })),
+            value: cat.id,
+          }));
+          return [
+            {
+              spacer: '',
+              label: intl.formatMessage({
+                id: 'content.category.top',
+              }),
+              value: 0,
+            },
+          ].concat(categories);
+        }}
+        fieldProps={{
+          optionItemRender(item: any) {
+            return (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: item.spacer + item.label,
+                }}
+              ></div>
+            );
+          },
+        }}
+      />
       <ProFormTextArea
         name="tags"
         label={intl.formatMessage({ id: 'content.tags.name' })}

@@ -1,19 +1,22 @@
 import NewContainer from '@/components/NewContainer';
+import { getCategories } from '@/services';
 import { deleteTag, getTags } from '@/services/tag';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl } from '@umijs/max';
+import {
+  ActionType,
+  ProColumns,
+  ProFormSelect,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import BatchForm from './components/batchForm';
-import TagForm from './components/tagForm';
 import './index.less';
 
 const ArticleTag: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
-  const [currentTag, setCurrentTag] = useState<any>({});
-  const [editVisible, setEditVisible] = useState<boolean>(false);
   const [batchVisible, setBatchVisible] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const [isSubSite, setIsSubSite] = useState<boolean>(false);
@@ -54,8 +57,7 @@ const ArticleTag: React.FC = () => {
   };
 
   const handleEditTag = async (record: any) => {
-    setCurrentTag(record);
-    setEditVisible(true);
+    history.push('/archive/tag/detail?id=' + (record.id || 'new'));
   };
 
   const handleAddTags = () => {
@@ -76,6 +78,51 @@ const ArticleTag: React.FC = () => {
           <a href={entity.link} target="_blank" rel="noreferrer">
             {dom}
           </a>
+        );
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'content.category.name' }),
+      dataIndex: 'category_title',
+      renderFormItem: (_, { fieldProps }) => {
+        return (
+          <ProFormSelect
+            name="category_id"
+            request={async () => {
+              let res = await getCategories({ type: 1 });
+              const categories = [
+                {
+                  spacer: '',
+                  title: intl.formatMessage({ id: 'content.category.all' }),
+                  id: 0,
+                  status: 1,
+                },
+              ]
+                .concat(res.data || [])
+                .map((cat: any) => ({
+                  spacer: cat.spacer,
+                  label:
+                    cat.title +
+                    (cat.status === 1
+                      ? ''
+                      : intl.formatMessage({ id: 'setting.nav.hide' })),
+                  value: cat.id,
+                }));
+              return categories;
+            }}
+            fieldProps={{
+              ...fieldProps,
+              optionItemRender(item: any) {
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: item.spacer + item.label,
+                    }}
+                  ></div>
+                );
+              },
+            }}
+          />
         );
       },
     },
@@ -181,22 +228,6 @@ const ArticleTag: React.FC = () => {
           showSizeChanger: true,
         }}
       />
-      {editVisible && (
-        <TagForm
-          open={editVisible}
-          tag={currentTag}
-          type={1}
-          onCancel={() => {
-            setEditVisible(false);
-          }}
-          onSubmit={async () => {
-            setEditVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }}
-        />
-      )}
       {batchVisible && (
         <BatchForm
           open={batchVisible}
