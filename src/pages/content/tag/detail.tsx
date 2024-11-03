@@ -90,7 +90,7 @@ const ArchiveTagDetail: React.FC = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
-      const values = formRef.current?.getFieldsValue();
+      const values = formRef.current?.getFieldsFormatValue?.();
       // 自动保存
       onSubmit(values);
 
@@ -162,7 +162,7 @@ const ArchiveTagDetail: React.FC = () => {
                         block
                         type="primary"
                         onClick={() => {
-                          onSubmit(formRef.current?.getFieldsValue());
+                          onSubmit(formRef.current?.getFieldsFormatValue?.());
                         }}
                       >
                         <FormattedMessage id="content.submit.ok" />

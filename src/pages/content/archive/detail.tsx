@@ -164,7 +164,7 @@ class ArchiveForm extends React.Component<intlProps> {
     let archive = this.state.archive;
     if (!archive.id && !this.submitted) {
       console.log('save-store');
-      const values = this.formRef.current?.getFieldsValue();
+      const values = this.formRef.current?.getFieldsFormatValue?.();
       archive.content = this.state.content;
       archive = Object.assign(archive, values);
       if (typeof archive.flag === 'object') {
@@ -190,7 +190,7 @@ class ArchiveForm extends React.Component<intlProps> {
     let archive = this.state.archive;
     if (!archive.id && !this.submitted) {
       console.log('save-store');
-      const values = this.formRef.current?.getFieldsValue();
+      const values = this.formRef.current?.getFieldsFormatValue?.();
       archive.content = this.state.content;
       archive = Object.assign(archive, values);
       if (typeof archive.flag === 'object') {
@@ -529,7 +529,7 @@ class ArchiveForm extends React.Component<intlProps> {
 
   handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
-      const values = this.formRef.current?.getFieldsValue();
+      const values = this.formRef.current?.getFieldsFormatValue?.();
       // 自动保存
       this.onSubmit(values);
 
@@ -538,7 +538,7 @@ class ArchiveForm extends React.Component<intlProps> {
   };
 
   aiGenerateArticle = () => {
-    const values = this.formRef.current?.getFieldsValue() || {};
+    const values = this.formRef.current?.getFieldsFormatValue?.() || {};
     this.setState({
       aiTitle: values.title,
       aiVisible: true,
@@ -1072,7 +1072,8 @@ class ArchiveForm extends React.Component<intlProps> {
                           type="primary"
                           onClick={() => {
                             this.onSubmit(
-                              this.formRef.current?.getFieldsValue(),
+                              this.formRef.current?.getFieldsFormatValue?.() ||
+                                {},
                             );
                           }}
                         >
@@ -1084,7 +1085,8 @@ class ArchiveForm extends React.Component<intlProps> {
                           block
                           onClick={() => {
                             const values =
-                              this.formRef.current?.getFieldsValue() || {};
+                              this.formRef.current?.getFieldsFormatValue?.() ||
+                              {};
                             values.draft = true;
                             this.onSubmit(values);
                           }}
