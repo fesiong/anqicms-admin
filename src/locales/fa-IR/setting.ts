@@ -75,7 +75,7 @@ export default {
   'setting.system.param-name-description':
     'پس از ذخیره به نام شتر مورد تبدیل می شود و می توان آن را به این نام صدا زد.',
   'setting.system.param-value': 'مقدار پارامتر',
-  'setting.system.remark': 'ایستگاه یادداشت',
+  'setting.system.remark': 'یادداشت',
   'setting.system.confirm-delete-param':
     'آیا مطمئن هستید که می خواهید این پارامتر را حذف کنید؟',
   'setting.system.confirm-delete':

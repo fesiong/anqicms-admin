@@ -77,7 +77,7 @@ export default {
   'setting.system.param-name-description':
     'After saving, it will be converted into camel case name and can be called by this name.',
   'setting.system.param-value': 'Parameter value',
-  'setting.system.remark': 'Note station',
+  'setting.system.remark': 'Notes',
   'setting.system.confirm-delete-param':
     'Are you sure you want to delete this parameter?',
   'setting.system.confirm-delete': 'You sure you want to delete it?',

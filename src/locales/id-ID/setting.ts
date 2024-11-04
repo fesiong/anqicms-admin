@@ -75,7 +75,7 @@ export default {
   'setting.system.param-name-description':
     'Setelah disimpan, itu akan diubah menjadi nama kasus unta dan dapat dipanggil dengan nama ini.',
   'setting.system.param-value': 'Nilai parameter',
-  'setting.system.remark': 'Stasiun catatan',
+  'setting.system.remark': 'komentar',
   'setting.system.confirm-delete-param':
     'Apakah Anda yakin ingin menghapus parameter ini?',
   'setting.system.confirm-delete': 'Anda yakin ingin menghapusnya?',

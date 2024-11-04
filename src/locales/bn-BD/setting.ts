@@ -74,7 +74,7 @@ export default {
   'setting.system.param-name-description':
     'সংরক্ষণ করার পরে, এটি উটের কেস নামে রূপান্তরিত হবে এবং এই নামে ডাকা যেতে পারে।',
   'setting.system.param-value': 'পরামিতি মান',
-  'setting.system.remark': 'নোট স্টেশন',
+  'setting.system.remark': 'মন্তব্য',
   'setting.system.confirm-delete-param': 'আপনি কি এই প্যারামিটারটি মুছতে চান?',
   'setting.system.confirm-delete': 'আপনি নিশ্চিত আপনি এটি মুছে ফেলতে চান?',
   'setting.content.confirm-convert-webp':

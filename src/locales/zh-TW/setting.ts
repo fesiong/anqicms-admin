@@ -68,7 +68,7 @@ export default {
   'setting.system.param-name-description':
     '儲存後會轉換成駝峰命名，可透過該名稱調用',
   'setting.system.param-value': '參數值',
-  'setting.system.remark': '註站',
+  'setting.system.remark': '備註',
   'setting.system.confirm-delete-param': '確定要刪除這個參數嗎？',
   'setting.system.confirm-delete': '確定要刪除嗎？',
   'setting.content.confirm-convert-webp':

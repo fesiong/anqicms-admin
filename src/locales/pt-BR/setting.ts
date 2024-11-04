@@ -77,7 +77,7 @@ export default {
   'setting.system.param-name-description':
     'Após salvar, ele será convertido em nome de caixa de camelo e poderá ser chamado por este nome.',
   'setting.system.param-value': 'Valor do parâmetro',
-  'setting.system.remark': 'Estação de notas',
+  'setting.system.remark': 'observações',
   'setting.system.confirm-delete-param':
     'Tem certeza de que deseja excluir este parâmetro?',
   'setting.system.confirm-delete': 'Tem certeza de que deseja excluí-lo?',

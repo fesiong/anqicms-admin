@@ -76,7 +76,7 @@ export default {
   'setting.system.param-name-description':
     '保存後はキャメルケース名に変換され、この名前で呼び出せるようになります。',
   'setting.system.param-value': 'パラメータ値',
-  'setting.system.remark': 'ノートステーション',
+  'setting.system.remark': 'コメント',
   'setting.system.confirm-delete-param':
     'このパラメータを削除してもよろしいですか?',
   'setting.system.confirm-delete': '本当に削除してもよろしいですか?',

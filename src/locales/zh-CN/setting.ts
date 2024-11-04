@@ -68,7 +68,7 @@ export default {
   'setting.system.param-name-description':
     '保存后会转换成驼峰命名，可通过该名称调用',
   'setting.system.param-value': '参数值',
-  'setting.system.remark': '注站',
+  'setting.system.remark': '备注',
   'setting.system.confirm-delete-param': '确定要删除这个参数吗？',
   'setting.system.confirm-delete': '确定要删除吗？',
   'setting.content.confirm-convert-webp':

@@ -77,7 +77,7 @@ export default {
   'setting.system.param-name-description':
     'После сохранения оно будет преобразовано в имя верблюжьего регистра и может вызываться по этому имени.',
   'setting.system.param-value': 'Значение параметра',
-  'setting.system.remark': 'Примечание станции',
+  'setting.system.remark': 'Примечания',
   'setting.system.confirm-delete-param':
     'Вы уверены, что хотите удалить этот параметр?',
   'setting.system.confirm-delete': 'Вы уверены, что хотите удалить его?',
