@@ -1,5 +1,9 @@
 import { getCategories, getModules } from '@/services';
-import { pluginBuildSitemap, pluginGetSitemap, pluginSaveSitemap } from '@/services/plugin/sitemap';
+import {
+  pluginBuildSitemap,
+  pluginGetSitemap,
+  pluginSaveSitemap,
+} from '@/services/plugin/sitemap';
 import {
   PageContainer,
   ProForm,
@@ -31,7 +35,10 @@ const PluginSitemap: React.FC<any> = () => {
   }, []);
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginSaveSitemap(values)
       .then((res) => {
         message.success(res.msg);
@@ -46,7 +53,10 @@ const PluginSitemap: React.FC<any> = () => {
 
   const rebuildSitemap = () => {
     let values = formRef.current?.getFieldsValue();
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginBuildSitemap(values)
       .then((res) => {
         message.info(res.msg);
@@ -76,7 +86,11 @@ const PluginSitemap: React.FC<any> = () => {
         />
         {fetched && (
           <div className="mt-normal">
-            <ProForm onFinish={onSubmit} initialValues={sitemapSetting} formRef={formRef}>
+            <ProForm
+              onFinish={onSubmit}
+              initialValues={sitemapSetting}
+              formRef={formRef}
+            >
               <Card
                 size="small"
                 title={intl.formatMessage({ id: 'menu.plugin.sitemap' })}
@@ -92,40 +106,54 @@ const PluginSitemap: React.FC<any> = () => {
                 />
                 <ProFormRadio.Group
                   name="auto_build"
-                  label={intl.formatMessage({ id: 'plugin.sitemap.auto-build' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.sitemap.auto-build',
+                  })}
                   options={[
                     {
                       value: 0,
-                      label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.manual' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.sitemap.auto-build.manual',
+                      }),
                     },
                     {
                       value: 1,
-                      label: intl.formatMessage({ id: 'plugin.sitemap.auto-build.auto' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.sitemap.auto-build.auto',
+                      }),
                     },
                   ]}
                 />
                 <ProFormRadio.Group
                   name="exclude_tag"
-                  label={intl.formatMessage({ id: 'plugin.sitemap.exclude-tag' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.sitemap.exclude-tag',
+                  })}
                   options={[
                     {
                       value: false,
-                      label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.no' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.sitemap.exclude-tag.no',
+                      }),
                     },
                     {
                       value: true,
-                      label: intl.formatMessage({ id: 'plugin.sitemap.exclude-tag.yes' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.sitemap.exclude-tag.yes',
+                      }),
                     },
                   ]}
                 />
                 <ProFormSelect
                   name={'exclude_module_ids'}
-                  label={intl.formatMessage({ id: 'plugin.sitemap.exculde-module' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.sitemap.exculde-module',
+                  })}
                   mode="multiple"
                   request={async () => {
                     let res = await getModules({});
                     const tmpModules = (res.data || []).map((item: any) => ({
-                      label: item.title,
+                      label: item.name,
                       value: item.id,
                     }));
                     return tmpModules;
@@ -136,7 +164,9 @@ const PluginSitemap: React.FC<any> = () => {
                 />
                 <ProFormSelect
                   name={'exclude_category_ids'}
-                  label={intl.formatMessage({ id: 'plugin.sitemap.exculde-category' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.sitemap.exculde-category',
+                  })}
                   mode="multiple"
                   request={async () => {
                     let res = await getCategories({ type: 1 });
@@ -152,7 +182,9 @@ const PluginSitemap: React.FC<any> = () => {
                 />
                 <ProFormSelect
                   name={'exclude_page_ids'}
-                  label={intl.formatMessage({ id: 'plugin.sitemap.exculde-page' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.sitemap.exculde-page',
+                  })}
                   mode="multiple"
                   request={async () => {
                     let res = await getCategories({ type: 3 });
@@ -181,7 +213,9 @@ const PluginSitemap: React.FC<any> = () => {
                   readonly
                   label={intl.formatMessage({ id: 'plugin.sitemap.last-time' })}
                   fieldProps={{
-                    value: dayjs(sitemapSetting.updated_time * 1000).format('YYYY-MM-DD HH:mm'),
+                    value: dayjs(sitemapSetting.updated_time * 1000).format(
+                      'YYYY-MM-DD HH:mm',
+                    ),
                   }}
                 />
                 <Space size={20}>

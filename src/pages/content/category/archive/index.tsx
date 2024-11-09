@@ -122,7 +122,7 @@ const ArchiveCategory: React.FC = () => {
   const getModuleName = (moduleId: number) => {
     for (let item of modules) {
       if (moduleId === item.id) {
-        return item.title;
+        return item.name;
       }
     }
     return null;

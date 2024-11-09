@@ -1173,7 +1173,7 @@ class ArchiveForm extends React.Component<intlProps> {
                       extra={
                         <div>
                           <FormattedMessage id="content.module.name" />:{' '}
-                          {module.title}
+                          {module.name}
                         </div>
                       }
                     />

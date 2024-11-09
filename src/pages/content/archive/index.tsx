@@ -588,13 +588,13 @@ const ArchiveList: React.FC = () => {
               let res = await getModules({});
               const tmpModules = [
                 {
-                  title: intl.formatMessage({ id: 'content.archive.all' }),
+                  name: intl.formatMessage({ id: 'content.archive.all' }),
                   id: 0,
                 },
               ]
                 .concat(res.data || [])
                 .map((item: any) => ({
-                  label: item.title,
+                  label: item.name,
                   value: item.id,
                 }));
               return tmpModules;
@@ -834,7 +834,7 @@ const ArchiveList: React.FC = () => {
                   onSelectModule(item.id);
                 }}
               >
-                {item.title}
+                {item.name}
               </div>
             ))}
           </div>

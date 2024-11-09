@@ -4,6 +4,7 @@ import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
 import {
   getCategories,
+  getDesignTemplateFiles,
   getSettingContent,
   getTagInfo,
   saveTag,
@@ -34,14 +35,13 @@ const ArchiveTagDetail: React.FC = () => {
 
   const initData = async () => {
     const searchParams = new URLSearchParams(window.location.search);
-    console.log(searchParams);
     let id = searchParams.get('id') || 0;
     if (id === 'new') {
       id = 0;
     }
     const res1 = await getTagInfo({ id: id });
     setTag(res1?.data || {});
-    setTagLogo(res1?.data.logo || '');
+    setTagLogo(res1?.data?.logo || '');
     setContent(res1?.data?.content || '');
     const res2 = await getSettingContent();
     setContentSetting(res2.data || {});
@@ -297,6 +297,50 @@ const ArchiveTagDetail: React.FC = () => {
                       id: 'content.url-token.placeholder',
                     })}
                     extra={intl.formatMessage({ id: 'content.url-token.tips' })}
+                  />
+                </Card>
+                <Card
+                  className="aside-card"
+                  size="small"
+                  title={intl.formatMessage({
+                    id: 'content.category.template',
+                  })}
+                >
+                  <ProFormSelect
+                    showSearch
+                    name="template"
+                    request={async () => {
+                      const res = await getDesignTemplateFiles({});
+                      const data = [
+                        {
+                          path: '',
+                          remark: intl.formatMessage({
+                            id: 'content.default-template',
+                          }),
+                        },
+                      ].concat(res.data || []);
+                      for (const i in data) {
+                        if (!data[i].remark) {
+                          data[i].remark = data[i].path;
+                        } else {
+                          data[i].remark =
+                            data[i].path + '(' + data[i].remark + ')';
+                        }
+                      }
+                      return data;
+                    }}
+                    fieldProps={{
+                      fieldNames: {
+                        label: 'remark',
+                        value: 'path',
+                      },
+                    }}
+                    extra={
+                      <div>
+                        <FormattedMessage id="content.category.default" />:{' '}
+                        tag/list.html
+                      </div>
+                    }
                   />
                 </Card>
               </Col>

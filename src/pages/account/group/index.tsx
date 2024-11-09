@@ -130,15 +130,17 @@ const AdminGroupList: React.FC = () => {
           >
             <FormattedMessage id="setting.action.edit" />
           </a>
-          <a
-            className="text-red"
-            key="delete"
-            onClick={async () => {
-              await handleRemove([record.id]);
-            }}
-          >
-            <FormattedMessage id="setting.system.delete" />
-          </a>
+          {record.id === 1 && (
+            <a
+              className="text-red"
+              key="delete"
+              onClick={async () => {
+                await handleRemove(record);
+              }}
+            >
+              <FormattedMessage id="setting.system.delete" />
+            </a>
+          )}
         </Space>
       ),
     },

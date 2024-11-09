@@ -86,10 +86,12 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
         request={async () => {
           return props.modules;
         }}
-        readonly={props.category?.id || props.category?.module_id > 0 ? true : false}
+        readonly={
+          props.category?.id || props.category?.module_id > 0 ? true : false
+        }
         fieldProps={{
           fieldNames: {
-            label: 'title',
+            label: 'name',
             value: 'id',
           },
           onChange: (e) => {
@@ -120,11 +122,17 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
             categories = tmpCategory;
           }
           categories = [
-            { id: 0, title: intl.formatMessage({ id: 'content.category.top' }), spacer: '' },
+            {
+              id: 0,
+              title: intl.formatMessage({ id: 'content.category.top' }),
+              spacer: '',
+            },
           ].concat(categories);
           return categories;
         }}
-        readonly={props.category?.id || props.category?.module_id > 0 ? false : true}
+        readonly={
+          props.category?.id || props.category?.module_id > 0 ? false : true
+        }
         fieldProps={{
           fieldNames: {
             label: 'title',
@@ -132,7 +140,11 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
           },
           optionItemRender(item: any) {
             return (
-              <div dangerouslySetInnerHTML={{ __html: (item.spacer || '') + item.title }}></div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: (item.spacer || '') + item.title,
+                }}
+              ></div>
             );
           },
         }}
@@ -141,7 +153,9 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
         name="inputs"
         width="lg"
         label={intl.formatMessage({ id: 'content.category.batch-name' })}
-        placeholder={intl.formatMessage({ id: 'content.category.batch-name.placeholder' })}
+        placeholder={intl.formatMessage({
+          id: 'content.category.batch-name.placeholder',
+        })}
         fieldProps={{
           rows: 10,
         }}

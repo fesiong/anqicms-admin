@@ -469,7 +469,7 @@ const PluginMultiLang: React.FC<any> = () => {
           <ProFormSelect
             name="language"
             label={intl.formatMessage({
-              id: 'plugin.multilang.language站点语言',
+              id: 'plugin.multilang.language',
             })}
             style={{ width: '100%' }}
             showSearch

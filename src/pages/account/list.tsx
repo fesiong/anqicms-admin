@@ -94,7 +94,7 @@ const AdminList: React.FC = () => {
       title: intl.formatMessage({ id: 'account.list.login-time' }),
       dataIndex: 'login_time',
       render: (text, record) =>
-        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+        dayjs(record.login_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'website.status' }),

@@ -30,7 +30,7 @@ const PluginTimeFactor: React.FC<any> = () => {
       const data = res.data || [];
       const tmpData = [];
       for (let i in data) {
-        tmpData.push({ label: data[i].title, value: data[i].id });
+        tmpData.push({ label: data[i].name, value: data[i].id });
       }
       setModules(tmpData);
     });

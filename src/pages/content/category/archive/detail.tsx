@@ -68,7 +68,10 @@ const ArchiveCategoryDetail: React.FC = () => {
     let catRes = await getCategoryInfo({
       id: id,
     });
-    let cat = catRes.data || { status: 1, parent_id: parent_id };
+    let cat = catRes.data || { status: 1, parent_id: parent_id, extra: {} };
+    if (typeof cat.extra === 'undefined') {
+      cat.extra = {};
+    }
     let moduleId = cat.module_id || 1;
     if (parent_id > 0) {
       let parentRes = await getCategoryInfo({
@@ -81,10 +84,11 @@ const ArchiveCategoryDetail: React.FC = () => {
     }
     let module = changeModule(moduleId, modRes.data);
     let extraContent: any = {};
+    // eslint-disable-next-line guard-for-in
     for (let i in module.category_fields) {
-      if (module.category_fields[i].type === 'editor') {
-        extraContent[module.category_fields[i].field_name] =
-          cat.extra[module.category_fields[i].field_name] || '';
+      let field = module.category_fields[i];
+      if (field.type === 'editor') {
+        extraContent[field.field_name] = cat.extra?.[field.field_name] || '';
       }
     }
     setExtraContent(extraContent);
@@ -125,7 +129,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     }
     // eslint-disable-next-line guard-for-in
     for (let field in extraContent) {
-      if (!cat.extra[field]) {
+      if (!cat.extra?.[field]) {
         cat.extra[field] = null;
       }
       cat.extra[field] = extraContent[field];
@@ -259,7 +263,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                   }
                   fieldProps={{
                     fieldNames: {
-                      label: 'title',
+                      label: 'name',
                       value: 'id',
                     },
                     onChange: (e) => {

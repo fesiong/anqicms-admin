@@ -71,7 +71,7 @@ const SettingNavFrom: React.FC<any> = () => {
     for (let item of modules) {
       options.push({
         value: item.id,
-        label: item.title + intl.formatMessage({ id: 'setting.nav.home' }),
+        label: item.name + intl.formatMessage({ id: 'setting.nav.home' }),
       });
     }
 
@@ -146,7 +146,7 @@ const SettingNavFrom: React.FC<any> = () => {
   const getModuleName = (moduleId: number) => {
     for (let item of modules) {
       if (item.id === moduleId) {
-        return item.title;
+        return item.name;
       }
     }
   };
