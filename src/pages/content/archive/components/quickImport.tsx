@@ -32,11 +32,11 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
   const syncTask = async () => {
     getQuickImportArchiveStatus().then((res) => {
       if (res.data) {
-        running = true;
         setTask(res.data);
       } else {
         if (running) {
           running = false;
+          props.onOpenChange(false);
         }
         setTask(null);
       }
@@ -130,6 +130,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
                     id: 'setting.system.upload-success',
                   }),
               );
+              running = true;
               syncTask();
             }
           }
@@ -146,6 +147,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
       archiveQuickImport(formData)
         .then((res) => {
           message.success(res.msg);
+          running = true;
           syncTask();
         })
         .finally(() => {
