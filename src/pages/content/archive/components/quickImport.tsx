@@ -1,9 +1,12 @@
+import AttachmentSelect from '@/components/attachment';
 import {
   archiveQuickImport,
+  getAttachmentCategories,
   getCategories,
   getQuickImportArchiveStatus,
 } from '@/services';
 import { calculateFileMd5 } from '@/utils';
+import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
   ProFormDigit,
@@ -12,8 +15,19 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Divider, Modal, Progress, Upload, message } from 'antd';
+import {
+  Button,
+  Col,
+  Divider,
+  Image,
+  Modal,
+  Progress,
+  Row,
+  Upload,
+  message,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
+import './index.less';
 
 export type quickImportProps = {
   open: boolean;
@@ -27,6 +41,8 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
   const [planType, setPlanType] = useState<number>(0);
   const [uploadedFile, setUploadedFile] = useState<any>(null);
   const [task, setTask] = useState<any>(null);
+  const [insertImage, setInsertImage] = useState<number>(0);
+  const [images, setImages] = useState<any[]>([]);
   const intl = useIntl();
 
   const syncTask = async () => {
@@ -55,6 +71,29 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
       clearInterval(intXhr);
     };
   }, []);
+
+  const handleRemoveImage = (index: number) => {
+    images.splice(index, 1);
+
+    setImages([...images]);
+  };
+
+  const handleSelectLogo = (rows: any) => {
+    for (const row of rows) {
+      let exists = false;
+      for (let i in images) {
+        if (images[i] === row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        images.push(row.logo);
+      }
+    }
+
+    setImages([...images]);
+  };
 
   const handleSelectUploadZip = (e: any) => {
     setUploadedFile(e.file);
@@ -88,6 +127,9 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
     // eslint-disable-next-line guard-for-in
     for (let key in values) {
       formData.append(key, values[key]);
+    }
+    for (let item of images) {
+      formData.append('images[]', item);
     }
     const size = uploadedFile.size;
     const md5Value = await calculateFileMd5(uploadedFile);
@@ -323,6 +365,130 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
             },
           }}
         />
+        <ProFormRadio.Group
+          name="insert_image"
+          label={intl.formatMessage({
+            id: 'plugin.aigenerate.insert-image',
+          })}
+          options={[
+            {
+              label: intl.formatMessage({
+                id: 'plugin.aigenerate.insert-image.default',
+              }),
+              value: 0,
+            },
+            {
+              label: intl.formatMessage({
+                id: 'plugin.aigenerate.insert-image.diy',
+              }),
+              value: 2,
+            },
+            {
+              label: intl.formatMessage({
+                id: 'plugin.aigenerate.insert-image.category',
+              }),
+              value: 3,
+            },
+          ]}
+          fieldProps={{
+            onChange: (e) => {
+              setInsertImage(e.target.value);
+            },
+          }}
+        />
+        {insertImage === 2 && (
+          <ProFormText
+            label={intl.formatMessage({
+              id: 'plugin.aigenerate.insert-image.list',
+            })}
+          >
+            <div className="insert-image">
+              <Row gutter={[16, 16]} className="image-list">
+                {images?.map((item: any, index: number) => (
+                  <Col span={6} key={index}>
+                    <div className="image-item">
+                      <div className="inner">
+                        <div className="link">
+                          <Image className="img" preview={true} src={item} />
+                          <span
+                            className="close"
+                            onClick={() => handleRemoveImage(index)}
+                          >
+                            <FormattedMessage id="setting.system.delete" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+                ))}
+                <Col span={6}>
+                  <div className="image-item">
+                    <div className="inner">
+                      <div className="link">
+                        <AttachmentSelect
+                          onSelect={handleSelectLogo}
+                          open={false}
+                          multiple={true}
+                        >
+                          <div className="ant-upload-item">
+                            <div className="add">
+                              <PlusOutlined />
+                              <div style={{ marginTop: 8 }}>
+                                <FormattedMessage id="setting.system.upload" />
+                              </div>
+                            </div>
+                          </div>
+                        </AttachmentSelect>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </ProFormText>
+        )}
+        {insertImage === 3 && (
+          <ProFormSelect
+            label={intl.formatMessage({
+              id: 'plugin.aigenerate.image.category',
+            })}
+            name="image_category_id"
+            required
+            extra={intl.formatMessage({
+              id: 'plugin.aigenerate.image.category.description',
+            })}
+            request={async () => {
+              const res = await getAttachmentCategories();
+              const data = (res.data || []).concat(
+                {
+                  id: 0,
+                  title: intl.formatMessage({
+                    id: 'plugin.aigenerate.image.category.default',
+                  }),
+                },
+                {
+                  id: -1,
+                  title: intl.formatMessage({
+                    id: 'plugin.aigenerate.image.category.all',
+                  }),
+                },
+                {
+                  id: -2,
+                  title: intl.formatMessage({
+                    id: 'plugin.aigenerate.image.category.match',
+                  }),
+                },
+              );
+              return data;
+            }}
+            fieldProps={{
+              fieldNames: {
+                label: 'title',
+                value: 'id',
+              },
+            }}
+          />
+        )}
         <Divider>
           <FormattedMessage id="content.quick-import.step2" />
         </Divider>
