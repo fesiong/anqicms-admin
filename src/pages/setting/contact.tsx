@@ -52,6 +52,7 @@ const SettingContactFrom: React.FC<any> = () => {
 
   const onSubmit = async (values: any) => {
     values.qrcode = qrcode;
+    values.extra_fields = extraFields;
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
@@ -161,7 +162,7 @@ const SettingContactFrom: React.FC<any> = () => {
               }
               key="1"
             >
-              {extraFields.map((item: any, index: number) => (
+              {extraFields.map((row: any, index: number) => (
                 <Row key={index} gutter={16}>
                   <Col span={8}>
                     <ProFormText
@@ -169,6 +170,13 @@ const SettingContactFrom: React.FC<any> = () => {
                       label={intl.formatMessage({
                         id: 'setting.system.param-name',
                       })}
+                      fieldProps={{
+                        value: row.name,
+                        onChange: (e: any) => {
+                          extraFields[index].name = e.target.value;
+                          setExtraFields([].concat(extraFields));
+                        },
+                      }}
                       required={true}
                       width="lg"
                       extra={intl.formatMessage({
@@ -182,7 +190,13 @@ const SettingContactFrom: React.FC<any> = () => {
                       label={intl.formatMessage({
                         id: 'setting.system.param-value',
                       })}
-                      required={true}
+                      fieldProps={{
+                        value: row.value,
+                        onChange: (e: any) => {
+                          extraFields[index].value = e.target.value;
+                          setExtraFields([].concat(extraFields));
+                        },
+                      }}
                       width="lg"
                     />
                   </Col>
@@ -192,6 +206,13 @@ const SettingContactFrom: React.FC<any> = () => {
                       label={intl.formatMessage({
                         id: 'setting.system.remark',
                       })}
+                      fieldProps={{
+                        value: row.remark,
+                        onChange: (e: any) => {
+                          extraFields[index].remark = e.target.value;
+                          setExtraFields([].concat(extraFields));
+                        },
+                      }}
                       width="lg"
                     />
                   </Col>

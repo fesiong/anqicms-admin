@@ -165,6 +165,7 @@ const WebsiteList: React.FC = () => {
   const columns: ProColumns<any>[] = [
     {
       title: 'ID',
+      hideInSearch: true,
       dataIndex: 'id',
     },
     {
@@ -182,16 +183,19 @@ const WebsiteList: React.FC = () => {
     },
     {
       title: intl.formatMessage({ id: 'website.root-path' }),
+      hideInSearch: true,
       dataIndex: 'root_path',
     },
     {
       title: intl.formatMessage({ id: 'website.create-time' }),
+      hideInSearch: true,
       dataIndex: 'created_time',
       render: (text, record) =>
         dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'website.status' }),
+      hideInSearch: true,
       dataIndex: 'status',
       valueEnum: {
         0: {
@@ -262,7 +266,6 @@ const WebsiteList: React.FC = () => {
         headerTitle={intl.formatMessage({ id: 'website.list' })}
         rowKey="id"
         actionRef={actionRef}
-        search={false}
         request={(params) => {
           return getWebsiteList(params);
         }}
