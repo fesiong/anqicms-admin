@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': '首頁TDK設定',
   'menu.setting.banner': '首頁投影片',
   'menu.setting.nav': '導航設定',
+  'menu.setting.diy': '自定義內容',
   'menu.archive': '內容管理',
   'menu.archive.list': '文件列表',
   'menu.archive.recycle': '文件回收站',

@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': 'Configurações iniciais do TDK',
   'menu.setting.banner': 'Apresentação de slides inicial',
   'menu.setting.nav': 'Configurações de navegação',
+  'menu.setting.diy': 'Conteúdo Personalizado',
   'menu.archive': 'Gerenciamento de conteúdo',
   'menu.archive.list': 'Lista de documentos',
   'menu.archive.recycle': 'Lixeira de documentos',

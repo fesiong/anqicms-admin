@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': 'Pengaturan rumah TDK',
   'menu.setting.banner': 'Tayangan slide rumah',
   'menu.setting.nav': 'Pengaturan navigasi',
+  'menu.setting.diy': 'Kandungan Tersendiri',
   'menu.archive': 'Manajemen konten',
   'menu.archive.list': 'Daftar dokumen',
   'menu.archive.recycle': 'Tempat Sampah Dokumen',

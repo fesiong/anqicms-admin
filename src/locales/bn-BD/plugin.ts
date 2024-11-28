@@ -1403,5 +1403,7 @@ export default {
   'plugin.translate.engine.baidu.app-secret': 'কী',
   'plugin.translate.engine.youdao.app-id': 'অ্যাপ্লিকেশন আইডি',
   'plugin.translate.engine.youdao.app-secret': 'অ্যাপ্লিকেশন গোপন কী',
+  'plugin.translate.engine.deepl': 'Deepl',
+  'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'অনুবাদ রেকর্ড',
 };

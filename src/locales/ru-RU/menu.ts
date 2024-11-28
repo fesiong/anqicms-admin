@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': 'Домашние настройки TDK',
   'menu.setting.banner': 'Домашнее слайд-шоу',
   'menu.setting.nav': 'Настройки навигации',
+  'menu.setting.diy': 'Пользовательский контент',
   'menu.archive': 'Управление содержанием',
   'menu.archive.list': 'Список документов',
   'menu.archive.recycle': 'Корзина документов',

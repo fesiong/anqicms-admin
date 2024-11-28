@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': 'TDKのホーム設定',
   'menu.setting.banner': 'ホームスライドショー',
   'menu.setting.nav': 'ナビゲーション設定',
+  'menu.setting.diy': 'カスタムコンテンツ',
   'menu.archive': 'コンテンツ管理',
   'menu.archive.list': '資料一覧',
   'menu.archive.recycle': 'ドキュメントのごみ箱',

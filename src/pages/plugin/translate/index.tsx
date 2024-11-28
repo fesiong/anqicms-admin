@@ -142,6 +142,12 @@ const PluginTranslate: React.FC<any> = () => {
                     }),
                     value: 'youdao',
                   },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.translate.engine.deepl',
+                    }),
+                    value: 'deepl',
+                  },
                 ]}
               />
               {engine === 'baidu' && (
@@ -184,6 +190,22 @@ const PluginTranslate: React.FC<any> = () => {
                     name="youdao_app_secret"
                     label={intl.formatMessage({
                       id: 'plugin.translate.engine.youdao.app-secret',
+                    })}
+                  />
+                </Card>
+              )}
+              {engine === 'deepl' && (
+                <Card
+                  size="small"
+                  title={intl.formatMessage({
+                    id: 'plugin.translate.engine.deepl',
+                  })}
+                  bordered={false}
+                >
+                  <ProFormText
+                    name="deepl_auth_key"
+                    label={intl.formatMessage({
+                      id: 'plugin.translate.engine.deepl.auth-key',
                     })}
                   />
                 </Card>

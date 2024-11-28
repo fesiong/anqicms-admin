@@ -888,40 +888,7 @@ class ArchiveForm extends React.Component<intlProps> {
                               }
                             />
                           ) : item.type === 'editor' ? (
-                            <ProFormText
-                              label={item.name}
-                              required={item.required ? true : false}
-                              extra={
-                                item.content &&
-                                this.props.intl.formatMessage({
-                                  id: 'content.param.default',
-                                }) + item.content
-                              }
-                            >
-                              {contentSetting.editor === 'markdown' ? (
-                                <MarkdownEditor
-                                  className="mb-normal"
-                                  setContent={this.setExtraContent.bind(
-                                    this,
-                                    item.field_name,
-                                  )}
-                                  content={extraContent[item.field_name] || ''}
-                                  ref={null}
-                                />
-                              ) : (
-                                <WangEditor
-                                  className="mb-normal"
-                                  setContent={this.setExtraContent.bind(
-                                    this,
-                                    item.field_name,
-                                  )}
-                                  content={extraContent[item.field_name] || ''}
-                                  key={item.field_name}
-                                  field={item.field_name}
-                                  ref={null}
-                                />
-                              )}
-                            </ProFormText>
+                            ''
                           ) : item.type === 'radio' ? (
                             <ProFormRadio.Group
                               name={['extra', item.field_name, 'value']}
@@ -1061,6 +1028,46 @@ class ArchiveForm extends React.Component<intlProps> {
                       field="content"
                       ref={this.editorRef}
                     />
+                  )}
+                  {module.fields?.map(
+                    (item: any, index: number) =>
+                      item.type === 'editor' && (
+                        <ProFormText
+                          key={index}
+                          label={item.name}
+                          required={item.required ? true : false}
+                          extra={
+                            item.content &&
+                            this.props.intl.formatMessage({
+                              id: 'content.param.default',
+                            }) + item.content
+                          }
+                        >
+                          {contentSetting.editor === 'markdown' ? (
+                            <MarkdownEditor
+                              className="mb-normal"
+                              setContent={this.setExtraContent.bind(
+                                this,
+                                item.field_name,
+                              )}
+                              content={extraContent[item.field_name] || ''}
+                              ref={null}
+                            />
+                          ) : (
+                            <WangEditor
+                              className="mb-normal"
+                              setContent={this.setExtraContent.bind(
+                                this,
+                                item.field_name,
+                              )}
+                              content={extraContent[item.field_name] || ''}
+                              key={item.field_name}
+                              field={item.field_name}
+                              ref={null}
+                            />
+                          )}
+                        </ProFormText>
+                      ),
                   )}
                 </Col>
                 <Col sm={6} xs={24}>

@@ -245,4 +245,6 @@ export default {
   'setting.nav.sort': 'urutan tampilan',
   'setting.nav.sort.description':
     'Semakin kecil nilainya, semakin tinggi pengurutannya.',
+  'plugin.diyfield.setting': 'Konfigurasi bidang',
+  'setting.diyfield.name-duplicate': 'Nama parameter tidak dapat diulang',
 };

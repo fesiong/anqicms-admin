@@ -240,4 +240,7 @@ export default {
   'setting.nav.sort': 'প্রদর্শন আদেশ',
   'setting.nav.sort.description':
     'মান যত ছোট হবে, তত বেশি বাছাই হবে ডিফল্ট 99৷',
+  'plugin.diyfield.setting': 'ক্ষেত্র কনফিগারেশন',
+  'setting.diyfield.name-duplicate':
+    'প্যারামিটারের নাম পুনরাবৃত্তি করা যাবে না',
 };

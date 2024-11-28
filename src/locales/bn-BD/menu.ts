@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': 'হোম TDK সেটিংস',
   'menu.setting.banner': 'হোম স্লাইডশো',
   'menu.setting.nav': 'নেভিগেশন সেটিংস',
+  'menu.setting.diy': 'স্বনির্বাচিত বিষয়বস্তু',
   'menu.archive': 'কন্টেন্ট ম্যানেজমেন্ট',
   'menu.archive.list': 'নথি তালিকা',
   'menu.archive.recycle': 'ডকুমেন্ট রিসাইকেল বিন',

@@ -251,4 +251,6 @@ export default {
   'setting.nav.sort': 'Отобразить заказ',
   'setting.nav.sort.description':
     'Чем меньше значение, тем выше сортировка. Значение по умолчанию — 99.',
+  'plugin.diyfield.setting': 'Конфигурация поля',
+  'setting.diyfield.name-duplicate': 'Имена параметров не могут повторяться',
 };

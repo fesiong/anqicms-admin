@@ -415,38 +415,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                           }
                         />
                       ) : item.type === 'editor' ? (
-                        <ProFormText
-                          label={item.name}
-                          required={item.required ? true : false}
-                          extra={
-                            item.content &&
-                            intl.formatMessage({
-                              id: 'content.param.default',
-                            }) + item.content
-                          }
-                        >
-                          {contentSetting.editor === 'markdown' ? (
-                            <MarkdownEditor
-                              className="mb-normal"
-                              setContent={(html) =>
-                                updateExtraContent(item.field_name, html)
-                              }
-                              content={extraContent[item.field_name] || ''}
-                              ref={null}
-                            />
-                          ) : (
-                            <WangEditor
-                              className="mb-normal"
-                              setContent={(html) =>
-                                updateExtraContent(item.field_name, html)
-                              }
-                              content={extraContent[item.field_name] || ''}
-                              key={item.field_name}
-                              field={item.field_name}
-                              ref={null}
-                            />
-                          )}
-                        </ProFormText>
+                        ''
                       ) : item.type === 'radio' ? (
                         <ProFormRadio.Group
                           name={['extra', item.field_name]}
@@ -586,6 +555,155 @@ const ArchiveCategoryDetail: React.FC = () => {
                       />
                     )}
                   </>
+                )}
+                {currentModule.category_fields?.map(
+                  (item: any, index: number) =>
+                    item.type === 'editor' ? (
+                      <ProFormText
+                        key={index}
+                        label={item.name}
+                        required={item.required ? true : false}
+                        extra={
+                          item.content &&
+                          intl.formatMessage({
+                            id: 'content.param.default',
+                          }) + item.content
+                        }
+                      >
+                        {contentSetting.editor === 'markdown' ? (
+                          <MarkdownEditor
+                            className="mb-normal"
+                            setContent={(html) =>
+                              updateExtraContent(item.field_name, html)
+                            }
+                            content={extraContent[item.field_name] || ''}
+                            ref={null}
+                          />
+                        ) : (
+                          <WangEditor
+                            className="mb-normal"
+                            setContent={(html) =>
+                              updateExtraContent(item.field_name, html)
+                            }
+                            content={extraContent[item.field_name] || ''}
+                            key={item.field_name}
+                            field={item.field_name}
+                            ref={null}
+                          />
+                        )}
+                      </ProFormText>
+                    ) : item.type === 'radio' ? (
+                      <ProFormRadio.Group
+                        name={['extra', item.field_name]}
+                        label={item.name}
+                        request={async () => {
+                          const tmpData = item.content.split('\n');
+                          const data = [];
+                          for (const item1 of tmpData) {
+                            data.push({ label: item1, value: item1 });
+                          }
+                          return data;
+                        }}
+                      />
+                    ) : item.type === 'checkbox' ? (
+                      <ProFormCheckbox.Group
+                        name={['extra', item.field_name]}
+                        label={item.name}
+                        request={async () => {
+                          const tmpData = item.content.split('\n');
+                          const data = [];
+                          for (const item1 of tmpData) {
+                            data.push({ label: item1, value: item1 });
+                          }
+                          return data;
+                        }}
+                      />
+                    ) : item.type === 'select' ? (
+                      <ProFormSelect
+                        name={['extra', item.field_name]}
+                        label={item.name}
+                        request={async () => {
+                          const tmpData = item.content.split('\n');
+                          const data = [];
+                          for (const item1 of tmpData) {
+                            data.push({ label: item1, value: item1 });
+                          }
+                          return data;
+                        }}
+                      />
+                    ) : item.type === 'image' ? (
+                      <ProFormText
+                        name={['extra', item.field_name]}
+                        label={item.name}
+                      >
+                        {category.extra[item.field_name] ? (
+                          <div className="ant-upload-item">
+                            <Image
+                              preview={{
+                                src: category.extra[item.field_name],
+                              }}
+                              src={category.extra[item.field_name]}
+                            />
+                            <span
+                              className="delete"
+                              onClick={() =>
+                                handleCleanExtraField(item.field_name)
+                              }
+                            >
+                              <DeleteOutlined />
+                            </span>
+                          </div>
+                        ) : (
+                          <AttachmentSelect
+                            onSelect={(row) =>
+                              handleUploadExtraField(item.field_name, row)
+                            }
+                            open={false}
+                          >
+                            <div className="ant-upload-item">
+                              <div className="add">
+                                <PlusOutlined />
+                                <div style={{ marginTop: 8 }}>
+                                  <FormattedMessage id="setting.system.upload" />
+                                </div>
+                              </div>
+                            </div>
+                          </AttachmentSelect>
+                        )}
+                      </ProFormText>
+                    ) : item.type === 'file' ? (
+                      <ProFormText
+                        name={['extra', item.field_name]}
+                        label={item.name}
+                      >
+                        {category.extra[item.field_name] ? (
+                          <div className="ant-upload-item ant-upload-file">
+                            <span>{category.extra[item.field_name]}</span>
+                            <span
+                              className="delete"
+                              onClick={() =>
+                                handleCleanExtraField(item.field_name)
+                              }
+                            >
+                              <DeleteOutlined />
+                            </span>
+                          </div>
+                        ) : (
+                          <AttachmentSelect
+                            onSelect={(row) =>
+                              handleUploadExtraField(item.field_name, row)
+                            }
+                            open={false}
+                          >
+                            <Button>
+                              <FormattedMessage id="setting.system.upload" />
+                            </Button>
+                          </AttachmentSelect>
+                        )}
+                      </ProFormText>
+                    ) : (
+                      ''
+                    ),
                 )}
               </Col>
               <Col sm={6} xs={24}>

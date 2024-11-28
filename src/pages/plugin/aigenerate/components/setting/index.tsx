@@ -6,7 +6,6 @@ import {
   saveAiGenerateSetting,
 } from '@/services';
 import { getCategories } from '@/services/category';
-import { supportLanguages } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
@@ -272,7 +271,18 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               label={this.props.intl.formatMessage({
                 id: 'plugin.aigenerate.language',
               })}
-              options={supportLanguages.map((item) => {
+              options={[
+                {
+                  cn: '英语',
+                  value: 'en',
+                  label: 'en',
+                },
+                {
+                  cn: '简体中文',
+                  value: 'zh-cn',
+                  label: 'zh-cn',
+                },
+              ].map((item) => {
                 return {
                   label: this.props.intl.formatMessage({
                     id: 'content.translate.' + item.label,

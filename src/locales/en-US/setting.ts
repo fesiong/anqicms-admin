@@ -249,4 +249,6 @@ export default {
   'setting.nav.sort': 'display order',
   'setting.nav.sort.description':
     'The smaller the value, the higher the sorting is. The default is 99.',
+  'plugin.diyfield.setting': 'Field configuration',
+  'setting.diyfield.name-duplicate': 'Parameter name cannot be repeated',
 };

@@ -227,4 +227,6 @@ export default {
     '连接使用http或https开头，如： https://www.anqicms.com/',
   'setting.nav.sort': '显示顺序',
   'setting.nav.sort.description': '值越小，排序越靠前，默认99',
+  'plugin.diyfield.setting': '字段配置',
+  'setting.diyfield.name-duplicate': '参数名不能重复',
 };

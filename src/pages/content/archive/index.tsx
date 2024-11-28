@@ -834,7 +834,11 @@ const ArchiveList: React.FC = () => {
                   onSelectModule(item.id);
                 }}
               >
-                {item.name}
+                {item.id === 0
+                  ? intl.formatMessage({
+                      id: 'content.archive.all',
+                    })
+                  : item.name}
               </div>
             ))}
           </div>

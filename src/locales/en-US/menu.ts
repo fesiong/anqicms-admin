@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': 'Home TDK',
   'menu.setting.banner': 'Home Banner',
   'menu.setting.nav': 'Navigation',
+  'menu.setting.diy': 'Custom Settings',
   'menu.archive': 'Content',
   'menu.archive.list': 'Documents',
   'menu.archive.recycle': 'Document Recycle Bin',

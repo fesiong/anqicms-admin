@@ -75,6 +75,11 @@ export default [
         name: 'nav',
         component: './setting/nav',
       },
+      {
+        path: '/setting/diyfield',
+        name: 'diy',
+        component: './setting/diyfield',
+      },
     ],
   },
   {

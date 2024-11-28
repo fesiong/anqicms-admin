@@ -9,6 +9,7 @@ export default {
   'menu.setting.tdk': 'تنظیمات TDK صفحه اصلی',
   'menu.setting.banner': 'نمایش اسلاید خانگی',
   'menu.setting.nav': 'تنظیمات ناوبری',
+  'menu.setting.diy': 'محتوای شخصی',
   'menu.archive': 'مدیریت محتوا',
   'menu.archive.list': 'لیست اسناد',
   'menu.archive.recycle': 'سطل بازیافت اسناد',

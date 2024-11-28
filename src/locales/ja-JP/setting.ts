@@ -240,4 +240,6 @@ export default {
   'setting.nav.sort': '表示順',
   'setting.nav.sort.description':
     '値が小さいほど、ソートのレベルは高くなります。デフォルトは 99 です。',
+  'plugin.diyfield.setting': 'フィールド設定',
+  'setting.diyfield.name-duplicate': 'パラメータ名を繰り返すことはできません',
 };

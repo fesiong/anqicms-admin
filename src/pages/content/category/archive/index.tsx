@@ -7,7 +7,13 @@ import {
   updateCategoryArchiveCount,
 } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  ProColumns,
+  ProFormInstance,
+  ProFormSelect,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
@@ -18,9 +24,12 @@ let lastParams: any = {};
 
 const ArchiveCategory: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const formRef = useRef<ProFormInstance>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentCategory, setCurrentCategory] = useState<any>({});
   const [modules, setModules] = useState<any[]>([]);
+  const [moduleId, setModuleId] = useState<number>(0);
+  const [firstFetch, setFirstFetch] = useState<boolean>(false);
   const [multiVisible, setMultiVisible] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const [isSubSite, setIsSubSite] = useState<boolean>(false);
@@ -39,8 +48,40 @@ const ArchiveCategory: React.FC = () => {
   };
 
   useEffect(() => {
+    setModuleId(lastParams.module_id);
     readModules();
   }, []);
+
+  const onSelectModule = (id: number) => {
+    lastParams.module_id = id;
+    setModuleId(id);
+    formRef.current?.setFieldsValue({
+      module_id: id,
+      category_id: 0,
+    });
+    history.replace('/archive/category?module_id=' + id);
+    formRef.current?.submit();
+  };
+
+  const beforeSearch = (searchParams: any) => {
+    let params = searchParams;
+    if (!firstFetch) {
+      setFirstFetch(true);
+      const searchParams = new URLSearchParams(window.location.search);
+      lastParams.module_id = Number(searchParams.get('module_id') || 0);
+      lastParams.category_id = Number(searchParams.get('category_id') || 0);
+      lastParams.status = searchParams.get('status') || 'ok';
+      formRef.current?.setFieldsValue(lastParams);
+      params = lastParams;
+    } else {
+      lastParams = params;
+      if (params.module_id !== moduleId) {
+        onSelectModule(params.module_id);
+      }
+    }
+
+    return params;
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -186,9 +227,30 @@ const ArchiveCategory: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'content.module.name' }),
       dataIndex: 'module_id',
-      hideInSearch: true,
       render: (dom, entity) => {
         return getModuleName(entity.module_id);
+      },
+      renderFormItem: () => {
+        return (
+          <ProFormSelect
+            name="module_id"
+            request={async () => {
+              let res = await getModules({});
+              const tmpModules = [
+                {
+                  name: intl.formatMessage({ id: 'content.archive.all' }),
+                  id: 0,
+                },
+              ]
+                .concat(res.data || [])
+                .map((item: any) => ({
+                  label: item.name,
+                  value: item.id,
+                }));
+              return tmpModules;
+            }}
+          />
+        );
       },
     },
     {
@@ -289,9 +351,42 @@ const ArchiveCategory: React.FC = () => {
     <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
         key={newKey}
-        headerTitle={intl.formatMessage({ id: 'menu.archive.category' })}
+        headerTitle={
+          <div className="module-tags">
+            <div
+              className={'module-tag ' + (0 === moduleId ? 'active' : '')}
+              onClick={() => {
+                onSelectModule(0);
+              }}
+            >
+              <FormattedMessage id="menu.archive.category" />
+            </div>
+            {modules.map((item: any) => (
+              <div
+                className={
+                  'module-tag ' + (item.id === moduleId ? 'active' : '')
+                }
+                key={item.id}
+                onClick={() => {
+                  onSelectModule(item.id);
+                }}
+              >
+                {item.name}
+              </div>
+            ))}
+          </div>
+        }
         actionRef={actionRef}
         rowKey="id"
+        search={{
+          span: { xs: 24, sm: 12, md: 8, lg: 8, xl: 8, xxl: 8 },
+          defaultCollapsed: false,
+        }}
+        formRef={formRef}
+        form={{
+          initialValues: lastParams,
+        }}
+        beforeSearchSubmit={beforeSearch}
         toolBarRender={() => [
           <Button
             key="count"

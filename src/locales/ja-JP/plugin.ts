@@ -1399,5 +1399,7 @@ export default {
   'plugin.translate.engine.baidu.app-secret': 'キー',
   'plugin.translate.engine.youdao.app-id': 'アプリケーションID',
   'plugin.translate.engine.youdao.app-secret': 'アプリケーションの秘密キー',
+  'plugin.translate.engine.deepl': 'Deepl',
+  'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': '翻訳レコード',
 };

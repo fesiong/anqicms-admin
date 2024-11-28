@@ -1,6 +1,9 @@
 import { get, post } from './tools';
 
-export async function getSettingSystem(params?: any, options?: { [key: string]: any }) {
+export async function getSettingSystem(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/system',
     params,
@@ -8,7 +11,10 @@ export async function getSettingSystem(params?: any, options?: { [key: string]: 
   });
 }
 
-export async function getSettingContent(params?: any, options?: { [key: string]: any }) {
+export async function getSettingContent(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/content',
     params,
@@ -16,7 +22,10 @@ export async function getSettingContent(params?: any, options?: { [key: string]:
   });
 }
 
-export async function getSettingIndex(params?: any, options?: { [key: string]: any }) {
+export async function getSettingIndex(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/index',
     params,
@@ -24,7 +33,10 @@ export async function getSettingIndex(params?: any, options?: { [key: string]: a
   });
 }
 
-export async function getSettingNav(params?: any, options?: { [key: string]: any }) {
+export async function getSettingNav(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/nav',
     params,
@@ -32,7 +44,10 @@ export async function getSettingNav(params?: any, options?: { [key: string]: any
   });
 }
 
-export async function getSettingNavTypes(params?: any, options?: { [key: string]: any }) {
+export async function getSettingNavTypes(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/nav/type',
     params,
@@ -40,7 +55,10 @@ export async function getSettingNavTypes(params?: any, options?: { [key: string]
   });
 }
 
-export async function getSettingContact(params?: any, options?: { [key: string]: any }) {
+export async function getSettingContact(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/contact',
     params,
@@ -48,7 +66,10 @@ export async function getSettingContact(params?: any, options?: { [key: string]:
   });
 }
 
-export async function getSettingCache(params?: any, options?: { [key: string]: any }) {
+export async function getSettingCache(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/cache',
     params,
@@ -56,7 +77,10 @@ export async function getSettingCache(params?: any, options?: { [key: string]: a
   });
 }
 
-export async function getSettingSafe(params?: any, options?: { [key: string]: any }) {
+export async function getSettingSafe(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/safe',
     params,
@@ -64,7 +88,21 @@ export async function getSettingSafe(params?: any, options?: { [key: string]: an
   });
 }
 
-export async function saveSettingSystem(body: any, options?: { [key: string]: any }) {
+export async function getSettingDiyFields(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/setting/diyfield',
+    params,
+    options,
+  });
+}
+
+export async function saveSettingSystem(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/system',
     body,
@@ -72,7 +110,10 @@ export async function saveSettingSystem(body: any, options?: { [key: string]: an
   });
 }
 
-export async function saveSettingContent(body: any, options?: { [key: string]: any }) {
+export async function saveSettingContent(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/content',
     body,
@@ -80,7 +121,10 @@ export async function saveSettingContent(body: any, options?: { [key: string]: a
   });
 }
 
-export async function rebuildThumb(body: any, options?: { [key: string]: any }) {
+export async function rebuildThumb(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/thumb/rebuild',
     body,
@@ -88,7 +132,10 @@ export async function rebuildThumb(body: any, options?: { [key: string]: any }) 
   });
 }
 
-export async function saveSettingIndex(body: any, options?: { [key: string]: any }) {
+export async function saveSettingIndex(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/index',
     body,
@@ -96,7 +143,10 @@ export async function saveSettingIndex(body: any, options?: { [key: string]: any
   });
 }
 
-export async function saveSettingNav(body: any, options?: { [key: string]: any }) {
+export async function saveSettingNav(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/nav',
     body,
@@ -104,7 +154,10 @@ export async function saveSettingNav(body: any, options?: { [key: string]: any }
   });
 }
 
-export async function deleteSettingNav(body: any, options?: { [key: string]: any }) {
+export async function deleteSettingNav(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/nav/delete',
     body,
@@ -112,7 +165,10 @@ export async function deleteSettingNav(body: any, options?: { [key: string]: any
   });
 }
 
-export async function saveSettingNavType(body: any, options?: { [key: string]: any }) {
+export async function saveSettingNavType(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/nav/type',
     body,
@@ -120,7 +176,10 @@ export async function saveSettingNavType(body: any, options?: { [key: string]: a
   });
 }
 
-export async function deleteSettingNavType(body: any, options?: { [key: string]: any }) {
+export async function deleteSettingNavType(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/nav/type/delete',
     body,
@@ -128,7 +187,10 @@ export async function deleteSettingNavType(body: any, options?: { [key: string]:
   });
 }
 
-export async function saveSettingContact(body: any, options?: { [key: string]: any }) {
+export async function saveSettingContact(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/contact',
     body,
@@ -136,7 +198,10 @@ export async function saveSettingContact(body: any, options?: { [key: string]: a
   });
 }
 
-export async function saveSettingCache(body: any, options?: { [key: string]: any }) {
+export async function saveSettingCache(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/cache',
     body,
@@ -144,7 +209,10 @@ export async function saveSettingCache(body: any, options?: { [key: string]: any
   });
 }
 
-export async function saveSettingMigrateDB(body: any, options?: { [key: string]: any }) {
+export async function saveSettingMigrateDB(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/migratedb',
     body,
@@ -152,7 +220,10 @@ export async function saveSettingMigrateDB(body: any, options?: { [key: string]:
   });
 }
 
-export async function convertImagetoWebp(body: any, options?: { [key: string]: any }) {
+export async function convertImagetoWebp(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/convert/webp',
     body,
@@ -160,7 +231,10 @@ export async function convertImagetoWebp(body: any, options?: { [key: string]: a
   });
 }
 
-export async function saveSettingSafe(body: any, options?: { [key: string]: any }) {
+export async function saveSettingSafe(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/safe',
     body,
@@ -168,7 +242,10 @@ export async function saveSettingSafe(body: any, options?: { [key: string]: any 
   });
 }
 
-export async function saveSystemFavicon(body: any, options?: { [key: string]: any }) {
+export async function saveSystemFavicon(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/favicon',
     body,
@@ -176,7 +253,10 @@ export async function saveSystemFavicon(body: any, options?: { [key: string]: an
   });
 }
 
-export async function deleteSystemFavicon(body: any, options?: { [key: string]: any }) {
+export async function deleteSystemFavicon(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/favicon/delete',
     body,
@@ -184,7 +264,10 @@ export async function deleteSystemFavicon(body: any, options?: { [key: string]: 
   });
 }
 
-export async function getSettingBanners(params?: any, options?: { [key: string]: any }) {
+export async function getSettingBanners(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/banner',
     params,
@@ -192,7 +275,10 @@ export async function getSettingBanners(params?: any, options?: { [key: string]:
   });
 }
 
-export async function saveSettingBanner(body: any, options?: { [key: string]: any }) {
+export async function saveSettingBanner(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/banner',
     body,
@@ -200,7 +286,10 @@ export async function saveSettingBanner(body: any, options?: { [key: string]: an
   });
 }
 
-export async function deleteSettingBanner(body: any, options?: { [key: string]: any }) {
+export async function deleteSettingBanner(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/banner/delete',
     body,
@@ -208,7 +297,10 @@ export async function deleteSettingBanner(body: any, options?: { [key: string]: 
   });
 }
 
-export async function getSettingSensitiveWords(params?: any, options?: { [key: string]: any }) {
+export async function getSettingSensitiveWords(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/setting/sensitive/words',
     params,
@@ -216,7 +308,10 @@ export async function getSettingSensitiveWords(params?: any, options?: { [key: s
   });
 }
 
-export async function saveSettingSensitiveWords(body: any, options?: { [key: string]: any }) {
+export async function saveSettingSensitiveWords(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/sensitive/words',
     body,
@@ -224,7 +319,10 @@ export async function saveSettingSensitiveWords(body: any, options?: { [key: str
   });
 }
 
-export async function checkSettingSensitiveWords(body: any, options?: { [key: string]: any }) {
+export async function checkSettingSensitiveWords(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/sensitive/check',
     body,
@@ -232,9 +330,23 @@ export async function checkSettingSensitiveWords(body: any, options?: { [key: st
   });
 }
 
-export async function syncSettingSensitiveWords(body: any, options?: { [key: string]: any }) {
+export async function syncSettingSensitiveWords(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/setting/sensitive/sync',
+    body,
+    options,
+  });
+}
+
+export async function saveSettingDiyFields(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/setting/diyfield',
     body,
     options,
   });

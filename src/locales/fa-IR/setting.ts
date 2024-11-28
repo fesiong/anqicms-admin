@@ -244,4 +244,6 @@ export default {
   'setting.nav.sort': 'سفارش نمایش',
   'setting.nav.sort.description':
     'هر چه مقدار کوچکتر باشد، مرتب سازی بالاتر است. پیش فرض 99 است.',
+  'plugin.diyfield.setting': 'پیکربندی فیلد',
+  'setting.diyfield.name-duplicate': 'نام پارامترها را نمی توان تکرار کرد',
 };

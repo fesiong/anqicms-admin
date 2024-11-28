@@ -1,4 +1,8 @@
-import { collectAiGenerateArticle, collectCollectorArticle, digCollectorKeyword } from '@/services';
+import {
+  collectAiGenerateArticle,
+  collectCollectorArticle,
+  digCollectorKeyword,
+} from '@/services';
 import {
   pluginDeleteKeyword,
   pluginExportKeyword,
@@ -6,7 +10,12 @@ import {
 } from '@/services/plugin/keyword';
 import { exportFile } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, Link, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
@@ -25,7 +34,10 @@ const PluginKeyword: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.keyword.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           await pluginDeleteKeyword({
@@ -71,7 +83,10 @@ const PluginKeyword: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.keyword.collect.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'plugin.keyword.collect.doing' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'plugin.keyword.collect.doing' }),
+          0,
+        );
         collectCollectorArticle(keyword)
           .then((res) => {
             if (res.code !== 0) {
@@ -92,10 +107,13 @@ const PluginKeyword: React.FC = () => {
 
   const handleAiGenerateArticle = (keyword: any) => {
     Modal.confirm({
-      title: 'plugin.keyword.aigenerate.confirm',
-      content: 'plugin.keyword.aigenerate.content',
+      title: intl.formatMessage({ id: 'plugin.keyword.aigenerate.confirm' }),
+      content: intl.formatMessage({ id: 'plugin.keyword.aigenerate.content' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'plugin.keyword.aigenerate.doing' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'plugin.keyword.aigenerate.doing' }),
+          0,
+        );
         collectAiGenerateArticle(keyword)
           .then((res) => {
             if (res.code !== 0) {
@@ -119,7 +137,10 @@ const PluginKeyword: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.keyword.cleanup.confirm' }),
       content: intl.formatMessage({ id: 'plugin.keyword.cleanup.content' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         await pluginDeleteKeyword({
           all: true,
         });
@@ -249,7 +270,9 @@ const PluginKeyword: React.FC = () => {
             <FormattedMessage id="plugin.keyword.manual-dig" />
           </Button>,
           <KeywordSetting onCancel={() => {}} key="setting">
-            <Button><FormattedMessage id="plugin.keyword.dig-setting" /></Button>
+            <Button>
+              <FormattedMessage id="plugin.keyword.dig-setting" />
+            </Button>
           </KeywordSetting>,
         ]}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (

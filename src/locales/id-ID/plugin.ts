@@ -1418,5 +1418,7 @@ export default {
   'plugin.translate.engine.baidu.app-secret': 'Kunci',
   'plugin.translate.engine.youdao.app-id': 'ID Aplikasi',
   'plugin.translate.engine.youdao.app-secret': 'Kunci rahasia aplikasi',
+  'plugin.translate.engine.deepl': 'Deepl',
+  'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'Catatan terjemahan',
 };

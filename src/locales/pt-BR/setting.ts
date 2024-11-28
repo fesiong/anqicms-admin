@@ -249,4 +249,7 @@ export default {
   'setting.nav.sort': 'Ordem de exibição',
   'setting.nav.sort.description':
     'Quanto menor o valor, maior será a classificação. O padrão é 99.',
+  'plugin.diyfield.setting': 'Configuração de campo',
+  'setting.diyfield.name-duplicate':
+    'Nomes de parâmetros não podem ser repetidos',
 };
