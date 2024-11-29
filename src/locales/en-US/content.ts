@@ -238,6 +238,16 @@ export default {
   'content.archive.edit': 'Modify document',
   'content.archive.add': 'Add document',
   'content.keywords.select': 'Select keywords',
+  'content.keywords.extract': 'Extract keywords',
+  'content.description.extract': 'Extract summary',
+  'content.archive.content.length.error': 'Content is too short to extract',
+  'content.archive.extract.description': 'Extract summary',
+  'content.archive.extract.description.content':
+    'Are you sure you want to extract the summary from the document content? Please make sure you have completed the document content. ',
+  'content.archive.extract.keywords': 'Extract keywords',
+  'content.archive.extract.keywords.content':
+    'Are you sure you want to extract keywords from the document content? Please make sure you have completed the document content. ',
+  'content.param.extra-fields': 'Custom parameters',
   'content.param.other': 'Other parameters',
   'content.origin-url.name': 'Original address',
   'content.field.default': 'No need to fill in by default',

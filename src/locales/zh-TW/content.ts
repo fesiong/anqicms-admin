@@ -220,6 +220,16 @@ export default {
   'content.archive.edit': '修改文檔',
   'content.archive.add': '新增文件',
   'content.keywords.select': '選擇關鍵字',
+  'content.keywords.extract': '提取關鍵字',
+  'content.description.extract': '提取摘要',
+  'content.archive.content.length.error': '內容太短，無法提取',
+  'content.archive.extract.description': '提取摘要',
+  'content.archive.extract.description.content':
+    '確定要從文件內容中提取摘要嗎？請確認您已經完成了文件內容的填寫。 ',
+  'content.archive.extract.keywords': '提取關鍵字',
+  'content.archive.extract.keywords.content':
+    '確定要從文件內容中提取關鍵字嗎？請確認您已經完成了文件內容的填寫。 ',
+  'content.param.extra-fields': '自訂參數',
   'content.param.other': '其他參數',
   'content.origin-url.name': '原文位址',
   'content.field.default': '預設不用填寫',

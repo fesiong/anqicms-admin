@@ -1,4 +1,7 @@
-import { pluginGetGuestbookSetting, pluginSaveGuestbookSetting } from '@/services/plugin/guestbook';
+import {
+  pluginGetGuestbookSetting,
+  pluginSaveGuestbookSetting,
+} from '@/services/plugin/guestbook';
 import {
   ActionType,
   ModalForm,
@@ -38,8 +41,12 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
 
   const handleRemoveItem = (index: number) => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm.content' }),
+      title: intl.formatMessage({
+        id: 'plugin.guestbook.field.delete.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'plugin.guestbook.field.delete.confirm.content',
+      }),
       onOk: async () => {
         setting.fields.splice(index, 1);
         setting.fields = [].concat(setting.fields);
@@ -118,11 +125,15 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
 
       valueEnum: {
         false: {
-          text: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
+          text: intl.formatMessage({
+            id: 'content.module.field.isrequired.no',
+          }),
           status: 'Default',
         },
         true: {
-          text: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
+          text: intl.formatMessage({
+            id: 'content.module.field.isrequired.yes',
+          }),
           status: 'Success',
         },
       },
@@ -208,7 +219,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
               key="add"
               type="primary"
               onClick={() => {
-                setCurrentField({});
+                setCurrentField({ type: 'text', required: false });
                 setEditVisible(true);
               }}
             >
@@ -232,7 +243,8 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
           width={600}
           title={
             currentField.name
-              ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' })
+              ? currentField.name +
+                intl.formatMessage({ id: 'content.module.field.edit' })
               : intl.formatMessage({ id: 'content.module.field.add' })
           }
           open={editVisible}
@@ -251,39 +263,67 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
             name="name"
             required
             label={intl.formatMessage({ id: 'content.module.field.name' })}
-            extra={intl.formatMessage({ id: 'content.module.field.name.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.name.description',
+            })}
           />
           <ProFormText
             name="field_name"
-            label={intl.formatMessage({ id: 'content.module.field.field-name' })}
+            label={intl.formatMessage({
+              id: 'content.module.field.field-name',
+            })}
             disabled={currentField.field_name ? true : false}
-            extra={intl.formatMessage({ id: 'content.module.field.field-name.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.field-name.description',
+            })}
           />
           <ProFormRadio.Group
             name="type"
             label={intl.formatMessage({ id: 'content.module.field.type' })}
             disabled={currentField.field_name ? true : false}
             valueEnum={{
-              text: intl.formatMessage({ id: 'content.module.field.type.text' }),
-              number: intl.formatMessage({ id: 'content.module.field.type.number' }),
-              textarea: intl.formatMessage({ id: 'content.module.field.type.textarea' }),
-              radio: intl.formatMessage({ id: 'content.module.field.type.radio' }),
-              checkbox: intl.formatMessage({ id: 'content.module.field.type.checkbox' }),
-              select: intl.formatMessage({ id: 'content.module.field.type.select' }),
-              image: intl.formatMessage({ id: 'content.module.field.type.image' }),
-              file: intl.formatMessage({ id: 'content.module.field.type.file' }),
+              text: intl.formatMessage({
+                id: 'content.module.field.type.text',
+              }),
+              number: intl.formatMessage({
+                id: 'content.module.field.type.number',
+              }),
+              textarea: intl.formatMessage({
+                id: 'content.module.field.type.textarea',
+              }),
+              radio: intl.formatMessage({
+                id: 'content.module.field.type.radio',
+              }),
+              checkbox: intl.formatMessage({
+                id: 'content.module.field.type.checkbox',
+              }),
+              select: intl.formatMessage({
+                id: 'content.module.field.type.select',
+              }),
+              image: intl.formatMessage({
+                id: 'content.module.field.type.image',
+              }),
+              file: intl.formatMessage({
+                id: 'content.module.field.type.file',
+              }),
             }}
           />
           <ProFormRadio.Group
             name="required"
-            label={intl.formatMessage({ id: 'content.module.field.isrequired' })}
+            label={intl.formatMessage({
+              id: 'content.module.field.isrequired',
+            })}
             options={[
               {
-                label: intl.formatMessage({ id: 'content.module.field.isrequired.no' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.isrequired.no',
+                }),
                 value: false,
               },
               {
-                label: intl.formatMessage({ id: 'content.module.field.isrequired.yes' }),
+                label: intl.formatMessage({
+                  id: 'content.module.field.isrequired.yes',
+                }),
                 value: true,
               },
             ]}
@@ -294,7 +334,9 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
             fieldProps={{
               rows: 4,
             }}
-            extra={intl.formatMessage({ id: 'content.module.field.default.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.default.description',
+            })}
           />
         </ModalForm>
       )}

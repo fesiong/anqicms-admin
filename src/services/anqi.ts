@@ -8,7 +8,10 @@ export async function anqiLogin(body: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function getAnqiInfo(params?: any, options?: { [key: string]: any }) {
+export async function getAnqiInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/anqi/info',
     params,
@@ -16,7 +19,10 @@ export async function getAnqiInfo(params?: any, options?: { [key: string]: any }
   });
 }
 
-export async function checkAnqiInfo(params?: any, options?: { [key: string]: any }) {
+export async function checkAnqiInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/anqi/check',
     params,
@@ -32,7 +38,10 @@ export async function anqiUpload(body: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function anqiShareTemplate(body: any, options?: { [key: string]: any }) {
+export async function anqiShareTemplate(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/anqi/template/share',
     body,
@@ -40,7 +49,10 @@ export async function anqiShareTemplate(body: any, options?: { [key: string]: an
   });
 }
 
-export async function anqiDownloadTemplate(body: any, options?: { [key: string]: any }) {
+export async function anqiDownloadTemplate(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/anqi/template/download',
     body,
@@ -48,7 +60,10 @@ export async function anqiDownloadTemplate(body: any, options?: { [key: string]:
   });
 }
 
-export async function anqiSendFeedback(body: any, options?: { [key: string]: any }) {
+export async function anqiSendFeedback(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/anqi/feedback',
     body,
@@ -64,7 +79,10 @@ export async function anqiRestart(body: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function anqiTranslateArchive(body: any, options?: { [key: string]: any }) {
+export async function anqiTranslateArchive(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/anqi/translate',
     body,
@@ -72,7 +90,10 @@ export async function anqiTranslateArchive(body: any, options?: { [key: string]:
   });
 }
 
-export async function anqiAiPseudoArchive(body: any, options?: { [key: string]: any }) {
+export async function anqiAiPseudoArchive(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/anqi/ai/pseudo',
     body,
@@ -80,7 +101,10 @@ export async function anqiAiPseudoArchive(body: any, options?: { [key: string]: 
   });
 }
 
-export async function anqiAiGenerateStream(body: any, options?: { [key: string]: any }) {
+export async function anqiAiGenerateStream(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/anqi/ai/stream',
     body,
@@ -88,10 +112,35 @@ export async function anqiAiGenerateStream(body: any, options?: { [key: string]:
   });
 }
 
-export async function anqiAiGenerateStreamData(params?: any, options?: { [key: string]: any }) {
+export async function anqiAiGenerateStreamData(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/anqi/ai/stream/data',
     params,
+    options,
+  });
+}
+
+export async function anqiExtractDescription(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/anqi/extract/description',
+    body,
+    options,
+  });
+}
+
+export async function anqiExtractKeywords(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/anqi/extract/keywords',
+    body,
     options,
   });
 }

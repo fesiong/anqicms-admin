@@ -236,6 +236,17 @@ export default {
   'content.archive.edit': 'اصلاح سند',
   'content.archive.add': 'سند اضافه کنید',
   'content.keywords.select': 'کلمات کلیدی را انتخاب کنید',
+  'content.keywords.extract': 'Extract keywords',
+  'content.description.extract': 'خلاصه استخراج',
+  'content.archive.content.length.error':
+    'محتوا خیلی کوتاه است و قابل استخراج نیست',
+  'content.archive.extract.description': 'خلاصه استخراج',
+  'content.archive.extract.description.content':
+    'آیا مطمئن هستید که می خواهید چکیده را از محتوای سند استخراج کنید؟ لطفاً تأیید کنید که محتوای سند را تکمیل کرده اید. ',
+  'content.archive.extract.keywords': 'Extract keywords',
+  'content.archive.extract.keywords.content':
+    'آیا مطمئن هستید که می خواهید کلمات کلیدی را از محتوای سند استخراج کنید؟ لطفاً تأیید کنید که محتوای سند را تکمیل کرده اید. ',
+  'content.param.extra-fields': 'پارامترهای سفارشی',
   'content.param.other': 'سایر پارامترها',
   'content.origin-url.name': 'آدرس اصلی',
   'content.field.default': 'نیازی به پر کردن به صورت پیش فرض نیست',

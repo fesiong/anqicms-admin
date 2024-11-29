@@ -8,7 +8,6 @@ import type {
 import type { RunTimeLayoutConfig, RuntimeConfig } from '@umijs/max';
 import { FormattedMessage, getLocale, history } from '@umijs/max';
 import { message } from 'antd';
-import { parse } from 'query-string';
 import defaultSettings from '../config/defaultSettings';
 import HeaderContent from './components/headerContent';
 import { getAdminInfo } from './services/admin';
@@ -19,7 +18,6 @@ import {
   getSessionStore,
   getStore,
   removeStore,
-  setSessionStore,
   setStore,
 } from './utils/store';
 
@@ -93,10 +91,6 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
-  const query = parse(history.location.search) || {};
-  if (query['admin-login'] === 'true') {
-    setSessionStore('site-id', query['site_id']);
-  }
   return {
     breadcrumbRender: false,
     rightContentRender: () => <RightContent />,
@@ -200,6 +194,10 @@ export const request: RuntimeConfig['request'] = {
       const adminToken = getStore('adminToken');
       if (adminToken) {
         config.headers.admin = adminToken;
+      }
+      const sessionToken = getSessionStore('adminToken');
+      if (sessionToken) {
+        config.headers.admin = sessionToken;
       }
       const siteId = getSessionStore('site-id');
       if (siteId) {

@@ -19,7 +19,7 @@ import React, { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { getSiteInfo } from '@/services';
-import { setStore } from '@/utils/store';
+import { setSessionStore, setStore } from '@/utils/store';
 import styles from './index.less';
 
 const LoginMessage: React.FC<{
@@ -85,7 +85,9 @@ const Login: React.FC = () => {
       });
       message.success(defaultLoginSuccessMessage);
 
-      setStore('adminToken', res.data.token);
+      // 后台快速登录的，存 session
+      setSessionStore('site-id', res.data.site_id);
+      setSessionStore('adminToken', res.data.token);
       await fetchUserInfo();
       /** 此方法会跳转到 redirect 参数所在的位置 */
       if (!history) return;

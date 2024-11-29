@@ -223,6 +223,16 @@ export default {
   'content.archive.edit': '修改文档',
   'content.archive.add': '添加文档',
   'content.keywords.select': '选择关键词',
+  'content.keywords.extract': '提取关键词',
+  'content.description.extract': '提取摘要',
+  'content.archive.content.length.error': '内容太短，无法提取',
+  'content.archive.extract.description': '提取摘要',
+  'content.archive.extract.description.content':
+    '确定要从文档内容中提取摘要吗？请确认您已经完成了文档内容的填写。',
+  'content.archive.extract.keywords': '提取关键词',
+  'content.archive.extract.keywords.content':
+    '确定要从文档内容中提取关键词吗？请确认您已经完成了文档内容的填写。',
+  'content.param.extra-fields': '自定义参数',
   'content.param.other': '其他参数',
   'content.origin-url.name': '原文地址',
   'content.field.default': '默认不用填写',

@@ -242,6 +242,17 @@ export default {
   'content.archive.edit': 'Modificar documento',
   'content.archive.add': 'Adicionar documento',
   'content.keywords.select': 'Selecione palavras-chave',
+  'content.keywords.extract': 'Extrair palavras-chave',
+  'content.description.extract': 'Extrair resumo',
+  'content.archive.content.length.error':
+    'O conteúdo é muito curto e não pode ser extraído',
+  'content.archive.extract.description': 'Extrair resumo',
+  'content.archive.extract.description.content':
+    'Tem certeza que deseja extrair o resumo do conteúdo do documento? Por favor, confirme que você completou o preenchimento do conteúdo do documento. ',
+  'content.archive.extract.keywords': 'Extrair palavras-chave',
+  'content.archive.extract.keywords.content':
+    'Tem certeza de que deseja extrair palavras-chave do conteúdo do documento? Por favor, confirme que você completou o preenchimento do conteúdo do documento. ',
+  'content.param.extra-fields': 'Parâmetros personalizados',
   'content.param.other': 'Outros parâmetros',
   'content.origin-url.name': 'Endereço original',
   'content.field.default': 'Não há necessidade de preencher por padrão',

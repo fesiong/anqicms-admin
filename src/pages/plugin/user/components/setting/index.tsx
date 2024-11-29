@@ -39,8 +39,12 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
 
   const handleRemoveItem = (record: any, index: number) => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.guestbook.field.delete.confirm.content' }),
+      title: intl.formatMessage({
+        id: 'plugin.guestbook.field.delete.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'plugin.guestbook.field.delete.confirm.content',
+      }),
       onOk: async () => {
         pluginDeleteUserField({ field_name: record.field_name });
         setting.fields.splice(index, 1);
@@ -171,7 +175,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
               key="add"
               type="primary"
               onClick={() => {
-                setCurrentField({});
+                setCurrentField({ type: 'text', required: false });
                 setEditVisible(true);
               }}
             >
@@ -199,7 +203,8 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
           width={600}
           title={
             currentField.name
-              ? currentField.name + intl.formatMessage({ id: 'content.module.field.edit' })
+              ? currentField.name +
+                intl.formatMessage({ id: 'content.module.field.edit' })
               : intl.formatMessage({ id: 'content.module.field.add' })
           }
           open={editVisible}
@@ -218,27 +223,49 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
             name="name"
             required
             label={intl.formatMessage({ id: 'content.module.field.name' })}
-            extra={intl.formatMessage({ id: 'plugin.user.setting.name.description' })}
+            extra={intl.formatMessage({
+              id: 'plugin.user.setting.name.description',
+            })}
           />
           <ProFormText
             name="field_name"
-            label={intl.formatMessage({ id: 'content.module.field.field-name' })}
+            label={intl.formatMessage({
+              id: 'content.module.field.field-name',
+            })}
             disabled={currentField.field_name ? true : false}
-            extra={intl.formatMessage({ id: 'content.module.field.field-name.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.field-name.description',
+            })}
           />
           <ProFormRadio.Group
             name="type"
             label={intl.formatMessage({ id: 'content.module.field.type' })}
             disabled={currentField.field_name ? true : false}
             valueEnum={{
-              text: intl.formatMessage({ id: 'content.module.field.type.text' }),
-              number: intl.formatMessage({ id: 'content.module.field.type.number' }),
-              textarea: intl.formatMessage({ id: 'content.module.field.type.textarea' }),
-              radio: intl.formatMessage({ id: 'content.module.field.type.radio' }),
-              checkbox: intl.formatMessage({ id: 'content.module.field.type.checkbox' }),
-              select: intl.formatMessage({ id: 'content.module.field.type.select' }),
-              image: intl.formatMessage({ id: 'content.module.field.type.image' }),
-              file: intl.formatMessage({ id: 'content.module.field.type.file' }),
+              text: intl.formatMessage({
+                id: 'content.module.field.type.text',
+              }),
+              number: intl.formatMessage({
+                id: 'content.module.field.type.number',
+              }),
+              textarea: intl.formatMessage({
+                id: 'content.module.field.type.textarea',
+              }),
+              radio: intl.formatMessage({
+                id: 'content.module.field.type.radio',
+              }),
+              checkbox: intl.formatMessage({
+                id: 'content.module.field.type.checkbox',
+              }),
+              select: intl.formatMessage({
+                id: 'content.module.field.type.select',
+              }),
+              image: intl.formatMessage({
+                id: 'content.module.field.type.image',
+              }),
+              file: intl.formatMessage({
+                id: 'content.module.field.type.file',
+              }),
             }}
           />
           <ProFormTextArea
@@ -247,7 +274,9 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
             fieldProps={{
               rows: 4,
             }}
-            extra={intl.formatMessage({ id: 'content.module.field.default.description' })}
+            extra={intl.formatMessage({
+              id: 'content.module.field.default.description',
+            })}
           />
         </ModalForm>
       )}

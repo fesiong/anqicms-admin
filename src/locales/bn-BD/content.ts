@@ -236,6 +236,17 @@ export default {
   'content.archive.edit': 'নথি পরিবর্তন করুন',
   'content.archive.add': 'ডকুমেন্ট যোগ করুন',
   'content.keywords.select': 'কীওয়ার্ড নির্বাচন করুন',
+  'content.keywords.extract': 'কীওয়ার্ড বের করুন',
+  'content.description.extract': 'সারাংশ বের করুন',
+  'content.archive.content.length.error':
+    'কন্টেন্টটি খুবই ছোট এবং বের করা যাবে না',
+  'content.archive.extract.description': 'সারাংশ বের করুন',
+  'content.archive.extract.description.content':
+    'আপনি কি নিশ্চিত যে আপনি নথির বিষয়বস্তু থেকে বিমূর্তটি বের করতে চান? অনুগ্রহ করে নিশ্চিত করুন যে আপনি নথির বিষয়বস্তু পূরণ করেছেন। ',
+  'content.archive.extract.keywords': 'কীওয়ার্ড বের করুন',
+  'content.archive.extract.keywords.content':
+    'আপনি কি নিশ্চিত নথির বিষয়বস্তু থেকে কীওয়ার্ড বের করতে চান? অনুগ্রহ করে নিশ্চিত করুন যে আপনি নথির বিষয়বস্তু পূরণ করেছেন। ',
+  'content.param.extra-fields': 'কাস্টম প্যারামিটার',
   'content.param.other': 'অন্যান্য পরামিতি',
   'content.origin-url.name': 'আসল ঠিকানা',
   'content.field.default': 'ডিফল্টভাবে পূরণ করার প্রয়োজন নেই',

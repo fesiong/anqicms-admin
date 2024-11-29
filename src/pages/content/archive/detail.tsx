@@ -7,6 +7,8 @@ import WangEditor from '@/components/editor';
 import Keywords from '@/components/keywords';
 import MarkdownEditor from '@/components/markdown';
 import {
+  anqiExtractDescription,
+  anqiExtractKeywords,
   deleteArchiveImage,
   getArchiveInfo,
   getCategories,
@@ -32,7 +34,17 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, injectIntl } from '@umijs/max';
-import { Button, Card, Col, Image, Modal, Row, Tag, message } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Image,
+  Modal,
+  Row,
+  Space,
+  Tag,
+  message,
+} from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 import { IntlShape } from 'react-intl';
@@ -330,6 +342,88 @@ class ArchiveForm extends React.Component<intlProps> {
         });
       })
       .catch(() => {});
+  };
+
+  handleExtractDescription = () => {
+    if (this.state.content.length < 100) {
+      message.error(
+        this.props.intl.formatMessage({
+          id: 'content.archive.content.length.error',
+        }),
+      );
+      return false;
+    }
+    Modal.confirm({
+      title: this.props.intl.formatMessage({
+        id: 'content.archive.extract.description',
+      }),
+      content: this.props.intl.formatMessage({
+        id: 'content.archive.extract.description.content',
+      }),
+      onOk: () => {
+        anqiExtractDescription({
+          text: this.state.content,
+        })
+          .then((res) => {
+            if (res.code === 0) {
+              this.formRef?.current?.setFieldsValue({
+                description: res.data,
+              });
+            } else {
+              message.info(res.msg);
+            }
+          })
+          .catch((err) => {
+            message.error(
+              err.msg ||
+                this.props.intl.formatMessage({
+                  id: 'content.submit.failure',
+                }),
+            );
+          });
+      },
+    });
+  };
+
+  handleExtractKeywords = () => {
+    if (this.state.content.length < 100) {
+      message.error(
+        this.props.intl.formatMessage({
+          id: 'content.archive.content.length.error',
+        }),
+      );
+      return false;
+    }
+    Modal.confirm({
+      title: this.props.intl.formatMessage({
+        id: 'content.archive.extract.keywords',
+      }),
+      content: this.props.intl.formatMessage({
+        id: 'content.archive.extract.keywords.content',
+      }),
+      onOk: () => {
+        anqiExtractKeywords({
+          text: this.state.content,
+        })
+          .then((res) => {
+            if (res.code === 0) {
+              this.formRef?.current?.setFieldsValue({
+                keywords: res.data?.join(','),
+              });
+            } else {
+              message.info(res.msg);
+            }
+          })
+          .catch((err) => {
+            message.error(
+              err.msg ||
+                this.props.intl.formatMessage({
+                  id: 'content.submit.failure',
+                }),
+            );
+          });
+      },
+    });
   };
 
   handleChooseKeywords = () => {
@@ -644,12 +738,20 @@ class ArchiveForm extends React.Component<intlProps> {
                     })}
                     fieldProps={{
                       suffix: (
-                        <span
-                          className="link"
-                          onClick={this.handleChooseKeywords}
-                        >
-                          <FormattedMessage id="content.keywords.select" />
-                        </span>
+                        <Space size={16}>
+                          <span
+                            className="link"
+                            onClick={this.handleExtractKeywords}
+                          >
+                            <FormattedMessage id="content.keywords.extract" />
+                          </span>
+                          <span
+                            className="link"
+                            onClick={this.handleChooseKeywords}
+                          >
+                            <FormattedMessage id="content.keywords.select" />
+                          </span>
+                        </Space>
                       ),
                     }}
                   />
@@ -658,6 +760,16 @@ class ArchiveForm extends React.Component<intlProps> {
                     label={this.props.intl.formatMessage({
                       id: 'content.description.name',
                     })}
+                    extra={
+                      <Space size={16}>
+                        <span
+                          className="link extract-tag"
+                          onClick={this.handleExtractDescription}
+                        >
+                          <FormattedMessage id="content.description.extract" />
+                        </span>
+                      </Space>
+                    }
                   />
 
                   <CollapseItem
@@ -845,173 +957,240 @@ class ArchiveForm extends React.Component<intlProps> {
                           })}
                         />
                       </Col>
-                      {module.fields?.map((item: any, index: number) => (
-                        <Col
-                          sm={item.type === 'editor' ? 24 : 12}
-                          xs={24}
-                          key={index}
-                        >
-                          {item.type === 'text' ? (
-                            <ProFormText
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                              required={item.required ? true : false}
-                              placeholder={
-                                item.content &&
-                                this.props.intl.formatMessage({
-                                  id: 'content.param.default',
-                                }) + item.content
-                              }
-                            />
-                          ) : item.type === 'number' ? (
-                            <ProFormDigit
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                              required={item.required ? true : false}
-                              placeholder={
-                                item.content &&
-                                this.props.intl.formatMessage({
-                                  id: 'content.param.default',
-                                }) + item.content
-                              }
-                            />
-                          ) : item.type === 'textarea' ? (
-                            <ProFormTextArea
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                              required={item.required ? true : false}
-                              placeholder={
-                                item.content &&
-                                this.props.intl.formatMessage({
-                                  id: 'content.param.default',
-                                }) + item.content
-                              }
-                            />
-                          ) : item.type === 'editor' ? (
-                            ''
-                          ) : item.type === 'radio' ? (
-                            <ProFormRadio.Group
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                              request={async () => {
-                                const tmpData = item.content.split('\n');
-                                const data = [];
-                                for (const item1 of tmpData) {
-                                  data.push({ label: item1, value: item1 });
-                                }
-                                return data;
-                              }}
-                            />
-                          ) : item.type === 'checkbox' ? (
-                            <ProFormCheckbox.Group
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                              request={async () => {
-                                const tmpData = item.content.split('\n');
-                                const data = [];
-                                for (const item1 of tmpData) {
-                                  data.push({ label: item1, value: item1 });
-                                }
-                                return data;
-                              }}
-                            />
-                          ) : item.type === 'select' ? (
-                            <ProFormSelect
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                              request={async () => {
-                                const tmpData = item.content.split('\n');
-                                const data = [];
-                                for (const item1 of tmpData) {
-                                  data.push({ label: item1, value: item1 });
-                                }
-                                return data;
-                              }}
-                            />
-                          ) : item.type === 'image' ? (
-                            <ProFormText
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                            >
-                              {archive.extra[item.field_name]?.value ? (
-                                <div className="ant-upload-item">
-                                  <Image
-                                    preview={{
-                                      src: archive.extra[item.field_name]
-                                        ?.value,
-                                    }}
-                                    src={archive.extra[item.field_name]?.value}
-                                  />
-                                  <span
-                                    className="delete"
-                                    onClick={this.handleCleanExtraField.bind(
-                                      this,
-                                      item.field_name,
-                                    )}
-                                  >
-                                    <DeleteOutlined />
-                                  </span>
-                                </div>
-                              ) : (
-                                <AttachmentSelect
-                                  onSelect={this.handleUploadExtraField.bind(
-                                    this,
-                                    item.field_name,
-                                  )}
-                                  open={false}
-                                >
-                                  <div className="ant-upload-item">
-                                    <div className="add">
-                                      <PlusOutlined />
-                                      <div style={{ marginTop: 8 }}>
-                                        <FormattedMessage id="setting.system.upload" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </AttachmentSelect>
-                              )}
-                            </ProFormText>
-                          ) : item.type === 'file' ? (
-                            <ProFormText
-                              name={['extra', item.field_name, 'value']}
-                              label={item.name}
-                            >
-                              {archive.extra[item.field_name]?.value ? (
-                                <div className="ant-upload-item ant-upload-file">
-                                  <span>
-                                    {archive.extra[item.field_name]?.value}
-                                  </span>
-                                  <span
-                                    className="delete"
-                                    onClick={this.handleCleanExtraField.bind(
-                                      this,
-                                      item.field_name,
-                                    )}
-                                  >
-                                    <DeleteOutlined />
-                                  </span>
-                                </div>
-                              ) : (
-                                <AttachmentSelect
-                                  onSelect={this.handleUploadExtraField.bind(
-                                    this,
-                                    item.field_name,
-                                  )}
-                                  open={false}
-                                >
-                                  <Button>
-                                    <FormattedMessage id="setting.system.upload" />
-                                  </Button>
-                                </AttachmentSelect>
-                              )}
-                            </ProFormText>
-                          ) : (
-                            ''
-                          )}
-                        </Col>
-                      ))}
                     </Row>
                   </CollapseItem>
+                  {module.fields && (
+                    <CollapseItem
+                      header={this.props.intl.formatMessage({
+                        id: 'content.param.extra-fields',
+                      })}
+                      open
+                      showArrow
+                      key="2"
+                    >
+                      <Row gutter={20}>
+                        {module.fields?.map(
+                          (item: any, index: number) =>
+                            item.type !== 'editor' && (
+                              <Col sm={12} xs={24} key={index}>
+                                {item.type === 'text' ? (
+                                  <ProFormText
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    required={item.required ? true : false}
+                                    placeholder={
+                                      item.content &&
+                                      this.props.intl.formatMessage({
+                                        id: 'content.param.default',
+                                      }) + item.content
+                                    }
+                                  />
+                                ) : item.type === 'number' ? (
+                                  <ProFormDigit
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    required={item.required ? true : false}
+                                    placeholder={
+                                      item.content &&
+                                      this.props.intl.formatMessage({
+                                        id: 'content.param.default',
+                                      }) + item.content
+                                    }
+                                  />
+                                ) : item.type === 'textarea' ? (
+                                  <ProFormTextArea
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    required={item.required ? true : false}
+                                    placeholder={
+                                      item.content &&
+                                      this.props.intl.formatMessage({
+                                        id: 'content.param.default',
+                                      }) + item.content
+                                    }
+                                  />
+                                ) : item.type === 'editor' ? (
+                                  ''
+                                ) : item.type === 'radio' ? (
+                                  <ProFormRadio.Group
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    request={async () => {
+                                      const tmpData = item.content.split('\n');
+                                      const data = [];
+                                      for (const item1 of tmpData) {
+                                        data.push({
+                                          label: item1,
+                                          value: item1,
+                                        });
+                                      }
+                                      return data;
+                                    }}
+                                  />
+                                ) : item.type === 'checkbox' ? (
+                                  <ProFormCheckbox.Group
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    request={async () => {
+                                      const tmpData = item.content.split('\n');
+                                      const data = [];
+                                      for (const item1 of tmpData) {
+                                        data.push({
+                                          label: item1,
+                                          value: item1,
+                                        });
+                                      }
+                                      return data;
+                                    }}
+                                  />
+                                ) : item.type === 'select' ? (
+                                  <ProFormSelect
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    request={async () => {
+                                      const tmpData = item.content.split('\n');
+                                      const data = [];
+                                      for (const item1 of tmpData) {
+                                        data.push({
+                                          label: item1,
+                                          value: item1,
+                                        });
+                                      }
+                                      return data;
+                                    }}
+                                  />
+                                ) : item.type === 'image' ? (
+                                  <ProFormText
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                  >
+                                    {archive.extra[item.field_name]?.value ? (
+                                      <div className="ant-upload-item">
+                                        <Image
+                                          preview={{
+                                            src: archive.extra[item.field_name]
+                                              ?.value,
+                                          }}
+                                          src={
+                                            archive.extra[item.field_name]
+                                              ?.value
+                                          }
+                                        />
+                                        <span
+                                          className="delete"
+                                          onClick={this.handleCleanExtraField.bind(
+                                            this,
+                                            item.field_name,
+                                          )}
+                                        >
+                                          <DeleteOutlined />
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <AttachmentSelect
+                                        onSelect={this.handleUploadExtraField.bind(
+                                          this,
+                                          item.field_name,
+                                        )}
+                                        open={false}
+                                      >
+                                        <div className="ant-upload-item">
+                                          <div className="add">
+                                            <PlusOutlined />
+                                            <div style={{ marginTop: 8 }}>
+                                              <FormattedMessage id="setting.system.upload" />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </AttachmentSelect>
+                                    )}
+                                  </ProFormText>
+                                ) : item.type === 'file' ? (
+                                  <ProFormText
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                  >
+                                    {archive.extra[item.field_name]?.value ? (
+                                      <div className="ant-upload-item ant-upload-file">
+                                        <span>
+                                          {
+                                            archive.extra[item.field_name]
+                                              ?.value
+                                          }
+                                        </span>
+                                        <span
+                                          className="delete"
+                                          onClick={this.handleCleanExtraField.bind(
+                                            this,
+                                            item.field_name,
+                                          )}
+                                        >
+                                          <DeleteOutlined />
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <AttachmentSelect
+                                        onSelect={this.handleUploadExtraField.bind(
+                                          this,
+                                          item.field_name,
+                                        )}
+                                        open={false}
+                                      >
+                                        <Button>
+                                          <FormattedMessage id="setting.system.upload" />
+                                        </Button>
+                                      </AttachmentSelect>
+                                    )}
+                                  </ProFormText>
+                                ) : (
+                                  ''
+                                )}
+                              </Col>
+                            ),
+                        )}
+                      </Row>
+                      {module.fields?.map(
+                        (item: any, index: number) =>
+                          item.type === 'editor' && (
+                            <ProFormText
+                              key={index}
+                              label={item.name}
+                              required={item.required ? true : false}
+                              extra={
+                                item.content &&
+                                this.props.intl.formatMessage({
+                                  id: 'content.param.default',
+                                }) + item.content
+                              }
+                            >
+                              {contentSetting.editor === 'markdown' ? (
+                                <MarkdownEditor
+                                  className="mb-normal"
+                                  setContent={this.setExtraContent.bind(
+                                    this,
+                                    item.field_name,
+                                  )}
+                                  content={extraContent[item.field_name] || ''}
+                                  ref={null}
+                                />
+                              ) : (
+                                <WangEditor
+                                  className="mb-normal"
+                                  setContent={this.setExtraContent.bind(
+                                    this,
+                                    item.field_name,
+                                  )}
+                                  content={extraContent[item.field_name] || ''}
+                                  key={item.field_name}
+                                  field={item.field_name}
+                                  ref={null}
+                                />
+                              )}
+                            </ProFormText>
+                          ),
+                      )}
+                    </CollapseItem>
+                  )}
                   {contentSetting.editor === 'markdown' ? (
                     <MarkdownEditor
                       className="mb-normal"
@@ -1028,46 +1207,6 @@ class ArchiveForm extends React.Component<intlProps> {
                       field="content"
                       ref={this.editorRef}
                     />
-                  )}
-                  {module.fields?.map(
-                    (item: any, index: number) =>
-                      item.type === 'editor' && (
-                        <ProFormText
-                          key={index}
-                          label={item.name}
-                          required={item.required ? true : false}
-                          extra={
-                            item.content &&
-                            this.props.intl.formatMessage({
-                              id: 'content.param.default',
-                            }) + item.content
-                          }
-                        >
-                          {contentSetting.editor === 'markdown' ? (
-                            <MarkdownEditor
-                              className="mb-normal"
-                              setContent={this.setExtraContent.bind(
-                                this,
-                                item.field_name,
-                              )}
-                              content={extraContent[item.field_name] || ''}
-                              ref={null}
-                            />
-                          ) : (
-                            <WangEditor
-                              className="mb-normal"
-                              setContent={this.setExtraContent.bind(
-                                this,
-                                item.field_name,
-                              )}
-                              content={extraContent[item.field_name] || ''}
-                              key={item.field_name}
-                              field={item.field_name}
-                              ref={null}
-                            />
-                          )}
-                        </ProFormText>
-                      ),
                   )}
                 </Col>
                 <Col sm={6} xs={24}>

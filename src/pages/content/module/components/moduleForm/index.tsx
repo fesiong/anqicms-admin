@@ -390,7 +390,13 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                   key="add"
                   type="primary"
                   onClick={() => {
-                    setCurrentField({ form: 'archive' });
+                    setCurrentField({
+                      form: 'archive',
+                      type: 'text',
+                      required: false,
+                      follow_level: false,
+                      is_filter: false,
+                    });
                     setEditVisible(true);
                   }}
                 >
@@ -427,7 +433,13 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                   key="add"
                   type="primary"
                   onClick={() => {
-                    setCurrentField({ form: 'category' });
+                    setCurrentField({
+                      form: 'category',
+                      type: 'text',
+                      required: false,
+                      follow_level: false,
+                      is_filter: false,
+                    });
                     setEditVisible(true);
                   }}
                 >

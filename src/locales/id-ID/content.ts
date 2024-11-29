@@ -239,6 +239,17 @@ export default {
   'content.archive.edit': 'Ubah dokumen',
   'content.archive.add': 'Tambahkan dokumen',
   'content.keywords.select': 'Pilih kata kunci',
+  'content.keywords.extract': 'Ekstrak kata kunci',
+  'content.description.extract': 'Ekstrak ringkasan',
+  'content.archive.content.length.error':
+    'Konten terlalu pendek dan tidak dapat diekstraksi',
+  'content.archive.extract.description': 'Ekstrak ringkasan',
+  'content.archive.extract.description.content':
+    'Apakah Anda yakin ingin mengekstrak abstrak dari konten dokumen? Mohon konfirmasi bahwa Anda telah selesai mengisi isi dokumen. ',
+  'content.archive.extract.keywords': 'Ekstrak kata kunci',
+  'content.archive.extract.keywords.content':
+    'Apakah Anda yakin ingin mengekstrak kata kunci dari konten dokumen? Mohon konfirmasi bahwa Anda telah selesai mengisi isi dokumen. ',
+  'content.param.extra-fields': 'Parameter khusus',
   'content.param.other': 'Parameter lainnya',
   'content.origin-url.name': 'Alamat asli',
   'content.field.default': 'Tidak perlu mengisi secara default',

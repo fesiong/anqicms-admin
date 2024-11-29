@@ -233,6 +233,17 @@ export default {
   'content.archive.edit': 'ドキュメントを変更する',
   'content.archive.add': 'ドキュメントの追加',
   'content.keywords.select': 'キーワードを選択してください',
+  'content.keywords.extract': 'キーワードを抽出',
+  'content.description.extract': '概要を抽出',
+  'content.archive.content.length.error':
+    'コンテンツが短すぎるため抽出できません',
+  'content.archive.extract.description': '概要を抽出',
+  'content.archive.extract.description.content':
+    '文書コンテンツから要約を抽出してもよろしいですか?書類内容の入力が完了していることをご確認ください。 ',
+  'content.archive.extract.keywords': 'キーワードを抽出',
+  'content.archive.extract.keywords.content':
+    'ドキュメントのコンテンツからキーワードを抽出してもよろしいですか?書類内容の入力が完了していることをご確認ください。 ',
+  'content.param.extra-fields': 'カスタムパラメータ',
   'content.param.other': 'その他のパラメータ',
   'content.origin-url.name': '元のアドレス',
   'content.field.default': 'デフォルトでは入力する必要はありません',

@@ -52,7 +52,7 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
 
   const handleEditField = (index: number) => {
     if (index === -1) {
-      setCurrentField({});
+      setCurrentField({ type: 'text', required: false });
     } else {
       setCurrentField(setting[index]);
     }

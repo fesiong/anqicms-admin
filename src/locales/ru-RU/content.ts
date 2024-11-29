@@ -239,6 +239,17 @@ export default {
   'content.archive.edit': 'Изменить документ',
   'content.archive.add': 'Добавить документ',
   'content.keywords.select': 'Выберите ключевые слова',
+  'content.keywords.extract': 'Извлечь ключевые слова',
+  'content.description.extract': 'Извлечь сводку',
+  'content.archive.content.length.error':
+    'Содержимое слишком короткое и не может быть извлечено',
+  'content.archive.extract.description': 'Извлечь сводку',
+  'content.archive.extract.description.content':
+    'Вы уверены, что хотите извлечь реферат из содержимого документа? Пожалуйста, подтвердите, что вы завершили заполнение содержания документа. ',
+  'content.archive.extract.keywords': 'Извлечь ключевые слова',
+  'content.archive.extract.keywords.content':
+    'Вы уверены, что хотите извлечь ключевые слова из содержимого документа? Пожалуйста, подтвердите, что вы завершили заполнение содержания документа. ',
+  'content.param.extra-fields': 'Пользовательские параметры',
   'content.param.other': 'Другие параметры',
   'content.origin-url.name': 'Исходный адрес',
   'content.field.default': 'Не нужно заполнять по умолчанию',
