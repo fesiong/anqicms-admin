@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginBuildHtmlArchiveCache,
   pluginBuildHtmlCache,
@@ -13,14 +14,24 @@ import {
   pluginSaveHtmlCache,
 } from '@/services';
 import {
-  PageContainer,
   ProForm,
   ProFormDigit,
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Alert, Button, Card, Col, Divider, Modal, Row, Space, Upload, message } from 'antd';
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Modal,
+  Row,
+  Space,
+  Upload,
+  message,
+} from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import HtmlPushLog from './components/pushLog';
@@ -36,6 +47,7 @@ const PluginHtmlCache: React.FC<any> = () => {
   const [storageType, setStorageType] = useState<string>('local');
   const [logVisible, setLogVisible] = useState<boolean>(false);
   const [logStatus, setLogStatus] = useState<string>('');
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -78,6 +90,16 @@ const PluginHtmlCache: React.FC<any> = () => {
     });
   };
 
+  const onTabChange = (key: string) => {
+    clearInterval(xhr);
+    clearInterval(pushXhr);
+    getSetting().then(() => {
+      getStatus();
+      getPushStatus();
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
     getStatus();
@@ -90,7 +112,9 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuild = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.all.confirm' }),
+      title: intl.formatMessage({
+        id: 'plugin.htmlcache.generate.all.confirm',
+      }),
       onOk: () => {
         pluginBuildHtmlCache().then((res) => {
           message.info(res.msg);
@@ -105,7 +129,9 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildIndex = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.home.confirm' }),
+      title: intl.formatMessage({
+        id: 'plugin.htmlcache.generate.home.confirm',
+      }),
       onOk: () => {
         pluginBuildHtmlIndexCache().then((res) => {
           message.info(res.msg);
@@ -120,7 +146,9 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildCategory = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.category.confirm' }),
+      title: intl.formatMessage({
+        id: 'plugin.htmlcache.generate.category.confirm',
+      }),
       onOk: () => {
         pluginBuildHtmlCategoryCache().then((res) => {
           message.info(res.msg);
@@ -135,7 +163,9 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildArchive = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.archive.confirm' }),
+      title: intl.formatMessage({
+        id: 'plugin.htmlcache.generate.archive.confirm',
+      }),
       onOk: () => {
         pluginBuildHtmlArchiveCache().then((res) => {
           message.info(res.msg);
@@ -150,7 +180,9 @@ const PluginHtmlCache: React.FC<any> = () => {
 
   const startBuildTag = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.htmlcache.generate.tag.confirm' }),
+      title: intl.formatMessage({
+        id: 'plugin.htmlcache.generate.tag.confirm',
+      }),
       onOk: () => {
         pluginBuildHtmlTagCache().then((res) => {
           message.info(res.msg);
@@ -166,10 +198,14 @@ const PluginHtmlCache: React.FC<any> = () => {
   const cleanHtmlCache = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.htmlcache.clean.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.htmlcache.clean.confirm.content' }),
+      content: intl.formatMessage({
+        id: 'plugin.htmlcache.clean.confirm.content',
+      }),
       onOk: () => {
         pluginCleanHtmlCache().then(() => {
-          message.success(intl.formatMessage({ id: 'plugin.htmlcache.clean.success' }));
+          message.success(
+            intl.formatMessage({ id: 'plugin.htmlcache.clean.success' }),
+          );
         });
       },
     });
@@ -179,7 +215,10 @@ const PluginHtmlCache: React.FC<any> = () => {
     const formData = new FormData();
     formData.append('file', e.file);
     formData.append('name', field);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginHtmlCacheUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -194,7 +233,9 @@ const PluginHtmlCache: React.FC<any> = () => {
   const startPushAll = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.htmlcache.push.all.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.htmlcache.push.all.confirm.content' }),
+      content: intl.formatMessage({
+        id: 'plugin.htmlcache.push.all.confirm.content',
+      }),
       onOk: () => {
         pluginHtmlCachePush({
           all: true,
@@ -209,7 +250,9 @@ const PluginHtmlCache: React.FC<any> = () => {
   const startPushUpdate = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.htmlcache.push.addon.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.htmlcache.push.addon.confirm.content' }),
+      content: intl.formatMessage({
+        id: 'plugin.htmlcache.push.addon.confirm.content',
+      }),
       onOk: () => {
         pluginHtmlCachePush({
           all: false,
@@ -232,7 +275,10 @@ const PluginHtmlCache: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginSaveHtmlCache(values)
       .then((res) => {
         message.success(res.msg);
@@ -246,8 +292,8 @@ const PluginHtmlCache: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Alert
           style={{ marginBottom: 20 }}
           description={
@@ -280,82 +326,125 @@ const PluginHtmlCache: React.FC<any> = () => {
                   label={intl.formatMessage({ id: 'plugin.htmlcache.isopen' })}
                   options={[
                     {
-                      label: intl.formatMessage({ id: 'plugin.fulltext.open.false' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.fulltext.open.false',
+                      }),
                       value: false,
                     },
-                    { label: intl.formatMessage({ id: 'plugin.fulltext.open.true' }), value: true },
+                    {
+                      label: intl.formatMessage({
+                        id: 'plugin.fulltext.open.true',
+                      }),
+                      value: true,
+                    },
                   ]}
                 />
 
                 <ProFormDigit
                   name="index_cache"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.index-time' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.index-time',
+                  })}
                   wrapperCol={{ span: 12 }}
                   fieldProps={{
-                    addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }),
+                    addonAfter: intl.formatMessage({
+                      id: 'plugin.htmlcache.index-time.suffix',
+                    }),
                   }}
-                  extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.htmlcache.index-time.description',
+                  })}
                 />
                 <ProFormDigit
                   name="category_cache"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.category-time' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.category-time',
+                  })}
                   wrapperCol={{ span: 12 }}
                   fieldProps={{
-                    addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }),
+                    addonAfter: intl.formatMessage({
+                      id: 'plugin.htmlcache.index-time.suffix',
+                    }),
                   }}
-                  extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.htmlcache.index-time.description',
+                  })}
                 />
                 <ProFormDigit
                   name="detail_cache"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.archive-time' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.archive-time',
+                  })}
                   wrapperCol={{ span: 12 }}
                   fieldProps={{
-                    addonAfter: intl.formatMessage({ id: 'plugin.htmlcache.index-time.suffix' }),
+                    addonAfter: intl.formatMessage({
+                      id: 'plugin.htmlcache.index-time.suffix',
+                    }),
                   }}
-                  extra={intl.formatMessage({ id: 'plugin.htmlcache.index-time.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.htmlcache.index-time.description',
+                  })}
                 />
               </Col>
               <Col sm={10} xs={24}>
                 <ProFormRadio.Group
                   name="storage_type"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.storage-type' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.storage-type',
+                  })}
                   fieldProps={{
                     onChange: changeStorageType,
                   }}
                   options={[
                     {
                       value: '',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.close' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.storage-type.close',
+                      }),
                     },
                     {
                       value: 'aliyun',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.aliyun' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.storage-type.aliyun',
+                      }),
                     },
                     {
                       value: 'tencent',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.tencent' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.storage-type.tencent',
+                      }),
                     },
                     {
                       value: 'qiniu',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.qiniu' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.storage-type.qiniu',
+                      }),
                     },
                     {
                       value: 'upyun',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.upyun' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.storage-type.upyun',
+                      }),
                     },
                     {
                       value: 'ftp',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ftp' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.storage-type.ftp',
+                      }),
                     },
                     {
                       value: 'ssh',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ssh' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.storage-type.ssh',
+                      }),
                     },
                   ]}
                 />
                 <ProFormText
                   name="storage_url"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.storage-url' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.storage-url',
+                  })}
                   placeholder={intl.formatMessage({
                     id: 'plugin.htmlcache.storage-url.placeholder',
                   })}
@@ -366,12 +455,18 @@ const PluginHtmlCache: React.FC<any> = () => {
                   </Divider>
                   <ProFormText
                     name="aliyun_endpoint"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.aliyun.endpoint',
+                    })}
                     placeholder={intl.formatMessage({
                       id: 'plugin.htmlcache.aliyun.endpoint.placeholder',
                     })}
                   />
-                  <ProFormText name="aliyun_access_key_id" label="AccessKeyId" placeholder="" />
+                  <ProFormText
+                    name="aliyun_access_key_id"
+                    label="AccessKeyId"
+                    placeholder=""
+                  />
                   <ProFormText
                     name="aliyun_access_key_secret"
                     label="AccessKeySecret"
@@ -379,7 +474,9 @@ const PluginHtmlCache: React.FC<any> = () => {
                   />
                   <ProFormText
                     name="aliyun_bucket_name"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.aliyun.bucket-name',
+                    })}
                     placeholder=""
                   />
                 </div>
@@ -387,11 +484,21 @@ const PluginHtmlCache: React.FC<any> = () => {
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.tencent" />
                   </Divider>
-                  <ProFormText name="tencent_secret_id" label="SecretId" placeholder="" />
-                  <ProFormText name="tencent_secret_key" label="SecretKey" placeholder="" />
+                  <ProFormText
+                    name="tencent_secret_id"
+                    label="SecretId"
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="tencent_secret_key"
+                    label="SecretKey"
+                    placeholder=""
+                  />
                   <ProFormText
                     name="tencent_bucket_url"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.tencent.bucket-url',
+                    })}
                     placeholder={intl.formatMessage({
                       id: 'plugin.htmlcache.tencent.bucket-url.placeholder',
                     })}
@@ -401,42 +508,66 @@ const PluginHtmlCache: React.FC<any> = () => {
                   <Divider>
                     <FormattedMessage id="plugin.htmlcache.storage-type.qiniu" />
                   </Divider>
-                  <ProFormText name="qiniu_access_key" label="AccessKey" placeholder="" />
-                  <ProFormText name="qiniu_secret_key" label="SecretKey" placeholder="" />
+                  <ProFormText
+                    name="qiniu_access_key"
+                    label="AccessKey"
+                    placeholder=""
+                  />
+                  <ProFormText
+                    name="qiniu_secret_key"
+                    label="SecretKey"
+                    placeholder=""
+                  />
                   <ProFormText
                     name="qiniu_bucket"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.qiniu.bucket-name',
+                    })}
                     placeholder={intl.formatMessage({
                       id: 'plugin.htmlcache.qiniu.bucket-name.placeholder',
                     })}
                   />
                   <ProFormRadio.Group
                     name="qiniu_region"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.qiniu.region',
+                    })}
                     options={[
                       {
                         value: 'z0',
-                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z0' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.htmlcache.qiniu.region.z0',
+                        }),
                       },
                       {
                         value: 'z1',
-                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z1' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.htmlcache.qiniu.region.z1',
+                        }),
                       },
                       {
                         value: 'z2',
-                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z2' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.htmlcache.qiniu.region.z2',
+                        }),
                       },
                       {
                         value: 'na0',
-                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.na0' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.htmlcache.qiniu.region.na0',
+                        }),
                       },
                       {
                         value: 'as0',
-                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.as0' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.htmlcache.qiniu.region.as0',
+                        }),
                       },
                       {
                         value: 'cn-east-2',
-                        label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.cn-east2' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.htmlcache.qiniu.region.cn-east2',
+                        }),
                       },
                       {
                         value: 'fog-cn-east-1',
@@ -453,17 +584,23 @@ const PluginHtmlCache: React.FC<any> = () => {
                   </Divider>
                   <ProFormText
                     name="upyun_operator"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.upyun.operator',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
                     name="upyun_password"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.upyun.password',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
                     name="upyun_bucket"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.upyun.bucket',
+                    })}
                     placeholder=""
                   />
                 </div>
@@ -476,27 +613,37 @@ const PluginHtmlCache: React.FC<any> = () => {
                   </p>
                   <ProFormText
                     name="ftp_host"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ftp.host',
+                    })}
                     placeholder=""
                   />
                   <ProFormDigit
                     name="ftp_port"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ftp.port',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
                     name="ftp_username"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ftp.username',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
                     name="ftp_password"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ftp.password',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
                     name="ftp_webroot"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ftp.webroot',
+                    })}
                     placeholder=""
                   />
                 </div>
@@ -506,46 +653,64 @@ const PluginHtmlCache: React.FC<any> = () => {
                   </Divider>
                   <ProFormText
                     name="ssh_host"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ssh.host',
+                    })}
                     placeholder=""
                   />
                   <ProFormDigit
                     name="ssh_port"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ssh.port',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
                     name="ssh_username"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ssh.username',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
                     name="ssh_password"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ssh.password',
+                    })}
                     placeholder=""
                   />
                   <ProFormText
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })}
-                    extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ssh.or-key',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'plugin.htmlcache.ssh.or-key.description',
+                    })}
                   >
                     <Upload
                       name="file"
                       className="logo-uploader"
                       showUploadList={false}
                       accept=".crt,.pem,.key"
-                      customRequest={async (e) => handleUploadFile('ssh_private_key', e)}
+                      customRequest={async (e) =>
+                        handleUploadFile('ssh_private_key', e)
+                      }
                     >
                       <Button type="primary">
                         <FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" />
                       </Button>
                     </Upload>
                     {setting.ssh_private_key && (
-                      <div className="upload-file">{setting.ssh_private_key}</div>
+                      <div className="upload-file">
+                        {setting.ssh_private_key}
+                      </div>
                     )}
                   </ProFormText>
                   <ProFormText
                     name="ssh_webroot"
-                    label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.ssh.webroot',
+                    })}
                     placeholder=""
                   />
                 </div>
@@ -561,7 +726,9 @@ const PluginHtmlCache: React.FC<any> = () => {
             <FormattedMessage id="plugin.htmlcache.generate.last-time" />
             {setting.last_build_time > 0
               ? dayjs(setting.last_build_time * 1000).format('YYYY-MM-DD')
-              : intl.formatMessage({ id: 'plugin.htmlcache.generate.last-time.empty' })}
+              : intl.formatMessage({
+                  id: 'plugin.htmlcache.generate.last-time.empty',
+                })}
           </p>
           <Space className="space-wrap" size={20}>
             <Button onClick={() => cleanHtmlCache()}>
@@ -591,7 +758,9 @@ const PluginHtmlCache: React.FC<any> = () => {
           <FormattedMessage id="plugin.htmlcache.push.last-time" />
           {setting.last_push_time > 0
             ? dayjs(setting.last_push_time * 1000).format('YYYY-MM-DD')
-            : intl.formatMessage({ id: 'plugin.htmlcache.push.last-time.empty' })}
+            : intl.formatMessage({
+                id: 'plugin.htmlcache.push.last-time.empty',
+              })}
         </p>
         <div>
           <Space className="space-wrap" size={20}>
@@ -623,7 +792,9 @@ const PluginHtmlCache: React.FC<any> = () => {
                         <FormattedMessage id="plugin.htmlcache.build.start-time" />
                       </div>
                       <div className="field-value">
-                        {dayjs(status.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                        {dayjs(status.start_time * 1000).format(
+                          'YYYY-MM-DD HH:mm:ss',
+                        )}
                       </div>
                     </div>
                     <div className="field-item">
@@ -632,8 +803,12 @@ const PluginHtmlCache: React.FC<any> = () => {
                       </div>
                       <div className="field-value">
                         {status.finished_time > 0
-                          ? dayjs(status.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
-                          : intl.formatMessage({ id: 'plugin.htmlcache.build.unfinished' })}
+                          ? dayjs(status.finished_time * 1000).format(
+                              'YYYY-MM-DD HH:mm:ss',
+                            )
+                          : intl.formatMessage({
+                              id: 'plugin.htmlcache.build.unfinished',
+                            })}
                       </div>
                     </div>
                     <div className="field-item">
@@ -678,7 +853,9 @@ const PluginHtmlCache: React.FC<any> = () => {
                         <FormattedMessage id="plugin.htmlcache.build.start-time" />
                       </div>
                       <div className="field-value">
-                        {dayjs(pushStatus.start_time * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                        {dayjs(pushStatus.start_time * 1000).format(
+                          'YYYY-MM-DD HH:mm:ss',
+                        )}
                       </div>
                     </div>
                     <div className="field-item">
@@ -687,8 +864,12 @@ const PluginHtmlCache: React.FC<any> = () => {
                       </div>
                       <div className="field-value">
                         {pushStatus.finished_time > 0
-                          ? dayjs(pushStatus.finished_time * 1000).format('YYYY-MM-DD HH:mm:ss')
-                          : intl.formatMessage({ id: 'plugin.htmlcache.build.unfinished' })}
+                          ? dayjs(pushStatus.finished_time * 1000).format(
+                              'YYYY-MM-DD HH:mm:ss',
+                            )
+                          : intl.formatMessage({
+                              id: 'plugin.htmlcache.build.unfinished',
+                            })}
                       </div>
                     </div>
                     <div className="field-item">
@@ -701,13 +882,17 @@ const PluginHtmlCache: React.FC<any> = () => {
                       <div className="field-label">
                         <FormattedMessage id="plugin.htmlcache.build.finished-count" />
                       </div>
-                      <div className="field-value">{pushStatus.finished_count}</div>
+                      <div className="field-value">
+                        {pushStatus.finished_count}
+                      </div>
                     </div>
                     <div className="field-item">
                       <div className="field-label">
                         <FormattedMessage id="plugin.htmlcache.build.error-count" />
                       </div>
-                      <div className="field-value">{pushStatus.error_count}</div>
+                      <div className="field-value">
+                        {pushStatus.error_count}
+                      </div>
                     </div>
                     <div className="field-item">
                       <div className="field-label">
@@ -720,7 +905,9 @@ const PluginHtmlCache: React.FC<any> = () => {
                         <div className="field-label">
                           <FormattedMessage id="plugin.htmlcache.build.error-msg" />
                         </div>
-                        <div className="field-value">{pushStatus.error_msg}</div>
+                        <div className="field-value">
+                          {pushStatus.error_msg}
+                        </div>
                       </div>
                     )}
                   </Space>
@@ -740,7 +927,7 @@ const PluginHtmlCache: React.FC<any> = () => {
           }}
         />
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

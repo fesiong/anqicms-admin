@@ -2,6 +2,7 @@ import NewContainer from '@/components/NewContainer';
 import {
   UploadDesignInfo,
   activeDesignInfo,
+  checkUploadDesignInfo,
   deleteDesignInfo,
   getDesignList,
   restoreDesignData,
@@ -78,8 +79,10 @@ const DesignIndex: React.FC = () => {
     });
   };
 
-  const handleUploadZip = (e: any) => {
+  const handleUploadZip = (e: any, cover: string) => {
+    // end
     const formData = new FormData();
+    formData.append('cover', cover);
     formData.append('file', e.file);
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
@@ -101,6 +104,42 @@ const DesignIndex: React.FC = () => {
       .finally(() => {
         hide();
       });
+  };
+
+  const checkUploadZip = async (e: any) => {
+    // 上传之前先验证是否存在相同的模板
+    try {
+      const checkRes = await checkUploadDesignInfo({
+        package: e.file.name.replace('.zip', ''),
+      });
+      if (checkRes.code !== 0) {
+        Modal.confirm({
+          title: intl.formatMessage({ id: 'design.data.confirm-upload' }),
+          onOk: () => {
+            handleUploadZip(e, 'new');
+          },
+          okText: intl.formatMessage({ id: 'design.data.confirm.new' }),
+          footer: (_, { OkBtn, CancelBtn }) => (
+            <>
+              <CancelBtn />
+              <Button
+                onClick={() => {
+                  Modal.destroyAll();
+                  handleUploadZip(e, 'cover');
+                }}
+              >
+                {intl.formatMessage({ id: 'design.data.confirm.cover' })}
+              </Button>
+              <OkBtn />
+            </>
+          ),
+        });
+      } else {
+        handleUploadZip(e, '');
+      }
+    } catch (err) {
+      message.error(err as string);
+    }
   };
 
   const handleRestoreDesignData = (record: any) => {
@@ -307,7 +346,7 @@ const DesignIndex: React.FC = () => {
               name="file"
               showUploadList={false}
               accept=".zip"
-              customRequest={handleUploadZip}
+              customRequest={checkUploadZip}
             >
               <Button type="primary">
                 <FormattedMessage id="design.package.zip.select" />

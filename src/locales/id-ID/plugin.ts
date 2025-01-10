@@ -56,7 +56,7 @@ export default {
   'plugin.aigenerate.insert-image': 'Pemrosesan gambar artikel',
   'plugin.aigenerate.insert-image.default': 'bawaan',
   'plugin.aigenerate.insert-image.diy': 'Sisipkan gambar khusus',
-  'plugin.aigenerate.insert-image.category': 'Sisipkan gambar khusus',
+  'plugin.aigenerate.insert-image.category': 'Dari Kategori Gambar',
   'plugin.aigenerate.insert-image.list': 'Daftar gambar yang akan disisipkan',
   'plugin.aigenerate.replace': 'penggantian konten',
   'plugin.aigenerate.replace.tips1':
@@ -556,7 +556,7 @@ export default {
   'plugin.importapi.field.draft':
     'Apakah akan menyimpan ke draf. Nilai yang didukung adalah: false|true. Jika benar diisi, dokumen yang diterbitkan akan disimpan ke draf.',
   'plugin.importapi.field.cover':
-    'Apakah akan menimpa dokumen dengan judul dan ID yang sama ketika ada. Nilai yang didukung adalah: false|true. Jika benar diisi, konten terbaru akan ditimpa. Jika disetel ke salah, kesalahan akan muncul.',
+    'Jika judul yang sama, ID dokumen ada, nilai yang didukung adalah: 0 | 1 | 2, ketika mengisi 1, maka akan ditulis ke konten terbaru, diatur ke 0 atau tidak lulus, maka akan meminta kesalahan, ketika mengisi 2, tidak membuat penilaian',
   'plugin.importapi.return-type': 'Format pengembalian:',
   'plugin.importapi.return-example.success': 'Contoh hasil yang benar:',
   'plugin.importapi.return-example.failure': 'Contoh hasil yang salah:',
@@ -1390,7 +1390,7 @@ export default {
   'plugin.multilang.type.same-url': 'URL tidak berubah',
   'plugin.multilang.type.description':
     'Hasil tampilan berbeda-beda dalam bentuk yang berbeda. Bentuk nama domain independen adalah nama domain tersendiri untuk setiap bahasa, bentuk direktori independen adalah direktori untuk setiap bahasa, dan bentuk konstanta URL apakah semua bahasa mengarah ke URL yang sama',
-  'plugin.multilang.default_lingual': 'Bahasa situs utama',
+  'plugin.multilang.default_language': 'Bahasa situs utama',
   'plugin.multilang.auto_translate':
     'Apakah akan menerjemahkan secara otomatis',
   'plugin.multilang.auto_translate.false': 'Tidak',
@@ -1403,7 +1403,9 @@ export default {
   'content.multilang.select': 'Pilih situs',
   'content.multilang.select.description':
     'Pilih situs yang sudah dibuat sebagai situs multi-bahasa',
-  'plugin.multilang.bahasa': 'bahasa situs',
+  'plugin.multilang.language': 'bahasa situs',
+  'plugin.multilang.syncing': 'Sinkronisasi',
+  'plugin.multilang.icon': 'ikon situs',
   'plugin.translate.lang': 'Terjemahkan bahasa',
   'content.translate.origin-content': 'teks asli',
   'plugin.translate.result': 'Hasil terjemahan',
@@ -1421,4 +1423,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'Catatan terjemahan',
+  'plugin.jsonld.tips.1':
+    'Setelah diaktifkan, sistem akan secara otomatis menandai data terstruktur situs web dalam format JSON-LD dan memasukkannya ke bagian bawah halaman sehingga mesin pencari dapat lebih memahami konten situs web. ',
+  'plugin.jsonld.tips.2':
+    'Untuk markup data terstruktur yang didukung oleh Google, silakan lihat dokumentasi: https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': 'Buka markup data terstruktur',
+  'plugin.jsonld.open.false': 'Tidak',
+  'plugin.jsonld.open.true': 'Ya',
+  'plugin.jsonld.author': 'Penulis default',
+  'plugin.jsonld.brand': 'Merek bawaan',
 };

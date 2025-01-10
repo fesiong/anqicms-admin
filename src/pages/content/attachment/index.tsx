@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   changeAttachmentCategory,
   changeAttachmentName,
@@ -9,11 +10,7 @@ import {
 } from '@/services/attachment';
 import { calculateFileMd5, sizeFormat } from '@/utils';
 import { LoadingOutlined } from '@ant-design/icons';
-import {
-  ModalForm,
-  PageContainer,
-  ProFormText,
-} from '@ant-design/pro-components';
+import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, injectIntl } from '@umijs/max';
 import {
   Alert,
@@ -62,6 +59,7 @@ class ImageList extends React.Component<intlProps> {
     indeterminate: false,
     selectedAll: false,
     kw: '',
+    newKey: '',
   };
 
   componentDidMount() {
@@ -69,7 +67,19 @@ class ImageList extends React.Component<intlProps> {
     this.getCategories();
   }
 
-  getImageList = () => {
+  onTabChange = (key: string) => {
+    this.setState({
+      fetched: false,
+    });
+    this.getImageList().then(() => {
+      this.getCategories();
+      this.setState({
+        newKey: key,
+      });
+    });
+  };
+
+  getImageList = async () => {
     const { page, limit, categoryId, kw } = this.state;
     getAttachments({
       current: page,
@@ -458,11 +468,13 @@ class ImageList extends React.Component<intlProps> {
       editVisible,
       indeterminate,
       selectedAll,
+      newKey,
     } = this.state;
 
     return (
-      <PageContainer>
+      <NewContainer onTabChange={(key) => this.onTabChange(key)}>
         <Card
+          key={newKey}
           className="image-page"
           title={this.props.intl.formatMessage({
             id: 'menu.archive.attachment',
@@ -772,7 +784,7 @@ class ImageList extends React.Component<intlProps> {
             <ProFormText name="file_name" />
           </ModalForm>
         )}
-      </PageContainer>
+      </NewContainer>
     );
   }
 }

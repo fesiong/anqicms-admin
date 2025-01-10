@@ -1,48 +1,31 @@
 import {
   deleteWebsiteInfo,
-  getDesignList,
   getSiteInfo,
   getSubsiteAdminLoginUrl,
   getWebsiteInfo,
   getWebsiteList,
-  saveWebsiteInfo,
 } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  ModalForm,
   PageContainer,
   ProColumns,
-  ProFormCheckbox,
-  ProFormDigit,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useModel } from '@umijs/max';
-import {
-  Button,
-  Checkbox,
-  Collapse,
-  Modal,
-  RadioChangeEvent,
-  Space,
-  Tag,
-  message,
-} from 'antd';
+import { Button, Checkbox, Modal, Space, Tag, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
-const { Panel } = Collapse;
+import WebsiteForm from './components/form';
 
 let submiting = false;
 const WebsiteList: React.FC = () => {
   const { initialState } = useModel('@@initialState');
   const actionRef = useRef<ActionType>();
   const [editVisible, setEditVisible] = useState<boolean>(false);
-  const [userDefault, setUseDefault] = useState<boolean>(false);
   const [editInfo, setEditInfo] = useState<any>({});
   const [siteInfo, setSiteInfo] = useState<any>({});
+  const [defaultSite, setDefaultSite] = useState<any>({});
   const inputRef = useRef<any>();
   const intl = useIntl();
 
@@ -60,12 +43,10 @@ const WebsiteList: React.FC = () => {
     if (record.id > 0) {
       getWebsiteInfo({ id: record.id }).then((res) => {
         setEditInfo(res.data);
-        setUseDefault(res.data.mysql?.use_default);
         setEditVisible(true);
       });
     } else {
       setEditInfo(record);
-      setUseDefault(record.mysql?.use_default);
       setEditVisible(true);
     }
   };
@@ -78,37 +59,6 @@ const WebsiteList: React.FC = () => {
         window.open(res.data);
       }
     });
-  };
-
-  const onSubmitEdit = async (values: any) => {
-    if (editInfo.id === 1) {
-      // 自己无法禁用自己
-      values.status = 1;
-    }
-    if (submiting) {
-      return;
-    }
-    submiting = true;
-    const hide = message.loading(
-      intl.formatMessage({ id: 'setting.system.submitting' }),
-      0,
-    );
-    values.status = Number(values.status);
-    const postData = Object.assign(editInfo, values);
-    saveWebsiteInfo(postData)
-      .then((res) => {
-        if (res.code !== 0) {
-          message.error(res.msg);
-        } else {
-          message.info(res.msg);
-          actionRef.current?.reload();
-          setEditVisible(false);
-        }
-      })
-      .finally(() => {
-        submiting = false;
-        hide();
-      });
   };
 
   const handleRemove = (record: any) => {
@@ -158,8 +108,9 @@ const WebsiteList: React.FC = () => {
     });
   };
 
-  const handleChangeUse = (e: RadioChangeEvent) => {
-    setUseDefault(e.target.value);
+  const onSubmit = async () => {
+    setEditVisible(false);
+    actionRef.current?.reload();
   };
 
   const columns: ProColumns<any>[] = [
@@ -266,8 +217,10 @@ const WebsiteList: React.FC = () => {
         headerTitle={intl.formatMessage({ id: 'website.list' })}
         rowKey="id"
         actionRef={actionRef}
-        request={(params) => {
-          return getWebsiteList(params);
+        request={async (params) => {
+          const res = await getWebsiteList(params);
+          setDefaultSite(res.data?.[0] || {});
+          return res;
         }}
         columnsState={{
           persistenceKey: 'website-table',
@@ -296,177 +249,13 @@ const WebsiteList: React.FC = () => {
         }}
       />
       {editVisible && (
-        <ModalForm
-          width={600}
-          title={
-            editInfo.id > 0
-              ? intl.formatMessage({ id: 'website.edit' })
-              : intl.formatMessage({ id: 'website.add' })
-          }
+        <WebsiteForm
+          onCancel={() => setEditVisible(false)}
+          onSubmit={onSubmit}
           open={editVisible}
-          layout="horizontal"
-          modalProps={{
-            maskClosable: false,
-          }}
-          initialValues={editInfo}
-          onFinish={onSubmitEdit}
-          onOpenChange={(e) => setEditVisible(e)}
-        >
-          {editInfo.id > 0 && (
-            <ProFormDigit
-              name="id"
-              label={intl.formatMessage({ id: 'website.id' })}
-              readonly
-            />
-          )}
-          <ProFormText
-            name="name"
-            label={intl.formatMessage({ id: 'website.name' })}
-          />
-          <ProFormText
-            name="root_path"
-            label={intl.formatMessage({ id: 'website.root-path' })}
-            disabled={editInfo.id === 1}
-            placeholder={intl.formatMessage({
-              id: 'website.root-path.placeholder',
-            })}
-            extra={intl.formatMessage({ id: 'website.root-path.description' })}
-          />
-          <ProFormText
-            name="base_url"
-            label={intl.formatMessage({ id: 'setting.system.base-url' })}
-            placeholder={intl.formatMessage({
-              id: 'website.base-url.placeholder',
-            })}
-            extra={intl.formatMessage({ id: 'website.base-url.description' })}
-          />
-          <ProFormText
-            name="admin_user"
-            label={intl.formatMessage({ id: 'website.admin-user' })}
-          />
-          <ProFormText.Password
-            name="admin_password"
-            label={intl.formatMessage({ id: 'website.admin-password' })}
-            placeholder={intl.formatMessage({
-              id: 'website.admin-password.description',
-            })}
-          />
-          {editInfo.id !== 1 && (
-            <Collapse defaultActiveKey={editInfo.id > 0 ? [] : [1]} ghost>
-              <Panel
-                header={intl.formatMessage({ id: 'website.db.header' })}
-                key="1"
-              >
-                <ProFormText
-                  name={['mysql', 'database']}
-                  label={intl.formatMessage({ id: 'website.db.database' })}
-                  placeholder={intl.formatMessage({
-                    id: 'website.db.database.description',
-                  })}
-                />
-                <ProFormRadio.Group
-                  label={intl.formatMessage({ id: 'website.db.use-default' })}
-                  name={['mysql', 'use_default']}
-                  options={[
-                    {
-                      label: intl.formatMessage({
-                        id: 'website.db.use-default.new',
-                      }),
-                      value: false,
-                    },
-                    {
-                      label: intl.formatMessage({
-                        id: 'website.db.use-default.default',
-                      }),
-                      value: true,
-                    },
-                  ]}
-                  fieldProps={{
-                    onChange: handleChangeUse,
-                  }}
-                />
-                {!userDefault && (
-                  <>
-                    <ProFormText
-                      name={['mysql', 'host']}
-                      label={intl.formatMessage({ id: 'website.db.host' })}
-                      placeholder={intl.formatMessage({
-                        id: 'website.db.host.description',
-                      })}
-                    />
-                    <ProFormDigit
-                      name={['mysql', 'port']}
-                      label={intl.formatMessage({ id: 'website.db.port' })}
-                      placeholder={intl.formatMessage({
-                        id: 'website.db.port.description',
-                      })}
-                    />
-                    <ProFormText
-                      name={['mysql', 'user']}
-                      label={intl.formatMessage({ id: 'website.db.user' })}
-                    />
-                    <ProFormText
-                      name={['mysql', 'password']}
-                      label={intl.formatMessage({ id: 'website.db.password' })}
-                    />
-                  </>
-                )}
-                {!editInfo.id && (
-                  <>
-                    <ProFormSelect
-                      label={intl.formatMessage({ id: 'website.db.template' })}
-                      showSearch
-                      name="template"
-                      request={async () => {
-                        const res = await getDesignList({});
-                        const data = res.data || [];
-                        for (const i in data) {
-                          if (data.hasOwnProperty(i)) {
-                            data[i].label =
-                              data[i].name + '(' + data[i].package + ')';
-                          }
-                        }
-                        return data;
-                      }}
-                      fieldProps={{
-                        fieldNames: {
-                          label: 'label',
-                          value: 'package',
-                        },
-                      }}
-                      extra={intl.formatMessage({
-                        id: 'website.db.template.description',
-                      })}
-                    />
-                    <ProFormCheckbox
-                      name="preview_data"
-                      label={intl.formatMessage({
-                        id: 'website.db.preview-data',
-                      })}
-                      extra={intl.formatMessage({
-                        id: 'website.db.preview-data.description',
-                      })}
-                    />
-                  </>
-                )}
-              </Panel>
-            </Collapse>
-          )}
-          <ProFormRadio.Group
-            label={intl.formatMessage({ id: 'website.status' })}
-            name="status"
-            options={[
-              {
-                label: intl.formatMessage({ id: 'setting.content.notenable' }),
-                value: 0,
-              },
-              {
-                label: intl.formatMessage({ id: 'setting.content.enable' }),
-                value: 1,
-              },
-            ]}
-          />
-        </ModalForm>
+          website={editInfo}
+          rootPath={defaultSite.root_path}
+        />
       )}
     </PageContainer>
   );

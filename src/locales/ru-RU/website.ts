@@ -17,6 +17,7 @@ export default {
   'website.name': 'Название сайта',
   'website.root-path.placeholder':
     'Фактический путь к серверу, например: /www/wwwroot/anqicms.com.',
+  'website.root-path.prefix': 'Корневой каталог сайта по умолчанию:',
   'website.root-path.description':
     'Не вносите изменения в сайт, который работает нормально, иначе это приведет к сбоям в работе сайта.',
   'website.base-url.placeholder': 'Например: http://www.anqicms.com',

@@ -1,6 +1,10 @@
-import { pluginGetStorage, pluginSaveStorage, pluginStorageUploadFile } from '@/services';
+import NewContainer from '@/components/NewContainer';
 import {
-  PageContainer,
+  pluginGetStorage,
+  pluginSaveStorage,
+  pluginStorageUploadFile,
+} from '@/services';
+import {
   ProForm,
   ProFormDigit,
   ProFormRadio,
@@ -14,6 +18,7 @@ const PluginStorage: React.FC<any> = () => {
   const [pushSetting, setPushSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
   const [storageType, setStorageType] = useState<string>('local');
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -22,6 +27,12 @@ const PluginStorage: React.FC<any> = () => {
     setPushSetting(setting);
     setStorageType(setting.storage_type);
     setFetched(true);
+  };
+
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
   };
 
   useEffect(() => {
@@ -36,7 +47,10 @@ const PluginStorage: React.FC<any> = () => {
     const formData = new FormData();
     formData.append('file', e.file);
     formData.append('name', field);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginStorageUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -49,7 +63,10 @@ const PluginStorage: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginSaveStorage(values)
       .then((res) => {
         message.success(res.msg);
@@ -62,8 +79,8 @@ const PluginStorage: React.FC<any> = () => {
       });
   };
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Alert message={intl.formatMessage({ id: 'plugin.storage.tips' })} />
         <div className="center-mid-card">
           {fetched && (
@@ -80,31 +97,45 @@ const PluginStorage: React.FC<any> = () => {
                 options={[
                   {
                     value: 'local',
-                    label: intl.formatMessage({ id: 'plugin.storage.type.local' }),
+                    label: intl.formatMessage({
+                      id: 'plugin.storage.type.local',
+                    }),
                   },
                   {
                     value: 'aliyun',
-                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.aliyun' }),
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.aliyun',
+                    }),
                   },
                   {
                     value: 'tencent',
-                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.tencent' }),
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.tencent',
+                    }),
                   },
                   {
                     value: 'qiniu',
-                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.qiniu' }),
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.qiniu',
+                    }),
                   },
                   {
                     value: 'upyun',
-                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.upyun' }),
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.upyun',
+                    }),
                   },
                   {
                     value: 'ftp',
-                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ftp' }),
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.ftp',
+                    }),
                   },
                   {
                     value: 'ssh',
-                    label: intl.formatMessage({ id: 'plugin.htmlcache.storage-type.ssh' }),
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.ssh',
+                    }),
                   },
                 ]}
               />
@@ -116,18 +147,26 @@ const PluginStorage: React.FC<any> = () => {
               <div className={storageType === 'local' ? 'hidden' : ''}>
                 <ProFormRadio.Group
                   name="keep_local"
-                  label={intl.formatMessage({ id: 'plugin.storage.keep-local' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.storage.keep-local',
+                  })}
                   options={[
                     {
                       value: false,
-                      label: intl.formatMessage({ id: 'plugin.storage.keep-local.no' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.storage.keep-local.no',
+                      }),
                     },
                     {
                       value: true,
-                      label: intl.formatMessage({ id: 'plugin.storage.keep-local.yes' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.storage.keep-local.yes',
+                      }),
                     },
                   ]}
-                  extra={intl.formatMessage({ id: 'plugin.storage.keep-local.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.storage.keep-local.description',
+                  })}
                 />
               </div>
               <div className={storageType !== 'aliyun' ? 'hidden' : ''}>
@@ -136,12 +175,18 @@ const PluginStorage: React.FC<any> = () => {
                 </Divider>
                 <ProFormText
                   name="aliyun_endpoint"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.endpoint' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.aliyun.endpoint',
+                  })}
                   placeholder={intl.formatMessage({
                     id: 'plugin.htmlcache.aliyun.endpoint.placeholder',
                   })}
                 />
-                <ProFormText name="aliyun_access_key_id" label="AccessKeyId" placeholder="" />
+                <ProFormText
+                  name="aliyun_access_key_id"
+                  label="AccessKeyId"
+                  placeholder=""
+                />
                 <ProFormText
                   name="aliyun_access_key_secret"
                   label="AccessKeySecret"
@@ -149,7 +194,9 @@ const PluginStorage: React.FC<any> = () => {
                 />
                 <ProFormText
                   name="aliyun_bucket_name"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.aliyun.bucket-name' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.aliyun.bucket-name',
+                  })}
                   placeholder=""
                 />
               </div>
@@ -157,11 +204,21 @@ const PluginStorage: React.FC<any> = () => {
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.tencent" />
                 </Divider>
-                <ProFormText name="tencent_secret_id" label="SecretId" placeholder="" />
-                <ProFormText name="tencent_secret_key" label="SecretKey" placeholder="" />
+                <ProFormText
+                  name="tencent_secret_id"
+                  label="SecretId"
+                  placeholder=""
+                />
+                <ProFormText
+                  name="tencent_secret_key"
+                  label="SecretKey"
+                  placeholder=""
+                />
                 <ProFormText
                   name="tencent_bucket_url"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.tencent.bucket-url' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.tencent.bucket-url',
+                  })}
                   placeholder={intl.formatMessage({
                     id: 'plugin.htmlcache.tencent.bucket-url.placeholder',
                   })}
@@ -171,42 +228,66 @@ const PluginStorage: React.FC<any> = () => {
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.qiniu" />
                 </Divider>
-                <ProFormText name="qiniu_access_key" label="AccessKey" placeholder="" />
-                <ProFormText name="qiniu_secret_key" label="SecretKey" placeholder="" />
+                <ProFormText
+                  name="qiniu_access_key"
+                  label="AccessKey"
+                  placeholder=""
+                />
+                <ProFormText
+                  name="qiniu_secret_key"
+                  label="SecretKey"
+                  placeholder=""
+                />
                 <ProFormText
                   name="qiniu_bucket"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.bucket-name' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.qiniu.bucket-name',
+                  })}
                   placeholder={intl.formatMessage({
                     id: 'plugin.htmlcache.qiniu.bucket-name.placeholder',
                   })}
                 />
                 <ProFormRadio.Group
                   name="qiniu_region"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.qiniu.region',
+                  })}
                   options={[
                     {
                       value: 'z0',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z0' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.qiniu.region.z0',
+                      }),
                     },
                     {
                       value: 'z1',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z1' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.qiniu.region.z1',
+                      }),
                     },
                     {
                       value: 'z2',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.z2' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.qiniu.region.z2',
+                      }),
                     },
                     {
                       value: 'na0',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.na0' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.qiniu.region.na0',
+                      }),
                     },
                     {
                       value: 'as0',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.as0' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.qiniu.region.as0',
+                      }),
                     },
                     {
                       value: 'cn-east-2',
-                      label: intl.formatMessage({ id: 'plugin.htmlcache.qiniu.region.cn-east2' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.htmlcache.qiniu.region.cn-east2',
+                      }),
                     },
                     {
                       value: 'fog-cn-east-1',
@@ -223,17 +304,23 @@ const PluginStorage: React.FC<any> = () => {
                 </Divider>
                 <ProFormText
                   name="upyun_operator"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.operator' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.upyun.operator',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
                   name="upyun_password"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.password' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.upyun.password',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
                   name="upyun_bucket"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.upyun.bucket' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.upyun.bucket',
+                  })}
                   placeholder=""
                 />
               </div>
@@ -246,27 +333,37 @@ const PluginStorage: React.FC<any> = () => {
                 </p>
                 <ProFormText
                   name="ftp_host"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.host' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ftp.host',
+                  })}
                   placeholder=""
                 />
                 <ProFormDigit
                   name="ftp_port"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.port' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ftp.port',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
                   name="ftp_username"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.username' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ftp.username',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
                   name="ftp_password"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.password' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ftp.password',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
                   name="ftp_webroot"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ftp.webroot' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ftp.webroot',
+                  })}
                   placeholder=""
                 />
               </div>
@@ -276,46 +373,64 @@ const PluginStorage: React.FC<any> = () => {
                 </Divider>
                 <ProFormText
                   name="ssh_host"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.host' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ssh.host',
+                  })}
                   placeholder=""
                 />
                 <ProFormDigit
                   name="ssh_port"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.port' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ssh.port',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
                   name="ssh_username"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.username' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ssh.username',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
                   name="ssh_password"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.password' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ssh.password',
+                  })}
                   placeholder=""
                 />
                 <ProFormText
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key' })}
-                  extra={intl.formatMessage({ id: 'plugin.htmlcache.ssh.or-key.description' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ssh.or-key',
+                  })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.htmlcache.ssh.or-key.description',
+                  })}
                 >
                   <Upload
                     name="file"
                     className="logo-uploader"
                     showUploadList={false}
                     accept=".crt,.pem,.key"
-                    customRequest={async (e) => handleUploadFile('ssh_private_key', e)}
+                    customRequest={async (e) =>
+                      handleUploadFile('ssh_private_key', e)
+                    }
                   >
                     <Button type="primary">
                       <FormattedMessage id="plugin.htmlcache.ssh.or-key.upload" />
                     </Button>
                   </Upload>
                   {pushSetting.ssh_private_key && (
-                    <div className="upload-file">{pushSetting.ssh_private_key}</div>
+                    <div className="upload-file">
+                      {pushSetting.ssh_private_key}
+                    </div>
                   )}
                 </ProFormText>
                 <ProFormText
                   name="ssh_webroot"
-                  label={intl.formatMessage({ id: 'plugin.htmlcache.ssh.webroot' })}
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.ssh.webroot',
+                  })}
                   placeholder=""
                 />
               </div>
@@ -323,7 +438,7 @@ const PluginStorage: React.FC<any> = () => {
           )}
         </div>
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

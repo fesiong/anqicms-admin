@@ -1,15 +1,25 @@
+import NewContainer from '@/components/NewContainer';
 import { pluginReplaceValues } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import {
-  PageContainer,
   ProForm,
   ProFormCheckbox,
   ProFormInstance,
 } from '@ant-design/pro-components';
-import { Alert, Button, Card, Divider, Input, Modal, Space, Tag, message } from 'antd';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import {
+  Alert,
+  Button,
+  Card,
+  Divider,
+  Input,
+  Modal,
+  Space,
+  Tag,
+  message,
+} from 'antd';
 import React, { useState } from 'react';
 import './index.less';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginReplace: React.FC<any> = () => {
   const formRef = React.createRef<ProFormInstance>();
@@ -17,7 +27,12 @@ const PluginReplace: React.FC<any> = () => {
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
+
+  const onTabChange = (key: string) => {
+    setNewKey(key);
+  };
 
   const handleRemove = (index: number) => {
     keywords.splice(index, 1);
@@ -55,11 +70,15 @@ const PluginReplace: React.FC<any> = () => {
 
   const onSubmit = async (values: any) => {
     if (!values.places || values.places.length === 0) {
-      message.error(intl.formatMessage({ id: 'plugin.replace.place.required' }));
+      message.error(
+        intl.formatMessage({ id: 'plugin.replace.place.required' }),
+      );
       return;
     }
     if (keywords.length === 0) {
-      message.error(intl.formatMessage({ id: 'plugin.replace.keyword.required' }));
+      message.error(
+        intl.formatMessage({ id: 'plugin.replace.keyword.required' }),
+      );
       return;
     }
     Modal.confirm({
@@ -67,7 +86,10 @@ const PluginReplace: React.FC<any> = () => {
       onOk: () => {
         const postData = Object.assign({}, values);
         postData.keywords = keywords;
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         pluginReplaceValues(postData)
           .then((res) => {
             message.success(res.msg);
@@ -83,8 +105,8 @@ const PluginReplace: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Alert
           message={
             <div>
@@ -137,29 +159,81 @@ const PluginReplace: React.FC<any> = () => {
         <div className="mt-normal">
           <ProForm onFinish={onSubmit} layout="horizontal" formRef={formRef}>
             <Card size="small" bordered={false}>
-              <Divider orientation={'left'}><FormattedMessage id="plugin.replace.place" /></Divider>
+              <Divider orientation={'left'}>
+                <FormattedMessage id="plugin.replace.place" />
+              </Divider>
               <ProFormCheckbox.Group
                 name="places"
                 options={[
-                  { value: 'setting', label: intl.formatMessage({ id: 'plugin.replace.place.setting' }) },
-                  { value: 'archive', label: intl.formatMessage({ id: 'plugin.replace.place.archive' }) },
-                  { value: 'category', label: intl.formatMessage({ id: 'plugin.replace.place.category' }) },
-                  { value: 'tag', label: intl.formatMessage({ id: 'plugin.replace.place.tag' }) },
-                  { value: 'anchor', label: intl.formatMessage({ id: 'plugin.replace.place.anchor' }) },
-                  { value: 'keyword', label: intl.formatMessage({ id: 'plugin.replace.place.keyword' }) },
-                  { value: 'comment', label: intl.formatMessage({ id: 'plugin.replace.place.comment' }) },
-                  { value: 'attachment', label: intl.formatMessage({ id: 'plugin.replace.place.attachment' }) },
+                  {
+                    value: 'setting',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.setting',
+                    }),
+                  },
+                  {
+                    value: 'archive',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.archive',
+                    }),
+                  },
+                  {
+                    value: 'category',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.category',
+                    }),
+                  },
+                  {
+                    value: 'tag',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.tag',
+                    }),
+                  },
+                  {
+                    value: 'anchor',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.anchor',
+                    }),
+                  },
+                  {
+                    value: 'keyword',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.keyword',
+                    }),
+                  },
+                  {
+                    value: 'comment',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.comment',
+                    }),
+                  },
+                  {
+                    value: 'attachment',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.attachment',
+                    }),
+                  },
                 ]}
               />
-              <ProFormCheckbox label={intl.formatMessage({ id: 'plugin.replace.replace-tag' })} name="replace_tag" />
-              <Divider orientation={'left'}><FormattedMessage id="plugin.replace.keyword" /></Divider>
+              <ProFormCheckbox
+                label={intl.formatMessage({ id: 'plugin.replace.replace-tag' })}
+                name="replace_tag"
+              />
+              <Divider orientation={'left'}>
+                <FormattedMessage id="plugin.replace.keyword" />
+              </Divider>
               <div className="tag-lists">
                 <Space size={[12, 12]} wrap>
                   {keywords.map((tag: any, index: number) => (
                     <div className="edit-tag" key={index}>
                       <span className="key">{tag.from}</span>
-                      <span className="divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
-                      <span className="value">{tag.to || intl.formatMessage({ id: 'plugin.aigenerate.empty' })}</span>
+                      <span className="divide">
+                        <FormattedMessage id="plugin.aigenerate.replace.to" />
+                      </span>
+                      <span className="value">
+                        {tag.to ||
+                          intl.formatMessage({ id: 'plugin.aigenerate.empty' })}
+                      </span>
                       <span
                         className="close"
                         onClick={() => {
@@ -172,7 +246,8 @@ const PluginReplace: React.FC<any> = () => {
                   ))}
                   {!inputVisible && (
                     <Button className="site-tag-plus" onClick={showInput}>
-                      <PlusOutlined /> <FormattedMessage id="plugin.replace.add" />
+                      <PlusOutlined />{' '}
+                      <FormattedMessage id="plugin.replace.add" />
                     </Button>
                   )}
                 </Space>
@@ -189,7 +264,9 @@ const PluginReplace: React.FC<any> = () => {
                       handleEditInputConfirm();
                     }}
                   />
-                  <span className="input-divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
+                  <span className="input-divide">
+                    <FormattedMessage id="plugin.aigenerate.replace.to" />
+                  </span>
                   <Input
                     style={{ width: '35%' }}
                     value={toValue}
@@ -217,7 +294,7 @@ const PluginReplace: React.FC<any> = () => {
           </ProForm>
         </div>
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

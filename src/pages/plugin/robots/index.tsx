@@ -1,5 +1,6 @@
+import NewContainer from '@/components/NewContainer';
 import { pluginGetRobots, pluginSaveRobots } from '@/services/plugin/robots';
-import { PageContainer, ProForm, ProFormTextArea } from '@ant-design/pro-components';
+import { ProForm, ProFormTextArea } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import { Alert, Button, Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -8,6 +9,7 @@ const PluginRobots: React.FC<any> = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [pushSetting, setPushSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -17,12 +19,21 @@ const PluginRobots: React.FC<any> = () => {
     setFetched(true);
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
   }, []);
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginSaveRobots(values)
       .then((res) => {
         message.success(res.msg);
@@ -54,14 +65,14 @@ const PluginRobots: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Alert
           message={
             <div>
               <FormattedMessage id="plugin.robots.tips.before" />
               <a href="https://baike.baidu.com/item/robots%E5%8D%8F%E8%AE%AE/2483797">
-              <FormattedMessage id="plugin.robots.tips.after" />
+                <FormattedMessage id="plugin.robots.tips.after" />
               </a>
             </div>
           }
@@ -100,7 +111,7 @@ const PluginRobots: React.FC<any> = () => {
           </Button>
         </div>
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

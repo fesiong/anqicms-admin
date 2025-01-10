@@ -17,6 +17,7 @@ export default {
   'website.name': 'সাইটের নাম',
   'website.root-path.placeholder':
     'সার্ভারের প্রকৃত পথ, যেমন: /www/wwwroot/anqicms.com',
+  'website.root-path.prefix': 'ডিফল্ট সাইট রুট ডিরেক্টরি:',
   'website.root-path.description':
     'স্বাভাবিকভাবে চলমান কোনো সাইটে পরিবর্তন করবেন না, অন্যথায় এটি সাইটের অস্বাভাবিকতা সৃষ্টি করবে।',
   'website.base-url.placeholder': 'যেমনঃ http://www.anqicms.com',

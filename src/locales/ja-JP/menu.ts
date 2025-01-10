@@ -57,6 +57,7 @@ export default {
   'menu.plugin.limiter': 'Webサイトのセキュリティ保護',
   'menu.plugin.multilang': '多言語サイトのサポート',
   'menu.plugin.translate': '翻訳設定',
+  'menu.plugin.jsonld': 'スキーマデータの設定',
   'menu.design': 'テンプレートデザイン',
   'menu.design.index': '私のテンプレート',
   'menu.design.editor': 'コードを変更する',

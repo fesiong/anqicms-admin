@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginBackupCleanup,
   pluginBackupData,
@@ -8,14 +9,18 @@ import {
   pluginGetBackupStatus,
 } from '@/services';
 import { calculateFileMd5, downloadFile, sizeFormat } from '@/utils';
-import {
-  ActionType,
-  PageContainer,
-  ProColumns,
-  ProTable,
-} from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Modal, Progress, Radio, Space, Upload, message } from 'antd';
+import {
+  Button,
+  Card,
+  Modal,
+  Progress,
+  Radio,
+  Space,
+  Upload,
+  message,
+} from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -25,6 +30,7 @@ let intXhr: any = null;
 const PluginUserGroup: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [task, setTask] = useState<any>(null);
+  const [newKey, setNewKey] = useState<string>('');
 
   let cleanUploads = false;
   const intl = useIntl();
@@ -42,6 +48,16 @@ const PluginUserGroup: React.FC = () => {
         setTask(null);
       }
     });
+  };
+
+  const onTabChange = (key: string) => {
+    clearInterval(intXhr);
+    // 定时查询task
+    intXhr = setInterval(() => {
+      syncTask();
+    }, 1000);
+
+    setNewKey(key);
   };
 
   useEffect(() => {
@@ -310,68 +326,70 @@ const PluginUserGroup: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.backup' })}
-        actionRef={actionRef}
-        rowKey="id"
-        toolBarRender={() => [
-          <Button type="primary" key="add" onClick={() => handleBackupData()}>
-            <FormattedMessage id="plugin.backup.new" />
-          </Button>,
-          <Upload
-            key="upload"
-            name="file"
-            className="logo-uploader"
-            showUploadList={false}
-            accept=".sql"
-            customRequest={handleUploadFile}
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
+        <ProTable<any>
+          headerTitle={intl.formatMessage({ id: 'menu.plugin.backup' })}
+          actionRef={actionRef}
+          rowKey="id"
+          toolBarRender={() => [
+            <Button type="primary" key="add" onClick={() => handleBackupData()}>
+              <FormattedMessage id="plugin.backup.new" />
+            </Button>,
+            <Upload
+              key="upload"
+              name="file"
+              className="logo-uploader"
+              showUploadList={false}
+              accept=".sql"
+              customRequest={handleUploadFile}
+            >
+              <Button type="primary">
+                <FormattedMessage id="plugin.backup.import" />
+              </Button>
+            </Upload>,
+            <Button key="clean" onClick={() => handleCleanup()}>
+              <FormattedMessage id="plugin.backup.cleanup" />
+            </Button>,
+          ]}
+          search={false}
+          tableAlertOptionRender={false}
+          request={(params) => {
+            return pluginGetBackupList(params);
+          }}
+          columnsState={{
+            persistenceKey: 'backup-table',
+            persistenceType: 'localStorage',
+          }}
+          columns={columns}
+          rowSelection={false}
+          pagination={{
+            showSizeChanger: true,
+          }}
+          summary={() => (
+            <div style={{ marginTop: 10 }}>
+              <FormattedMessage id="plugin.backup.tips" />
+            </div>
+          )}
+        />
+        {task !== null && (
+          <Modal
+            title={
+              task.type === 'backup'
+                ? intl.formatMessage({ id: 'plugin.backup.new' })
+                : intl.formatMessage({ id: 'plugin.backup.restore' })
+            }
+            open={true}
+            footer={null}
           >
-            <Button type="primary">
-              <FormattedMessage id="plugin.backup.import" />
-            </Button>
-          </Upload>,
-          <Button key="clean" onClick={() => handleCleanup()}>
-            <FormattedMessage id="plugin.backup.cleanup" />
-          </Button>,
-        ]}
-        search={false}
-        tableAlertOptionRender={false}
-        request={(params) => {
-          return pluginGetBackupList(params);
-        }}
-        columnsState={{
-          persistenceKey: 'backup-table',
-          persistenceType: 'localStorage',
-        }}
-        columns={columns}
-        rowSelection={false}
-        pagination={{
-          showSizeChanger: true,
-        }}
-        summary={() => (
-          <div style={{ marginTop: 10 }}>
-            <FormattedMessage id="plugin.backup.tips" />
-          </div>
+            <div className="task-progress">
+              <Progress percent={task.finished ? 100 : task.percent} />
+            </div>
+            <div className="task-message">{task.message}</div>
+          </Modal>
         )}
-      />
-      {task !== null && (
-        <Modal
-          title={
-            task.type === 'backup'
-              ? intl.formatMessage({ id: 'plugin.backup.new' })
-              : intl.formatMessage({ id: 'plugin.backup.restore' })
-          }
-          open={true}
-          footer={null}
-        >
-          <div className="task-progress">
-            <Progress percent={task.finished ? 100 : task.percent} />
-          </div>
-          <div className="task-message">{task.message}</div>
-        </Modal>
-      )}
-    </PageContainer>
+      </Card>
+    </NewContainer>
   );
 };
 

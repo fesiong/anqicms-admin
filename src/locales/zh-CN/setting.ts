@@ -84,7 +84,10 @@ export default {
   'setting.content.editor.description':
     '一般使用富文本编辑器即可，Markdown 使用门槛较高',
   'setting.content.remote-download': '下载远程图片',
-  'setting.content.outlink-filter': '自动过滤外链',
+  'setting.content.outlink-filter': '内容外链处理',
+  'setting.content.outlink-filter.allow': '保留链接',
+  'setting.content.outlink-filter.remove': '移除链接',
+  'setting.content.outlink-filter.nofollow': '添加 Nofollow',
   'setting.content.urltoken': '自定义URL格式',
   'setting.content.urltoken.long': '全拼音',
   'setting.content.urltoken.short': '首字母',

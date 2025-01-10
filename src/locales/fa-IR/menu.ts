@@ -57,6 +57,7 @@ export default {
   'menu.plugin.limiter': 'محافظت از امنیت وب سایت',
   'menu.plugin.multilang': 'پشتیبانی از سایت چند زبانه',
   'menu.plugin.translate': 'پیکربندی ترجمه',
+  'menu.plugin.jsonld': 'Schema Data',
   'menu.design': 'طراحی قالب',
   'menu.design.index': 'قالب من',
   'menu.design.editor': 'کد را اصلاح کنید',

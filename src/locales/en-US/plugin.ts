@@ -54,7 +54,7 @@ export default {
   'plugin.aigenerate.insert-image': 'Article image processing',
   'plugin.aigenerate.insert-image.default': 'default',
   'plugin.aigenerate.insert-image.diy': 'Custom insert pictures',
-  'plugin.aigenerate.insert-image.category': 'Custom insert pictures',
+  'plugin.aigenerate.insert-image.category': 'From Image Category',
   'plugin.aigenerate.insert-image.list': 'List of pictures to insert',
   'plugin.aigenerate.replace': 'content replacement',
   'plugin.aigenerate.replace.tips1':
@@ -548,7 +548,7 @@ export default {
   'plugin.importapi.field.draft':
     'Whether to save to draft. Supported values ​​are: false|true. When true is filled in, the published document will be saved to draft.',
   'plugin.importapi.field.cover':
-    'Whether to overwrite documents with the same title and ID when they exist. Supported values ​​are: false|true. When true is filled in, the latest content will be overwritten. When set to false, an error will be prompted.',
+    'When documents with the same title and ID exist, whether to overwrite them. The supported values are: 0 | 1 | 2. When filling in 1, it will overwrite the latest content. When setting 0 or not passing, an error will be prompted. When filling in 2, no judgment will be made',
   'plugin.importapi.return-type': 'Return format:',
   'plugin.importapi.return-example.success': 'Example of correct result:',
   'plugin.importapi.return-example.failure': 'Example of incorrect results:',
@@ -1393,6 +1393,8 @@ export default {
   'content.multilang.select.description':
     'Select an already created site as a multilingual site',
   'plugin.multilang.language': 'Site language',
+  'plugin.multilang.syncing': 'Synchronizing',
+  'plugin.multilang.icon': 'Site icon',
   'plugin.translate.lang': 'Translation language',
   'content.translate.origin-content': 'Original text',
   'plugin.translate.result': 'Translation result',
@@ -1410,4 +1412,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'Translation records',
+  'plugin.jsonld.tips.1':
+    "After turning it on, the system will automatically mark the website's structured data in JSON-LD format and automatically insert it at the bottom of the page so that search engines can better understand the website content.",
+  'plugin.jsonld.tips.2':
+    'For the structured data markup supported by Google, please refer to the document: https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': 'Turn on structured data markup',
+  'plugin.jsonld.open.false': 'No',
+  'plugin.jsonld.open.true': 'Yes',
+  'plugin.jsonld.author': 'Default author',
+  'plugin.jsonld.brand': 'Default brand',
 };

@@ -1,25 +1,38 @@
-import { pluginCheckLink, pluginDeleteLink, pluginGetLinks } from '@/services/plugin/link';
+import NewContainer from '@/components/NewContainer';
+import {
+  pluginCheckLink,
+  pluginDeleteLink,
+  pluginGetLinks,
+} from '@/services/plugin/link';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
-import { Button, Modal, Space, message } from 'antd';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Card, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import LinkApi from './components/api';
 import LinkForm from './components/linkForm';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginLink: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [, setSelectedRowKeys] = useState<any[]>([]);
   const [currentLink, setCurrentLink] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
+
+  const onTabChange = (key: string) => {
+    setNewKey(key);
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.link.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (const item of selectedRowKeys) {
@@ -111,7 +124,9 @@ const PluginLink: React.FC = () => {
           <div>
             <span>{getStatusText(text)}</span>
             <span> / </span>
-            <span>{dayjs(record.checked_time * 1000).format('YYYY-MM-DD HH:mm')}</span>
+            <span>
+              {dayjs(record.checked_time * 1000).format('YYYY-MM-DD HH:mm')}
+            </span>
           </div>
         );
       },
@@ -119,7 +134,8 @@ const PluginLink: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'plugin.link.create-time' }),
       dataIndex: 'created_time',
-      render: (_, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (_, record) =>
+        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'setting.action' }),
@@ -158,74 +174,78 @@ const PluginLink: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.friendlink' })}
-        actionRef={actionRef}
-        rowKey="id"
-        search={false}
-        toolBarRender={() => [
-          <LinkApi key="api">
-            <Button><FormattedMessage id="plugin.link.api.title" /></Button>
-          </LinkApi>,
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              handleEditLink({});
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="plugin.link.add" />
-          </Button>,
-        ]}
-        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-          <Space>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
+        <ProTable<any>
+          headerTitle={intl.formatMessage({ id: 'menu.plugin.friendlink' })}
+          actionRef={actionRef}
+          rowKey="id"
+          search={false}
+          toolBarRender={() => [
+            <LinkApi key="api">
+              <Button>
+                <FormattedMessage id="plugin.link.api.title" />
+              </Button>
+            </LinkApi>,
             <Button
-              size={'small'}
+              type="primary"
+              key="add"
               onClick={() => {
-                handleRemove(selectedRowKeys);
+                handleEditLink({});
               }}
             >
-              <FormattedMessage id="content.option.batch-delete" />
-            </Button>
-            <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-select" />
-            </Button>
-          </Space>
-        )}
-        request={(params) => {
-          return pluginGetLinks(params);
-        }}
-        columnsState={{
-          persistenceKey: 'friendlink-table',
-          persistenceType: 'localStorage',
-        }}
-        columns={columns}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            setSelectedRowKeys(selectedRowKeys);
-          },
-        }}
-        pagination={{
-          showSizeChanger: true,
-        }}
-      />
-      {editVisible && (
-        <LinkForm
-          open={editVisible}
-          editingLink={currentLink}
-          onCancel={() => {
-            setEditVisible(false);
+              <PlusOutlined /> <FormattedMessage id="plugin.link.add" />
+            </Button>,
+          ]}
+          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+            <Space>
+              <Button
+                size={'small'}
+                onClick={() => {
+                  handleRemove(selectedRowKeys);
+                }}
+              >
+                <FormattedMessage id="content.option.batch-delete" />
+              </Button>
+              <Button type="link" size={'small'} onClick={onCleanSelected}>
+                <FormattedMessage id="content.option.cancel-select" />
+              </Button>
+            </Space>
+          )}
+          request={(params) => {
+            return pluginGetLinks(params);
           }}
-          onSubmit={async () => {
-            setEditVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
+          columnsState={{
+            persistenceKey: 'friendlink-table',
+            persistenceType: 'localStorage',
+          }}
+          columns={columns}
+          rowSelection={{
+            onChange: (selectedRowKeys) => {
+              setSelectedRowKeys(selectedRowKeys);
+            },
+          }}
+          pagination={{
+            showSizeChanger: true,
           }}
         />
-      )}
-    </PageContainer>
+        {editVisible && (
+          <LinkForm
+            open={editVisible}
+            editingLink={currentLink}
+            onCancel={() => {
+              setEditVisible(false);
+            }}
+            onSubmit={async () => {
+              setEditVisible(false);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }}
+          />
+        )}
+      </Card>
+    </NewContainer>
   );
 };
 

@@ -56,7 +56,7 @@ export default {
   'plugin.aigenerate.insert-image': 'Processamento de imagem de artigo',
   'plugin.aigenerate.insert-image.default': 'padrão',
   'plugin.aigenerate.insert-image.diy': 'Inserir imagens personalizadas',
-  'plugin.aigenerate.insert-image.category': 'Inserir imagens personalizadas',
+  'plugin.aigenerate.insert-image.category': 'De categoria de imagens',
   'plugin.aigenerate.insert-image.list': 'Lista de fotos para inserir',
   'plugin.aigenerate.replace': 'substituição de conteúdo',
   'plugin.aigenerate.replace.tips1':
@@ -559,7 +559,7 @@ export default {
   'plugin.importapi.field.draft':
     'Se deve ser salvo em rascunho. Os valores suportados são: false|true Quando true for preenchido, o documento publicado será salvo em rascunho.',
   'plugin.importapi.field.cover':
-    'Se deve substituir documentos com o mesmo título e ID quando existirem. Os valores suportados são: false|true Quando true for preenchido, o conteúdo mais recente será substituído. Quando definido como false, um erro será exibido.',
+    'Quando o mesmo título, documento de identificação existe ou não, os valores suportados são: 0|1|2, quando preencher 1, será sobrescrito como o conteúdo mais recente, quando definido para 0 ou não passar, será solicitado um erro, quando preencher 2, não julgar',
   'plugin.importapi.return-type': 'Formato de retorno:',
   'plugin.importapi.return-example.success': 'Exemplo de resultado correto:',
   'plugin.importapi.return-example.failure':
@@ -1416,7 +1416,9 @@ export default {
   'content.multilang.select': 'Selecionar site',
   'content.multilang.select.description':
     'Selecione um site já criado como um site multilíngue',
-  'plugin.multilang.idioma': 'idioma do site',
+  'plugin.multilang.language': 'idioma do site',
+  'plugin.multilang.syncing': 'Sincronizando',
+  'plugin.multilang.icon': 'ícone do site',
   'plugin.translate.lang': 'Traduzir idioma',
   'content.translate.origin-content': 'texto original',
   'plugin.translate.result': 'Resultado da tradução',
@@ -1434,4 +1436,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'Registros de tradução',
+  'plugin.jsonld.tips.1':
+    'Após ligá-lo, o sistema marcará automaticamente os dados estruturados do site no formato JSON-LD e os inserirá na parte inferior da página para que os mecanismos de busca possam entender melhor o conteúdo do site. ',
+  'plugin.jsonld.tips.2':
+    'Para marcação de dados estruturados suportada pelo Google, consulte a documentação: https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': 'Marcação de dados estruturados abertos',
+  'plugin.jsonld.open.false': 'Não',
+  'plugin.jsonld.open.true': 'Sim',
+  'plugin.jsonld.author': 'Autor padrão',
+  'plugin.jsonld.brand': 'Marca padrão',
 };

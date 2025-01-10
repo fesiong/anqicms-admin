@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginCheckComment,
   pluginDeleteComment,
@@ -6,13 +7,12 @@ import {
 import {
   ActionType,
   ModalForm,
-  PageContainer,
   ProColumns,
   ProFormRadio,
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Modal, Space, message } from 'antd';
+import { Button, Card, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import CommentForm from './components/commentForm';
@@ -23,7 +23,12 @@ const PluginComment: React.FC = () => {
   const [statusVisible, setStatusVisible] = useState<boolean>(false);
   const [currentComment, setCurrentComment] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
+
+  const onTabChange = (key: string) => {
+    setNewKey(key);
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -154,85 +159,87 @@ const PluginComment: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.comment' })}
-        actionRef={actionRef}
-        rowKey="id"
-        search={false}
-        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-          <Space>
-            <Button
-              size={'small'}
-              onClick={async () => {
-                await setStatusVisible(true);
-              }}
-            >
-              <FormattedMessage id="plugin.comment.batch-update-status" />
-            </Button>
-            <Button
-              size={'small'}
-              onClick={() => {
-                handleRemove(selectedRowKeys);
-              }}
-            >
-              <FormattedMessage id="content.option.batch-delete" />
-            </Button>
-            <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-select" />
-            </Button>
-          </Space>
-        )}
-        request={(params) => {
-          return pluginGetComments(params);
-        }}
-        columnsState={{
-          persistenceKey: 'comment-table',
-          persistenceType: 'localStorage',
-        }}
-        columns={columns}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            setSelectedRowKeys(selectedRowKeys);
-          },
-        }}
-        pagination={{
-          showSizeChanger: true,
-        }}
-      />
-      {editVisible && (
-        <CommentForm
-          open={editVisible}
-          editingComment={currentComment}
-          onCancel={() => {
-            setEditVisible(false);
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
+        <ProTable<any>
+          headerTitle={intl.formatMessage({ id: 'menu.plugin.comment' })}
+          actionRef={actionRef}
+          rowKey="id"
+          search={false}
+          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+            <Space>
+              <Button
+                size={'small'}
+                onClick={async () => {
+                  await setStatusVisible(true);
+                }}
+              >
+                <FormattedMessage id="plugin.comment.batch-update-status" />
+              </Button>
+              <Button
+                size={'small'}
+                onClick={() => {
+                  handleRemove(selectedRowKeys);
+                }}
+              >
+                <FormattedMessage id="content.option.batch-delete" />
+              </Button>
+              <Button type="link" size={'small'} onClick={onCleanSelected}>
+                <FormattedMessage id="content.option.cancel-select" />
+              </Button>
+            </Space>
+          )}
+          request={(params) => {
+            return pluginGetComments(params);
           }}
-          onSubmit={async () => {
-            setEditVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
+          columnsState={{
+            persistenceKey: 'comment-table',
+            persistenceType: 'localStorage',
+          }}
+          columns={columns}
+          rowSelection={{
+            onChange: (selectedRowKeys) => {
+              setSelectedRowKeys(selectedRowKeys);
+            },
+          }}
+          pagination={{
+            showSizeChanger: true,
           }}
         />
-      )}
-      {statusVisible && (
-        <ModalForm
-          width={480}
-          title={intl.formatMessage({ id: 'plugin.comment.new-status' })}
-          open={statusVisible}
-          onFinish={handleSetStatus}
-          onOpenChange={(e) => setStatusVisible(e)}
-        >
-          <ProFormRadio.Group
-            name="status"
-            valueEnum={{
-              0: intl.formatMessage({ id: 'content.category.status.hide' }),
-              1: intl.formatMessage({ id: 'content.category.status.ok' }),
+        {editVisible && (
+          <CommentForm
+            open={editVisible}
+            editingComment={currentComment}
+            onCancel={() => {
+              setEditVisible(false);
+            }}
+            onSubmit={async () => {
+              setEditVisible(false);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
             }}
           />
-        </ModalForm>
-      )}
-    </PageContainer>
+        )}
+        {statusVisible && (
+          <ModalForm
+            width={480}
+            title={intl.formatMessage({ id: 'plugin.comment.new-status' })}
+            open={statusVisible}
+            onFinish={handleSetStatus}
+            onOpenChange={(e) => setStatusVisible(e)}
+          >
+            <ProFormRadio.Group
+              name="status"
+              valueEnum={{
+                0: intl.formatMessage({ id: 'content.category.status.hide' }),
+                1: intl.formatMessage({ id: 'content.category.status.ok' }),
+              }}
+            />
+          </ModalForm>
+        )}
+      </Card>
+    </NewContainer>
   );
 };
 

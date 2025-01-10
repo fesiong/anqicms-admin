@@ -93,7 +93,10 @@ export default {
   'setting.content.editor.description':
     '一般的にはリッチテキストエディタが使えますが、Markdownは敷居が高くなります。',
   'setting.content.remote-download': 'リモート画像をダウンロードする',
-  'setting.content.outlink-filter': '外部リンクを自動的にフィルタリングする',
+  'setting.content.outlink-filter': 'コンテンツ外部リンク処理',
+  'setting.content.outlink-filter.allow': 'リンクを維持',
+  'setting.content.outlink-filter.remove': 'リンクを削除',
+  'setting.content.outlink-filter.nofollow': 'Nofollowを追加',
   'setting.content.urltoken': 'カスタム URL 形式',
   'setting.content.urltoken.long': '完全なピンイン',
   'setting.content.urltoken.short': 'イニシャル',

@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginDeleteGuestbook,
   pluginExportGuestbook,
@@ -5,9 +6,9 @@ import {
   pluginGetGuestbookSetting,
 } from '@/services/plugin/guestbook';
 import { exportFile } from '@/utils';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, message, Modal, Space } from 'antd';
+import { Button, Card, message, Modal, Space } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import GuestbookForm from './components/guestbookForm';
@@ -19,6 +20,7 @@ const PluginGuestbook: React.FC = () => {
   const [currentGuestbook, setCurrentGuestbook] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [columns, setColumns] = useState<ProColumns<any>[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const handlePreview = async (record: any) => {
@@ -30,7 +32,10 @@ const PluginGuestbook: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.guestbook.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -58,7 +63,8 @@ const PluginGuestbook: React.FC = () => {
         title: intl.formatMessage({ id: 'plugin.finance.time' }),
         width: 160,
         dataIndex: 'created_time',
-        render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+        render: (text, record) =>
+          dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
       },
     ];
     if (fields.length === 0) {
@@ -146,6 +152,12 @@ const PluginGuestbook: React.FC = () => {
     initColumns(setting.fields || []);
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
   }, []);
@@ -154,7 +166,10 @@ const PluginGuestbook: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.guestbook.export.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
 
         try {
           let res = await pluginExportGuestbook();
@@ -170,79 +185,81 @@ const PluginGuestbook: React.FC = () => {
   };
 
   return (
-    <PageContainer>
-      <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.guestbook' })}
-        actionRef={actionRef}
-        rowKey="id"
-        search={false}
-        toolBarRender={() => [
-          <Button
-            key="export"
-            onClick={() => {
-              handleExportGuestbook();
-            }}
-          >
-            <FormattedMessage id="plugin.guestbook.export" />
-          </Button>,
-          <GuestbookSetting key="setting">
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
+        <ProTable<any>
+          headerTitle={intl.formatMessage({ id: 'menu.plugin.guestbook' })}
+          actionRef={actionRef}
+          rowKey="id"
+          search={false}
+          toolBarRender={() => [
             <Button
+              key="export"
               onClick={() => {
-                //todo
+                handleExportGuestbook();
               }}
             >
-              <FormattedMessage id="plugin.guestbook.setting" />
-            </Button>
-          </GuestbookSetting>,
-        ]}
-        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-          <Space>
-            <Button
-              size={'small'}
-              onClick={() => {
-                handleRemove(selectedRowKeys);
-              }}
-            >
-              <FormattedMessage id="content.option.batch-delete" />
-            </Button>
-            <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-select" />
-            </Button>
-          </Space>
-        )}
-        request={(params) => {
-          return pluginGetGuestbooks(params);
-        }}
-        columnsState={{
-          persistenceKey: 'guestbook-table',
-          persistenceType: 'localStorage',
-        }}
-        columns={columns}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            setSelectedRowKeys(selectedRowKeys);
-          },
-        }}
-        pagination={{
-          showSizeChanger: true,
-        }}
-      />
-      {editVisible && (
-        <GuestbookForm
-          open={editVisible}
-          editingGuestbook={currentGuestbook}
-          onCancel={() => {
-            setEditVisible(false);
+              <FormattedMessage id="plugin.guestbook.export" />
+            </Button>,
+            <GuestbookSetting key="setting">
+              <Button
+                onClick={() => {
+                  //todo
+                }}
+              >
+                <FormattedMessage id="plugin.guestbook.setting" />
+              </Button>
+            </GuestbookSetting>,
+          ]}
+          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+            <Space>
+              <Button
+                size={'small'}
+                onClick={() => {
+                  handleRemove(selectedRowKeys);
+                }}
+              >
+                <FormattedMessage id="content.option.batch-delete" />
+              </Button>
+              <Button type="link" size={'small'} onClick={onCleanSelected}>
+                <FormattedMessage id="content.option.cancel-select" />
+              </Button>
+            </Space>
+          )}
+          request={(params) => {
+            return pluginGetGuestbooks(params);
           }}
-          onSubmit={async () => {
-            setEditVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
+          columnsState={{
+            persistenceKey: 'guestbook-table',
+            persistenceType: 'localStorage',
+          }}
+          columns={columns}
+          rowSelection={{
+            onChange: (selectedRowKeys) => {
+              setSelectedRowKeys(selectedRowKeys);
+            },
+          }}
+          pagination={{
+            showSizeChanger: true,
           }}
         />
-      )}
-    </PageContainer>
+        {editVisible && (
+          <GuestbookForm
+            open={editVisible}
+            editingGuestbook={currentGuestbook}
+            onCancel={() => {
+              setEditVisible(false);
+            }}
+            onSubmit={async () => {
+              setEditVisible(false);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }}
+          />
+        )}
+      </Card>
+    </NewContainer>
   );
 };
 

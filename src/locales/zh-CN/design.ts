@@ -5,6 +5,9 @@ export default {
   'design.cannot-delete': '默认模板不能删除',
   'design.confirm-delete': '确定要删除这套设计模板吗？',
   'design.data.confirm-install': '确定要安装该模板的演示数据吗？',
+  'design.data.confirm-upload': '已存在相同名称的模板，请选择处理方式',
+  'design.data.confirm.new': '新建',
+  'design.data.confirm.cover': '覆盖',
   'design.data.tips1': '该安装操作将会用模板的演示数据覆盖，请谨慎操作。',
   'design.data.tips2': '你可以选择在初始化模板数据时自动清空原站点数据。',
   'design.data.tips3': '在执行安装演示数据前，建议先备份网站原有数据。',
@@ -66,7 +69,8 @@ export default {
   'design.detail.confirm-upload.directory': '目录',
   'design.detail.new-directory': '新建目录',
   'design.detail.backup-data': '确定要给当前模板增加初始化数据吗？',
-  'design.detail.backup-data.tips': '该操作旨在给当前模板增加一份用于模板初始化的演示数据。',
+  'design.detail.backup-data.tips':
+    '该操作旨在给当前模板增加一份用于模板初始化的演示数据。',
   'design.detail.backup-data.cover.tips':
     '该模板已经存在演示数据，如果再次执行，旧的演示数据将会被覆盖。',
   'design.detail.backup-data.doing': '正在执行备份中',
@@ -99,13 +103,16 @@ export default {
   'design.detail.replace': '替换文件',
   'design.detail.update-name': '替换文件',
   'design.detail.tips.name': '相关说明：',
-  'design.detail.tips1': '1、替换图片时，图片的URL地址不变，图片大小变为新图片的。',
-  'design.detail.tips2': '2、图片上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。',
+  'design.detail.tips1':
+    '1、替换图片时，图片的URL地址不变，图片大小变为新图片的。',
+  'design.detail.tips2':
+    '2、图片上传后，如果后台更新了，但前台未更新，请清理本地浏览器缓存。',
   'design.share.confirm-replace': '确定要替换模板市场对应的模板吗？',
   'design.share.confirm-new': '确定要将该模板上架到模板市场吗？',
   'design.share.confirm-replace.content':
     '该模板已经上架模板市场，现在提交则会更新模板市场对应模板到当前版本。',
-  'design.share.confirm-new.content': '您的模板将上架到模板市场供用户选择使用。',
+  'design.share.confirm-new.content':
+    '您的模板将上架到模板市场供用户选择使用。',
   'design.share.nologin': '请先登录AnqiCMS官网账号',
   'design.share.share': '上架模板到设计市场',
   'design.share.only-template': '是否仅更新模板',

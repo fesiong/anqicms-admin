@@ -17,6 +17,7 @@ export default {
   'website.name': 'نام سایت',
   'website.root-path.placeholder':
     'مسیر واقعی سرور، مانند: /www/wwwroot/anqicms.com',
+  'website.root-path.prefix': 'دایرکتوری ریشه پیش فرض سایت:',
   'website.root-path.description':
     'در سایتی که به طور عادی کار می کند تغییراتی ایجاد نکنید، در غیر این صورت باعث اختلالات سایت می شود.',
   'website.base-url.placeholder': 'مانند: http://www.anqicms.com',

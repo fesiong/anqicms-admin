@@ -1,10 +1,10 @@
+import NewContainer from '@/components/NewContainer';
 import {
   getModules,
   pluginGetFulltextConfig,
   pluginSaveFulltextConfig,
 } from '@/services';
 import {
-  PageContainer,
   ProForm,
   ProFormCheckbox,
   ProFormRadio,
@@ -15,17 +15,28 @@ import React, { useEffect, useState } from 'react';
 
 const PluginFulltext: React.FC<any> = () => {
   const [modules, setModules] = useState<any[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
-  useEffect(() => {
-    getModules().then((res) => {
-      const data = res.data || [];
-      const tmpData = [];
-      for (let i in data) {
-        tmpData.push({ label: data[i].name, value: data[i].id });
-      }
-      setModules(tmpData);
+  const getSetting = async () => {
+    const res = await getModules();
+    const data = res.data || [];
+    const tmpData = [];
+    // eslint-disable-next-line guard-for-in
+    for (let i in data) {
+      tmpData.push({ label: data[i].name, value: data[i].id });
+    }
+    setModules(tmpData);
+  };
+
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
     });
+  };
+
+  useEffect(() => {
+    getSetting();
   }, []);
 
   const onSubmit = async (values: any) => {
@@ -46,8 +57,8 @@ const PluginFulltext: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Alert
           style={{ marginBottom: 20 }}
           description={intl.formatMessage({ id: 'plugin.fulltext.tips' })}
@@ -120,7 +131,7 @@ const PluginFulltext: React.FC<any> = () => {
           </ProFormCheckbox.Group>
         </ProForm>
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

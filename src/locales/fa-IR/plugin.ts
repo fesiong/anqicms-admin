@@ -55,7 +55,7 @@ export default {
   'plugin.aigenerate.insert-image': 'پردازش تصویر مقاله',
   'plugin.aigenerate.insert-image.default': 'پیش فرض',
   'plugin.aigenerate.insert-image.diy': 'درج تصاویر سفارشی',
-  'plugin.aigenerate.insert-image.category': 'درج تصاویر سفارشی',
+  'plugin.aigenerate.insert-image.category': 'از دسته بندی تصاویر',
   'plugin.aigenerate.insert-image.list': 'لیست تصاویر برای درج',
   'plugin.aigenerate.replace': 'جایگزینی محتوا',
   'plugin.aigenerate.replace.tips1':
@@ -551,7 +551,7 @@ export default {
   'plugin.importapi.field.draft':
     'آیا باید در پیش نویس ذخیره شود: false|true، سند منتشر شده در پیش نویس ذخیره می شود.',
   'plugin.importapi.field.cover':
-    'آیا می توان اسناد را با عنوان و شناسه یکسان بازنویسی کرد: false|true در صورت پر شدن، آخرین محتوا روی نادرست بازنویسی می شود.',
+    'هنگامی که عنوان مشابه، شناسه اسناد وجود دارد یا خیر، مقادیر پشتیبانی شده اند: 0|1|2، هنگامی که 1 را پر کنید، به آخرین محتوا نوشته می شود، تنظیم شده به 0 یا عدم عبور، خطا را نشان می دهد، هنگامی که 2 را پر کنید، قضاوت نمی کنید',
   'plugin.importapi.return-type': 'فرمت بازگشت:',
   'plugin.importapi.return-example.success': 'نمونه ای از نتیجه صحیح:',
   'plugin.importapi.return-example.failure': 'نمونه ای از نتایج نادرست:',
@@ -1388,6 +1388,8 @@ export default {
   'content.multilang.select.description':
     'یک سایت از قبل ایجاد شده را به عنوان یک سایت چند زبانه انتخاب کنید',
   'plugin.multilang.language': 'زبان سایت',
+  'plugin.multilang.syncing': 'همگام سازی',
+  'plugin.multilang.icon': 'نماد سایت',
   'plugin.translate.lang': 'زبان ترجمه',
   'content.translate.origin-content': 'متن اصلی',
   'plugin.translate.result': 'نتیجه ترجمه',
@@ -1405,4 +1407,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'سوابق ترجمه',
+  'plugin.jsonld.tips.1':
+    'پس از روشن کردن آن، سیستم به طور خودکار داده های ساختار یافته وب سایت را در قالب JSON-LD علامت گذاری می کند و آن را در پایین صفحه قرار می دهد تا موتورهای جستجو بتوانند محتوای وب سایت را بهتر درک کنند. ',
+  'plugin.jsonld.tips.2':
+    'برای نشانه گذاری داده های ساخت یافته که توسط Google پشتیبانی می شود، لطفاً به اسناد مراجعه کنید: https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': 'باز کردن نشانه گذاری داده های ساخت یافته',
+  'plugin.jsonld.open.false': 'نه',
+  'plugin.jsonld.open.true': 'بله',
+  'plugin.jsonld.author': 'نویسنده پیش فرض',
+  'plugin.jsonld.brand': 'مارک پیش فرض',
 };

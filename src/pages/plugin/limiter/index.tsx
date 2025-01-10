@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginGetBlockedIPs,
   pluginGetLimiterSetting,
@@ -5,7 +6,6 @@ import {
   pluginSaveLimiterSetting,
 } from '@/services';
 import {
-  PageContainer,
   ProForm,
   ProFormDigit,
   ProFormGroup,
@@ -23,6 +23,7 @@ const PluginLimiter: React.FC<any> = () => {
   const [limiterSetting, setLimiterSetting] = useState<any>({});
   const [blockedIPs, setBlockedIPs] = useState<any[]>([]);
   const [fetched, setFetched] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -41,6 +42,13 @@ const PluginLimiter: React.FC<any> = () => {
   const getBlockedIPs = () => {
     pluginGetBlockedIPs().then((res) => {
       setBlockedIPs(res.data || []);
+    });
+  };
+
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      getBlockedIPs();
+      setNewKey(key);
     });
   };
 
@@ -90,8 +98,8 @@ const PluginLimiter: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         {fetched && (
           <div className="mt-normal">
             <ProForm
@@ -272,7 +280,7 @@ const PluginLimiter: React.FC<any> = () => {
           </div>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

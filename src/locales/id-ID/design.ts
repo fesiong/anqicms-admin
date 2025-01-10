@@ -1,10 +1,17 @@
 export default {
   'design.market.downloading': 'Mengunduh...',
-  'design.confirm-enable': 'Apakah Anda yakin ingin mengaktifkan template desain ini?',
+  'design.confirm-enable':
+    'Apakah Anda yakin ingin mengaktifkan template desain ini?',
   'design.switching-template': 'Beralih template',
   'design.cannot-delete': 'Templat default tidak dapat dihapus',
-  'design.confirm-delete': 'Apakah Anda yakin ingin menghapus kumpulan template desain ini?',
-  'design.data.confirm-install': 'Apakah Anda yakin ingin memasang data demo untuk template ini?',
+  'design.confirm-delete':
+    'Apakah Anda yakin ingin menghapus kumpulan template desain ini?',
+  'design.data.confirm-install':
+    'Apakah Anda yakin ingin memasang data demo untuk template ini?',
+  'design.data.confirm-upload':
+    'Template dengan nama yang sama sudah ada, silakan pilih metode pemrosesan',
+  'design.data.confirm.new': 'Baru',
+  'design.data.confirm.cover': 'sampul',
   'design.data.tips1':
     'Operasi instalasi ini akan ditimpa dengan data demo template, jadi lanjutkan dengan hati-hati.',
   'design.data.tips2':
@@ -28,7 +35,8 @@ export default {
   'design.package.zip.select': 'Pilih Arsip Zip',
   'design.package.zip.tips':
     'Catatan: Anda hanya dapat mengunggah templat yang diunduh dari paket detail templat saya, atau templat dari pasar desain, atau templat yang diproduksi secara lokal. Silakan gunakan unduhan paket detail templat saya untuk membuat paket terkompresi.',
-  'design.editor.get.error': 'Terjadi kesalahan saat mendapatkan informasi templat',
+  'design.editor.get.error':
+    'Terjadi kesalahan saat mendapatkan informasi templat',
   'design.editor.helper': 'Pembantu tag templat',
   'design.editor.confirm-giveup':
     'Anda memiliki kode yang belum disimpan, apakah Anda yakin ingin mengedit file baru?',
@@ -38,7 +46,8 @@ export default {
     'Apakah Anda yakin ingin mengembalikan ke versi pada waktu yang ditentukan?',
   'design.editor.confirm-restore.content':
     'Melakukannya akan menyebabkan kode yang belum disimpan hilang.',
-  'design.editor.history.confirm-delete': 'Apakah Anda yakin ingin menghapus riwayat ini?',
+  'design.editor.history.confirm-delete':
+    'Apakah Anda yakin ingin menghapus riwayat ini?',
   'design.editor.confirm-goback':
     'Anda memiliki kode yang belum disimpan, apakah Anda yakin ingin mengembalikannya?',
   'design.size': 'ukuran',
@@ -51,7 +60,8 @@ export default {
   'design.back': 'kembali',
   'design.remark': 'Komentar',
   'design.history.view': 'Lihat sejarah',
-  'design.editor.tips': 'Klik kanan di kotak edit untuk memasukkan kode tag template dengan cepat',
+  'design.editor.tips':
+    'Klik kanan di kotak edit untuk memasukkan kode tag template dengan cepat',
   'design.tempalte.name': 'berkas templat',
   'design.static.name': 'sumber',
   'design.history.name': 'Riwayat berkas',
@@ -61,7 +71,8 @@ export default {
   'design.explain': 'menjelaskan',
   'design.view-doc': 'Lihat dokumentasi',
   'design.view': 'Memeriksa',
-  'design.doc.tips': 'Untuk dokumentasi penggunaan template yang lebih detail, silakan lihat:',
+  'design.doc.tips':
+    'Untuk dokumentasi penggunaan template yang lebih detail, silakan lihat:',
   'design.detail.confirm-delete': 'Apakah Anda yakin ingin menghapus file ini?',
   'design.detail.confirm-copy': 'Silakan isi nama file yang disalin',
   'design.detail.new-name': 'Nama file baru:',
@@ -71,8 +82,10 @@ export default {
   'design.detail.name-required': 'Nama file tidak boleh kosong',
   'design.detail.confirm-download':
     'Apakah Anda yakin ingin mengemas dan mendownload template ini?',
-  'design.detail.confirm-upload': 'Apakah Anda yakin ingin mengunggah file tersebut?',
-  'design.detail.confirm-upload.content-before': 'File yang Anda unggah akan disimpan',
+  'design.detail.confirm-upload':
+    'Apakah Anda yakin ingin mengunggah file tersebut?',
+  'design.detail.confirm-upload.content-before':
+    'File yang Anda unggah akan disimpan',
   'design.detail.confirm-upload.directory': 'Daftar isi',
   'design.detail.new-directory': 'Buat direktori baru',
   'design.detail.backup-data':
@@ -90,7 +103,8 @@ export default {
   'design.detail.template.download': 'Templat pengunduhan paket',
   'design.detail.template.backup': 'Cadangkan data templat',
   'design.detail.template.restore': 'Inisialisasi data templat',
-  'design.detail.template.tomarket': 'Pasang template di pasar template AnqiCMS',
+  'design.detail.template.tomarket':
+    'Pasang template di pasar template AnqiCMS',
   'design.detail.template.share': 'Bagikan templat daftar',
   'design.detail.new-static': 'Tambahkan sumber daya baru',
   'design.detail.addnew': 'tambah baru',
@@ -117,12 +131,14 @@ export default {
     '2. Setelah gambar diunggah, jika latar belakang diperbarui tetapi latar depan tidak diperbarui, harap hapus cache browser lokal.',
   'design.share.confirm-replace':
     'Apakah Anda yakin ingin mengganti template yang sesuai dengan template pasar?',
-  'design.share.confirm-new': 'Apakah Anda yakin ingin memasang template ini di pasar template?',
+  'design.share.confirm-new':
+    'Apakah Anda yakin ingin memasang template ini di pasar template?',
   'design.share.confirm-replace.content':
     'Templat ini telah dipasang di pasar templat. Jika Anda mengirimkannya sekarang, templat yang sesuai di pasar templat akan diperbarui ke versi saat ini.',
   'design.share.confirm-new.content':
     'Templat Anda akan ditempatkan di pasar templat agar pengguna dapat memilih dan menggunakannya.',
-  'design.share.nologin': 'Silakan login ke akun website resmi AnqiCMS terlebih dahulu',
+  'design.share.nologin':
+    'Silakan login ke akun website resmi AnqiCMS terlebih dahulu',
   'design.share.share': 'Publikasikan templat ke pasar desain',
   'design.share.only-template': 'Apakah akan memperbarui template saja',
   'design.share.only-template.no': 'Perbarui semua',
@@ -138,7 +154,8 @@ export default {
   'design.share.example-data': 'Data demo',
   'design.share.example-data.no': 'Tidak diproses',
   'design.share.example-data.yes': 'Cadangkan data demo secara otomatis',
-  'design.share.example-data.description': 'Templat yang membawa data demo lebih efektif',
+  'design.share.example-data.description':
+    'Templat yang membawa data demo lebih efektif',
   'design.share.author': 'penulis templat',
   'design.share.homepage': 'Beranda penulis',
   'design.share.description': 'Pengenalan templat',

@@ -95,7 +95,10 @@ export default {
   'setting.content.editor.description':
     'Как правило, вы можете использовать редактор форматированного текста, а Markdown имеет более высокий порог использования.',
   'setting.content.remote-download': 'Загрузить удаленные фотографии',
-  'setting.content.outlink-filter': 'Автоматически фильтровать внешние ссылки',
+  'setting.content.outlink-filter': 'Обработка внешних ссылок на контент',
+  'setting.content.outlink-filter.allow': 'Сохранить ссылку',
+  'setting.content.outlink-filter.remove': 'Удалить ссылку',
+  'setting.content.outlink-filter.nofollow': 'Добавить Nofollow',
   'setting.content.urltoken': 'Пользовательский формат URL-адреса',
   'setting.content.urltoken.long': 'Полный пиньинь',
   'setting.content.urltoken.short': 'Инициалы',

@@ -1,3 +1,5 @@
+import AttachmentSelect from '@/components/attachment';
+import WebsiteForm from '@/pages/website/components/form';
 import {
   getSubsiteAdminLoginUrl,
   pluginGetMultiLangConfig,
@@ -9,7 +11,8 @@ import {
   pluginSaveMultiLangSite,
   pluginSyncMultiLangSiteContent,
 } from '@/services';
-import { supportLanguages } from '@/utils';
+import { getLanguageIcon, supportLanguages } from '@/utils';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
   ModalForm,
@@ -19,13 +22,16 @@ import {
   ProFormInstance,
   ProFormRadio,
   ProFormSelect,
+  ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import {
+  Avatar,
   Button,
   Card,
   Divider,
+  Image,
   Modal,
   Progress,
   Space,
@@ -45,6 +51,8 @@ const PluginMultiLang: React.FC<any> = () => {
   const [fetched, setFetched] = useState<boolean>(false);
   const [currentSite, setCurrentSite] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [addNewSiteVisible, setAddNewSiteVisible] = useState<boolean>(false);
+  const [defaultSite, setDefaultSite] = useState<any>({});
   const [langOptions, setLangOptions] = useState<any[]>([]);
   const [task, setTask] = useState<any>(null);
 
@@ -60,6 +68,7 @@ const PluginMultiLang: React.FC<any> = () => {
           running = false;
           actionRef.current?.reload();
         }
+        clearInterval(intXhr);
         setTask(null);
       }
     });
@@ -147,7 +156,8 @@ const PluginMultiLang: React.FC<any> = () => {
       0,
     );
 
-    pluginSaveMultiLangSite(values)
+    const postData = Object.assign(currentSite, values);
+    pluginSaveMultiLangSite(postData)
       .then((res) => {
         message.success(res.msg);
         setEditVisible(false);
@@ -173,7 +183,9 @@ const PluginMultiLang: React.FC<any> = () => {
             message.success(res.msg);
             actionRef.current?.reloadAndRest?.();
             // 马上执行一遍
-            syncTask();
+            intXhr = setInterval(() => {
+              syncTask();
+            }, 1000);
           })
           .catch((err) => {
             console.log(err);
@@ -201,6 +213,11 @@ const PluginMultiLang: React.FC<any> = () => {
     }
   };
 
+  const handleChangeLanguage = (val: string) => {
+    currentSite.language = val;
+    setCurrentSite({ ...currentSite });
+  };
+
   const handleLoginAdmin = (record: any) => {
     getSubsiteAdminLoginUrl({ site_id: record.id }).then((res) => {
       if (res.code !== 0) {
@@ -209,6 +226,28 @@ const PluginMultiLang: React.FC<any> = () => {
         window.open(res.data);
       }
     });
+  };
+
+  const handleCleanLogo = () => {
+    currentSite.language_icon = '';
+    setCurrentSite({ ...currentSite });
+  };
+
+  const handleSelectImage = (row: any) => {
+    currentSite.language_icon = row.logo;
+    setCurrentSite({ ...currentSite });
+  };
+
+  const handleSelectSite = (val: any) => {
+    if (val === 0) {
+      setEditVisible(false);
+      setAddNewSiteVisible(true);
+    }
+  };
+
+  const onSubmitNewSite = async () => {
+    setAddNewSiteVisible(false);
+    setEditVisible(true);
   };
 
   const columns: ProColumns<any>[] = [
@@ -239,6 +278,19 @@ const PluginMultiLang: React.FC<any> = () => {
       ),
     },
     {
+      title: intl.formatMessage({ id: 'plugin.multilang.icon' }),
+      dataIndex: 'language_icon',
+      render: (_, record) => (
+        <div style={{ fontSize: 24 }}>
+          {record.language_icon ? (
+            <img src={record.language_icon} style={{ width: 30, height: 30 }} />
+          ) : (
+            getLanguageIcon(record.language)
+          )}
+        </div>
+      ),
+    },
+    {
       title: intl.formatMessage({ id: 'content.multilang.sync-time' }),
       dataIndex: 'sync_time',
       render: (_, record) => {
@@ -258,16 +310,16 @@ const PluginMultiLang: React.FC<any> = () => {
       dataIndex: 'option',
       render: (text: any, record) => (
         <Space size={20}>
+          <a
+            onClick={() => {
+              setCurrentSite(record);
+              setEditVisible(true);
+            }}
+          >
+            <FormattedMessage id="setting.action.edit" />
+          </a>
           {!record.is_main ? (
             <>
-              <a
-                onClick={() => {
-                  setCurrentSite(record);
-                  setEditVisible(true);
-                }}
-              >
-                <FormattedMessage id="setting.action.edit" />
-              </a>
               <a
                 onClick={() => {
                   syncSiteData(record);
@@ -410,21 +462,25 @@ const PluginMultiLang: React.FC<any> = () => {
               search={false}
               actionRef={actionRef}
               toolBarRender={() => [
-                <Button
-                  key="add"
-                  type="primary"
-                  onClick={() => {
-                    setCurrentSite({});
-                    setEditVisible(true);
-                  }}
-                >
-                  <FormattedMessage id="content.multilang.add" />
-                </Button>,
+                limiterSetting.open && (
+                  <Button
+                    key="add"
+                    type="primary"
+                    onClick={() => {
+                      setCurrentSite({});
+                      setEditVisible(true);
+                    }}
+                  >
+                    <FormattedMessage id="content.multilang.add" />
+                  </Button>
+                ),
               ]}
               tableAlertRender={false}
               tableAlertOptionRender={false}
-              request={(params) => {
-                return pluginGetMultiLangSites(params);
+              request={async (params) => {
+                const res = await pluginGetMultiLangSites(params);
+                setDefaultSite(res.data?.[0] || {});
+                return res;
               }}
               columns={columns}
               pagination={false}
@@ -450,17 +506,28 @@ const PluginMultiLang: React.FC<any> = () => {
             label={intl.formatMessage({
               id: 'content.multilang.select',
             })}
+            disabled={currentSite.is_main}
             showSearch
             name="id"
             request={async () => {
               const res = await pluginGetMultiLangValidSites({});
-              return res.data.map((item: any) => {
+              const data = res.data.map((item: any) => {
                 return {
                   label: item.name + '(ID:' + item.id + ')',
                   value: item.id,
                   disabled: item.parent_id > 0 || item.status !== 1,
                 };
               });
+              data.push({
+                label: intl.formatMessage({
+                  id: 'content.multilang.add',
+                }),
+                value: 0,
+              });
+              return data;
+            }}
+            fieldProps={{
+              onSelect: handleSelectSite,
             }}
             extra={intl.formatMessage({
               id: 'content.multilang.select.description',
@@ -471,14 +538,66 @@ const PluginMultiLang: React.FC<any> = () => {
             label={intl.formatMessage({
               id: 'plugin.multilang.language',
             })}
+            disabled={currentSite.is_main}
             style={{ width: '100%' }}
             showSearch
             fieldProps={{
               onSearch: handleSearchLang,
+              onChange: handleChangeLanguage,
             }}
             options={langOptions}
           />
+          <ProFormText
+            label={intl.formatMessage({ id: 'plugin.multilang.icon' })}
+          >
+            {currentSite.language_icon ? (
+              <div className="ant-upload-item">
+                <Image
+                  preview={{
+                    src: currentSite.language_icon,
+                  }}
+                  src={currentSite.language_icon}
+                />
+                <span className="delete" onClick={handleCleanLogo}>
+                  <DeleteOutlined />
+                </span>
+              </div>
+            ) : (
+              <div className="ant-upload-item">
+                <Avatar size={100} style={{ fontSize: 48 }}>
+                  {getLanguageIcon(currentSite.language)}
+                </Avatar>
+              </div>
+            )}
+            <AttachmentSelect
+              onSelect={handleSelectImage}
+              open={false}
+              multiple={false}
+            >
+              <div className="ant-upload-item">
+                <div className="add">
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>
+                    <FormattedMessage id="setting.system.upload" />
+                  </div>
+                </div>
+              </div>
+            </AttachmentSelect>
+          </ProFormText>
         </ModalForm>
+      )}
+      {addNewSiteVisible && (
+        <WebsiteForm
+          onCancel={() => setAddNewSiteVisible(false)}
+          onSubmit={onSubmitNewSite}
+          open={addNewSiteVisible}
+          website={{
+            status: 1,
+            mysql: { use_default: true },
+            initialed: false,
+          }}
+          rootPath={defaultSite.root_path}
+        />
       )}
       {task !== null && (
         <Modal

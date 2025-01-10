@@ -54,7 +54,7 @@ export default {
   'plugin.aigenerate.insert-image': 'প্রবন্ধ চিত্র প্রক্রিয়াকরণ',
   'plugin.aigenerate.insert-image.default': 'ডিফল্ট',
   'plugin.aigenerate.insert-image.diy': 'কাস্টম সন্নিবেশ ছবি',
-  'plugin.aigenerate.insert-image.category': 'কাস্টম সন্নিবেশ ছবি',
+  'plugin.aigenerate.insert-image.category': 'ছবির বিভাগ থেকে',
   'plugin.aigenerate.insert-image.list': 'ঢোকাতে ছবির তালিকা',
   'plugin.aigenerate.replace': 'বিষয়বস্তু প্রতিস্থাপন',
   'plugin.aigenerate.replace.tips1':
@@ -550,7 +550,7 @@ export default {
   'plugin.importapi.field.draft':
     'সমর্থিত মানগুলি খসড়ায় সংরক্ষণ করা হবে: সত্য',
   'plugin.importapi.field.cover':
-    'সমর্থিত মানগুলি একই শিরোনাম এবং আইডি দিয়ে ওভাররাইট করা হবে কি না: সত্য',
+    'একই শিরোনাম, আইডি ডকুমেন্টের উপস্থিতি হলে ওভাররাইট করা হবে কিনা, সমর্থিত মানগুলি হলঃ 0 | 1 | 2, 1 পূরণ করার সময়, এটি সর্বশেষ বিষয়বস্তু হিসাবে ওভাররাইট করা হবে, 0 বা না পাস কর',
   'plugin.importapi.return-type': 'রিটার্ন ফরম্যাট:',
   'plugin.importapi.return-example.success': 'সঠিক ফলাফলের উদাহরণ:',
   'plugin.importapi.return-example.failure': 'ভুল ফলাফলের উদাহরণ:',
@@ -1389,6 +1389,8 @@ export default {
   'content.multilang.select.description':
     'একটি বহু-ভাষা সাইট হিসাবে ইতিমধ্যে তৈরি সাইট নির্বাচন করুন',
   'plugin.multilang.language': 'সাইটের ভাষা',
+  'plugin.multilang.syncing': 'সিঙ্ক্রোনাইজিং',
+  'plugin.multilang.icon': 'সাইট আইকন',
   'plugin.translate.lang': 'ভাষা অনুবাদ করুন',
   'content.translate.origin-content': 'মূল পাঠ্য',
   'plugin.translate.result': 'অনুবাদ ফলাফল',
@@ -1406,4 +1408,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'অনুবাদ রেকর্ড',
+  'plugin.jsonld.tips.1':
+    'এটি চালু করার পর, সিস্টেম স্বয়ংক্রিয়ভাবে JSON-LD ফরম্যাটে ওয়েবসাইটের স্ট্রাকচার্ড ডেটা চিহ্নিত করবে এবং পৃষ্ঠার নীচে ঢোকাবে যাতে সার্চ ইঞ্জিনগুলি ওয়েবসাইটের বিষয়বস্তু আরও ভালভাবে বুঝতে পারে৷ ',
+  'plugin.jsonld.tips.2':
+    'Google দ্বারা সমর্থিত স্ট্রাকচার্ড ডেটা মার্কআপের জন্য, অনুগ্রহ করে ডকুমেন্টেশন দেখুন: https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': 'স্ট্রাকচার্ড ডেটা মার্কআপ খুলুন',
+  'plugin.jsonld.open.false': 'না',
+  'plugin.jsonld.open.true': 'হ্যাঁ',
+  'plugin.jsonld.author': 'ডিফল্ট লেখক',
+  'plugin.jsonld.brand': 'ডিফল্ট ব্র্যান্ড',
 };

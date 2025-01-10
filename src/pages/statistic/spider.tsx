@@ -1,14 +1,16 @@
+import NewContainer from '@/components/NewContainer';
 import { getStatisticSpider } from '@/services/statistic';
 import { Line } from '@ant-design/plots';
-import { PageContainer, StatisticCard } from '@ant-design/pro-components';
+import { StatisticCard } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import React, { useEffect, useState } from 'react';
 
 const StatisticSpider: React.FC<any> = () => {
   const [data, setData] = useState<any[]>([]);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
-  const asyncFetch = () => {
+  const asyncFetch = async () => {
     getStatisticSpider()
       .then((res) => {
         setData(res.data);
@@ -22,6 +24,12 @@ const StatisticSpider: React.FC<any> = () => {
     //   .catch((error) => {
     //     console.log('fetch data failed', error);
     //   });
+  };
+
+  const onTabChange = (key: string) => {
+    asyncFetch().then(() => {
+      setNewKey(key);
+    });
   };
 
   useEffect(() => {
@@ -42,13 +50,14 @@ const StatisticSpider: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
       <StatisticCard
+        key={newKey}
         title={intl.formatMessage({ id: 'statistic.spider' })}
         tooltip={intl.formatMessage({ id: 'statistic.spider.tips' })}
         chart={<Line {...config} />}
       />
-    </PageContainer>
+    </NewContainer>
   );
 };
 

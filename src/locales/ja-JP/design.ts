@@ -1,10 +1,17 @@
 export default {
   'design.market.downloading': 'ダウンロード中...',
-  'design.confirm-enable': 'このデザイン テンプレートをアクティブ化してもよろしいですか?',
+  'design.confirm-enable':
+    'このデザイン テンプレートをアクティブ化してもよろしいですか?',
   'design.switching-template': 'テンプレートの切り替え',
   'design.cannot-delete': 'デフォルトのテンプレートは削除できません',
-  'design.confirm-delete': 'このデザイン テンプレートのセットを削除してもよろしいですか?',
-  'design.data.confirm-install': 'このテンプレートのデモ データをインストールしてもよろしいですか?',
+  'design.confirm-delete':
+    'このデザイン テンプレートのセットを削除してもよろしいですか?',
+  'design.data.confirm-install':
+    'このテンプレートのデモ データをインストールしてもよろしいですか?',
+  'design.data.confirm-upload':
+    '同じ名前のテンプレートがすでに存在します。処理方法を選択してください',
+  'design.data.confirm.new': '新規',
+  'design.data.confirm.cover': 'カバー',
   'design.data.tips1':
     'このインストール操作はテンプレートのデモ データで上書きされるため、注意して続行してください。',
   'design.data.tips2':
@@ -19,7 +26,8 @@ export default {
   'design.data.notenable': '有効になっていません',
   'design.data.enable': 'アクティブ化された',
   'design.data.enable.action': '有効にする',
-  'design.data.install.example': 'このテンプレートのデモ データをインストールします',
+  'design.data.install.example':
+    'このテンプレートのデモ データをインストールします',
   'design.data.initial': '初期化',
   'design.data.manage': '管理',
   'design.list': 'デザインテンプレート一覧',
@@ -32,11 +40,15 @@ export default {
   'design.editor.helper': 'テンプレートタグヘルパー',
   'design.editor.confirm-giveup':
     'コードが保存されていません。新しいファイルを編集してもよろしいですか?',
-  'design.editor.confirm-giveup.content': '保存すると、保存されていないコードが失われます。',
-  'design.editor.confirm-restore': '指定した時点のバージョンに復元してもよろしいですか?',
-  'design.editor.confirm-restore.content': '保存すると、保存されていないコードが失われます。',
+  'design.editor.confirm-giveup.content':
+    '保存すると、保存されていないコードが失われます。',
+  'design.editor.confirm-restore':
+    '指定した時点のバージョンに復元してもよろしいですか?',
+  'design.editor.confirm-restore.content':
+    '保存すると、保存されていないコードが失われます。',
   'design.editor.history.confirm-delete': 'この履歴を削除してもよろしいですか?',
-  'design.editor.confirm-goback': 'コードが保存されていません。本当に戻りますか?',
+  'design.editor.confirm-goback':
+    'コードが保存されていません。本当に戻りますか?',
   'design.size': 'サイズ',
   'design.update-time': '時間を変更してください',
   'design.compare': '比較した',
@@ -58,7 +70,8 @@ export default {
   'design.explain': '説明する',
   'design.view-doc': 'ドキュメントを見る',
   'design.view': 'チェック',
-  'design.doc.tips': 'テンプレートの使用方法の詳細については、次のドキュメントを参照してください。',
+  'design.doc.tips':
+    'テンプレートの使用方法の詳細については、次のドキュメントを参照してください。',
   'design.detail.confirm-delete': 'このファイルを削除してもよろしいですか?',
   'design.detail.confirm-copy': 'コピーしたファイル名を入力してください',
   'design.detail.new-name': '新しいファイル名:',
@@ -69,10 +82,12 @@ export default {
   'design.detail.confirm-download':
     'このテンプレートをパッケージ化してダウンロードしてもよろしいですか?',
   'design.detail.confirm-upload': 'ファイルをアップロードしてもよろしいですか?',
-  'design.detail.confirm-upload.content-before': 'アップロードしたファイルは次の場所に保存されます',
+  'design.detail.confirm-upload.content-before':
+    'アップロードしたファイルは次の場所に保存されます',
   'design.detail.confirm-upload.directory': '目次',
   'design.detail.new-directory': '新しいディレクトリを作成する',
-  'design.detail.backup-data': '現在のテンプレートに初期化データを追加してもよろしいですか?',
+  'design.detail.backup-data':
+    '現在のテンプレートに初期化データを追加してもよろしいですか?',
   'design.detail.backup-data.tips':
     'この操作は、テンプレート初期化のための現在のテンプレートのデモデータを追加することを目的としています。',
   'design.detail.backup-data.cover.tips':
@@ -86,7 +101,8 @@ export default {
   'design.detail.template.download': 'パッケージダウンロードテンプレート',
   'design.detail.template.backup': 'テンプレートデータをバックアップする',
   'design.detail.template.restore': 'テンプレートデータの初期化',
-  'design.detail.template.tomarket': 'AnqiCMS テンプレート マーケットにテンプレートを置く',
+  'design.detail.template.tomarket':
+    'AnqiCMS テンプレート マーケットにテンプレートを置く',
   'design.detail.template.share': '共有リストのテンプレート',
   'design.detail.new-static': '新しいリソースを追加する',
   'design.detail.addnew': '新しく追加する',
@@ -119,7 +135,8 @@ export default {
     'このテンプレートはテンプレート マーケットに公開されています。今送信すると、テンプレート マーケットの対応するテンプレートが最新バージョンに更新されます。',
   'design.share.confirm-new.content':
     'あなたのテンプレートは、ユーザーが選択して使用できるテンプレート マーケットに公開されます。',
-  'design.share.nologin': 'まず、AnqiCMS 公式ウェブサイトのアカウントにログインしてください',
+  'design.share.nologin':
+    'まず、AnqiCMS 公式ウェブサイトのアカウントにログインしてください',
   'design.share.share': 'テンプレートをデザイン市場に公開する',
   'design.share.only-template': 'テンプレートのみを更新するかどうか',
   'design.share.only-template.no': 'すべて更新',
@@ -135,7 +152,8 @@ export default {
   'design.share.example-data': 'デモデータ',
   'design.share.example-data.no': '処理されていません',
   'design.share.example-data.yes': 'デモデータを自動バックアップ',
-  'design.share.example-data.description': 'デモデータを含むテンプレートはより効果的です',
+  'design.share.example-data.description':
+    'デモデータを含むテンプレートはより効果的です',
   'design.share.author': 'テンプレート作成者',
   'design.share.homepage': '著者のホームページ',
   'design.share.description': 'テンプレートの紹介',

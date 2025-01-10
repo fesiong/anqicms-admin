@@ -1,11 +1,17 @@
 export default {
   'design.market.downloading': 'در حال دانلود...',
-  'design.confirm-enable': 'آیا مطمئن هستید که می خواهید این الگوی طراحی را فعال کنید؟',
+  'design.confirm-enable':
+    'آیا مطمئن هستید که می خواهید این الگوی طراحی را فعال کنید؟',
   'design.switching-template': 'تغییر قالب ها',
   'design.cannot-delete': 'الگوی پیش فرض را نمی توان حذف کرد',
-  'design.confirm-delete': 'آیا مطمئن هستید که می خواهید این مجموعه از الگوهای طراحی را حذف کنید؟',
+  'design.confirm-delete':
+    'آیا مطمئن هستید که می خواهید این مجموعه از الگوهای طراحی را حذف کنید؟',
   'design.data.confirm-install':
     'آیا مطمئن هستید که می‌خواهید داده‌های نمایشی را برای این الگو نصب کنید؟',
+  'design.data.confirm-upload':
+    'الگویی با همین نام از قبل وجود دارد، لطفاً یک روش پردازش را انتخاب کنید',
+  'design.data.confirm.new': 'جدید',
+  'design.data.confirm.cover': 'cover',
   'design.data.tips1':
     'این عملیات نصب با داده‌های آزمایشی الگو بازنویسی می‌شود، بنابراین لطفاً با احتیاط ادامه دهید.',
   'design.data.tips2':
@@ -33,11 +39,14 @@ export default {
   'design.editor.helper': 'کمک کننده تگ الگو',
   'design.editor.confirm-giveup':
     'شما کد ذخیره نشده ای دارید، آیا مطمئن هستید که می خواهید یک فایل جدید را ویرایش کنید؟',
-  'design.editor.confirm-giveup.content': 'انجام این کار باعث می شود کد ذخیره نشده از بین برود.',
+  'design.editor.confirm-giveup.content':
+    'انجام این کار باعث می شود کد ذخیره نشده از بین برود.',
   'design.editor.confirm-restore':
     'آیا مطمئن هستید که می خواهید در زمان مشخص شده به نسخه بازیابی کنید؟',
-  'design.editor.confirm-restore.content': 'انجام این کار باعث می شود کد ذخیره نشده از بین برود.',
-  'design.editor.history.confirm-delete': 'آیا مطمئنید که می خواهید این سابقه را حذف کنید؟',
+  'design.editor.confirm-restore.content':
+    'انجام این کار باعث می شود کد ذخیره نشده از بین برود.',
+  'design.editor.history.confirm-delete':
+    'آیا مطمئنید که می خواهید این سابقه را حذف کنید؟',
   'design.editor.confirm-goback':
     'شما کد ذخیره نشده ای دارید، آیا مطمئن هستید که می خواهید برگردید؟',
   'design.size': 'اندازه',
@@ -50,7 +59,8 @@ export default {
   'design.back': 'برگشت',
   'design.remark': 'تذکر دهید',
   'design.history.view': 'مشاهده تاریخچه',
-  'design.editor.tips': 'برای درج سریع کد تگ الگو، در کادر ویرایش کلیک راست کنید',
+  'design.editor.tips':
+    'برای درج سریع کد تگ الگو، در کادر ویرایش کلیک راست کنید',
   'design.tempalte.name': 'فایل قالب',
   'design.static.name': 'منبع',
   'design.history.name': 'تاریخچه فایل',
@@ -60,8 +70,10 @@ export default {
   'design.explain': 'نشان دادن',
   'design.view-doc': 'مشاهده مستندات',
   'design.view': 'بررسی',
-  'design.doc.tips': 'برای جزئیات بیشتر مستندات استفاده از الگو، لطفاً مشاهده کنید:',
-  'design.detail.confirm-delete': 'آیا مطمئن هستید که می خواهید این فایل را حذف کنید؟',
+  'design.doc.tips':
+    'برای جزئیات بیشتر مستندات استفاده از الگو، لطفاً مشاهده کنید:',
+  'design.detail.confirm-delete':
+    'آیا مطمئن هستید که می خواهید این فایل را حذف کنید؟',
   'design.detail.confirm-copy': 'لطفا نام فایل کپی شده را وارد کنید',
   'design.detail.new-name': 'نام فایل جدید:',
   'design.detail.new-remark': 'یادداشت های سند جدید:',
@@ -70,8 +82,10 @@ export default {
   'design.detail.name-required': 'نام فایل نمی تواند خالی باشد',
   'design.detail.confirm-download':
     'آیا مطمئن هستید که می خواهید این الگو را بسته بندی و دانلود کنید؟',
-  'design.detail.confirm-upload': 'آیا مطمئن هستید که می خواهید فایل را آپلود کنید؟',
-  'design.detail.confirm-upload.content-before': 'فایل هایی که آپلود می کنید در آنها ذخیره می شوند',
+  'design.detail.confirm-upload':
+    'آیا مطمئن هستید که می خواهید فایل را آپلود کنید؟',
+  'design.detail.confirm-upload.content-before':
+    'فایل هایی که آپلود می کنید در آنها ذخیره می شوند',
   'design.detail.confirm-upload.directory': 'فهرست مطالب',
   'design.detail.new-directory': 'دایرکتوری جدید ایجاد کنید',
   'design.detail.backup-data':
@@ -116,7 +130,8 @@ export default {
     '2. پس از آپلود تصویر، اگر پس زمینه به روز شد اما پیش زمینه به روز نشد، لطفاً کش مرورگر محلی را پاک کنید.',
   'design.share.confirm-replace':
     'آیا مطمئن هستید که می خواهید الگوی مربوط به بازار قالب را جایگزین کنید؟',
-  'design.share.confirm-new': 'آیا مطمئن هستید که می خواهید این قالب را در بازار قالب قرار دهید؟',
+  'design.share.confirm-new':
+    'آیا مطمئن هستید که می خواهید این قالب را در بازار قالب قرار دهید؟',
   'design.share.confirm-replace.content':
     'این قالب در بازار قالب قرار داده شده است اگر اکنون آن را ارسال کنید، قالب مربوطه در بازار قالب به نسخه فعلی به روز می شود.',
   'design.share.confirm-new.content':

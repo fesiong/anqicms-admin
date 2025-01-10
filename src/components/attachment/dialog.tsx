@@ -35,8 +35,13 @@ Attachment.show = (multiple?: boolean) => {
       width: 800,
       wrapClassName: 'attachment-dialog',
       content: (
-        <AttachmentContent onSelect={onSelect} onCancel={() => onCancel()} multiple={multiple} />
+        <AttachmentContent
+          onSelect={onSelect}
+          onCancel={() => onCancel()}
+          multiple={multiple}
+        />
       ),
+      okText: 'OK',
       onCancel: () => {
         onCancel();
       },

@@ -12,7 +12,9 @@ const PluginFinanceCommission: React.FC = () => {
   const handleWithdraw = (record: any) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.finance.withdraw.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.finance.withdraw.confirm.content' }),
+      content: intl.formatMessage({
+        id: 'plugin.finance.withdraw.confirm.content',
+      }),
       onOk: () => {
         pluginSetWithdrawApply(record).then((res) => {
           message.info(res.msg);
@@ -84,7 +86,6 @@ const PluginFinanceCommission: React.FC = () => {
       actionRef={actionRef}
       rowKey="id"
       search={false}
-      toolBarRender={false}
       tableAlertOptionRender={false}
       request={(params) => {
         return pluginGetCommissions(params);

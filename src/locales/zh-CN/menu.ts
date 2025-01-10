@@ -57,6 +57,7 @@ export default {
   'menu.plugin.limiter': '网站安全防护',
   'menu.plugin.multilang': '多语言站点支持',
   'menu.plugin.translate': '翻译配置',
+  'menu.plugin.jsonld': '结构化数据标记',
   'menu.design': '模板设计',
   'menu.design.index': '我的模板',
   'menu.design.editor': '修改代码',

@@ -17,6 +17,7 @@ export default {
   'website.name': 'Nome do site',
   'website.root-path.placeholder':
     'O caminho real do servidor, como: /www/wwwroot/anqicms.com',
+  'website.root-path.prefix': 'Diretório raiz do site padrão:',
   'website.root-path.description':
     'Não faça alterações em um site que esteja funcionando normalmente, caso contrário, isso causará anormalidades no site.',
   'website.base-url.placeholder': 'Como: http://www.anqicms.com',

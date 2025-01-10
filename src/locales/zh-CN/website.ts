@@ -16,6 +16,7 @@ export default {
   'website.name': '站点名称',
   'website.root-path.placeholder':
     '服务器实际路径，如：/www/wwwroot/anqicms.com',
+  'website.root-path.prefix': '默认站点根目录：',
   'website.root-path.description': '正常运行的站点请勿更改，否则会导致站点异常',
   'website.base-url.placeholder': '如：http://www.anqicms.com',
   'website.base-url.description':

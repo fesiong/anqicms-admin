@@ -17,6 +17,7 @@ export default {
   'website.name': 'サイト名',
   'website.root-path.placeholder':
     'サーバーの実際のパス (/www/wwwroot/anqims.com など)',
+  'website.root-path.prefix': 'デフォルトのサイトルートディレクトリ:',
   'website.root-path.description':
     '正常に動作しているサイトに変更を加えないでください。サイトに異常が発生する可能性があります。',
   'website.base-url.placeholder': '例: http://www.anqicms.com',

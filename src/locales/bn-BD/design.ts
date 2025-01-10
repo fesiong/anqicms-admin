@@ -1,10 +1,17 @@
 export default {
   'design.market.downloading': 'ডাউনলোড হচ্ছে...',
-  'design.confirm-enable': 'আপনি কি এই ডিজাইন টেমপ্লেট সক্রিয় করার বিষয়ে নিশ্চিত?',
+  'design.confirm-enable':
+    'আপনি কি এই ডিজাইন টেমপ্লেট সক্রিয় করার বিষয়ে নিশ্চিত?',
   'design.switching-template': 'টেমপ্লেট পরিবর্তন করা হচ্ছে',
   'design.cannot-delete': 'ডিফল্ট টেমপ্লেট মুছে ফেলা যাবে না',
-  'design.confirm-delete': 'আপনি কি নিশ্চিত যে আপনি ডিজাইন টেমপ্লেটের এই সেটটি মুছতে চান?',
-  'design.data.confirm-install': 'আপনি কি এই টেমপ্লেটের জন্য ডেমো ডেটা ইনস্টল করার বিষয়ে নিশ্চিত?',
+  'design.confirm-delete':
+    'আপনি কি নিশ্চিত যে আপনি ডিজাইন টেমপ্লেটের এই সেটটি মুছতে চান?',
+  'design.data.confirm-install':
+    'আপনি কি এই টেমপ্লেটের জন্য ডেমো ডেটা ইনস্টল করার বিষয়ে নিশ্চিত?',
+  'design.data.confirm-upload':
+    'একই নামের একটি টেমপ্লেট ইতিমধ্যেই বিদ্যমান, অনুগ্রহ করে একটি প্রক্রিয়াকরণ পদ্ধতি নির্বাচন করুন',
+  'design.data.confirm.new': 'নতুন',
+  'design.data.confirm.cover': 'কভার',
   'design.data.tips1':
     'এই ইনস্টলেশন অপারেশনটি টেমপ্লেটের ডেমো ডেটা দিয়ে ওভাররাইট করা হবে, তাই দয়া করে সতর্কতার সাথে এগিয়ে যান।',
   'design.data.tips2':
@@ -32,11 +39,14 @@ export default {
   'design.editor.helper': 'টেমপ্লেট ট্যাগ সহায়ক',
   'design.editor.confirm-giveup':
     'আপনার কাছে অসংরক্ষিত কোড আছে, আপনি কি নিশ্চিত যে আপনি একটি নতুন ফাইল সম্পাদনা করতে চান?',
-  'design.editor.confirm-giveup.content': 'এটি করার ফলে অসংরক্ষিত কোড হারিয়ে যাবে।',
+  'design.editor.confirm-giveup.content':
+    'এটি করার ফলে অসংরক্ষিত কোড হারিয়ে যাবে।',
   'design.editor.confirm-restore':
     'আপনি কি নির্দিষ্ট সময়ে সংস্করণে পুনরুদ্ধার করার বিষয়ে নিশ্চিত?',
-  'design.editor.confirm-restore.content': 'এটি করার ফলে অসংরক্ষিত কোড হারিয়ে যাবে।',
-  'design.editor.history.confirm-delete': 'আপনি কি এই ইতিহাস মুছে ফেলার বিষয়ে নিশ্চিত?',
+  'design.editor.confirm-restore.content':
+    'এটি করার ফলে অসংরক্ষিত কোড হারিয়ে যাবে।',
+  'design.editor.history.confirm-delete':
+    'আপনি কি এই ইতিহাস মুছে ফেলার বিষয়ে নিশ্চিত?',
   'design.editor.confirm-goback':
     'আপনার কাছে অসংরক্ষিত কোড আছে, আপনি কি নিশ্চিত আপনি ফিরে যেতে চান?',
   'design.size': 'আকার',
@@ -49,7 +59,8 @@ export default {
   'design.back': 'ফিরে',
   'design.remark': 'মন্তব্য',
   'design.history.view': 'ইতিহাস দেখ',
-  'design.editor.tips': 'দ্রুত টেমপ্লেট ট্যাগ কোড সন্নিবেশ করতে সম্পাদনা বাক্সে ডান-ক্লিক করুন',
+  'design.editor.tips':
+    'দ্রুত টেমপ্লেট ট্যাগ কোড সন্নিবেশ করতে সম্পাদনা বাক্সে ডান-ক্লিক করুন',
   'design.tempalte.name': 'টেমপ্লেট ফাইল',
   'design.static.name': 'সম্পদ',
   'design.history.name': 'ফাইল ইতিহাস',
@@ -59,9 +70,11 @@ export default {
   'design.explain': 'চিত্রিত করা',
   'design.view-doc': 'ডকুমেন্টেশন দেখুন',
   'design.view': 'চেক করুন',
-  'design.doc.tips': 'আরো বিস্তারিত টেমপ্লেট ব্যবহার ডকুমেন্টেশনের জন্য, অনুগ্রহ করে দেখুন:',
+  'design.doc.tips':
+    'আরো বিস্তারিত টেমপ্লেট ব্যবহার ডকুমেন্টেশনের জন্য, অনুগ্রহ করে দেখুন:',
   'design.detail.confirm-delete': 'আপনি কি এই ফাইলটি মুছতে চান?',
-  'design.detail.confirm-copy': 'অনুগ্রহ করে অনুলিপি করা ফাইলের নামটি পূরণ করুন',
+  'design.detail.confirm-copy':
+    'অনুগ্রহ করে অনুলিপি করা ফাইলের নামটি পূরণ করুন',
   'design.detail.new-name': 'নতুন ফাইলের নাম:',
   'design.detail.new-remark': 'নতুন নথি নোট:',
   'design.detail.name-duplicate':
@@ -69,11 +82,14 @@ export default {
   'design.detail.name-required': 'ফাইলের নাম খালি রাখা যাবে না',
   'design.detail.confirm-download':
     'আপনি কি এই টেমপ্লেটটি প্যাকেজ এবং ডাউনলোড করার বিষয়ে নিশ্চিত?',
-  'design.detail.confirm-upload': 'আপনি কি নিশ্চিত যে আপনি ফাইলটি আপলোড করতে চান?',
-  'design.detail.confirm-upload.content-before': 'আপনার আপলোড করা ফাইলগুলি সংরক্ষণ করা হবে৷',
+  'design.detail.confirm-upload':
+    'আপনি কি নিশ্চিত যে আপনি ফাইলটি আপলোড করতে চান?',
+  'design.detail.confirm-upload.content-before':
+    'আপনার আপলোড করা ফাইলগুলি সংরক্ষণ করা হবে৷',
   'design.detail.confirm-upload.directory': 'সুচিপত্র',
   'design.detail.new-directory': 'নতুন ডিরেক্টরি তৈরি করুন',
-  'design.detail.backup-data': 'আপনি কি বর্তমান টেমপ্লেটে প্রাথমিক তথ্য যোগ করার বিষয়ে নিশ্চিত?',
+  'design.detail.backup-data':
+    'আপনি কি বর্তমান টেমপ্লেটে প্রাথমিক তথ্য যোগ করার বিষয়ে নিশ্চিত?',
   'design.detail.backup-data.tips':
     'এই অপারেশনের লক্ষ্য হচ্ছে বর্তমান মন্দির চালু করার জন্য একটি বিক্ষোভ তথ্য যোগ করার জন্য।',
   'design.detail.backup-data.cover.tips':
@@ -114,12 +130,14 @@ export default {
     '2. ছবিটি আপলোড করার পরে, যদি পটভূমি আপডেট করা হয় কিন্তু অগ্রভাগ আপডেট না হয়, অনুগ্রহ করে স্থানীয় ব্রাউজার ক্যাশে সাফ করুন।',
   'design.share.confirm-replace':
     'আপনি কি নিশ্চিত যে আপনি টেমপ্লেট বাজারের সাথে সম্পর্কিত টেমপ্লেটটি প্রতিস্থাপন করতে চান?',
-  'design.share.confirm-new': 'আপনি কি নিশ্চিত যে আপনি এই টেমপ্লেটটি টেমপ্লেট বাজারে রাখতে চান?',
+  'design.share.confirm-new':
+    'আপনি কি নিশ্চিত যে আপনি এই টেমপ্লেটটি টেমপ্লেট বাজারে রাখতে চান?',
   'design.share.confirm-replace.content':
     'এই টেমপ্লেটটি টেমপ্লেট বাজারে রাখা হয়েছে যদি আপনি এখন এটি জমা দেন, টেমপ্লেট বাজারে সংশ্লিষ্ট টেমপ্লেটটি বর্তমান সংস্করণে আপডেট করা হবে।',
   'design.share.confirm-new.content':
     'আপনার টেমপ্লেটটি টেমপ্লেট মার্কেটে ব্যবহারকারীদের বেছে নেওয়ার এবং ব্যবহার করার জন্য রাখা হবে।',
-  'design.share.nologin': 'অনুগ্রহ করে প্রথমে AnqiCMS অফিসিয়াল ওয়েবসাইট অ্যাকাউন্টে লগ ইন করুন',
+  'design.share.nologin':
+    'অনুগ্রহ করে প্রথমে AnqiCMS অফিসিয়াল ওয়েবসাইট অ্যাকাউন্টে লগ ইন করুন',
   'design.share.share': 'ডিজাইন মার্কেটে টেমপ্লেট প্রকাশ করুন',
   'design.share.only-template': 'শুধুমাত্র টেমপ্লেট আপডেট করতে হবে কিনা',
   'design.share.only-template.no': 'সব আপডেট',
@@ -135,7 +153,8 @@ export default {
   'design.share.example-data': 'ডেমো ডেটা',
   'design.share.example-data.no': 'প্রক্রিয়া করা হয় না',
   'design.share.example-data.yes': 'ডেমো ডেটা স্বয়ংক্রিয়ভাবে ব্যাক আপ করুন',
-  'design.share.example-data.description': 'ডেমো ডেটা বহনকারী টেমপ্লেটগুলি আরও কার্যকর',
+  'design.share.example-data.description':
+    'ডেমো ডেটা বহনকারী টেমপ্লেটগুলি আরও কার্যকর',
   'design.share.author': 'টেমপ্লেট লেখক',
   'design.share.homepage': 'লেখক হোমপেজ',
   'design.share.description': 'টেমপ্লেট ভূমিকা',

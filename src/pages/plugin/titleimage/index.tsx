@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginGetTitleImageConfig,
   pluginSaveTitleImageConfig,
@@ -6,7 +7,6 @@ import {
 } from '@/services';
 import {
   ModalForm,
-  PageContainer,
   ProForm,
   ProFormDigit,
   ProFormGroup,
@@ -14,7 +14,16 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Col, ColorPicker, Modal, Row, Upload, message } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  ColorPicker,
+  Modal,
+  Row,
+  Upload,
+  message,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
 
@@ -23,6 +32,7 @@ const PluginTitleImage: React.FC<any> = () => {
   const [fetched, setFetched] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [previewData, setPreviewData] = useState<string>('');
+  const [newKey, setNewKey] = useState<string>('');
   let previewText = '';
   const intl = useIntl();
 
@@ -38,6 +48,13 @@ const PluginTitleImage: React.FC<any> = () => {
     });
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      getPreviewData();
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
     getPreviewData();
@@ -49,7 +66,10 @@ const PluginTitleImage: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     let data = Object.assign(setting, values);
     data.width = Number(data.width);
     data.height = Number(data.height);
@@ -70,7 +90,10 @@ const PluginTitleImage: React.FC<any> = () => {
     const formData = new FormData();
     formData.append('file', e.file);
     formData.append('name', field);
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginTitleImageUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
@@ -120,8 +143,8 @@ const PluginTitleImage: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Row gutter={16}>
           <Col span={12}>
             {fetched && (
@@ -137,40 +160,58 @@ const PluginTitleImage: React.FC<any> = () => {
                   options={[
                     {
                       value: false,
-                      label: intl.formatMessage({ id: 'plugin.titleimage.open.no' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.titleimage.open.no',
+                      }),
                     },
                     {
                       value: true,
-                      label: intl.formatMessage({ id: 'plugin.titleimage.open.yes' }),
+                      label: intl.formatMessage({
+                        id: 'plugin.titleimage.open.yes',
+                      }),
                     },
                   ]}
                   fieldProps={{
                     onChange: changeOpen,
                   }}
-                  extra={intl.formatMessage({ id: 'plugin.titleimage.open.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.titleimage.open.description',
+                  })}
                 />
                 <div style={{ display: setting.open ? 'block' : 'none' }}>
                   <ProFormRadio.Group
                     name="draw_sub"
-                    label={intl.formatMessage({ id: 'plugin.titleimage.draw-sub' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.titleimage.draw-sub',
+                    })}
                     options={[
                       {
                         value: false,
-                        label: intl.formatMessage({ id: 'plugin.titleimage.open.no' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.titleimage.open.no',
+                        }),
                       },
                       {
                         value: true,
-                        label: intl.formatMessage({ id: 'plugin.titleimage.open.yes' }),
+                        label: intl.formatMessage({
+                          id: 'plugin.titleimage.open.yes',
+                        }),
                       },
                     ]}
-                    extra={intl.formatMessage({ id: 'plugin.titleimage.draw-sub.description' })}
+                    extra={intl.formatMessage({
+                      id: 'plugin.titleimage.draw-sub.description',
+                    })}
                   />
-                  <ProFormGroup title={intl.formatMessage({ id: 'plugin.titleimage.size' })}>
+                  <ProFormGroup
+                    title={intl.formatMessage({ id: 'plugin.titleimage.size' })}
+                  >
                     <ProFormText
                       name="width"
                       width="sm"
                       fieldProps={{
-                        suffix: intl.formatMessage({ id: 'plugin.titleimage.width' }),
+                        suffix: intl.formatMessage({
+                          id: 'plugin.titleimage.width',
+                        }),
                       }}
                       placeholder={intl.formatMessage({
                         id: 'plugin.titleimage.width.placeholder',
@@ -181,7 +222,9 @@ const PluginTitleImage: React.FC<any> = () => {
                       name="height"
                       width="sm"
                       fieldProps={{
-                        suffix: intl.formatMessage({ id: 'plugin.titleimage.height' }),
+                        suffix: intl.formatMessage({
+                          id: 'plugin.titleimage.height',
+                        }),
                       }}
                       placeholder={intl.formatMessage({
                         id: 'plugin.titleimage.height.placeholder',
@@ -190,8 +233,12 @@ const PluginTitleImage: React.FC<any> = () => {
                   </ProFormGroup>
                   <ProFormText
                     width="sm"
-                    label={intl.formatMessage({ id: 'plugin.titleimage.color' })}
-                    extra={intl.formatMessage({ id: 'plugin.titleimage.color.default' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.titleimage.color',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'plugin.titleimage.color.default',
+                    })}
                   >
                     <ColorPicker
                       showText
@@ -203,7 +250,9 @@ const PluginTitleImage: React.FC<any> = () => {
                   </ProFormText>
                   <ProFormDigit
                     name="font_size"
-                    label={intl.formatMessage({ id: 'plugin.titleimage.font-size' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.titleimage.font-size',
+                    })}
                     width="lg"
                     placeholder={intl.formatMessage({
                       id: 'plugin.titleimage.font-size.placeholder',
@@ -212,30 +261,44 @@ const PluginTitleImage: React.FC<any> = () => {
                   {!setting.bg_image && (
                     <ProFormRadio.Group
                       name="noise"
-                      label={intl.formatMessage({ id: 'plugin.titleimage.noise' })}
+                      label={intl.formatMessage({
+                        id: 'plugin.titleimage.noise',
+                      })}
                       options={[
                         {
                           value: false,
-                          label: intl.formatMessage({ id: 'plugin.titleimage.noise.no' }),
+                          label: intl.formatMessage({
+                            id: 'plugin.titleimage.noise.no',
+                          }),
                         },
                         {
                           value: true,
-                          label: intl.formatMessage({ id: 'plugin.titleimage.noise.yes' }),
+                          label: intl.formatMessage({
+                            id: 'plugin.titleimage.noise.yes',
+                          }),
                         },
                       ]}
-                      extra={intl.formatMessage({ id: 'plugin.titleimage.noise.description' })}
+                      extra={intl.formatMessage({
+                        id: 'plugin.titleimage.noise.description',
+                      })}
                     />
                   )}
                   <ProFormText
-                    label={intl.formatMessage({ id: 'plugin.titleimage.bg-image' })}
-                    extra={intl.formatMessage({ id: 'plugin.titleimage.bg-image.description' })}
+                    label={intl.formatMessage({
+                      id: 'plugin.titleimage.bg-image',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'plugin.titleimage.bg-image.description',
+                    })}
                   >
                     <Upload
                       name="file"
                       className="logo-uploader"
                       showUploadList={false}
                       accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
-                      customRequest={async (e) => handleUploadFile('bg_image', e)}
+                      customRequest={async (e) =>
+                        handleUploadFile('bg_image', e)
+                      }
                     >
                       <Button>
                         <FormattedMessage id="plugin.titleimage.bg-image.upload" />
@@ -250,13 +313,17 @@ const PluginTitleImage: React.FC<any> = () => {
                       </div>
                     )}
                   </ProFormText>
-                  <ProFormText label={intl.formatMessage({ id: 'plugin.titleimage.font' })}>
+                  <ProFormText
+                    label={intl.formatMessage({ id: 'plugin.titleimage.font' })}
+                  >
                     <Upload
                       name="file"
                       className="logo-uploader"
                       showUploadList={false}
                       accept=".ttf"
-                      customRequest={async (e) => handleUploadFile('font_path', e)}
+                      customRequest={async (e) =>
+                        handleUploadFile('font_path', e)
+                      }
                     >
                       <Button>
                         <FormattedMessage id="plugin.titleimage.font.upload" />
@@ -292,17 +359,19 @@ const PluginTitleImage: React.FC<any> = () => {
           </Col>
         </Row>
       </Card>
-      <ModalForm
-        title={intl.formatMessage({ id: 'plugin.titleimage.preview.text' })}
-        open={visible}
-        modalProps={{
-          onCancel: () => setVisible(false),
-        }}
-        onFinish={confirmChangeText}
-      >
-        <ProFormText name="text" />
-      </ModalForm>
-    </PageContainer>
+      {visible && (
+        <ModalForm
+          title={intl.formatMessage({ id: 'plugin.titleimage.preview.text' })}
+          open={visible}
+          modalProps={{
+            onCancel: () => setVisible(false),
+          }}
+          onFinish={confirmChangeText}
+        >
+          <ProFormText name="text" />
+        </ModalForm>
+      )}
+    </NewContainer>
   );
 };
 

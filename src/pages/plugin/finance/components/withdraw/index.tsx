@@ -29,14 +29,19 @@ const PluginFinanceWithdraw: React.FC = () => {
   const saveWithdrawApproval = async () => {
     pluginSetWithdrawApproval(currentInfo).then((res) => {
       message.info(res.msg);
+      setWithdrawVisible(false);
       actionRef.current?.reload();
     });
   };
 
   const setWithdrawFinished = async (record: any) => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.finance.withdraw.finish.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.finance.withdraw.finish.content' }),
+      title: intl.formatMessage({
+        id: 'plugin.finance.withdraw.finish.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'plugin.finance.withdraw.finish.content',
+      }),
       onOk: () => {
         pluginSetWithdrawFinished(record).then((res) => {
           message.info(res.msg);
@@ -63,13 +68,19 @@ const PluginFinanceWithdraw: React.FC = () => {
       dataIndex: 'status',
       valueEnum: {
         0: {
-          text: intl.formatMessage({ id: 'plugin.finance.withdraw.status.waiting' }),
+          text: intl.formatMessage({
+            id: 'plugin.finance.withdraw.status.waiting',
+          }),
         },
         1: {
-          text: intl.formatMessage({ id: 'plugin.finance.withdraw.status.agree' }),
+          text: intl.formatMessage({
+            id: 'plugin.finance.withdraw.status.agree',
+          }),
         },
         2: {
-          text: intl.formatMessage({ id: 'plugin.finance.withdraw.status.finish' }),
+          text: intl.formatMessage({
+            id: 'plugin.finance.withdraw.status.finish',
+          }),
         },
       },
     },
@@ -125,7 +136,6 @@ const PluginFinanceWithdraw: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         search={false}
-        toolBarRender={false}
         tableAlertOptionRender={false}
         request={(params) => {
           return pluginGetWithdraws(params);
@@ -155,7 +165,9 @@ const PluginFinanceWithdraw: React.FC = () => {
             options={[
               {
                 value: 1,
-                label: intl.formatMessage({ id: 'plugin.finance.withdraw.agree' }),
+                label: intl.formatMessage({
+                  id: 'plugin.finance.withdraw.agree',
+                }),
               },
             ]}
           />

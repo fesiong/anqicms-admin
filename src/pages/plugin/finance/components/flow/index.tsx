@@ -84,7 +84,6 @@ const PluginFinanceFlow: React.FC = () => {
       actionRef={actionRef}
       rowKey="id"
       search={false}
-      toolBarRender={false}
       tableAlertOptionRender={false}
       request={(params) => {
         return pluginGetFinances(params);

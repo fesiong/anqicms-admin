@@ -1,12 +1,8 @@
+import NewContainer from '@/components/NewContainer';
 import { getStatisticDates, getStatisticInfo } from '@/services/statistic';
-import {
-  ActionType,
-  PageContainer,
-  ProColumns,
-  ProTable,
-} from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { useIntl, useModel } from '@umijs/max';
-import { Button, Space } from 'antd';
+import { Button, Card, Space } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -16,6 +12,14 @@ const StatisticDetail: React.FC = () => {
   const intl = useIntl();
   const [dates, setDates] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState('');
+  const [newKey, setNewKey] = useState<string>('');
+
+  const onTabChange = (key: string) => {
+    getStatisticDates().then((res) => {
+      setDates(res.data || []);
+      setNewKey(key);
+    });
+  };
 
   useEffect(() => {
     getStatisticDates().then((res) => {
@@ -84,41 +88,43 @@ const StatisticDetail: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<any>
-        tableExtraRender={() => (
-          <div className="statistic-dates">
-            <Space wrap size={16}>
-              {dates.map((item) => (
-                <Button
-                  type={selectedDate === item ? 'primary' : 'default'}
-                  key={item}
-                  onClick={() => handleSelectDate(item)}
-                >
-                  {item}
-                </Button>
-              ))}
-            </Space>
-          </div>
-        )}
-        headerTitle={intl.formatMessage({ id: 'statistic.traffic.detail' })}
-        actionRef={actionRef}
-        rowKey="id"
-        search={false}
-        request={(params) => {
-          params.date = selectedDate;
-          return getStatisticInfo(params);
-        }}
-        columnsState={{
-          persistenceKey: 'statistic-detail-table',
-          persistenceType: 'localStorage',
-        }}
-        columns={columns}
-        pagination={{
-          showSizeChanger: true,
-        }}
-      />
-    </PageContainer>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
+        <ProTable<any>
+          tableExtraRender={() => (
+            <div className="statistic-dates">
+              <Space wrap size={16}>
+                {dates.map((item) => (
+                  <Button
+                    type={selectedDate === item ? 'primary' : 'default'}
+                    key={item}
+                    onClick={() => handleSelectDate(item)}
+                  >
+                    {item}
+                  </Button>
+                ))}
+              </Space>
+            </div>
+          )}
+          headerTitle={intl.formatMessage({ id: 'statistic.traffic.detail' })}
+          actionRef={actionRef}
+          rowKey="id"
+          search={false}
+          request={(params) => {
+            params.date = selectedDate;
+            return getStatisticInfo(params);
+          }}
+          columnsState={{
+            persistenceKey: 'statistic-detail-table',
+            persistenceType: 'localStorage',
+          }}
+          columns={columns}
+          pagination={{
+            showSizeChanger: true,
+          }}
+        />
+      </Card>
+    </NewContainer>
   );
 };
 

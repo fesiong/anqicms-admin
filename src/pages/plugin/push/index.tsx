@@ -1,8 +1,12 @@
-import { pluginGetPush, pluginGetPushLogs, pluginSavePush } from '@/services/plugin/push';
+import NewContainer from '@/components/NewContainer';
+import {
+  pluginGetPush,
+  pluginGetPushLogs,
+  pluginSavePush,
+} from '@/services/plugin/push';
 import {
   ActionType,
   ModalForm,
-  PageContainer,
   ProColumns,
   ProForm,
   ProFormText,
@@ -22,6 +26,7 @@ const PluginPush: React.FC<any> = () => {
   const [logVisible, setLogVisible] = useState<boolean>(false);
   const [editCodeVisible, setEditCodeVisible] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -32,6 +37,12 @@ const PluginPush: React.FC<any> = () => {
     setFetched(true);
   };
 
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
+  };
+
   useEffect(() => {
     getSetting();
   }, []);
@@ -39,7 +50,10 @@ const PluginPush: React.FC<any> = () => {
   const onSubmit = async (data: any) => {
     let values = Object.assign(pushSetting, data);
     pushSetting.js_codes = jsCodes;
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     pluginSavePush(values)
       .then((res) => {
         message.success(res.msg);
@@ -91,7 +105,8 @@ const PluginPush: React.FC<any> = () => {
       title: intl.formatMessage({ id: 'plugin.aigenerate.time' }),
       width: 160,
       dataIndex: 'created_time',
-      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) =>
+        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'plugin.push.engine' }),
@@ -156,8 +171,8 @@ const PluginPush: React.FC<any> = () => {
   ];
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Alert
           message={
             <div>
@@ -173,31 +188,53 @@ const PluginPush: React.FC<any> = () => {
         <div className="mt-normal">
           {fetched && (
             <ProForm onFinish={onSubmit} initialValues={pushSetting}>
-              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.baidu' })} bordered={false}>
+              <Card
+                size="small"
+                title={intl.formatMessage({ id: 'plugin.push.baidu' })}
+                bordered={false}
+              >
                 <ProFormText
                   name="baidu_api"
                   label={intl.formatMessage({ id: 'plugin.push.api-link' })}
-                  extra={intl.formatMessage({ id: 'plugin.push.baidu.api-link.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.push.baidu.api-link.description',
+                  })}
                 />
               </Card>
-              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.bing' })} bordered={false}>
+              <Card
+                size="small"
+                title={intl.formatMessage({ id: 'plugin.push.bing' })}
+                bordered={false}
+              >
                 <ProFormText
                   name="bing_api"
                   label={intl.formatMessage({ id: 'plugin.push.api-link' })}
-                  extra={intl.formatMessage({ id: 'plugin.push.bing.api-link.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.push.bing.api-link.description',
+                  })}
                 />
               </Card>
-              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.google' })} bordered={false}>
+              <Card
+                size="small"
+                title={intl.formatMessage({ id: 'plugin.push.google' })}
+                bordered={false}
+              >
                 <ProFormTextArea
                   name="google_json"
                   label={intl.formatMessage({ id: 'plugin.push.google.json' })}
                   fieldProps={{
                     rows: 5,
                   }}
-                  extra={intl.formatMessage({ id: 'plugin.push.google.description' })}
+                  extra={intl.formatMessage({
+                    id: 'plugin.push.google.description',
+                  })}
                 />
               </Card>
-              <Card size="small" title={intl.formatMessage({ id: 'plugin.push.other-js' })} bordered={false}>
+              <Card
+                size="small"
+                title={intl.formatMessage({ id: 'plugin.push.other-js' })}
+                bordered={false}
+              >
                 <ProTable<any>
                   actionRef={actionRef}
                   rowKey="name"
@@ -226,11 +263,15 @@ const PluginPush: React.FC<any> = () => {
                   pagination={false}
                 />
                 <div>
-                  <p><FormattedMessage id="plugin.push.other-js.tips1" /></p>
+                  <p>
+                    <FormattedMessage id="plugin.push.other-js.tips1" />
+                  </p>
                   <p>
                     <FormattedMessage id="plugin.push.other-js.tips2" />
                   </p>
-                  <p><FormattedMessage id="plugin.push.other-js.tips3" /></p>
+                  <p>
+                    <FormattedMessage id="plugin.push.other-js.tips3" />
+                  </p>
                 </div>
               </Card>
             </ProForm>
@@ -274,18 +315,26 @@ const PluginPush: React.FC<any> = () => {
           }}
           initialValues={jsCodes[currentIndex]}
         >
-          <ProFormText name="name" label={intl.formatMessage({ id: 'plugin.push.other-js.name' })} placeholder={intl.formatMessage({ id: 'plugin.push.other-js.name.placeholder' })} />
+          <ProFormText
+            name="name"
+            label={intl.formatMessage({ id: 'plugin.push.other-js.name' })}
+            placeholder={intl.formatMessage({
+              id: 'plugin.push.other-js.name.placeholder',
+            })}
+          />
           <ProFormTextArea
             name="value"
             label={intl.formatMessage({ id: 'plugin.push.other-js.code' })}
-            extra={intl.formatMessage({ id: 'plugin.push.other-js.code.placeholder' })}
+            extra={intl.formatMessage({
+              id: 'plugin.push.other-js.code.placeholder',
+            })}
             fieldProps={{
               rows: 8,
             }}
           />
         </ModalForm>
       )}
-    </PageContainer>
+    </NewContainer>
   );
 };
 

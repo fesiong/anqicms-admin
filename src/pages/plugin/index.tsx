@@ -19,6 +19,7 @@ import icon_guestbook from '@/images/icon_guestbook.png';
 import icon_htmlcache from '@/images/icon_htmlcache.png';
 import icon_importapi from '@/images/icon_importapi.png';
 import icon_interference from '@/images/icon_interference.png';
+import icon_jsonld from '@/images/icon_jsonld.png';
 import icon_keyword from '@/images/icon_keyword.png';
 import icon_limiter from '@/images/icon_limiter.png';
 import icon_material from '@/images/icon_material.png';
@@ -148,6 +149,8 @@ const PluginIndex: React.FC = () => {
         return icon_multilang;
       case 'translate':
         return icon_translate;
+      case 'jsonld':
+        return icon_jsonld;
     }
   };
 

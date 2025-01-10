@@ -49,7 +49,7 @@ export default {
   'plugin.aigenerate.insert-image': '文章圖片處理',
   'plugin.aigenerate.insert-image.default': '預設',
   'plugin.aigenerate.insert-image.diy': '自訂插入圖片',
-  'plugin.aigenerate.insert-image.category': '自訂插入圖片',
+  'plugin.aigenerate.insert-image.category': '來自圖片分類',
   'plugin.aigenerate.insert-image.list': '供插入的圖片列表',
   'plugin.aigenerate.replace': '內容替換',
   'plugin.aigenerate.replace.tips1':
@@ -493,7 +493,7 @@ export default {
   'plugin.importapi.field.draft':
     '是否存入到草稿，支援的值有：false|true，填寫true時，則發佈的文檔會儲存到草稿',
   'plugin.importapi.field.cover':
-    '當相同標題、ID文檔存在時是否覆蓋，支援的值有：false|true，填寫true時，則會覆蓋成最新的內容，而設定為false時，則會提示錯誤',
+    '當相同標題、ID檔案存在時是否覆蓋，支持的值有：0|1|2，填寫1時，則會覆蓋成最新的內容，設定為0或不傳時，則會提示錯誤，填寫2時，不做判斷',
   'plugin.importapi.return-type': '返回格式：',
   'plugin.importapi.return-example.success': '正確結果範例：',
   'plugin.importapi.return-example.failure': '錯誤結果範例：',
@@ -1257,6 +1257,8 @@ export default {
   'content.multilang.select.description':
     '選擇一個已經建立好的網站作為多語言網站',
   'plugin.multilang.language': '站點語言',
+  'plugin.multilang.syncing': '正在同步中',
+  'plugin.multilang.icon': '網站圖示',
   'plugin.translate.lang': '翻譯語言',
   'content.translate.origin-content': '原文',
   'plugin.translate.result': '翻譯結果',
@@ -1274,4 +1276,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': '翻譯記錄',
+  'plugin.jsonld.tips.1':
+    '開啟後，系統將自動把網站的結構化資料標記為 JSON-LD 格式，並自動插入到頁面底部，以便搜尋引擎更好的理解網站內容。 ',
+  'plugin.jsonld.tips.2':
+    '關於 Google 支援的結構化資料標記，請參考文件：https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': '開啟結構化資料標記',
+  'plugin.jsonld.open.false': '否',
+  'plugin.jsonld.open.true': '是',
+  'plugin.jsonld.author': '預設作者',
+  'plugin.jsonld.brand': '預設品牌',
 };

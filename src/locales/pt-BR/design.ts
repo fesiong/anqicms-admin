@@ -1,11 +1,17 @@
 export default {
   'design.market.downloading': 'Baixando...',
-  'design.confirm-enable': 'Tem certeza de que deseja ativar este modelo de design?',
+  'design.confirm-enable':
+    'Tem certeza de que deseja ativar este modelo de design?',
   'design.switching-template': 'Alternando modelos',
   'design.cannot-delete': 'O modelo padrão não pode ser excluído',
-  'design.confirm-delete': 'Tem certeza de que deseja excluir este conjunto de modelos de design?',
+  'design.confirm-delete':
+    'Tem certeza de que deseja excluir este conjunto de modelos de design?',
   'design.data.confirm-install':
     'Tem certeza de que deseja instalar os dados de demonstração deste modelo?',
+  'design.data.confirm-upload':
+    'Já existe um modelo com o mesmo nome, selecione um método de processamento',
+  'design.data.confirm.new': 'Novo',
+  'design.data.confirm.cover': 'capa',
   'design.data.tips1':
     'Esta operação de instalação será substituída pelos dados de demonstração do modelo, portanto proceda com cuidado.',
   'design.data.tips2':
@@ -20,7 +26,8 @@ export default {
   'design.data.notenable': 'Não habilitado',
   'design.data.enable': 'ativado',
   'design.data.enable.action': 'habilitar',
-  'design.data.install.example': 'Instale os dados de demonstração para este modelo',
+  'design.data.install.example':
+    'Instale os dados de demonstração para este modelo',
   'design.data.initial': 'inicialização',
   'design.data.manage': 'gerenciar',
   'design.list': 'Lista de modelos de design',
@@ -39,7 +46,8 @@ export default {
     'Tem certeza de que deseja restaurar para a versão no horário especificado?',
   'design.editor.confirm-restore.content':
     'Fazer isso fará com que o código não salvo seja perdido.',
-  'design.editor.history.confirm-delete': 'Tem certeza de que deseja excluir este histórico?',
+  'design.editor.history.confirm-delete':
+    'Tem certeza de que deseja excluir este histórico?',
   'design.editor.confirm-goback':
     'Você tem um código não salvo. Tem certeza de que deseja retornar?',
   'design.size': 'tamanho',
@@ -63,17 +71,22 @@ export default {
   'design.explain': 'ilustrar',
   'design.view-doc': 'Ver documentação',
   'design.view': 'Verificar',
-  'design.doc.tips': 'Para obter documentação mais detalhada sobre o uso do modelo, consulte:',
-  'design.detail.confirm-delete': 'Tem certeza de que deseja excluir este arquivo?',
+  'design.doc.tips':
+    'Para obter documentação mais detalhada sobre o uso do modelo, consulte:',
+  'design.detail.confirm-delete':
+    'Tem certeza de que deseja excluir este arquivo?',
   'design.detail.confirm-copy': 'Por favor preencha o nome do arquivo copiado',
   'design.detail.new-name': 'Novo nome de arquivo:',
   'design.detail.new-remark': 'Novas notas do documento:',
   'design.detail.name-duplicate':
     'O novo nome do arquivo é consistente com o nome do arquivo copiado. Modifique-o novamente.',
   'design.detail.name-required': 'O nome do arquivo não pode ficar vazio',
-  'design.detail.confirm-download': 'Tem certeza de que deseja empacotar e baixar este modelo?',
-  'design.detail.confirm-upload': 'Tem certeza de que deseja fazer upload do arquivo?',
-  'design.detail.confirm-upload.content-before': 'Os arquivos que você enviar serão armazenados em',
+  'design.detail.confirm-download':
+    'Tem certeza de que deseja empacotar e baixar este modelo?',
+  'design.detail.confirm-upload':
+    'Tem certeza de que deseja fazer upload do arquivo?',
+  'design.detail.confirm-upload.content-before':
+    'Os arquivos que você enviar serão armazenados em',
   'design.detail.confirm-upload.directory': 'Índice',
   'design.detail.new-directory': 'Criar novo diretório',
   'design.detail.backup-data':
@@ -91,7 +104,8 @@ export default {
   'design.detail.template.download': 'Modelo de download de pacote',
   'design.detail.template.backup': 'Fazer backup dos dados do modelo',
   'design.detail.template.restore': 'Inicializar dados do modelo',
-  'design.detail.template.tomarket': 'Coloque o modelo no mercado de modelos AnqiCMS',
+  'design.detail.template.tomarket':
+    'Coloque o modelo no mercado de modelos AnqiCMS',
   'design.detail.template.share': 'Modelo de listagem de compartilhamento',
   'design.detail.new-static': 'Adicionar novo recurso',
   'design.detail.addnew': 'adicionar novo',
@@ -102,7 +116,8 @@ export default {
     'Observação: somente arquivos de modelo (.html), arquivos de recursos (css, js, imagens, fontes, etc.) e arquivos zip podem ser carregados. Se você fizer upload de um zip, ele será descompactado automaticamente no diretório atual.',
   'design.detail.file-name': 'nome do arquivo',
   'design.detail.template-name': 'Nome do modelo',
-  'design.detail.template-name.example': 'Por exemplo: modelo de equipamento mecânico',
+  'design.detail.template-name.example':
+    'Por exemplo: modelo de equipamento mecânico',
   'design.detail.template-type': 'tipo de modelo',
   'design.detail.template-type.description':
     'O modelo do tipo adaptativo possui apenas um nome de domínio e um conjunto de modelos; o tipo de adaptação de código possui um nome de domínio e 2 conjuntos de modelos. Acessar o mesmo nome de domínio no computador e nos terminais móveis exibirá modelos diferentes; tipo requer 2 nomes de domínio e 2 conjuntos de modelos , visite o nome de domínio do computador para exibir o modelo do computador, visite o nome de domínio do telefone celular para exibir o modelo do telefone celular.',
@@ -124,7 +139,8 @@ export default {
     'Este modelo foi colocado no mercado de modelos. Se você enviá-lo agora, o modelo correspondente no mercado de modelos será atualizado para a versão atual.',
   'design.share.confirm-new.content':
     'Seu modelo será colocado no mercado de modelos para os usuários escolherem e usarem.',
-  'design.share.nologin': 'Faça login na conta do site oficial do AnqiCMS primeiro',
+  'design.share.nologin':
+    'Faça login na conta do site oficial do AnqiCMS primeiro',
   'design.share.share': 'Publique modelos no mercado de design',
   'design.share.only-template': 'Se deve atualizar apenas modelos',
   'design.share.only-template.no': 'Atualize tudo',
@@ -139,7 +155,8 @@ export default {
     'Se compartilhar gratuitamente, nenhuma configuração será necessária. Após definir o preço de venda, se um usuário adquirir o template, você receberá 80% da receita real de vendas.',
   'design.share.example-data': 'Dados de demonstração',
   'design.share.example-data.no': 'Não processado',
-  'design.share.example-data.yes': 'Faça backup automático dos dados de demonstração',
+  'design.share.example-data.yes':
+    'Faça backup automático dos dados de demonstração',
   'design.share.example-data.description':
     'Modelos que transportam dados de demonstração são mais eficazes',
   'design.share.author': 'autor do modelo',

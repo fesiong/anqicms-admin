@@ -49,7 +49,7 @@ export default {
   'plugin.aigenerate.insert-image': '文章图片处理',
   'plugin.aigenerate.insert-image.default': '默认',
   'plugin.aigenerate.insert-image.diy': '自定义插入图片',
-  'plugin.aigenerate.insert-image.category': '自定义插入图片',
+  'plugin.aigenerate.insert-image.category': '来自图片分类',
   'plugin.aigenerate.insert-image.list': '供插入的图片列表',
   'plugin.aigenerate.replace': '内容替换',
   'plugin.aigenerate.replace.tips1':
@@ -494,7 +494,7 @@ export default {
   'plugin.importapi.field.draft':
     '是否存入到草稿，支持的值有：false|true，填写true时，则发布的文档会保存到草稿',
   'plugin.importapi.field.cover':
-    '当相同标题、ID文档存在时是否覆盖，支持的值有：false|true，填写true时，则会覆盖成最新的内容，设置为false时，则会提示错误',
+    '当相同标题、ID文档存在时是否覆盖，支持的值有：0|1|2，填写1时，则会覆盖成最新的内容，设置为0或不传时，则会提示错误，填写2时，不做判断',
   'plugin.importapi.return-type': '返回格式：',
   'plugin.importapi.return-example.success': '正确结果示例：',
   'plugin.importapi.return-example.failure': '错误结果示例：',
@@ -1259,6 +1259,8 @@ export default {
   'content.multilang.select.description':
     '选择一个已经创建好的站点作为多语言站点',
   'plugin.multilang.language': '站点语言',
+  'plugin.multilang.syncing': '正在同步中',
+  'plugin.multilang.icon': '站点图标',
   'plugin.translate.lang': '翻译语言',
   'content.translate.origin-content': '原文',
   'plugin.translate.result': '翻译结果',
@@ -1276,4 +1278,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': '翻译记录',
+  'plugin.jsonld.tips.1':
+    '开启后，系统将自动把网站的结构化数据标记为 JSON-LD 格式，并自动插入到页面底部，以便搜索引擎更好的理解网站内容。',
+  'plugin.jsonld.tips.2':
+    '关于 Google 支持的结构化数据标记，请参考文档：https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': '开启结构化数据标记',
+  'plugin.jsonld.open.false': '否',
+  'plugin.jsonld.open.true': '是',
+  'plugin.jsonld.author': '默认作者',
+  'plugin.jsonld.brand': '默认品牌',
 };

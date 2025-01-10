@@ -376,6 +376,38 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                   />
                 </Col>
               </Row>
+              <Row className="mt-normal" gutter={16}>
+                <Col>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.keywords.name" />:
+                  </div>
+                </Col>
+                <Col flex={1}>
+                  <Input
+                    name="keywords"
+                    defaultValue={setting.keywords}
+                    onChange={(e: any) => {
+                      handleChangeInput('keywords', e);
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row className="mt-normal" gutter={16}>
+                <Col>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.description.name" />:
+                  </div>
+                </Col>
+                <Col flex={1}>
+                  <Input.TextArea
+                    name="description"
+                    defaultValue={setting.description}
+                    onChange={(e: any) => {
+                      handleChangeInput('description', e);
+                    }}
+                  />
+                </Col>
+              </Row>
             </div>
             <ProTable<any>
               headerTitle={intl.formatMessage({

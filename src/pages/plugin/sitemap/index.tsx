@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import { getCategories, getModules } from '@/services';
 import {
   pluginBuildSitemap,
@@ -5,7 +6,6 @@ import {
   pluginSaveSitemap,
 } from '@/services/plugin/sitemap';
 import {
-  PageContainer,
   ProForm,
   ProFormInstance,
   ProFormRadio,
@@ -21,6 +21,7 @@ const PluginSitemap: React.FC<any> = () => {
   const formRef = React.createRef<ProFormInstance>();
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -28,6 +29,12 @@ const PluginSitemap: React.FC<any> = () => {
     let setting = res.data || {};
     setSitemapSetting(setting);
     setFetched(true);
+  };
+
+  const onTabChange = (key: string) => {
+    getSetting().then(() => {
+      setNewKey(key);
+    });
   };
 
   useEffect(() => {
@@ -70,8 +77,8 @@ const PluginSitemap: React.FC<any> = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <Alert
           message={
             <div>
@@ -240,7 +247,7 @@ const PluginSitemap: React.FC<any> = () => {
           </div>
         )}
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

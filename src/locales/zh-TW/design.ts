@@ -5,6 +5,9 @@ export default {
   'design.cannot-delete': '預設模板不能刪除',
   'design.confirm-delete': '確定要刪除這套設計模板嗎？',
   'design.data.confirm-install': '確定要安裝該模板的演示資料嗎？',
+  'design.data.confirm-upload': '已存在相同名稱的模板，請選擇處理方式',
+  'design.data.confirm.new': '新建',
+  'design.data.confirm.cover': '覆寫',
   'design.data.tips1': '此安裝操作將會以模板的示範資料覆蓋，請謹慎操作。',
   'design.data.tips2': '你可以選擇在初始化模板資料時自動清空原站點資料。',
   'design.data.tips3': '在執行安裝演示資料前，建議先備份網站原有資料。',
@@ -58,7 +61,8 @@ export default {
   'design.detail.confirm-copy': '請填寫複製後的檔案名',
   'design.detail.new-name': '新的檔案名稱：',
   'design.detail.new-remark': '新的文件備註：',
-  'design.detail.name-duplicate': '新檔案名稱與被複製的檔案名稱一致，請重新修改',
+  'design.detail.name-duplicate':
+    '新檔案名稱與被複製的檔案名稱一致，請重新修改',
   'design.detail.name-required': '檔案名稱不能為空',
   'design.detail.confirm-download': '確定要打包下載該模板嗎？',
   'design.detail.confirm-upload': '確定要上傳文件嗎？',
@@ -66,7 +70,8 @@ export default {
   'design.detail.confirm-upload.directory': '目錄',
   'design.detail.new-directory': '新目錄',
   'design.detail.backup-data': '確定要給目前模板增加初始化資料嗎？',
-  'design.detail.backup-data.tips': '該操作旨在給當前範本新增一份用於範本初始化的演示數據。',
+  'design.detail.backup-data.tips':
+    '該操作旨在給當前範本新增一份用於範本初始化的演示數據。',
   'design.detail.backup-data.cover.tips':
     '該範本已經存在演示數據，如果再次執行，舊的演示數據將會被覆蓋。',
   'design.detail.backup-data.doing': '正在執行備份中',
@@ -99,13 +104,16 @@ export default {
   'design.detail.replace': '替換文件',
   'design.detail.update-name': '替換文件',
   'design.detail.tips.name': '相關說明：',
-  'design.detail.tips1': '1.替換圖片時，圖片的URL位址不變，圖片大小變成新圖片的。',
-  'design.detail.tips2': '2.圖片上傳後，如果後台更新了，但前台未更新，請清理本機瀏覽器快取。',
+  'design.detail.tips1':
+    '1.替換圖片時，圖片的URL位址不變，圖片大小變成新圖片的。',
+  'design.detail.tips2':
+    '2.圖片上傳後，如果後台更新了，但前台未更新，請清理本機瀏覽器快取。',
   'design.share.confirm-replace': '確定要替換模板市場對應的模板嗎？',
   'design.share.confirm-new': '確定要將該模板上架到模板市場嗎？',
   'design.share.confirm-replace.content':
     '此範本已上架範本市場，現在提交則會更新範本市場對應範本到目前版本。',
-  'design.share.confirm-new.content': '您的模板將上架到模板市場供用戶選擇使用。',
+  'design.share.confirm-new.content':
+    '您的模板將上架到模板市場供用戶選擇使用。',
   'design.share.nologin': '請先登入AnqiCMS官網帳號',
   'design.share.share': '上架模板到設計市場',
   'design.share.only-template': '是否僅更新模板',

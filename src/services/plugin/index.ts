@@ -10,6 +10,7 @@ export * from './guestbook';
 export * from './htmlcache';
 export * from './importApi';
 export * from './interference';
+export * from './jsonld';
 export * from './keyword';
 export * from './limiter';
 export * from './link';

@@ -59,6 +59,7 @@ export default {
   'menu.plugin.limiter': 'Защита безопасности веб-сайта',
   'menu.plugin.multilang': 'Многоязычная поддержка сайта',
   'menu.plugin.translate': 'Конфигурация перевода',
+  'menu.plugin.jsonld': 'Настройка данных схемы',
   'menu.design': 'дизайн шаблона',
   'menu.design.index': 'мой шаблон',
   'menu.design.editor': 'Изменить код',

@@ -93,7 +93,10 @@ export default {
   'setting.content.editor.description':
     'Umumnya, Anda dapat menggunakan editor teks kaya, dan Penurunan harga memiliki ambang batas penggunaan yang lebih tinggi.',
   'setting.content.remote-download': 'Unduh gambar jarak jauh',
-  'setting.content.outlink-filter': 'Filter tautan eksternal secara otomatis',
+  'setting.content.outlink-filter': 'Pemrosesan tautan eksternal konten',
+  'setting.content.outlink-filter.allow': 'Simpan tautan',
+  'setting.content.outlink-filter.remove': 'Hapus tautan',
+  'setting.content.outlink-filter.nofollow': 'Tambahkan Nofollow',
   'setting.content.urltoken': 'Format URL khusus',
   'setting.content.urltoken.long': 'Pinyin penuh',
   'setting.content.urltoken.short': 'Inisial',

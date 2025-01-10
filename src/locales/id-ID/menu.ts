@@ -57,6 +57,7 @@ export default {
   'menu.plugin.limiter': 'Perlindungan keamanan situs web',
   'menu.plugin.multilang': 'Dukungan situs multi-bahasa',
   'menu.plugin.translate': 'Konfigurasi terjemahan',
+  'menu.plugin.jsonld': 'Data Skema',
   'menu.design': 'desain templat',
   'menu.design.index': 'templat saya',
   'menu.design.editor': 'Ubah kode',

@@ -177,12 +177,20 @@ const SettingContactFrom: React.FC<any> = () => {
                 {
                   value: 0,
                   label: intl.formatMessage({
-                    id: 'setting.content.notenable',
+                    id: 'setting.content.outlink-filter.allow',
                   }),
                 },
                 {
                   value: 1,
-                  label: intl.formatMessage({ id: 'setting.content.enable' }),
+                  label: intl.formatMessage({
+                    id: 'setting.content.outlink-filter.remove',
+                  }),
+                },
+                {
+                  value: 2,
+                  label: intl.formatMessage({
+                    id: 'setting.content.outlink-filter.nofollow',
+                  }),
                 },
               ]}
             />

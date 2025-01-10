@@ -54,7 +54,7 @@ export default {
   'plugin.aigenerate.insert-image': '記事画像処理',
   'plugin.aigenerate.insert-image.default': 'デフォルト',
   'plugin.aigenerate.insert-image.diy': 'カスタム挿入画像',
-  'plugin.aigenerate.insert-image.category': 'カスタム挿入画像',
+  'plugin.aigenerate.insert-image.category': '画像分類から',
   'plugin.aigenerate.insert-image.list': '挿入する画像のリスト',
   'plugin.aigenerate.replace': 'コンテンツの置き換え',
   'plugin.aigenerate.replace.tips1':
@@ -545,7 +545,7 @@ export default {
   'plugin.importapi.field.draft':
     'ドラフトに保存するかどうか。サポートされる値は次のとおりです。 true を入力すると、公開されたドキュメントはドラフトに保存されます。',
   'plugin.importapi.field.cover':
-    '同じタイトルと ID のドキュメントが存在する場合に上書きするかどうか。サポートされる値は次のとおりです。 true を入力すると、最新のコンテンツが上書きされます。 false に設定すると、エラーが表示されます。',
+    '同じタイトル、ID文書が存在する場合に上書きするかどうか、サポートされている値は0｜1｜2であり、1を記入すると最新の内容に上書きされ、0に設定されている場合、または転送されていない場合、エラーが表示され、2を記入する場合、判断しない',
   'plugin.importapi.return-type': '戻り形式:',
   'plugin.importapi.return-example.success': '正しい結果の例:',
   'plugin.importapi.return-example.failure': '間違った結果の例:',
@@ -1372,7 +1372,7 @@ export default {
   'plugin.multilang.type.same-url': 'URLは変更されません',
   'plugin.multilang.type.description':
     '独立ドメイン名形式は言語ごとに別のドメイン名、独立ディレクトリ形式は言語ごとのディレクトリ、URL定数形式では表示結果が異なります。すべての言語が同じ URL を指しているということです。',
-  'plugin.multilang.default_lang': 'メインサイトの言語',
+  'plugin.multilang.default_language': 'メインサイトの言語',
   'plugin.multilang.auto_translate': '自動翻訳するかどうか',
   'plugin.multilang.auto_translate.false': 'いいえ',
   'plugin.multilang.auto_translate.true': 'はい',
@@ -1384,7 +1384,9 @@ export default {
   'content.multilang.select': 'サイトを選択',
   'content.multilang.select.description':
     '作成済みのサイトを多言語サイトとして選択します',
-  'plugin.multilang. language': 'サイト言語',
+  'plugin.multilang.language': 'サイト言語',
+  'plugin.multilang.syncing': '同期中',
+  'plugin.multilang.icon': 'サイトアイコン',
   'plugin.translate.lang': '言語を翻訳',
   'content.translate.origin-content': '元のテキスト',
   'plugin.translate.result': '翻訳結果',
@@ -1402,4 +1404,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': '翻訳レコード',
+  'plugin.jsonld.tips.1':
+    'これをオンにすると、システムは自動的に Web サイトの構造化データを JSON-LD 形式でマークし、それをページの下部に挿入して、検索エンジンが Web サイトのコンテンツをよりよく理解できるようにします。 ',
+  'plugin.jsonld.tips.2':
+    'Google がサポートする構造化データのマークアップについては、ドキュメントを参照してください: https://developers.google.com/search/docs/Appearance/structord-data/search-gallery',
+  'plugin.jsonld.open.name': 'オープン構造化データ マークアップ',
+  'plugin.jsonld.open.false': 'いいえ',
+  'plugin.jsonld.open.true': 'はい',
+  'plugin.jsonld.author': 'デフォルトの作成者',
+  'plugin.jsonld.brand': 'デフォルトのブランド',
 };

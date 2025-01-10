@@ -95,7 +95,10 @@ export default {
   'setting.content.editor.description':
     'Geralmente, você pode usar um editor de rich text, e o Markdown tem um limite de uso mais alto.',
   'setting.content.remote-download': 'Baixe fotos remotas',
-  'setting.content.outlink-filter': 'Filtrar links externos automaticamente',
+  'setting.content.outlink-filter': 'Processamento de link externo de conteúdo',
+  'setting.content.outlink-filter.allow': 'Manter link',
+  'setting.content.outlink-filter.remove': 'Remover link',
+  'setting.content.outlink-filter.nofollow': 'Adicionar Nofollow',
   'setting.content.urltoken': 'Formato de URL personalizado',
   'setting.content.urltoken.long': 'Pinyin completo',
   'setting.content.urltoken.short': 'Iniciais',

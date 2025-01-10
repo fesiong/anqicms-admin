@@ -17,6 +17,7 @@ export default {
   'website.name': 'Nama situs',
   'website.root-path.placeholder':
     'Jalur sebenarnya dari server, seperti: /www/wwwroot/anqicms.com',
+  'website.root-path.prefix': 'Direktori akar situs default:',
   'website.root-path.description':
     'Jangan melakukan perubahan pada situs yang berjalan normal, karena akan menyebabkan ketidaknormalan situs.',
   'website.base-url.placeholder': 'Seperti: http://www.anqicms.com',

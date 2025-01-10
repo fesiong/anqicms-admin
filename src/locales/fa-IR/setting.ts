@@ -94,7 +94,10 @@ export default {
   'setting.content.editor.description':
     'به طور کلی، می توانید از یک ویرایشگر متن غنی استفاده کنید و Markdown آستانه بالاتری برای استفاده دارد.',
   'setting.content.remote-download': 'دانلود تصاویر از راه دور',
-  'setting.content.outlink-filter': 'فیلتر کردن خودکار لینک های خارجی',
+  'setting.content.outlink-filter': 'پردازش پیوند خارجی محتوا',
+  'setting.content.outlink-filter.allow': 'Keep link',
+  'setting.content.outlink-filter.remove': 'حذف پیوند',
+  'setting.content.outlink-filter.nofollow': 'Add Nofollow',
   'setting.content.urltoken': 'قالب URL سفارشی',
   'setting.content.urltoken.long': 'پینیین کامل',
   'setting.content.urltoken.short': 'حروف اول',

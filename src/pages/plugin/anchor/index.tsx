@@ -1,3 +1,4 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginDeleteAnchor,
   pluginExportAnchor,
@@ -6,9 +7,9 @@ import {
 } from '@/services/plugin/anchor';
 import { exportFile } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Modal, Space, message } from 'antd';
+import { Button, Card, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import AnchorForm from './components/anchorForm';
 import AnchorImport from './components/import';
@@ -20,13 +21,21 @@ const PluginAnchor: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [currentAnchor, setCurrentAnchor] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
+
+  const onTabChange = (key: string) => {
+    setNewKey(key);
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.anchor.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -57,7 +66,10 @@ const PluginAnchor: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.anchor.replace.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
 
         let res = await pluginReplaceAnchor(record);
         message.info(res.msg);
@@ -73,7 +85,10 @@ const PluginAnchor: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.anchor.export.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
 
         let res = await pluginExportAnchor();
 
@@ -94,7 +109,9 @@ const PluginAnchor: React.FC = () => {
       dataIndex: 'title',
       fieldProps() {
         return {
-          placeholder: intl.formatMessage({ id: 'plugin.anchor.title.placeholder' }),
+          placeholder: intl.formatMessage({
+            id: 'plugin.anchor.title.placeholder',
+          }),
         };
       },
     },
@@ -150,111 +167,113 @@ const PluginAnchor: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.anchor' })}
-        actionRef={actionRef}
-        rowKey="id"
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="add"
-            onClick={() => {
-              handleEditAnchor({});
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="plugin.anchor.new" />
-          </Button>,
-          <Button
-            key="export"
-            onClick={() => {
-              handleExportAnchor();
-            }}
-          >
-            <FormattedMessage id="plugin.anchor.export" />
-          </Button>,
-          <AnchorImport
-            key="import"
-            onCancel={() => {
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
+        <ProTable<any>
+          headerTitle={intl.formatMessage({ id: 'menu.plugin.anchor' })}
+          actionRef={actionRef}
+          rowKey="id"
+          toolBarRender={() => [
             <Button
+              type="primary"
+              key="add"
+              onClick={() => {
+                handleEditAnchor({});
+              }}
+            >
+              <PlusOutlined /> <FormattedMessage id="plugin.anchor.new" />
+            </Button>,
+            <Button
+              key="export"
+              onClick={() => {
+                handleExportAnchor();
+              }}
+            >
+              <FormattedMessage id="plugin.anchor.export" />
+            </Button>,
+            <AnchorImport
               key="import"
-              onClick={() => {
-                //todo
+              onCancel={() => {
+                actionRef.current?.reloadAndRest?.();
               }}
             >
-              <FormattedMessage id="plugin.anchor.import" />
-            </Button>
-          </AnchorImport>,
-          <Button
-            key="update"
-            onClick={() => {
-              handleReplaceAnchor({});
-            }}
-          >
-            <FormattedMessage id="plugin.anchor.batch-update" />
-          </Button>,
-          <AnchorSetting key="setting">
+              <Button
+                key="import"
+                onClick={() => {
+                  //todo
+                }}
+              >
+                <FormattedMessage id="plugin.anchor.import" />
+              </Button>
+            </AnchorImport>,
             <Button
-              key="setting"
+              key="update"
               onClick={() => {
-                //todo
+                handleReplaceAnchor({});
               }}
             >
-              <FormattedMessage id="plugin.anchor.setting" />
-            </Button>
-          </AnchorSetting>,
-        ]}
-        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-          <Space>
-            <Button
-              size={'small'}
-              onClick={() => {
-                handleRemove(selectedRowKeys);
-              }}
-            >
-              <FormattedMessage id="content.option.batch-delete" />
-            </Button>
-            <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-select" />
-            </Button>
-          </Space>
-        )}
-        request={(params) => {
-          return pluginGetAnchors(params);
-        }}
-        columnsState={{
-          persistenceKey: 'anchor-table',
-          persistenceType: 'localStorage',
-        }}
-        columns={columns}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            setSelectedRowKeys(selectedRowKeys);
-          },
-        }}
-        pagination={{
-          showSizeChanger: true,
-        }}
-      />
-      {editVisible && (
-        <AnchorForm
-          open={editVisible}
-          editingAnchor={currentAnchor}
-          onCancel={() => {
-            setEditVisible(false);
+              <FormattedMessage id="plugin.anchor.batch-update" />
+            </Button>,
+            <AnchorSetting key="setting">
+              <Button
+                key="setting"
+                onClick={() => {
+                  //todo
+                }}
+              >
+                <FormattedMessage id="plugin.anchor.setting" />
+              </Button>
+            </AnchorSetting>,
+          ]}
+          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+            <Space>
+              <Button
+                size={'small'}
+                onClick={() => {
+                  handleRemove(selectedRowKeys);
+                }}
+              >
+                <FormattedMessage id="content.option.batch-delete" />
+              </Button>
+              <Button type="link" size={'small'} onClick={onCleanSelected}>
+                <FormattedMessage id="content.option.cancel-select" />
+              </Button>
+            </Space>
+          )}
+          request={(params) => {
+            return pluginGetAnchors(params);
           }}
-          onSubmit={async () => {
-            setEditVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
+          columnsState={{
+            persistenceKey: 'anchor-table',
+            persistenceType: 'localStorage',
+          }}
+          columns={columns}
+          rowSelection={{
+            onChange: (selectedRowKeys) => {
+              setSelectedRowKeys(selectedRowKeys);
+            },
+          }}
+          pagination={{
+            showSizeChanger: true,
           }}
         />
-      )}
-    </PageContainer>
+        {editVisible && (
+          <AnchorForm
+            open={editVisible}
+            editingAnchor={currentAnchor}
+            onCancel={() => {
+              setEditVisible(false);
+            }}
+            onSubmit={async () => {
+              setEditVisible(false);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }}
+          />
+        )}
+      </Card>
+    </NewContainer>
   );
 };
 

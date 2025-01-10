@@ -1,17 +1,13 @@
+import NewContainer from '@/components/NewContainer';
 import {
   pluginDeleteFile,
   pluginGetUploadFiles,
   pluginUploadFile,
 } from '@/services/plugin/fileupload';
 import { PlusOutlined } from '@ant-design/icons';
-import {
-  ActionType,
-  PageContainer,
-  ProColumns,
-  ProTable,
-} from '@ant-design/pro-components';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Alert, Button, Modal, Space, Upload, message } from 'antd';
+import { Alert, Button, Card, Modal, Space, Upload, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 
@@ -19,7 +15,12 @@ const PluginFileupload: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
+
+  const onTabChange = (key: string) => {
+    setNewKey(key);
+  };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
     Modal.confirm({
@@ -103,88 +104,90 @@ const PluginFileupload: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
-      <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.fileupload' })}
-        actionRef={actionRef}
-        rowKey="hash"
-        search={false}
-        toolBarRender={() => [
-          <Button
-            key="upload"
-            onClick={() => {
-              setVisible(true);
-            }}
-          >
-            <PlusOutlined />{' '}
-            <FormattedMessage id="plugin.fileupload.upload.name" />
-          </Button>,
-        ]}
-        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-          <Space>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
+        <ProTable<any>
+          headerTitle={intl.formatMessage({ id: 'menu.plugin.fileupload' })}
+          actionRef={actionRef}
+          rowKey="hash"
+          search={false}
+          toolBarRender={() => [
             <Button
-              size={'small'}
+              key="upload"
               onClick={() => {
-                handleRemove(selectedRowKeys);
+                setVisible(true);
               }}
             >
-              <FormattedMessage id="content.option.batch-delete" />
-            </Button>
-            <Button type="link" size={'small'} onClick={onCleanSelected}>
-              <FormattedMessage id="content.option.cancel-select" />
-            </Button>
-          </Space>
-        )}
-        request={(params) => {
-          return pluginGetUploadFiles(params);
-        }}
-        columnsState={{
-          persistenceKey: 'fileupload-table',
-          persistenceType: 'localStorage',
-        }}
-        columns={columns}
-        rowSelection={{
-          onChange: (selectedRowKeys) => {
-            setSelectedRowKeys(selectedRowKeys);
-          },
-        }}
-        pagination={false}
-      />
-
-      <Modal
-        title={intl.formatMessage({ id: 'plugin.fileupload.upload.name' })}
-        open={visible}
-        width={800}
-        okText={false}
-        onCancel={() => {
-          setVisible(false);
-        }}
-        onOk={() => {
-          setVisible(false);
-        }}
-      >
-        <Alert
-          message={intl.formatMessage({
-            id: 'plugin.fileupload.upload.support',
-          })}
-        />
-        <div className="mt-normal">
-          <div className="text-center">
-            <Upload
-              name="file"
-              className="logo-uploader"
-              showUploadList={false}
-              accept=".txt,.htm,.html,.xml"
-              customRequest={handleUploadFile}
-            >
-              <Button type="primary">
-                <FormattedMessage id="plugin.fileupload.upload.btn" />
+              <PlusOutlined />{' '}
+              <FormattedMessage id="plugin.fileupload.upload.name" />
+            </Button>,
+          ]}
+          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+            <Space>
+              <Button
+                size={'small'}
+                onClick={() => {
+                  handleRemove(selectedRowKeys);
+                }}
+              >
+                <FormattedMessage id="content.option.batch-delete" />
               </Button>
-            </Upload>
+              <Button type="link" size={'small'} onClick={onCleanSelected}>
+                <FormattedMessage id="content.option.cancel-select" />
+              </Button>
+            </Space>
+          )}
+          request={(params) => {
+            return pluginGetUploadFiles(params);
+          }}
+          columnsState={{
+            persistenceKey: 'fileupload-table',
+            persistenceType: 'localStorage',
+          }}
+          columns={columns}
+          rowSelection={{
+            onChange: (selectedRowKeys) => {
+              setSelectedRowKeys(selectedRowKeys);
+            },
+          }}
+          pagination={false}
+        />
+
+        <Modal
+          title={intl.formatMessage({ id: 'plugin.fileupload.upload.name' })}
+          open={visible}
+          width={800}
+          okText={false}
+          onCancel={() => {
+            setVisible(false);
+          }}
+          onOk={() => {
+            setVisible(false);
+          }}
+        >
+          <Alert
+            message={intl.formatMessage({
+              id: 'plugin.fileupload.upload.support',
+            })}
+          />
+          <div className="mt-normal">
+            <div className="text-center">
+              <Upload
+                name="file"
+                className="logo-uploader"
+                showUploadList={false}
+                accept=".txt,.htm,.html,.xml"
+                customRequest={handleUploadFile}
+              >
+                <Button type="primary">
+                  <FormattedMessage id="plugin.fileupload.upload.btn" />
+                </Button>
+              </Upload>
+            </div>
           </div>
-        </div>
-      </Modal>
-    </PageContainer>
+        </Modal>
+      </Card>
+    </NewContainer>
   );
 };
 

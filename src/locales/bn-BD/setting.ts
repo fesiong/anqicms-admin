@@ -90,7 +90,10 @@ export default {
   'setting.content.editor.description':
     'সাধারণত, আপনি একটি সমৃদ্ধ পাঠ্য সম্পাদক ব্যবহার করতে পারেন এবং মার্কডাউন ব্যবহারের জন্য একটি উচ্চ থ্রেশহোল্ড রয়েছে।',
   'setting.content.remote-download': 'দূরবর্তী ছবি ডাউনলোড করুন',
-  'setting.content.outlink-filter': 'স্বয়ংক্রিয়ভাবে বহিরাগত লিঙ্ক ফিল্টার',
+  'setting.content.outlink-filter': 'বিষয়বস্তু প্রক্রিয়াকরণ',
+  'setting.content.outlink-filter.allow': 'লিঙ্ক রাখুন',
+  'setting.content.outlink-filter.remove': 'লিঙ্ক মুছে ফেলা',
+  'setting.content.outlink-filter.nofollow': 'Nofollow যোগ করুন',
   'setting.content.urltoken': 'কাস্টম URL বিন্যাস',
   'setting.content.urltoken.long': 'সম্পূর্ণ পিনয়িন',
   'setting.content.urltoken.short': 'আদ্যক্ষর',

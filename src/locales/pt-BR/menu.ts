@@ -57,6 +57,7 @@ export default {
   'menu.plugin.limiter': 'Proteção de segurança do site',
   'menu.plugin.multilang': 'Suporte a sites multilíngues',
   'menu.plugin.translate': 'Configuração de tradução',
+  'menu.plugin.jsonld': 'Dados de esquema',
   'menu.design': 'design de modelo',
   'menu.design.index': 'meu modelo',
   'menu.design.editor': 'Modificar código',

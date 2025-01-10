@@ -56,8 +56,7 @@ export default {
   'plugin.aigenerate.insert-image': 'Обработка изображений статьи',
   'plugin.aigenerate.insert-image.default': 'по умолчанию',
   'plugin.aigenerate.insert-image.diy': 'Пользовательские вставки изображений',
-  'plugin.aigenerate.insert-image.category':
-    'Пользовательские вставки изображений',
+  'plugin.aigenerate.insert-image.category': 'Из классификации фотографий',
   'plugin.aigenerate.insert-image.list': 'Список картинок для вставки',
   'plugin.aigenerate.replace': 'замена контента',
   'plugin.aigenerate.replace.tips1':
@@ -557,7 +556,7 @@ export default {
   'plugin.importapi.field.draft':
     'Сохранять ли в черновик. Поддерживаемые значения: false|true. Если указано значение true, опубликованный документ будет сохранен в черновике.',
   'plugin.importapi.field.cover':
-    'Следует ли перезаписывать документы с тем же заголовком и идентификатором, если они существуют. Поддерживаемые значения: false|true. Если указано значение true, последнее содержимое будет перезаписано. При значении false будет выдано сообщение об ошибке.',
+    'Когда один и тот же заголовок, ID документ существует, чтобы покрыть или нет, поддерживаемые значения: 0 / 1 / 2, при заполнении 1, будут покрыты до последнего содержимого, при установке 0 или без передачи, будет подсказать ошибку, заполнить 2, не делать суждения',
   'plugin.importapi.return-type': 'Формат возврата:',
   'plugin.importapi.return-example.success': 'Пример правильного результата:',
   'plugin.importapi.return-example.failure': 'Пример неправильных результатов:',
@@ -1416,6 +1415,8 @@ export default {
   'content.multilang.select.description':
     'Выбрать уже созданный сайт как многоязычный',
   'plugin.multilang.language': 'язык сайта',
+  'plugin.multilang.syncing': 'Синхронизация',
+  'plugin.multilang.icon': 'значок сайта',
   'plugin.translate.lang': 'Перевести язык',
   'content.translate.origin-content': 'исходный текст',
   'plugin.translate.result': 'Результат перевода',
@@ -1433,4 +1434,13 @@ export default {
   'plugin.translate.engine.deepl': 'Deepl',
   'plugin.translate.engine.deepl.auth-key': 'Auth Key',
   'plugin.translate.logs': 'Записи перевода',
+  'plugin.jsonld.tips.1':
+    'После включения система автоматически пометит структурированные данные веб-сайта в формате JSON-LD и вставит их в нижнюю часть страницы, чтобы поисковые системы могли лучше понять содержимое веб-сайта. ',
+  'plugin.jsonld.tips.2':
+    'Информацию о разметке структурированных данных, поддерживаемой Google, см. в документации: https://developers.google.com/search/docs/appearance/structured-data/search-gallery',
+  'plugin.jsonld.open.name': 'Открытая разметка структурированных данных',
+  'plugin.jsonld.open.false': 'Нет',
+  'plugin.jsonld.open.true': 'Да',
+  'plugin.jsonld.author': 'Автор по умолчанию',
+  'plugin.jsonld.brand': 'Бренд по умолчанию',
 };

@@ -1,11 +1,17 @@
 export default {
   'design.market.downloading': 'Загрузка...',
-  'design.confirm-enable': 'Вы уверены, что хотите активировать этот шаблон дизайна?',
+  'design.confirm-enable':
+    'Вы уверены, что хотите активировать этот шаблон дизайна?',
   'design.switching-template': 'Переключение шаблонов',
   'design.cannot-delete': 'Шаблон по умолчанию не может быть удален',
-  'design.confirm-delete': 'Вы уверены, что хотите удалить этот набор шаблонов дизайна?',
+  'design.confirm-delete':
+    'Вы уверены, что хотите удалить этот набор шаблонов дизайна?',
   'design.data.confirm-install':
     'Вы уверены, что хотите установить демонстрационные данные для этого шаблона?',
+  'design.data.confirm-upload':
+    'Шаблон с таким именем уже существует, выберите метод обработки',
+  'design.data.confirm.new': 'Новый',
+  'design.data.confirm.cover': 'обложка',
   'design.data.tips1':
     'Эта операция установки будет перезаписана демонстрационными данными шаблона, поэтому действуйте осторожно.',
   'design.data.tips2':
@@ -33,11 +39,16 @@ export default {
   'design.editor.helper': 'Помощник по тегам шаблонов',
   'design.editor.confirm-giveup':
     'У вас есть несохраненный код. Вы уверены, что хотите редактировать новый файл?',
-  'design.editor.confirm-giveup.content': 'Это приведет к потере несохраненного кода.',
-  'design.editor.confirm-restore': 'Вы уверены, что хотите восстановить версию на указанное время?',
-  'design.editor.confirm-restore.content': 'Это приведет к потере несохраненного кода.',
-  'design.editor.history.confirm-delete': 'Вы уверены, что хотите удалить эту историю?',
-  'design.editor.confirm-goback': 'У вас есть несохраненный код. Вы уверены, что хотите вернуться?',
+  'design.editor.confirm-giveup.content':
+    'Это приведет к потере несохраненного кода.',
+  'design.editor.confirm-restore':
+    'Вы уверены, что хотите восстановить версию на указанное время?',
+  'design.editor.confirm-restore.content':
+    'Это приведет к потере несохраненного кода.',
+  'design.editor.history.confirm-delete':
+    'Вы уверены, что хотите удалить эту историю?',
+  'design.editor.confirm-goback':
+    'У вас есть несохраненный код. Вы уверены, что хотите вернуться?',
   'design.size': 'размер',
   'design.update-time': 'Изменить время',
   'design.compare': 'В сравнении',
@@ -59,7 +70,8 @@ export default {
   'design.explain': 'иллюстрировать',
   'design.view-doc': 'Посмотреть документацию',
   'design.view': 'Проверять',
-  'design.doc.tips': 'Более подробную документацию по использованию шаблона можно найти:',
+  'design.doc.tips':
+    'Более подробную документацию по использованию шаблона можно найти:',
   'design.detail.confirm-delete': 'Вы уверены, что хотите удалить этот файл?',
   'design.detail.confirm-copy': 'Пожалуйста, введите имя скопированного файла',
   'design.detail.new-name': 'Новое имя файла:',
@@ -67,9 +79,11 @@ export default {
   'design.detail.name-duplicate':
     'Новое имя файла соответствует имени скопированного файла, измените его еще раз.',
   'design.detail.name-required': 'Имя файла не может быть пустым',
-  'design.detail.confirm-download': 'Вы уверены, что хотите упаковать и загрузить этот шаблон?',
+  'design.detail.confirm-download':
+    'Вы уверены, что хотите упаковать и загрузить этот шаблон?',
   'design.detail.confirm-upload': 'Вы уверены, что хотите загрузить файл?',
-  'design.detail.confirm-upload.content-before': 'Загруженные вами файлы будут храниться в',
+  'design.detail.confirm-upload.content-before':
+    'Загруженные вами файлы будут храниться в',
   'design.detail.confirm-upload.directory': 'Оглавление',
   'design.detail.new-directory': 'Создать новый каталог',
   'design.detail.backup-data':
@@ -87,7 +101,8 @@ export default {
   'design.detail.template.download': 'Шаблон загрузки пакета',
   'design.detail.template.backup': 'Резервное копирование данных шаблона',
   'design.detail.template.restore': 'Инициализировать данные шаблона',
-  'design.detail.template.tomarket': 'Разместите шаблон на рынке шаблонов AnqiCMS.',
+  'design.detail.template.tomarket':
+    'Разместите шаблон на рынке шаблонов AnqiCMS.',
   'design.detail.template.share': 'Поделиться шаблоном листинга',
   'design.detail.new-static': 'Добавить новый ресурс',
   'design.detail.addnew': 'Добавить новое',
@@ -98,7 +113,8 @@ export default {
     'Примечание. Можно загружать только файлы шаблонов (.html), файлы ресурсов (css, js, изображения, шрифты и т. д.) и zip-файлы. Если вы загрузите zip-архив, он будет автоматически распакован в текущий каталог.',
   'design.detail.file-name': 'имя файла',
   'design.detail.template-name': 'Имя Шаблона',
-  'design.detail.template-name.example': 'Например: шаблон механического оборудования',
+  'design.detail.template-name.example':
+    'Например: шаблон механического оборудования',
   'design.detail.template-type': 'тип шаблона',
   'design.detail.template-type.description':
     'Шаблон адаптивного типа имеет только одно доменное имя и один набор шаблонов; тип адаптации кода имеет одно доменное имя и 2 набора шаблонов. При доступе к одному и тому же доменному имени на компьютере и мобильных терминалах на компьютере + мобильном телефоне будут отображаться разные шаблоны. Тип требует 2 доменных имени и 2 набора шаблонов. Посетите доменное имя компьютера, чтобы отобразить шаблон компьютера, посетите доменное имя мобильного телефона, чтобы отобразить шаблон мобильного телефона.',
@@ -114,7 +130,8 @@ export default {
     '2. Если после загрузки изображения фон обновился, но передний план не обновился, очистите локальный кеш браузера.',
   'design.share.confirm-replace':
     'Вы уверены, что хотите заменить шаблон, соответствующий рынку шаблонов?',
-  'design.share.confirm-new': 'Вы уверены, что хотите разместить этот шаблон на рынке шаблонов?',
+  'design.share.confirm-new':
+    'Вы уверены, что хотите разместить этот шаблон на рынке шаблонов?',
   'design.share.confirm-replace.content':
     'Этот шаблон был размещен на рынке шаблонов. Если вы отправите его сейчас, соответствующий шаблон на рынке шаблонов будет обновлен до текущей версии.',
   'design.share.confirm-new.content':
@@ -135,7 +152,8 @@ export default {
     'При бесплатном обмене никаких настроек не требуется. После установки цены продажи, если пользователь купит шаблон, вы получите 80% фактического дохода от продаж.',
   'design.share.example-data': 'Демонстрационные данные',
   'design.share.example-data.no': 'Не обработан',
-  'design.share.example-data.yes': 'Автоматическое резервное копирование демонстрационных данных',
+  'design.share.example-data.yes':
+    'Автоматическое резервное копирование демонстрационных данных',
   'design.share.example-data.description':
     'Шаблоны, содержащие демонстрационные данные, более эффективны.',
   'design.share.author': 'автор шаблона',

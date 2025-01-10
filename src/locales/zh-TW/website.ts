@@ -16,6 +16,7 @@ export default {
   'website.name': '網站名稱',
   'website.root-path.placeholder':
     '伺服器實際路徑，如：/www/wwwroot/anqicms.com',
+  'website.root-path.prefix': '預設網站根目錄：',
   'website.root-path.description': '正常運作的網站請勿更改，否則會導致網站異常',
   'website.base-url.placeholder': '如：http://www.anqicms.com',
   'website.base-url.description':

@@ -1,5 +1,5 @@
+import NewContainer from '@/components/NewContainer';
 import { anqiDownloadTemplate } from '@/services';
-import { PageContainer } from '@ant-design/pro-components';
 import { history, useIntl, useModel } from '@umijs/max';
 import { Card, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
@@ -9,12 +9,16 @@ const DesignMarket: React.FC = () => {
   const { initialState } = useModel('@@initialState');
   const actionRef = useRef(null);
   const [height, setHeight] = useState(0);
+  const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const receiveDownload = (e: any) => {
     const data = e.data || {};
     if (data.action === 'download') {
-      const hide = message.loading(intl.formatMessage({ id: 'design.market.downloading' }), 0);
+      const hide = message.loading(
+        intl.formatMessage({ id: 'design.market.downloading' }),
+        0,
+      );
       anqiDownloadTemplate({
         template_id: Number(data.id),
       })
@@ -43,6 +47,10 @@ const DesignMarket: React.FC = () => {
     setHeight(num);
   };
 
+  const onTabChange = (key: string) => {
+    setNewKey(key);
+  };
+
   useEffect(() => {
     getHeight();
     window.addEventListener('resize', getHeight);
@@ -68,8 +76,8 @@ const DesignMarket: React.FC = () => {
   };
 
   return (
-    <PageContainer>
-      <Card>
+    <NewContainer onTabChange={(key) => onTabChange(key)}>
+      <Card key={newKey}>
         <iframe
           ref={actionRef}
           className="frame-page"
@@ -78,7 +86,7 @@ const DesignMarket: React.FC = () => {
           onLoad={handleIframe}
         ></iframe>
       </Card>
-    </PageContainer>
+    </NewContainer>
   );
 };
 

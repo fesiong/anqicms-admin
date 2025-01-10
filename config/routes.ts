@@ -417,6 +417,13 @@ export default [
         component: '@/pages/plugin/multilang/index',
         icon: 'multilang',
       },
+      {
+        path: '/plugin/jsonld',
+        name: 'jsonld',
+        type: 'system',
+        component: '@/pages/plugin/jsonld/index',
+        icon: 'jsonld',
+      },
     ],
   },
   {
