@@ -27,6 +27,7 @@ export default {
   'content.translate.select-language': 'Silakan pilih bahasa target terjemahan',
   'content.translate.select': 'tolong pilih',
   'content.translate.en': 'Bahasa inggris',
+  'content.translate.zh': 'Cina',
   'content.translate.zh-cn': 'Cina disederhanakan',
   'content.translate.zh-tw': 'Cina tradisional',
   'content.translate.vi': 'Orang Vietnam',
@@ -471,4 +472,7 @@ export default {
   'content.tags.delete.confirm':
     'Apakah Anda yakin ingin menghapus tag artikel yang dipilih?',
   'content.tags.batch-add': 'Tambahkan tag secara berkelompok',
+  'content.parent_id.empty': 'Empty',
+  'content.parent_id.name': 'Parent',
+  'content.children.btn': 'Children',
 };

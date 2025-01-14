@@ -230,7 +230,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   label: this.props.intl.formatMessage({
                     id: 'content.translate.zh-cn',
                   }),
-                  value: 'zh',
+                  value: 'zh-cn',
                 },
                 {
                   label: this.props.intl.formatMessage({

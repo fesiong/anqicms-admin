@@ -24,6 +24,7 @@ export default {
   'content.translate.select-language': 'অনুবাদ টার্গেট ভাষা নির্বাচন করুন',
   'content.translate.select': 'পছন্দ কর',
   'content.translate.en': 'ইংরেজি',
+  'content.translate.zh': 'সরলীকৃত চীনা',
   'content.translate.zh-cn': 'সরলীকৃত চীনা',
   'content.translate.zh-tw': 'ঐতিহ্যবাহী চাইনিজ',
   'content.translate.vi': 'ভিয়েতনামী',
@@ -469,4 +470,7 @@ export default {
   'content.tags.delete.confirm':
     'আপনি কি নির্বাচিত নিবন্ধ ট্যাগ মুছে ফেলার বিষয়ে নিশ্চিত?',
   'content.tags.batch-add': 'ব্যাচে ট্যাগ যোগ করুন',
+  'content.parent_id.empty': 'Empty',
+  'content.parent_id.name': 'Parent',
+  'content.children.btn': 'Children',
 };

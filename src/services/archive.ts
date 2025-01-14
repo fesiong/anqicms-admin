@@ -129,6 +129,17 @@ export async function updateArchivesSort(
   });
 }
 
+export async function updateArchiveParent(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/archive/parent',
+    body,
+    options,
+  });
+}
+
 export async function updateArchivesReleasePlan(
   body: any,
   options?: { [key: string]: any },

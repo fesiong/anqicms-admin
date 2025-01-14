@@ -23,6 +23,7 @@ export default {
   'content.translate.select-language': '請選擇翻譯目標語言',
   'content.translate.select': '請選擇',
   'content.translate.en': '英語',
+  'content.translate.zh': '中文',
   'content.translate.zh-cn': '簡體中文',
   'content.translate.zh-tw': '繁體中文',
   'content.translate.vi': '越南語',
@@ -426,4 +427,7 @@ export default {
   'content.tags.first-letter.name': '索引字母',
   'content.tags.delete.confirm': '確定要刪除選取的文章標籤嗎？',
   'content.tags.batch-add': '批量新增標籤',
+  'content.parent_id.empty': '無',
+  'content.parent_id.name': '上級文檔',
+  'content.children.btn': '下級文檔',
 };

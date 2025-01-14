@@ -28,6 +28,7 @@ export default {
     'Please select the translation target language',
   'content.translate.select': 'please choose',
   'content.translate.en': 'English',
+  'content.translate.zh': 'Chinese',
   'content.translate.zh-cn': 'Simplified Chinese',
   'content.translate.zh-tw': 'traditional Chinese',
   'content.translate.vi': 'Vietnamese',
@@ -467,4 +468,7 @@ export default {
   'content.tags.delete.confirm':
     'Are you sure you want to delete the selected article tags?',
   'content.tags.batch-add': 'Add tags in batches',
+  'content.parent_id.empty': 'Empty',
+  'content.parent_id.name': 'Parent',
+  'content.children.btn': 'Children',
 };

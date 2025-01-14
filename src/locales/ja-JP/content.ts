@@ -25,6 +25,7 @@ export default {
   'content.translate.select-language': '翻訳対象言語を選択してください',
   'content.translate.select': '選んでください',
   'content.translate.en': '英語',
+  'content.translate.zh': '中国語',
   'content.translate.zh-cn': '簡体字中国語',
   'content.translate.zh-tw': '繁体字中国語',
   'content.translate.vi': 'ベトナム語',
@@ -461,4 +462,7 @@ export default {
   'content.tags.first-letter.name': 'インデックスレター',
   'content.tags.delete.confirm': '選択した記事タグを削除してもよろしいですか?',
   'content.tags.batch-add': 'タグをバッチで追加する',
+  'content.parent_id.empty': 'Empty',
+  'content.parent_id.name': 'Parent',
+  'content.children.btn': 'Children',
 };

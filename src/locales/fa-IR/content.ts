@@ -27,6 +27,7 @@ export default {
   'content.translate.select-language': 'لطفاً زبان مقصد ترجمه را انتخاب کنید',
   'content.translate.select': 'لطفا انتخاب کنید',
   'content.translate.en': 'انگلیسی',
+  'content.translate.zh': 'چینی ساده شده',
   'content.translate.zh-cn': 'چینی ساده شده',
   'content.translate.zh-tw': 'چینی سنتی',
   'content.translate.vi': 'ویتنامی',
@@ -467,4 +468,7 @@ export default {
   'content.tags.delete.confirm':
     'آیا مطمئن هستید که می خواهید برچسب های مقاله انتخاب شده را حذف کنید؟',
   'content.tags.batch-add': 'برچسب ها را به صورت دسته ای اضافه کنید',
+  'content.parent_id.empty': 'Empty',
+  'content.parent_id.name': 'Parent',
+  'content.children.btn': 'Children',
 };

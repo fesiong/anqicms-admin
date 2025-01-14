@@ -47,6 +47,7 @@ import {
 } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
+import ChildrenArchivesModal from './components/childrenArchives';
 import QuickImportModal from './components/quickImport';
 import './index.less';
 import QuickEditForm from './quickEdit';
@@ -82,6 +83,7 @@ const ArchiveList: React.FC = () => {
   const [importVisible, setImportVisible] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const [isSubSite, setIsSubSite] = useState<boolean>(false);
+  const [childrenOpen, setChildrenOpen] = useState<boolean>(false);
   const intl = useIntl();
 
   const flagEnum: any = {
@@ -307,6 +309,11 @@ const ArchiveList: React.FC = () => {
 
   const handleCopyArchive = async (record: any) => {
     history.push('/archive/detail?copyid=' + record.id);
+  };
+
+  const handleShowChildren = (record: any) => {
+    setCurrentArchive(record);
+    setChildrenOpen(true);
   };
 
   const handleTranslate = (selectedRowKeys: any[]) => {
@@ -786,6 +793,15 @@ const ArchiveList: React.FC = () => {
                 <Menu.Item>
                   <a
                     onClick={() => {
+                      handleShowChildren(record);
+                    }}
+                  >
+                    <FormattedMessage id="content.children.btn" />
+                  </a>
+                </Menu.Item>
+                <Menu.Item>
+                  <a
+                    onClick={() => {
                       handleCopyArchive(record);
                     }}
                     title={intl.formatMessage({
@@ -1209,6 +1225,15 @@ const ArchiveList: React.FC = () => {
             if (flag === false) {
               actionRef.current?.reload?.();
             }
+          }}
+        />
+      )}
+      {childrenOpen && (
+        <ChildrenArchivesModal
+          open={childrenOpen}
+          parent={currentArchive}
+          onOpenChange={(flag) => {
+            setChildrenOpen(flag);
           }}
         />
       )}

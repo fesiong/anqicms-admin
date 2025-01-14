@@ -11,6 +11,7 @@ import {
   anqiExtractKeywords,
   deleteArchiveImage,
   getArchiveInfo,
+  getArchives,
   getCategories,
   getCategoryInfo,
   getDesignTemplateFiles,
@@ -68,6 +69,15 @@ class ArchiveForm extends React.Component<intlProps> {
     archiveSearchVisible: false,
     keywordsVisible: false,
     searchedTags: [],
+    searchArchives: [
+      {
+        id: 0,
+        title: this.props.intl.formatMessage({
+          id: 'content.parent_id.empty',
+        }),
+      },
+    ],
+    parentArchive: {}, // 上级文档，如果存在的话
 
     aiVisible: false,
     aiTitle: '',
@@ -124,6 +134,7 @@ class ArchiveForm extends React.Component<intlProps> {
               if (archive.category_ids?.length > 0) {
                 categoryId = archive.category_ids[0];
               }
+              this.getParentArchive(archive.parent_id || 0);
               this.setState({
                 archive,
               });
@@ -220,6 +231,7 @@ class ArchiveForm extends React.Component<intlProps> {
     const archive = res.data || { extra: {}, flag: null };
     if (copy) {
       archive.id = 0;
+      archive.parent_id = 0;
       archive.url_token = '';
       archive.created_time = 0;
       archive.updated_time = 0;
@@ -236,6 +248,7 @@ class ArchiveForm extends React.Component<intlProps> {
           archive.extra[module.fields[i].field_name]?.value || '';
       }
     }
+    this.getParentArchive(archive.parent_id || 0);
     this.getArchiveCategory(archive.category_id);
     this.setState({
       fetched: true,
@@ -244,6 +257,24 @@ class ArchiveForm extends React.Component<intlProps> {
       extraContent: extraContent,
       relations: archive.relations || [],
     });
+  };
+
+  getParentArchive = (parentId: number) => {
+    if (parentId > 0) {
+      // 存在了再处理
+      getArchiveInfo({
+        id: parentId,
+      }).then((res) => {
+        this.setState({
+          parentArchive: res.data || {},
+        });
+        if (res.data?.id) {
+          this.setState({
+            searchArchives: [res.data],
+          });
+        }
+      });
+    }
   };
 
   getArchiveCategory = async (categoryId: number) => {
@@ -655,6 +686,26 @@ class ArchiveForm extends React.Component<intlProps> {
     this.editorRef.current?.setInnerContent(content);
   };
 
+  onSearchArchives = (e: any) => {
+    getArchives({ title: e, pageSize: 10 }).then((res) => {
+      // 如果是已经有选择的 ParentId,则把它加入到开头
+      const searchItems: any[] = [];
+      if (this.state.parentArchive.id) {
+        searchItems.push(this.state.parentArchive);
+      } else {
+        searchItems.push({
+          id: 0,
+          title: this.props.intl.formatMessage({
+            id: 'content.parent_id.empty',
+          }),
+        });
+      }
+      this.setState({
+        searchArchives: searchItems.concat(res.data || []),
+      });
+    });
+  };
+
   render() {
     const {
       archive,
@@ -669,6 +720,7 @@ class ArchiveForm extends React.Component<intlProps> {
       contentSetting,
       archiveSearchVisible,
       relations,
+      searchArchives,
       newKey,
     } = this.state;
     return (
@@ -1427,6 +1479,29 @@ class ArchiveForm extends React.Component<intlProps> {
                       extra={this.props.intl.formatMessage({
                         id: 'content.tag.placeholder',
                       })}
+                    />
+                  </Card>
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({
+                      id: 'content.parent_id.name',
+                    })}
+                  >
+                    <ProFormSelect
+                      name="parent_id"
+                      showSearch
+                      options={searchArchives.map((a: any) => ({
+                        title: a.title,
+                        label: a.title,
+                        value: a.id,
+                        disabled: a.id === archive.id,
+                      }))}
+                      fieldProps={{
+                        onSearch: (e) => {
+                          this.onSearchArchives(e);
+                        },
+                      }}
                     />
                   </Card>
                   <Card

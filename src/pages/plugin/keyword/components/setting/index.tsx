@@ -1,10 +1,15 @@
 import { getKeywordSetting, saveKeywordSetting } from '@/services';
-import { ModalForm, ProFormDigit, ProFormRadio, ProFormText } from '@ant-design/pro-components';
+import {
+  ModalForm,
+  ProFormDigit,
+  ProFormRadio,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { FormattedMessage, injectIntl } from '@umijs/max';
 import { Input, Space, Tag, message } from 'antd';
 import React from 'react';
-import './index.less';
 import { IntlShape } from 'react-intl';
-import { FormattedMessage, injectIntl } from '@umijs/max';
+import './index.less';
 
 export type intlProps = {
   intl: IntlShape;
@@ -50,7 +55,10 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
     let values = Object.assign(setting, data);
     values.max_count = Number(values.max_count);
 
-    const hide = message.loading(this.props.intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      this.props.intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveKeywordSetting(values)
       .then((res) => {
         message.info(res.msg);
@@ -125,7 +133,9 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
         {fetched && (
           <ModalForm
             width={800}
-            title={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting' })}
+            title={this.props.intl.formatMessage({
+              id: 'plugin.keyword.dig-setting',
+            })}
             initialValues={setting}
             open={visible}
             //layout="horizontal"
@@ -141,37 +151,75 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
           >
             <ProFormRadio.Group
               name="auto_dig"
-              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.auto-dig' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.keyword.dig-setting.auto-dig',
+              })}
               options={[
-                { label: this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.auto-dig.no' }), value: false },
-                { label: this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.auto-dig.yes' }), value: true },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.keyword.dig-setting.auto-dig.no',
+                  }),
+                  value: false,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.keyword.dig-setting.auto-dig.yes',
+                  }),
+                  value: true,
+                },
               ]}
             />
             <ProFormDigit
               name="max_count"
-              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.max-count' })}
-              extra={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.max-count.description' })}
-              placeholder={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.max-count.placeholder' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.keyword.dig-setting.max-count',
+              })}
+              extra={this.props.intl.formatMessage({
+                id: 'plugin.keyword.dig-setting.max-count.description',
+              })}
+              placeholder={this.props.intl.formatMessage({
+                id: 'plugin.keyword.dig-setting.max-count.placeholder',
+              })}
             />
             <ProFormRadio.Group
               name="language"
-              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.language' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.keyword.dig-setting.language',
+              })}
               options={[
-                { label: this.props.intl.formatMessage({ id: 'content.translate.zh-cn' }), value: 'zh' },
-                { label: this.props.intl.formatMessage({ id: 'content.translate.en' }), value: 'en' },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'content.translate.zh-cn',
+                  }),
+                  value: 'zh-cn',
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'content.translate.en',
+                  }),
+                  value: 'en',
+                },
               ]}
             />
             <ProFormText
-              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.title-exclude' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.keyword.dig-setting.title-exclude',
+              })}
               fieldProps={{
                 value: tmpInput.title_exclude || '',
                 onChange: this.handleChangeTmpInput.bind(this, 'title_exclude'),
                 onPressEnter: this.handleAddField.bind(this, 'title_exclude'),
-                suffix: <a onClick={this.handleAddField.bind(this, 'title_exclude')}><FormattedMessage id="plugin.aigenerate.enter-to-add" /></a>,
+                suffix: (
+                  <a onClick={this.handleAddField.bind(this, 'title_exclude')}>
+                    <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                  </a>
+                ),
               }}
               extra={
                 <div>
-                  <div className="text-muted"><FormattedMessage id="plugin.keyword.dig-setting.title-exclude.description" /></div>
+                  <div className="text-muted">
+                    <FormattedMessage id="plugin.keyword.dig-setting.title-exclude.description" />
+                  </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
                       {setting.title_exclude?.map((tag: any, index: number) => (
@@ -179,7 +227,11 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
                           <span className="key">{tag}</span>
                           <span
                             className="close"
-                            onClick={this.handleRemove.bind(this, 'title_exclude', index)}
+                            onClick={this.handleRemove.bind(
+                              this,
+                              'title_exclude',
+                              index,
+                            )}
                           >
                             ×
                           </span>
@@ -191,11 +243,15 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
               }
             />
             <ProFormText
-              label={this.props.intl.formatMessage({ id: 'plugin.keyword.dig-setting.replace' })}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.keyword.dig-setting.replace',
+              })}
               extra={
                 <div>
                   <div className="text-muted">
-                    <p><FormattedMessage id="plugin.keyword.dig-setting.replace.tips1" /></p>
+                    <p>
+                      <FormattedMessage id="plugin.keyword.dig-setting.replace.tips1" />
+                    </p>
                     <p>
                       <FormattedMessage id="plugin.aigenerate.replace.tips2" />
                     </p>
@@ -239,19 +295,32 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
                   </div>
                   <div className="tag-lists">
                     <Space size={[12, 12]} wrap>
-                      {setting.content_replace?.map((tag: any, index: number) => (
-                        <span className="edit-tag" key={index}>
-                          <span className="key">{tag.from}</span>
-                          <span className="divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
-                          <span className="value">{tag.to || this.props.intl.formatMessage({ id: 'plugin.aigenerate.empty' })}</span>
-                          <span
-                            className="close"
-                            onClick={this.handleRemove.bind(this, 'content_replace', index)}
-                          >
-                            ×
+                      {setting.content_replace?.map(
+                        (tag: any, index: number) => (
+                          <span className="edit-tag" key={index}>
+                            <span className="key">{tag.from}</span>
+                            <span className="divide">
+                              <FormattedMessage id="plugin.aigenerate.replace.to" />
+                            </span>
+                            <span className="value">
+                              {tag.to ||
+                                this.props.intl.formatMessage({
+                                  id: 'plugin.aigenerate.empty',
+                                })}
+                            </span>
+                            <span
+                              className="close"
+                              onClick={this.handleRemove.bind(
+                                this,
+                                'content_replace',
+                                index,
+                              )}
+                            >
+                              ×
+                            </span>
                           </span>
-                        </span>
-                      ))}
+                        ),
+                      )}
                     </Space>
                   </div>
                 </div>
@@ -262,16 +331,31 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
                   style={{ width: '40%' }}
                   value={tmpInput.from || ''}
                   onChange={this.handleChangeTmpInput.bind(this, 'from')}
-                  onPressEnter={this.handleAddField.bind(this, 'content_replace')}
+                  onPressEnter={this.handleAddField.bind(
+                    this,
+                    'content_replace',
+                  )}
                 />
-                <span className="input-divide"><FormattedMessage id="plugin.aigenerate.replace.to" /></span>
+                <span className="input-divide">
+                  <FormattedMessage id="plugin.aigenerate.replace.to" />
+                </span>
                 <Input
                   style={{ width: '50%' }}
                   value={tmpInput.to || ''}
                   onChange={this.handleChangeTmpInput.bind(this, 'to')}
-                  onPressEnter={this.handleAddField.bind(this, 'content_replace')}
+                  onPressEnter={this.handleAddField.bind(
+                    this,
+                    'content_replace',
+                  )}
                   suffix={
-                    <a onClick={this.handleAddField.bind(this, 'content_replace')}><FormattedMessage id="plugin.aigenerate.enter-to-add" /></a>
+                    <a
+                      onClick={this.handleAddField.bind(
+                        this,
+                        'content_replace',
+                      )}
+                    >
+                      <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                    </a>
                   }
                 />
               </Input.Group>

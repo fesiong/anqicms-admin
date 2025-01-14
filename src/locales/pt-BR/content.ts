@@ -28,6 +28,7 @@ export default {
     'Selecione o idioma de destino da tradução',
   'content.translate.select': 'por favor escolha',
   'content.translate.en': 'Inglês',
+  'content.translate.zh': 'Chinês',
   'content.translate.zh-cn': 'Chinês simplificado',
   'content.translate.zh-tw': 'chinês tradicional',
   'content.translate.vi': 'vietnamita',
@@ -474,4 +475,7 @@ export default {
   'content.tags.delete.confirm':
     'Tem certeza de que deseja excluir as tags de artigo selecionadas?',
   'content.tags.batch-add': 'Adicione tags em lotes',
+  'content.parent_id.empty': 'Empty',
+  'content.parent_id.name': 'Parent',
+  'content.children.btn': 'Children',
 };

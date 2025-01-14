@@ -23,6 +23,7 @@ export default {
   'content.translate.select-language': '请选择翻译目标语言',
   'content.translate.select': '请选择',
   'content.translate.en': '英语',
+  'content.translate.zh': '中文',
   'content.translate.zh-cn': '简体中文',
   'content.translate.zh-tw': '繁体中文',
   'content.translate.vi': '越南语',
@@ -429,4 +430,7 @@ export default {
   'content.tags.first-letter.name': '索引字母',
   'content.tags.delete.confirm': '确定要删除选中的文章标签吗？',
   'content.tags.batch-add': '批量添加标签',
+  'content.parent_id.empty': '无',
+  'content.parent_id.name': '上级文档',
+  'content.children.btn': '下级文档',
 };
