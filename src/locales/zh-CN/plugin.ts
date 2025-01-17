@@ -1017,6 +1017,8 @@ export default {
   'plugin.titleimage.height.placeholder': '默认600',
   'plugin.titleimage.color': '字体颜色',
   'plugin.titleimage.color.default': '默认白色',
+  'plugin.titleimage.color_bg': '字体背景颜色',
+  'plugin.titleimage.color_bg.default': '默认无色',
   'plugin.titleimage.select': '选择',
   'plugin.titleimage.font-size': '默认文字大小',
   'plugin.titleimage.font-size.placeholder': '默认32',
