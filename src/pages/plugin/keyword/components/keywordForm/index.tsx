@@ -2,7 +2,8 @@ import { getCategories } from '@/services/category';
 import { pluginSaveKeyword } from '@/services/plugin/keyword';
 import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
-import React from 'react';
+import { message } from 'antd';
+import React, { useState } from 'react';
 
 export type KeywordFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -12,11 +13,19 @@ export type KeywordFormProps = {
 };
 
 const KeywordForm: React.FC<KeywordFormProps> = (props) => {
+  const [loading, setLoading] = useState(false);
   const intl = useIntl();
   const onSubmit = async (values: any) => {
+    if (loading) return;
+    setLoading(true);
+    const hide = message.loading({
+      content: intl.formatMessage({ id: 'setting.system.submitting' }),
+      key: "loading"
+    }, 0);
     let editingKeyword = Object.assign(props.editingKeyword, values);
     await pluginSaveKeyword(editingKeyword);
-
+    hide();
+    setLoading(false);
     props.onSubmit();
   };
 

@@ -1080,6 +1080,8 @@ export default {
   'plugin.user.setting.name.description': '如：QQ，微信号等',
   'plugin.user.edit': '修改用户',
   'plugin.user.add': '添加用户',
+  'plugin.user.avatar_url': '用户头像',
+  'plugin.user.introduce': '用户介绍',
   'plugin.user.user-name': '用户名',
   'plugin.user.real-name': '真实姓名',
   'plugin.user.phone': '手机号',

@@ -75,6 +75,15 @@ const PluginUser: React.FC = () => {
       dataIndex: 'real_name',
     },
     {
+      title: intl.formatMessage({ id: 'plugin.user.avatar_url' }),
+      dataIndex: 'full_avatar_url',
+      hideInSearch: true,
+      width: 70,
+      render: (text, record) => {
+        return text ? <img src={record.full_avatar_url} className="list-thumb" /> : null;
+      },
+    },
+    {
       title: intl.formatMessage({ id: 'plugin.user.group' }),
       dataIndex: 'group_id',
       render: (_, entity) => {
