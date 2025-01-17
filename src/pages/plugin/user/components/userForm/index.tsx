@@ -76,6 +76,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     const extra: any = {};
     extra[field] = { value: row.logo };
     formRef?.current?.setFieldsValue({ extra });
+    if (!user.extra) {
+      user.extra = {};
+    }
     if (!user.extra[field]) {
       user.extra[field] = {};
     }
@@ -254,7 +257,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           />
         ) : item.type === 'image' ? (
           <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
-            {user.extra[item.field_name]?.value ? (
+            {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item">
                 <Image
                   preview={{
@@ -282,7 +285,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           </ProFormText>
         ) : item.type === 'file' ? (
           <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
-            {user.extra[item.field_name]?.value ? (
+            {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item ant-upload-file">
                 <span>{user.extra[item.field_name]?.value}</span>
                 <span className="delete" onClick={() => handleCleanExtraField(item.field_name)}>
