@@ -224,6 +224,25 @@ export default {
   'plugin.collector.tips':
     '采集文章需要先设置核心关键词，请检查“关键词库管理”功能，并添加相应的关键词。',
   'plugin.collector.replace': '批量替换关键词',
+  'plugin.collector.proxy_config.name': '是否启用代理',
+  'plugin.collector.proxy_config.close': '不启用',
+  'plugin.collector.proxy_config.open': '启用',
+  'plugin.collector.proxy_config.platform': '代理平台',
+  'plugin.collector.proxy_config.platform.juliang': '巨量IP',
+  'plugin.collector.proxy_config.platform.description':
+    '仅支持巨量IP代理服务，请购买动态代理不限量套餐。代理购买地址：',
+  'plugin.collector.proxy_config.api_url': 'API提取链接',
+  'plugin.collector.proxy_config.api_url.description':
+    '请直接将生成的API提取链接填写在这里',
+  'plugin.collector.concurrent': '并发数量',
+  'plugin.collector.concurrent.placeholder': '默认10',
+  'plugin.collector.concurrent.description':
+    '请根据购买套餐实际情况设置每秒可以访问多少次API提取链接',
+  'plugin.collector.expire': 'IP有效期',
+  'plugin.collector.expire.addon': '秒',
+  'plugin.collector.expire.placeholder': '默认0',
+  'plugin.collector.expire.description':
+    '根据购买套餐实际情况设置IP的过期时间，如果如果设置了过期时间，程序能提前释放IP，提高效率',
   'plugin.comment.new': '添加评论',
   'plugin.comment.edit': '编辑评论',
   'plugin.comment.item-title': '文档标题',

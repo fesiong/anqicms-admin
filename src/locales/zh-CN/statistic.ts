@@ -4,7 +4,8 @@ export default {
   'statistic.spider': '蜘蛛统计',
   'statistic.spider.tips': '这里统计的是蜘蛛爬取的次数，具体可以查看详情记录',
   'statistic.indexing': '收录情况统计',
-  'statistic.indexing.tips': '这里统计的是各大搜索引擎每天的收录情况，具体可以查看详情记录',
+  'statistic.indexing.tips':
+    '这里统计的是各大搜索引擎每天的收录情况，具体可以查看详情记录',
   'statistic.host': '域名',
   'statistic.url': '访问地址',
   'statistic.device': '设备',
@@ -16,6 +17,6 @@ export default {
   'statistic.indexing.sogou': '搜狗收录',
   'statistic.indexing.so': '360收录',
   'statistic.indexing.bing': '必应收录',
-  'statistic.indexing.google': '百度谷歌收录收录',
+  'statistic.indexing.google': '谷歌收录',
   'statistic.indexing.detail': '收录详细记录',
 };

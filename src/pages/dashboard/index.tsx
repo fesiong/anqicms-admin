@@ -10,7 +10,16 @@ import { getStore, setStore } from '@/utils/store';
 import { Line } from '@ant-design/plots';
 import { PageContainer } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
-import { Button, Card, Col, Row, Statistic, Tabs, Tooltip } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Row,
+  Statistic,
+  Tabs,
+  Tooltip,
+  message,
+} from 'antd';
 import dayjs from 'dayjs';
 import React, { Suspense, useEffect, useState } from 'react';
 import StatisticsRow from './components/statistics';
@@ -27,12 +36,23 @@ const Dashboard: React.FC = () => {
   const [infoData, setInfoData] = useState<any>({});
   const [newVersion, setNewVersion] = useState<any>(null);
   const [showGuide, setShowGuide] = useState<boolean>(false);
+  const [exact, setExact] = useState<boolean>(true);
   const intl = useIntl();
 
-  const getSetting = async () => {
-    getStatisticSummary()
+  const getSummary = (ex: boolean) => {
+    const hide = message.loading(
+      {
+        content: 'loading...',
+        key: 'loading',
+      },
+      0,
+    );
+    getStatisticSummary({
+      exact: ex,
+    })
       .then((res) => {
         setData(res.data || {});
+        setExact(res.data?.exact || false);
         let needShow = res.data?.show_guide || false;
         // 读取localStorage
         let hasClose = getStore('close_guide') || false;
@@ -41,7 +61,14 @@ const Dashboard: React.FC = () => {
         }
         setShowGuide(needShow);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        hide();
+      });
+  };
+
+  const getSetting = async () => {
+    getSummary(false);
     getStatisticInclude()
       .then((res) => {
         setIncludeData(res.data || []);
@@ -172,11 +199,19 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div>
                     <FormattedMessage id="dashboard.guide.or" />
-                    <span className="link" onClick={() => handleJump('/design/index')}>
+                    <span
+                      className="link"
+                      onClick={() => handleJump('/design/index')}
+                    >
                       <FormattedMessage id="dashboard.guide.design" />
                     </span>
                     <FormattedMessage id="dashboard.guide.comma" />
-                    <a className="link" href="https://www.anqicms.com/help" target="_blank" rel='noreferrer'>
+                    <a
+                      className="link"
+                      href="https://www.anqicms.com/help"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <FormattedMessage id="dashboard.guide.help" />
                     </a>
                   </div>
@@ -188,16 +223,28 @@ const Dashboard: React.FC = () => {
                     <FormattedMessage id="dashboard.guide.next" />
                   </h2>
                   <ul className="guide-list">
-                    <li className="link" onClick={() => handleJump('/archive/category')}>
+                    <li
+                      className="link"
+                      onClick={() => handleJump('/archive/category')}
+                    >
                       <FormattedMessage id="dashboard.guide.new-category" />
                     </li>
-                    <li className="link" onClick={() => handleJump('/archive/detail')}>
+                    <li
+                      className="link"
+                      onClick={() => handleJump('/archive/detail')}
+                    >
                       <FormattedMessage id="dashboard.guide.new-archive" />
                     </li>
-                    <li className="link" onClick={() => handleJump('/archive/page')}>
+                    <li
+                      className="link"
+                      onClick={() => handleJump('/archive/page')}
+                    >
                       <FormattedMessage id="dashboard.guide.new-page" />
                     </li>
-                    <li className="link" onClick={() => handleJump('/setting/tdk')}>
+                    <li
+                      className="link"
+                      onClick={() => handleJump('/setting/tdk')}
+                    >
                       <FormattedMessage id="dashboard.guide.tdk" />
                     </li>
                     <li className="link" onClick={handlePreview}>
@@ -215,36 +262,55 @@ const Dashboard: React.FC = () => {
                     <Col flex={1}>
                       <ul className="guide-list split">
                         <li>
-                          1. <FormattedMessage id="dashboard.guide.step.change" />
-                          <span className="link" onClick={() => handleJump('/setting/system')}>
+                          1.{' '}
+                          <FormattedMessage id="dashboard.guide.step.change" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/setting/system')}
+                          >
                             <FormattedMessage id="menu.setting.system" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.website" />
                         </li>
                         <li>
-                          2. <FormattedMessage id="dashboard.guide.step.change" />
-                          <span className="link" onClick={() => handleJump('/setting/content')}>
+                          2.{' '}
+                          <FormattedMessage id="dashboard.guide.step.change" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/setting/content')}
+                          >
                             <FormattedMessage id="menu.setting.content" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.website" />
                         </li>
                         <li>
-                          3. <FormattedMessage id="dashboard.guide.step.change" />
-                          <span className="link" onClick={() => handleJump('/setting/tdk')}>
+                          3.{' '}
+                          <FormattedMessage id="dashboard.guide.step.change" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/setting/tdk')}
+                          >
                             <FormattedMessage id="menu.setting.tdk" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          4. <FormattedMessage id="dashboard.guide.step.create" />
-                          <span className="link" onClick={() => handleJump('/archive/category')}>
+                          4.{' '}
+                          <FormattedMessage id="dashboard.guide.step.create" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/archive/category')}
+                          >
                             <FormattedMessage id="menu.archive.category" />
                           </span>
                           ；{' '}
                         </li>
                         <li>
                           5.{' '}
-                          <span className="link" onClick={() => handleJump('/archive/page')}>
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/archive/page')}
+                          >
                             <FormattedMessage id="dashboard.guide.step.create" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.page" />
@@ -254,36 +320,55 @@ const Dashboard: React.FC = () => {
                     <Col flex={1}>
                       <ul className="guide-list split">
                         <li>
-                          6. <FormattedMessage id="dashboard.guide.step.change" />
-                          <span className="link" onClick={() => handleJump('/setting/nav')}>
+                          6.{' '}
+                          <FormattedMessage id="dashboard.guide.step.change" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/setting/nav')}
+                          >
                             <FormattedMessage id="menu.setting.nav" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          7. <FormattedMessage id="dashboard.guide.step.change" />
-                          <span className="link" onClick={() => handleJump('/plugin/rewrite')}>
+                          7.{' '}
+                          <FormattedMessage id="dashboard.guide.step.change" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/plugin/rewrite')}
+                          >
                             <FormattedMessage id="menu.plugin.rewrite" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          8. <FormattedMessage id="dashboard.guide.step.change" />
-                          <span className="link" onClick={() => handleJump('/plugin/robots')}>
+                          8.{' '}
+                          <FormattedMessage id="dashboard.guide.step.change" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/plugin/robots')}
+                          >
                             <FormattedMessage id="menu.plugin.robots" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
-                          9. <FormattedMessage id="dashboard.guide.step.change" />
-                          <span className="link" onClick={() => handleJump('/plugin/sitemap')}>
+                          9.{' '}
+                          <FormattedMessage id="dashboard.guide.step.change" />
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/plugin/sitemap')}
+                          >
                             <FormattedMessage id="menu.plugin.sitemap" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
                         <li>
                           10.{' '}
-                          <span className="link" onClick={() => handleJump('/archive/detail')}>
+                          <span
+                            className="link"
+                            onClick={() => handleJump('/archive/detail')}
+                          >
                             <FormattedMessage id="dashboard.guide.step.publish" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.dot" />
@@ -298,7 +383,14 @@ const Dashboard: React.FC = () => {
         </Suspense>
       )}
       <Suspense fallback={null}>
-        <StatisticsRow loading={false} data={data} />
+        <StatisticsRow
+          loading={false}
+          data={data}
+          exact={exact}
+          getExactCount={() => {
+            getSummary(true);
+          }}
+        />
       </Suspense>
       <Row gutter={20}>
         <Col sm={18} xs={24}>
@@ -319,7 +411,11 @@ const Dashboard: React.FC = () => {
                     handleJump('/archive/list?module_id=' + item.id);
                   }}
                 >
-                  <Statistic className="link" title={item.name} value={item.total} />
+                  <Statistic
+                    className="link"
+                    title={item.name}
+                    value={item.total}
+                  />
                 </Col>
               ))}
               <Col
@@ -404,12 +500,18 @@ const Dashboard: React.FC = () => {
             >
               <div className="statistic-card">
                 <Tabs size="large" tabBarStyle={{ marginBottom: 24 }}>
-                  <TabPane tab={intl.formatMessage({ id: 'menu.statistic.traffic' })} key="traffic">
+                  <TabPane
+                    tab={intl.formatMessage({ id: 'menu.statistic.traffic' })}
+                    key="traffic"
+                  >
                     <div className="statistic-bar">
                       <Line {...trafficConfig} />
                     </div>
                   </TabPane>
-                  <TabPane tab={intl.formatMessage({ id: 'menu.statistic.spider' })} key="spider">
+                  <TabPane
+                    tab={intl.formatMessage({ id: 'menu.statistic.spider' })}
+                    key="spider"
+                  >
                     <div className="statistic-bar">
                       <Line {...spiderConfig} />
                     </div>
@@ -437,7 +539,9 @@ const Dashboard: React.FC = () => {
                   </div>
                   <p>
                     {infoData.now_login
-                      ? dayjs(infoData.now_login.created_time * 1000).format('MM-DD HH:mm')
+                      ? dayjs(infoData.now_login.created_time * 1000).format(
+                          'MM-DD HH:mm',
+                        )
                       : '-'}
                   </p>
                   <div>{infoData.now_login?.ip}</div>
@@ -450,7 +554,9 @@ const Dashboard: React.FC = () => {
                   </div>
                   <p>
                     {infoData.last_login
-                      ? dayjs(infoData.last_login.created_time * 1000).format('MM-DD HH:mm')
+                      ? dayjs(infoData.last_login.created_time * 1000).format(
+                          'MM-DD HH:mm',
+                        )
                       : '-'}
                   </p>
                   <div>{infoData.last_login?.ip}</div>
@@ -478,10 +584,16 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div>
                     {infoData.system?.template_type === 2
-                      ? intl.formatMessage({ id: 'setting.system.template-type.pc-m' })
+                      ? intl.formatMessage({
+                          id: 'setting.system.template-type.pc-m',
+                        })
                       : infoData.system?.template_type === 1
-                      ? intl.formatMessage({ id: 'setting.system.template-type.code' })
-                      : intl.formatMessage({ id: 'setting.system.template-type.auto' })}
+                      ? intl.formatMessage({
+                          id: 'setting.system.template-type.code',
+                        })
+                      : intl.formatMessage({
+                          id: 'setting.system.template-type.auto',
+                        })}
                   </div>
                 </div>
               </Col>
@@ -500,8 +612,15 @@ const Dashboard: React.FC = () => {
             title={intl.formatMessage({ id: 'dashboard.soft-info' })}
             extra={
               newVersion && (
-                <Tooltip title={intl.formatMessage({ id: 'dashboard.soft-info.click-to-upgrade' })}>
-                  <span onClick={() => handleJump('/tool/upgrade')} className="new-version-tips">
+                <Tooltip
+                  title={intl.formatMessage({
+                    id: 'dashboard.soft-info.click-to-upgrade',
+                  })}
+                >
+                  <span
+                    onClick={() => handleJump('/tool/upgrade')}
+                    className="new-version-tips"
+                  >
                     <FormattedMessage id="dashboard.soft-info.new-version" />
                     <span className="version">{newVersion.version}</span>
                   </span>
@@ -519,7 +638,11 @@ const Dashboard: React.FC = () => {
             </p>
             <p>
               <FormattedMessage id="dashboard.soft-info.official-web" />
-              <a href="https://www.anqicms.com/" target={'_blank'} rel="noreferrer">
+              <a
+                href="https://www.anqicms.com/"
+                target={'_blank'}
+                rel="noreferrer"
+              >
                 https://www.anqicms.com
               </a>
             </p>

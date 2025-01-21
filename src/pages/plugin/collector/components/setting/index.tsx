@@ -34,6 +34,8 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     setting: {},
     tmpInput: {},
     insertImage: 0,
+    collect_mode: 0,
+    proxyOpen: false,
   };
 
   componentDidMount() {
@@ -67,6 +69,8 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         setting: setting,
         fetched: true,
         insertImage: setting.insert_image,
+        collect_mode: setting.collect_mode || 0,
+        proxyOpen: setting.proxy_config?.open || false,
       });
     });
   }
@@ -169,8 +173,28 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     });
   };
 
+  setCollectMode = (mode: number) => {
+    this.setState({
+      collect_mode: mode,
+    });
+  };
+
+  setproxyOpen = (isOpen: boolean) => {
+    this.setState({
+      proxyOpen: isOpen,
+    });
+  };
+
   render() {
-    const { visible, fetched, setting, tmpInput, insertImage } = this.state;
+    const {
+      visible,
+      fetched,
+      setting,
+      tmpInput,
+      insertImage,
+      collect_mode,
+      proxyOpen,
+    } = this.state;
 
     return (
       <>
@@ -259,24 +283,31 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   value: 1,
                 },
               ]}
+              fieldProps={{
+                onChange: (e) => {
+                  this.setCollectMode(e.target.value);
+                },
+              }}
               extra={
                 <div>
                   <FormattedMessage id="plugin.collector.mode.description" />
                 </div>
               }
             />
-            <ProFormText
-              name="from_website"
-              label={this.props.intl.formatMessage({
-                id: 'plugin.collector.source',
-              })}
-              placeholder="如：https://cn.bing.com/search?q=%s"
-              extra={
-                <div>
-                  <FormattedMessage id="plugin.collector.source.description" />
-                </div>
-              }
-            />
+            {collect_mode === 0 && (
+              <ProFormText
+                name="from_website"
+                label={this.props.intl.formatMessage({
+                  id: 'plugin.collector.source',
+                })}
+                placeholder="如：https://cn.bing.com/search?q=%s"
+                extra={
+                  <div>
+                    <FormattedMessage id="plugin.collector.source.description" />
+                  </div>
+                }
+              />
+            )}
             <ProFormSelect
               label={this.props.intl.formatMessage({
                 id: 'plugin.aigenerate.default-category',
@@ -312,6 +343,107 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 },
               }}
             />
+            <ProFormRadio.Group
+              name={['proxy_config', 'open']}
+              label={this.props.intl.formatMessage({
+                id: 'plugin.collector.proxy_config.name',
+              })}
+              options={[
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.collector.proxy_config.close',
+                  }),
+                  value: false,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.collector.proxy_config.open',
+                  }),
+                  value: true,
+                },
+              ]}
+              fieldProps={{
+                onChange: (e) => {
+                  this.setproxyOpen(e.target.value);
+                },
+              }}
+            />
+            {proxyOpen && (
+              <>
+                <ProFormRadio.Group
+                  name={['proxy_config', 'platform']}
+                  label={this.props.intl.formatMessage({
+                    id: 'plugin.collector.proxy_config.platform',
+                  })}
+                  readonly
+                  fieldProps={{
+                    value: 'juliangip',
+                  }}
+                  options={[
+                    {
+                      label: this.props.intl.formatMessage({
+                        id: 'plugin.collector.proxy_config.platform.juliang',
+                      }),
+                      value: 'juliangip',
+                    },
+                  ]}
+                  extra={
+                    <div>
+                      {this.props.intl.formatMessage({
+                        id: 'plugin.collector.proxy_config.platform.description',
+                      })}
+                      <a
+                        href="https://www.juliangip.com/user/reg?inviteCode=1043204"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        https://www.juliangip.com/user/reg?inviteCode=1043204
+                      </a>
+                    </div>
+                  }
+                />
+                <ProFormText
+                  name={['proxy_config', 'api_url']}
+                  label={this.props.intl.formatMessage({
+                    id: 'plugin.collector.proxy_config.api_url',
+                  })}
+                  extra={
+                    <div>
+                      <FormattedMessage id="plugin.collector.proxy_config.api_url.description" />
+                    </div>
+                  }
+                />
+                <ProForm.Group>
+                  <ProFormDigit
+                    name={['proxy_config', 'concurrent']}
+                    label={this.props.intl.formatMessage({
+                      id: 'plugin.collector.concurrent',
+                    })}
+                    placeholder={this.props.intl.formatMessage({
+                      id: 'plugin.collector.concurrent.placeholder',
+                    })}
+                    extra={this.props.intl.formatMessage({
+                      id: 'plugin.collector.concurrent.description',
+                    })}
+                  />
+                  <ProFormDigit
+                    name={['proxy_config', 'expire']}
+                    label={this.props.intl.formatMessage({
+                      id: 'plugin.collector.expire',
+                    })}
+                    addonAfter={this.props.intl.formatMessage({
+                      id: 'plugin.collector.expire.addon',
+                    })}
+                    placeholder={this.props.intl.formatMessage({
+                      id: 'plugin.collector.expire.placeholder',
+                    })}
+                    extra={this.props.intl.formatMessage({
+                      id: 'plugin.collector.expire.description',
+                    })}
+                  />
+                </ProForm.Group>
+              </>
+            )}
             <ProFormRadio.Group
               name="save_type"
               label={this.props.intl.formatMessage({

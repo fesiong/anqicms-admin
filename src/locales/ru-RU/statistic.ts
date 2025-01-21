@@ -2,9 +2,11 @@ export default {
   'statistic.traffic': 'Статистика трафика',
   'statistic.traffic.tips': 'Статистика трафика',
   'statistic.spider': 'Статистика пауков',
-  'statistic.spider.tips': 'Здесь представлена ​​статистика по количеству сканирований пауков. Подробности можно посмотреть в подробных записях.',
+  'statistic.spider.tips':
+    'Здесь представлена ​​статистика по количеству сканирований пауков. Подробности можно посмотреть в подробных записях.',
   'statistic.indexing': 'Статистика сбора',
-  'statistic.indexing.tips': 'Здесь представлена ​​статистика ежедневного включения основных поисковых систем. Подробности можно просмотреть в подробных записях.',
+  'statistic.indexing.tips':
+    'Здесь представлена ​​статистика ежедневного включения основных поисковых систем. Подробности можно просмотреть в подробных записях.',
   'statistic.host': 'доменное имя',
   'statistic.url': 'адрес',
   'statistic.device': 'оборудование',
@@ -16,6 +18,6 @@ export default {
   'statistic.indexing.sogou': 'Сого включен',
   'statistic.indexing.so': '360 включено',
   'statistic.indexing.bing': 'Включено в Бинг',
-  'statistic.indexing.google': 'Включено Baidu и Google',
+  'statistic.indexing.google': 'Google',
   'statistic.indexing.detail': 'Включить подробные записи',
 };

@@ -224,6 +224,25 @@ export default {
   'plugin.collector.tips':
     '採集文章需要先設定核心關鍵字，請檢查「關鍵字庫管理」功能，並加入對應的關鍵字。',
   'plugin.collector.replace': '批量替換關鍵字',
+  'plugin.collector.proxy_config.name': '是否啟用代理程式',
+  'plugin.collector.proxy_config.close': '不啟用',
+  'plugin.collector.proxy_config.open': '啟用',
+  'plugin.collector.proxy_config.platform': '代理平台',
+  'plugin.collector.proxy_config.platform.juliang': '巨量IP',
+  'plugin.collector.proxy_config.platform.description':
+    '僅支援巨量IP代理服務，請購買動態代理不限量套餐。代理購買地址：',
+  'plugin.collector.proxy_config.api_url': 'API提取連結',
+  'plugin.collector.proxy_config.api_url.description':
+    '請直接將產生的API提取連結填寫在這裡',
+  'plugin.collector.concurrent': '並發數量',
+  'plugin.collector.concurrent.placeholder': '預設10',
+  'plugin.collector.concurrent.description':
+    '請根據購買套餐實際情況設定每秒可以訪問多少次API提取連結',
+  'plugin.collector.expire': 'IP有效期限',
+  'plugin.collector.expire.addon': '秒',
+  'plugin.collector.expire.placeholder': '預設0',
+  'plugin.collector.expire.description':
+    '根據購買套餐實際情況設定IP的過期時間，如果如果設定了過期時間，程式能提前釋放IP，提高效率',
   'plugin.comment.new': '新增評論',
   'plugin.comment.edit': '編輯評論',
   'plugin.comment.item-title': '文件標題',

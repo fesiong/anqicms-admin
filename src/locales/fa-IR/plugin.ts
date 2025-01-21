@@ -256,6 +256,25 @@ export default {
   'plugin.collector.tips':
     'برای جمع آوری مقالات، ابتدا باید کلیدواژه های اصلی را تنظیم کنید، لطفاً عملکرد "مدیریت پایگاه داده کلمات کلیدی" را بررسی کنید و کلمات کلیدی مربوطه را اضافه کنید.',
   'plugin.collector.replace': 'کلمات کلیدی را به صورت دسته ای جایگزین کنید',
+  'plugin.collector.proxy_config.name': 'Enable proxy',
+  'plugin.collector.proxy_config.close': 'Disable',
+  'plugin.collector.proxy_config.open': 'Enable',
+  'plugin.collector.proxy_config.platform': 'Proxy platform',
+  'plugin.collector.proxy_config.platform.juliang': 'Massive IP',
+  'plugin.collector.proxy_config.platform.description':
+    'Only supports massive IP proxy service, please purchase the unlimited dynamic proxy package. Proxy purchase address:',
+  'plugin.collector.proxy_config.api_url': 'API extraction link',
+  'plugin.collector.proxy_config.api_url.description':
+    'Please fill in the generated API extraction link here directly',
+  'plugin.collector.concurrent': 'Concurrent number',
+  'plugin.collector.concurrent.placeholder': 'Default 10',
+  'plugin.collector.concurrent.description':
+    'Please set the number of API extraction links that can be accessed per second according to the actual situation of the purchased package',
+  'plugin.collector.expire': 'IP validity period',
+  'plugin.collector.expire.addon': 'seconds',
+  'plugin.collector.expire.placeholder': 'Default 0',
+  'plugin.collector.expire.description':
+    'Set the expiration time of the IP according to the actual situation of the purchased package. If the expiration time is set, the program can release the IP in advance to improve efficiency',
   'plugin.comment.new': 'اضافه کردن نظر',
   'plugin.comment.edit': 'نظرات تحریریه',
   'plugin.comment.item-title': 'عنوان سند',

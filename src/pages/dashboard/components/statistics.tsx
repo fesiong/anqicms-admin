@@ -1,7 +1,7 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Col, Row, Space, Statistic, Tooltip } from 'antd';
+import { Col, Row, Space, Statistic, Tag, Tooltip } from 'antd';
 
-import { Link, useIntl } from '@umijs/max';
+import { FormattedMessage, Link, useIntl } from '@umijs/max';
 import { ChartCard, Field } from './Charts';
 
 const topColResponsiveProps = {
@@ -13,16 +13,45 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
-const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => {
+const StatisticsRow = ({
+  loading,
+  data,
+  exact,
+  getExactCount,
+}: {
+  loading: boolean;
+  data: any;
+  exact: boolean;
+  getExactCount: () => void;
+}) => {
   const intl = useIntl();
   return (
     <Row gutter={24}>
       <Col {...topColResponsiveProps}>
         <ChartCard
           bordered={false}
-          title={intl.formatMessage({ id: 'dashboard.component.archive.count' })}
+          title={intl.formatMessage({
+            id: 'dashboard.component.archive.count',
+          })}
+          extra={
+            !exact && (
+              <Tooltip
+                title={intl.formatMessage({
+                  id: 'content.count.tips.tooltip',
+                })}
+              >
+                <Tag className="link" color="orange" onClick={getExactCount}>
+                  <FormattedMessage id="content.count.tips" />
+                </Tag>
+              </Tooltip>
+            )
+          }
           action={
-            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.archive.count.tips' })}>
+            <Tooltip
+              title={intl.formatMessage({
+                id: 'dashboard.component.archive.count.tips',
+              })}
+            >
               <InfoCircleOutlined />
             </Tooltip>
           }
@@ -36,7 +65,9 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => {
           footer={
             <Space>
               <Field
-                label={intl.formatMessage({ id: 'dashboard.component.lastweek' })}
+                label={intl.formatMessage({
+                  id: 'dashboard.component.lastweek',
+                })}
                 value={data.archive_count?.last_week || 0}
               />
               <Field
@@ -45,13 +76,17 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => {
               />
               <Link to={'/archive/list?status=plan'}>
                 <Field
-                  label={intl.formatMessage({ id: 'dashboard.component.unrelease' })}
+                  label={intl.formatMessage({
+                    id: 'dashboard.component.unrelease',
+                  })}
                   value={data.archive_count?.un_release || 0}
                 />
               </Link>
               <Link to={'/archive/list?status=draft'}>
                 <Field
-                  label={intl.formatMessage({ id: 'dashboard.component.draft' })}
+                  label={intl.formatMessage({
+                    id: 'dashboard.component.draft',
+                  })}
                   value={data.archive_count?.draft || 0}
                 />
               </Link>
@@ -67,14 +102,20 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => {
           loading={loading}
           title={intl.formatMessage({ id: 'dashboard.component.week-traffic' })}
           action={
-            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.traffic-description' })}>
+            <Tooltip
+              title={intl.formatMessage({
+                id: 'dashboard.component.traffic-description',
+              })}
+            >
               <InfoCircleOutlined />
             </Tooltip>
           }
           total={data.traffic_count?.total}
           footer={
             <Field
-              label={intl.formatMessage({ id: 'dashboard.component.today-visit' })}
+              label={intl.formatMessage({
+                id: 'dashboard.component.today-visit',
+              })}
               value={data.traffic_count?.today}
             />
           }
@@ -97,14 +138,20 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => {
           loading={loading}
           title={intl.formatMessage({ id: 'dashboard.component.week-spider' })}
           action={
-            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.spider-description' })}>
+            <Tooltip
+              title={intl.formatMessage({
+                id: 'dashboard.component.spider-description',
+              })}
+            >
               <InfoCircleOutlined />
             </Tooltip>
           }
           total={data.spider_count?.total}
           footer={
             <Field
-              label={intl.formatMessage({ id: 'dashboard.component.today-visit' })}
+              label={intl.formatMessage({
+                id: 'dashboard.component.today-visit',
+              })}
               value={data.spider_count?.today}
             />
           }
@@ -119,7 +166,11 @@ const StatisticsRow = ({ loading, data }: { loading: boolean; data: any }) => {
           loading={loading}
           title={intl.formatMessage({ id: 'dashboard.component.indexing' })}
           action={
-            <Tooltip title={intl.formatMessage({ id: 'dashboard.component.indexing-description' })}>
+            <Tooltip
+              title={intl.formatMessage({
+                id: 'dashboard.component.indexing-description',
+              })}
+            >
               <InfoCircleOutlined />
             </Tooltip>
           }
