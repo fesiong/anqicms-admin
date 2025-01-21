@@ -13,21 +13,25 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl } from '@umijs/max';
+import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import {
   Button,
   Card,
   Col,
   ColorPicker,
+  Image,
   Modal,
   Row,
+  Space,
   Upload,
   message,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
+import { PlusOutlined } from '@ant-design/icons';
 
 const PluginTitleImage: React.FC<any> = () => {
+  const { initialState, setInitialState } = useModel('@@initialState');
   const [setting, setSetting] = useState<any>(null);
   const [fetched, setFetched] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
@@ -97,7 +101,14 @@ const PluginTitleImage: React.FC<any> = () => {
     pluginTitleImageUploadFile(formData)
       .then((res) => {
         message.success(res.msg);
-        setting[field] = res.data;
+        if (field === 'bg_image'){
+          if(!setting.bg_images) {
+            setting.bg_images = [];
+          }
+          setting.bg_images.push(res.data);
+        } else {
+          setting[field] = res.data;
+        }
         setSetting(Object.assign({}, setting));
         getPreviewData();
       })
@@ -106,12 +117,11 @@ const PluginTitleImage: React.FC<any> = () => {
       });
   };
 
-  const handleRemoveBgImage = (e: any) => {
-    e.stopPropagation();
+  const handleRemoveBgImage = (index: number) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
       onOk: async () => {
-        setting.bg_image = '';
+        setting.bg_images.splice(index, 1)
         setSetting(Object.assign({}, setting));
         getPreviewData();
       },
@@ -130,11 +140,23 @@ const PluginTitleImage: React.FC<any> = () => {
     });
   };
 
-  const onChangeColor = (c: any) => {
-    setting.font_color = c.toHex();
+  const onChangeColor = (c: string) => {
+    setting.font_color = c;
     setSetting(Object.assign({}, setting));
     getPreviewData();
   };
+
+  const onChangeBgColor = (c: string) => {
+    setting.font_bg_color = c;
+    setSetting(Object.assign({}, setting));
+    getPreviewData();
+  };
+
+  const cleanFontBgColor = () => {
+    setting.font_bg_color = '';
+    setSetting(Object.assign({}, setting));
+    getPreviewData();
+  }
 
   const confirmChangeText = async (values: any) => {
     previewText = values.text;
@@ -241,12 +263,35 @@ const PluginTitleImage: React.FC<any> = () => {
                     })}
                   >
                     <ColorPicker
+                      key="1"
                       showText
                       value={setting.font_color}
                       onChange={(e) => {
-                        onChangeColor(e);
+                        onChangeColor(e.toHex());
                       }}
                     />
+                  </ProFormText>
+                  <ProFormText
+                    width="sm"
+                    label={intl.formatMessage({
+                      id: 'plugin.titleimage.color_bg',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'plugin.titleimage.color_bg.default',
+                    })}
+                  >
+                    <Space align='center' size={16}>
+                    <ColorPicker
+                      key="2"
+                      showText
+                      value={setting.font_bg_color}
+                      onChange={(e) => {
+                        onChangeBgColor(e.toHex());
+                      }}
+                      allowClear
+                      onClear={() => cleanFontBgColor()}
+                    />
+                    </Space>
                   </ProFormText>
                   <ProFormDigit
                     name="font_size"
@@ -258,7 +303,7 @@ const PluginTitleImage: React.FC<any> = () => {
                       id: 'plugin.titleimage.font-size.placeholder',
                     })}
                   />
-                  {!setting.bg_image && (
+                  {!setting.bg_images && (
                     <ProFormRadio.Group
                       name="noise"
                       label={intl.formatMessage({
@@ -291,27 +336,57 @@ const PluginTitleImage: React.FC<any> = () => {
                       id: 'plugin.titleimage.bg-image.description',
                     })}
                   >
-                    <Upload
-                      name="file"
-                      className="logo-uploader"
-                      showUploadList={false}
-                      accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
-                      customRequest={async (e) =>
-                        handleUploadFile('bg_image', e)
-                      }
-                    >
-                      <Button>
-                        <FormattedMessage id="plugin.titleimage.bg-image.upload" />
-                      </Button>
-                    </Upload>
-                    {setting.bg_image && (
-                      <div className="upload-file">
-                        <span>{setting.bg_image}</span>
-                        <a className="delete" onClick={handleRemoveBgImage}>
-                          <FormattedMessage id="setting.system.delete" />
-                        </a>
-                      </div>
-                    )}
+                    <div className="insert-image">
+                      <Row gutter={[16, 16]} className="image-list">
+                        {setting.bg_images?.map((item: any, index: number) => (
+                          <Col span={4} key={index}>
+                            <div className="image-item">
+                              <div className="inner">
+                                <div className="link">
+                                  <Image
+                                    className="img"
+                                    preview={true}
+                                    src={(initialState?.system?.base_url || '') + '/' + item}
+                                  />
+                                  <span
+                                    className="close"
+                                    onClick={() => handleRemoveBgImage(index)}
+                                  >
+                                    <FormattedMessage id="setting.system.delete" />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </Col>
+                        ))}
+                        <Col span={4}>
+                          <div className="image-item">
+                            <div className="inner">
+                              <div className="link">
+                                <Upload
+                                  name="file"
+                                  className="logo-uploader"
+                                  showUploadList={false}
+                                  accept=".jpg,.jpeg,.png,.gif,.webp,.bmp"
+                                  customRequest={async (e) =>
+                                    handleUploadFile('bg_image', e)
+                                  }
+                                >
+                                  <div className="ant-upload-item">
+                                    <div className="add">
+                                      <PlusOutlined />
+                                      <div style={{ marginTop: 8 }}>
+                                        <FormattedMessage id="plugin.titleimage.bg-image.upload" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Upload>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
                   </ProFormText>
                   <ProFormText
                     label={intl.formatMessage({ id: 'plugin.titleimage.font' })}

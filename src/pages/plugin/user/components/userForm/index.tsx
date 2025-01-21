@@ -45,14 +45,18 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       if (data.expire_time) {
         data.expire_time = dayjs(data.expire_time * 1000);
       }
+      if (data.avatar_url) {
+        data.avatar_url = data.full_avatar_url;
+      }
       setUser(data);
       setFetched(true);
     });
   }, []);
 
   const onSubmit = async (values: any) => {
-    const user = Object.assign(props.user, values);
-    const res = await pluginSaveUserInfo(user);
+    const data = Object.assign(user, values);
+
+    const res = await pluginSaveUserInfo(data);
     message.info(res.msg);
 
     props.onSubmit();
@@ -72,12 +76,25 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     const extra: any = {};
     extra[field] = { value: row.logo };
     formRef?.current?.setFieldsValue({ extra });
+    if (!user.extra) {
+      user.extra = {};
+    }
     if (!user.extra[field]) {
       user.extra[field] = {};
     }
     user.extra[field].value = row.logo;
 
     setUser(user);
+  };
+
+  const handleDeleteAvatarUrl = () => {
+    user.avatar_url = '';
+    setUser(Object.assign({}, user));
+  };
+
+  const handleUploadAvatarUrl = (row: any) => {
+    user.avatar_url = row.logo;
+    setUser(Object.assign({}, user));
   };
 
   return fetched ? (
@@ -97,6 +114,33 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         onSubmit(values);
       }}
     >
+      <ProFormText label={intl.formatMessage({ id: 'plugin.user.avatar_url' })}>
+            {user.avatar_url ? (
+              <div className="ant-upload-item">
+                <Image
+                  preview={{
+                    src: user.avatar_url,
+                  }}
+                  src={user.avatar_url}
+                />
+                <span className="delete" onClick={() => handleDeleteAvatarUrl()}>
+                  <DeleteOutlined />
+                </span>
+              </div>
+            ) : (
+              <AttachmentSelect
+                onSelect={(row) => handleUploadAvatarUrl(row)}
+                open={false}
+              >
+                <div className="ant-upload-item">
+                  <div className="add">
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}><FormattedMessage id="plugin.pay.upload" /></div>
+                  </div>
+                </div>
+              </AttachmentSelect>
+            )}
+          </ProFormText>
       <ProFormText name="user_name" label={intl.formatMessage({ id: 'plugin.user.user-name' })} />
       <ProFormText name="real_name" label={intl.formatMessage({ id: 'plugin.user.real-name' })} />
       <ProFormText name="phone" label={intl.formatMessage({ id: 'plugin.user.phone' })} />
@@ -105,6 +149,10 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         name="password"
         label={intl.formatMessage({ id: 'plugin.user.password' })}
         extra={intl.formatMessage({ id: 'plugin.user.password.description' })}
+      />
+      <ProFormTextArea
+        name="introduce"
+        label={intl.formatMessage({ id: 'plugin.user.introduce' })}
       />
       <ProFormRadio.Group
         name="is_retailer"
@@ -209,7 +257,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           />
         ) : item.type === 'image' ? (
           <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
-            {user.extra[item.field_name]?.value ? (
+            {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item">
                 <Image
                   preview={{
@@ -237,7 +285,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           </ProFormText>
         ) : item.type === 'file' ? (
           <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
-            {user.extra[item.field_name]?.value ? (
+            {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item ant-upload-file">
                 <span>{user.extra[item.field_name]?.value}</span>
                 <span className="delete" onClick={() => handleCleanExtraField(item.field_name)}>
