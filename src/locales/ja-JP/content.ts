@@ -160,11 +160,13 @@ export default {
   'content.quick-import.check_duplicate.check':
     'タイトルが重複する記事をスキップする',
   'content.quick-import.category_id.title': '公開されたカテゴリを選択',
-  'content.quick-import.step2': 'ステップ 2: zip パッケージをアップロードする',
-  'content.quick-import.upload': 'zip パッケージをアップロード',
+  'content.quick-import.step2': 'Step 2: Upload zip archive/Excel file',
+  'content.quick-import.excel-template': 'Get Excel template',
+  'content.quick-import.category_id.required': 'Please select a category',
+  'content.quick-import.upload': 'Upload file',
   'content.quick-import.upload.description':
-    'txt ドキュメントと html ドキュメントを含む ZIP 圧縮パッケージを選択してください',
-  'content.quick-import.upload.btn': 'Zip ファイルを選択',
+    'Please select a zip archive containing txt or html documents, or an Excel file',
+  'content.quick-import.upload.btn': 'Select a zip file/Excel file',
   'content.quick-import.upload.selected': '選択済み:',
   'content.quick-import.status': 'ドキュメントのインポートの進行状況',
   'content.recycle.name': 'ドキュメントのごみ箱',

@@ -5,7 +5,7 @@ import {
   getCategories,
   getQuickImportArchiveStatus,
 } from '@/services';
-import { calculateFileMd5 } from '@/utils';
+import { calculateFileMd5, downloadFile } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
@@ -43,6 +43,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
   const [task, setTask] = useState<any>(null);
   const [insertImage, setInsertImage] = useState<number>(0);
   const [images, setImages] = useState<any[]>([]);
+  const [categoryId, setCategoryId] = useState<number>(0);
   const intl = useIntl();
 
   const syncTask = async () => {
@@ -97,6 +98,20 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
 
   const handleSelectUploadZip = (e: any) => {
     setUploadedFile(e.file);
+  };
+
+  const handleGetTemplate = () => {
+    if (categoryId === 0) {
+      message.error(
+        intl.formatMessage({
+          id: 'content.quick-import.category_id.required',
+        }),
+      );
+      return;
+    }
+    downloadFile('/archive/import/exceltemplate', {
+      category_id: categoryId,
+    });
   };
 
   const handleSubmit = async (values: any) => {
@@ -354,6 +369,9 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
               label: 'title',
               value: 'id',
             },
+            onChange: (value) => {
+              setCategoryId(value as number);
+            },
             optionItemRender(item: any) {
               return (
                 <div
@@ -491,6 +509,11 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
         )}
         <Divider>
           <FormattedMessage id="content.quick-import.step2" />
+          <div className="download-template">
+            <Button type="link" onClick={handleGetTemplate}>
+              <FormattedMessage id="content.quick-import.excel-template" />
+            </Button>
+          </div>
         </Divider>
         <ProFormText
           label={intl.formatMessage({
@@ -504,7 +527,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
             name="file"
             multiple
             showUploadList={false}
-            accept=".zip"
+            accept=".zip,.xlsx"
             customRequest={(e) => {
               handleSelectUploadZip(e);
             }}

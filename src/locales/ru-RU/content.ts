@@ -166,11 +166,13 @@ export default {
   'content.quick-import.check_duplicate.check':
     'Пропускать статьи с повторяющимися заголовками',
   'content.quick-import.category_id.title': 'Выберите опубликованную категорию',
-  'content.quick-import.step2': 'Шаг 2. Загрузите zip-архив',
-  'content.quick-import.upload': 'Загрузить zip-пакет',
+  'content.quick-import.step2': 'Step 2: Upload zip archive/Excel file',
+  'content.quick-import.excel-template': 'Get Excel template',
+  'content.quick-import.category_id.required': 'Please select a category',
+  'content.quick-import.upload': 'Upload file',
   'content.quick-import.upload.description':
-    'Пожалуйста, выберите сжатый ZIP-пакет, содержащий документы txt и html',
-  'content.quick-import.upload.btn': 'Выберите ZIP-файл',
+    'Please select a zip archive containing txt or html documents, or an Excel file',
+  'content.quick-import.upload.btn': 'Select a zip file/Excel file',
   'content.quick-import.upload.selected': 'Выбрано:',
   'content.quick-import.status': 'Прогресс импорта документа',
   'content.recycle.name': 'Корзина документов',

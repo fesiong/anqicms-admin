@@ -165,11 +165,13 @@ export default {
   'content.quick-import.check_duplicate.check':
     'Skip articles with duplicate titles',
   'content.quick-import.category_id.title': 'Select the category to publish',
-  'content.quick-import.step2': 'Step 2: Upload the zip compressed package',
-  'content.quick-import.upload': 'Upload the zip compressed package',
+  'content.quick-import.step2': 'Step 2: Upload zip archive/Excel file',
+  'content.quick-import.excel-template': 'Get Excel template',
+  'content.quick-import.category_id.required': 'Please select a category',
+  'content.quick-import.upload': 'Upload file',
   'content.quick-import.upload.description':
-    'Please select the ZIP compressed package containing txt and html documents',
-  'content.quick-import.upload.btn': 'Select the Zip file',
+    'Please select a zip archive containing txt or html documents, or an Excel file',
+  'content.quick-import.upload.btn': 'Select a zip file/Excel file',
   'content.quick-import.upload.selected': 'Selected:',
   'content.quick-import.status': 'Document import progress',
   'content.recycle.name': 'Document Recycle Bin',

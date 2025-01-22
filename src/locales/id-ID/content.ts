@@ -166,11 +166,13 @@ export default {
     'Lewati artikel dengan judul duplikat',
   'content.quick-import.category_id.title':
     'Pilih kategori yang dipublikasikan',
-  'content.quick-import.step2': 'Langkah 2: Unggah paket zip',
-  'content.quick-import.upload': 'Unggah paket zip',
+  'content.quick-import.step2': 'Step 2: Upload zip archive/Excel file',
+  'content.quick-import.excel-template': 'Get Excel template',
+  'content.quick-import.category_id.required': 'Please select a category',
+  'content.quick-import.upload': 'Upload file',
   'content.quick-import.upload.description':
-    'Silakan pilih paket terkompresi ZIP yang berisi dokumen txt dan html',
-  'content.quick-import.upload.btn': 'Pilih file Zip',
+    'Please select a zip archive containing txt or html documents, or an Excel file',
+  'content.quick-import.upload.btn': 'Select a zip file/Excel file',
   'content.quick-import.upload.selected': 'Dipilih:',
   'content.quick-import.status': 'Kemajuan impor dokumen',
   'content.recycle.name': 'Tempat Sampah Dokumen',

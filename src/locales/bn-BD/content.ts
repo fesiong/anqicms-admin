@@ -163,11 +163,13 @@ export default {
   'content.quick-import.check_duplicate.check':
     'ডুপ্লিকেট শিরোনাম সহ নিবন্ধগুলি এড়িয়ে যান',
   'content.quick-import.category_id.title': 'প্রকাশিত বিভাগ নির্বাচন করুন',
-  'content.quick-import.step2': 'ধাপ 2: জিপ প্যাকেজ আপলোড করুন',
-  'content.quick-import.upload': 'জিপ প্যাকেজ আপলোড করুন',
+  'content.quick-import.step2': 'Step 2: Upload zip archive/Excel file',
+  'content.quick-import.excel-template': 'Get Excel template',
+  'content.quick-import.category_id.required': 'Please select a category',
+  'content.quick-import.upload': 'Upload file',
   'content.quick-import.upload.description':
-    'অনুগ্রহ করে txt এবং html নথি ধারণকারী একটি জিপ সংকুচিত প্যাকেজ নির্বাচন করুন',
-  'content.quick-import.upload.btn': 'জিপ ফাইল নির্বাচন করুন',
+    'Please select a zip archive containing txt or html documents, or an Excel file',
+  'content.quick-import.upload.btn': 'Select a zip file/Excel file',
   'content.quick-import.upload.selected': 'নির্বাচিত:',
   'content.quick-import.status': 'নথি আমদানির অগ্রগতি',
   'content.recycle.name': 'ডকুমেন্ট রিসাইকেল বিন',
