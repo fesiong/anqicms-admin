@@ -121,13 +121,17 @@ const DesignDetail: React.FC = () => {
     // 可编辑的文件
     if (
       info.path.indexOf('.html') !== -1 ||
+      info.path.indexOf('.yml') !== -1 ||
+      info.path.indexOf('.yaml') !== -1 ||
       info.path.indexOf('.css') !== -1 ||
       info.path.indexOf('.less') !== -1 ||
       info.path.indexOf('.scss') !== -1 ||
       info.path.indexOf('.sass') !== -1 ||
       info.path.indexOf('.js') !== -1
     ) {
-      history.push(`/design/editor?package=${designInfo.package}&type=${type}&path=${info.path}`);
+      history.push(
+        `/design/editor?package=${designInfo.package}&type=${type}&path=${info.path}`,
+      );
     } else {
       setAddFileType(type);
       setCurrentFile(info);
@@ -177,7 +181,9 @@ const DesignDetail: React.FC = () => {
       onOk: () => {
         const newPath = inputRef.current?.input?.value;
         if (!newPath || newPath === info.path) {
-          message.error(intl.formatMessage({ id: 'design.detail.name-duplicate' }));
+          message.error(
+            intl.formatMessage({ id: 'design.detail.name-duplicate' }),
+          );
           return false;
         }
         const remark = inputRef2.current?.input?.value;
@@ -216,7 +222,13 @@ const DesignDetail: React.FC = () => {
         e = e + '/';
       }
       setTempDirs([
-        { label: intl.formatMessage({ id: 'design.detail.new-directory' }) + ': ' + e, value: e },
+        {
+          label:
+            intl.formatMessage({ id: 'design.detail.new-directory' }) +
+            ': ' +
+            e,
+          value: e,
+        },
       ]);
     }
   };
@@ -243,7 +255,10 @@ const DesignDetail: React.FC = () => {
       message.error(intl.formatMessage({ id: 'design.detail.name-required' }));
       return;
     }
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     values.package = designInfo.package;
     values.type = addFileType;
 
@@ -292,7 +307,9 @@ const DesignDetail: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'design.detail.confirm-upload' }),
       content:
-        intl.formatMessage({ id: 'design.detail.confirm-upload.content-before' }) +
+        intl.formatMessage({
+          id: 'design.detail.confirm-upload.content-before',
+        }) +
         (addFileType === 'static'
           ? intl.formatMessage({ id: 'design.static.name' })
           : intl.formatMessage({ id: 'design.tempalte.name' })) +
@@ -305,13 +322,19 @@ const DesignDetail: React.FC = () => {
         formData.append('type', addFileType);
         formData.append('path', savePath);
 
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         UploadDesignFileInfo(formData)
           .then((res) => {
             if (res.code !== 0) {
               message.info(res.msg);
             } else {
-              message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
+              message.info(
+                res.msg ||
+                  intl.formatMessage({ id: 'setting.system.upload-success' }),
+              );
               setAddVisible(false);
               fetchDesignInfo();
             }
@@ -324,8 +347,13 @@ const DesignDetail: React.FC = () => {
   };
 
   const handleReplaceFile = (e: any) => {
-    let replacePath = currentFile.path?.substring(0, currentFile.path?.lastIndexOf('/') + 1);
-    let replaceName = currentFile.path?.substring(currentFile.path?.lastIndexOf('/') + 1);
+    let replacePath = currentFile.path?.substring(
+      0,
+      currentFile.path?.lastIndexOf('/') + 1,
+    );
+    let replaceName = currentFile.path?.substring(
+      currentFile.path?.lastIndexOf('/') + 1,
+    );
     let formData = new FormData();
     formData.append('file', e.file);
     formData.append('name', replaceName);
@@ -333,13 +361,19 @@ const DesignDetail: React.FC = () => {
     formData.append('type', addFileType);
     formData.append('path', replacePath);
 
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     UploadDesignFileInfo(formData)
       .then((res) => {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
+          message.info(
+            res.msg ||
+              intl.formatMessage({ id: 'setting.system.upload-success' }),
+          );
           setAddVisible(false);
           setDetailVisible(false);
           actionRef.current?.reload();
@@ -372,8 +406,14 @@ const DesignDetail: React.FC = () => {
         </div>
       ),
       onOk: () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
-        restoreDesignData({ package: designInfo.package, auto_backup: autoBackup })
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
+        restoreDesignData({
+          package: designInfo.package,
+          auto_backup: autoBackup,
+        })
           .then((res) => {
             message.info(res.msg);
           })
@@ -391,7 +431,11 @@ const DesignDetail: React.FC = () => {
         <div>
           <p>{intl.formatMessage({ id: 'design.detail.backup-data.tips' })}</p>
           {designInfo.preview_data && (
-            <p>{intl.formatMessage({ id: 'design.detail.backup-data.cover.tips' })}</p>
+            <p>
+              {intl.formatMessage({
+                id: 'design.detail.backup-data.cover.tips',
+              })}
+            </p>
           )}
         </div>
       ),
@@ -441,7 +485,8 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.update-time' }),
       dataIndex: 'last_mod',
       width: 200,
-      render: (text: any) => dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text: any) =>
+        dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'setting.action' }),
@@ -509,7 +554,8 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.update-time' }),
       dataIndex: 'last_mod',
       width: 200,
-      render: (text: any) => dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text: any) =>
+        dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'setting.action' }),
@@ -553,7 +599,10 @@ const DesignDetail: React.FC = () => {
 
   return (
     <PageContainer
-      title={designInfo?.name + intl.formatMessage({ id: 'design.detail.file-manage' })}
+      title={
+        designInfo?.name +
+        intl.formatMessage({ id: 'design.detail.file-manage' })
+      }
     >
       <ProTable<any>
         headerTitle={intl.formatMessage({ id: 'design.tempalte.name' })}
@@ -603,7 +652,9 @@ const DesignDetail: React.FC = () => {
           ),
           (canShare || !anqiUser || anqiUser?.auth_id === 0) && (
             <Tooltip
-              title={intl.formatMessage({ id: 'design.detail.template.tomarket' })}
+              title={intl.formatMessage({
+                id: 'design.detail.template.tomarket',
+              })}
               key="share"
             >
               <TemplateShare
@@ -700,8 +751,15 @@ const DesignDetail: React.FC = () => {
             }}
             options={tempDirs}
           />
-          <ProFormText name="tpl" label={intl.formatMessage({ id: 'design.tempalte.name' })}>
-            <Upload name="file" showUploadList={false} customRequest={handleUploadTemplate}>
+          <ProFormText
+            name="tpl"
+            label={intl.formatMessage({ id: 'design.tempalte.name' })}
+          >
+            <Upload
+              name="file"
+              showUploadList={false}
+              customRequest={handleUploadTemplate}
+            >
               <Button type="primary">
                 <FormattedMessage id="design.detail.select-file" />
               </Button>
@@ -717,7 +775,10 @@ const DesignDetail: React.FC = () => {
       {editVisible && (
         <ModalForm
           width={600}
-          title={currentFile.path + intl.formatMessage({ id: 'design.detail.edit-file' })}
+          title={
+            currentFile.path +
+            intl.formatMessage({ id: 'design.detail.edit-file' })
+          }
           open={editVisible}
           modalProps={{
             onCancel: () => {
@@ -730,8 +791,14 @@ const DesignDetail: React.FC = () => {
             handleSaveFile(values);
           }}
         >
-          <ProFormText name="path" label={intl.formatMessage({ id: 'design.detail.file-name' })} />
-          <ProFormText name="remark" label={intl.formatMessage({ id: 'design.remark' })} />
+          <ProFormText
+            name="path"
+            label={intl.formatMessage({ id: 'design.detail.file-name' })}
+          />
+          <ProFormText
+            name="remark"
+            label={intl.formatMessage({ id: 'design.remark' })}
+          />
         </ModalForm>
       )}
       {visible && (
@@ -757,19 +824,27 @@ const DesignDetail: React.FC = () => {
           <ProFormRadio.Group
             name="template_type"
             label={intl.formatMessage({ id: 'design.detail.template-type' })}
-            extra={intl.formatMessage({ id: 'design.detail.template-type.description' })}
+            extra={intl.formatMessage({
+              id: 'design.detail.template-type.description',
+            })}
             options={[
               {
                 value: 0,
-                label: intl.formatMessage({ id: 'setting.system.template-type.auto' }),
+                label: intl.formatMessage({
+                  id: 'setting.system.template-type.auto',
+                }),
               },
               {
                 value: 1,
-                label: intl.formatMessage({ id: 'setting.system.template-type.code' }),
+                label: intl.formatMessage({
+                  id: 'setting.system.template-type.code',
+                }),
               },
               {
                 value: 2,
-                label: intl.formatMessage({ id: 'setting.system.template-type.pc-m' }),
+                label: intl.formatMessage({
+                  id: 'setting.system.template-type.pc-m',
+                }),
               },
             ]}
           />
@@ -812,7 +887,9 @@ const DesignDetail: React.FC = () => {
               />
             ) : (
               <Avatar className="avatar">
-                {currentFile.path?.substring(currentFile.path?.lastIndexOf('/') + 1)}
+                {currentFile.path?.substring(
+                  currentFile.path?.lastIndexOf('/') + 1,
+                )}
               </Avatar>
             )}
           </div>
@@ -829,7 +906,9 @@ const DesignDetail: React.FC = () => {
                   <FormattedMessage id="design.detail.type" />:
                 </div>
                 <div className="value">
-                  {currentFile.path?.substring(currentFile.path?.lastIndexOf('.'))}
+                  {currentFile.path?.substring(
+                    currentFile.path?.lastIndexOf('.'),
+                  )}
                 </div>
               </div>
               <div className="item">
@@ -837,7 +916,9 @@ const DesignDetail: React.FC = () => {
                   <FormattedMessage id="design.update-time" />:
                 </div>
                 <div className="value">
-                  {dayjs(currentFile.last_mod * 1000).format('YYYY-MM-DD HH:mm:ss')}
+                  {dayjs(currentFile.last_mod * 1000).format(
+                    'YYYY-MM-DD HH:mm:ss',
+                  )}
                 </div>
               </div>
               <div className="item">
@@ -857,7 +938,9 @@ const DesignDetail: React.FC = () => {
               <Upload
                 name="file"
                 showUploadList={false}
-                accept={currentFile.path?.substring(currentFile.path?.lastIndexOf('.'))}
+                accept={currentFile.path?.substring(
+                  currentFile.path?.lastIndexOf('.'),
+                )}
                 customRequest={handleReplaceFile}
               >
                 <Button>

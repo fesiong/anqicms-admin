@@ -9,9 +9,25 @@ import {
   restoreDesignFileInfo,
   saveDesignFileInfo,
 } from '@/services/design';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Card, Col, Input, Modal, Popover, Row, Space, Tree, message } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Input,
+  Modal,
+  Popover,
+  Row,
+  Space,
+  Tree,
+  message,
+} from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import MonacoEditor, { monaco } from 'react-monaco-editor';
@@ -82,45 +98,71 @@ const DesignEditor: React.FC = () => {
           path = res.data.tpl_files[0].path;
         }
         let tpls: any[] = [];
+        // eslint-disable-next-line guard-for-in
         for (let i in res.data.tpl_files) {
-          let val = res.data.tpl_files[i].path.split('/');
-          if (val.length > 1) {
-            // 检查是否存在
-            let exist = null;
-            for (let j in tpls) {
-              if (tpls[j].key === val[0]) {
-                exist = tpls[j];
-                break;
-              }
-            }
-            if (!exist) {
-              exist = {
-                key: val[0],
-                title: val[0],
+          let filePath = res.data.tpl_files[i].path;
+          let remark = res.data.tpl_files[i].remark;
+          let parts = filePath.split('/');
+          if (parts.length > 1) {
+            let firstLevelKey = parts[0];
+            let secondLevelKey =
+              parts.length > 2 ? parts[0] + '/' + parts[1] : null;
+            let firstLevelNode = tpls.find(
+              (item) => item.key === firstLevelKey,
+            );
+            if (!firstLevelNode) {
+              firstLevelNode = {
+                key: firstLevelKey,
+                title: firstLevelKey,
                 children: [],
               };
-              tpls.push(exist);
+              tpls.push(firstLevelNode);
             }
-            let path2 = val.slice(1).join('/');
-            exist.children.push({
-              path: res.data.tpl_files[i].path,
-              remark: res.data.tpl_files[i].remark,
-              title: (
-                <div>
-                  <div className="name">{path2}</div>
-                  <div className="extra">{res.data.tpl_files[i].remark}</div>
-                </div>
-              ),
-              key: i,
-            });
+            if (secondLevelKey && parts.length > 2) {
+              let secondLevelNode = firstLevelNode.children.find(
+                (item: any) => item.key === secondLevelKey,
+              );
+
+              if (!secondLevelNode) {
+                secondLevelNode = {
+                  key: secondLevelKey,
+                  title: parts[1],
+                  children: [],
+                };
+                firstLevelNode.children.push(secondLevelNode);
+              }
+              secondLevelNode.children.push({
+                key: filePath,
+                path: filePath,
+                remark: remark,
+                title: (
+                  <div>
+                    <div className="name">{parts.slice(2).join('/')}</div>
+                    <div className="extra">{remark}</div>
+                  </div>
+                ),
+              });
+            } else {
+              firstLevelNode.children.push({
+                key: filePath,
+                path: filePath,
+                remark: remark,
+                title: (
+                  <div>
+                    <div className="name">{parts.slice(1).join('/')}</div>
+                    <div className="extra">{remark}</div>
+                  </div>
+                ),
+              });
+            }
           } else {
             tpls.push({
-              path: res.data.tpl_files[i].path,
-              remark: res.data.tpl_files[i].remark,
+              path: filePath,
+              remark: remark,
               title: (
                 <div>
-                  <div className="name">{res.data.tpl_files[i].path}</div>
-                  <div className="extra">{res.data.tpl_files[i].remark}</div>
+                  <div className="name">{filePath}</div>
+                  <div className="extra">{remark}</div>
                 </div>
               ),
               key: i,
@@ -164,7 +206,9 @@ const DesignEditor: React.FC = () => {
                 title: (
                   <div>
                     <div className="name">{path2}</div>
-                    <div className="extra">{res.data.static_files[i].remark}</div>
+                    <div className="extra">
+                      {res.data.static_files[i].remark}
+                    </div>
                   </div>
                 ),
                 key: i,
@@ -176,7 +220,9 @@ const DesignEditor: React.FC = () => {
                 title: (
                   <div>
                     <div className="name">{res.data.static_files[i].path}</div>
-                    <div className="extra">{res.data.static_files[i].remark}</div>
+                    <div className="extra">
+                      {res.data.static_files[i].remark}
+                    </div>
                   </div>
                 ),
                 key: i,
@@ -257,7 +303,10 @@ const DesignEditor: React.FC = () => {
     fileInfo.update_content = true;
     fileInfo.type = fileType;
     unsave = false;
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     saveDesignFileInfo(fileInfo)
       .then((res) => {
         message.info(res.msg);
@@ -276,7 +325,9 @@ const DesignEditor: React.FC = () => {
     if (unsave) {
       Modal.confirm({
         title: intl.formatMessage({ id: 'design.editor.confirm-giveup' }),
-        content: intl.formatMessage({ id: 'design.editor.confirm-giveup.content' }),
+        content: intl.formatMessage({
+          id: 'design.editor.confirm-giveup.content',
+        }),
         onOk: () => {
           fileType = type;
           fetchDesignFileInfo(info.path);
@@ -309,9 +360,14 @@ const DesignEditor: React.FC = () => {
   const handleRestore = (info: any) => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'design.editor.confirm-restore' }),
-      content: intl.formatMessage({ id: 'design.editor.confirm-restore.content' }),
+      content: intl.formatMessage({
+        id: 'design.editor.confirm-restore.content',
+      }),
       onOk: () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         restoreDesignFileInfo({
           hash: info.hash,
           package: designInfo.package,
@@ -333,7 +389,10 @@ const DesignEditor: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'design.editor.history.confirm-delete' }),
       onOk: () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         deleteDesignHistoryFile({
           hash: info.hash,
           package: designInfo.package,
@@ -364,7 +423,9 @@ const DesignEditor: React.FC = () => {
     if (unsave) {
       Modal.confirm({
         title: intl.formatMessage({ id: 'design.editor.confirm-goback' }),
-        content: intl.formatMessage({ id: 'design.editor.confirm-giveup.content' }),
+        content: intl.formatMessage({
+          id: 'design.editor.confirm-giveup.content',
+        }),
         onOk: () => {
           history.back();
         },
@@ -437,7 +498,8 @@ const DesignEditor: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'design.update-time' }),
       dataIndex: 'last_mod',
-      render: (text: any) => dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text: any) =>
+        dayjs((text as number) * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: intl.formatMessage({ id: 'setting.action' }),
@@ -667,7 +729,12 @@ const DesignEditor: React.FC = () => {
                                 <Col key={index3}>
                                   <span
                                     className="popover-item link"
-                                    onClick={() => handleAddCode(child, child.link || doc.link)}
+                                    onClick={() =>
+                                      handleAddCode(
+                                        child,
+                                        child.link || doc.link,
+                                      )
+                                    }
                                   >
                                     {child.title}
                                   </span>

@@ -102,7 +102,7 @@ export default {
   'design.detail.path': '文件路徑',
   'design.detail.type': '文件類型',
   'design.detail.replace': '替換文件',
-  'design.detail.update-name': '替換文件',
+  'design.detail.update-name': '修改文件名',
   'design.detail.tips.name': '相關說明：',
   'design.detail.tips1':
     '1.替換圖片時，圖片的URL位址不變，圖片大小變成新圖片的。',
