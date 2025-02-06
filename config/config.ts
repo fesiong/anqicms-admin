@@ -131,7 +131,7 @@ export default defineConfig({
   chainWebpack(config: any) {
     config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
       {
-        languages: ['javascript', 'css', 'html', 'markdown'],
+        languages: ['javascript', 'css', 'html', 'markdown', 'yaml'],
       },
     ]);
   },

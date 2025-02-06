@@ -181,48 +181,69 @@ const DesignEditor: React.FC = () => {
             res.data.static_files[i].path.indexOf('.sass') !== -1 ||
             res.data.static_files[i].path.indexOf('.less') !== -1
           ) {
-            let val = res.data.static_files[i].path.split('/');
-            if (val.length > 1) {
-              // 检查是否存在
-              let exist = null;
-              for (let j in statics) {
-                if (statics[j].key === val[0]) {
-                  exist = statics[j];
-                  break;
-                }
-              }
-              if (!exist) {
-                exist = {
-                  key: val[0],
-                  title: val[0],
+            let filePath = res.data.static_files[i].path;
+            let remark = res.data.static_files[i].remark;
+            let parts = filePath.split('/');
+            if (parts.length > 1) {
+              let firstLevelKey = parts[0];
+              let secondLevelKey =
+                parts.length > 2 ? parts[0] + '/' + parts[1] : null;
+              let firstLevelNode = statics.find(
+                (item) => item.key === firstLevelKey,
+              );
+              if (!firstLevelNode) {
+                firstLevelNode = {
+                  key: firstLevelKey,
+                  title: firstLevelKey,
                   children: [],
                 };
-                statics.push(exist);
+                statics.push(firstLevelNode);
               }
-              let path2 = val.slice(1).join('/');
-              exist.children.push({
-                path: res.data.static_files[i].path,
-                remark: res.data.static_files[i].remark,
-                title: (
-                  <div>
-                    <div className="name">{path2}</div>
-                    <div className="extra">
-                      {res.data.static_files[i].remark}
+              if (secondLevelKey && parts.length > 2) {
+                let secondLevelNode = firstLevelNode.children.find(
+                  (item: any) => item.key === secondLevelKey,
+                );
+
+                if (!secondLevelNode) {
+                  secondLevelNode = {
+                    key: secondLevelKey,
+                    title: parts[1],
+                    children: [],
+                  };
+                  firstLevelNode.children.push(secondLevelNode);
+                }
+                secondLevelNode.children.push({
+                  key: filePath,
+                  path: filePath,
+                  remark: remark,
+                  title: (
+                    <div>
+                      <div className="name">{parts.slice(2).join('/')}</div>
+                      <div className="extra">{remark}</div>
                     </div>
-                  </div>
-                ),
-                key: i,
-              });
+                  ),
+                });
+              } else {
+                firstLevelNode.children.push({
+                  key: filePath,
+                  path: filePath,
+                  remark: remark,
+                  title: (
+                    <div>
+                      <div className="name">{parts.slice(1).join('/')}</div>
+                      <div className="extra">{remark}</div>
+                    </div>
+                  ),
+                });
+              }
             } else {
               statics.push({
-                path: res.data.static_files[i].path,
-                remark: res.data.static_files[i].remark,
+                path: filePath,
+                remark: remark,
                 title: (
                   <div>
-                    <div className="name">{res.data.static_files[i].path}</div>
-                    <div className="extra">
-                      {res.data.static_files[i].remark}
-                    </div>
+                    <div className="name">{filePath}</div>
+                    <div className="extra">{remark}</div>
                   </div>
                 ),
                 key: i,
@@ -451,6 +472,8 @@ const DesignEditor: React.FC = () => {
       ? 'html'
       : filePath.indexOf('.css') !== -1
       ? 'css'
+      : filePath.indexOf('.yml') !== -1
+      ? 'yaml'
       : 'javascript';
   };
 
