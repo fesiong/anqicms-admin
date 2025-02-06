@@ -122,7 +122,7 @@ export default {
   'design.detail.path': 'Путь к файлу',
   'design.detail.type': 'тип файла',
   'design.detail.replace': 'заменить файл',
-  'design.detail.update-name': 'заменить файл',
+  'design.detail.update-name': 'Edit name',
   'design.detail.tips.name': 'Связанные инструкции:',
   'design.detail.tips1':
     '1. При замене изображения URL-адрес изображения остается неизменным, а размер изображения изменяется на размер нового изображения.',

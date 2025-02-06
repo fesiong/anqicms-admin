@@ -2,21 +2,50 @@ import NewContainer from '@/components/NewContainer';
 import {
   getModules,
   pluginGetFulltextConfig,
+  pluginGetFulltextStatus,
+  pluginRebuildFulltextIndex,
   pluginSaveFulltextConfig,
 } from '@/services';
 import {
   ProForm,
   ProFormCheckbox,
   ProFormRadio,
+  ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Alert, Card, Space, message } from 'antd';
+import { Alert, Button, Card, Modal, Progress, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
+
+let running = false;
+let intXhr: any = null;
 
 const PluginFulltext: React.FC<any> = () => {
   const [modules, setModules] = useState<any[]>([]);
   const [newKey, setNewKey] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [task, setTask] = useState<any>(null);
+  const [engine, setEngine] = useState<string>('');
   const intl = useIntl();
+
+  const syncTask = async () => {
+    pluginGetFulltextStatus().then((res) => {
+      if (res.data) {
+        setTask(res.data);
+        if (res.data.status === 1) {
+          running = true;
+        } else {
+          running = false;
+          clearInterval(intXhr);
+        }
+      } else {
+        if (running) {
+          running = false;
+          clearInterval(intXhr);
+        }
+        setTask(null);
+      }
+    });
+  };
 
   const getSetting = async () => {
     const res = await getModules();
@@ -30,13 +59,29 @@ const PluginFulltext: React.FC<any> = () => {
   };
 
   const onTabChange = (key: string) => {
+    running = false;
+    clearInterval(intXhr);
     getSetting().then(() => {
       setNewKey(key);
     });
+    // 定时查询task
+    intXhr = setInterval(() => {
+      syncTask();
+    }, 1000);
   };
 
   useEffect(() => {
     getSetting();
+    // 进入页面的时候查询一次task
+    syncTask();
+    // 定时查询task
+    intXhr = setInterval(() => {
+      syncTask();
+    }, 1000);
+    return () => {
+      running = false;
+      clearInterval(intXhr);
+    };
   }, []);
 
   const onSubmit = async (values: any) => {
@@ -47,6 +92,12 @@ const PluginFulltext: React.FC<any> = () => {
     pluginSaveFulltextConfig(values)
       .then((res) => {
         message.success(res.msg);
+        running = false;
+        clearInterval(intXhr);
+        // 定时查询task
+        intXhr = setInterval(() => {
+          syncTask();
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
@@ -56,17 +107,59 @@ const PluginFulltext: React.FC<any> = () => {
       });
   };
 
+  const handleRebuild = () => {
+    if (running) {
+      return;
+    }
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'plugin.fulltext.rebuild.confirm' }),
+      onOk: () => {
+        running = true;
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
+        pluginRebuildFulltextIndex({})
+          .then((res) => {
+            message.info(res.msg);
+            // 马上执行一遍
+            intXhr = setInterval(() => {
+              syncTask();
+            }, 1000);
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card key={newKey}>
         <Alert
           style={{ marginBottom: 20 }}
-          description={intl.formatMessage({ id: 'plugin.fulltext.tips' })}
+          description={
+            <div>
+              <p>
+                <FormattedMessage id="plugin.fulltext.tips" />
+              </p>
+              {task !== null && task.status === -1 && <p>{task.msg}</p>}
+              {isOpen && (
+                <Button key="clean" onClick={() => handleRebuild()}>
+                  <FormattedMessage id="plugin.fulltext.rebuild" />
+                </Button>
+              )}
+            </div>
+          }
         />
         <ProForm
           request={async () => {
             const res = await pluginGetFulltextConfig();
-            return res.data || [];
+            const data = res.data || {};
+            setEngine(data.engine || 'default');
+            setIsOpen(data.open || false);
+            return data;
           }}
           onFinish={onSubmit}
           title={intl.formatMessage({ id: 'menu.plugin.fulltext' })}
@@ -84,53 +177,148 @@ const PluginFulltext: React.FC<any> = () => {
                 value: true,
               },
             ]}
-          />
-          <ProFormRadio.Group
-            name={'use_content'}
-            label={intl.formatMessage({
-              id: 'plugin.fulltext.use_content.name',
-            })}
-            options={[
-              {
-                label: intl.formatMessage({
-                  id: 'plugin.fulltext.use_content.false',
-                }),
-                value: false,
+            fieldProps={{
+              onChange: (e) => {
+                setIsOpen(e.target.value);
               },
-              {
-                label: intl.formatMessage({
-                  id: 'plugin.fulltext.use_content.true',
-                }),
-                value: true,
-              },
-            ]}
+            }}
           />
-          <ProFormCheckbox.Group
-            name={'modules'}
-            label={intl.formatMessage({ id: 'plugin.fulltext.modules.name' })}
-            options={modules}
-          />
-          <ProFormCheckbox.Group
-            label={intl.formatMessage({ id: 'plugin.fulltext.search.name' })}
-          >
-            <Space>
-              <ProFormCheckbox
-                name={'use_archive'}
-                disabled
-                initialValue={true}
+          {isOpen && (
+            <>
+              <ProFormRadio.Group
+                name={'engine'}
+                label={intl.formatMessage({
+                  id: 'plugin.fulltext.engine',
+                })}
+                options={[
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.fulltext.wukong',
+                    }),
+                    value: 'default',
+                  },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.fulltext.elasticsearch',
+                    }),
+                    value: 'elasticsearch',
+                  },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.fulltext.zincSearch',
+                    }),
+                    value: 'zincsearch',
+                  },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.fulltext.meilisearch',
+                    }),
+                    value: 'meilisearch',
+                  },
+                ]}
+                fieldProps={{
+                  onChange: (e) => {
+                    setEngine(e.target.value);
+                  },
+                }}
+              />
+              {engine !== 'default' && (
+                <>
+                  <ProFormText
+                    name="engine_url"
+                    label={intl.formatMessage({
+                      id: 'plugin.fulltext.engine-url',
+                    })}
+                    width="lg"
+                  />
+                  {engine !== 'meilisearch' && (
+                    <ProFormText
+                      name="engine_user"
+                      label={intl.formatMessage({
+                        id: 'plugin.fulltext.engine-user',
+                      })}
+                      width="lg"
+                    />
+                  )}
+                  <ProFormText
+                    name="engine_pass"
+                    label={intl.formatMessage({
+                      id: 'plugin.fulltext.engine-password',
+                    })}
+                    width="lg"
+                  />
+                </>
+              )}
+              <ProFormRadio.Group
+                name={'use_content'}
+                label={intl.formatMessage({
+                  id: 'plugin.fulltext.use_content.name',
+                })}
+                options={[
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.fulltext.use_content.false',
+                    }),
+                    value: false,
+                  },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.fulltext.use_content.true',
+                    }),
+                    value: true,
+                  },
+                ]}
+              />
+              <ProFormCheckbox.Group
+                name={'modules'}
+                label={intl.formatMessage({
+                  id: 'plugin.fulltext.modules.name',
+                })}
+                options={modules}
+              />
+              <ProFormCheckbox.Group
+                label={intl.formatMessage({
+                  id: 'plugin.fulltext.search.name',
+                })}
               >
-                <FormattedMessage id="plugin.fulltext.search.archive" />
-              </ProFormCheckbox>
-              <ProFormCheckbox name={'use_category'}>
-                <FormattedMessage id="plugin.fulltext.search.category" />
-              </ProFormCheckbox>
-              <ProFormCheckbox name={'use_tag'}>
-                <FormattedMessage id="plugin.fulltext.search.tag" />
-              </ProFormCheckbox>
-            </Space>
-          </ProFormCheckbox.Group>
+                <Space>
+                  <ProFormCheckbox
+                    name={'use_archive'}
+                    disabled
+                    initialValue={true}
+                  >
+                    <FormattedMessage id="plugin.fulltext.search.archive" />
+                  </ProFormCheckbox>
+                  <ProFormCheckbox name={'use_category'}>
+                    <FormattedMessage id="plugin.fulltext.search.category" />
+                  </ProFormCheckbox>
+                  <ProFormCheckbox name={'use_tag'}>
+                    <FormattedMessage id="plugin.fulltext.search.tag" />
+                  </ProFormCheckbox>
+                </Space>
+              </ProFormCheckbox.Group>
+            </>
+          )}
         </ProForm>
       </Card>
+      {task !== null && task.status === 1 && (
+        <Modal
+          title={intl.formatMessage({ id: 'plugin.fulltext.indexing' })}
+          open={true}
+          footer={null}
+        >
+          <div className="task-progress">
+            <Progress
+              percent={
+                task.total > 0
+                  ? Number(((task.current / task.total) * 100).toFixed())
+                  : 1
+              }
+            />
+          </div>
+          <div className="task-message">{task.msg}</div>
+        </Modal>
+      )}
     </NewContainer>
   );
 };

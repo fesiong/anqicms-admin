@@ -123,7 +123,7 @@ export default {
   'design.detail.path': 'jalur file',
   'design.detail.type': 'jenis file',
   'design.detail.replace': 'ganti berkas',
-  'design.detail.update-name': 'ganti berkas',
+  'design.detail.update-name': 'Edit name',
   'design.detail.tips.name': 'Petunjuk terkait:',
   'design.detail.tips1':
     '1. Saat mengganti gambar, alamat URL gambar tetap tidak berubah dan ukuran gambar berubah sesuai gambar baru.',

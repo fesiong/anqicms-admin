@@ -122,7 +122,7 @@ export default {
   'design.detail.path': 'مسیر فایل',
   'design.detail.type': 'نوع فایل',
   'design.detail.replace': 'جایگزین فایل',
-  'design.detail.update-name': 'جایگزین فایل',
+  'design.detail.update-name': 'Edit name',
   'design.detail.tips.name': 'دستورالعمل های مرتبط:',
   'design.detail.tips1':
     '1. هنگام تعویض یک عکس، آدرس URL تصویر بدون تغییر باقی می ماند و اندازه تصویر به اندازه تصویر جدید تغییر می کند.',

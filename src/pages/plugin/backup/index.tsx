@@ -43,6 +43,7 @@ const PluginUserGroup: React.FC = () => {
       } else {
         if (running) {
           running = false;
+          clearInterval(intXhr);
           actionRef.current?.reload();
         }
         setTask(null);
@@ -51,6 +52,7 @@ const PluginUserGroup: React.FC = () => {
   };
 
   const onTabChange = (key: string) => {
+    running = false;
     clearInterval(intXhr);
     // 定时查询task
     intXhr = setInterval(() => {
@@ -90,7 +92,9 @@ const PluginUserGroup: React.FC = () => {
           .then((res) => {
             message.info(res.msg);
             // 马上执行一遍
-            syncTask();
+            intXhr = setInterval(() => {
+              syncTask();
+            }, 1000);
           })
           .finally(() => {
             hide();
@@ -116,7 +120,9 @@ const PluginUserGroup: React.FC = () => {
           .then(async (res) => {
             message.info(res.msg);
             // 马上执行一遍
-            syncTask();
+            intXhr = setInterval(() => {
+              syncTask();
+            }, 1000);
           })
           .finally(() => {
             hide();

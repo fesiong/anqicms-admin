@@ -121,7 +121,7 @@ export default {
   'design.detail.path': 'ファイルパス',
   'design.detail.type': 'ファイルの種類',
   'design.detail.replace': 'ファイルを置き換える',
-  'design.detail.update-name': 'ファイルを置き換える',
+  'design.detail.update-name': 'Edit name',
   'design.detail.tips.name': '関連手順:',
   'design.detail.tips1':
     '1. 画像を置き換える場合、画像の URL アドレスは変更されず、画像のサイズは新しい画像のサイズに変更されます。',

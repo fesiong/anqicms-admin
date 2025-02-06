@@ -125,7 +125,7 @@ export default {
   'design.detail.path': 'caminho de arquivo',
   'design.detail.type': 'tipo de arquivo',
   'design.detail.replace': 'substituir arquivo',
-  'design.detail.update-name': 'substituir arquivo',
+  'design.detail.update-name': 'Edit name',
   'design.detail.tips.name': 'Instruções relacionadas:',
   'design.detail.tips1':
     '1. Ao substituir uma imagem, o endereço URL da imagem permanece inalterado e o tamanho da imagem muda para o da nova imagem.',

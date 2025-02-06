@@ -101,7 +101,7 @@ export default {
   'design.detail.path': '文件路径',
   'design.detail.type': '文件类型',
   'design.detail.replace': '替换文件',
-  'design.detail.update-name': '替换文件',
+  'design.detail.update-name': '修改文件名',
   'design.detail.tips.name': '相关说明：',
   'design.detail.tips1':
     '1、替换图片时，图片的URL地址不变，图片大小变为新图片的。',

@@ -122,7 +122,7 @@ export default {
   'design.detail.path': 'ফাইল পাথ',
   'design.detail.type': 'ফাইলের ধরন',
   'design.detail.replace': 'ফাইল প্রতিস্থাপন করুন',
-  'design.detail.update-name': 'ফাইল প্রতিস্থাপন করুন',
+  'design.detail.update-name': 'Edit name',
   'design.detail.tips.name': 'সম্পর্কিত নির্দেশাবলী:',
   'design.detail.tips1':
     '1. একটি ছবি প্রতিস্থাপন করার সময়, ছবির URL ঠিকানা অপরিবর্তিত থাকে এবং ছবির আকার নতুন ছবির সাথে পরিবর্তিত হয়।',

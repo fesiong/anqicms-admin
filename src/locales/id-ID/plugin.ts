@@ -337,7 +337,7 @@ export default {
   'plugin.finance.withdraw.name': 'Manajemen penarikan',
   'plugin.finance.withdraw.apply': 'Aplikasi penarikan',
   'plugin.fulltext.tips':
-    'Setelah mengaktifkan pencarian teks lengkap, Anda dapat mencari konten dokumen. Namun, pencarian teks lengkap akan memakan banyak memori server. Jika server Anda memiliki memori kecil, tidak disarankan untuk mengaktifkan pencarian teks lengkap.',
+    'After enabling full-text search, you can search for document content. Wukong Search (built-in) will consume a large amount of server memory. If your server memory is small, it is recommended to turn off full-text search or choose other full-text search engines.',
   'plugin.fulltext.open.name':
     'Apakah akan mengaktifkan pencarian teks lengkap',
   'plugin.fulltext.open.false': 'penutup',
@@ -350,6 +350,18 @@ export default {
   'plugin.fulltext.search.archive': 'Pencarian dokumen',
   'plugin.fulltext.search.category': 'Pencarian kategori',
   'plugin.fulltext.search.tag': 'Pencarian tanda',
+  'plugin.fulltext.rebuild': 'Rebuild index',
+  'plugin.fulltext.engine': 'Full text search engine',
+  'plugin.fulltext.wukong': 'Wukong search (built-in)',
+  'plugin.fulltext.elasticsearch': 'Elasticsearch',
+  'plugin.fulltext.zincSearch': 'ZincSearch',
+  'plugin.fulltext.meilisearch': 'Meilisearch',
+  'plugin.fulltext.engine-url': 'Address',
+  'plugin.fulltext.engine-user': 'Username',
+  'plugin.fulltext.engine-password': 'Password',
+  'plugin.fulltext.rebuild.confirm':
+    'Are you sure you want to rebuild the index? ',
+  'plugin.fulltext.indexing': 'Rebuilding the index, please wait. ',
   'plugin.group.edit': 'Ubah grup pengguna',
   'plugin.group.add': 'Tambahkan grup pengguna',
   'plugin.group.name': 'nama',

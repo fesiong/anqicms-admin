@@ -122,7 +122,7 @@ export default {
   'design.detail.path': 'file path',
   'design.detail.type': 'file type',
   'design.detail.replace': 'replace file',
-  'design.detail.update-name': 'replace file',
+  'design.detail.update-name': 'Edit name',
   'design.detail.tips.name': 'Related instructions:',
   'design.detail.tips1':
     '1. When replacing a picture, the URL address of the picture remains unchanged and the size of the picture changes to that of the new picture.',
