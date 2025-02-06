@@ -20,14 +20,25 @@ export default {
   'plugin.aigenerate.demand.description':
     'It is possible to define unified requirements for all AI writing articles, no more than 200 characters. Leave it blank by default',
   'plugin.aigenerate.source': 'AI writing source',
-  'plugin.aigenerate.source.anqicms': 'Anqi CMS official website',
-  'plugin.aigenerate.source.openai': 'Bring your own OpenAIKey',
-  'plugin.aigenerate.source.spark': 'Spark model',
+  'plugin.aigenerate.source.anqicms': 'AnQiCMS official',
+  'plugin.aigenerate.source.openai': 'OpenAI',
+  'plugin.aigenerate.source.deepseek': 'DeepSeek',
+  'plugin.aigenerate.source.spark': 'Spark large model',
   'plugin.aigenerate.source.description':
-    'Statement: Only overseas websites built using Anqi CMS can choose to prepare their own OpenAIKey.',
+    'Statement: When selecting the OpenAI interface, please make sure that your server can access the OpenAI interface service',
   'plugin.aigenerate.source.check-openai': 'Check the OpenAI interface',
+  'plugin.aigenerate.openai.base-url': 'Custom API address',
+  'plugin.aigenerate.openai.base-url.openai':
+    'The default OpenAI API address is: "https://api.openai.com/v1", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.base-url.deepseek':
+    'The default DeepSeek API address is: "https://api.deepseek.com", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.model': 'Custom model',
+  'plugin.aigenerate.openai.model.openai':
+    'OpenAI default model is: "gpt-3.5-turbo", you can also fill in other correct model names',
+  'plugin.aigenerate.openai.model.deepseek':
+    'The default DeepSeek model is: "deepseek-chat", you can also fill in other correct model names',
   'plugin.aigenerate.openai.description':
-    'OpenAI Key generally starts with sk-, you can add multiple keys, and the program will randomly select one key to use each time.',
+    'API Key usually starts with sk-, you can add multiple keys, and the program will randomly select a key to use each time. ',
   'plugin.aigenerate.openai.valid': 'efficient',
   'plugin.aigenerate.openai.invalid': 'expired',
   'plugin.aigenerate.enter-to-add': 'Press enter to add',

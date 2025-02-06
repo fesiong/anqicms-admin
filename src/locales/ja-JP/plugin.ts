@@ -20,14 +20,25 @@ export default {
   'plugin.aigenerate.demand.description':
     'すべてのAIライティング記事に対して200文字以内で統一要件を定義することが可能です。 デフォルトでは空白のままにしておきます',
   'plugin.aigenerate.source': 'AI書き込みソース',
-  'plugin.aigenerate.source.anqicms': 'Anqi CMS 公式ウェブサイト',
-  'plugin.aigenerate.source.openai': '独自の OpenAIKey を持参してください',
-  'plugin.aigenerate.source.spark': 'スパークモデル',
+  'plugin.aigenerate.source.anqicms': 'AnQiCMS official',
+  'plugin.aigenerate.source.openai': 'OpenAI',
+  'plugin.aigenerate.source.deepseek': 'DeepSeek',
+  'plugin.aigenerate.source.spark': 'Spark large model',
   'plugin.aigenerate.source.description':
-    '声明: Anqi CMS を使用して構築された海外の Web サイトのみが、独自の OpenAIKey を準備することを選択できます。',
-  'plugin.aigenerate.source.check-openai': 'OpenAIインターフェースを確認する',
+    'Statement: When selecting the OpenAI interface, please make sure that your server can access the OpenAI interface service',
+  'plugin.aigenerate.source.check-openai': 'Check the OpenAI interface',
+  'plugin.aigenerate.openai.base-url': 'Custom API address',
+  'plugin.aigenerate.openai.base-url.openai':
+    'The default OpenAI API address is: "https://api.openai.com/v1", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.base-url.deepseek':
+    'The default DeepSeek API address is: "https://api.deepseek.com", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.model': 'Custom model',
+  'plugin.aigenerate.openai.model.openai':
+    'OpenAI default model is: "gpt-3.5-turbo", you can also fill in other correct model names',
+  'plugin.aigenerate.openai.model.deepseek':
+    'The default DeepSeek model is: "deepseek-chat", you can also fill in other correct model names',
   'plugin.aigenerate.openai.description':
-    'OpenAI キーは通常 sk- で始まり、複数のキーを追加でき、プログラムは毎回使用する 1 つのキーをランダムに選択します。',
+    'API Key usually starts with sk-, you can add multiple keys, and the program will randomly select a key to use each time. ',
   'plugin.aigenerate.openai.valid': '効率的',
   'plugin.aigenerate.openai.invalid': '期限切れ',
   'plugin.aigenerate.enter-to-add': 'Enterを押して追加します',

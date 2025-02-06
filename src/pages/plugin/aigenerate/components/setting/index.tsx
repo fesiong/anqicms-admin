@@ -387,7 +387,12 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                     id: 'plugin.aigenerate.source.openai',
                   }),
                   value: 'openai',
-                  disabled: !setting.api_valid,
+                },
+                {
+                  label: this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.source.deepseek',
+                  }),
+                  value: 'deepseek',
                 },
                 {
                   label: this.props.intl.formatMessage({
@@ -416,11 +421,34 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 </div>
               }
             />
-            {aiEngine === 'openai' && (
+            {(aiEngine === 'openai' || aiEngine === 'deepseek') && (
               <>
-                {' '}
                 <ProFormText
-                  label="OpenAI Keys"
+                  name={'open_ai_api'}
+                  label={this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.openai.base-url',
+                  })}
+                  extra={this.props.intl.formatMessage({
+                    id:
+                      aiEngine === 'deepseek'
+                        ? 'plugin.aigenerate.openai.base-url.deepseek'
+                        : 'plugin.aigenerate.openai.base-url.openai',
+                  })}
+                />
+                <ProFormText
+                  name={'open_ai_model'}
+                  label={this.props.intl.formatMessage({
+                    id: 'plugin.aigenerate.openai.model',
+                  })}
+                  extra={this.props.intl.formatMessage({
+                    id:
+                      aiEngine === 'deepseek'
+                        ? 'plugin.aigenerate.openai.model.deepseek'
+                        : 'plugin.aigenerate.openai.model.openai',
+                  })}
+                />
+                <ProFormText
+                  label="API Keys"
                   extra={
                     <div>
                       <div className="text-muted">
@@ -506,9 +534,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   })}
                   options={[
                     { label: 'Spark Lite(Free)', value: '1.5' },
-                    { label: 'Spark V2.0', value: '2.0' },
                     { label: 'Spark Pro', value: '3.0' },
-                    { label: 'Spark3.5 Max', value: '3.5' },
+                    { label: 'Spark Max', value: '3.5' },
+                    { label: 'Spark4.0 Ultra', value: '4.0' },
                   ]}
                 />
                 <ProFormText name={['spark', 'app_id']} label="APPID" />

@@ -19,14 +19,25 @@ export default {
   'plugin.aigenerate.demand.description':
     '可以定義所有AI寫作文章的統一要求，不超過200字符。 預設留空即可',
   'plugin.aigenerate.source': 'AI寫作來源',
-  'plugin.aigenerate.source.anqicms': '安企CMS官網',
-  'plugin.aigenerate.source.openai': '自備OpenAIKey',
+  'plugin.aigenerate.source.anqicms': '安企CMS官网',
+  'plugin.aigenerate.source.openai': 'OpenAI',
+  'plugin.aigenerate.source.deepseek': 'DeepSeek',
   'plugin.aigenerate.source.spark': '星火大模型',
   'plugin.aigenerate.source.description':
-    '聲明：僅有使用安企CMS搭建的海外網站可選自備OpenAIKey。',
-  'plugin.aigenerate.source.check-openai': '檢查OpenAI接口',
+    '声明：选择OpenAI接口时，请确保你的服务器能访问OpenAI接口服务',
+  'plugin.aigenerate.source.check-openai': '检查OpenAI接口',
+  'plugin.aigenerate.openai.base-url': '自定义API地址',
+  'plugin.aigenerate.openai.base-url.openai':
+    'OpenAI API地址默认是："https://api.openai.com/v1"，也可以填写第三方兼容地址',
+  'plugin.aigenerate.openai.base-url.deepseek':
+    'DeepSeek API地址默认是："https://api.deepseek.com"，也可以填写第三方兼容地址',
+  'plugin.aigenerate.openai.model': '自定义模型',
+  'plugin.aigenerate.openai.model.openai':
+    'OpenAI 默认模型是："gpt-3.5-turbo"，也可以填写其它正确的模型名称',
+  'plugin.aigenerate.openai.model.deepseek':
+    'DeepSeek 默认模型是："deepseek-chat"，也可以填写其它正确的模型名称',
   'plugin.aigenerate.openai.description':
-    'OpenAI Key 一般以 sk- 開頭，可以加入多個key，程式會每次會隨機選擇一個key使用。',
+    'API Key 一般以 sk- 开头，可以添加多个key，程序会每次会随机选择一个key使用。',
   'plugin.aigenerate.openai.valid': '有效',
   'plugin.aigenerate.openai.invalid': '已失效',
   'plugin.aigenerate.enter-to-add': '按回車添加',

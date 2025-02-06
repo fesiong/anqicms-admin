@@ -20,14 +20,25 @@ export default {
   'plugin.aigenerate.demand.description':
     'امکان تعریف الزامات یکپارچه برای تمام مقالات نوشتن هوش مصنوعی، حداکثر 200 کاراکتر وجود دارد. به طور پیش فرض آن را خالی بگذارید',
   'plugin.aigenerate.source': 'منبع نوشتن هوش مصنوعی',
-  'plugin.aigenerate.source.anqicms': 'وب سایت رسمی Anqi CMS',
-  'plugin.aigenerate.source.openai': 'OpenAIKey خود را بیاورید',
-  'plugin.aigenerate.source.spark': 'مدل جرقه',
+  'plugin.aigenerate.source.anqicms': 'AnQiCMS official',
+  'plugin.aigenerate.source.openai': 'OpenAI',
+  'plugin.aigenerate.source.deepseek': 'DeepSeek',
+  'plugin.aigenerate.source.spark': 'Spark large model',
   'plugin.aigenerate.source.description':
-    'بیانیه: فقط وب سایت های خارج از کشور که با استفاده از Anqi CMS ساخته شده اند می توانند OpenAIKey خود را آماده کنند.',
-  'plugin.aigenerate.source.check-openai': 'رابط OpenAI را بررسی کنید',
+    'Statement: When selecting the OpenAI interface, please make sure that your server can access the OpenAI interface service',
+  'plugin.aigenerate.source.check-openai': 'Check the OpenAI interface',
+  'plugin.aigenerate.openai.base-url': 'Custom API address',
+  'plugin.aigenerate.openai.base-url.openai':
+    'The default OpenAI API address is: "https://api.openai.com/v1", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.base-url.deepseek':
+    'The default DeepSeek API address is: "https://api.deepseek.com", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.model': 'Custom model',
+  'plugin.aigenerate.openai.model.openai':
+    'OpenAI default model is: "gpt-3.5-turbo", you can also fill in other correct model names',
+  'plugin.aigenerate.openai.model.deepseek':
+    'The default DeepSeek model is: "deepseek-chat", you can also fill in other correct model names',
   'plugin.aigenerate.openai.description':
-    'OpenAI Key به طور کلی با sk- شروع می شود، می توانید چندین کلید اضافه کنید و برنامه به طور تصادفی یک کلید را برای استفاده هر بار انتخاب می کند.',
+    'API Key usually starts with sk-, you can add multiple keys, and the program will randomly select a key to use each time. ',
   'plugin.aigenerate.openai.valid': 'کارآمد',
   'plugin.aigenerate.openai.invalid': 'منقضی شده',
   'plugin.aigenerate.enter-to-add': 'برای افزودن اینتر را فشار دهید',

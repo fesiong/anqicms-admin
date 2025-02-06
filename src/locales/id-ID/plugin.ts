@@ -20,14 +20,25 @@ export default {
   'plugin.aigenerate.demand.description':
     'Dimungkinkan untuk menentukan persyaratan terpadu untuk semua artikel penulisan AI, tidak lebih dari 200 karakter. Biarkan kosong secara default',
   'plugin.aigenerate.source': 'Sumber penulisan AI',
-  'plugin.aigenerate.source.anqicms': 'Situs resmi Anqi CMS',
-  'plugin.aigenerate.source.openai': 'Bawalah OpenAIKey Anda sendiri',
-  'plugin.aigenerate.source.spark': 'Model percikan',
+  'plugin.aigenerate.source.anqicms': 'AnQiCMS official',
+  'plugin.aigenerate.source.openai': 'OpenAI',
+  'plugin.aigenerate.source.deepseek': 'DeepSeek',
+  'plugin.aigenerate.source.spark': 'Spark large model',
   'plugin.aigenerate.source.description':
-    'Pernyataan: Hanya situs luar negeri yang dibangun menggunakan Anqi CMS yang dapat memilih untuk menyiapkan OpenAIKey sendiri.',
-  'plugin.aigenerate.source.check-openai': 'Periksa antarmuka OpenAI',
+    'Statement: When selecting the OpenAI interface, please make sure that your server can access the OpenAI interface service',
+  'plugin.aigenerate.source.check-openai': 'Check the OpenAI interface',
+  'plugin.aigenerate.openai.base-url': 'Custom API address',
+  'plugin.aigenerate.openai.base-url.openai':
+    'The default OpenAI API address is: "https://api.openai.com/v1", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.base-url.deepseek':
+    'The default DeepSeek API address is: "https://api.deepseek.com", you can also fill in a third-party compatible address',
+  'plugin.aigenerate.openai.model': 'Custom model',
+  'plugin.aigenerate.openai.model.openai':
+    'OpenAI default model is: "gpt-3.5-turbo", you can also fill in other correct model names',
+  'plugin.aigenerate.openai.model.deepseek':
+    'The default DeepSeek model is: "deepseek-chat", you can also fill in other correct model names',
   'plugin.aigenerate.openai.description':
-    'Kunci OpenAI umumnya dimulai dengan sk-, Anda dapat menambahkan beberapa kunci, dan program akan secara acak memilih satu kunci untuk digunakan setiap kali.',
+    'API Key usually starts with sk-, you can add multiple keys, and the program will randomly select a key to use each time. ',
   'plugin.aigenerate.openai.valid': 'efisien',
   'plugin.aigenerate.openai.invalid': 'kedaluwarsa',
   'plugin.aigenerate.enter-to-add': 'Tekan enter untuk menambahkan',
