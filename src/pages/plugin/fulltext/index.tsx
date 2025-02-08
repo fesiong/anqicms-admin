@@ -144,7 +144,9 @@ const PluginFulltext: React.FC<any> = () => {
               <p>
                 <FormattedMessage id="plugin.fulltext.tips" />
               </p>
-              {task !== null && task.status === -1 && <p>{task.msg}</p>}
+              {task !== null && task.status === -1 && (
+                <p style={{ color: '#f30' }}>{task.msg}</p>
+              )}
               {isOpen && (
                 <Button key="clean" onClick={() => handleRebuild()}>
                   <FormattedMessage id="plugin.fulltext.rebuild" />

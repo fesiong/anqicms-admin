@@ -136,6 +136,8 @@ export default {
   'setting.content.quality.placeholder': 'Bawaan: 90',
   'setting.content.quality.description':
     'Kualitas gambar hanya berlaku untuk format jpg dan format webp. Kualitas standarnya adalah 90%',
+  'setting.content.quality.plugin':
+    'PNG/WEBP image processing requires ImageMagick. If your server does not have it installed, please install it first.',
   'setting.content.resize-image': 'Kompres gambar besar secara otomatis',
   'setting.content.resize-width': 'Kompres ke lebar yang ditentukan',
   'setting.content.resize-width.placeholder': 'Bawaan: 800',

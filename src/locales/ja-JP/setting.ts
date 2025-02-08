@@ -134,6 +134,8 @@ export default {
   'setting.content.quality.placeholder': 'デフォルト: 90',
   'setting.content.quality.description':
     '画質はjpg形式とwebp形式にのみ有効です。デフォルトの品質は90%です',
+  'setting.content.quality.plugin':
+    'PNG/WEBP image processing requires ImageMagick. If your server does not have it installed, please install it first.',
   'setting.content.resize-image': '大きな画像を自動的に圧縮する',
   'setting.content.resize-width': '指定した幅に圧縮する',
   'setting.content.resize-width.placeholder': 'デフォルト: 800',

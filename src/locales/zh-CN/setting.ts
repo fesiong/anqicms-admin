@@ -124,6 +124,8 @@ export default {
   'setting.content.quality.placeholder': '默认：90',
   'setting.content.quality.description':
     '图片质量只对jpg格式和webp格式生效。默认质量为90%',
+  'setting.content.quality.plugin':
+    'GIF/PNG/WEBP 图片压缩处理需要依赖 ImageMagick/pngquant，如果你想得到更好的图片压缩质量，建议你在服务器上安装好 ImageMagick/pngquant。',
   'setting.content.resize-image': '自动压缩大图',
   'setting.content.resize-width': '压缩到指定宽度',
   'setting.content.resize-width.placeholder': '默认：800',

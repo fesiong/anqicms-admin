@@ -136,6 +136,8 @@ export default {
   'setting.content.quality.placeholder': 'پیش فرض: 90',
   'setting.content.quality.description':
     'کیفیت تصویر فقط برای فرمت jpg و فرمت webp اعمال می شود. کیفیت پیش فرض 90% است',
+  'setting.content.quality.plugin':
+    'PNG/WEBP image processing requires ImageMagick. If your server does not have it installed, please install it first.',
   'setting.content.resize-image': 'فشرده سازی خودکار تصاویر بزرگ',
   'setting.content.resize-width': 'به عرض مشخص فشرده کنید',
   'setting.content.resize-width.placeholder': 'پیش فرض: 800',

@@ -140,6 +140,8 @@ export default {
   'setting.content.quality.placeholder': 'По умолчанию: 90',
   'setting.content.quality.description':
     'Качество изображения действует только для форматов jpg и webp. Качество по умолчанию 90%.',
+  'setting.content.quality.plugin':
+    'PNG/WEBP image processing requires ImageMagick. If your server does not have it installed, please install it first.',
   'setting.content.resize-image': 'Автоматически сжимать большие изображения',
   'setting.content.resize-width': 'Сжать до указанной ширины',
   'setting.content.resize-width.placeholder': 'По умолчанию: 800',

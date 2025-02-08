@@ -133,6 +133,8 @@ export default {
   'setting.content.quality.placeholder': 'ডিফল্ট: 90',
   'setting.content.quality.description':
     'ছবির গুণমান শুধুমাত্র jpg বিন্যাস এবং webp বিন্যাসের জন্য কার্যকর হয়। ডিফল্ট মান 90%',
+  'setting.content.quality.plugin':
+    'PNG/WEBP image processing requires ImageMagick. If your server does not have it installed, please install it first.',
   'setting.content.resize-image': 'স্বয়ংক্রিয়ভাবে বড় ছবি কম্প্রেস',
   'setting.content.resize-width': 'নির্দিষ্ট প্রস্থে কম্প্রেস করুন',
   'setting.content.resize-width.placeholder': 'ডিফল্ট: 800',

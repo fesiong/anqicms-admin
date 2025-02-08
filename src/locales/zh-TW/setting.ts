@@ -124,6 +124,8 @@ export default {
   'setting.content.quality.placeholder': '預設：90',
   'setting.content.quality.description':
     '圖片品質只對jpg格式和webp格式生效。預設品質為90%',
+  'setting.content.quality.plugin':
+    'PNG/WEBP 图片处理需要依赖 ImageMagick，如果你的服务器没有安装，请先安装。',
   'setting.content.resize-image': '自動壓縮大圖',
   'setting.content.resize-width': '壓縮到指定寬度',
   'setting.content.resize-width.placeholder': '預設：800',
