@@ -85,10 +85,6 @@ const PluginMultiLang: React.FC<any> = () => {
     const res = await pluginGetMultiLangConfig();
     let setting = res.data || {};
     // 需要转换数组成字符串
-    setting.white_ips = setting.white_ips?.join('\n') || '';
-    setting.black_ips = setting.black_ips?.join('\n') || '';
-    setting.block_agents = setting.block_agents?.join('\n') || '';
-    setting.allow_prefixes = setting.allow_prefixes?.join('\n') || '';
     setting.site_type = setting.site_type || 'multi';
     setSiteType(setting.site_type);
     setLimiterSetting(setting);
@@ -127,6 +123,7 @@ const PluginMultiLang: React.FC<any> = () => {
     pluginSaveMultiLangConfig(setting)
       .then((res) => {
         message.success(res.msg);
+        getSetting();
         actionRef.current?.reloadAndRest?.();
       })
       .catch((err) => {
