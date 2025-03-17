@@ -1,5 +1,9 @@
 import { getArchives, getCategories } from '@/services';
-import { ProColumns, ProFormSelect, ProTable } from '@ant-design/pro-components';
+import {
+  ProColumns,
+  ProFormSelect,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import { Modal } from 'antd';
 import React, { useState } from 'react';
@@ -65,7 +69,9 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
                   spacer: cat.spacer,
                   label:
                     cat.title +
-                    (cat.status === 1 ? '' : intl.formatMessage({ id: 'setting.nav.hide' })),
+                    (cat.status === 1
+                      ? ''
+                      : intl.formatMessage({ id: 'setting.nav.hide' })),
                   value: cat.id,
                 }));
               return categories;
@@ -73,7 +79,13 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
             fieldProps={{
               ...fieldProps,
               optionItemRender(item: any) {
-                return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.label }}></div>;
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: item.spacer + item.label,
+                    }}
+                  ></div>
+                );
               },
             }}
           />
@@ -97,7 +109,8 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
       <ProTable<any>
         rowKey="id"
         search={{
-          span: 8,
+          span: { xs: 24, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
+          defaultCollapsed: false,
         }}
         toolBarRender={false}
         tableAlertRender={false}

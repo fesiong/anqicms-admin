@@ -914,7 +914,7 @@ const ArchiveList: React.FC = () => {
           persistenceType: 'localStorage',
         }}
         tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-          <Space>
+          <Space wrap>
             <Button
               size={'small'}
               onClick={async () => {

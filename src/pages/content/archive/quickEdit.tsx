@@ -8,7 +8,13 @@ import {
 } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
 
-import { getArchiveInfo, getCategories, getSettingContent, getTags, saveArchive } from '@/services';
+import {
+  getArchiveInfo,
+  getCategories,
+  getSettingContent,
+  getTags,
+  saveArchive,
+} from '@/services';
 import { setStore } from '@/utils/store';
 import { history, useIntl } from '@umijs/max';
 import { Col, Modal, Row, message } from 'antd';
@@ -80,7 +86,10 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
     postData.content = archive.data?.content || '';
     // 标记为快速保存
     postData.quick_save = true;
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
     const res = await saveArchive(postData);
     hide();
     if (res.code !== 0) {
@@ -131,7 +140,10 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
       >
         <Row gutter={16}>
           <Col span={12}>
-            <ProFormText name="title" label={intl.formatMessage({ id: 'content.title.name' })} />
+            <ProFormText
+              name="title"
+              label={intl.formatMessage({ id: 'content.title.name' })}
+            />
             <ProFormText
               name="keywords"
               label={intl.formatMessage({ id: 'content.keywords.name' })}
@@ -160,7 +172,6 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
               label={intl.formatMessage({ id: 'content.category.name' })}
               showSearch
               name="category_ids"
-              width="lg"
               mode={contentSetting.multi_category === 1 ? 'multiple' : 'single'}
               request={async () => {
                 const res = await getCategories({ type: 1 });
@@ -181,7 +192,13 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
                   value: 'id',
                 },
                 optionItemRender(item: any) {
-                  return <div dangerouslySetInnerHTML={{ __html: item.spacer + item.title }}></div>;
+                  return (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: item.spacer + item.title,
+                      }}
+                    ></div>
+                  );
                 },
               }}
             />
@@ -190,7 +207,9 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
               mode="tags"
               name="tags"
               valueEnum={searchedTags}
-              placeholder={intl.formatMessage({ id: 'content.tag.placeholder' })}
+              placeholder={intl.formatMessage({
+                id: 'content.tag.placeholder',
+              })}
               fieldProps={{
                 tokenSeparators: [',', '，'],
                 onInputKeyDown: onChangeTagInput,
@@ -201,14 +220,20 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
             <ProFormText
               label={intl.formatMessage({ id: 'content.url-token.name' })}
               name="url_token"
-              placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
+              placeholder={intl.formatMessage({
+                id: 'content.url-token.placeholder',
+              })}
               extra={intl.formatMessage({ id: 'content.url-token.tips' })}
             />
             <ProFormDateTimePicker
               name="created_moment"
               label={intl.formatMessage({ id: 'content.create-time.name' })}
-              placeholder={intl.formatMessage({ id: 'content.url-token.placeholder' })}
-              extra={intl.formatMessage({ id: 'content.create-time.description' })}
+              placeholder={intl.formatMessage({
+                id: 'content.url-token.placeholder',
+              })}
+              extra={intl.formatMessage({
+                id: 'content.create-time.description',
+              })}
               transform={(value) => {
                 return {
                   created_time: value ? dayjs(value).unix() : 0,

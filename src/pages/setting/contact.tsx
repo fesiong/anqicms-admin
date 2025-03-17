@@ -164,7 +164,7 @@ const SettingContactFrom: React.FC<any> = () => {
             >
               {extraFields.map((row: any, index: number) => (
                 <Row key={index} gutter={16}>
-                  <Col span={8}>
+                  <Col sm={8} xs={12}>
                     <ProFormText
                       name={['extra_fields', index, 'name']}
                       label={intl.formatMessage({
@@ -178,13 +178,12 @@ const SettingContactFrom: React.FC<any> = () => {
                         },
                       }}
                       required={true}
-                      width="lg"
                       extra={intl.formatMessage({
                         id: 'setting.system.param-name-description',
                       })}
                     />
                   </Col>
-                  <Col span={8}>
+                  <Col sm={8} xs={12}>
                     <ProFormText
                       name={['extra_fields', index, 'value']}
                       label={intl.formatMessage({
@@ -197,10 +196,9 @@ const SettingContactFrom: React.FC<any> = () => {
                           setExtraFields([].concat(extraFields));
                         },
                       }}
-                      width="lg"
                     />
                   </Col>
-                  <Col span={6}>
+                  <Col sm={6} xs={12}>
                     <ProFormText
                       name={['extra_fields', index, 'remark']}
                       label={intl.formatMessage({
@@ -213,10 +211,9 @@ const SettingContactFrom: React.FC<any> = () => {
                           setExtraFields([].concat(extraFields));
                         },
                       }}
-                      width="lg"
                     />
                   </Col>
-                  <Col span={2}>
+                  <Col sm={2} xs={12}>
                     <Button
                       style={{ marginTop: '30px' }}
                       onClick={() => {
