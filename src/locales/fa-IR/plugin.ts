@@ -1394,19 +1394,26 @@ export default {
   'plugin.limiter.is_allow_spider.yes': 'بله',
   'plugin.limiter.is_allow_spider.description':
     'اگر "بله" انتخاب شده باشد، دسترسی عنکبوت مجاز خواهد بود برای اینکه بر گنجاندن عنکبوت تأثیری نداشته باشد، لطفاً بله را انتخاب کنید',
+  'plugin.limiter.ban_empty_agent':
+    'Whether to restrict empty UserAgent access',
+  'plugin.limiter.ban_empty_agent.description':
+    'Some collection/testing software will use empty UserAgent access',
+  'plugin.limiter.ban_empty_refer': 'Whether to restrict empty Refer access',
+  'plugin.limiter.ban_empty_refer.description':
+    'Only restrict empty Refer access to static resources such as images, web pages are not restricted',
   'plugin.limiter.blocked_ips': 'IPهای مسدود شده موقت',
   'plugin.limiter.blocked_ips.remove': 'رفع انسداد',
   'plugin.limiter.blocked_ips.remove.yes': 'حذف',
   'plugin.limiter.blocked_ips.ended': 'منقضی شده:',
-  'content.multilang.remove.confirm':
+  'plugin.multilang.remove.confirm':
     'آیا مطمئن هستید که می خواهید این سایت چند زبانه را حذف کنید؟ ',
-  'content.multilang.sync.confirm':
+  'plugin.multilang.sync.confirm':
     'آیا مطمئن هستید که می خواهید محتوای سایت را همگام کنید؟ ',
-  'content.multilang.name': 'name',
-  'content.multilang.is-main': 'سایت اصلی',
-  'content.multilang.domain': 'نام دامنه',
-  'content.multilang.language': 'Language',
-  'content.multilang.sync-time': 'زمان همگام سازی محتوا',
+  'plugin.multilang.name': 'name',
+  'plugin.multilang.is-main': 'سایت اصلی',
+  'plugin.multilang.domain': 'نام دامنه',
+  'plugin.multilang.language': 'Language',
+  'plugin.multilang.sync-time': 'زمان همگام سازی محتوا',
   'setting.multilang.sync': 'محتوای همگام سازی شده',
   'setting.multilang.login': 'پس زمینه ورود',
   'plugin.multilang.open.name':
@@ -1428,14 +1435,43 @@ export default {
   'plugin.multilang.auto_translate.description':
     'ترجمه خودکار یک تابع پولی است، لطفاً وب سایت رسمی را برای قیمت های خاص بررسی کنید',
   'plugin.multilang.sites': 'فهرست سایت های چند زبانه',
-  'content.multilang.add': 'افزودن سایت',
-  'content.multilang.edit': 'ویرایش سایت چند زبانه',
-  'content.multilang.select': 'انتخاب سایت',
-  'content.multilang.select.description':
+  'plugin.multilang.add': 'افزودن سایت',
+  'plugin.multilang.edit': 'ویرایش سایت چند زبانه',
+  'plugin.multilang.select': 'انتخاب سایت',
+  'plugin.multilang.select.description':
     'یک سایت از قبل ایجاد شده را به عنوان یک سایت چند زبانه انتخاب کنید',
-  'plugin.multilang.language': 'زبان سایت',
   'plugin.multilang.syncing': 'همگام سازی',
   'plugin.multilang.icon': 'نماد سایت',
+  'plugin.multilang.site-type': 'Site storage processing method',
+  'plugin.multilang.site-type.domain': 'Each language independent site storage',
+  'plugin.multilang.site-type.direction': 'Only the main site',
+  'plugin.multilang.site-type.description':
+    'Each language independent site storage requires creating a site for each language to store and process data. The advantage is that the content and template interface can be edited and processed independently. Only the main site method, there is only one copy of the data and templates, and the results of other languages ​​come from the automatic translation of the main site interface. The workload is less, but the templates and content of each language cannot be freely controlled. ',
+  'plugin.multilang.translate-log': 'Translation log',
+  'plugin.multilang.translate-cache': 'Translation cache',
+  'plugin.multilang.base_url.name': 'Site domain name',
+  'plugin.multilang.base_url.description':
+    'Only required when the display format is an independent domain name',
+  'plugin.multilang.html-log.create-time': 'Creation time',
+  'plugin.multilang.html-log.uri': 'URL path',
+  'plugin.multilang.html-log.to-language': 'Target language',
+  'plugin.multilang.html-log.status': 'Status',
+  'plugin.multilang.html-log.status.success': 'Success',
+  'plugin.multilang.html-log.status.failure': 'Failure',
+  'plugin.multilang.html-cache.delete-confirm':
+    'Are you sure you want to delete this translation cache?',
+  'plugin.multilang.html-cache.create-time': 'Creation time',
+  'plugin.multilang.html-cache.uri': 'URL path',
+  'plugin.multilang.html-cache.language': 'Language',
+  'plugin.multilang.html-cache.delete': 'Delete',
+  'plugin.multilang.translate-cache.clear-all': 'Delete all',
+  'plugin.multilang.html-cache.crean-all-confirm':
+    'Are you sure you want to delete all translation caches? ',
+  'plugin.multilang.sync.cancel': 'Cancel',
+  'plugin.multilang.sync.all': 'Full synchronization',
+  'plugin.multilang.sync.addon': 'Incremental synchronization',
+  'plugin.multilang.sync.content':
+    'Please select the synchronization method you need:',
   'plugin.translate.lang': 'زبان ترجمه',
   'content.translate.origin-content': 'متن اصلی',
   'plugin.translate.result': 'نتیجه ترجمه',

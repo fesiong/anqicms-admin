@@ -40,6 +40,8 @@ import {
 } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
+import TranslateHtmlCache from './components/htmlCache';
+import TranslateHtmlLog from './components/htmlLog';
 
 let running = false;
 let intXhr: any = null;
@@ -51,9 +53,14 @@ const PluginMultiLang: React.FC<any> = () => {
   const [fetched, setFetched] = useState<boolean>(false);
   const [currentSite, setCurrentSite] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [historyVisible, setHistoryVisible] = useState<boolean>(false);
+  const [cacheVisible, setCacheVisible] = useState<boolean>(false);
   const [addNewSiteVisible, setAddNewSiteVisible] = useState<boolean>(false);
   const [defaultSite, setDefaultSite] = useState<any>({});
   const [langOptions, setLangOptions] = useState<any[]>([]);
+  const [siteType, setSiteType] = useState<any>('multi');
+  const [syncSite, setSyncSite] = useState<any>(null);
+  const [syncConfirmVisible, setSyncConfirmVisible] = useState<boolean>(false);
   const [task, setTask] = useState<any>(null);
 
   const intl = useIntl();
@@ -82,7 +89,8 @@ const PluginMultiLang: React.FC<any> = () => {
     setting.black_ips = setting.black_ips?.join('\n') || '';
     setting.block_agents = setting.block_agents?.join('\n') || '';
     setting.allow_prefixes = setting.allow_prefixes?.join('\n') || '';
-
+    setting.site_type = setting.site_type || 'multi';
+    setSiteType(setting.site_type);
     setLimiterSetting(setting);
     setFetched(true);
   };
@@ -92,9 +100,7 @@ const PluginMultiLang: React.FC<any> = () => {
     setLangOptions(
       supportLanguages.map((item) => {
         return {
-          label: intl.formatMessage({
-            id: 'content.translate.' + item.label,
-          }),
+          label: item.label,
           value: item.value,
         };
       }),
@@ -135,7 +141,7 @@ const PluginMultiLang: React.FC<any> = () => {
     // remove site
     Modal.confirm({
       title: intl.formatMessage({
-        id: 'content.multilang.remove.confirm',
+        id: 'plugin.multilang.remove.confirm',
       }),
       onOk: () => {
         pluginRemoveMultiLangSite(record)
@@ -171,27 +177,29 @@ const PluginMultiLang: React.FC<any> = () => {
       });
   };
 
-  const syncSiteData = (record: any) => {
+  const handleSyncData = (record: any) => {
+    setSyncSite(record);
+    setSyncConfirmVisible(true);
+  };
+
+  const syncSiteData = (focus: boolean) => {
     // sync website data
-    Modal.confirm({
-      title: intl.formatMessage({
-        id: 'content.multilang.sync.confirm',
-      }),
-      onOk: () => {
-        pluginSyncMultiLangSiteContent(record)
-          .then((res) => {
-            message.success(res.msg);
-            actionRef.current?.reloadAndRest?.();
-            // 马上执行一遍
-            intXhr = setInterval(() => {
-              syncTask();
-            }, 1000);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-    });
+    syncSite.focus = focus;
+    pluginSyncMultiLangSiteContent(syncSite)
+      .then((res) => {
+        message.success(res.msg);
+        actionRef.current?.reloadAndRest?.();
+        // 马上执行一遍
+        intXhr = setInterval(() => {
+          syncTask();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setSyncConfirmVisible(false);
+      });
   };
 
   const handleSearchLang = (val: string) => {
@@ -256,24 +264,19 @@ const PluginMultiLang: React.FC<any> = () => {
       dataIndex: 'id',
     },
     {
-      title: intl.formatMessage({ id: 'content.multilang.name' }),
+      title: intl.formatMessage({ id: 'plugin.multilang.name' }),
       dataIndex: 'name',
     },
     {
-      title: intl.formatMessage({ id: 'content.multilang.domain' }),
+      title: intl.formatMessage({ id: 'plugin.multilang.domain' }),
       dataIndex: 'base_url',
     },
     {
-      title: intl.formatMessage({ id: 'content.multilang.language' }),
+      title: intl.formatMessage({ id: 'plugin.multilang.language' }),
       dataIndex: 'language',
       render: (text: any) => (
         <div>
-          {intl.formatMessage({
-            id:
-              'content.translate.' +
-              (supportLanguages.find((item) => item.value === text)?.label ||
-                text),
-          })}
+          {supportLanguages.find((item) => item.value === text)?.label || text}
         </div>
       ),
     },
@@ -291,8 +294,9 @@ const PluginMultiLang: React.FC<any> = () => {
       ),
     },
     {
-      title: intl.formatMessage({ id: 'content.multilang.sync-time' }),
+      title: intl.formatMessage({ id: 'plugin.multilang.sync-time' }),
       dataIndex: 'sync_time',
+      hidden: siteType === 'single',
       render: (_, record) => {
         return (
           <div>
@@ -320,20 +324,24 @@ const PluginMultiLang: React.FC<any> = () => {
           </a>
           {!record.is_main ? (
             <>
-              <a
-                onClick={() => {
-                  syncSiteData(record);
-                }}
-              >
-                <FormattedMessage id="setting.multilang.sync" />
-              </a>
-              <a
-                onClick={() => {
-                  handleLoginAdmin(record);
-                }}
-              >
-                <FormattedMessage id="setting.multilang.login" />
-              </a>
+              {siteType === 'multi' && (
+                <>
+                  <a
+                    onClick={() => {
+                      handleSyncData(record);
+                    }}
+                  >
+                    <FormattedMessage id="setting.multilang.sync" />
+                  </a>
+                  <a
+                    onClick={() => {
+                      handleLoginAdmin(record);
+                    }}
+                  >
+                    <FormattedMessage id="setting.multilang.login" />
+                  </a>
+                </>
+              )}
               <a
                 className="text-red"
                 onClick={() => {
@@ -345,7 +353,7 @@ const PluginMultiLang: React.FC<any> = () => {
             </>
           ) : (
             <Tag>
-              <FormattedMessage id="content.multilang.is-main" />
+              <FormattedMessage id="plugin.multilang.is-main" />
             </Tag>
           )}
         </Space>
@@ -387,6 +395,34 @@ const PluginMultiLang: React.FC<any> = () => {
                 })}
               />
               <ProFormRadio.Group
+                name="site_type"
+                label={intl.formatMessage({
+                  id: 'plugin.multilang.site-type',
+                })}
+                options={[
+                  {
+                    value: 'multi',
+                    label: intl.formatMessage({
+                      id: 'plugin.multilang.site-type.domain',
+                    }),
+                  },
+                  {
+                    value: 'single',
+                    label: intl.formatMessage({
+                      id: 'plugin.multilang.site-type.direction',
+                    }),
+                  },
+                ]}
+                fieldProps={{
+                  onChange: (e) => {
+                    setSiteType(e.target.value);
+                  },
+                }}
+                extra={intl.formatMessage({
+                  id: 'plugin.multilang.site-type.description',
+                })}
+              />
+              <ProFormRadio.Group
                 name="type"
                 label={intl.formatMessage({
                   id: 'plugin.multilang.type',
@@ -423,9 +459,7 @@ const PluginMultiLang: React.FC<any> = () => {
                 style={{ width: '100%' }}
                 options={supportLanguages.map((item) => {
                   return {
-                    label: intl.formatMessage({
-                      id: 'content.translate.' + item.label,
-                    }),
+                    label: item.label,
                     value: item.value,
                   };
                 })}
@@ -458,10 +492,32 @@ const PluginMultiLang: React.FC<any> = () => {
               <FormattedMessage id="plugin.multilang.sites" />
             </Divider>
             <ProTable<any>
-              rowKey="id"
+              rowKey="language"
               search={false}
               actionRef={actionRef}
               toolBarRender={() => [
+                siteType === 'single' && (
+                  <>
+                    <Button
+                      key="log"
+                      type="primary"
+                      onClick={() => {
+                        setHistoryVisible(true);
+                      }}
+                    >
+                      <FormattedMessage id="plugin.multilang.translate-log" />
+                    </Button>
+                    <Button
+                      key="cache"
+                      type="primary"
+                      onClick={() => {
+                        setCacheVisible(true);
+                      }}
+                    >
+                      <FormattedMessage id="plugin.multilang.translate-cache" />
+                    </Button>
+                  </>
+                ),
                 limiterSetting.open && (
                   <Button
                     key="add"
@@ -471,7 +527,7 @@ const PluginMultiLang: React.FC<any> = () => {
                       setEditVisible(true);
                     }}
                   >
-                    <FormattedMessage id="content.multilang.add" />
+                    <FormattedMessage id="plugin.multilang.add" />
                   </Button>
                 ),
               ]}
@@ -492,7 +548,7 @@ const PluginMultiLang: React.FC<any> = () => {
         <ModalForm
           width={550}
           title={intl.formatMessage({
-            id: 'content.multilang.edit',
+            id: 'plugin.multilang.edit',
           })}
           open={editVisible}
           initialValues={currentSite}
@@ -502,37 +558,57 @@ const PluginMultiLang: React.FC<any> = () => {
           }}
           onFinish={onSubmitSite}
         >
-          <ProFormSelect
-            label={intl.formatMessage({
-              id: 'content.multilang.select',
-            })}
-            disabled={currentSite.is_main}
-            showSearch
-            name="id"
-            request={async () => {
-              const res = await pluginGetMultiLangValidSites({});
-              const data = res.data.map((item: any) => {
-                return {
-                  label: item.name + '(ID:' + item.id + ')',
-                  value: item.id,
-                  disabled: item.parent_id > 0 || item.status !== 1,
-                };
-              });
-              data.push({
-                label: intl.formatMessage({
-                  id: 'content.multilang.add',
-                }),
-                value: 0,
-              });
-              return data;
-            }}
-            fieldProps={{
-              onSelect: handleSelectSite,
-            }}
-            extra={intl.formatMessage({
-              id: 'content.multilang.select.description',
-            })}
-          />
+          {siteType === 'multi' && (
+            <ProFormSelect
+              label={intl.formatMessage({
+                id: 'plugin.multilang.select',
+              })}
+              disabled={currentSite.is_main}
+              showSearch
+              name="id"
+              request={async () => {
+                const res = await pluginGetMultiLangValidSites({});
+                const data = res.data.map((item: any) => {
+                  console.log(
+                    item.parent_id,
+                    item.status,
+                    item.parent_id > 0,
+                    item.status !== true,
+                    item.parent_id > 0 || item.status !== true,
+                  );
+                  return {
+                    label: item.name + '(ID:' + item.id + ')',
+                    value: item.id,
+                    disabled: item.parent_id > 0 || item.status !== true,
+                  };
+                });
+                data.push({
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.add',
+                  }),
+                  value: 0,
+                });
+                return data;
+              }}
+              fieldProps={{
+                onSelect: handleSelectSite,
+              }}
+              extra={intl.formatMessage({
+                id: 'plugin.multilang.select.description',
+              })}
+            />
+          )}
+          {siteType === 'single' && (
+            <ProFormText
+              name={'base_url'}
+              label={intl.formatMessage({
+                id: 'plugin.multilang.base_url.name',
+              })}
+              extra={intl.formatMessage({
+                id: 'plugin.multilang.base_url.description',
+              })}
+            />
+          )}
           <ProFormSelect
             name="language"
             label={intl.formatMessage({
@@ -613,6 +689,42 @@ const PluginMultiLang: React.FC<any> = () => {
           <div className="task-message">{task.message}</div>
         </Modal>
       )}
+      {historyVisible && (
+        <TranslateHtmlLog
+          open={historyVisible}
+          onCancel={() => setHistoryVisible(false)}
+        />
+      )}
+      {cacheVisible && (
+        <TranslateHtmlCache
+          open={cacheVisible}
+          onCancel={() => setCacheVisible(false)}
+        />
+      )}
+      <Modal
+        open={syncConfirmVisible}
+        title={intl.formatMessage({
+          id: 'plugin.multilang.sync.confirm',
+        })}
+        onCancel={() => setSyncConfirmVisible(false)}
+        footer={[
+          <Button key="cancel" onClick={() => setSyncConfirmVisible(false)}>
+            <FormattedMessage id="plugin.multilang.sync.cancel" />
+          </Button>,
+          <Button key="full" onClick={() => syncSiteData(true)}>
+            <FormattedMessage id="plugin.multilang.sync.all" />
+          </Button>,
+          <Button
+            key="incremental"
+            type="primary"
+            onClick={() => syncSiteData(false)}
+          >
+            <FormattedMessage id="plugin.multilang.sync.addon" />
+          </Button>,
+        ]}
+      >
+        <FormattedMessage id="plugin.multilang.sync.content" />
+      </Modal>
     </PageContainer>
   );
 };

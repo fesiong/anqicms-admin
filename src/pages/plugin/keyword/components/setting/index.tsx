@@ -191,7 +191,7 @@ class KeywordSetting extends React.Component<KeywordSettingProps & intlProps> {
                   label: this.props.intl.formatMessage({
                     id: 'content.translate.zh-cn',
                   }),
-                  value: 'zh-cn',
+                  value: 'zh-CN',
                 },
                 {
                   label: this.props.intl.formatMessage({

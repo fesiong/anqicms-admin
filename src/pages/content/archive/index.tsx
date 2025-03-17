@@ -335,9 +335,7 @@ const ArchiveList: React.FC = () => {
             }}
             options={supportLanguages.map((item) => {
               return {
-                label: intl.formatMessage({
-                  id: 'content.translate.' + item.label,
-                }),
+                label: item.label,
                 value: item.value,
               };
             })}

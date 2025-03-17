@@ -156,6 +156,52 @@ const PluginLimiter: React.FC<any> = () => {
                     id: 'plugin.limiter.is_allow_spider.description',
                   })}
                 />
+                <ProFormRadio.Group
+                  name="ban_empty_agent"
+                  label={intl.formatMessage({
+                    id: 'plugin.limiter.ban_empty_agent',
+                  })}
+                  options={[
+                    {
+                      value: false,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.is_allow_spider.no',
+                      }),
+                    },
+                    {
+                      value: true,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.is_allow_spider.yes',
+                      }),
+                    },
+                  ]}
+                  extra={intl.formatMessage({
+                    id: 'plugin.limiter.ban_empty_agent.description',
+                  })}
+                />
+                <ProFormRadio.Group
+                  name="ban_empty_refer"
+                  label={intl.formatMessage({
+                    id: 'plugin.limiter.ban_empty_refer',
+                  })}
+                  options={[
+                    {
+                      value: false,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.is_allow_spider.no',
+                      }),
+                    },
+                    {
+                      value: true,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.is_allow_spider.yes',
+                      }),
+                    },
+                  ]}
+                  extra={intl.formatMessage({
+                    id: 'plugin.limiter.ban_empty_refer.description',
+                  })}
+                />
                 <ProFormGroup>
                   <ProFormDigit
                     name={'max_requests'}

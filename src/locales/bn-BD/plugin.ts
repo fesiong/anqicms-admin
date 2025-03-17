@@ -1395,19 +1395,26 @@ export default {
   'plugin.limiter.is_allow_spider.yes': 'হ্যাঁ',
   'plugin.limiter.is_allow_spider.description':
     'হ্যাঁ নির্বাচন করা হলে, মাকড়সা অন্তর্ভুক্তি প্রভাবিত না করার জন্য, হ্যাঁ নির্বাচন করুন',
+  'plugin.limiter.ban_empty_agent':
+    'Whether to restrict empty UserAgent access',
+  'plugin.limiter.ban_empty_agent.description':
+    'Some collection/testing software will use empty UserAgent access',
+  'plugin.limiter.ban_empty_refer': 'Whether to restrict empty Refer access',
+  'plugin.limiter.ban_empty_refer.description':
+    'Only restrict empty Refer access to static resources such as images, web pages are not restricted',
   'plugin.limiter.blocked_ips': 'অস্থায়ীভাবে অবরুদ্ধ আইপি',
   'plugin.limiter.blocked_ips.remove': 'আনব্লক',
   'plugin.limiter.blocked_ips.remove.yes': 'সরান',
   'plugin.limiter.blocked_ips.ended': 'মেয়াদ শেষ:',
-  'content.multilang.remove.confirm':
+  'plugin.multilang.remove.confirm':
     'আপনি কি নিশ্চিত যে আপনি এই বহুভাষিক সাইটটি সরাতে চান? ',
-  'content.multilang.sync.confirm':
+  'plugin.multilang.sync.confirm':
     'আপনি কি নিশ্চিত যে আপনি সাইটের বিষয়বস্তু সিঙ্ক্রোনাইজ করতে চান? ',
-  'content.multilang.name': 'নাম',
-  'content.multilang.is-main': 'প্রধান সাইট',
-  'content.multilang.domain': 'ডোমেন নাম',
-  'content.multilang.language': 'ভাষা',
-  'content.multilang.sync-time': 'কন্টেন্ট সিঙ্ক্রোনাইজেশন সময়',
+  'plugin.multilang.name': 'নাম',
+  'plugin.multilang.is-main': 'প্রধান সাইট',
+  'plugin.multilang.domain': 'ডোমেন নাম',
+  'plugin.multilang.language': 'ভাষা',
+  'plugin.multilang.sync-time': 'কন্টেন্ট সিঙ্ক্রোনাইজেশন সময়',
   'setting.multilang.sync': 'সিঙ্ক্রোনাইজড কন্টেন্ট',
   'setting.multilang.login': 'লগইন ব্যাকগ্রাউন্ড',
   'plugin.multilang.open.name':
@@ -1429,14 +1436,43 @@ export default {
   'plugin.multilang.auto_translate.description':
     'স্বয়ংক্রিয় অনুবাদ একটি অর্থপ্রদানের ফাংশন, অনুগ্রহ করে নির্দিষ্ট মূল্যের জন্য অফিসিয়াল ওয়েবসাইট দেখুন',
   'plugin.multilang.sites': 'মাল্টি-ভাষা সাইটের তালিকা',
-  'content.multilang.add': 'সাইট যোগ করুন',
-  'content.multilang.edit': 'বহুভাষিক সাইট সম্পাদনা করুন',
-  'content.multilang.select': 'সাইট নির্বাচন করুন',
-  'content.multilang.select.description':
+  'plugin.multilang.add': 'সাইট যোগ করুন',
+  'plugin.multilang.edit': 'বহুভাষিক সাইট সম্পাদনা করুন',
+  'plugin.multilang.select': 'সাইট নির্বাচন করুন',
+  'plugin.multilang.select.description':
     'একটি বহু-ভাষা সাইট হিসাবে ইতিমধ্যে তৈরি সাইট নির্বাচন করুন',
-  'plugin.multilang.language': 'সাইটের ভাষা',
   'plugin.multilang.syncing': 'সিঙ্ক্রোনাইজিং',
   'plugin.multilang.icon': 'সাইট আইকন',
+  'plugin.multilang.site-type': 'Site storage processing method',
+  'plugin.multilang.site-type.domain': 'Each language independent site storage',
+  'plugin.multilang.site-type.direction': 'Only the main site',
+  'plugin.multilang.site-type.description':
+    'Each language independent site storage requires creating a site for each language to store and process data. The advantage is that the content and template interface can be edited and processed independently. Only the main site method, there is only one copy of the data and templates, and the results of other languages ​​come from the automatic translation of the main site interface. The workload is less, but the templates and content of each language cannot be freely controlled. ',
+  'plugin.multilang.translate-log': 'Translation log',
+  'plugin.multilang.translate-cache': 'Translation cache',
+  'plugin.multilang.base_url.name': 'Site domain name',
+  'plugin.multilang.base_url.description':
+    'Only required when the display format is an independent domain name',
+  'plugin.multilang.html-log.create-time': 'Creation time',
+  'plugin.multilang.html-log.uri': 'URL path',
+  'plugin.multilang.html-log.to-language': 'Target language',
+  'plugin.multilang.html-log.status': 'Status',
+  'plugin.multilang.html-log.status.success': 'Success',
+  'plugin.multilang.html-log.status.failure': 'Failure',
+  'plugin.multilang.html-cache.delete-confirm':
+    'Are you sure you want to delete this translation cache?',
+  'plugin.multilang.html-cache.create-time': 'Creation time',
+  'plugin.multilang.html-cache.uri': 'URL path',
+  'plugin.multilang.html-cache.language': 'Language',
+  'plugin.multilang.html-cache.delete': 'Delete',
+  'plugin.multilang.translate-cache.clear-all': 'Delete all',
+  'plugin.multilang.html-cache.crean-all-confirm':
+    'Are you sure you want to delete all translation caches? ',
+  'plugin.multilang.sync.cancel': 'Cancel',
+  'plugin.multilang.sync.all': 'Full synchronization',
+  'plugin.multilang.sync.addon': 'Incremental synchronization',
+  'plugin.multilang.sync.content':
+    'Please select the synchronization method you need:',
   'plugin.translate.lang': 'ভাষা অনুবাদ করুন',
   'content.translate.origin-content': 'মূল পাঠ্য',
   'plugin.translate.result': 'অনুবাদ ফলাফল',

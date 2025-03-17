@@ -14,7 +14,7 @@ const NewContainer: React.FC<NewContainerProps> = (props) => {
   const [activeKey, setActiveKey] = useState<string>('');
 
   const getMultiLangSites = () => {
-    pluginGetMultiLangSites().then((res) => {
+    pluginGetMultiLangSites({ type: 'multi' }).then((res) => {
       let data = (res.data || []).map((item: any) => {
         return {
           key: item.id,

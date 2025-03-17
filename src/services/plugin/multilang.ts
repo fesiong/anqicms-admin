@@ -87,3 +87,36 @@ export async function pluginGetMultiLangSyncStatus(
     options,
   });
 }
+
+export async function pluginGetMultiLangTranslateHtmlLog(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/plugin/multilang/site/html/logs',
+    params,
+    options,
+  });
+}
+
+export async function pluginGetMultiLangTranslateHtmlCache(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/plugin/multilang/site/html/caches',
+    params,
+    options,
+  });
+}
+
+export async function pluginMultiLangTranslateHtmlCacheRemove(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/multilang/site/html/cache/remove',
+    body,
+    options,
+  });
+}

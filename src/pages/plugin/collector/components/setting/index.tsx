@@ -254,7 +254,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   label: this.props.intl.formatMessage({
                     id: 'content.translate.zh-cn',
                   }),
-                  value: 'zh-cn',
+                  value: 'zh-CN',
                 },
                 {
                   label: this.props.intl.formatMessage({
@@ -544,9 +544,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               })}
               options={supportLanguages.map((item) => {
                 return {
-                  label: this.props.intl.formatMessage({
-                    id: 'content.translate.' + item.label,
-                  }),
+                  label: item.label,
                   value: item.value,
                 };
               })}

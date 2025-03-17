@@ -1409,19 +1409,26 @@ export default {
   'plugin.limiter.is_allow_spider.yes': 'Ya',
   'plugin.limiter.is_allow_spider.description':
     'Jika ya dipilih, akses laba-laba akan diizinkan. Agar tidak mempengaruhi penyertaan laba-laba, silakan pilih ya',
+  'plugin.limiter.ban_empty_agent':
+    'Whether to restrict empty UserAgent access',
+  'plugin.limiter.ban_empty_agent.description':
+    'Some collection/testing software will use empty UserAgent access',
+  'plugin.limiter.ban_empty_refer': 'Whether to restrict empty Refer access',
+  'plugin.limiter.ban_empty_refer.description':
+    'Only restrict empty Refer access to static resources such as images, web pages are not restricted',
   'plugin.limiter.blocked_ips': 'IP yang diblokir sementara',
   'plugin.limiter.blocked_ips.remove': 'Buka blokir',
   'plugin.limiter.blocked_ips.remove.yes': 'Hapus',
   'plugin.limiter.blocked_ips.ended': 'Kedaluwarsa:',
-  'content.multilang.remove.confirm':
+  'plugin.multilang.remove.confirm':
     'Apakah Anda yakin ingin menghapus situs multibahasa ini? ',
-  'content.multilang.sync.confirm':
+  'plugin.multilang.sync.confirm':
     'Apakah Anda yakin ingin menyinkronkan konten situs? ',
-  'content.multilang.name': 'nama',
-  'content.multilang.is-main': 'situs utama',
-  'content.multilang.domain': 'Nama domain',
+  'plugin.multilang.name': 'nama',
+  'plugin.multilang.is-main': 'situs utama',
+  'plugin.multilang.domain': 'Nama domain',
   'konten.multilang.bahasa': 'Bahasa',
-  'content.multilang.sync-time': 'Waktu sinkronisasi konten',
+  'plugin.multilang.sync-time': 'Waktu sinkronisasi konten',
   'setting.multilang.sync': 'Konten tersinkronisasi',
   'setting.multilang.login': 'Latar belakang masuk',
   'plugin.multilang.open.name':
@@ -1444,14 +1451,44 @@ export default {
   'plugin.multilang.auto_translate.description':
     'Terjemahan otomatis adalah fungsi berbayar, silakan periksa situs web resmi untuk harga spesifik',
   'plugin.multilang.sites': 'Daftar situs multi-bahasa',
-  'content.multilang.add': 'Tambahkan situs',
-  'content.multilang.edit': 'Edit situs multibahasa',
-  'content.multilang.select': 'Pilih situs',
-  'content.multilang.select.description':
+  'plugin.multilang.add': 'Tambahkan situs',
+  'plugin.multilang.edit': 'Edit situs multibahasa',
+  'plugin.multilang.select': 'Pilih situs',
+  'plugin.multilang.select.description':
     'Pilih situs yang sudah dibuat sebagai situs multi-bahasa',
   'plugin.multilang.language': 'bahasa situs',
   'plugin.multilang.syncing': 'Sinkronisasi',
   'plugin.multilang.icon': 'ikon situs',
+  'plugin.multilang.site-type': 'Site storage processing method',
+  'plugin.multilang.site-type.domain': 'Each language independent site storage',
+  'plugin.multilang.site-type.direction': 'Only the main site',
+  'plugin.multilang.site-type.description':
+    'Each language independent site storage requires creating a site for each language to store and process data. The advantage is that the content and template interface can be edited and processed independently. Only the main site method, there is only one copy of the data and templates, and the results of other languages ​​come from the automatic translation of the main site interface. The workload is less, but the templates and content of each language cannot be freely controlled. ',
+  'plugin.multilang.translate-log': 'Translation log',
+  'plugin.multilang.translate-cache': 'Translation cache',
+  'plugin.multilang.base_url.name': 'Site domain name',
+  'plugin.multilang.base_url.description':
+    'Only required when the display format is an independent domain name',
+  'plugin.multilang.html-log.create-time': 'Creation time',
+  'plugin.multilang.html-log.uri': 'URL path',
+  'plugin.multilang.html-log.to-language': 'Target language',
+  'plugin.multilang.html-log.status': 'Status',
+  'plugin.multilang.html-log.status.success': 'Success',
+  'plugin.multilang.html-log.status.failure': 'Failure',
+  'plugin.multilang.html-cache.delete-confirm':
+    'Are you sure you want to delete this translation cache?',
+  'plugin.multilang.html-cache.create-time': 'Creation time',
+  'plugin.multilang.html-cache.uri': 'URL path',
+  'plugin.multilang.html-cache.language': 'Language',
+  'plugin.multilang.html-cache.delete': 'Delete',
+  'plugin.multilang.translate-cache.clear-all': 'Delete all',
+  'plugin.multilang.html-cache.crean-all-confirm':
+    'Are you sure you want to delete all translation caches? ',
+  'plugin.multilang.sync.cancel': 'Cancel',
+  'plugin.multilang.sync.all': 'Full synchronization',
+  'plugin.multilang.sync.addon': 'Incremental synchronization',
+  'plugin.multilang.sync.content':
+    'Please select the synchronization method you need:',
   'plugin.translate.lang': 'Terjemahkan bahasa',
   'content.translate.origin-content': 'teks asli',
   'plugin.translate.result': 'Hasil terjemahan',

@@ -1392,19 +1392,26 @@ export default {
   'plugin.limiter.is_allow_spider.yes': 'はい',
   'plugin.limiter.is_allow_spider.description':
     'はいを選択した場合、スパイダーへのアクセスが許可されます。スパイダーの追加に影響を与えないように、はいを選択してください。',
+  'plugin.limiter.ban_empty_agent':
+    'Whether to restrict empty UserAgent access',
+  'plugin.limiter.ban_empty_agent.description':
+    'Some collection/testing software will use empty UserAgent access',
+  'plugin.limiter.ban_empty_refer': 'Whether to restrict empty Refer access',
+  'plugin.limiter.ban_empty_refer.description':
+    'Only restrict empty Refer access to static resources such as images, web pages are not restricted',
   'plugin.limiter.blocked_ips': '一時的にブロックされた IP',
   'plugin.limiter.blocked_ips.remove': 'ブロックを解除',
   'plugin.limiter.blocked_ips.remove.yes': '削除',
   'plugin.limiter.blocked_ips.ended': '期限切れ:',
-  'content.multilang.remove.confirm':
+  'plugin.multilang.remove.confirm':
     'この多言語サイトを削除してもよろしいですか? ',
-  'content.multilang.sync.confirm':
+  'plugin.multilang.sync.confirm':
     'サイトのコンテンツを同期してもよろしいですか? ',
-  'content.multilang.name': '名前',
-  'content.multilang.is-main': 'メインサイト',
-  'content.multilang.domain': 'ドメイン名',
-  'content.multilang. language': '言語',
-  'content.multilang.sync-time': 'コンテンツの同期時間',
+  'plugin.multilang.name': '名前',
+  'plugin.multilang.is-main': 'メインサイト',
+  'plugin.multilang.domain': 'ドメイン名',
+  'plugin.multilang. language': '言語',
+  'plugin.multilang.sync-time': 'コンテンツの同期時間',
   'setting.multilang.sync': '同期されたコンテンツ',
   'setting.multilang.login': 'ログイン背景',
   'plugin.multilang.open.name': '多言語サイトのサポートを有効にするかどうか',
@@ -1425,14 +1432,44 @@ export default {
   'plugin.multilang.auto_translate.description':
     '自動翻訳は有料機能です。具体的な価格については公式ウェブサイトをご確認ください',
   'plugin.multilang.sites': '多言語サイトリスト',
-  'content.multilang.add': 'サイトを追加',
-  'content.multilang.edit': '多言語サイトを編集',
-  'content.multilang.select': 'サイトを選択',
-  'content.multilang.select.description':
+  'plugin.multilang.add': 'サイトを追加',
+  'plugin.multilang.edit': '多言語サイトを編集',
+  'plugin.multilang.select': 'サイトを選択',
+  'plugin.multilang.select.description':
     '作成済みのサイトを多言語サイトとして選択します',
   'plugin.multilang.language': 'サイト言語',
   'plugin.multilang.syncing': '同期中',
   'plugin.multilang.icon': 'サイトアイコン',
+  'plugin.multilang.site-type': 'Site storage processing method',
+  'plugin.multilang.site-type.domain': 'Each language independent site storage',
+  'plugin.multilang.site-type.direction': 'Only the main site',
+  'plugin.multilang.site-type.description':
+    'Each language independent site storage requires creating a site for each language to store and process data. The advantage is that the content and template interface can be edited and processed independently. Only the main site method, there is only one copy of the data and templates, and the results of other languages ​​come from the automatic translation of the main site interface. The workload is less, but the templates and content of each language cannot be freely controlled. ',
+  'plugin.multilang.translate-log': 'Translation log',
+  'plugin.multilang.translate-cache': 'Translation cache',
+  'plugin.multilang.base_url.name': 'Site domain name',
+  'plugin.multilang.base_url.description':
+    'Only required when the display format is an independent domain name',
+  'plugin.multilang.html-log.create-time': 'Creation time',
+  'plugin.multilang.html-log.uri': 'URL path',
+  'plugin.multilang.html-log.to-language': 'Target language',
+  'plugin.multilang.html-log.status': 'Status',
+  'plugin.multilang.html-log.status.success': 'Success',
+  'plugin.multilang.html-log.status.failure': 'Failure',
+  'plugin.multilang.html-cache.delete-confirm':
+    'Are you sure you want to delete this translation cache?',
+  'plugin.multilang.html-cache.create-time': 'Creation time',
+  'plugin.multilang.html-cache.uri': 'URL path',
+  'plugin.multilang.html-cache.language': 'Language',
+  'plugin.multilang.html-cache.delete': 'Delete',
+  'plugin.multilang.translate-cache.clear-all': 'Delete all',
+  'plugin.multilang.html-cache.crean-all-confirm':
+    'Are you sure you want to delete all translation caches? ',
+  'plugin.multilang.sync.cancel': 'Cancel',
+  'plugin.multilang.sync.all': 'Full synchronization',
+  'plugin.multilang.sync.addon': 'Incremental synchronization',
+  'plugin.multilang.sync.content':
+    'Please select the synchronization method you need:',
   'plugin.translate.lang': '言語を翻訳',
   'content.translate.origin-content': '元のテキスト',
   'plugin.translate.result': '翻訳結果',
