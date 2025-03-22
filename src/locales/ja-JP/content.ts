@@ -413,6 +413,7 @@ export default {
   'content.module.field.type.checkbox': '複数の選択肢',
   'content.module.field.type.select': 'ドロップダウン選択',
   'content.module.field.type.image': '写真',
+  'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': '書類',
   'content.module.field.isrequired': '必要ですか?',
   'content.module.field.isrequired.no': 'オプション',

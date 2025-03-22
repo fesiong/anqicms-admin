@@ -421,6 +421,7 @@ export default {
   'content.module.field.type.checkbox': 'pilihan ganda',
   'content.module.field.type.select': 'pilihan tarik-turun',
   'content.module.field.type.image': 'gambar',
+  'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': 'dokumen',
   'content.module.field.isrequired': 'Apakah itu diperlukan?',
   'content.module.field.isrequired.no': 'Opsional',

@@ -420,6 +420,7 @@ export default {
   'content.module.field.type.checkbox': 'большой выбор',
   'content.module.field.type.select': 'раскрывающийся выбор',
   'content.module.field.type.image': 'картина',
+  'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': 'документ',
   'content.module.field.isrequired': 'Требуется ли это?',
   'content.module.field.isrequired.no': 'Необязательный',

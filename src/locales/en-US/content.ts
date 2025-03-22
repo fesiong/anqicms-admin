@@ -417,6 +417,7 @@ export default {
   'content.module.field.type.checkbox': 'multiple choice',
   'content.module.field.type.select': 'drop down selection',
   'content.module.field.type.image': 'picture',
+  'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': 'document',
   'content.module.field.isrequired': 'Is it required?',
   'content.module.field.isrequired.no': 'Optional',

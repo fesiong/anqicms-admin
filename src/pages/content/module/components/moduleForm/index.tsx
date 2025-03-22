@@ -566,6 +566,9 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               image: intl.formatMessage({
                 id: 'content.module.field.type.image',
               }),
+              images: intl.formatMessage({
+                id: 'content.module.field.type.images',
+              }),
               file: intl.formatMessage({
                 id: 'content.module.field.type.file',
               }),

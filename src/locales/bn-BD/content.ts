@@ -419,6 +419,7 @@ export default {
   'content.module.field.type.checkbox': 'বহু নির্বাচনী',
   'content.module.field.type.select': 'ড্রপ ডাউন নির্বাচন',
   'content.module.field.type.image': 'ছবি',
+  'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': 'নথি',
   'content.module.field.isrequired': 'এটা কি প্রয়োজন?',
   'content.module.field.isrequired.no': 'ঐচ্ছিক',

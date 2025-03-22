@@ -223,6 +223,38 @@ const ArchiveCategoryDetail: React.FC = () => {
     setCategory(category);
   };
 
+  const handleCleanExtraFieldItem = (field: string, index: number) => {
+    category.extra[field]?.splice(index, 1);
+    const extra: any = {};
+    extra[field] = category.extra[field];
+    formRef?.current?.setFieldsValue({ extra });
+
+    setCategory(Object.assign({}, category));
+  };
+
+  const handleUploadExtraFieldItem = (field: string, rows: any) => {
+    if (!category.extra[field]) {
+      category.extra[field] = [];
+    }
+    for (const row of rows) {
+      let exists = false;
+      for (const i in category.extra[field]) {
+        if (category.extra[field][i] === row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        category.extra[field].push(row.logo);
+      }
+    }
+    const extra: any = {};
+    extra[field] = category.extra[field];
+    formRef?.current?.setFieldsValue({ extra });
+
+    setCategory(Object.assign({}, category));
+  };
+
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
       const values = formRef.current?.getFieldsFormatValue?.();
@@ -503,6 +535,59 @@ const ArchiveCategoryDetail: React.FC = () => {
                                       </div>
                                     </AttachmentSelect>
                                   )}
+                                </ProFormText>
+                              ) : item.type === 'images' ? (
+                                <ProFormText
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                >
+                                  {category.extra[item.field_name]?.length
+                                    ? category.extra[item.field_name].map(
+                                        (inner: string, idx: number) => (
+                                          <div
+                                            className="ant-upload-item"
+                                            key={idx}
+                                          >
+                                            <Image
+                                              preview={{
+                                                src: inner,
+                                              }}
+                                              src={inner}
+                                            />
+                                            <span
+                                              className="delete"
+                                              onClick={() =>
+                                                handleCleanExtraFieldItem(
+                                                  item.field_name,
+                                                  idx,
+                                                )
+                                              }
+                                            >
+                                              <DeleteOutlined />
+                                            </span>
+                                          </div>
+                                        ),
+                                      )
+                                    : null}
+                                  <AttachmentSelect
+                                    onSelect={(rows) =>
+                                      handleUploadExtraFieldItem(
+                                        item.field_name,
+                                        rows,
+                                      )
+                                    }
+                                    open={false}
+                                    multiple={true}
+                                  >
+                                    <div className="ant-upload-item">
+                                      <div className="add">
+                                        <PlusOutlined />
+                                        <div style={{ marginTop: 8 }}>
+                                          <FormattedMessage id="setting.system.upload" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </AttachmentSelect>
                                 </ProFormText>
                               ) : item.type === 'file' ? (
                                 <ProFormText

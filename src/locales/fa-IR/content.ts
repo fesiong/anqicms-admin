@@ -418,6 +418,7 @@ export default {
   'content.module.field.type.checkbox': 'چند گزینه ای',
   'content.module.field.type.select': 'انتخاب کشویی',
   'content.module.field.type.image': 'تصویر',
+  'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': 'سند',
   'content.module.field.isrequired': 'آیا لازم است؟',
   'content.module.field.isrequired.no': 'اختیاری',

@@ -424,6 +424,7 @@ export default {
   'content.module.field.type.checkbox': 'múltipla escolha',
   'content.module.field.type.select': 'seleção suspensa',
   'content.module.field.type.image': 'foto',
+  'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': 'documento',
   'content.module.field.isrequired': 'É obrigatório?',
   'content.module.field.isrequired.no': 'Opcional',

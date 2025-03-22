@@ -385,6 +385,7 @@ export default {
   'content.module.field.type.checkbox': '多项选择',
   'content.module.field.type.select': '下拉选择',
   'content.module.field.type.image': '图片',
+  'content.module.field.type.images': '组图',
   'content.module.field.type.file': '文件',
   'content.module.field.isrequired': '是否必填',
   'content.module.field.isrequired.no': '选填',
