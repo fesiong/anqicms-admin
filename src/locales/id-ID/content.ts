@@ -475,6 +475,7 @@ export default {
   'content.tags.delete.confirm':
     'Apakah Anda yakin ingin menghapus tag artikel yang dipilih?',
   'content.tags.batch-add': 'Tambahkan tag secara berkelompok',
+  'content.tag.fields': 'Custom fields',
   'content.parent_id.empty': 'Empty',
   'content.parent_id.name': 'Parent',
   'content.children.btn': 'Children',

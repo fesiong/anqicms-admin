@@ -465,6 +465,7 @@ export default {
   'content.tags.first-letter.name': 'インデックスレター',
   'content.tags.delete.confirm': '選択した記事タグを削除してもよろしいですか?',
   'content.tags.batch-add': 'タグをバッチで追加する',
+  'content.tag.fields': 'Custom fields',
   'content.parent_id.empty': 'Empty',
   'content.parent_id.name': 'Parent',
   'content.children.btn': 'Children',

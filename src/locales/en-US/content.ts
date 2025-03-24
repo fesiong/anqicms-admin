@@ -471,6 +471,7 @@ export default {
   'content.tags.delete.confirm':
     'Are you sure you want to delete the selected article tags?',
   'content.tags.batch-add': 'Add tags in batches',
+  'content.tag.fields': 'Custom fields',
   'content.parent_id.empty': 'Empty',
   'content.parent_id.name': 'Parent',
   'content.children.btn': 'Children',

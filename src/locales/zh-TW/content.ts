@@ -430,6 +430,7 @@ export default {
   'content.tags.first-letter.name': '索引字母',
   'content.tags.delete.confirm': '確定要刪除選取的文章標籤嗎？',
   'content.tags.batch-add': '批量新增標籤',
+  'content.tag.fields': '自訂欄位',
   'content.parent_id.empty': '無',
   'content.parent_id.name': '上級文檔',
   'content.children.btn': '下級文檔',

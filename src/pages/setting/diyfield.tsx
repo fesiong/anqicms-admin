@@ -105,6 +105,31 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
     }
   };
 
+  const handleCleanExtraFieldItem = (index: number, idx: number) => {
+    setting[index].value.splice(idx, 1);
+    setSetting([].concat(...setting));
+  };
+
+  const handleUploadExtraFieldItem = (index: number, rows: any) => {
+    if (!setting[index].value) {
+      setting[index].value = [];
+    }
+    for (const row of rows) {
+      let exists = false;
+      for (const i in setting[index].value) {
+        if (setting[index].value[i] === row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        setting[index].value.push(row.logo);
+      }
+    }
+
+    setSetting([].concat(...setting));
+  };
+
   const updateExtraContent = async (index: number, html: string) => {
     handleUpdateFieldValue(index, html);
   };
@@ -508,6 +533,70 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
                         </div>
                       </AttachmentSelect>
                     )}
+                  </ProFormText>
+                ) : item.type === 'images' ? (
+                  <ProFormText
+                    name={[index, 'value']}
+                    label={
+                      <Space size={16}>
+                        <span>
+                          {item.remark} (
+                          {intl.formatMessage({
+                            id: 'setting.system.param-name',
+                          })}
+                          :{item.name})
+                        </span>
+                        <Button
+                          size="small"
+                          onClick={() => handleEditField(index)}
+                        >
+                          <FormattedMessage id="plugin.diyfield.setting" />
+                        </Button>
+                        <span
+                          className="delete-icon"
+                          onClick={() => handleDeleteField(index)}
+                        >
+                          <DeleteOutlined />
+                        </span>
+                      </Space>
+                    }
+                  >
+                    {item.value?.length
+                      ? item.value.map((inner: string, idx: number) => (
+                          <div className="ant-upload-item" key={idx}>
+                            <Image
+                              preview={{
+                                src: inner,
+                              }}
+                              src={inner}
+                            />
+                            <span
+                              className="delete"
+                              onClick={() =>
+                                handleCleanExtraFieldItem(index, idx)
+                              }
+                            >
+                              <DeleteOutlined />
+                            </span>
+                          </div>
+                        ))
+                      : null}
+                    <AttachmentSelect
+                      onSelect={(rows) =>
+                        handleUploadExtraFieldItem(index, rows)
+                      }
+                      open={false}
+                      multiple={true}
+                    >
+                      <div className="ant-upload-item">
+                        <div className="add">
+                          <PlusOutlined />
+                          <div style={{ marginTop: 8 }}>
+                            <FormattedMessage id="setting.system.upload" />
+                          </div>
+                        </div>
+                      </div>
+                    </AttachmentSelect>
                   </ProFormText>
                 ) : item.type === 'file' ? (
                   <ProFormText

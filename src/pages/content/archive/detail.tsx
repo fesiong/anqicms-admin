@@ -236,6 +236,9 @@ class ArchiveForm extends React.Component<intlProps> {
       archive.created_time = 0;
       archive.updated_time = 0;
     }
+    if (typeof archive.extra === 'undefined' || archive.extra === null) {
+      archive.extra = {};
+    }
     let content = archive.data?.content || '';
     archive.flag = archive.flag?.split(',') || [];
     archive.created_moment = dayjs(archive.created_time * 1000);

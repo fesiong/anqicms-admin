@@ -8,7 +8,10 @@ export async function getTags(params?: any, options?: { [key: string]: any }) {
   });
 }
 
-export async function getTagInfo(params?: any, options?: { [key: string]: any }) {
+export async function getTagInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/tag/detail',
     params,
@@ -27,6 +30,28 @@ export async function saveTag(body: any, options?: { [key: string]: any }) {
 export async function deleteTag(body: any, options?: { [key: string]: any }) {
   return post({
     url: '/plugin/tag/delete',
+    body,
+    options,
+  });
+}
+
+export async function getTagFields(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/plugin/tag/fields',
+    params,
+    options,
+  });
+}
+
+export async function saveTagFields(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/tag/fields',
     body,
     options,
   });

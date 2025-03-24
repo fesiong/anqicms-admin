@@ -70,7 +70,7 @@ const ArchiveCategoryDetail: React.FC = () => {
       id: id,
     });
     let cat = catRes.data || { status: 1, parent_id: parent_id, extra: {} };
-    if (typeof cat.extra === 'undefined') {
+    if (typeof cat.extra === 'undefined' || cat.extra === null) {
       cat.extra = {};
     }
     let moduleId = cat.module_id || 1;

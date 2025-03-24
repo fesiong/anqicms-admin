@@ -475,6 +475,7 @@ export default {
   'content.tags.delete.confirm':
     'Вы уверены, что хотите удалить выбранные теги статей?',
   'content.tags.batch-add': 'Добавляйте теги пакетно',
+  'content.tag.fields': 'Custom fields',
   'content.parent_id.empty': 'Empty',
   'content.parent_id.name': 'Parent',
   'content.children.btn': 'Children',

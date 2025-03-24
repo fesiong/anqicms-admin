@@ -433,6 +433,7 @@ export default {
   'content.tags.first-letter.name': '索引字母',
   'content.tags.delete.confirm': '确定要删除选中的文章标签吗？',
   'content.tags.batch-add': '批量添加标签',
+  'content.tag.fields': '自定义字段',
   'content.parent_id.empty': '无',
   'content.parent_id.name': '上级文档',
   'content.children.btn': '下级文档',

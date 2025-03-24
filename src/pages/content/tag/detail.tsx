@@ -1,18 +1,23 @@
 import NewContainer from '@/components/NewContainer';
 import AttachmentSelect from '@/components/attachment';
+import CollapseItem from '@/components/collaspeItem';
 import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
 import {
   getCategories,
   getDesignTemplateFiles,
   getSettingContent,
+  getTagFields,
   getTagInfo,
   saveTag,
 } from '@/services';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   ProForm,
+  ProFormCheckbox,
+  ProFormDigit,
   ProFormInstance,
+  ProFormRadio,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
@@ -31,6 +36,8 @@ const ArchiveTagDetail: React.FC = () => {
   const [tag, setTag] = useState<any>({});
   const [tagLogo, setTagLogo] = useState<string>('');
   const [newKey, setNewKey] = useState<string>('');
+  const [tagFields, setTagFields] = useState<any>([]);
+  const [extraContent, setExtraContent] = useState<any>({});
   const editorRef = useRef(null);
 
   const initData = async () => {
@@ -40,9 +47,27 @@ const ArchiveTagDetail: React.FC = () => {
       id = 0;
     }
     const res1 = await getTagInfo({ id: id });
-    setTag(res1?.data || {});
+    const tag = res1?.data || {};
+    if (typeof tag.extra === 'undefined' || tag.extra === null) {
+      tag.extra = {};
+    }
+    console.log(typeof tag.extra);
+    setTag(tag);
     setTagLogo(res1?.data?.logo || '');
     setContent(res1?.data?.content || '');
+    const resTag = await getTagFields();
+    const tagFields = resTag?.data || [];
+    setTagFields(tagFields);
+    let extraContent: any = {};
+    // eslint-disable-next-line guard-for-in
+    for (let i in tagFields) {
+      let field = tagFields[i];
+      if (field.type === 'editor') {
+        extraContent[field.field_name] = tag.extra?.[field.field_name] || '';
+      }
+    }
+    setExtraContent(extraContent);
+
     const res2 = await getSettingContent();
     setContentSetting(res2.data || {});
     setLoaded(true);
@@ -79,6 +104,13 @@ const ArchiveTagDetail: React.FC = () => {
       message.error(intl.formatMessage({ id: 'content.title.required' }));
       return;
     }
+    // eslint-disable-next-line guard-for-in
+    for (let field in extraContent) {
+      if (!tagInfo.extra?.[field]) {
+        tagInfo.extra[field] = null;
+      }
+      tagInfo.extra[field] = extraContent[field];
+    }
     const res = await saveTag(tagInfo);
     if (res.code === 0) {
       message.info(res.msg);
@@ -96,6 +128,65 @@ const ArchiveTagDetail: React.FC = () => {
 
       event.preventDefault();
     }
+  };
+
+  const handleCleanExtraField = (field: string) => {
+    const extra: any = {};
+    extra[field] = null;
+    formRef.current?.setFieldsValue({ extra });
+
+    delete tag.extra[field];
+    setTag(tag);
+  };
+
+  const handleUploadExtraField = (field: string, row: any) => {
+    const extra: any = {};
+    extra[field] = row.logo;
+    formRef.current?.setFieldsValue({ extra });
+    if (!tag.extra[field]) {
+      tag.extra[field] = null;
+    }
+    tag.extra[field] = row.logo;
+
+    setTag(tag);
+  };
+
+  const handleCleanExtraFieldItem = (field: string, index: number) => {
+    tag.extra[field]?.splice(index, 1);
+    const extra: any = {};
+    extra[field] = tag.extra[field];
+    formRef?.current?.setFieldsValue({ extra });
+
+    setTag(Object.assign({}, tag));
+  };
+
+  const handleUploadExtraFieldItem = (field: string, rows: any) => {
+    console.log(tag.extra);
+    if (!tag.extra[field]) {
+      tag.extra[field] = [];
+    }
+    for (const row of rows) {
+      let exists = false;
+      for (const i in tag.extra[field]) {
+        if (tag.extra[field][i] === row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        tag.extra[field].push(row.logo);
+      }
+    }
+    const extra: any = {};
+    extra[field] = tag.extra[field];
+    formRef?.current?.setFieldsValue({ extra });
+
+    setTag(Object.assign({}, tag));
+  };
+
+  const updateExtraContent = async (field: string, html: string) => {
+    extraContent[field] = html;
+    setExtraContent(extraContent);
   };
 
   return (
@@ -132,6 +223,282 @@ const ArchiveTagDetail: React.FC = () => {
                   name="description"
                   label={intl.formatMessage({ id: 'content.description.name' })}
                 />
+                {tagFields && (
+                  <CollapseItem
+                    header={intl.formatMessage({
+                      id: 'content.param.extra-fields',
+                    })}
+                    open
+                    showArrow
+                    key="2"
+                  >
+                    <Row gutter={20}>
+                      {tagFields.map(
+                        (item: any, index: number) =>
+                          item.type !== 'editor' && (
+                            <Col sm={12} xs={24} key={index}>
+                              {item.type === 'text' ? (
+                                <ProFormText
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                  required={item.required ? true : false}
+                                  placeholder={
+                                    item.content &&
+                                    intl.formatMessage({
+                                      id: 'content.param.default',
+                                    }) + item.content
+                                  }
+                                />
+                              ) : item.type === 'number' ? (
+                                <ProFormDigit
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                  required={item.required ? true : false}
+                                  placeholder={
+                                    item.content &&
+                                    intl.formatMessage({
+                                      id: 'content.param.default',
+                                    }) + item.content
+                                  }
+                                />
+                              ) : item.type === 'textarea' ? (
+                                <ProFormTextArea
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                  required={item.required ? true : false}
+                                  placeholder={
+                                    item.content &&
+                                    intl.formatMessage({
+                                      id: 'content.param.default',
+                                    }) + item.content
+                                  }
+                                />
+                              ) : item.type === 'editor' ? (
+                                ''
+                              ) : item.type === 'radio' ? (
+                                <ProFormRadio.Group
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                  request={async () => {
+                                    const tmpData = item.content.split('\n');
+                                    const data = [];
+                                    for (const item1 of tmpData) {
+                                      data.push({
+                                        label: item1,
+                                        value: item1,
+                                      });
+                                    }
+                                    return data;
+                                  }}
+                                />
+                              ) : item.type === 'checkbox' ? (
+                                <ProFormCheckbox.Group
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                  request={async () => {
+                                    const tmpData = item.content.split('\n');
+                                    const data = [];
+                                    for (const item1 of tmpData) {
+                                      data.push({
+                                        label: item1,
+                                        value: item1,
+                                      });
+                                    }
+                                    return data;
+                                  }}
+                                />
+                              ) : item.type === 'select' ? (
+                                <ProFormSelect
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                  request={async () => {
+                                    const tmpData = item.content.split('\n');
+                                    const data = [];
+                                    for (const item1 of tmpData) {
+                                      data.push({
+                                        label: item1,
+                                        value: item1,
+                                      });
+                                    }
+                                    return data;
+                                  }}
+                                />
+                              ) : item.type === 'image' ? (
+                                <ProFormText
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                >
+                                  {tag.extra?.[item.field_name] ? (
+                                    <div className="ant-upload-item">
+                                      <Image
+                                        preview={{
+                                          src: tag.extra[item.field_name],
+                                        }}
+                                        src={tag.extra[item.field_name]}
+                                      />
+                                      <span
+                                        className="delete"
+                                        onClick={() =>
+                                          handleCleanExtraField(item.field_name)
+                                        }
+                                      >
+                                        <DeleteOutlined />
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <AttachmentSelect
+                                      onSelect={(row) =>
+                                        handleUploadExtraField(
+                                          item.field_name,
+                                          row,
+                                        )
+                                      }
+                                      open={false}
+                                    >
+                                      <div className="ant-upload-item">
+                                        <div className="add">
+                                          <PlusOutlined />
+                                          <div style={{ marginTop: 8 }}>
+                                            <FormattedMessage id="setting.system.upload" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </AttachmentSelect>
+                                  )}
+                                </ProFormText>
+                              ) : item.type === 'images' ? (
+                                <ProFormText
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                >
+                                  {tag.extra?.[item.field_name]?.length
+                                    ? tag.extra[item.field_name]?.map(
+                                        (inner: string, idx: number) => (
+                                          <div
+                                            className="ant-upload-item"
+                                            key={idx}
+                                          >
+                                            <Image
+                                              preview={{
+                                                src: inner,
+                                              }}
+                                              src={inner}
+                                            />
+                                            <span
+                                              className="delete"
+                                              onClick={() =>
+                                                handleCleanExtraFieldItem(
+                                                  item.field_name,
+                                                  idx,
+                                                )
+                                              }
+                                            >
+                                              <DeleteOutlined />
+                                            </span>
+                                          </div>
+                                        ),
+                                      )
+                                    : null}
+                                  <AttachmentSelect
+                                    onSelect={(rows) =>
+                                      handleUploadExtraFieldItem(
+                                        item.field_name,
+                                        rows,
+                                      )
+                                    }
+                                    open={false}
+                                    multiple={true}
+                                  >
+                                    <div className="ant-upload-item">
+                                      <div className="add">
+                                        <PlusOutlined />
+                                        <div style={{ marginTop: 8 }}>
+                                          <FormattedMessage id="setting.system.upload" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </AttachmentSelect>
+                                </ProFormText>
+                              ) : item.type === 'file' ? (
+                                <ProFormText
+                                  name={['extra', item.field_name]}
+                                  label={item.name}
+                                >
+                                  {tag.extra?.[item.field_name] ? (
+                                    <div className="ant-upload-item ant-upload-file">
+                                      <span>{tag.extra[item.field_name]}</span>
+                                      <span
+                                        className="delete"
+                                        onClick={() =>
+                                          handleCleanExtraField(item.field_name)
+                                        }
+                                      >
+                                        <DeleteOutlined />
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <AttachmentSelect
+                                      onSelect={(row) =>
+                                        handleUploadExtraField(
+                                          item.field_name,
+                                          row,
+                                        )
+                                      }
+                                      open={false}
+                                    >
+                                      <Button>
+                                        <FormattedMessage id="setting.system.upload" />
+                                      </Button>
+                                    </AttachmentSelect>
+                                  )}
+                                </ProFormText>
+                              ) : (
+                                ''
+                              )}
+                            </Col>
+                          ),
+                      )}
+                    </Row>
+                    {tagFields.map(
+                      (item: any, index: number) =>
+                        item.type === 'editor' && (
+                          <ProFormText
+                            key={index}
+                            label={item.name}
+                            required={item.required ? true : false}
+                            extra={
+                              item.content &&
+                              intl.formatMessage({
+                                id: 'content.param.default',
+                              }) + item.content
+                            }
+                          >
+                            {contentSetting.editor === 'markdown' ? (
+                              <MarkdownEditor
+                                className="mb-normal"
+                                setContent={(html) =>
+                                  updateExtraContent(item.field_name, html)
+                                }
+                                content={extraContent[item.field_name] || ''}
+                                ref={null}
+                              />
+                            ) : (
+                              <WangEditor
+                                className="mb-normal"
+                                setContent={(html) =>
+                                  updateExtraContent(item.field_name, html)
+                                }
+                                content={extraContent[item.field_name] || ''}
+                                key={item.field_name}
+                                field={item.field_name}
+                                ref={null}
+                              />
+                            )}
+                          </ProFormText>
+                        ),
+                    )}
+                  </CollapseItem>
+                )}
                 {contentSetting.editor === 'markdown' ? (
                   <MarkdownEditor
                     className="mb-normal"

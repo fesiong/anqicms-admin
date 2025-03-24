@@ -471,6 +471,7 @@ export default {
   'content.tags.delete.confirm':
     'آیا مطمئن هستید که می خواهید برچسب های مقاله انتخاب شده را حذف کنید؟',
   'content.tags.batch-add': 'برچسب ها را به صورت دسته ای اضافه کنید',
+  'content.tag.fields': 'Custom fields',
   'content.parent_id.empty': 'Empty',
   'content.parent_id.name': 'Parent',
   'content.children.btn': 'Children',

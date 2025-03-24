@@ -478,6 +478,7 @@ export default {
   'content.tags.delete.confirm':
     'Tem certeza de que deseja excluir as tags de artigo selecionadas?',
   'content.tags.batch-add': 'Adicione tags em lotes',
+  'content.tag.fields': 'Custom fields',
   'content.parent_id.empty': 'Empty',
   'content.parent_id.name': 'Parent',
   'content.children.btn': 'Children',

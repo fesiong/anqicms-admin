@@ -12,6 +12,7 @@ import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import BatchForm from './components/batchForm';
+import TagFieldsForm from './components/fields';
 import './index.less';
 
 const ArticleTag: React.FC = () => {
@@ -20,6 +21,7 @@ const ArticleTag: React.FC = () => {
   const [batchVisible, setBatchVisible] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const [isSubSite, setIsSubSite] = useState<boolean>(false);
+  const [fieldsVisible, setFieldsVisible] = useState<boolean>(false);
   const intl = useIntl();
 
   const onTabChange = (key: string, isSubSite: boolean) => {
@@ -62,6 +64,10 @@ const ArticleTag: React.FC = () => {
 
   const handleAddTags = () => {
     setBatchVisible(true);
+  };
+
+  const handleEditFields = () => {
+    setFieldsVisible(true);
   };
 
   const columns: ProColumns<any>[] = [
@@ -172,6 +178,15 @@ const ArticleTag: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
+          <Button
+            type="default"
+            key="fields"
+            onClick={() => {
+              handleEditFields();
+            }}
+          >
+            <FormattedMessage id="content.tag.fields" />
+          </Button>,
           !isSubSite && (
             <Button
               type="default"
@@ -239,6 +254,17 @@ const ArticleTag: React.FC = () => {
             if (actionRef.current) {
               actionRef.current.reload();
             }
+          }}
+        />
+      )}
+      {fieldsVisible && (
+        <TagFieldsForm
+          open={fieldsVisible}
+          onCancel={() => {
+            setFieldsVisible(false);
+          }}
+          onSubmit={async () => {
+            setFieldsVisible(false);
           }}
         />
       )}
