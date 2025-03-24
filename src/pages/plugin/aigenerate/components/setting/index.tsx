@@ -280,7 +280,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 {
                   cn: '简体中文',
                   value: 'zh-CN',
-                  label: 'zh-CN',
+                  label: 'zh-cn',
                 },
               ].map((item) => {
                 return {
