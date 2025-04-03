@@ -55,6 +55,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
           running = false;
           props.onOpenChange(false);
         }
+        clearInterval(intXhr);
         setTask(null);
       }
     });
@@ -188,7 +189,9 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
                   }),
               );
               running = true;
-              syncTask();
+              intXhr = setInterval(() => {
+                syncTask();
+              }, 1000);
             }
           }
         } catch (err) {
@@ -205,7 +208,9 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
         .then((res) => {
           message.success(res.msg);
           running = true;
-          syncTask();
+          intXhr = setInterval(() => {
+            syncTask();
+          }, 1000);
         })
         .finally(() => {
           hide();

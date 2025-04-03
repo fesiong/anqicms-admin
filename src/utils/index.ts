@@ -1,7 +1,7 @@
 import config from '@/services/config';
 import { message } from 'antd';
 import SparkMD5 from 'spark-md5';
-import { getStore } from './store';
+import { getSessionStore, getStore } from './store';
 
 /**
  * 校验是否登录
@@ -154,67 +154,113 @@ export const case2Camel = function (str: string) {
     .replaceAll(' ', '');
 };
 
-export const downloadFile = (url: string, params?: any, newName?: string) => {
-  //强制等待1秒钟
-  let hide = message.loading('正在下载中');
+export const downloadFile = async (
+  downUrl: string,
+  params?: any,
+  newName?: string,
+) => {
+  let hide = message.loading({
+    content: '准备下载',
+    key: 'loading',
+    duration: 0,
+  });
+  let progress = 0;
 
-  let headers = {
-    admin: getStore('adminToken'),
-    'Content-Type': 'application/json',
-  };
-  let fileName = newName || 'file';
-  return fetch(config.baseUrl + url, {
-    headers: headers,
-    method: 'post',
-    body: JSON.stringify(params),
-  })
-    .then((res: any) => {
-      if (res.status !== 200) {
-        message.destroy();
-        message.error('文件打包失败' + res.statusText);
-        return;
-      }
-      let tmpName = res.headers
-        .get('Content-Disposition')
-        ?.split(';')[1]
-        ?.split('filename')[1];
-      if (tmpName) {
-        if (tmpName.indexOf("'") !== -1) {
-          tmpName = tmpName.substring(tmpName.lastIndexOf("'") + 1);
-        }
-        tmpName = tmpName.substring(tmpName.lastIndexOf('=') + 1);
-        fileName = tmpName;
-      }
-      res
-        .blob()
-        .then((blob: any) => {
-          if (blob.type === 'application/json') {
-            //json 报错了
-            let reader = new FileReader();
-            reader.readAsText(blob, 'utf-8');
-            reader.onload = () => {
-              let data = JSON.parse(reader.result as string);
-              message.error(data.msg);
-            };
-            return;
-          }
-          let a = document.createElement('a');
-          let blobUrl = window?.URL?.createObjectURL(blob);
-          a.href = blobUrl;
-          a.download = fileName + '';
-          a.click();
-          window?.URL?.revokeObjectURL(blobUrl);
-        })
-        .catch((err: any) => {
-          console.log(err);
-          message.destroy();
-          message.error('文件打包失败' + err);
-        });
-    })
-    .finally(() => {
-      hide();
-      return Promise.resolve({});
+  try {
+    let headers: any = {
+      admin: getStore('adminToken'),
+      'Content-Type': 'application/json',
+    };
+    const sessionToken = getSessionStore('adminToken');
+    if (sessionToken) {
+      headers.admin = sessionToken;
+    }
+    const siteId = getSessionStore('site-id');
+    if (siteId) {
+      headers['Site-Id'] = siteId;
+    }
+    const subSiteId = getSessionStore('sub-site-id');
+    if (subSiteId) {
+      headers['Sub-Site-Id'] = subSiteId;
+    }
+
+    const response = await fetch(config.baseUrl + downUrl, {
+      headers: headers,
+      method: 'post',
+      body: JSON.stringify(params),
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    let fileName = newName || 'file';
+    const contentDisposition = response.headers.get('Content-Disposition');
+    if (contentDisposition) {
+      // 处理 filename*=UTF-8''encoded-filename 格式
+      let utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;\n]+)/i);
+      if (utf8Match && utf8Match[1]) {
+        fileName = decodeURIComponent(utf8Match[1]);
+      } else {
+        // 处理 filename="filename" 或 filename=filename 格式
+        let match = contentDisposition.match(/filename=["']?([^"';\n]+)["']?/i);
+        if (match && match[1]) {
+          fileName = match[1];
+        }
+      }
+    }
+
+    // 检查是否为JSON错误响应
+    const contentType = response.headers.get('Content-Type');
+    if (contentType && contentType.includes('application/json')) {
+      const data = await response.json();
+      throw new Error(data.msg || '下载失败');
+    }
+
+    const contentLength = response.headers.get('Content-Length');
+    const total = parseInt(contentLength || '0', 10);
+    const reader = response.body?.getReader();
+    const chunks: Uint8Array[] = [];
+
+    if (!reader) {
+      throw new Error('无法读取响应数据');
+    }
+
+    let receivedLength = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      chunks.push(value);
+      receivedLength += value.length;
+
+      if (total > 0) {
+        progress = (receivedLength / total) * 100;
+        hide = message.loading({
+          content: `正在下载中 ${Math.round(progress)}%`,
+          key: 'loading',
+          duration: 0,
+        });
+      }
+    }
+
+    const blob = new Blob(chunks);
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+
+    message.success('下载完成');
+  } catch (error: any) {
+    console.error('Download error:', error);
+    message.error(error.message || '文件下载失败');
+  } finally {
+    hide();
+  }
 };
 
 export const calculateFileMd5 = (file: any) => {

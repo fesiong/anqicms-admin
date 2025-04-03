@@ -43,9 +43,9 @@ const PluginUserGroup: React.FC = () => {
       } else {
         if (running) {
           running = false;
-          clearInterval(intXhr);
           actionRef.current?.reload();
         }
+        clearInterval(intXhr);
         setTask(null);
       }
     });
