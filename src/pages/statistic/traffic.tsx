@@ -36,6 +36,7 @@ const StatisticTraffic: React.FC<any> = () => {
     xField: 'date',
     yField: 'value',
     seriesField: 'label',
+    colorField: 'label',
     xAxis: {
       // type: 'timeCat',
       tickCount: 5,

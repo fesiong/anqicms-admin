@@ -133,6 +133,7 @@ const Dashboard: React.FC = () => {
     xField: 'date',
     yField: 'value',
     seriesField: 'label',
+    colorField: 'label',
     xAxis: {
       // type: 'timeCat',
       tickCount: 5,
@@ -146,6 +147,7 @@ const Dashboard: React.FC = () => {
     xField: 'date',
     yField: 'value',
     seriesField: 'label',
+    colorField: 'label',
     xAxis: {
       // type: 'timeCat',
       tickCount: 5,
@@ -159,6 +161,7 @@ const Dashboard: React.FC = () => {
     xField: 'date',
     yField: 'value',
     seriesField: 'label',
+    colorField: 'label',
     xAxis: {
       // type: 'timeCat',
       tickCount: 5,
