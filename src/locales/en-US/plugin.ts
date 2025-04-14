@@ -474,6 +474,8 @@ export default {
   'plugin.htmlcache.storage-type.tencent': 'Tencent Cloud Storage',
   'plugin.htmlcache.storage-type.qiniu': 'Qiniu Cloud Storage',
   'plugin.htmlcache.storage-type.upyun': 'Another shot of cloud storage',
+  'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
+  'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
   'plugin.htmlcache.storage-type.ftp': 'FTP transfer',
   'plugin.htmlcache.storage-type.ssh': 'SFTP (SSH) transfer',
   'plugin.htmlcache.storage-url': 'Static website address',
@@ -500,6 +502,15 @@ export default {
   'plugin.htmlcache.upyun.password': 'Take the cloud operator password again',
   'plugin.htmlcache.upyun.bucket':
     'Also take a look at the cloud storage service name',
+  'plugin.htmlcache.google.project_id': 'Google Cloud Project ID',
+  'plugin.htmlcache.google.project_id.placeholder': 'For example: anqicms',
+  'plugin.htmlcache.google.bucket_name': 'Google Cloud Bucket Name',
+  'plugin.htmlcache.google.credentials_json': 'Google Cloud Key File Json',
+  'plugin.htmlcache.google.credentials_json.placeholder':
+    'Please copy from the Json file',
+  'plugin.htmlcache.awss3.s3_region': 'Amazon S3 Region',
+  'plugin.htmlcache.awss3.s3_region.placeholder': 'For example: us-east-1',
+  'plugin.htmlcache.awss3.s3_bucket': 'Amazon S3 Bucket Name',
   'plugin.htmlcache.ftp.tips':
     'Note: After testing, the PureFtp that comes with Pagoda cannot be used normally.',
   'plugin.htmlcache.ftp.host': 'FTP IP address',

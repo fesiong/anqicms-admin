@@ -473,6 +473,8 @@ export default {
   'plugin.htmlcache.storage-type.tencent': 'টেনসেন্ট ক্লাউড স্টোরেজ',
   'plugin.htmlcache.storage-type.qiniu': 'কিনিউ ক্লাউড স্টোরেজ',
   'plugin.htmlcache.storage-type.upyun': 'ক্লাউড স্টোরেজের আরেকটি শট',
+  'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
+  'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
   'plugin.htmlcache.storage-type.ftp': 'FTP স্থানান্তর',
   'plugin.htmlcache.storage-type.ssh': 'SFTP (SSH) স্থানান্তর',
   'plugin.htmlcache.storage-url': 'স্ট্যাটিক ওয়েবসাইটের ঠিকানা',
@@ -499,6 +501,15 @@ export default {
   'plugin.htmlcache.upyun.password': 'আবার ক্লাউড অপারেটরের পাসওয়ার্ড নিন',
   'plugin.htmlcache.upyun.bucket':
     'এছাড়াও ক্লাউড স্টোরেজ পরিষেবার নামটি দেখুন',
+  'plugin.htmlcache.google.project_id': 'Google Cloud Project ID',
+  'plugin.htmlcache.google.project_id.placeholder': 'For example: anqicms',
+  'plugin.htmlcache.google.bucket_name': 'Google Cloud Bucket Name',
+  'plugin.htmlcache.google.credentials_json': 'Google Cloud Key File Json',
+  'plugin.htmlcache.google.credentials_json.placeholder':
+    'Please copy from the Json file',
+  'plugin.htmlcache.awss3.s3_region': 'Amazon S3 Region',
+  'plugin.htmlcache.awss3.s3_region.placeholder': 'For example: us-east-1',
+  'plugin.htmlcache.awss3.s3_bucket': 'Amazon S3 Bucket Name',
   'plugin.htmlcache.ftp.tips':
     'দ্রষ্টব্য: পরীক্ষার পর, প্যাগোডার সাথে আসা PureFtp সাধারণত ব্যবহার করা যাবে না।',
   'plugin.htmlcache.ftp.host': 'FTP আইপি ঠিকানা',

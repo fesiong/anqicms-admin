@@ -479,6 +479,8 @@ export default {
   'plugin.htmlcache.storage-type.qiniu': 'Armazenamento em nuvem Qiniu',
   'plugin.htmlcache.storage-type.upyun':
     'Outra chance de armazenamento em nuvem',
+  'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
+  'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
   'plugin.htmlcache.storage-type.ftp': 'Transferência FTP',
   'plugin.htmlcache.storage-type.ssh': 'Transferência SFTP (SSH)',
   'plugin.htmlcache.storage-url': 'Endereço do site estático',
@@ -508,6 +510,15 @@ export default {
     'Pegue a senha do operador de nuvem novamente',
   'plugin.htmlcache.upyun.bucket':
     'Dê uma olhada também no nome do serviço de armazenamento em nuvem',
+  'plugin.htmlcache.google.project_id': 'Google Cloud Project ID',
+  'plugin.htmlcache.google.project_id.placeholder': 'For example: anqicms',
+  'plugin.htmlcache.google.bucket_name': 'Google Cloud Bucket Name',
+  'plugin.htmlcache.google.credentials_json': 'Google Cloud Key File Json',
+  'plugin.htmlcache.google.credentials_json.placeholder':
+    'Please copy from the Json file',
+  'plugin.htmlcache.awss3.s3_region': 'Amazon S3 Region',
+  'plugin.htmlcache.awss3.s3_region.placeholder': 'For example: us-east-1',
+  'plugin.htmlcache.awss3.s3_bucket': 'Amazon S3 Bucket Name',
   'plugin.htmlcache.ftp.tips':
     'Nota: Após o teste, o PureFtp que acompanha o Pagoda não pode ser usado normalmente.',
   'plugin.htmlcache.ftp.host': 'Endereço IP FTP',

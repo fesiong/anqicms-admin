@@ -471,6 +471,8 @@ export default {
   'plugin.htmlcache.storage-type.tencent': 'テンセントクラウドストレージ',
   'plugin.htmlcache.storage-type.qiniu': 'Qiniu クラウド ストレージ',
   'plugin.htmlcache.storage-type.upyun': 'クラウドストレージの別ショット',
+  'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
+  'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
   'plugin.htmlcache.storage-type.ftp': 'FTP転送',
   'plugin.htmlcache.storage-type.ssh': 'SFTP(SSH)転送',
   'plugin.htmlcache.storage-url': '静的な Web サイトのアドレス',
@@ -498,6 +500,15 @@ export default {
     'クラウドオペレーターのパスワードを再度取得します',
   'plugin.htmlcache.upyun.bucket':
     'クラウドストレージサービス名にも注目してください',
+  'plugin.htmlcache.google.project_id': 'Google Cloud Project ID',
+  'plugin.htmlcache.google.project_id.placeholder': 'For example: anqicms',
+  'plugin.htmlcache.google.bucket_name': 'Google Cloud Bucket Name',
+  'plugin.htmlcache.google.credentials_json': 'Google Cloud Key File Json',
+  'plugin.htmlcache.google.credentials_json.placeholder':
+    'Please copy from the Json file',
+  'plugin.htmlcache.awss3.s3_region': 'Amazon S3 Region',
+  'plugin.htmlcache.awss3.s3_region.placeholder': 'For example: us-east-1',
+  'plugin.htmlcache.awss3.s3_bucket': 'Amazon S3 Bucket Name',
   'plugin.htmlcache.ftp.tips':
     '注: テスト後、Pagoda に付属の PureFtp は正常に使用できなくなります。',
   'plugin.htmlcache.ftp.host': 'FTPのIPアドレス',

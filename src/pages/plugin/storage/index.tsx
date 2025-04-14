@@ -9,6 +9,7 @@ import {
   ProFormDigit,
   ProFormRadio,
   ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Divider, Upload, message } from 'antd';
@@ -123,6 +124,18 @@ const PluginStorage: React.FC<any> = () => {
                     value: 'upyun',
                     label: intl.formatMessage({
                       id: 'plugin.htmlcache.storage-type.upyun',
+                    }),
+                  },
+                  {
+                    value: 'google',
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.google',
+                    }),
+                  },
+                  {
+                    value: 'awss3',
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.awss3',
                     }),
                   },
                   {
@@ -320,6 +333,67 @@ const PluginStorage: React.FC<any> = () => {
                   name="upyun_bucket"
                   label={intl.formatMessage({
                     id: 'plugin.htmlcache.upyun.bucket',
+                  })}
+                  placeholder=""
+                />
+              </div>
+              <div className={storageType !== 'google' ? 'hidden' : ''}>
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.google" />
+                </Divider>
+                <ProFormText
+                  name="google_project_id"
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.google.project_id',
+                  })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.htmlcache.google.project_id.placeholder',
+                  })}
+                />
+                <ProFormText
+                  name="google_bucket_name"
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.google.bucket_name',
+                  })}
+                  placeholder=""
+                />
+                <ProFormTextArea
+                  name="google_credentials_json"
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.google.credentials_json',
+                  })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.htmlcache.google.credentials_json.placeholder',
+                  })}
+                />
+              </div>
+              <div className={storageType !== 'awss3' ? 'hidden' : ''}>
+                <Divider>
+                  <FormattedMessage id="plugin.htmlcache.storage-type.awss3" />
+                </Divider>
+                <ProFormText
+                  name="s3_region"
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.awss3.s3_region',
+                  })}
+                  placeholder={intl.formatMessage({
+                    id: 'plugin.htmlcache.awss3.s3_region.placeholder',
+                  })}
+                />
+                <ProFormText
+                  name="s3_access_key"
+                  label="AccessKey"
+                  placeholder=""
+                />
+                <ProFormText
+                  name="s3_secret_key"
+                  label="SecretKey"
+                  placeholder=""
+                />
+                <ProFormText
+                  name="s3_bucket"
+                  label={intl.formatMessage({
+                    id: 'plugin.htmlcache.awss3.s3_bucket',
                   })}
                   placeholder=""
                 />
