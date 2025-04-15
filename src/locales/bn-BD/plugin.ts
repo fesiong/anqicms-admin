@@ -475,6 +475,7 @@ export default {
   'plugin.htmlcache.storage-type.upyun': 'ক্লাউড স্টোরেজের আরেকটি শট',
   'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
   'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
+  'plugin.htmlcache.storage-type.r2': 'Cloudflare R2',
   'plugin.htmlcache.storage-type.ftp': 'FTP স্থানান্তর',
   'plugin.htmlcache.storage-type.ssh': 'SFTP (SSH) স্থানান্তর',
   'plugin.htmlcache.storage-url': 'স্ট্যাটিক ওয়েবসাইটের ঠিকানা',

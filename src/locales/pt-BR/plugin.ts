@@ -481,6 +481,7 @@ export default {
     'Outra chance de armazenamento em nuvem',
   'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
   'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
+  'plugin.htmlcache.storage-type.r2': 'Cloudflare R2',
   'plugin.htmlcache.storage-type.ftp': 'Transferência FTP',
   'plugin.htmlcache.storage-type.ssh': 'Transferência SFTP (SSH)',
   'plugin.htmlcache.storage-url': 'Endereço do site estático',

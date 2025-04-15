@@ -139,6 +139,12 @@ const PluginStorage: React.FC<any> = () => {
                     }),
                   },
                   {
+                    value: 'r2',
+                    label: intl.formatMessage({
+                      id: 'plugin.htmlcache.storage-type.r2',
+                    }),
+                  },
+                  {
                     value: 'ftp',
                     label: intl.formatMessage({
                       id: 'plugin.htmlcache.storage-type.ftp',
@@ -367,7 +373,13 @@ const PluginStorage: React.FC<any> = () => {
                   })}
                 />
               </div>
-              <div className={storageType !== 'awss3' ? 'hidden' : ''}>
+              <div
+                className={
+                  storageType !== 'awss3' && storageType !== 'r2'
+                    ? 'hidden'
+                    : ''
+                }
+              >
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.awss3" />
                 </Divider>

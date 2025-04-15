@@ -427,6 +427,7 @@ export default {
   'plugin.htmlcache.storage-type.upyun': '又拍雲端儲存',
   'plugin.htmlcache.storage-type.google': '谷歌云存储',
   'plugin.htmlcache.storage-type.awss3': '亚马逊S3存储',
+  'plugin.htmlcache.storage-type.r2': 'Cloudflare R2存储',
   'plugin.htmlcache.storage-type.ftp': 'FTP傳輸',
   'plugin.htmlcache.storage-type.ssh': 'SFTP(SSH)傳輸',
   'plugin.htmlcache.storage-url': '靜態網址',

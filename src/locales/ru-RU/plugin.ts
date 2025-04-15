@@ -478,6 +478,7 @@ export default {
   'plugin.htmlcache.storage-type.upyun': 'Еще один снимок облачного хранилища',
   'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
   'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
+  'plugin.htmlcache.storage-type.r2': 'Cloudflare R2',
   'plugin.htmlcache.storage-type.ftp': 'FTP-передача',
   'plugin.htmlcache.storage-type.ssh': 'SFTP (SSH) передача',
   'plugin.htmlcache.storage-url': 'Статический адрес сайта',

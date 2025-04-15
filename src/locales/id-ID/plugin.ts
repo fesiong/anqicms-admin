@@ -481,6 +481,7 @@ export default {
   'plugin.htmlcache.storage-type.upyun': 'Gambar lain dari penyimpanan cloud',
   'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
   'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
+  'plugin.htmlcache.storage-type.r2': 'Cloudflare R2',
   'plugin.htmlcache.storage-type.ftp': 'Pemindahan FTP',
   'plugin.htmlcache.storage-type.ssh': 'Transfer SFTP (SSH).',
   'plugin.htmlcache.storage-url': 'Alamat situs web statis',

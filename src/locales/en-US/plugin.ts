@@ -476,6 +476,7 @@ export default {
   'plugin.htmlcache.storage-type.upyun': 'Another shot of cloud storage',
   'plugin.htmlcache.storage-type.google': 'Google Cloud Storage',
   'plugin.htmlcache.storage-type.awss3': 'Amazon S3 Storage',
+  'plugin.htmlcache.storage-type.r2': 'Cloudflare R2',
   'plugin.htmlcache.storage-type.ftp': 'FTP transfer',
   'plugin.htmlcache.storage-type.ssh': 'SFTP (SSH) transfer',
   'plugin.htmlcache.storage-url': 'Static website address',
