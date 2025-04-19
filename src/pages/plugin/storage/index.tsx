@@ -383,6 +383,20 @@ const PluginStorage: React.FC<any> = () => {
                 <Divider>
                   <FormattedMessage id="plugin.htmlcache.storage-type.awss3" />
                 </Divider>
+                {storageType === 'r2' && (
+                  <ProFormText name="s3_endpoint" label="Endpoint" />
+                )}
+                {storageType === 'awss3' && (
+                  <ProFormText
+                    name="s3_region"
+                    label={intl.formatMessage({
+                      id: 'plugin.htmlcache.awss3.s3_region',
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: 'plugin.htmlcache.awss3.s3_region.placeholder',
+                    })}
+                  />
+                )}
                 <ProFormText
                   name="s3_region"
                   label={intl.formatMessage({
