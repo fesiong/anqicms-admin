@@ -39,7 +39,11 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       render: (_, record: any) => {
         return (
           <div className="word-wrap">
-            <a href={props.storageUrl + '/' + record.remote_file} target="_blank" rel="noreferrer">
+            <a
+              href={props.storageUrl + '/' + record.remote_file}
+              target="_blank"
+              rel="noreferrer"
+            >
               {record.remote_file}
             </a>
           </div>
@@ -58,11 +62,17 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
       dataIndex: 'status',
       render: (_, record: any) => {
         return record.status === 1 ? (
-          <span><FormattedMessage id="plugin.htmlcache.push-status.success" /></span>
+          <span>
+            <FormattedMessage id="plugin.htmlcache.push-status.success" />
+          </span>
         ) : (
           <Tooltip title={record.error_msg}>
-            <span className="text-red"><FormattedMessage id="plugin.htmlcache.push-status.failure" /></span>
-            {record.error_msg && <ExclamationCircleOutlined className="error-icon" />}
+            <span className="text-red">
+              <FormattedMessage id="plugin.htmlcache.push-status.failure" />
+            </span>
+            {record.error_msg && (
+              <ExclamationCircleOutlined className="error-icon" />
+            )}
           </Tooltip>
         );
       },
@@ -133,6 +143,7 @@ const HtmlPushLog: React.FC<PushLogProps> = (props) => {
           }}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
       </Modal>

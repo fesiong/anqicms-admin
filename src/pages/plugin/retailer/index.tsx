@@ -1,4 +1,7 @@
-import { pluginGetRetailers, pluginSaveRetailer } from '@/services/plugin/retailer';
+import {
+  pluginGetRetailers,
+  pluginSaveRetailer,
+} from '@/services/plugin/retailer';
 import {
   ActionType,
   ModalForm,
@@ -157,6 +160,7 @@ const PluginRetailer: React.FC = () => {
         rowSelection={false}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       {editVisible && (
@@ -168,7 +172,10 @@ const PluginRetailer: React.FC = () => {
           }}
           onFinish={setUserRetailer}
         >
-          <ProFormText name="id" label={intl.formatMessage({ id: 'plugin.retailer.user-id' })} />
+          <ProFormText
+            name="id"
+            label={intl.formatMessage({ id: 'plugin.retailer.user-id' })}
+          />
         </ModalForm>
       )}
       {realnameVisible && (
@@ -188,7 +195,9 @@ const PluginRetailer: React.FC = () => {
           />
           <ProFormText
             name="real_name"
-            label={intl.formatMessage({ id: 'plugin.retailer.change-name.new' })}
+            label={intl.formatMessage({
+              id: 'plugin.retailer.change-name.new',
+            })}
           />
         </ModalForm>
       )}

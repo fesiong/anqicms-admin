@@ -1,4 +1,8 @@
-import { pluginDeleteUserInfo, pluginGetUserGroups, pluginGetUsers } from '@/services';
+import {
+  pluginDeleteUserInfo,
+  pluginGetUserGroups,
+  pluginGetUsers,
+} from '@/services';
 import {
   ActionType,
   PageContainer,
@@ -6,12 +10,12 @@ import {
   ProFormSelect,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import UserFieldSetting from './components/setting';
 import UserForm from './components/userForm';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginUser: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -80,7 +84,9 @@ const PluginUser: React.FC = () => {
       hideInSearch: true,
       width: 70,
       render: (text, record) => {
-        return text ? <img src={record.full_avatar_url} className="list-thumb" /> : null;
+        return text ? (
+          <img src={record.full_avatar_url} className="list-thumb" />
+        ) : null;
       },
     },
     {
@@ -94,7 +100,12 @@ const PluginUser: React.FC = () => {
           <ProFormSelect
             name="group_id"
             request={async () => {
-              return [{ title: intl.formatMessage({ id: 'plugin.user.group.all' }), id: 0 }].concat(userGroups || []);
+              return [
+                {
+                  title: intl.formatMessage({ id: 'plugin.user.group.all' }),
+                  id: 0,
+                },
+              ].concat(userGroups || []);
             }}
             fieldProps={{
               fieldNames: {
@@ -148,9 +159,13 @@ const PluginUser: React.FC = () => {
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button key="add" onClick={handleAddUser}><FormattedMessage id="plugin.user.add" /></Button>,
+          <Button key="add" onClick={handleAddUser}>
+            <FormattedMessage id="plugin.user.add" />
+          </Button>,
           <UserFieldSetting key="setting">
-            <Button><FormattedMessage id="plugin.user.setting" /></Button>
+            <Button>
+              <FormattedMessage id="plugin.user.setting" />
+            </Button>
           </UserFieldSetting>,
         ]}
         tableAlertOptionRender={false}
@@ -165,6 +180,7 @@ const PluginUser: React.FC = () => {
         rowSelection={false}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       {editVisible && (

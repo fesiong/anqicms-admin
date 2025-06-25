@@ -1,6 +1,11 @@
 import ReplaceKeywords from '@/components/replaceKeywords';
 import { getArchives, startCollectorArticle } from '@/services';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
@@ -15,9 +20,14 @@ const PluginCollector: React.FC = () => {
   const startToCollect = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.collector.start.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.aigenerate.start.description' }),
+      content: intl.formatMessage({
+        id: 'plugin.aigenerate.start.description',
+      }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         startCollectorArticle()
           .then((res) => {
             message.success(res.msg);
@@ -94,8 +104,12 @@ const PluginCollector: React.FC = () => {
       render: (_, record) => {
         return (
           <div>
-            <div>{dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
-            <div>{dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}</div>
+            <div>
+              {dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm')}
+            </div>
+            <div>
+              {dayjs(record.updated_time * 1000).format('YYYY-MM-DD HH:mm')}
+            </div>
           </div>
         );
       },
@@ -176,6 +190,7 @@ const PluginCollector: React.FC = () => {
           columns={columns}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
       </Card>

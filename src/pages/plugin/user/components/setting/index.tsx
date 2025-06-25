@@ -27,6 +27,7 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
   const [currentField, setCurrentField] = useState<any>({});
   const [setting, setSetting] = useState<any>({ fields: [] });
   const intl = useIntl();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getSetting = async () => {
     const res = await pluginGetUserFieldsSetting();
@@ -62,6 +63,11 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
     if (!setting.fields) {
       setting.fields = [];
     }
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    const hide = message.loading('loading', 0);
     for (const i in setting.fields) {
       if (setting.fields[i].field_name === values.field_name) {
         exists = true;
@@ -73,6 +79,8 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
     }
     setting.fields = [].concat(setting.fields);
     setSetting(setting);
+    hide();
+    setLoading(false);
     if (actionRef.current) {
       actionRef.current.reload();
     }
@@ -251,6 +259,9 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
               textarea: intl.formatMessage({
                 id: 'content.module.field.type.textarea',
               }),
+              editor: intl.formatMessage({
+                id: 'content.module.field.type.editor',
+              }),
               radio: intl.formatMessage({
                 id: 'content.module.field.type.radio',
               }),
@@ -263,8 +274,20 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
               image: intl.formatMessage({
                 id: 'content.module.field.type.image',
               }),
+              images: intl.formatMessage({
+                id: 'content.module.field.type.images',
+              }),
               file: intl.formatMessage({
                 id: 'content.module.field.type.file',
+              }),
+              texts: intl.formatMessage({
+                id: 'content.module.field.type.texts',
+              }),
+              archive: intl.formatMessage({
+                id: 'content.module.field.type.archive',
+              }),
+              category: intl.formatMessage({
+                id: 'content.module.field.type.category',
               }),
             }}
           />

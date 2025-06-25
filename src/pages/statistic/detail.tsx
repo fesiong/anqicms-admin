@@ -121,6 +121,7 @@ const StatisticDetail: React.FC = () => {
           columns={columns}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
       </Card>

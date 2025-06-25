@@ -572,6 +572,15 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               file: intl.formatMessage({
                 id: 'content.module.field.type.file',
               }),
+              texts: intl.formatMessage({
+                id: 'content.module.field.type.texts',
+              }),
+              archive: intl.formatMessage({
+                id: 'content.module.field.type.archive',
+              }),
+              category: intl.formatMessage({
+                id: 'content.module.field.type.category',
+              }),
             }}
           />
           <ProFormRadio.Group

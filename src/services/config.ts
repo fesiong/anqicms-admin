@@ -2,7 +2,7 @@
 
 let host = '/system/api';
 if (process.env.NODE_ENV === 'development') {
-  host = 'http://127.0.0.1:8001/system/api';
+  host = 'http://127.0.0.1:8888/system/api';
 }
 
 const config = {

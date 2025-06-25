@@ -161,6 +161,7 @@ const PluginRedirect: React.FC = () => {
           }}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
         {editVisible && (

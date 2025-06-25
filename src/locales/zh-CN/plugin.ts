@@ -129,9 +129,16 @@ export default {
   'plugin.anchor.density.description':
     '例如：每100字替换一个锚文本，就填写100，默认100',
   'plugin.anchor.replace-way': '替换方式',
-  'plugin.anchor.replace-way.auto': '自动替换',
-  'plugin.anchor.replace-way.manual': '手动替换',
-  'plugin.anchor.replace-way.description': '内容替换锚文本的方式',
+  'plugin.anchor.replace-way.auto': '数据库自动替换',
+  'plugin.anchor.replace-way.manual': '不做替换',
+  'plugin.anchor.replace-way.render': '文档展示时实时替换',
+  'plugin.anchor.replace-way.description':
+    '内容替换锚文本的方式，数据库自动替换会在保存文档的时候就进行替换，文档展示时实时替换会在文档展示的时候才进行替换',
+  'plugin.anchor.no_strong_tag': '是否加粗相同关键词',
+  'plugin.anchor.no_strong_tag.no': '加粗',
+  'plugin.anchor.no_strong_tag.yes': '不加粗',
+  'plugin.anchor.no_strong_tag.description':
+    '在同一文章中出现相同的关键词，第一个会添加链接，后续的会加粗显示',
   'plugin.anchor.extract': '提取方式',
   'plugin.anchor.extract.auto': '自动提取',
   'plugin.anchor.extract.manual': '手动提取',

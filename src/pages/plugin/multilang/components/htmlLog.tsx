@@ -89,6 +89,7 @@ const TranslateHtmlLog: React.FC<HtmlLogProps> = (props) => {
           columns={columns}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
       </Modal>

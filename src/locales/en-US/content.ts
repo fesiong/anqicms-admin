@@ -252,6 +252,7 @@ export default {
     'Are you sure you want to extract keywords from the document content? Please make sure you have completed the document content. ',
   'content.param.extra-fields': 'Custom parameters',
   'content.param.other': 'Other parameters',
+  'content.param.add-line': 'Add a new line',
   'content.origin-url.name': 'Original address',
   'content.field.default': 'No need to fill in by default',
   'content.origin-url.description':
@@ -419,6 +420,9 @@ export default {
   'content.module.field.type.image': 'picture',
   'content.module.field.type.images': ' group pictures',
   'content.module.field.type.file': 'document',
+  'content.module.field.type.texts': 'Texts',
+  'content.module.field.type.archive': 'Archive',
+  'content.module.field.type.category': 'Category',
   'content.module.field.isrequired': 'Is it required?',
   'content.module.field.isrequired.no': 'Optional',
   'content.module.field.isrequired.yes': 'Required',

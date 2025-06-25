@@ -19,12 +19,12 @@ import {
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { AutoComplete, Button, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import OrderForm from './components/orderForm';
 import OrderSetting from './setting';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginOrder: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -37,7 +37,10 @@ const PluginOrder: React.FC = () => {
   const intl = useIntl();
 
   const exportOrder = async (values: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'plugin.order.loading' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'plugin.order.loading' }),
+      0,
+    );
     if (values.start_date) {
       values.start_time = dayjs(values.start_date).unix();
     }
@@ -198,12 +201,36 @@ const PluginOrder: React.FC = () => {
             name="status"
             request={async () => {
               return [
-                { label: intl.formatMessage({ id: 'plugin.order.status.all' }), value: '' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.wait' }), value: 'waiting' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.paid' }), value: 'paid' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.delivery' }), value: 'delivery' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.finished' }), value: 'finished' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.refunding' }), value: 'refunding' },
+                {
+                  label: intl.formatMessage({ id: 'plugin.order.status.all' }),
+                  value: '',
+                },
+                {
+                  label: intl.formatMessage({ id: 'plugin.order.status.wait' }),
+                  value: 'waiting',
+                },
+                {
+                  label: intl.formatMessage({ id: 'plugin.order.status.paid' }),
+                  value: 'paid',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.order.status.delivery',
+                  }),
+                  value: 'delivery',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.order.status.finished',
+                  }),
+                  value: 'finished',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.order.status.refunding',
+                  }),
+                  value: 'refunding',
+                },
               ];
             }}
           />
@@ -243,7 +270,9 @@ const PluginOrder: React.FC = () => {
               <FormattedMessage id="plugin.order.refund-process" />
             </a>
           )}
-          {(record.status === 1 || record.status === 2 || record.status === 3) && (
+          {(record.status === 1 ||
+            record.status === 2 ||
+            record.status === 3) && (
             <a
               onClick={() => {
                 handleApplyRefund(record);
@@ -266,7 +295,7 @@ const PluginOrder: React.FC = () => {
               handleEditOrder(record);
             }}
           >
-              <FormattedMessage id="plugin.order.view" />
+            <FormattedMessage id="plugin.order.view" />
           </a>
         </Space>
       ),
@@ -292,7 +321,9 @@ const PluginOrder: React.FC = () => {
             <FormattedMessage id="plugin.order.export" />
           </Button>,
           <OrderSetting key="setting" onCancel={() => {}}>
-            <Button><FormattedMessage id="plugin.order.setting" /></Button>
+            <Button>
+              <FormattedMessage id="plugin.order.setting" />
+            </Button>
           </OrderSetting>,
         ]}
         tableAlertOptionRender={false}
@@ -307,6 +338,7 @@ const PluginOrder: React.FC = () => {
         rowSelection={false}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       {editVisible && (
@@ -331,53 +363,97 @@ const PluginOrder: React.FC = () => {
           }}
           onFinish={saveOrderDeliver}
         >
-          <ProFormText name="express_company" label={intl.formatMessage({ id: 'plugin.order.express-company' })}>
+          <ProFormText
+            name="express_company"
+            label={intl.formatMessage({ id: 'plugin.order.express-company' })}
+          >
             <AutoComplete
               options={[
                 {
                   value: '',
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.empty' }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.empty',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.sf' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.sf' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.sf',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.sf',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.ems' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.ems' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.ems',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.ems',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.jd' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.jd' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.jd',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.jd',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.sto' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.sto' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.sto',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.sto',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.yto' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.yto' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.yto',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.yto',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.zto' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.zto' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.zto',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.zto',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.yunda' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.yunda' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.yunda',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.yunda',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.jitu' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.jitu' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.jitu',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.jitu',
+                  }),
                 },
                 {
-                  value: intl.formatMessage({ id: 'plugin.order.express-company.baishi' }),
-                  label: intl.formatMessage({ id: 'plugin.order.express-company.baishi' }),
+                  value: intl.formatMessage({
+                    id: 'plugin.order.express-company.baishi',
+                  }),
+                  label: intl.formatMessage({
+                    id: 'plugin.order.express-company.baishi',
+                  }),
                 },
               ]}
             />
           </ProFormText>
-          <ProFormText name="tracking_number" label={intl.formatMessage({ id: 'plugin.order.tracking-number' })} />
+          <ProFormText
+            name="tracking_number"
+            label={intl.formatMessage({ id: 'plugin.order.tracking-number' })}
+          />
         </ModalForm>
       )}
       {refundVisible && (
@@ -395,7 +471,9 @@ const PluginOrder: React.FC = () => {
             options={[
               {
                 value: 0,
-                label: intl.formatMessage({ id: 'plugin.order.refund.disagree' }),
+                label: intl.formatMessage({
+                  id: 'plugin.order.refund.disagree',
+                }),
               },
               {
                 value: 1,
@@ -421,17 +499,52 @@ const PluginOrder: React.FC = () => {
             initialValue={'paid'}
             request={async () => {
               return [
-                { label: intl.formatMessage({ id: 'plugin.order.status.all' }), value: '' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.wait' }), value: 'waiting' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.paid' }), value: 'paid' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.delivery' }), value: 'delivery' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.finished' }), value: 'finished' },
-                { label: intl.formatMessage({ id: 'plugin.order.status.refunding' }), value: 'refunding' },
+                {
+                  label: intl.formatMessage({ id: 'plugin.order.status.all' }),
+                  value: '',
+                },
+                {
+                  label: intl.formatMessage({ id: 'plugin.order.status.wait' }),
+                  value: 'waiting',
+                },
+                {
+                  label: intl.formatMessage({ id: 'plugin.order.status.paid' }),
+                  value: 'paid',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.order.status.delivery',
+                  }),
+                  value: 'delivery',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.order.status.finished',
+                  }),
+                  value: 'finished',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.order.status.refunding',
+                  }),
+                  value: 'refunding',
+                },
               ];
             }}
           />
-          <ProFormDatePicker name="start_date" label={intl.formatMessage({ id: 'plugin.order.export.start-date' })} width={'lg'} />
-          <ProFormDatePicker name="end_date" label={intl.formatMessage({ id: 'plugin.order.export.end-date' })} width={'lg'} extra={intl.formatMessage({ id: 'plugin.order.export.end-date.description' })} />
+          <ProFormDatePicker
+            name="start_date"
+            label={intl.formatMessage({ id: 'plugin.order.export.start-date' })}
+            width={'lg'}
+          />
+          <ProFormDatePicker
+            name="end_date"
+            label={intl.formatMessage({ id: 'plugin.order.export.end-date' })}
+            width={'lg'}
+            extra={intl.formatMessage({
+              id: 'plugin.order.export.end-date.description',
+            })}
+          />
         </ModalForm>
       )}
       {payVisible && (
@@ -450,7 +563,9 @@ const PluginOrder: React.FC = () => {
             options={[
               {
                 value: 'offline',
-                label: intl.formatMessage({ id: 'plugin.order.pay-way.offline' }),
+                label: intl.formatMessage({
+                  id: 'plugin.order.pay-way.offline',
+                }),
               },
             ]}
           />

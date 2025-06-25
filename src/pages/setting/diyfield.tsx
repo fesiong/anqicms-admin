@@ -3,27 +3,48 @@ import AttachmentSelect from '@/components/attachment';
 import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
 import {
+  getArchives,
+  getCategories,
   getSettingContent,
   getSettingDiyFields,
   saveSettingDiyFields,
 } from '@/services';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  DownOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+  UpOutlined,
+} from '@ant-design/icons';
 import {
   ModalForm,
   ProForm,
   ProFormCheckbox,
   ProFormDigit,
+  ProFormInstance,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Col, Image, Modal, Row, Space, message } from 'antd';
-import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  Card,
+  Col,
+  Image,
+  Modal,
+  Row,
+  Space,
+  Tag,
+  message,
+} from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
 const SettingDiyFieldFrom: React.FC<any> = () => {
+  const formRef = useRef<ProFormInstance>();
   const [addFieldOpen, setAddFieldOpen] = useState<boolean>(false);
   const [currentField, setCurrentField] = useState<any>({});
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
@@ -31,12 +52,44 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any[]>([]);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
+  const [searchArchives, setSearchArchives] = useState<any[]>([
+    {
+      id: 0,
+      title: intl.formatMessage({
+        id: 'content.parent_id.empty',
+      }),
+    },
+  ]);
+  const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
+
+  const getSelectedArchives = (arcIds: number[]) => {
+    if (arcIds.length > 0) {
+      // 存在了再处理
+      getArchives({
+        id: arcIds.join(','),
+        limit: 20,
+      }).then((res) => {
+        if (res.data) {
+          setSelectedArchives(res.data);
+          setSearchArchives(res.data);
+        }
+      });
+    }
+  };
 
   const getSetting = async () => {
     getSettingContent().then(async (res) => {
       setContentSetting(res.data || {});
       const res2 = await getSettingDiyFields();
-      setSetting(res2.data || []);
+      const data = res2.data || [];
+      const arcIds = [];
+      for (const item of data) {
+        if (item.type === 'archive' && item.value > 0) {
+          arcIds.push(item.value);
+        }
+      }
+      getSelectedArchives(arcIds);
+      setSetting(data);
     });
   };
 
@@ -105,6 +158,29 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
     }
   };
 
+  const handleMoveExtraFieldItem = (
+    index: number,
+    idx: number,
+    direction: 'up' | 'down',
+  ) => {
+    if (direction === 'up') {
+      if (idx <= 0) {
+        return;
+      }
+      const temp = setting[index].value[idx];
+      setting[index].value[idx] = setting[index].value[idx - 1];
+      setting[index].value[idx - 1] = temp;
+    } else {
+      if (idx >= setting[index].value.length - 1) {
+        return;
+      }
+      const temp = setting[index].value[idx];
+      setting[index].value[idx] = setting[index].value[idx + 1];
+      setting[index].value[idx + 1] = temp;
+    }
+    setSetting([].concat(...setting));
+  };
+
   const handleCleanExtraFieldItem = (index: number, idx: number) => {
     setting[index].value.splice(idx, 1);
     setSetting([].concat(...setting));
@@ -150,6 +226,88 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
     });
   };
 
+  const onAddExtraTextsField = (index: number) => {
+    if (!setting[index].value) {
+      setting[index].value = [];
+    }
+    setting[index].value.push({
+      key: '',
+      value: '',
+    });
+    formRef?.current?.setFieldsValue(setting);
+    setSetting([].concat(...setting));
+  };
+
+  const onChangeExtraTextsField = (
+    index: number,
+    idx: number,
+    keyName: any,
+    value: any,
+  ) => {
+    setting[index].value[idx][keyName] = value;
+    setSetting([].concat(...setting));
+  };
+
+  const onMoveUpExtraTextsField = (index: number, idx: number) => {
+    // 移动
+    if (idx > 0) {
+      const tmp = setting[index].value[idx];
+      setting[index].value[idx] = setting[index].value[idx - 1];
+      setting[index].value[idx - 1] = tmp;
+      formRef?.current?.setFieldsValue(setting);
+      setSetting([].concat(...setting));
+    }
+  };
+
+  const onMoveDownExtraTextsField = (index: number, idx: number) => {
+    // 移动
+    if (idx < setting[index].value.length - 1) {
+      const tmp = setting[index].value[idx];
+      setting[index].value[idx] = setting[index].value[idx + 1];
+      setting[index].value[idx + 1] = tmp;
+      formRef?.current?.setFieldsValue(setting);
+      setSetting([].concat(...setting));
+    }
+  };
+
+  const onRemoveExtraTextsField = (index: number, idx: number) => {
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.module.field.delete.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'content.module.field.delete.content',
+      }),
+      onOk: () => {
+        if (setting[index].value.length === 1) {
+          setting[index].value = [];
+        } else {
+          setting[index].value.splice(idx, 1);
+        }
+        formRef?.current?.setFieldsValue(setting);
+        setSetting([].concat(...setting));
+      },
+    });
+  };
+
+  const onSearchArchives = (e: any) => {
+    getArchives({ title: e, pageSize: 10 }).then((res) => {
+      // 如果是已经有选择的 ParentId,则把它加入到开头
+      const searchItems: any[] = [];
+      if (selectedArchives) {
+        searchItems.push(...selectedArchives);
+      } else {
+        searchItems.push({
+          id: 0,
+          title: intl.formatMessage({
+            id: 'content.parent_id.empty',
+          }),
+        });
+      }
+      setSearchArchives(searchItems.concat(res.data || []));
+    });
+  };
+
   const onSubmit = () => {
     // 提交
     saveSettingDiyFields(setting).then((res) => {
@@ -174,7 +332,7 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
           </Space>
         }
       >
-        <ProForm layout="vertical" onFinish={onSubmit}>
+        <ProForm layout="vertical" formRef={formRef} onFinish={onSubmit}>
           <Row>
             {setting.map((item: any, index: number) => (
               <Col sm={24} xs={24} key={index}>
@@ -570,14 +728,30 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
                               }}
                               src={inner}
                             />
-                            <span
-                              className="delete"
-                              onClick={() =>
-                                handleCleanExtraFieldItem(index, idx)
-                              }
-                            >
-                              <DeleteOutlined />
-                            </span>
+                            <div className="ant-upload-item-action">
+                              <Tag
+                                onClick={() =>
+                                  handleMoveExtraFieldItem(index, idx, 'up')
+                                }
+                              >
+                                <LeftOutlined />
+                              </Tag>
+                              <Tag
+                                color="red"
+                                onClick={() =>
+                                  handleCleanExtraFieldItem(index, idx)
+                                }
+                              >
+                                <DeleteOutlined />
+                              </Tag>
+                              <Tag
+                                onClick={() =>
+                                  handleMoveExtraFieldItem(index, idx, 'down')
+                                }
+                              >
+                                <RightOutlined />
+                              </Tag>
+                            </div>
                           </div>
                         ))
                       : null}
@@ -645,6 +819,227 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
                         </Button>
                       </AttachmentSelect>
                     )}
+                  </ProFormText>
+                ) : item.type === 'texts' ? (
+                  <ProFormText
+                    label={
+                      <Space size={16}>
+                        <span>
+                          {item.remark} (
+                          {intl.formatMessage({
+                            id: 'setting.system.param-name',
+                          })}
+                          :{item.name})
+                        </span>
+                        <Button
+                          size="small"
+                          onClick={() => handleEditField(index)}
+                        >
+                          <FormattedMessage id="plugin.diyfield.setting" />
+                        </Button>
+                        <span
+                          className="delete-icon"
+                          onClick={() => handleDeleteField(index)}
+                        >
+                          <DeleteOutlined />
+                        </span>
+                      </Space>
+                    }
+                  >
+                    <div className="text-groups">
+                      <div className="text-group">
+                        <div className="text-key">Key</div>
+                        <div className="text-value">Value</div>
+                        <div className="text-action"></div>
+                      </div>
+                      {item.value?.length
+                        ? item.value.map((inner: any, idx: number) => (
+                            <div className="text-group" key={idx}>
+                              <div className="text-key">
+                                <ProFormText
+                                  name={[index, 'value', idx, 'key']}
+                                  fieldProps={{
+                                    value: inner.key,
+                                    onChange: (e: any) => {
+                                      onChangeExtraTextsField(
+                                        index,
+                                        idx,
+                                        'key',
+                                        e.target.value,
+                                      );
+                                    },
+                                  }}
+                                />
+                              </div>
+                              <div className="text-value">
+                                <ProFormText
+                                  name={[index, 'value', idx, 'value']}
+                                  fieldProps={{
+                                    value: inner.value,
+                                    onChange: (e: any) => {
+                                      onChangeExtraTextsField(
+                                        index,
+                                        idx,
+                                        'value',
+                                        e.target.value,
+                                      );
+                                    },
+                                  }}
+                                />
+                              </div>
+                              <div className="text-action">
+                                <Tag
+                                  onClick={() =>
+                                    onMoveUpExtraTextsField(index, idx)
+                                  }
+                                >
+                                  <UpOutlined />
+                                </Tag>
+                                <Tag
+                                  onClick={() =>
+                                    onMoveDownExtraTextsField(index, idx)
+                                  }
+                                >
+                                  <DownOutlined />
+                                </Tag>
+                                <Tag
+                                  color="red"
+                                  onClick={() =>
+                                    onRemoveExtraTextsField(index, idx)
+                                  }
+                                >
+                                  <DeleteOutlined />
+                                </Tag>
+                              </div>
+                            </div>
+                          ))
+                        : null}
+                      <div className="text-group">
+                        <div className="text-key">
+                          <Tag
+                            color="blue"
+                            className="add-line"
+                            onClick={() => onAddExtraTextsField(index)}
+                          >
+                            {intl.formatMessage({
+                              id: 'content.param.add-line',
+                            })}
+                          </Tag>
+                        </div>
+                      </div>
+                    </div>
+                  </ProFormText>
+                ) : item.type === 'archive' ? (
+                  <ProFormText
+                    width="lg"
+                    label={
+                      <Space size={16}>
+                        <span>
+                          {item.remark} (
+                          {intl.formatMessage({
+                            id: 'setting.system.param-name',
+                          })}
+                          :{item.name})
+                        </span>
+                        <Button
+                          size="small"
+                          onClick={() => handleEditField(index)}
+                        >
+                          <FormattedMessage id="plugin.diyfield.setting" />
+                        </Button>
+                        <span
+                          className="delete-icon"
+                          onClick={() => handleDeleteField(index)}
+                        >
+                          <DeleteOutlined />
+                        </span>
+                      </Space>
+                    }
+                  >
+                    <ProFormSelect
+                      name={[index, 'value']}
+                      showSearch
+                      options={searchArchives.map((a: any) => ({
+                        title: a.title,
+                        label: a.title,
+                        value: a.id,
+                      }))}
+                      fieldProps={{
+                        value: Number(item.value) || undefined,
+                        onChange: (e: any) => {
+                          handleUpdateFieldValue(index, e);
+                        },
+                        onSearch: (e) => {
+                          onSearchArchives(e);
+                        },
+                      }}
+                    />
+                  </ProFormText>
+                ) : item.type === 'category' ? (
+                  <ProFormText
+                    width="lg"
+                    label={
+                      <Space size={16}>
+                        <span>
+                          {item.remark} (
+                          {intl.formatMessage({
+                            id: 'setting.system.param-name',
+                          })}
+                          :{item.name})
+                        </span>
+                        <Button
+                          size="small"
+                          onClick={() => handleEditField(index)}
+                        >
+                          <FormattedMessage id="plugin.diyfield.setting" />
+                        </Button>
+                        <span
+                          className="delete-icon"
+                          onClick={() => handleDeleteField(index)}
+                        >
+                          <DeleteOutlined />
+                        </span>
+                      </Space>
+                    }
+                  >
+                    <ProFormSelect
+                      showSearch
+                      name={[index, 'value']}
+                      mode={'single'}
+                      request={async () => {
+                        const res = await getCategories({
+                          type: 1,
+                        });
+                        const categories = (res.data || []).map((cat: any) => ({
+                          spacer: cat.spacer,
+                          label:
+                            cat.title +
+                            (cat.status === 1
+                              ? ''
+                              : intl.formatMessage({
+                                  id: 'setting.nav.hide',
+                                })),
+                          value: cat.id,
+                        }));
+
+                        return categories;
+                      }}
+                      fieldProps={{
+                        value: Number(item.value) || undefined,
+                        onChange: (e: any) => {
+                          handleUpdateFieldValue(index, e);
+                        },
+                        optionItemRender(item: any) {
+                          return (
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: item.spacer + item.label,
+                              }}
+                            ></div>
+                          );
+                        },
+                      }}
+                    />
                   </ProFormText>
                 ) : (
                   ''
@@ -726,6 +1121,15 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
               }),
               file: intl.formatMessage({
                 id: 'content.module.field.type.file',
+              }),
+              texts: intl.formatMessage({
+                id: 'content.module.field.type.texts',
+              }),
+              archive: intl.formatMessage({
+                id: 'content.module.field.type.archive',
+              }),
+              category: intl.formatMessage({
+                id: 'content.module.field.type.category',
               }),
             }}
           />

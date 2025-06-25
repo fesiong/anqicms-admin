@@ -635,6 +635,7 @@ class ImageList extends React.Component<intlProps> {
                 defaultPageSize={limit}
                 total={total}
                 showSizeChanger={true}
+                showQuickJumper={true}
                 onChange={this.onChangePage}
                 style={{ marginTop: '20px' }}
               />

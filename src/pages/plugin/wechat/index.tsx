@@ -7,13 +7,13 @@ import {
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import WechatMenu from './components/menu';
 import WechatReplyRule from './components/replyrule';
 import WechatSetting from './components/setting';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginWechatMessage: React.FC<any> = () => {
   const actionRef = useRef<ActionType>();
@@ -46,7 +46,9 @@ const PluginWechatMessage: React.FC<any> = () => {
           actionRef.current?.reload();
         })
         .catch(() => {
-          message.info(intl.formatMessage({ id: 'plugin.wechat.menu.submit.error' }));
+          message.info(
+            intl.formatMessage({ id: 'plugin.wechat.menu.submit.error' }),
+          );
         });
     } else {
       setEditVisible(false);
@@ -124,13 +126,19 @@ const PluginWechatMessage: React.FC<any> = () => {
         rowKey="id"
         toolBarRender={() => [
           <WechatReplyRule key="rule">
-            <Button><FormattedMessage id="plugin.wechat.auto-reply.setting" /></Button>
+            <Button>
+              <FormattedMessage id="plugin.wechat.auto-reply.setting" />
+            </Button>
           </WechatReplyRule>,
           <WechatMenu key="menu">
-            <Button><FormattedMessage id="plugin.wechat.menu.setting" /></Button>
+            <Button>
+              <FormattedMessage id="plugin.wechat.menu.setting" />
+            </Button>
           </WechatMenu>,
           <WechatSetting key="setting">
-            <Button><FormattedMessage id="plugin.wechat.official.setting" /></Button>
+            <Button>
+              <FormattedMessage id="plugin.wechat.official.setting" />
+            </Button>
           </WechatSetting>,
         ]}
         tableAlertOptionRender={false}
@@ -146,6 +154,7 @@ const PluginWechatMessage: React.FC<any> = () => {
         rowSelection={false}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       {editVisible && (
@@ -161,12 +170,26 @@ const PluginWechatMessage: React.FC<any> = () => {
           <ProFormText
             label={intl.formatMessage({ id: 'plugin.aigenerate.time' })}
             width="lg"
-            initialValue={dayjs(currentMessage.created_time * 1000).format('YYYY-MM-DD HH:mm')}
+            initialValue={dayjs(currentMessage.created_time * 1000).format(
+              'YYYY-MM-DD HH:mm',
+            )}
             readonly
           />
           <ProFormText name="openid" label="OPENID" width="lg" readonly />
-          <ProFormText name="content" label={intl.formatMessage({ id: 'plugin.guestbook.content' })} width="lg" readonly />
-          <ProFormText name="reply" label={intl.formatMessage({ id: 'plugin.wechat.reply.content' })} width="lg" extra={intl.formatMessage({ id: 'plugin.wechat.reply.content.description' })} />
+          <ProFormText
+            name="content"
+            label={intl.formatMessage({ id: 'plugin.guestbook.content' })}
+            width="lg"
+            readonly
+          />
+          <ProFormText
+            name="reply"
+            label={intl.formatMessage({ id: 'plugin.wechat.reply.content' })}
+            width="lg"
+            extra={intl.formatMessage({
+              id: 'plugin.wechat.reply.content.description',
+            })}
+          />
         </ModalForm>
       )}
     </PageContainer>

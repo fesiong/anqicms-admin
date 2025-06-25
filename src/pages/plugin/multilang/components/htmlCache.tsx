@@ -125,6 +125,7 @@ const TranslateHtmlCache: React.FC<HtmlCacheProps> = (props) => {
           columns={columns}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
       </Modal>

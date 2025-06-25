@@ -141,9 +141,17 @@ export default {
   'plugin.anchor.density.description':
     'For example: every 100 words to replace an anchor text, fill in 100, the default is 100',
   'plugin.anchor.replace-way': 'Replacement method',
-  'plugin.anchor.replace-way.auto': 'automatic replacement',
-  'plugin.anchor.replace-way.manual': 'Manual replacement',
-  'plugin.anchor.replace-way.description': 'How content replaces anchor text',
+  'plugin.anchor.replace-way.auto': 'Database automatic replacement',
+  'plugin.anchor.replace-way.manual': 'Do not replace',
+  'plugin.anchor.replace-way.render':
+    'Real time replacement during document display',
+  'plugin.anchor.replace-way.description':
+    'The method of replacing anchor text with content will automatically replace the database when saving the document, and real-time replacement will only be performed when the document is displayed',
+  'plugin.anchor.no_strong_tag': 'Do you want to bold the same keywords',
+  'plugin.anchor.no_strong_tag.no': 'bolded',
+  'plugin.anchor.no_strong_tag.yes': ' not bolded ',
+  'plugin.anchor.no_strong_tag.description':
+    'If the same keywords appear in the same article, the first one will have a link added, and subsequent ones will be displayed in bold',
   'plugin.anchor.extract': 'Extraction method',
   'plugin.anchor.extract.auto': 'Automatic extraction',
   'plugin.anchor.extract.manual': 'Manual extraction',

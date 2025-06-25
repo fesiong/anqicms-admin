@@ -466,6 +466,7 @@ const ArchiveCategory: React.FC = () => {
         }}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
           defaultCurrent: lastParams.current,
           defaultPageSize: lastParams.pageSize,
         }}

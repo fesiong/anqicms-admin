@@ -148,6 +148,7 @@ const PluginFinanceWithdraw: React.FC = () => {
         rowSelection={false}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       {withdrawVisible && (

@@ -1,11 +1,20 @@
 import AttachmentSelect from '@/components/attachment';
 import {
+  getArchives,
+  getCategories,
   pluginGetUserFieldsSetting,
   pluginGetUserGroups,
   pluginGetUserInfo,
   pluginSaveUserInfo,
 } from '@/services';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  DownOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+  UpOutlined,
+} from '@ant-design/icons';
 import {
   ModalForm,
   ProFormCheckbox,
@@ -18,7 +27,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Divider, Image, message } from 'antd';
+import { Button, Divider, Image, Modal, Tag, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -32,25 +41,68 @@ export type UserFormProps = {
 const UserForm: React.FC<UserFormProps> = (props) => {
   const formRef = useRef<ProFormInstance>();
   const [userFields, setUserFields] = useState<any[]>([]);
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<any>({ extra: {} });
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
+  const [searchArchives, setSearchArchives] = useState<any[]>([
+    {
+      id: 0,
+      title: intl.formatMessage({
+        id: 'content.parent_id.empty',
+      }),
+    },
+  ]);
+  const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
 
-  useEffect(() => {
-    pluginGetUserFieldsSetting().then((res) => {
-      setUserFields(res.data?.fields || []);
-    });
+  const getSelectedArchives = (arcIds: number[]) => {
+    if (arcIds.length > 0) {
+      // 存在了再处理
+      getArchives({
+        id: arcIds.join(','),
+        limit: 20,
+      }).then((res) => {
+        if (res.data) {
+          setSelectedArchives(res.data);
+          setSearchArchives(res.data);
+        }
+      });
+    }
+  };
+
+  const initData = async () => {
+    let res = await pluginGetUserFieldsSetting();
+    let fields = res.data?.fields || [];
+    setUserFields(fields);
     pluginGetUserInfo({ id: props.user.id }).then((res) => {
-      let data = res.data || {};
+      let data = res.data || { extra: {} };
+      if (typeof data.extra === 'undefined' || data.extra === null) {
+        data.extra = {};
+      }
       if (data.expire_time) {
         data.expire_time = dayjs(data.expire_time * 1000);
       }
       if (data.avatar_url) {
         data.avatar_url = data.full_avatar_url;
       }
+      let arcIds = [];
+      // eslint-disable-next-line guard-for-in
+      for (let i in fields) {
+        let field = fields[i];
+        if (
+          field.type === 'archive' &&
+          data.extra?.[field.field_name]?.value > 0
+        ) {
+          arcIds.push(data.extra[field.field_name].value);
+        }
+      }
+      getSelectedArchives(arcIds);
       setUser(data);
       setFetched(true);
     });
+  };
+
+  useEffect(() => {
+    initData();
   }, []);
 
   const onSubmit = async (values: any) => {
@@ -87,6 +139,160 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     setUser(user);
   };
 
+  const handleMoveExtraFieldItem = (
+    field: string,
+    index: number,
+    direction: 'up' | 'down',
+  ) => {
+    if (direction === 'up') {
+      if (index <= 0) {
+        return;
+      }
+      const temp = user.extra[field].value[index];
+      user.extra[field].value[index] = user.extra[field].value[index - 1];
+      user.extra[field].value[index - 1] = temp;
+    } else {
+      if (index >= user.extra[field].value.length - 1) {
+        return;
+      }
+      const temp = user.extra[field].value[index];
+      user.extra[field].value[index] = user.extra[field].value[index + 1];
+      user.extra[field].value[index + 1] = temp;
+    }
+    setUser(Object.assign({}, user));
+  };
+
+  const handleCleanExtraFieldItem = (field: string, index: number) => {
+    user.extra[field]?.value?.splice(index, 1);
+    const extra: any = {};
+    extra[field] = { value: user.extra[field]?.value };
+    formRef?.current?.setFieldsValue({ extra });
+
+    setUser(Object.assign({}, user));
+  };
+
+  const handleUploadExtraFieldItem = (field: string, rows: any) => {
+    if (!user.extra[field]) {
+      user.extra[field] = { value: [] };
+    }
+    if (!user.extra[field].value?.length) {
+      user.extra[field].value = [];
+    }
+    for (const row of rows) {
+      let exists = false;
+      for (const i in user.extra[field].value) {
+        if (user.extra[field].value[i] === row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        user.extra[field].value.push(row.logo);
+      }
+    }
+    const extra: any = {};
+    extra[field] = { value: user.extra[field].value };
+    formRef?.current?.setFieldsValue({ extra });
+
+    setUser(Object.assign({}, user));
+  };
+
+  const onAddExtraTextsField = (field: string) => {
+    if (!user.extra[field]) {
+      user.extra[field] = { value: [] };
+    }
+    user.extra[field].value.push({
+      key: '',
+      value: '',
+    });
+    const extra: any = {};
+    extra[field] = { value: user.extra[field].value };
+    formRef?.current?.setFieldsValue({ extra });
+    setUser(Object.assign({}, user));
+  };
+
+  const onChangeExtraTextsField = (
+    field: string,
+    idx: number,
+    keyName: any,
+    value: any,
+  ) => {
+    if (!user.extra[field].value[idx]) {
+      user.extra[field].value[idx] = {};
+    }
+    user.extra[field].value[idx][keyName] = value;
+    const extra: any = {};
+    extra[field] = { idx: { keyName: value } };
+    formRef?.current?.setFieldsValue({ extra });
+    setUser(user);
+  };
+
+  const onMoveUpExtraTextsField = (field: string, idx: number) => {
+    // 移动
+    if (idx > 0) {
+      const tmp = user.extra[field].value[idx];
+      user.extra[field].value[idx] = user.extra[field].value[idx - 1];
+      user.extra[field].value[idx - 1] = tmp;
+      const extra: any = {};
+      extra[field] = { value: user.extra[field].value };
+      formRef?.current?.setFieldsValue({ extra });
+      setUser(Object.assign({}, user));
+    }
+  };
+
+  const onMoveDownExtraTextsField = (field: string, idx: number) => {
+    // 移动
+    if (idx < user.extra[field].value.length - 1) {
+      const tmp = user.extra[field].value[idx];
+      user.extra[field].value[idx] = user.extra[field].value[idx + 1];
+      user.extra[field].value[idx + 1] = tmp;
+      const extra: any = {};
+      extra[field] = { value: user.extra[field].value };
+      formRef?.current?.setFieldsValue({ extra });
+      setUser(Object.assign({}, user));
+    }
+  };
+
+  const onRemoveExtraTextsField = (field: string, idx: number) => {
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.module.field.delete.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'content.module.field.delete.content',
+      }),
+      onOk: () => {
+        if (user.extra[field].value.length === 1) {
+          user.extra[field] = { value: [] };
+        } else {
+          user.extra[field].value.splice(idx, 1);
+        }
+        setUser(Object.assign({}, user));
+        const extra: any = {};
+        extra[field] = { value: user.extra[field].value };
+        formRef?.current?.setFieldsValue({ extra });
+      },
+    });
+  };
+
+  const onSearchArchives = (e: any) => {
+    getArchives({ title: e, pageSize: 10 }).then((res) => {
+      // 如果是已经有选择的 ParentId,则把它加入到开头
+      const searchItems: any[] = [];
+      if (selectedArchives) {
+        searchItems.push(...selectedArchives);
+      } else {
+        searchItems.push({
+          id: 0,
+          title: intl.formatMessage({
+            id: 'content.parent_id.empty',
+          }),
+        });
+      }
+      setSearchArchives(searchItems.concat(res.data || []));
+    });
+  };
+
   const handleDeleteAvatarUrl = () => {
     user.avatar_url = '';
     setUser(Object.assign({}, user));
@@ -100,7 +306,11 @@ const UserForm: React.FC<UserFormProps> = (props) => {
   return fetched ? (
     <ModalForm
       width={600}
-      title={props.user?.id ? intl.formatMessage({ id: 'plugin.user.edit' }) : intl.formatMessage({ id: 'plugin.user.add' })}
+      title={
+        props.user?.id
+          ? intl.formatMessage({ id: 'plugin.user.edit' })
+          : intl.formatMessage({ id: 'plugin.user.add' })
+      }
       open={props.open}
       layout="horizontal"
       onOpenChange={(flag) => {
@@ -115,36 +325,50 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       }}
     >
       <ProFormText label={intl.formatMessage({ id: 'plugin.user.avatar_url' })}>
-            {user.avatar_url ? (
-              <div className="ant-upload-item">
-                <Image
-                  preview={{
-                    src: user.avatar_url,
-                  }}
-                  src={user.avatar_url}
-                />
-                <span className="delete" onClick={() => handleDeleteAvatarUrl()}>
-                  <DeleteOutlined />
-                </span>
-              </div>
-            ) : (
-              <AttachmentSelect
-                onSelect={(row) => handleUploadAvatarUrl(row)}
-                open={false}
-              >
-                <div className="ant-upload-item">
-                  <div className="add">
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}><FormattedMessage id="plugin.pay.upload" /></div>
-                  </div>
+        {user.avatar_url ? (
+          <div className="ant-upload-item">
+            <Image
+              preview={{
+                src: user.avatar_url,
+              }}
+              src={user.avatar_url}
+            />
+            <span className="delete" onClick={() => handleDeleteAvatarUrl()}>
+              <DeleteOutlined />
+            </span>
+          </div>
+        ) : (
+          <AttachmentSelect
+            onSelect={(row) => handleUploadAvatarUrl(row)}
+            open={false}
+          >
+            <div className="ant-upload-item">
+              <div className="add">
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>
+                  <FormattedMessage id="plugin.pay.upload" />
                 </div>
-              </AttachmentSelect>
-            )}
-          </ProFormText>
-      <ProFormText name="user_name" label={intl.formatMessage({ id: 'plugin.user.user-name' })} />
-      <ProFormText name="real_name" label={intl.formatMessage({ id: 'plugin.user.real-name' })} />
-      <ProFormText name="phone" label={intl.formatMessage({ id: 'plugin.user.phone' })} />
-      <ProFormText name="email" label={intl.formatMessage({ id: 'plugin.user.email' })} />
+              </div>
+            </div>
+          </AttachmentSelect>
+        )}
+      </ProFormText>
+      <ProFormText
+        name="user_name"
+        label={intl.formatMessage({ id: 'plugin.user.user-name' })}
+      />
+      <ProFormText
+        name="real_name"
+        label={intl.formatMessage({ id: 'plugin.user.real-name' })}
+      />
+      <ProFormText
+        name="phone"
+        label={intl.formatMessage({ id: 'plugin.user.phone' })}
+      />
+      <ProFormText
+        name="email"
+        label={intl.formatMessage({ id: 'plugin.user.email' })}
+      />
       <ProFormText
         name="password"
         label={intl.formatMessage({ id: 'plugin.user.password' })}
@@ -158,12 +382,27 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         name="is_retailer"
         label={intl.formatMessage({ id: 'plugin.user.is-retailer' })}
         options={[
-          { label: intl.formatMessage({ id: 'plugin.user.is-retailer.no' }), value: 0 },
-          { label: intl.formatMessage({ id: 'plugin.user.is-retailer.yes' }), value: 1 },
+          {
+            label: intl.formatMessage({ id: 'plugin.user.is-retailer.no' }),
+            value: 0,
+          },
+          {
+            label: intl.formatMessage({ id: 'plugin.user.is-retailer.yes' }),
+            value: 1,
+          },
         ]}
       />
-      <ProFormText name="invite_code" label={intl.formatMessage({ id: 'plugin.user.invite-code' })} extra={intl.formatMessage({ id: 'plugin.user.invite-code.description' })} />
-      <ProFormDigit name="parent_id" label={intl.formatMessage({ id: 'plugin.user.parent.user-id' })} />
+      <ProFormText
+        name="invite_code"
+        label={intl.formatMessage({ id: 'plugin.user.invite-code' })}
+        extra={intl.formatMessage({
+          id: 'plugin.user.invite-code.description',
+        })}
+      />
+      <ProFormDigit
+        name="parent_id"
+        label={intl.formatMessage({ id: 'plugin.user.parent.user-id' })}
+      />
       <ProFormSelect
         label={intl.formatMessage({ id: 'plugin.user.group' })}
         name="group_id"
@@ -187,7 +426,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           return { [namePath]: dayjs(value).unix() };
         }}
       />
-      <Divider><FormattedMessage id="plugin.user.extra-fields" /></Divider>
+      <Divider>
+        <FormattedMessage id="plugin.user.extra-fields" />
+      </Divider>
       {userFields.map((item: any) =>
         item.type === 'text' ? (
           <ProFormText
@@ -195,7 +436,11 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
-            placeholder={item.content && intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) + item.content}
+            placeholder={
+              item.content &&
+              intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) +
+                item.content
+            }
           />
         ) : item.type === 'number' ? (
           <ProFormDigit
@@ -203,7 +448,11 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
-            placeholder={item.content && intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) + item.content}
+            placeholder={
+              item.content &&
+              intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) +
+                item.content
+            }
           />
         ) : item.type === 'textarea' ? (
           <ProFormTextArea
@@ -211,7 +460,23 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             name={['extra', item.field_name, 'value']}
             label={item.name}
             required={item.required ? true : false}
-            placeholder={item.content && intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) + item.content}
+            placeholder={
+              item.content &&
+              intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) +
+                item.content
+            }
+          />
+        ) : item.type === 'editor' ? (
+          <ProFormTextArea
+            key={item.field_name}
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+            required={item.required ? true : false}
+            placeholder={
+              item.content &&
+              intl.formatMessage({ id: 'plugin.user.extra-fields.default' }) +
+                item.content
+            }
           />
         ) : item.type === 'radio' ? (
           <ProFormRadio.Group
@@ -256,7 +521,11 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             }}
           />
         ) : item.type === 'image' ? (
-          <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
+          <ProFormText
+            key={item.field_name}
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+          >
             {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item">
                 <Image
@@ -265,7 +534,10 @@ const UserForm: React.FC<UserFormProps> = (props) => {
                   }}
                   src={user.extra[item.field_name]?.value}
                 />
-                <span className="delete" onClick={() => handleCleanExtraField(item.field_name)}>
+                <span
+                  className="delete"
+                  onClick={() => handleCleanExtraField(item.field_name)}
+                >
                   <DeleteOutlined />
                 </span>
               </div>
@@ -277,18 +549,91 @@ const UserForm: React.FC<UserFormProps> = (props) => {
                 <div className="ant-upload-item">
                   <div className="add">
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}><FormattedMessage id="plugin.pay.upload" /></div>
+                    <div style={{ marginTop: 8 }}>
+                      <FormattedMessage id="plugin.pay.upload" />
+                    </div>
                   </div>
                 </div>
               </AttachmentSelect>
             )}
           </ProFormText>
+        ) : item.type === 'images' ? (
+          <ProFormText
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+          >
+            {user.extra?.[item.field_name]?.value?.length
+              ? user.extra[item.field_name].value.map(
+                  (inner: string, idx: number) => (
+                    <div className="ant-upload-item" key={idx}>
+                      <Image
+                        preview={{
+                          src: inner,
+                        }}
+                        src={inner}
+                      />
+                      <div className="ant-upload-item-action">
+                        <Tag
+                          onClick={() =>
+                            handleMoveExtraFieldItem(item.field_name, idx, 'up')
+                          }
+                        >
+                          <LeftOutlined />
+                        </Tag>
+                        <Tag
+                          color="red"
+                          onClick={() =>
+                            handleCleanExtraFieldItem(item.field_name, idx)
+                          }
+                        >
+                          <DeleteOutlined />
+                        </Tag>
+                        <Tag
+                          onClick={() =>
+                            handleMoveExtraFieldItem(
+                              item.field_name,
+                              idx,
+                              'down',
+                            )
+                          }
+                        >
+                          <RightOutlined />
+                        </Tag>
+                      </div>
+                    </div>
+                  ),
+                )
+              : null}
+            <AttachmentSelect
+              onSelect={(rows) =>
+                handleUploadExtraFieldItem(item.field_name, rows)
+              }
+              open={false}
+              multiple={true}
+            >
+              <div className="ant-upload-item">
+                <div className="add">
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>
+                    <FormattedMessage id="setting.system.upload" />
+                  </div>
+                </div>
+              </div>
+            </AttachmentSelect>
+          </ProFormText>
         ) : item.type === 'file' ? (
-          <ProFormText key={item.field_name} name={['extra', item.field_name, 'value']} label={item.name}>
+          <ProFormText
+            key={item.field_name}
+            name={['extra', item.field_name, 'value']}
+            label={item.name}
+          >
             {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item ant-upload-file">
                 <span>{user.extra[item.field_name]?.value}</span>
-                <span className="delete" onClick={() => handleCleanExtraField(item.field_name)}>
+                <span
+                  className="delete"
+                  onClick={() => handleCleanExtraField(item.field_name)}
+                >
                   <DeleteOutlined />
                 </span>
               </div>
@@ -297,9 +642,162 @@ const UserForm: React.FC<UserFormProps> = (props) => {
                 onSelect={(row) => handleUploadExtraField(item.field_name, row)}
                 open={false}
               >
-                <Button><FormattedMessage id="plugin.pay.upload" /></Button>
+                <Button>
+                  <FormattedMessage id="plugin.pay.upload" />
+                </Button>
               </AttachmentSelect>
             )}
+          </ProFormText>
+        ) : item.type === 'texts' ? (
+          <ProFormText label={item.name}>
+            <div className="text-groups">
+              <div className="text-group">
+                <div className="text-key">Key</div>
+                <div className="text-value">Value</div>
+                <div className="text-action"></div>
+              </div>
+              {user.extra?.[item.field_name]?.value?.length
+                ? user.extra[item.field_name].value.map(
+                    (inner: any, idx: number) => (
+                      <div className="text-group" key={idx}>
+                        <div className="text-key">
+                          <ProFormText
+                            name={[
+                              'extra',
+                              item.field_name,
+                              'value',
+                              idx,
+                              'key',
+                            ]}
+                            fieldProps={{
+                              onChange: (e: any) => {
+                                onChangeExtraTextsField(
+                                  item.field_name,
+                                  idx,
+                                  'key',
+                                  e.target.value,
+                                );
+                              },
+                            }}
+                          />
+                        </div>
+                        <div className="text-value">
+                          <ProFormText
+                            name={[
+                              'extra',
+                              item.field_name,
+                              'value',
+                              idx,
+                              'value',
+                            ]}
+                            fieldProps={{
+                              onChange: (e: any) => {
+                                onChangeExtraTextsField(
+                                  item.field_name,
+                                  idx,
+                                  'value',
+                                  e.target.value,
+                                );
+                              },
+                            }}
+                          />
+                        </div>
+                        <div className="text-action">
+                          <Tag
+                            onClick={() =>
+                              onMoveUpExtraTextsField(item.field_name, idx)
+                            }
+                          >
+                            <UpOutlined />
+                          </Tag>
+                          <Tag
+                            onClick={() =>
+                              onMoveDownExtraTextsField(item.field_name, idx)
+                            }
+                          >
+                            <DownOutlined />
+                          </Tag>
+                          <Tag
+                            color="red"
+                            onClick={() =>
+                              onRemoveExtraTextsField(item.field_name, idx)
+                            }
+                          >
+                            <DeleteOutlined />
+                          </Tag>
+                        </div>
+                      </div>
+                    ),
+                  )
+                : null}
+              <div className="text-group">
+                <div className="text-key">
+                  <Tag
+                    color="blue"
+                    className="add-line"
+                    onClick={() => onAddExtraTextsField(item.field_name)}
+                  >
+                    {intl.formatMessage({
+                      id: 'content.param.add-line',
+                    })}
+                  </Tag>
+                </div>
+              </div>
+            </div>
+          </ProFormText>
+        ) : item.type === 'archive' ? (
+          <ProFormText label={item.name}>
+            <ProFormSelect
+              name={['extra', item.field_name, 'value']}
+              showSearch
+              options={searchArchives.map((a: any) => ({
+                title: a.title,
+                label: a.title,
+                value: a.id,
+              }))}
+              fieldProps={{
+                onSearch: (e) => {
+                  onSearchArchives(e);
+                },
+              }}
+            />
+          </ProFormText>
+        ) : item.type === 'category' ? (
+          <ProFormText label={item.name}>
+            <ProFormSelect
+              showSearch
+              name={['extra', item.field_name, 'value']}
+              mode={'single'}
+              request={async () => {
+                const res = await getCategories({
+                  type: 1,
+                });
+                const categories = (res.data || []).map((cat: any) => ({
+                  spacer: cat.spacer,
+                  label:
+                    cat.title +
+                    (cat.status === 1
+                      ? ''
+                      : intl.formatMessage({
+                          id: 'setting.nav.hide',
+                        })),
+                  value: cat.id,
+                }));
+
+                return categories;
+              }}
+              fieldProps={{
+                optionItemRender(item: any) {
+                  return (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: item.spacer + item.label,
+                      }}
+                    ></div>
+                  );
+                },
+              }}
+            />
           </ProFormText>
         ) : (
           ''

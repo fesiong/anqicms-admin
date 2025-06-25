@@ -1,5 +1,15 @@
-import { deleteArchive, getArchiveInfo, getArchives, recoverArchive } from '@/services';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  deleteArchive,
+  getArchiveInfo,
+  getArchives,
+  recoverArchive,
+} from '@/services';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
@@ -15,7 +25,10 @@ const ArchiveList: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -41,7 +54,10 @@ const ArchiveList: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'content.recover.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.recover.recovering' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.recover.recovering' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -50,7 +66,9 @@ const ArchiveList: React.FC = () => {
             });
           }
           hide();
-          message.success(intl.formatMessage({ id: 'content.recover.success' }));
+          message.success(
+            intl.formatMessage({ id: 'content.recover.success' }),
+          );
           setSelectedRowKeys([]);
           actionRef.current?.reloadAndRest?.();
           return true;
@@ -178,6 +196,7 @@ const ArchiveList: React.FC = () => {
         }}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       <Modal
@@ -189,7 +208,9 @@ const ArchiveList: React.FC = () => {
       >
         <h3>{currentArchive?.title}</h3>
         <div className="article-content">
-          <div dangerouslySetInnerHTML={{ __html: currentArchive?.data?.content }}></div>
+          <div
+            dangerouslySetInnerHTML={{ __html: currentArchive?.data?.content }}
+          ></div>
         </div>
       </Modal>
     </PageContainer>

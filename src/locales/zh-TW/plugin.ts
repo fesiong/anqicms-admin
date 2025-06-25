@@ -128,10 +128,16 @@ export default {
   'plugin.anchor.density': '錨文本密度',
   'plugin.anchor.density.description':
     '例如：每100字替換一個錨文本，就填寫100，預設100',
-  'plugin.anchor.replace-way': '替換方式',
-  'plugin.anchor.replace-way.auto': '自動替換',
-  'plugin.anchor.replace-way.manual': '手動替換',
-  'plugin.anchor.replace-way.description': '內容替換錨文本的方式',
+  'plugin.anchor.replace-way.auto': '資料庫自動替換',
+  'plugin.anchor.replace-way.manual': '不做替換',
+  'plugin.anchor.replace-way.render': '檔案展示時實时替換',
+  'plugin.anchor.replace-way.description':
+    '內容替換錨文字的管道，資料庫自動替換會在保存檔案的時候就進行替換，檔案展示時實时替換會在檔案展示的時候才進行替換',
+  'plugin.anchor.no_strong_tag': '是否加粗相同關鍵字',
+  'plugin.anchor.no_strong_tag.no': '加粗',
+  'plugin.anchor.no_strong_tag.yes': '不加粗',
+  'plugin.anchor.no_strong_tag.description':
+    '在同一文章中出現相同的關鍵字，第一個會添加連結，後續的會加粗顯示',
   'plugin.anchor.extract': '提取方式',
   'plugin.anchor.extract.auto': '自動擷取',
   'plugin.anchor.extract.manual': '手動提取',

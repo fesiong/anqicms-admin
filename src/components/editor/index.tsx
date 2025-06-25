@@ -5,7 +5,6 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useIntl } from '@umijs/max';
 import { Tooltip, message } from 'antd';
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import MonacoEditor from 'react-monaco-editor';
 import E from 'wangeditor';
 import ReactWEditor from 'wangeditor-for-react';
 import Attachment from '../attachment/dialog';
@@ -67,7 +66,9 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             e[i].logo
           }" type="video/${e[i].file_location.substr(
             e[i].file_location.lastIndexOf('.') + 1,
-          )}">${intl.formatMessage({ id: 'component.markdown.video.unsupport' })}</video>`;
+          )}">${intl.formatMessage({
+            id: 'component.markdown.video.unsupport',
+          })}</video>`;
         } else if (
           e[i].file_location.indexOf('.mp3') !== -1 ||
           e[i].file_location.indexOf('.wav') !== -1
@@ -76,7 +77,9 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             e[i].logo
           }" type="audio/${e[i].file_location.substr(
             e[i].file_location.lastIndexOf('.') + 1,
-          )}">${intl.formatMessage({ id: 'component.markdown.audio.unsupport' })}</audio>`;
+          )}">${intl.formatMessage({
+            id: 'component.markdown.audio.unsupport',
+          })}</audio>`;
         }
         editorRef.current?.editor.cmd.do('insertHTML', el);
       }
@@ -93,7 +96,10 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
   const handleUpload = async (resultFiles: any[], insertImgFn: InsertImgFn) => {
     for (let i in resultFiles) {
       if (resultFiles.hasOwnProperty(i)) {
-        const hide = message.loading(intl.formatMessage({ id: 'component.editor.inserting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'component.editor.inserting' }),
+          0,
+        );
         let formData = new FormData();
         formData.append('file', resultFiles[i]);
         uploadAttachment(formData)
@@ -101,7 +107,10 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             if (res.code !== 0) {
               message.info(res.msg);
             } else {
-              message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
+              message.info(
+                res.msg ||
+                  intl.formatMessage({ id: 'component.footer.uploaded' }),
+              );
               insertImgFn(res.data.logo);
             }
           })
@@ -146,7 +155,10 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
               if (res.code !== 0) {
                 message.info(res.msg);
               } else {
-                message.info(res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }));
+                message.info(
+                  res.msg ||
+                    intl.formatMessage({ id: 'component.footer.uploaded' }),
+                );
                 insertFn(data.logo);
               }
             },
@@ -169,7 +181,10 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
           codes[props.field] = html;
         }}
       />
-      <div style={{ display: htmlMode ? 'block' : 'none' }} className="tmp-editor">
+      <div
+        style={{ display: htmlMode ? 'block' : 'none' }}
+        className="tmp-editor"
+      >
         <div className="html-menus">
           <div
             className="menu-item"
@@ -180,12 +195,16 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
               setHtmlMode(false);
             }}
           >
-            <Tooltip title={intl.formatMessage({ id: 'component.editor.mode.return-view' })}>
+            <Tooltip
+              title={intl.formatMessage({
+                id: 'component.editor.mode.return-view',
+              })}
+            >
               <ArrowLeftOutlined className="icon" />
             </Tooltip>
           </div>
         </div>
-        {htmlMode && (
+        {/* {htmlMode && (
           <MonacoEditor
             height={563}
             language={'markdown'}
@@ -198,7 +217,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             onChange={onChangeCode}
             editorDidMount={() => {}}
           />
-        )}
+        )} */}
       </div>
     </div>
   );

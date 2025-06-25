@@ -241,6 +241,7 @@ const PluginGuestbook: React.FC = () => {
           }}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
         {editVisible && (

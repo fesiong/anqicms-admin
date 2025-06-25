@@ -132,6 +132,7 @@ const ArchiveSearch: React.FC<ArchiveSearchProps> = (props) => {
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
     </Modal>

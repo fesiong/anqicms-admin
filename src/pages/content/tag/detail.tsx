@@ -4,6 +4,7 @@ import CollapseItem from '@/components/collaspeItem';
 import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
 import {
+  getArchives,
   getCategories,
   getDesignTemplateFiles,
   getSettingContent,
@@ -11,7 +12,14 @@ import {
   getTagInfo,
   saveTag,
 } from '@/services';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  DownOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+  UpOutlined,
+} from '@ant-design/icons';
 import {
   ProForm,
   ProFormCheckbox,
@@ -23,7 +31,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Card, Col, Image, Row, message } from 'antd';
+import { Button, Card, Col, Image, Modal, Row, Tag, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
@@ -38,7 +46,31 @@ const ArchiveTagDetail: React.FC = () => {
   const [newKey, setNewKey] = useState<string>('');
   const [tagFields, setTagFields] = useState<any>([]);
   const [extraContent, setExtraContent] = useState<any>({});
+  const [searchArchives, setSearchArchives] = useState<any[]>([
+    {
+      id: 0,
+      title: intl.formatMessage({
+        id: 'content.parent_id.empty',
+      }),
+    },
+  ]);
+  const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
   const editorRef = useRef(null);
+
+  const getSelectedArchives = (arcIds: number[]) => {
+    if (arcIds.length > 0) {
+      // 存在了再处理
+      getArchives({
+        id: arcIds.join(','),
+        limit: 20,
+      }).then((res) => {
+        if (res.data) {
+          setSelectedArchives(res.data);
+          setSearchArchives(res.data);
+        }
+      });
+    }
+  };
 
   const initData = async () => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -59,14 +91,21 @@ const ArchiveTagDetail: React.FC = () => {
     const tagFields = resTag?.data || [];
     setTagFields(tagFields);
     let extraContent: any = {};
+    let arcIds = [];
     // eslint-disable-next-line guard-for-in
     for (let i in tagFields) {
       let field = tagFields[i];
       if (field.type === 'editor') {
         extraContent[field.field_name] = tag.extra?.[field.field_name] || '';
+      } else if (
+        field.type === 'archive' &&
+        tag.extra?.[field.field_name] > 0
+      ) {
+        arcIds.push(tag.extra[field.field_name]);
       }
     }
     setExtraContent(extraContent);
+    getSelectedArchives(arcIds);
 
     const res2 = await getSettingContent();
     setContentSetting(res2.data || {});
@@ -184,6 +223,124 @@ const ArchiveTagDetail: React.FC = () => {
     setTag(Object.assign({}, tag));
   };
 
+  const handleMoveExtraFieldItem = (
+    field: string,
+    index: number,
+    direction: 'up' | 'down',
+  ) => {
+    if (direction === 'up') {
+      if (index <= 0) {
+        return;
+      }
+      const temp = tag.extra[field][index];
+      tag.extra[field][index] = tag.extra[field][index - 1];
+      tag.extra[field][index - 1] = temp;
+    } else {
+      if (index >= tag.extra[field].length - 1) {
+        return;
+      }
+      const temp = tag.extra[field][index];
+      tag.extra[field][index] = tag.extra[field][index + 1];
+      tag.extra[field][index + 1] = temp;
+    }
+    setTag(Object.assign({}, tag));
+  };
+
+  const onAddExtraTextsField = (field: string) => {
+    if (!tag.extra[field]) {
+      tag.extra[field] = [];
+    }
+    tag.extra[field].push({
+      key: '',
+      value: '',
+    });
+    setTag(Object.assign({}, tag));
+    const extra: any = {};
+    extra[field] = tag.extra[field];
+    formRef?.current?.setFieldsValue({ extra });
+  };
+
+  const onChangeExtraTextsField = (
+    field: string,
+    idx: number,
+    keyName: any,
+    value: any,
+  ) => {
+    if (!tag.extra[field][idx]) {
+      tag.extra[field][idx] = {};
+    }
+    tag.extra[field][idx][keyName] = value;
+    const extra: any = {};
+    extra[field] = { idx: { keyName: value } };
+    formRef?.current?.setFieldsValue({ extra });
+    setTag(tag);
+  };
+
+  const onMoveUpExtraTextsField = (field: string, idx: number) => {
+    // 移动
+    if (idx > 0) {
+      const tmp = tag.extra[field][idx];
+      tag.extra[field][idx] = tag.extra[field][idx - 1];
+      tag.extra[field][idx - 1] = tmp;
+      const extra: any = {};
+      extra[field] = tag.extra[field];
+      formRef?.current?.setFieldsValue({ extra });
+      setTag(tag);
+    }
+  };
+
+  const onMoveDownExtraTextsField = (field: string, idx: number) => {
+    // 移动
+    if (idx < tag.extra[field].length - 1) {
+      const tmp = tag.extra[field][idx];
+      tag.extra[field][idx] = tag.extra[field][idx + 1];
+      tag.extra[field][idx + 1] = tmp;
+      const extra: any = {};
+      extra[field] = tag.extra[field];
+      formRef?.current?.setFieldsValue({ extra });
+      setTag(Object.assign({}, tag));
+    }
+  };
+
+  const onRemoveExtraTextsField = (field: string, idx: number) => {
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.module.field.delete.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'content.module.field.delete.content',
+      }),
+      onOk: () => {
+        if (tag.extra[field].length === 1) {
+          tag.extra[field] = [];
+        } else {
+          tag.extra[field].splice(idx, 1);
+        }
+        const extra: any = {};
+        extra[field] = tag.extra[field];
+        formRef?.current?.setFieldsValue({ extra });
+        setTag(Object.assign({}, tag));
+      },
+    });
+  };
+
+  const onSearchArchives = (e: any) => {
+    getArchives({ title: e, pageSize: 10 }).then((res) => {
+      // 如果是已经有选择的 ParentId,则把它加入到开头
+      const searchItems: any[] = [];
+      if (selectedArchives) {
+        searchItems.push(...selectedArchives);
+      } else {
+        searchItems.push({
+          id: 0,
+          title: intl.formatMessage({
+            id: 'content.parent_id.empty',
+          }),
+        });
+      }
+      setSearchArchives(searchItems.concat(res.data || []));
+    });
+  };
   const updateExtraContent = async (field: string, html: string) => {
     extraContent[field] = html;
     setExtraContent(extraContent);
@@ -384,17 +541,41 @@ const ArchiveTagDetail: React.FC = () => {
                                               }}
                                               src={inner}
                                             />
-                                            <span
-                                              className="delete"
-                                              onClick={() =>
-                                                handleCleanExtraFieldItem(
-                                                  item.field_name,
-                                                  idx,
-                                                )
-                                              }
-                                            >
-                                              <DeleteOutlined />
-                                            </span>
+                                            <div className="ant-upload-item-action">
+                                              <Tag
+                                                onClick={() =>
+                                                  handleMoveExtraFieldItem(
+                                                    item.field_name,
+                                                    idx,
+                                                    'up',
+                                                  )
+                                                }
+                                              >
+                                                <LeftOutlined />
+                                              </Tag>
+                                              <Tag
+                                                color="red"
+                                                onClick={() =>
+                                                  handleCleanExtraFieldItem(
+                                                    item.field_name,
+                                                    idx,
+                                                  )
+                                                }
+                                              >
+                                                <DeleteOutlined />
+                                              </Tag>
+                                              <Tag
+                                                onClick={() =>
+                                                  handleMoveExtraFieldItem(
+                                                    item.field_name,
+                                                    idx,
+                                                    'down',
+                                                  )
+                                                }
+                                              >
+                                                <RightOutlined />
+                                              </Tag>
+                                            </div>
                                           </div>
                                         ),
                                       )
@@ -452,9 +633,183 @@ const ArchiveTagDetail: React.FC = () => {
                                     </AttachmentSelect>
                                   )}
                                 </ProFormText>
-                              ) : (
-                                ''
-                              )}
+                              ) : item.type === 'texts' ? (
+                                <ProFormText label={item.name}>
+                                  <div className="text-groups">
+                                    <div className="text-group">
+                                      <div className="text-key">Key</div>
+                                      <div className="text-value">Value</div>
+                                      <div className="text-action"></div>
+                                    </div>
+                                    {tag.extra?.[item.field_name]?.length
+                                      ? tag.extra[item.field_name].map(
+                                          (inner: any, idx: number) => (
+                                            <div
+                                              className="text-group"
+                                              key={idx}
+                                            >
+                                              <div className="text-key">
+                                                <ProFormText
+                                                  name={[
+                                                    'extra',
+                                                    item.field_name,
+                                                    idx,
+                                                    'key',
+                                                  ]}
+                                                  fieldProps={{
+                                                    onChange: (e: any) => {
+                                                      onChangeExtraTextsField(
+                                                        item.field_name,
+                                                        idx,
+                                                        'key',
+                                                        e.target.value,
+                                                      );
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                              <div className="text-value">
+                                                <ProFormText
+                                                  name={[
+                                                    'extra',
+                                                    item.field_name,
+                                                    idx,
+                                                    'value',
+                                                  ]}
+                                                  fieldProps={{
+                                                    onChange: (e: any) => {
+                                                      onChangeExtraTextsField(
+                                                        item.field_name,
+                                                        idx,
+                                                        'value',
+                                                        e.target.value,
+                                                      );
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                              <div className="text-action">
+                                                <Tag
+                                                  onClick={() =>
+                                                    onMoveUpExtraTextsField(
+                                                      item.field_name,
+                                                      idx,
+                                                    )
+                                                  }
+                                                >
+                                                  <UpOutlined />
+                                                </Tag>
+                                                <Tag
+                                                  onClick={() =>
+                                                    onMoveDownExtraTextsField(
+                                                      item.field_name,
+                                                      idx,
+                                                    )
+                                                  }
+                                                >
+                                                  <DownOutlined />
+                                                </Tag>
+                                                <Tag
+                                                  color="red"
+                                                  onClick={() =>
+                                                    onRemoveExtraTextsField(
+                                                      item.field_name,
+                                                      idx,
+                                                    )
+                                                  }
+                                                >
+                                                  <DeleteOutlined />
+                                                </Tag>
+                                              </div>
+                                            </div>
+                                          ),
+                                        )
+                                      : null}
+                                    <div className="text-group">
+                                      <div className="text-key">
+                                        <Tag
+                                          color="blue"
+                                          className="add-line"
+                                          onClick={() =>
+                                            onAddExtraTextsField(
+                                              item.field_name,
+                                            )
+                                          }
+                                        >
+                                          {intl.formatMessage({
+                                            id: 'content.param.add-line',
+                                          })}
+                                        </Tag>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ProFormText>
+                              ) : item.type === 'archive' ? (
+                                <ProFormText label={item.name}>
+                                  <ProFormSelect
+                                    name={['extra', item.field_name]}
+                                    showSearch
+                                    options={searchArchives.map((a: any) => ({
+                                      title: a.title,
+                                      label: a.title,
+                                      value: a.id,
+                                    }))}
+                                    fieldProps={{
+                                      onSearch: (e) => {
+                                        onSearchArchives(e);
+                                      },
+                                    }}
+                                  />
+                                </ProFormText>
+                              ) : item.type === 'category' ? (
+                                <ProFormText label={item.name}>
+                                  <ProFormSelect
+                                    showSearch
+                                    name={['extra', item.field_name]}
+                                    mode={'single'}
+                                    request={async () => {
+                                      const res = await getCategories({
+                                        type: 1,
+                                      });
+                                      const categories = (res.data || []).map(
+                                        (cat: any) => ({
+                                          spacer: cat.spacer,
+                                          label:
+                                            cat.title +
+                                            (cat.status === 1
+                                              ? ''
+                                              : intl.formatMessage({
+                                                  id: 'setting.nav.hide',
+                                                })),
+                                          value: cat.id,
+                                        }),
+                                      );
+                                      if (categories.length === 0) {
+                                        Modal.error({
+                                          title: intl.formatMessage({
+                                            id: 'content.category.error',
+                                          }),
+                                          onOk: () => {
+                                            history.push('/archive/category');
+                                          },
+                                        });
+                                      }
+                                      return categories;
+                                    }}
+                                    fieldProps={{
+                                      optionItemRender(item: any) {
+                                        return (
+                                          <div
+                                            dangerouslySetInnerHTML={{
+                                              __html: item.spacer + item.label,
+                                            }}
+                                          ></div>
+                                        );
+                                      },
+                                    }}
+                                  />
+                                </ProFormText>
+                              ) : null}
                             </Col>
                           ),
                       )}

@@ -288,6 +288,7 @@ const ChildrenArchivesModal: React.FC<ChildrenArchivesProps> = (props) => {
           }}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
       </Modal>

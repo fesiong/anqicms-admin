@@ -4,6 +4,7 @@ import CollapseItem from '@/components/collaspeItem';
 import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
 import {
+  getArchives,
   getCategories,
   getCategoryInfo,
   getDesignTemplateFiles,
@@ -11,7 +12,14 @@ import {
   getSettingContent,
   saveCategory,
 } from '@/services';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  DownOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+  UpOutlined,
+} from '@ant-design/icons';
 import {
   ProForm,
   ProFormCheckbox,
@@ -23,7 +31,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Card, Col, Image, Modal, Row, message } from 'antd';
+import { Button, Card, Col, Image, Modal, Row, Tag, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import '../index.less';
 
@@ -38,13 +46,22 @@ const ArchiveCategoryDetail: React.FC = () => {
   const [currentModule, setCurrentModule] = useState<any>({
     category_fields: [],
   });
+  const intl = useIntl();
   const [extraContent, setExtraContent] = useState<any>({});
   const [contentSetting, setContentSetting] = useState<any>({});
   const [loaded, setLoaded] = useState<boolean>(false);
   const [category, setCategory] = useState<any>({ status: 1 });
   const [modules, setModules] = useState<any[]>([]);
+  const [searchArchives, setSearchArchives] = useState<any[]>([
+    {
+      id: 0,
+      title: intl.formatMessage({
+        id: 'content.parent_id.empty',
+      }),
+    },
+  ]);
+  const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
   const [newKey, setNewKey] = useState<string>('');
-  const intl = useIntl();
 
   const changeModule = (e: any, tmpModels?: any) => {
     let newModules = tmpModels || modules;
@@ -53,6 +70,21 @@ const ArchiveCategoryDetail: React.FC = () => {
         setCurrentModule(item);
         return item;
       }
+    }
+  };
+
+  const getSelectedArchives = (arcIds: number[]) => {
+    if (arcIds.length > 0) {
+      // 存在了再处理
+      getArchives({
+        id: arcIds.join(','),
+        limit: 20,
+      }).then((res) => {
+        if (res.data) {
+          setSelectedArchives(res.data);
+          setSearchArchives(res.data);
+        }
+      });
     }
   };
 
@@ -85,15 +117,22 @@ const ArchiveCategoryDetail: React.FC = () => {
     }
     let module = changeModule(moduleId, modRes.data);
     let extraContent: any = {};
+    let arcIds = [];
     // eslint-disable-next-line guard-for-in
     for (let i in module.category_fields) {
       let field = module.category_fields[i];
       if (field.type === 'editor') {
         extraContent[field.field_name] = cat.extra?.[field.field_name] || '';
+      } else if (
+        field.type === 'archive' &&
+        cat.extra?.[field.field_name] > 0
+      ) {
+        arcIds.push(cat.extra[field.field_name]);
       }
     }
     setExtraContent(extraContent);
     setCategory(cat);
+    getSelectedArchives(arcIds);
 
     setContent(cat.content || '');
     setCategoryImages(cat.images || []);
@@ -223,6 +262,29 @@ const ArchiveCategoryDetail: React.FC = () => {
     setCategory(category);
   };
 
+  const handleMoveExtraFieldItem = (
+    field: string,
+    index: number,
+    direction: 'up' | 'down',
+  ) => {
+    if (direction === 'up') {
+      if (index <= 0) {
+        return;
+      }
+      const temp = category.extra[field][index];
+      category.extra[field][index] = category.extra[field][index - 1];
+      category.extra[field][index - 1] = temp;
+    } else {
+      if (index >= category.extra[field].length - 1) {
+        return;
+      }
+      const temp = category.extra[field][index];
+      category.extra[field][index] = category.extra[field][index + 1];
+      category.extra[field][index + 1] = temp;
+    }
+    setCategory(Object.assign({}, category));
+  };
+
   const handleCleanExtraFieldItem = (field: string, index: number) => {
     category.extra[field]?.splice(index, 1);
     const extra: any = {};
@@ -255,6 +317,101 @@ const ArchiveCategoryDetail: React.FC = () => {
     setCategory(Object.assign({}, category));
   };
 
+  const onAddExtraTextsField = (field: string) => {
+    if (!category.extra[field]) {
+      category.extra[field] = [];
+    }
+    category.extra[field].push({
+      key: '',
+      value: '',
+    });
+    const extra: any = {};
+    extra[field] = category.extra[field];
+    formRef?.current?.setFieldsValue({ extra });
+    setCategory(Object.assign({}, category));
+  };
+
+  const onChangeExtraTextsField = (
+    field: string,
+    idx: number,
+    keyName: any,
+    value: any,
+  ) => {
+    if (!category.extra[field][idx]) {
+      category.extra[field][idx] = {};
+    }
+    category.extra[field][idx][keyName] = value;
+    const extra: any = {};
+    extra[field] = { idx: { keyName: value } };
+    formRef?.current?.setFieldsValue({ extra });
+    setCategory(category);
+  };
+
+  const onMoveUpExtraTextsField = (field: string, idx: number) => {
+    // 移动
+    if (idx > 0) {
+      const tmp = category.extra[field][idx];
+      category.extra[field][idx] = category.extra[field][idx - 1];
+      category.extra[field][idx - 1] = tmp;
+      const extra: any = {};
+      extra[field] = category.extra[field];
+      formRef?.current?.setFieldsValue({ extra });
+      setCategory(Object.assign({}, category));
+    }
+  };
+
+  const onMoveDownExtraTextsField = (field: string, idx: number) => {
+    // 移动
+    if (idx < category.extra[field].length - 1) {
+      const tmp = category.extra[field][idx];
+      category.extra[field][idx] = category.extra[field][idx + 1];
+      category.extra[field][idx + 1] = tmp;
+      const extra: any = {};
+      extra[field] = category.extra[field];
+      formRef?.current?.setFieldsValue({ extra });
+      setCategory(Object.assign({}, category));
+    }
+  };
+
+  const onRemoveExtraTextsField = (field: string, idx: number) => {
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.module.field.delete.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'content.module.field.delete.content',
+      }),
+      onOk: () => {
+        if (category.extra[field].length === 1) {
+          category.extra[field] = [];
+        } else {
+          category.extra[field].splice(idx, 1);
+        }
+        setCategory(Object.assign({}, category));
+        const extra: any = {};
+        extra[field] = category.extra[field];
+        formRef?.current?.setFieldsValue({ extra });
+      },
+    });
+  };
+
+  const onSearchArchives = (e: any) => {
+    getArchives({ title: e, pageSize: 10 }).then((res) => {
+      // 如果是已经有选择的 ParentId,则把它加入到开头
+      const searchItems: any[] = [];
+      if (selectedArchives) {
+        searchItems.push(...selectedArchives);
+      } else {
+        searchItems.push({
+          id: 0,
+          title: intl.formatMessage({
+            id: 'content.parent_id.empty',
+          }),
+        });
+      }
+      setSearchArchives(searchItems.concat(res.data || []));
+    });
+  };
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
       const values = formRef.current?.getFieldsFormatValue?.();
@@ -498,7 +655,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                   name={['extra', item.field_name]}
                                   label={item.name}
                                 >
-                                  {category.extra[item.field_name] ? (
+                                  {category.extra?.[item.field_name] ? (
                                     <div className="ant-upload-item">
                                       <Image
                                         preview={{
@@ -541,7 +698,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                   name={['extra', item.field_name]}
                                   label={item.name}
                                 >
-                                  {category.extra[item.field_name]?.length
+                                  {category.extra?.[item.field_name]?.length
                                     ? category.extra[item.field_name].map(
                                         (inner: string, idx: number) => (
                                           <div
@@ -554,17 +711,41 @@ const ArchiveCategoryDetail: React.FC = () => {
                                               }}
                                               src={inner}
                                             />
-                                            <span
-                                              className="delete"
-                                              onClick={() =>
-                                                handleCleanExtraFieldItem(
-                                                  item.field_name,
-                                                  idx,
-                                                )
-                                              }
-                                            >
-                                              <DeleteOutlined />
-                                            </span>
+                                            <div className="ant-upload-item-action">
+                                              <Tag
+                                                onClick={() =>
+                                                  handleMoveExtraFieldItem(
+                                                    item.field_name,
+                                                    idx,
+                                                    'up',
+                                                  )
+                                                }
+                                              >
+                                                <LeftOutlined />
+                                              </Tag>
+                                              <Tag
+                                                color="red"
+                                                onClick={() =>
+                                                  handleCleanExtraFieldItem(
+                                                    item.field_name,
+                                                    idx,
+                                                  )
+                                                }
+                                              >
+                                                <DeleteOutlined />
+                                              </Tag>
+                                              <Tag
+                                                onClick={() =>
+                                                  handleMoveExtraFieldItem(
+                                                    item.field_name,
+                                                    idx,
+                                                    'down',
+                                                  )
+                                                }
+                                              >
+                                                <RightOutlined />
+                                              </Tag>
+                                            </div>
                                           </div>
                                         ),
                                       )
@@ -594,7 +775,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                   name={['extra', item.field_name]}
                                   label={item.name}
                                 >
-                                  {category.extra[item.field_name] ? (
+                                  {category.extra?.[item.field_name] ? (
                                     <div className="ant-upload-item ant-upload-file">
                                       <span>
                                         {category.extra[item.field_name]}
@@ -623,6 +804,172 @@ const ArchiveCategoryDetail: React.FC = () => {
                                       </Button>
                                     </AttachmentSelect>
                                   )}
+                                </ProFormText>
+                              ) : item.type === 'texts' ? (
+                                <ProFormText label={item.name}>
+                                  <div className="text-groups">
+                                    <div className="text-group">
+                                      <div className="text-key">Key</div>
+                                      <div className="text-value">Value</div>
+                                      <div className="text-action"></div>
+                                    </div>
+                                    {category.extra?.[item.field_name]?.length
+                                      ? category.extra[item.field_name].map(
+                                          (inner: any, idx: number) => (
+                                            <div
+                                              className="text-group"
+                                              key={idx}
+                                            >
+                                              <div className="text-key">
+                                                <ProFormText
+                                                  name={[
+                                                    'extra',
+                                                    item.field_name,
+                                                    idx,
+                                                    'key',
+                                                  ]}
+                                                  fieldProps={{
+                                                    onChange: (e: any) => {
+                                                      onChangeExtraTextsField(
+                                                        item.field_name,
+                                                        idx,
+                                                        'key',
+                                                        e.target.value,
+                                                      );
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                              <div className="text-value">
+                                                <ProFormText
+                                                  name={[
+                                                    'extra',
+                                                    item.field_name,
+                                                    idx,
+                                                    'value',
+                                                  ]}
+                                                  fieldProps={{
+                                                    onChange: (e: any) => {
+                                                      onChangeExtraTextsField(
+                                                        item.field_name,
+                                                        idx,
+                                                        'value',
+                                                        e.target.value,
+                                                      );
+                                                    },
+                                                  }}
+                                                />
+                                              </div>
+                                              <div className="text-action">
+                                                <Tag
+                                                  onClick={() =>
+                                                    onMoveUpExtraTextsField(
+                                                      item.field_name,
+                                                      idx,
+                                                    )
+                                                  }
+                                                >
+                                                  <UpOutlined />
+                                                </Tag>
+                                                <Tag
+                                                  onClick={() =>
+                                                    onMoveDownExtraTextsField(
+                                                      item.field_name,
+                                                      idx,
+                                                    )
+                                                  }
+                                                >
+                                                  <DownOutlined />
+                                                </Tag>
+                                                <Tag
+                                                  color="red"
+                                                  onClick={() =>
+                                                    onRemoveExtraTextsField(
+                                                      item.field_name,
+                                                      idx,
+                                                    )
+                                                  }
+                                                >
+                                                  <DeleteOutlined />
+                                                </Tag>
+                                              </div>
+                                            </div>
+                                          ),
+                                        )
+                                      : null}
+                                    <div className="text-group">
+                                      <div className="text-key">
+                                        <Tag
+                                          color="blue"
+                                          className="add-line"
+                                          onClick={() =>
+                                            onAddExtraTextsField(
+                                              item.field_name,
+                                            )
+                                          }
+                                        >
+                                          {intl.formatMessage({
+                                            id: 'content.param.add-line',
+                                          })}
+                                        </Tag>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ProFormText>
+                              ) : item.type === 'archive' ? (
+                                <ProFormText label={item.name}>
+                                  <ProFormSelect
+                                    name={['extra', item.field_name]}
+                                    showSearch
+                                    options={searchArchives.map((a: any) => ({
+                                      title: a.title,
+                                      label: a.title,
+                                      value: a.id,
+                                    }))}
+                                    fieldProps={{
+                                      onSearch: (e) => {
+                                        onSearchArchives(e);
+                                      },
+                                    }}
+                                  />
+                                </ProFormText>
+                              ) : item.type === 'category' ? (
+                                <ProFormText label={item.name}>
+                                  <ProFormSelect
+                                    showSearch
+                                    name={['extra', item.field_name]}
+                                    mode={'single'}
+                                    request={async () => {
+                                      const res = await getCategories({
+                                        type: 1,
+                                      });
+                                      const categories = (res.data || []).map(
+                                        (cat: any) => ({
+                                          spacer: cat.spacer,
+                                          label:
+                                            cat.title +
+                                            (cat.status === 1
+                                              ? ''
+                                              : intl.formatMessage({
+                                                  id: 'setting.nav.hide',
+                                                })),
+                                          value: cat.id,
+                                        }),
+                                      );
+                                      return categories;
+                                    }}
+                                    fieldProps={{
+                                      optionItemRender(item: any) {
+                                        return (
+                                          <div
+                                            dangerouslySetInnerHTML={{
+                                              __html: item.spacer + item.label,
+                                            }}
+                                          ></div>
+                                        );
+                                      },
+                                    }}
+                                  />
                                 </ProFormText>
                               ) : null}
                             </Col>

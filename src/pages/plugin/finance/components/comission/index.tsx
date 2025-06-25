@@ -98,6 +98,7 @@ const PluginFinanceCommission: React.FC = () => {
       rowSelection={false}
       pagination={{
         showSizeChanger: true,
+        showQuickJumper: true,
       }}
     />
   );

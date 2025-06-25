@@ -58,6 +58,7 @@ const Keywords: React.FC<KeywordsProps> = (props) => {
         pagination={{
           defaultPageSize: 10,
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
     </Modal>

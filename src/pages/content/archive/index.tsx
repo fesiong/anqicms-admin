@@ -1014,6 +1014,7 @@ const ArchiveList: React.FC = () => {
           },
         }}
         pagination={{
+          showQuickJumper: true,
           showSizeChanger: true,
           defaultCurrent: lastParams.current,
           defaultPageSize: lastParams.pageSize,

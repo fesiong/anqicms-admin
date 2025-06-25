@@ -133,9 +133,28 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
   }
+  .ant-upload-item-action {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    display: none;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 3px;
+    color: #fff;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
   &:hover {
     .delete {
       display: block;
+    }
+    .ant-upload-item-action {
+      display: flex;
     }
   }
   .add {
@@ -149,6 +168,43 @@ body {
     width: inherit;
     height: inherit;
     word-break: break-all;
+  }
+}
+.text-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  .text-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    .text-action {
+      display: flex;
+      flex: 0 0 70px;
+      align-items: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .text-key {
+      flex: 1;
+    }
+    .text-value {
+      flex: 2;
+    }
+    &:hover {
+      .text-action {
+        opacity: 1;
+      }
+    }
+  }
+  .text-group .ant-form-item {
+    margin-bottom: 0;
+  }
+  .add-line {
+    cursor: pointer;
   }
 }
 

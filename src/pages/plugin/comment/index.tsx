@@ -204,6 +204,7 @@ const PluginComment: React.FC = () => {
           }}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
         {editVisible && (

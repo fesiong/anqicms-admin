@@ -303,6 +303,7 @@ const PluginPush: React.FC<any> = () => {
           columns={columns}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
       </Modal>

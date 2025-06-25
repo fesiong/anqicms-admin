@@ -1,5 +1,10 @@
 import { getAdminLoginLogs } from '@/services';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import dayjs from 'dayjs';
 import React, { useRef } from 'react';
@@ -12,7 +17,8 @@ const AdminLoginLog: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'account.time' }),
       dataIndex: 'created_time',
-      render: (text, record) => dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
+      render: (text, record) =>
+        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
     },
     {
       title: 'IP',
@@ -55,6 +61,7 @@ const AdminLoginLog: React.FC = () => {
         columns={columns}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
     </PageContainer>

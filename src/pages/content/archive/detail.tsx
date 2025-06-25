@@ -22,7 +22,15 @@ import {
 } from '@/services';
 import { getTags } from '@/services/tag';
 import { getStore, removeStore, setStore } from '@/utils/store';
-import { CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+  UpOutlined,
+} from '@ant-design/icons';
 import {
   ProForm,
   ProFormCheckbox,
@@ -61,6 +69,7 @@ class ArchiveForm extends React.Component<intlProps> {
     archive: { extra: {}, content: '', flag: [] },
     relations: [],
     extraContent: {},
+    extraTexts: {},
     content: '',
     modules: [],
     module: { fields: [] },
@@ -77,7 +86,7 @@ class ArchiveForm extends React.Component<intlProps> {
         }),
       },
     ],
-    parentArchive: {}, // 上级文档，如果存在的话
+    selectedArchives: [],
 
     aiVisible: false,
     aiTitle: '',
@@ -134,7 +143,11 @@ class ArchiveForm extends React.Component<intlProps> {
               if (archive.category_ids?.length > 0) {
                 categoryId = archive.category_ids[0];
               }
-              this.getParentArchive(archive.parent_id || 0);
+              let arcIds = [];
+              if (archive.parent_id > 0) {
+                arcIds.push(archive.parent_id);
+              }
+              this.getSelectedArchives(arcIds);
               this.setState({
                 archive,
               });
@@ -251,29 +264,45 @@ class ArchiveForm extends React.Component<intlProps> {
           archive.extra[module.fields[i].field_name]?.value || '';
       }
     }
-    this.getParentArchive(archive.parent_id || 0);
+    let arcIds = [];
+    if (archive.parent_id > 0) {
+      arcIds.push(archive.parent_id);
+    }
+    let extraTexts: any = {};
+    for (let i in module.fields) {
+      if (module.fields[i].type === 'texts') {
+        extraTexts[module.fields[i].field_name] =
+          archive.extra[module.fields[i].field_name]?.value || [];
+      } else if (
+        module.fields[i].type === 'archive' &&
+        archive.extra[module.fields[i].field_name]?.value > 0
+      ) {
+        arcIds.push(archive.extra[module.fields[i].field_name]?.value);
+      }
+    }
+    this.getSelectedArchives(arcIds);
     this.getArchiveCategory(archive.category_id);
     this.setState({
       fetched: true,
       archive: archive,
       content: content,
       extraContent: extraContent,
+      extraTexts: extraTexts,
       relations: archive.relations || [],
     });
   };
 
-  getParentArchive = (parentId: number) => {
-    if (parentId > 0) {
+  getSelectedArchives = (arcIds: number[]) => {
+    if (arcIds.length > 0) {
       // 存在了再处理
-      getArchiveInfo({
-        id: parentId,
+      getArchives({
+        id: arcIds.join(','),
+        limit: 20,
       }).then((res) => {
-        this.setState({
-          parentArchive: res.data || {},
-        });
-        if (res.data?.id) {
+        if (res.data) {
           this.setState({
-            searchArchives: [res.data],
+            selectedArchives: res.data,
+            searchArchives: res.data,
           });
         }
       });
@@ -487,8 +516,10 @@ class ArchiveForm extends React.Component<intlProps> {
   handleSelectedArchives = async (values: any[]) => {
     const { relations } = this.state;
     for (let i in values) {
+      if (!values.hasOwnProperty(i)) continue;
       let exist = false;
       for (let j in relations) {
+        if (!relations.hasOwnProperty(j)) continue;
         if (relations[j].id === values[i].id) {
           exist = true;
           break;
@@ -546,7 +577,8 @@ class ArchiveForm extends React.Component<intlProps> {
   };
 
   onSubmit = async (values: any) => {
-    const { archive, content, extraContent, relations } = this.state;
+    const { archive, content, extraContent, extraTexts, relations } =
+      this.state;
     const postData = Object.assign(archive, values);
     postData.relation_ids = relations.map((item: any) => item.id);
     delete postData.relations;
@@ -558,6 +590,20 @@ class ArchiveForm extends React.Component<intlProps> {
         postData.extra[field] = {};
       }
       postData.extra[field].value = extraContent[field];
+    }
+    // eslint-disable-next-line guard-for-in
+    for (let field in extraTexts) {
+      if (!postData.extra[field]) {
+        postData.extra[field] = {};
+      }
+      postData.extra[field].value = extraTexts[field]
+        .map((item: any) => {
+          return {
+            key: item.key || '',
+            value: item.value || '',
+          };
+        })
+        .filter((item: any) => item.key);
     }
     // 必须选择分类
     let categoryIds = [];
@@ -667,6 +713,32 @@ class ArchiveForm extends React.Component<intlProps> {
     });
   };
 
+  handleMoveExtraFieldItem = (
+    field: string,
+    index: number,
+    direction: 'up' | 'down',
+  ) => {
+    const { archive } = this.state;
+    if (direction === 'up') {
+      if (index <= 0) {
+        return;
+      }
+      const temp = archive.extra[field].value[index];
+      archive.extra[field].value[index] = archive.extra[field].value[index - 1];
+      archive.extra[field].value[index - 1] = temp;
+    } else {
+      if (index >= archive.extra[field].value.length - 1) {
+        return;
+      }
+      const temp = archive.extra[field].value[index];
+      archive.extra[field].value[index] = archive.extra[field].value[index + 1];
+      archive.extra[field].value[index + 1] = temp;
+    }
+    this.setState({
+      archive,
+    });
+  };
+
   handleUploadExtraFieldItem = (field: string, rows: any) => {
     const { archive } = this.state;
     if (!archive.extra[field]) {
@@ -695,6 +767,100 @@ class ArchiveForm extends React.Component<intlProps> {
 
     this.setState({
       archive,
+    });
+  };
+
+  onAddExtraTextsField = (field: string) => {
+    const { extraTexts } = this.state;
+    if (!extraTexts[field]) {
+      extraTexts[field] = [];
+    }
+    extraTexts[field].push({
+      key: '',
+      value: '',
+    });
+    const extra: any = {};
+    extra[field] = { value: extraTexts[field] };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTexts,
+    });
+  };
+
+  onChangeExtraTextsField = (
+    field: string,
+    idx: number,
+    keyName: any,
+    value: any,
+  ) => {
+    const { extraTexts } = this.state;
+    if (!extraTexts[field][idx]) {
+      extraTexts[field][idx] = {};
+    }
+    extraTexts[field][idx][keyName] = value;
+
+    const extra: any = {};
+    extra[field] = { value: { idx: { keyName: value } } };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTexts,
+    });
+  };
+
+  onMoveUpExtraTextsField = (field: string, idx: number) => {
+    const { extraTexts } = this.state;
+    // 移动
+    if (idx > 0) {
+      const tmp = extraTexts[field][idx];
+      extraTexts[field][idx] = extraTexts[field][idx - 1];
+      extraTexts[field][idx - 1] = tmp;
+      const extra: any = {};
+      extra[field] = { value: extraTexts[field] };
+      this.formRef?.current?.setFieldsValue({ extra });
+      this.setState({
+        extraTexts,
+      });
+    }
+  };
+
+  onMoveDownExtraTextsField = (field: string, idx: number) => {
+    const { extraTexts } = this.state;
+    // 移动
+    if (idx < extraTexts[field].length - 1) {
+      const tmp = extraTexts[field][idx];
+      extraTexts[field][idx] = extraTexts[field][idx + 1];
+      extraTexts[field][idx + 1] = tmp;
+      const extra: any = {};
+      extra[field] = { value: extraTexts[field] };
+      this.formRef?.current?.setFieldsValue({ extra });
+      this.setState({
+        extraTexts,
+      });
+    }
+  };
+
+  onRemoveExtraTextsField = (field: string, idx: number) => {
+    const { extraTexts } = this.state;
+    Modal.confirm({
+      title: this.props.intl.formatMessage({
+        id: 'content.module.field.delete.confirm',
+      }),
+      content: this.props.intl.formatMessage({
+        id: 'content.module.field.delete.content',
+      }),
+      onOk: () => {
+        if (extraTexts[field].length === 1) {
+          extraTexts[field] = [];
+        } else {
+          extraTexts[field].splice(idx, 1);
+        }
+        const extra: any = {};
+        extra[field] = { value: extraTexts[field] };
+        this.formRef?.current?.setFieldsValue({ extra });
+        this.setState({
+          extraTexts,
+        });
+      },
     });
   };
 
@@ -736,8 +902,8 @@ class ArchiveForm extends React.Component<intlProps> {
     getArchives({ title: e, pageSize: 10 }).then((res) => {
       // 如果是已经有选择的 ParentId,则把它加入到开头
       const searchItems: any[] = [];
-      if (this.state.parentArchive.id) {
-        searchItems.push(this.state.parentArchive);
+      if (this.state.selectedArchives) {
+        searchItems.push(...this.state.selectedArchives);
       } else {
         searchItems.push({
           id: 0,
@@ -757,6 +923,7 @@ class ArchiveForm extends React.Component<intlProps> {
       archive,
       content,
       extraContent,
+      extraTexts,
       module,
       fetched,
       keywordsVisible,
@@ -1162,15 +1329,16 @@ class ArchiveForm extends React.Component<intlProps> {
                                     name={['extra', item.field_name, 'value']}
                                     label={item.name}
                                   >
-                                    {archive.extra[item.field_name]?.value ? (
+                                    {archive.extra?.[item.field_name]?.value ? (
                                       <div className="ant-upload-item">
                                         <Image
                                           preview={{
-                                            src: archive.extra[item.field_name]
-                                              ?.value,
+                                            src: archive.extra?.[
+                                              item.field_name
+                                            ]?.value,
                                           }}
                                           src={
-                                            archive.extra[item.field_name]
+                                            archive.extra?.[item.field_name]
                                               ?.value
                                           }
                                         />
@@ -1208,7 +1376,7 @@ class ArchiveForm extends React.Component<intlProps> {
                                     name={['extra', item.field_name, 'value']}
                                     label={item.name}
                                   >
-                                    {archive.extra[item.field_name]?.value
+                                    {archive.extra?.[item.field_name]?.value
                                       ?.length
                                       ? archive.extra[
                                           item.field_name
@@ -1224,16 +1392,38 @@ class ArchiveForm extends React.Component<intlProps> {
                                                 }}
                                                 src={inner}
                                               />
-                                              <span
-                                                className="delete"
-                                                onClick={this.handleCleanExtraFieldItem.bind(
-                                                  this,
-                                                  item.field_name,
-                                                  idx,
-                                                )}
-                                              >
-                                                <DeleteOutlined />
-                                              </span>
+                                              <div className="ant-upload-item-action">
+                                                <Tag
+                                                  onClick={this.handleMoveExtraFieldItem.bind(
+                                                    this,
+                                                    item.field_name,
+                                                    idx,
+                                                    'up',
+                                                  )}
+                                                >
+                                                  <LeftOutlined />
+                                                </Tag>
+                                                <Tag
+                                                  color="red"
+                                                  onClick={this.handleCleanExtraFieldItem.bind(
+                                                    this,
+                                                    item.field_name,
+                                                    idx,
+                                                  )}
+                                                >
+                                                  <DeleteOutlined />
+                                                </Tag>
+                                                <Tag
+                                                  onClick={this.handleMoveExtraFieldItem.bind(
+                                                    this,
+                                                    item.field_name,
+                                                    idx,
+                                                    'down',
+                                                  )}
+                                                >
+                                                  <RightOutlined />
+                                                </Tag>
+                                              </div>
                                             </div>
                                           ),
                                         )
@@ -1261,11 +1451,11 @@ class ArchiveForm extends React.Component<intlProps> {
                                     name={['extra', item.field_name, 'value']}
                                     label={item.name}
                                   >
-                                    {archive.extra[item.field_name]?.value ? (
+                                    {archive.extra?.[item.field_name]?.value ? (
                                       <div className="ant-upload-item ant-upload-file">
                                         <span>
                                           {
-                                            archive.extra[item.field_name]
+                                            archive.extra?.[item.field_name]
                                               ?.value
                                           }
                                         </span>
@@ -1293,9 +1483,178 @@ class ArchiveForm extends React.Component<intlProps> {
                                       </AttachmentSelect>
                                     )}
                                   </ProFormText>
-                                ) : (
-                                  ''
-                                )}
+                                ) : item.type === 'texts' ? (
+                                  <ProFormText label={item.name}>
+                                    <div className="text-groups">
+                                      <div className="text-group">
+                                        <div className="text-key">Key</div>
+                                        <div className="text-value">Value</div>
+                                        <div className="text-action"></div>
+                                      </div>
+                                      {extraTexts?.[item.field_name]?.length
+                                        ? extraTexts[item.field_name].map(
+                                            (inner: any, idx: number) => (
+                                              <div
+                                                className="text-group"
+                                                key={idx}
+                                              >
+                                                <div className="text-key">
+                                                  <ProFormText
+                                                    name={[
+                                                      'extra',
+                                                      item.field_name,
+                                                      'value',
+                                                      idx,
+                                                      'key',
+                                                    ]}
+                                                    fieldProps={{
+                                                      onChange: (e: any) => {
+                                                        this.onChangeExtraTextsField(
+                                                          item.field_name,
+                                                          idx,
+                                                          'key',
+                                                          e.target.value,
+                                                        );
+                                                      },
+                                                    }}
+                                                  />
+                                                </div>
+                                                <div className="text-value">
+                                                  <ProFormText
+                                                    name={[
+                                                      'extra',
+                                                      item.field_name,
+                                                      'value',
+                                                      idx,
+                                                      'value',
+                                                    ]}
+                                                    fieldProps={{
+                                                      onChange: (e: any) => {
+                                                        this.onChangeExtraTextsField(
+                                                          item.field_name,
+                                                          idx,
+                                                          'value',
+                                                          e.target.value,
+                                                        );
+                                                      },
+                                                    }}
+                                                  />
+                                                </div>
+                                                <div className="text-action">
+                                                  <Tag
+                                                    onClick={() =>
+                                                      this.onMoveUpExtraTextsField(
+                                                        item.field_name,
+                                                        idx,
+                                                      )
+                                                    }
+                                                  >
+                                                    <UpOutlined />
+                                                  </Tag>
+                                                  <Tag
+                                                    onClick={() =>
+                                                      this.onMoveDownExtraTextsField(
+                                                        item.field_name,
+                                                        idx,
+                                                      )
+                                                    }
+                                                  >
+                                                    <DownOutlined />
+                                                  </Tag>
+                                                  <Tag
+                                                    color="red"
+                                                    onClick={() =>
+                                                      this.onRemoveExtraTextsField(
+                                                        item.field_name,
+                                                        idx,
+                                                      )
+                                                    }
+                                                  >
+                                                    <DeleteOutlined />
+                                                  </Tag>
+                                                </div>
+                                              </div>
+                                            ),
+                                          )
+                                        : null}
+                                      <div className="text-group">
+                                        <div className="text-key">
+                                          <Tag
+                                            color="blue"
+                                            className="add-line"
+                                            onClick={() =>
+                                              this.onAddExtraTextsField(
+                                                item.field_name,
+                                              )
+                                            }
+                                          >
+                                            {this.props.intl.formatMessage({
+                                              id: 'content.param.add-line',
+                                            })}
+                                          </Tag>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </ProFormText>
+                                ) : item.type === 'archive' ? (
+                                  <ProFormText label={item.name}>
+                                    <ProFormSelect
+                                      name={['extra', item.field_name, 'value']}
+                                      showSearch
+                                      options={searchArchives.map((a: any) => ({
+                                        title: a.title,
+                                        label: a.title,
+                                        value: a.id,
+                                      }))}
+                                      fieldProps={{
+                                        onSearch: (e) => {
+                                          this.onSearchArchives(e);
+                                        },
+                                      }}
+                                    />
+                                  </ProFormText>
+                                ) : item.type === 'category' ? (
+                                  <ProFormText label={item.name}>
+                                    <ProFormSelect
+                                      showSearch
+                                      name={['extra', item.field_name, 'value']}
+                                      mode={'single'}
+                                      request={async () => {
+                                        const res = await getCategories({
+                                          type: 1,
+                                        });
+                                        const categories = (res.data || []).map(
+                                          (cat: any) => ({
+                                            spacer: cat.spacer,
+                                            label:
+                                              cat.title +
+                                              (cat.status === 1
+                                                ? ''
+                                                : this.props.intl.formatMessage(
+                                                    {
+                                                      id: 'setting.nav.hide',
+                                                    },
+                                                  )),
+                                            value: cat.id,
+                                          }),
+                                        );
+                                        return categories;
+                                      }}
+                                      fieldProps={{
+                                        optionItemRender(item: any) {
+                                          return (
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html:
+                                                  item.spacer + item.label,
+                                              }}
+                                            ></div>
+                                          );
+                                        },
+                                      }}
+                                    />
+                                  </ProFormText>
+                                ) : null}
                               </Col>
                             ),
                         )}

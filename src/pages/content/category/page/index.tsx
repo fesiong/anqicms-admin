@@ -184,6 +184,7 @@ const PageCategory: React.FC = () => {
         }}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
           defaultCurrent: lastParams.current,
           defaultPageSize: lastParams.pageSize,
         }}

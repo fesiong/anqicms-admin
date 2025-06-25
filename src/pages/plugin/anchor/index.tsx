@@ -255,6 +255,7 @@ const PluginAnchor: React.FC = () => {
           }}
           pagination={{
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
         />
         {editVisible && (

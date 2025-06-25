@@ -4,13 +4,18 @@ import {
   pluginGetMaterials,
 } from '@/services/plugin/material';
 import { PlusOutlined } from '@ant-design/icons';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Select, Space, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import MaterialCategory from './components/category';
 import MaterialImport from './components/import';
 import MaterialForm from './components/materialForm';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginMaterial: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -36,7 +41,10 @@ const PluginMaterial: React.FC = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.material.delete.confirm' }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'content.delete.deletting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
         if (!selectedRowKeys) return true;
         try {
           for (let item of selectedRowKeys) {
@@ -139,9 +147,18 @@ const PluginMaterial: React.FC = () => {
         rowKey="id"
         search={false}
         toolBarRender={() => [
-          <span key="filter"><FormattedMessage id="plugin.material.category-filter" /></span>,
-          <Select key="select" defaultValue={categoryId} style={{ width: 120 }} onChange={handleChangeCategory}>
-            <Select.Option value={0}><FormattedMessage id="plugin.material.all" /></Select.Option>
+          <span key="filter">
+            <FormattedMessage id="plugin.material.category-filter" />
+          </span>,
+          <Select
+            key="select"
+            defaultValue={categoryId}
+            style={{ width: 120 }}
+            onChange={handleChangeCategory}
+          >
+            <Select.Option value={0}>
+              <FormattedMessage id="plugin.material.all" />
+            </Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.title}
@@ -210,6 +227,7 @@ const PluginMaterial: React.FC = () => {
         }}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       {editVisible && (
@@ -241,7 +259,9 @@ const PluginMaterial: React.FC = () => {
         }}
       >
         <div className="article-content">
-          <div dangerouslySetInnerHTML={{ __html: currentMaterial.content }}></div>
+          <div
+            dangerouslySetInnerHTML={{ __html: currentMaterial.content }}
+          ></div>
         </div>
       </Modal>
     </PageContainer>

@@ -1,5 +1,10 @@
 import { getAiArticlePlans, startCollectorArticle } from '@/services';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Card, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
@@ -13,9 +18,14 @@ const PluginAiGenerate: React.FC = () => {
   const startToCollect = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.aigenerate.start.confirm' }),
-      content: intl.formatMessage({ id: 'plugin.aigenerate.start.description' }),
+      content: intl.formatMessage({
+        id: 'plugin.aigenerate.start.description',
+      }),
       onOk: async () => {
-        const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'setting.system.submitting' }),
+          0,
+        );
         startCollectorArticle()
           .then((res) => {
             message.success(res.msg);
@@ -140,12 +150,15 @@ const PluginAiGenerate: React.FC = () => {
             }}
             form={{
               initialValues: {
-                keyword: new URLSearchParams(window.location.search).get('keyword') || '',
+                keyword:
+                  new URLSearchParams(window.location.search).get('keyword') ||
+                  '',
               },
             }}
             columns={columns}
             pagination={{
               showSizeChanger: true,
+              showQuickJumper: true,
             }}
           />
         </div>

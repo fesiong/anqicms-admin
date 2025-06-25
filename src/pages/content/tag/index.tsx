@@ -241,6 +241,7 @@ const ArticleTag: React.FC = () => {
         }}
         pagination={{
           showSizeChanger: true,
+          showQuickJumper: true,
         }}
       />
       {batchVisible && (
