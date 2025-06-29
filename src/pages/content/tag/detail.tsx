@@ -83,7 +83,6 @@ const ArchiveTagDetail: React.FC = () => {
     if (typeof tag.extra === 'undefined' || tag.extra === null) {
       tag.extra = {};
     }
-    console.log(typeof tag.extra);
     setTag(tag);
     setTagLogo(res1?.data?.logo || '');
     setContent(res1?.data?.content || '');
@@ -99,9 +98,9 @@ const ArchiveTagDetail: React.FC = () => {
         extraContent[field.field_name] = tag.extra?.[field.field_name] || '';
       } else if (
         field.type === 'archive' &&
-        tag.extra?.[field.field_name] > 0
+        tag.extra?.[field.field_name]?.length > 0
       ) {
-        arcIds.push(tag.extra[field.field_name]);
+        arcIds.push(...tag.extra[field.field_name]);
       }
     }
     setExtraContent(extraContent);
@@ -749,6 +748,7 @@ const ArchiveTagDetail: React.FC = () => {
                                   <ProFormSelect
                                     name={['extra', item.field_name]}
                                     showSearch
+                                    mode="multiple"
                                     options={searchArchives.map((a: any) => ({
                                       title: a.title,
                                       label: a.title,

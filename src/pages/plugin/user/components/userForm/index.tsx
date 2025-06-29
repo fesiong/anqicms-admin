@@ -90,9 +90,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         let field = fields[i];
         if (
           field.type === 'archive' &&
-          data.extra?.[field.field_name]?.value > 0
+          data.extra?.[field.field_name]?.value?.length > 0
         ) {
-          arcIds.push(data.extra[field.field_name].value);
+          arcIds.push(...data.extra[field.field_name].value);
         }
       }
       getSelectedArchives(arcIds);
@@ -750,6 +750,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
             <ProFormSelect
               name={['extra', item.field_name, 'value']}
               showSearch
+              mode="multiple"
               options={searchArchives.map((a: any) => ({
                 title: a.title,
                 label: a.title,

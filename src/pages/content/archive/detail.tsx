@@ -275,9 +275,9 @@ class ArchiveForm extends React.Component<intlProps> {
           archive.extra[module.fields[i].field_name]?.value || [];
       } else if (
         module.fields[i].type === 'archive' &&
-        archive.extra[module.fields[i].field_name]?.value > 0
+        archive.extra[module.fields[i].field_name]?.value?.length > 0
       ) {
-        arcIds.push(archive.extra[module.fields[i].field_name]?.value);
+        arcIds.push(...archive.extra[module.fields[i].field_name]?.value);
       }
     }
     this.getSelectedArchives(arcIds);
@@ -1601,6 +1601,7 @@ class ArchiveForm extends React.Component<intlProps> {
                                     <ProFormSelect
                                       name={['extra', item.field_name, 'value']}
                                       showSearch
+                                      mode="multiple"
                                       options={searchArchives.map((a: any) => ({
                                         title: a.title,
                                         label: a.title,

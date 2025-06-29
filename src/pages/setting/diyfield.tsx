@@ -84,8 +84,8 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
       const data = res2.data || [];
       const arcIds = [];
       for (const item of data) {
-        if (item.type === 'archive' && item.value > 0) {
-          arcIds.push(item.value);
+        if (item.type === 'archive' && item.value?.length > 0) {
+          arcIds.push(...item.value);
         }
       }
       getSelectedArchives(arcIds);
@@ -959,13 +959,14 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
                     <ProFormSelect
                       name={[index, 'value']}
                       showSearch
+                      mode="multiple"
                       options={searchArchives.map((a: any) => ({
                         title: a.title,
                         label: a.title,
                         value: a.id,
                       }))}
                       fieldProps={{
-                        value: Number(item.value) || undefined,
+                        value: item.value || undefined,
                         onChange: (e: any) => {
                           handleUpdateFieldValue(index, e);
                         },

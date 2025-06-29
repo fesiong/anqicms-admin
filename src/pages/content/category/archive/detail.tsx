@@ -125,9 +125,9 @@ const ArchiveCategoryDetail: React.FC = () => {
         extraContent[field.field_name] = cat.extra?.[field.field_name] || '';
       } else if (
         field.type === 'archive' &&
-        cat.extra?.[field.field_name] > 0
+        cat.extra?.[field.field_name]?.length > 0
       ) {
-        arcIds.push(cat.extra[field.field_name]);
+        arcIds.push(...cat.extra[field.field_name]);
       }
     }
     setExtraContent(extraContent);
@@ -921,6 +921,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                   <ProFormSelect
                                     name={['extra', item.field_name]}
                                     showSearch
+                                    mode="multiple"
                                     options={searchArchives.map((a: any) => ({
                                       title: a.title,
                                       label: a.title,
