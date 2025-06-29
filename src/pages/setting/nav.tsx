@@ -1,4 +1,5 @@
 import NewContainer from '@/components/NewContainer';
+import AttachmentSelect from '@/components/attachment';
 import {
   deleteSettingNav,
   getArchives,
@@ -8,16 +9,18 @@ import {
   getSettingNavTypes,
   saveSettingNav,
 } from '@/services';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
+  ProColumns,
   ProFormDigit,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
-  ProList,
+  ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Modal, Space, Tag, message } from 'antd';
+import { Button, Card, Image, Modal, Space, Tag, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import NavTypes from './components/navType';
 
@@ -33,6 +36,7 @@ const SettingNavFrom: React.FC<any> = () => {
   const [typeId, setTypeId] = useState<number>(1);
   const [archives, setArchives] = useState<any[]>([]);
   const [defaultTitle, setDefaultTitle] = useState<string>('');
+  const [navLogo, setNavLogo] = useState<string>('');
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
@@ -97,6 +101,7 @@ const SettingNavFrom: React.FC<any> = () => {
 
   const editNav = (row: any) => {
     setEditingNav(row);
+    setNavLogo(row.logo);
     setNavType(row.nav_type);
     setModalVisible(true);
   };
@@ -115,6 +120,7 @@ const SettingNavFrom: React.FC<any> = () => {
 
   const handleShowAddNav = () => {
     setNavType(0);
+    setNavLogo('');
     setEditingNav({ nav_type: 0 });
     setModalVisible(true);
   };
@@ -125,6 +131,7 @@ const SettingNavFrom: React.FC<any> = () => {
     if (!values.title) {
       values.title = defaultTitle;
     }
+    values.logo = navLogo;
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
@@ -162,6 +169,103 @@ const SettingNavFrom: React.FC<any> = () => {
     getNavList(typeId);
   };
 
+  const handleSelectLogo = (row: any) => {
+    setNavLogo(row.logo);
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
+  };
+
+  const handleCleanLogo = (e: any) => {
+    e.stopPropagation();
+    setNavLogo('');
+  };
+
+  const columns: ProColumns<any>[] = [
+    {
+      title: intl.formatMessage({ id: 'setting.nav.title' }),
+      dataIndex: 'title',
+      render: (text, record) => {
+        return (
+          <div>
+            <span>{text}</span>
+            {record.sub_title && (
+              <span className="text-muted"> - {record.sub_title}</span>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      title:
+        intl.formatMessage({ id: 'setting.nav.type' }) +
+        '/' +
+        intl.formatMessage({ id: 'setting.nav.description' }),
+      dataIndex: 'page_id',
+      render: (_, record) => {
+        return (
+          <Space size={8} direction="vertical">
+            <div>
+              <a href={record.link} target="_blank" rel="noreferrer">
+                <Tag color="blue">
+                  {record.nav_type === 2
+                    ? intl.formatMessage({ id: 'setting.nav.outlink' }) +
+                      ': ' +
+                      record.link
+                    : record.nav_type === 3
+                    ? intl.formatMessage({ id: 'setting.nav.archive' }) +
+                      ': ' +
+                      record.page_id
+                    : record.nav_type === 1
+                    ? intl.formatMessage({ id: 'setting.nav.category' }) +
+                      ': ' +
+                      record.page_id
+                    : intl.formatMessage({ id: 'setting.nav.internal' }) +
+                      ': ' +
+                      (record.page_id > 0
+                        ? getModuleName(record.page_id)
+                        : intl.formatMessage({ id: 'setting.nav.home' }))}
+                </Tag>
+              </a>
+            </div>
+            {record.description && (
+              <div className="text-muted">{record.description}</div>
+            )}
+          </Space>
+        );
+      },
+    },
+    {
+      title: 'thumb',
+      dataIndex: 'thumb',
+      hideInSearch: true,
+      width: 70,
+      render: (text, record) => {
+        return text ? <img src={record.thumb} className="list-thumb" /> : null;
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'setting.action' }),
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+        <Space size={20}>
+          {(record.parent_id === 0 || record.nav_list?.length > 0) && (
+            <a onClick={() => editNav({ parent_id: record.id })} key="add">
+              <FormattedMessage id="setting.nav.children.add" />
+            </a>
+          )}
+          <a onClick={() => editNav(record)} key="edit">
+            <FormattedMessage id="setting.action.edit" />
+          </a>
+          <a onClick={() => removeNav(record)} key="warning">
+            <FormattedMessage id="setting.system.delete" />
+          </a>
+        </Space>
+      ),
+    },
+  ];
+
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card
@@ -193,73 +297,23 @@ const SettingNavFrom: React.FC<any> = () => {
           </div>
         }
       >
-        <ProList<any>
-          toolBarRender={() => {
-            return [
-              <Button key="add" onClick={handleShowAddNav}>
-                <FormattedMessage id="setting.nav.add" />
-              </Button>,
-            ];
-          }}
-          rowKey="name"
+        <ProTable<any>
+          key={newKey}
           headerTitle={intl.formatMessage({ id: 'setting.nav.list' })}
           dataSource={navs}
-          showActions="hover"
-          showExtra="hover"
-          metas={{
-            title: {
-              render: (text: any, row: any) => {
-                return (row.spacer || '') + text;
-              },
-              dataIndex: 'title',
-            },
-            description: {
-              dataIndex: 'description',
-            },
-            subTitle: {
-              render: (_: any, row: any) => {
-                return (
-                  <Space size={0}>
-                    {row.sub_title && <Tag>{row.sub_title}</Tag>}
-                    <Tag color="blue">
-                      {row.nav_type === 2
-                        ? intl.formatMessage({ id: 'setting.nav.outlink' }) +
-                          ': ' +
-                          row.link
-                        : row.nav_type === 3
-                        ? intl.formatMessage({ id: 'setting.nav.archive' }) +
-                          ': ' +
-                          row.page_id
-                        : row.nav_type === 1
-                        ? intl.formatMessage({ id: 'setting.nav.category' }) +
-                          ': ' +
-                          row.page_id
-                        : intl.formatMessage({ id: 'setting.nav.internal' }) +
-                          ': ' +
-                          (row.page_id > 0
-                            ? getModuleName(row.page_id)
-                            : intl.formatMessage({ id: 'setting.nav.home' }))}
-                    </Tag>
-                  </Space>
-                );
-              },
-            },
-            actions: {
-              render: (_: any, row: any) => [
-                row.parent_id === 0 && (
-                  <a onClick={() => editNav({ parent_id: row.id })} key="add">
-                    <FormattedMessage id="setting.nav.children.add" />
-                  </a>
-                ),
-                <a onClick={() => editNav(row)} key="edit">
-                  <FormattedMessage id="setting.action.edit" />
-                </a>,
-                <a onClick={() => removeNav(row)} key="warning">
-                  <FormattedMessage id="setting.system.delete" />
-                </a>,
-              ],
-            },
+          rowKey="id"
+          search={false}
+          toolBarRender={() => [
+            <Button key="add" onClick={handleShowAddNav}>
+              <FormattedMessage id="setting.nav.add" />
+            </Button>,
+          ]}
+          columns={columns}
+          expandable={{
+            childrenColumnName: 'nav_list',
+            defaultExpandAllRows: true,
           }}
+          pagination={false}
         />
       </Card>
       {modalVisible && (
@@ -281,6 +335,15 @@ const SettingNavFrom: React.FC<any> = () => {
                 label: 'title',
                 value: 'id',
               },
+              optionItemRender(item: any) {
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: (item.spacer || '') + item.title,
+                    }}
+                  ></div>
+                );
+              },
             }}
             request={async () => {
               let newNavs = [
@@ -290,18 +353,17 @@ const SettingNavFrom: React.FC<any> = () => {
                 },
               ];
               for (let item of navs) {
-                if (item.parent_id === 0) {
-                  newNavs.push(item);
-                  for (let sub of navs) {
-                    if (sub.parent_id === item.id) {
-                      sub.spacer = (item.spacer || '') + '└  ';
-                      sub.title = sub.spacer + sub.title;
-                      newNavs.push(sub);
-                    }
+                newNavs.push(item);
+                for (let sub of item.nav_list || []) {
+                  sub.spacer = (item.spacer || '') + '└  ';
+                  newNavs.push(sub);
+                  for (let sub2 of sub.nav_list || []) {
+                    sub2.spacer = (sub.spacer || '') + '└  ';
+                    newNavs.push(sub2);
                   }
                 }
               }
-              return newNavs;
+              return newNavs.concat(navs);
             }}
           />
           <ProFormText
@@ -323,6 +385,35 @@ const SettingNavFrom: React.FC<any> = () => {
             label={intl.formatMessage({ id: 'setting.nav.description' })}
             width="lg"
           />
+          <ProFormText
+            width="lg"
+            label={intl.formatMessage({ id: 'content.category.thumb' })}
+          >
+            {navLogo ? (
+              <div className="ant-upload-item">
+                <Image
+                  preview={{
+                    src: navLogo,
+                  }}
+                  src={navLogo}
+                />
+                <span className="delete" onClick={handleCleanLogo}>
+                  <DeleteOutlined />
+                </span>
+              </div>
+            ) : (
+              <AttachmentSelect onSelect={handleSelectLogo} open={false}>
+                <div className="ant-upload-item">
+                  <div className="add">
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>
+                      <FormattedMessage id="setting.system.upload" />
+                    </div>
+                  </div>
+                </div>
+              </AttachmentSelect>
+            )}
+          </ProFormText>
           <ProFormRadio.Group
             name="nav_type"
             label={intl.formatMessage({ id: 'setting.nav.type' })}
