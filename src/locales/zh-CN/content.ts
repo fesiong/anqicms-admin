@@ -441,4 +441,5 @@ export default {
   'content.parent_id.empty': '无',
   'content.parent_id.name': '上级文档',
   'content.children.btn': '下级文档',
+  'content.author.name': '作者',
 };

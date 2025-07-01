@@ -18,6 +18,8 @@ import {
   getModules,
   getSettingContent,
   pluginGetUserGroups,
+  pluginGetUserInfo,
+  pluginGetUsers,
   saveArchive,
 } from '@/services';
 import { getTags } from '@/services/tag';
@@ -87,6 +89,15 @@ class ArchiveForm extends React.Component<intlProps> {
       },
     ],
     selectedArchives: [],
+    searchUsers: [
+      {
+        id: 0,
+        title: this.props.intl.formatMessage({
+          id: 'content.parent_id.empty',
+        }),
+      },
+    ],
+    selectedUser: {},
 
     aiVisible: false,
     aiTitle: '',
@@ -279,6 +290,18 @@ class ArchiveForm extends React.Component<intlProps> {
       ) {
         arcIds.push(...archive.extra[module.fields[i].field_name]?.value);
       }
+    }
+    if (archive.user_id > 0) {
+      pluginGetUserInfo({
+        id: archive.user_id,
+      }).then((res) => {
+        if (res.data) {
+          this.setState({
+            selectedUser: res.data,
+            searchUsers: [res.data],
+          });
+        }
+      });
     }
     this.getSelectedArchives(arcIds);
     this.getArchiveCategory(archive.category_id);
@@ -918,6 +941,26 @@ class ArchiveForm extends React.Component<intlProps> {
     });
   };
 
+  onSearchUsers = (e: any) => {
+    pluginGetUsers({ q: e, pageSize: 10 }).then((res) => {
+      // 如果是已经有选择的 ParentId,则把它加入到开头
+      const searchItems: any[] = [];
+      if (this.state.selectedUser.id) {
+        searchItems.push(this.state.selectedUser);
+      } else {
+        searchItems.push({
+          id: 0,
+          title: this.props.intl.formatMessage({
+            id: 'content.parent_id.empty',
+          }),
+        });
+      }
+      this.setState({
+        searchUsers: searchItems.concat(res.data || []),
+      });
+    });
+  };
+
   render() {
     const {
       archive,
@@ -934,6 +977,7 @@ class ArchiveForm extends React.Component<intlProps> {
       archiveSearchVisible,
       relations,
       searchArchives,
+      searchUsers,
       newKey,
     } = this.state;
     return (
@@ -1938,6 +1982,37 @@ class ArchiveForm extends React.Component<intlProps> {
                       extra={this.props.intl.formatMessage({
                         id: 'content.tag.placeholder',
                       })}
+                    />
+                  </Card>
+                  <Card
+                    className="aside-card"
+                    size="small"
+                    title={this.props.intl.formatMessage({
+                      id: 'content.author.name',
+                    })}
+                    extra={
+                      <Tag
+                        className="link"
+                        onClick={() => {
+                          history.push('/plugin/user');
+                        }}
+                      >
+                        <FormattedMessage id="setting.action.add" />
+                      </Tag>
+                    }
+                  >
+                    <ProFormSelect
+                      name="user_id"
+                      showSearch
+                      options={searchUsers.map((a: any) => ({
+                        label: a.user_name,
+                        value: a.id,
+                      }))}
+                      fieldProps={{
+                        onSearch: (e) => {
+                          this.onSearchUsers(e);
+                        },
+                      }}
                     />
                   </Card>
                   <Card

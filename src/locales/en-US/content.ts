@@ -479,4 +479,5 @@ export default {
   'content.parent_id.empty': 'Empty',
   'content.parent_id.name': 'Parent',
   'content.children.btn': 'Children',
+  'content.author.name': 'Author',
 };

@@ -438,4 +438,5 @@ export default {
   'content.parent_id.empty': '無',
   'content.parent_id.name': '上級文檔',
   'content.children.btn': '下級文檔',
+  'content.author.name': '作者',
 };
