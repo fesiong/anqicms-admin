@@ -344,6 +344,8 @@ class ImageList extends React.Component<intlProps> {
   };
 
   handlePreview = (item: any) => {
+    item.edit_name = this.removeExt(item.file_location);
+    item.ext = '.' + item.file_location.split('.').pop();
     this.setState({
       currentAttach: item,
       detailVisible: true,
@@ -370,8 +372,16 @@ class ImageList extends React.Component<intlProps> {
 
   onSubmitEdit = async (values: any) => {
     const { currentAttach } = this.state;
-    currentAttach.file_name = values.file_name;
-    changeAttachmentName(currentAttach).then((res) => {
+    const updateData = {
+      id: currentAttach.id,
+      file_name: values.file_name,
+      file_location: '',
+    };
+    let newLocation = values.edit_name + currentAttach.ext;
+    if (currentAttach.file_location !== newLocation) {
+      updateData.file_location = newLocation;
+    }
+    changeAttachmentName(updateData).then((res) => {
       if (res.code !== 0) {
         message.info(res.msg);
       } else {
@@ -381,8 +391,12 @@ class ImageList extends React.Component<intlProps> {
               id: 'content.attachment.edit.success',
             }),
         );
+        let newData = res.data || currentAttach;
+        newData.file_name = updateData.file_name;
+        newData.edit_name = this.removeExt(newData.file_location);
+        newData.ext = currentAttach.ext;
         this.setState({
-          currentAttach: currentAttach,
+          currentAttach: newData,
         });
         this.getImageList();
       }
@@ -452,6 +466,13 @@ class ImageList extends React.Component<intlProps> {
         selectedAll: false,
       });
     }
+  };
+
+  removeExt = (fileName: string) => {
+    let pares = fileName.split('.');
+    pares.pop();
+
+    return pares.join('.');
   };
 
   render() {
@@ -782,7 +803,14 @@ class ImageList extends React.Component<intlProps> {
                 })}
               />
             </div>
-            <ProFormText name="file_name" />
+            <ProFormText label="ALT" name="file_name" />
+            <ProFormText
+              label="Location"
+              name="edit_name"
+              fieldProps={{
+                suffix: currentAttach.ext,
+              }}
+            />
           </ModalForm>
         )}
       </NewContainer>
