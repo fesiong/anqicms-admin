@@ -424,6 +424,13 @@ export default [
         component: '@/pages/plugin/jsonld/index',
         icon: 'jsonld',
       },
+      {
+        path: '/plugin/akismet',
+        name: 'akismet',
+        type: 'system',
+        component: '@/pages/plugin/akismet/index',
+        icon: 'akismet',
+      },
     ],
   },
   {

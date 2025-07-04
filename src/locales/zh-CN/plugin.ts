@@ -274,6 +274,10 @@ export default {
   'plugin.comment.batch-update-status': '批量更新状态',
   'plugin.comment.view-edit': '查看/编辑',
   'plugin.comment.delete.confirm': '确定要删除选中的评论吗？',
+  'plugin.comment.status': '状态',
+  'plugin.comment.status.default': '待审',
+  'plugin.comment.status.ok': '通过',
+  'plugin.comment.status.spam': '垃圾',
   'plugin.fileupload.delete.confirm': '确定要删除选中的文件吗？',
   'plugin.fileupload.upload.name': '上传新文件',
   'plugin.fileupload.upload.support':
@@ -935,6 +939,19 @@ export default {
   'plugin.robots.content.tips2':
     '2、您可以通过Robots工具来创建、校验、更新您的robots.txt文件。',
   'plugin.robots.view': '查看Robots',
+  'plugin.akismet.setting': 'Akismet 垃圾留言/评论检测设置',
+  'plugin.akismet.open.name': '开启Akismet',
+  'plugin.akismet.open.false': '关闭',
+  'plugin.akismet.open.true': '开启',
+  'plugin.akismet.description':
+    'Akismet 是一个垃圾检测系统，用于检测垃圾留言、评论',
+  'plugin.akismet.api-key': 'Akismet API Key',
+  'plugin.akismet.api-key.description':
+    'Akismet API Key 获取方式：https://akismet.com/pricing/',
+  'plugin.akismet.check-type': '检测类型',
+  'plugin.akismet.check-type.guestbook': '留言',
+  'plugin.akismet.check-type.comment': '评论',
+  'plugin.akismet.check-type.description': '选择检测类型，默认只检测留言',
   'plugin.sendmail.setting': '邮件设置',
   'plugin.sendmail.server': 'SMTP服务器',
   'plugin.sendmail.server.description': '如QQ邮箱,为smtp.qq.com',

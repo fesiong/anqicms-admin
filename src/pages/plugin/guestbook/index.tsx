@@ -115,6 +115,26 @@ const PluginGuestbook: React.FC = () => {
         width: 100,
       },
       {
+        title: intl.formatMessage({ id: 'plugin.comment.status' }),
+        dataIndex: 'status',
+        hideInSearch: true,
+        width: 100,
+        valueEnum: {
+          0: {
+            text: intl.formatMessage({ id: 'plugin.comment.status.default' }),
+            status: 'Default',
+          },
+          1: {
+            text: intl.formatMessage({ id: 'plugin.comment.status.ok' }),
+            status: 'Success',
+          },
+          2: {
+            text: intl.formatMessage({ id: 'plugin.comment.status.spam' }),
+            color: 'red',
+          },
+        },
+      },
+      {
         title: intl.formatMessage({ id: 'setting.action' }),
         width: 150,
         dataIndex: 'option',

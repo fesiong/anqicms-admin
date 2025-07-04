@@ -58,6 +58,7 @@ export default {
   'menu.plugin.multilang': 'Multi-language Site',
   'menu.plugin.translate': 'Translation',
   'menu.plugin.jsonld': 'Schema Data',
+  'menu.plugin.akismet': 'Akismet',
   'menu.design': 'Template',
   'menu.design.index': 'My Template',
   'menu.design.editor': 'Modify Code',

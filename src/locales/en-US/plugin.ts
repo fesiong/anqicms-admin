@@ -304,6 +304,10 @@ export default {
   'plugin.comment.view-edit': 'View/Edit',
   'plugin.comment.delete.confirm':
     'Are you sure you want to delete the selected comments?',
+  'plugin.comment.status': 'Status',
+  'plugin.comment.status.default': 'Pending',
+  'plugin.comment.status.ok': 'Approved',
+  'plugin.comment.status.spam': 'Spam',
   'plugin.fileupload.delete.confirm':
     'Are you sure you want to delete the selected files?',
   'plugin.fileupload.upload.name': 'Upload new file',
@@ -1027,6 +1031,20 @@ export default {
   'plugin.robots.content.tips2':
     '2. You can use the Robots tool to create, verify, and update your robots.txt file.',
   'plugin.robots.view': 'View Robots',
+  'plugin.akismet.setting': 'Akismet Spam Message/Comment Detection Settings',
+  'plugin.akismet.open.name': 'Enable Akismet',
+  'plugin.akismet.open.false': 'Close',
+  'plugin.akismet.open.true': 'Enable',
+  'plugin.akismet.description':
+    'Akismet is a spam detection system used to detect spam messages and comments.',
+  'plugin.akismet.api-key': 'Akismet API Key',
+  'plugin.akismet.api-key.description':
+    'How to obtain the Akismet API Key: https://akismet.com/pricing/',
+  'plugin.akismet.check-type': 'Detection Type',
+  'plugin.akismet.check-type.guestbook': 'Message',
+  'plugin.akismet.check-type.comment': 'Comment',
+  'plugin.akismet.check-type.description':
+    'Select the detection type; by default, only messages are detected.',
   'plugin.sendmail.setting': 'E-Mail settings',
   'plugin.sendmail.server': 'SMTP server',
   'plugin.sendmail.server.description':

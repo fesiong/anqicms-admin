@@ -1,4 +1,5 @@
 export * from './aigenerate';
+export * from './akismet';
 export * from './anchor';
 export * from './backup';
 export * from './comment';

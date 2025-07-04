@@ -115,17 +115,22 @@ const PluginComment: React.FC = () => {
       width: 100,
     },
     {
-      title: intl.formatMessage({ id: 'website.status' }),
+      title: intl.formatMessage({ id: 'plugin.comment.status' }),
       dataIndex: 'status',
-      width: 60,
+      hideInSearch: true,
+      width: 100,
       valueEnum: {
         0: {
-          text: intl.formatMessage({ id: 'content.category.status.hide' }),
+          text: intl.formatMessage({ id: 'plugin.comment.status.default' }),
           status: 'Default',
         },
         1: {
-          text: intl.formatMessage({ id: 'content.category.status.ok' }),
+          text: intl.formatMessage({ id: 'plugin.comment.status.ok' }),
           status: 'Success',
+        },
+        2: {
+          text: intl.formatMessage({ id: 'plugin.comment.status.spam' }),
+          color: 'red',
         },
       },
     },
