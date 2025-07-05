@@ -6,6 +6,7 @@ import routes from '../../../config/routes';
 import './index.less';
 
 import icon_ai from '@/images/icon_ai.png';
+import icon_akismet from '@/images/icon_akismet.png';
 import icon_anchor from '@/images/icon_anchor.png';
 import icon_backup from '@/images/icon_backup.png';
 import icon_collector from '@/images/icon_collector.png';
@@ -151,6 +152,8 @@ const PluginIndex: React.FC = () => {
         return icon_translate;
       case 'jsonld':
         return icon_jsonld;
+      case 'akismet':
+        return icon_akismet;
     }
   };
 
