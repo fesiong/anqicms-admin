@@ -6,8 +6,13 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
-import { FormattedMessage, SelectLang as UmiSelectLang, useIntl, useModel } from '@umijs/max';
-import { Button, Modal, Space, message } from 'antd';
+import {
+  FormattedMessage,
+  SelectLang as UmiSelectLang,
+  useIntl,
+  useModel,
+} from '@umijs/max';
+import { Button, Modal, Space, Tag, Tooltip, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import HeaderSearch from '../HeaderSearch';
@@ -54,7 +59,10 @@ const GlobalHeaderRight: React.FC = () => {
       message.error(res.msg);
       return;
     }
-    message.success(res.msg || intl.formatMessage({ id: 'component.right-content.login.success' }));
+    message.success(
+      res.msg ||
+        intl.formatMessage({ id: 'component.right-content.login.success' }),
+    );
     setVisible(false);
     const user = await initialState.fetchAnqiUser?.();
     if (user) {
@@ -67,6 +75,11 @@ const GlobalHeaderRight: React.FC = () => {
 
   const showDetail = () => {
     setDetailVisible(true);
+  };
+
+  const handleLoginNew = () => {
+    setDetailVisible(false);
+    setVisible(true);
   };
 
   const handleOrderVip = () => {
@@ -88,8 +101,12 @@ const GlobalHeaderRight: React.FC = () => {
 
   const confirmRestart = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'component.right-content.restart.confirm' }),
-      content: intl.formatMessage({ id: 'component.right-content.restart.confirm.content' }),
+      title: intl.formatMessage({
+        id: 'component.right-content.restart.confirm',
+      }),
+      content: intl.formatMessage({
+        id: 'component.right-content.restart.confirm.content',
+      }),
       onOk: () => {
         const hide2 = message.loading(
           intl.formatMessage({ id: 'component.right-content.restart.doing' }),
@@ -112,7 +129,9 @@ const GlobalHeaderRight: React.FC = () => {
     <>
       <Space className={className}>
         <HeaderSearch
-          placeholder={intl.formatMessage({ id: 'component.right-content.search.placeholder' })}
+          placeholder={intl.formatMessage({
+            id: 'component.right-content.search.placeholder',
+          })}
         />
         {anqiUser?.auth_id > 0 ? (
           <span className="site-info-item action" onClick={showDetail}>
@@ -128,7 +147,12 @@ const GlobalHeaderRight: React.FC = () => {
             <FormattedMessage id="component.right-content.bind.account" />
           </a>
         )}
-        <a href={siteInfo.base_url} target={'_blank'} className="site-info-item action" rel="noreferrer">
+        <a
+          href={siteInfo.base_url}
+          target={'_blank'}
+          className="site-info-item action"
+          rel="noreferrer"
+        >
           <GlobalOutlined style={{ marginRight: 5 }} />
           {siteInfo.name || siteInfo.base_url}
         </a>
@@ -157,7 +181,9 @@ const GlobalHeaderRight: React.FC = () => {
         footer={null}
       >
         <LoginForm
-          title={intl.formatMessage({ id: 'component.right-content.bind.account.name' })}
+          title={intl.formatMessage({
+            id: 'component.right-content.bind.account.name',
+          })}
           subTitle={
             <div>
               <FormattedMessage id="component.right-content.bind.account.tips" />
@@ -165,7 +191,10 @@ const GlobalHeaderRight: React.FC = () => {
           }
           message={
             code !== 0
-              ? errorMsg || intl.formatMessage({ id: 'component.right-content.bind.account.error' })
+              ? errorMsg ||
+                intl.formatMessage({
+                  id: 'component.right-content.bind.account.error',
+                })
               : null
           }
           onFinish={async (values) => {
@@ -178,11 +207,15 @@ const GlobalHeaderRight: React.FC = () => {
               size: 'large',
               prefix: <UserOutlined />,
             }}
-            placeholder={intl.formatMessage({ id: 'component.right-content.username' })}
+            placeholder={intl.formatMessage({
+              id: 'component.right-content.username',
+            })}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'component.right-content.username.required' }),
+                message: intl.formatMessage({
+                  id: 'component.right-content.username.required',
+                }),
               },
             ]}
           />
@@ -192,11 +225,15 @@ const GlobalHeaderRight: React.FC = () => {
               size: 'large',
               prefix: <LockOutlined />,
             }}
-            placeholder={intl.formatMessage({ id: 'component.right-content.password' })}
+            placeholder={intl.formatMessage({
+              id: 'component.right-content.password',
+            })}
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'component.right-content.password.required' }),
+                message: intl.formatMessage({
+                  id: 'component.right-content.password.required',
+                }),
               },
             ]}
           />
@@ -206,7 +243,11 @@ const GlobalHeaderRight: React.FC = () => {
               textAlign: 'right',
             }}
           >
-            <a href="https://www.anqicms.com/register" target={'_blank'} rel="nofollow noreferrer">
+            <a
+              href="https://www.anqicms.com/register"
+              target={'_blank'}
+              rel="nofollow noreferrer"
+            >
               <FormattedMessage id="component.right-content.register" />
             </a>
           </div>
@@ -218,7 +259,25 @@ const GlobalHeaderRight: React.FC = () => {
           setDetailVisible(false);
         }}
         width={700}
-        title={intl.formatMessage({ id: 'component.right-content.account' })}
+        title={
+          <div>
+            <Tooltip
+              title={
+                <Space>
+                  <Button
+                    onClick={() => {
+                      handleLoginNew();
+                    }}
+                  >
+                    <FormattedMessage id="component.right-content.switch-account" />
+                  </Button>
+                </Space>
+              }
+            >
+              {intl.formatMessage({ id: 'component.right-content.account' })}
+            </Tooltip>
+          </div>
+        }
         maskClosable={false}
         footer={null}
       >
@@ -226,7 +285,8 @@ const GlobalHeaderRight: React.FC = () => {
           <div>
             <p>
               <FormattedMessage id="component.right-content.hello" />
-              {anqiUser.user_name || intl.formatMessage({ id: 'component.right-content.friend' })}
+              {anqiUser.user_name ||
+                intl.formatMessage({ id: 'component.right-content.friend' })}
               <FormattedMessage id="component.right-content.welcome" />
             </p>
             <div className="account-info">
@@ -246,16 +306,59 @@ const GlobalHeaderRight: React.FC = () => {
                 <label>
                   <FormattedMessage id="component.right-content.expire-time" />
                 </label>
-                <div>{dayjs(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}</div>
+                <Space>
+                  <span>
+                    {dayjs(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}
+                  </span>
+                  {anqiUser.valid === false && (
+                    <Tag color="red">
+                      {intl.formatMessage({
+                        id: 'component.right-content.invalid',
+                      })}
+                    </Tag>
+                  )}
+                </Space>
               </div>
               <div className="item">
                 <label>
-                  <FormattedMessage id="component.right-content.remain" />
+                  <FormattedMessage id="component.right-content.integral" />
                 </label>
-                <div>
-                  {anqiUser.ai_remain}{' '}
-                  <FormattedMessage id="component.right-content.remain.suffix" />
-                </div>
+                <div>{anqiUser.integral}</div>
+              </div>
+              <div className="item">
+                <label>
+                  <FormattedMessage id="component.right-content.free-token" />
+                </label>
+                <Space direction="vertical">
+                  <div>{anqiUser.free_token}</div>
+                  <div className="text-muted">
+                    <FormattedMessage id="component.right-content.free_token.description" />
+                  </div>
+                </Space>
+              </div>
+              <div className="item">
+                <label>
+                  <FormattedMessage id="component.right-content.total-token" />
+                </label>
+                <Space direction="vertical">
+                  <div>{anqiUser.total_token}</div>
+                  <div className="text-muted">
+                    <FormattedMessage id="component.right-content.total-token.description" />
+                  </div>
+                </Space>
+              </div>
+              <div className="item">
+                <label>
+                  <FormattedMessage id="component.right-content.un-pay-token" />
+                </label>
+                <Space>
+                  <span>{anqiUser.un_pay_token}</span>
+                  {anqiUser.is_owe_fee === 1 && (
+                    <Tag color="red">
+                      <FormattedMessage id="component.right-content.is-owe-fee" />
+                    </Tag>
+                  )}
+                </Space>
               </div>
             </div>
           </div>
@@ -267,94 +370,25 @@ const GlobalHeaderRight: React.FC = () => {
             <p>
               <span className="optional">*</span>
               <FormattedMessage id="component.right-content.download-prefix" />
-              <a href="https://www.anqicms.com/anqibox.html" target="_blank" rel="noreferrer">
+              <a
+                href="https://www.anqicms.com/anqibox.html"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FormattedMessage id="component.right-content.download-name" />
               </a>
             </p>
-            <div className="compare">
-              <div className="item">
-                <div className="inner free">
-                  <h3>
-                    <FormattedMessage id="component.right-content.user-free" />
-                  </h3>
-                  <div className="info">
-                    <ul>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-free.option1" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-free.option2" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-free.option3" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-free.option4" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-free.option5" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-free.option6" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-free.option7" />
-                        <div className="extra">
-                          <FormattedMessage id="component.right-content.user-free.option7.suffix" />
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="item">
-                <div className="inner vip">
-                  <h3>
-                    <FormattedMessage id="component.right-content.user-vip" />
-                  </h3>
-                  <div className="info">
-                    <ul>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-vip.option1" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-vip.option2" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-vip.option3" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-vip.option4" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-vip.option5" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-vip.option6" />
-                        <span className="optional">*</span>
-                      </li>
-                      <li>
-                        <FormattedMessage id="component.right-content.user-vip.option7" />
-                        <div className="extra">
-                          <FormattedMessage id="component.right-content.user-free.option7.suffix" />
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <p>
+              <FormattedMessage id="component.right-content.vip-prefix" />
+              <a
+                href="https://www.anqicms.com/account/vip"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FormattedMessage id="component.right-content.vip-name" />
+              </a>
+              <FormattedMessage id="component.right-content.vip-suffix" />
+            </p>
           </div>
         )}
         <div className="order-control">
@@ -377,7 +411,9 @@ const GlobalHeaderRight: React.FC = () => {
         onCancel={() => {
           setOrderVisible(false);
         }}
-        title={intl.formatMessage({ id: 'component.right-content.order.confirm' })}
+        title={intl.formatMessage({
+          id: 'component.right-content.order.confirm',
+        })}
         maskClosable={false}
         footer={null}
       >

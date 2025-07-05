@@ -33,9 +33,11 @@ export default {
   'component.aigenerate.demand.placeholder':
     'If there are other requirements, it cannot exceed 150 words.',
   'component.aigenerate.btn.start-generate': 'Start AI generation (charged)',
-  'component.aigenerate.btn.start-combine': 'Question and answer combination generation',
+  'component.aigenerate.btn.start-combine':
+    'Question and answer combination generation',
   'component.aigenerate.btn.finish': 'Finish',
-  'component.aigenerate.content.default': 'AI generated results will be displayed here',
+  'component.aigenerate.content.default':
+    'AI generated results will be displayed here',
   'component.attachment.select': 'Select a document',
   'component.attachment.select.selected': 'selected',
   'component.attachment.select.selected.suffix': 'indivual',
@@ -53,8 +55,10 @@ export default {
   'component.keywords.select': 'Select keywords',
   'component.archive.select': 'Select document',
   'component.markdown.media': 'Media Library',
-  'component.markdown.video.unsupport': 'Your browser does not support the video tag.',
-  'component.markdown.audio.unsupport': 'Your editor does not support the audio tag',
+  'component.markdown.video.unsupport':
+    'Your browser does not support the video tag.',
+  'component.markdown.audio.unsupport':
+    'Your editor does not support the audio tag',
   'component.replace.doing.tips':
     'The batch replacement operation is being executed, no need to click again to execute',
   'component.replace.start.confirm':
@@ -76,7 +80,8 @@ export default {
   'component.right-content.restart.doing': 'Restarting',
   'component.right-content.search.placeholder': 'Search function',
   'component.right-content.bind.account': 'Bind Anqi account',
-  'component.right-content.bind.account.name': 'Bind Anqi CMS official website account',
+  'component.right-content.bind.account.name':
+    'Bind Anqi CMS official website account',
   'component.right-content.bind.account.tips':
     'Some functions of AnqiCMS rely on the official website. The binding is only to provide you with a better service experience and does not involve any sensitive information on your website. Please feel free to use it.',
   'component.right-content.bind.account.error': 'Wrong account or password',
@@ -84,7 +89,8 @@ export default {
   'component.right-content.username.required': 'please enter user name!',
   'component.right-content.password': 'password',
   'component.right-content.password.required': 'Please enter your password!',
-  'component.right-content.register': 'If you don’t have an account, register for free',
+  'component.right-content.register':
+    'If you don’t have an account, register for free',
   'component.right-content.account': 'account information',
   'component.right-content.hello': 'Hello:',
   'component.right-content.friend': 'friend',
@@ -102,22 +108,19 @@ export default {
   'component.right-content.update': 'Update account status',
   'component.right-content.order.confirm': 'bought?',
   'component.right-content.order': 'Go to buy',
-  'component.right-content.user-free': 'free user',
-  'component.right-content.user-vip': 'VIP member',
-  'component.right-content.user-free.option1': 'No limit on validity period',
-  'component.right-content.user-free.option2': 'Maximum 2/10,000 keyword export tasks',
-  'component.right-content.user-free.option3': 'Up to 2 article collection tasks',
-  'component.right-content.user-free.option4': 'Up to 2 article combination tasks',
-  'component.right-content.user-free.option5': 'Up to 2 article monitoring tasks',
-  'component.right-content.user-free.option6': 'Entire site collection/download is not available',
-  'component.right-content.user-free.option7': 'Cumulative AI writing quota: 10 articles',
-  'component.right-content.user-free.option7.suffix':
-    'One article for exceeding the quantity of 10 points',
-  'component.right-content.user-vip.option1': 'Unlimited number of managed sites',
-  'component.right-content.user-vip.option2': 'Unlimited keyword tasks',
-  'component.right-content.user-vip.option3': 'Unlimited article collection tasks',
-  'component.right-content.user-vip.option4': 'Unlimited article combination tasks',
-  'component.right-content.user-vip.option5': 'Unlimited article monitoring tasks',
-  'component.right-content.user-vip.option6': 'Available for entire site collection/downloading',
-  'component.right-content.user-vip.option7': 'Daily AI writing quota: 100 articles',
+  'component.right-content.switch-account': 'Switch Account',
+  'component.right-content.invalid': 'Expired',
+  'component.right-content.integral': 'Remaining Points:',
+  'component.right-content.free-token': 'Remaining Free Tokens:',
+  'component.right-content.free_token.description':
+    'Free users and VIP users receive a certain amount of tokens daily. If your free tokens are exhausted, you need to recharge to continue using AI/translation features.',
+  'component.right-content.total-token': 'Total Used Tokens:',
+  'component.right-content.total-token.description':
+    'For token billing rules, please visit https://www.anqicms.com/account/token-price.html for details.',
+  'component.right-content.un-pay-token': 'Unpaid Tokens:',
+  'component.right-content.is-owe-fee':
+    'Payment overdue, AI/Translation has been suspended. Please recharge to resume usage.',
+  'component.right-content.vip-prefix': 'Learn more about VIP, please visit',
+  'component.right-content.vip-name': 'VIP Details Page',
+  'component.right-content.vip-suffix': 'Get latest updates',
 };
