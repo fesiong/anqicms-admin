@@ -5,6 +5,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useIntl } from '@umijs/max';
 import { Tooltip, message } from 'antd';
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import MonacoEditor from 'react-monaco-editor';
 import E from 'wangeditor';
 import ReactWEditor from 'wangeditor-for-react';
 import Attachment from '../attachment/dialog';
@@ -204,7 +205,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             </Tooltip>
           </div>
         </div>
-        {/* {htmlMode && (
+        {htmlMode && (
           <MonacoEditor
             height={563}
             language={'markdown'}
@@ -217,7 +218,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             onChange={onChangeCode}
             editorDidMount={() => {}}
           />
-        )} */}
+        )}
       </div>
     </div>
   );
