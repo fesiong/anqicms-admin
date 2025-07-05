@@ -15,8 +15,10 @@ import {
   Card,
   Col,
   Row,
+  Space,
   Statistic,
   Tabs,
+  Tag,
   Tooltip,
   message,
 } from 'antd';
@@ -614,7 +616,8 @@ const Dashboard: React.FC = () => {
             style={{ marginTop: '24px' }}
             title={intl.formatMessage({ id: 'dashboard.soft-info' })}
             extra={
-              newVersion && (
+              newVersion &&
+              !newVersion.trial && (
                 <Tooltip
                   title={intl.formatMessage({
                     id: 'dashboard.soft-info.click-to-upgrade',
@@ -633,7 +636,14 @@ const Dashboard: React.FC = () => {
           >
             <p>
               <FormattedMessage id="dashboard.soft-info.version" />
-              {infoData.version}
+              <Space>
+                {infoData.version}
+                {infoData.trial && (
+                  <Tag color="orange">
+                    <FormattedMessage id="dashboard.soft-info.trial-version" />
+                  </Tag>
+                )}
+              </Space>
             </p>
             <p>
               <FormattedMessage id="dashboard.soft-info.memory-usage" />

@@ -1,7 +1,16 @@
-import { anqiRestart, checkVersion, getVersion, upgradeVersion } from '@/services';
-import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
+import {
+  anqiRestart,
+  checkVersion,
+  getVersion,
+  upgradeVersion,
+} from '@/services';
+import {
+  PageContainer,
+  ProForm,
+  ProFormText,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Modal, message } from 'antd';
+import { Button, Card, Modal, Space, Tag, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 let loading = false;
@@ -34,14 +43,20 @@ const ToolUpgradeForm: React.FC<any> = () => {
       title: intl.formatMessage({ id: 'tool.confirm-upgrade' }),
       onOk: () => {
         loading = true;
-        const hide = message.loading(intl.formatMessage({ id: 'tool.upgrading' }), 0);
+        const hide = message.loading(
+          intl.formatMessage({ id: 'tool.upgrading' }),
+          0,
+        );
         upgradeVersion({ version: newVersion.version })
           .then((res) => {
             Modal.info({
               content: res.msg,
               okText: intl.formatMessage({ id: 'tool.confirm-restart' }),
               onOk() {
-                const hide2 = message.loading(intl.formatMessage({ id: 'tool.restarting' }), 0);
+                const hide2 = message.loading(
+                  intl.formatMessage({ id: 'tool.restarting' }),
+                  0,
+                );
                 anqiRestart({})
                   .then(() => {})
                   .catch(() => {})
@@ -70,7 +85,10 @@ const ToolUpgradeForm: React.FC<any> = () => {
     <PageContainer>
       <Card>
         {setting && (
-          <ProForm submitter={false} title={intl.formatMessage({ id: 'menu.upgrade' })}>
+          <ProForm
+            submitter={false}
+            title={intl.formatMessage({ id: 'menu.upgrade' })}
+          >
             <ProFormText
               name="old_version"
               fieldProps={{
@@ -87,7 +105,16 @@ const ToolUpgradeForm: React.FC<any> = () => {
                   width="lg"
                   readonly
                 >
-                  <div className="text-primary">{newVersion.version}</div>
+                  <Space>
+                    <div className="text-primary">{newVersion.version}</div>
+                    {newVersion.trial && (
+                      <Tag color="orange">
+                        {intl.formatMessage({
+                          id: 'dashboard.soft-info.trial-version',
+                        })}
+                      </Tag>
+                    )}
+                  </Space>
                 </ProFormText>
                 <ProFormText
                   label={intl.formatMessage({ id: 'tool.version.description' })}
@@ -102,6 +129,7 @@ const ToolUpgradeForm: React.FC<any> = () => {
                 <div className="mt-normal">
                   <Button type="primary" onClick={upgradeSubmit}>
                     <FormattedMessage id="tool.upgrade-to-new" />
+                    <FormattedMessage id="dashboard.soft-info.trial-version" />
                   </Button>
                 </div>
               </div>

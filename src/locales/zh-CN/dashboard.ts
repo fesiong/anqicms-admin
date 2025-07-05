@@ -31,11 +31,14 @@ export default {
   'dashboard.soft-info.click-to-upgrade': '点击前往系统升级',
   'dashboard.soft-info.new-version': '发现新版：',
   'dashboard.soft-info.version': '软件版本：',
+  'dashboard.soft-info.trial-version': '体验版',
   'dashboard.soft-info.memory-usage': '占用内存：',
   'dashboard.soft-info.official-web': '官网地址：',
-  'dashboard.soft-info.description': '安企内容管理系统(AnqiCMS)，是一款使用 GoLang 开发的企业站内容管理系统，它部署简单，软件安全，界面优雅，小巧，执行速度飞快，使用 AnqiCMS 搭建的网站可以防止众多安全问题发生。',
+  'dashboard.soft-info.description':
+    '安企内容管理系统(AnqiCMS)，是一款使用 GoLang 开发的企业站内容管理系统，它部署简单，软件安全，界面优雅，小巧，执行速度飞快，使用 AnqiCMS 搭建的网站可以防止众多安全问题发生。',
   'dashboard.component.archive.count': '文档量',
-  'dashboard.component.archive.count.tips': '包括各个模型已发布文档、待发布、草稿箱的文档',
+  'dashboard.component.archive.count.tips':
+    '包括各个模型已发布文档、待发布、草稿箱的文档',
   'dashboard.component.lastweek': '上周',
   'dashboard.component.today': '今日',
   'dashboard.component.unrelease': '待发布',

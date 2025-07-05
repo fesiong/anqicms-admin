@@ -12,7 +12,7 @@ import {
   useIntl,
   useModel,
 } from '@umijs/max';
-import { Button, Modal, Space, Tag, Tooltip, message } from 'antd';
+import { Badge, Button, Modal, Space, Tag, Tooltip, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import HeaderSearch from '../HeaderSearch';
@@ -136,6 +136,7 @@ const GlobalHeaderRight: React.FC = () => {
         {anqiUser?.auth_id > 0 ? (
           <span className="site-info-item action" onClick={showDetail}>
             {anqiUser.user_name}
+            {anqiUser.is_owe_fee === 1 && <Badge dot />}
           </span>
         ) : (
           <a
@@ -145,6 +146,7 @@ const GlobalHeaderRight: React.FC = () => {
             }}
           >
             <FormattedMessage id="component.right-content.bind.account" />
+            <Badge dot />
           </a>
         )}
         <a

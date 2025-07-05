@@ -1,6 +1,7 @@
 export default {
   'dashboard.guide.welcome': 'Welcome to AnQiCMS (AnQiCMS)',
-  'dashboard.guide.description': 'We’ve prepared a few links to get you started!',
+  'dashboard.guide.description':
+    'We’ve prepared a few links to get you started!',
   'dashboard.guide.start': 'start using',
   'dashboard.guide.system': 'Customize your site',
   'dashboard.guide.or': 'or',
@@ -30,12 +31,15 @@ export default {
   'dashboard.soft-info': 'Software information',
   'dashboard.soft-info.click-to-upgrade': 'Click to go to system upgrade',
   'dashboard.soft-info.new-version': 'Discover new version:',
-  'dashboard.soft-info.version': 'Software version:',
+  'dashboard.soft-info.version': 'version:',
+  'dashboard.soft-info.trial-version': 'Trial Version',
   'dashboard.soft-info.memory-usage': 'used internal memory:',
   'dashboard.soft-info.official-web': 'Official website address:',
-  'dashboard.soft-info.description': 'Anqi Content Management System (AnqiCMS) is an enterprise website content management system developed using GoLang. It has simple deployment, secure software, elegant and compact interface, and fast execution speed. Websites built using AnqiCMS can prevent many security issues.',
+  'dashboard.soft-info.description':
+    'Anqi Content Management System (AnqiCMS) is an enterprise website content management system developed using GoLang. It has simple deployment, secure software, elegant and compact interface, and fast execution speed. Websites built using AnqiCMS can prevent many security issues.',
   'dashboard.component.archive.count': 'Document volume',
-  'dashboard.component.archive.count.tips': 'Including published documents, documents to be released, and draft boxes of each model',
+  'dashboard.component.archive.count.tips':
+    'Including published documents, documents to be released, and draft boxes of each model',
   'dashboard.component.lastweek': 'last week',
   'dashboard.component.today': 'today',
   'dashboard.component.unrelease': 'To be released',
