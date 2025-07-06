@@ -5,11 +5,27 @@ import {
   pluginStartTransferTask,
 } from '@/services/plugin/transfer';
 import { downloadFile } from '@/utils';
-import { PageContainer, ProForm, ProFormInstance, ProFormText } from '@ant-design/pro-components';
-import { Alert, Button, Card, Checkbox, Divider, Modal, Radio, Space, Steps, message } from 'antd';
+import {
+  PageContainer,
+  ProForm,
+  ProFormInstance,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import {
+  Alert,
+  Button,
+  Card,
+  Checkbox,
+  Divider,
+  Modal,
+  Radio,
+  Space,
+  Steps,
+  message,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { FormattedMessage, useIntl } from '@umijs/max';
 const { Step } = Steps;
 
 let submitting = false;
@@ -41,7 +57,7 @@ const PluginTransfer: React.FC = () => {
           } else {
             setTask(res.data);
             if (res.data.status === 1) {
-              setCurrentStep(3);
+              setCurrentStep(4);
             }
             if (res.data.status !== 1) {
               clearInterval(timeingXhr);
@@ -62,7 +78,9 @@ const PluginTransfer: React.FC = () => {
 
   const submitProvider = () => {
     if (!provider) {
-      message.error(intl.formatMessage({ id: 'plugin.transfer.provider.required' }));
+      message.error(
+        intl.formatMessage({ id: 'plugin.transfer.provider.required' }),
+      );
       return;
     }
     setCurrentStep(1);
@@ -101,11 +119,15 @@ const PluginTransfer: React.FC = () => {
     values.provider = provider;
     values.name = provider;
     if (!values.token) {
-      message.error(intl.formatMessage({ id: 'plugin.transfer.token.required' }));
+      message.error(
+        intl.formatMessage({ id: 'plugin.transfer.token.required' }),
+      );
       return;
     }
     if (values.base_url.indexOf('http') !== 0) {
-      message.error(intl.formatMessage({ id: 'plugin.transfer.base-url.required' }));
+      message.error(
+        intl.formatMessage({ id: 'plugin.transfer.base-url.required' }),
+      );
       return;
     }
 
@@ -113,7 +135,10 @@ const PluginTransfer: React.FC = () => {
       return;
     }
     submitting = true;
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
 
     pluginCreateTransferTask(values)
       .then((res) => {
@@ -123,7 +148,9 @@ const PluginTransfer: React.FC = () => {
             content: res.msg,
           });
         } else {
-          message.success(intl.formatMessage({ id: 'plugin.transfer.signal.success' }));
+          message.success(
+            intl.formatMessage({ id: 'plugin.transfer.signal.success' }),
+          );
           setTask(res.data);
           loadModules();
           setCurrentStep(3);
@@ -145,7 +172,10 @@ const PluginTransfer: React.FC = () => {
       return;
     }
     submitting = true;
-    const hide = message.loading(intl.formatMessage({ id: 'plugin.transfer.transfering' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'plugin.transfer.transfering' }),
+      0,
+    );
     pluginStartTransferTask({
       module_ids: moduleIds,
       types: selectedTypes,
@@ -171,16 +201,43 @@ const PluginTransfer: React.FC = () => {
           message={intl.formatMessage({ id: 'plugin.transfer.tips' })}
         />
         <Steps progressDot current={currentStep} onChange={setCurrentStep}>
-          <Step title={intl.formatMessage({ id: 'plugin.transfer.step1' })} description={intl.formatMessage({ id: 'plugin.transfer.step1.description' })} />
-          <Step title={intl.formatMessage({ id: 'plugin.transfer.step2' })} description={intl.formatMessage({ id: 'plugin.transfer.step2.description' })} />
-          <Step title={intl.formatMessage({ id: 'plugin.transfer.step3' })} description={intl.formatMessage({ id: 'plugin.transfer.step3.description' })} />
-          <Step title={intl.formatMessage({ id: 'plugin.transfer.step4' })} description={intl.formatMessage({ id: 'plugin.transfer.step4.description' })} />
-          <Step title={intl.formatMessage({ id: 'plugin.transfer.step5' })} description={intl.formatMessage({ id: 'plugin.transfer.step5.description' })} />
+          <Step
+            title={intl.formatMessage({ id: 'plugin.transfer.step1' })}
+            description={intl.formatMessage({
+              id: 'plugin.transfer.step1.description',
+            })}
+          />
+          <Step
+            title={intl.formatMessage({ id: 'plugin.transfer.step2' })}
+            description={intl.formatMessage({
+              id: 'plugin.transfer.step2.description',
+            })}
+          />
+          <Step
+            title={intl.formatMessage({ id: 'plugin.transfer.step3' })}
+            description={intl.formatMessage({
+              id: 'plugin.transfer.step3.description',
+            })}
+          />
+          <Step
+            title={intl.formatMessage({ id: 'plugin.transfer.step4' })}
+            description={intl.formatMessage({
+              id: 'plugin.transfer.step4.description',
+            })}
+          />
+          <Step
+            title={intl.formatMessage({ id: 'plugin.transfer.step5' })}
+            description={intl.formatMessage({
+              id: 'plugin.transfer.step5.description',
+            })}
+          />
         </Steps>
         <div>
           {currentStep === 0 && (
             <div className="step-content">
-              <Divider><FormattedMessage id="plugin.transfer.step1.description" /></Divider>
+              <Divider>
+                <FormattedMessage id="plugin.transfer.step1.description" />
+              </Divider>
               <Radio.Group
                 name="provider"
                 optionType="button"
@@ -216,19 +273,35 @@ const PluginTransfer: React.FC = () => {
           )}
           {currentStep === 1 && (
             <div className="step-content">
-              <Divider><FormattedMessage id="plugin.transfer.step2.description" /></Divider>
+              <Divider>
+                <FormattedMessage id="plugin.transfer.step2.description" />
+              </Divider>
               <div>
-                <Alert message={intl.formatMessage({ id: 'plugin.transfer.step2.tips' })} />
+                <Alert
+                  message={intl.formatMessage({
+                    id: 'plugin.transfer.step2.tips',
+                  })}
+                />
                 <div style={{ marginTop: '30px' }}>
-                  <Button onClick={downloadProvider} type="primary" size="large">
-                    <FormattedMessage id="plugin.transfer.step.download" />「{provider}2anqicms.php」
+                  <Button
+                    onClick={downloadProvider}
+                    type="primary"
+                    size="large"
+                  >
+                    <FormattedMessage id="plugin.transfer.step.download" />「
+                    {provider}2anqicms.php」
                   </Button>
                 </div>
               </div>
               <div className="step-buttons">
                 <Space size={20}>
-                  <Button onClick={() => setCurrentStep(currentStep - 1)}><FormattedMessage id="plugin.transfer.step.prev" /></Button>
-                  <Button type="primary" onClick={() => setCurrentStep(currentStep + 1)}>
+                  <Button onClick={() => setCurrentStep(currentStep - 1)}>
+                    <FormattedMessage id="plugin.transfer.step.prev" />
+                  </Button>
+                  <Button
+                    type="primary"
+                    onClick={() => setCurrentStep(currentStep + 1)}
+                  >
                     <FormattedMessage id="plugin.transfer.step.next" />
                   </Button>
                 </Space>
@@ -237,23 +310,47 @@ const PluginTransfer: React.FC = () => {
           )}
           {currentStep === 2 && (
             <div className="step-content">
-              <Divider><FormattedMessage id="plugin.transfer.step3.description" /></Divider>
+              <Divider>
+                <FormattedMessage id="plugin.transfer.step3.description" />
+              </Divider>
               <div>
-                <Alert message={intl.formatMessage({ id: 'plugin.transfer.step3.tips' })} />
+                <Alert
+                  message={intl.formatMessage({
+                    id: 'plugin.transfer.step3.tips',
+                  })}
+                />
                 <div style={{ marginTop: '30px' }}>
-                  <ProForm formRef={formRef} initialValues={task} submitter={false}>
+                  <ProForm
+                    formRef={formRef}
+                    initialValues={task}
+                    submitter={false}
+                  >
                     <ProFormText
                       name="base_url"
-                      label={intl.formatMessage({ id: 'plugin.transfer.base-url' })}
-                      placeholder={intl.formatMessage({ id: 'plugin.transfer.base-url.placeholder' })}
+                      label={intl.formatMessage({
+                        id: 'plugin.transfer.base-url',
+                      })}
+                      placeholder={intl.formatMessage({
+                        id: 'plugin.transfer.base-url.placeholder',
+                      })}
                     />
-                    <ProFormText name="token" label={intl.formatMessage({ id: 'plugin.transfer.token' })} placeholder={intl.formatMessage({ id: 'plugin.transfer.token.placeholder' })} />
+                    <ProFormText
+                      name="token"
+                      label={intl.formatMessage({
+                        id: 'plugin.transfer.token',
+                      })}
+                      placeholder={intl.formatMessage({
+                        id: 'plugin.transfer.token.placeholder',
+                      })}
+                    />
                   </ProForm>
                 </div>
               </div>
               <div className="step-buttons">
                 <Space size={20}>
-                  <Button onClick={() => setCurrentStep(currentStep - 1)}><FormattedMessage id="plugin.transfer.step.prev" /></Button>
+                  <Button onClick={() => setCurrentStep(currentStep - 1)}>
+                    <FormattedMessage id="plugin.transfer.step.prev" />
+                  </Button>
                   <Button type="primary" onClick={submitTask}>
                     <FormattedMessage id="plugin.transfer.step.next" />
                   </Button>
@@ -263,13 +360,21 @@ const PluginTransfer: React.FC = () => {
           )}
           {currentStep === 3 && (
             <div className="step-content">
-              <Divider><FormattedMessage id="plugin.transfer.step4.description" /></Divider>
+              <Divider>
+                <FormattedMessage id="plugin.transfer.step4.description" />
+              </Divider>
               <div>
-                <Alert message={intl.formatMessage({ id: 'plugin.transfer.step4.tips' })} />
+                <Alert
+                  message={intl.formatMessage({
+                    id: 'plugin.transfer.step4.tips',
+                  })}
+                />
                 <div style={{ marginTop: '30px' }}>
                   {moduleFetched && (
                     <ProForm formRef={formRef2} submitter={false}>
-                      <div><FormattedMessage id="plugin.transfer.types" /></div>
+                      <div>
+                        <FormattedMessage id="plugin.transfer.types" />
+                      </div>
                       <Checkbox.Group
                         name="types"
                         options={types.map((item: any) => ({
@@ -281,7 +386,9 @@ const PluginTransfer: React.FC = () => {
                           setSelectedTypes(e as string[]);
                         }}
                       />
-                      <div><FormattedMessage id="plugin.transfer.module" /></div>
+                      <div>
+                        <FormattedMessage id="plugin.transfer.module" />
+                      </div>
                       <Checkbox.Group
                         name="module_ids"
                         options={modules.map((item: any) => ({
@@ -299,7 +406,9 @@ const PluginTransfer: React.FC = () => {
               </div>
               <div className="step-buttons">
                 <Space size={20}>
-                  <Button onClick={() => setCurrentStep(currentStep - 1)}><FormattedMessage id="plugin.transfer.step.prev" /></Button>
+                  <Button onClick={() => setCurrentStep(currentStep - 1)}>
+                    <FormattedMessage id="plugin.transfer.step.prev" />
+                  </Button>
                   <Button type="primary" onClick={submitTaskModule}>
                     <FormattedMessage id="plugin.transfer.step.next" />
                   </Button>
@@ -309,30 +418,61 @@ const PluginTransfer: React.FC = () => {
           )}
           {currentStep === 4 && (
             <div className="step-content">
-              <Divider><FormattedMessage id="plugin.transfer.step5.description" /></Divider>
+              <Divider>
+                <FormattedMessage id="plugin.transfer.step5.description" />
+              </Divider>
               {task && (
                 <>
                   <div>
                     <div style={{ marginBottom: '30px' }}>
-                      <Alert message={intl.formatMessage({ id: 'plugin.transfer.step5.tips' })} />
+                      <Alert
+                        message={intl.formatMessage({
+                          id: 'plugin.transfer.step5.tips',
+                        })}
+                      />
                     </div>
-                    <p><FormattedMessage id="plugin.transfer.base-url.name" />{task.base_url}</p>
+                    <p>
+                      <FormattedMessage id="plugin.transfer.base-url.name" />
+                      {task.base_url}
+                    </p>
                     <p>
                       <FormattedMessage id="plugin.transfer.status" />
-                      {task.status === 2 ? intl.formatMessage({ id: 'plugin.transfer.status.finished' }) : task.status === 1 ? intl.formatMessage({ id: 'plugin.transfer.status.doing' }) : intl.formatMessage({ id: 'plugin.transfer.status.wait' })}
+                      {task.status === 2
+                        ? intl.formatMessage({
+                            id: 'plugin.transfer.status.finished',
+                          })
+                        : task.status === 1
+                        ? intl.formatMessage({
+                            id: 'plugin.transfer.status.doing',
+                          })
+                        : intl.formatMessage({
+                            id: 'plugin.transfer.status.wait',
+                          })}
                     </p>
                     {task.status === 1 && (
                       <p>
-                        <FormattedMessage id="plugin.transfer.current-task" /> {task.current}{' '}
-                        {task.last_id > 0 ? intl.formatMessage({ id: 'plugin.transfer.current-task.count' }) + task.last_id : ''}
+                        <FormattedMessage id="plugin.transfer.current-task" />{' '}
+                        {task.current}{' '}
+                        {task.last_id > 0
+                          ? intl.formatMessage({
+                              id: 'plugin.transfer.current-task.count',
+                            }) + task.last_id
+                          : ''}
                       </p>
                     )}
-                    {task.error_msg && <p><FormattedMessage id="plugin.transfer.task-error" />{task.error_msg}</p>}
+                    {task.error_msg && (
+                      <p>
+                        <FormattedMessage id="plugin.transfer.task-error" />
+                        {task.error_msg}
+                      </p>
+                    )}
                   </div>
                   <div className="step-buttons">
                     <Space size={20}>
                       {task.status !== 1 && (
-                        <Button onClick={() => setCurrentStep(0)}><FormattedMessage id="plugin.transfer.restart" /></Button>
+                        <Button onClick={() => setCurrentStep(0)}>
+                          <FormattedMessage id="plugin.transfer.restart" />
+                        </Button>
                       )}
                       {task.status === 0 && (
                         <Button onClick={() => startTransfer()} type="primary">
