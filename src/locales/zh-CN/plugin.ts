@@ -1398,4 +1398,23 @@ export default {
   'plugin.jsonld.open.true': '是',
   'plugin.jsonld.author': '默认作者',
   'plugin.jsonld.brand': '默认品牌',
+  'plugin.google.setting': 'Google Auth 配置',
+  'plugin.google.redirect-url': '回调地址',
+  'plugin.google.client-id': 'Client ID',
+  'plugin.google.client-id.description': '请到 Google 开发者控制台获取',
+  'plugin.google.client-secret': 'Client Secret',
+  'plugin.google.client-secret.description': '请到 Google 开发者控制台获取',
+  'plugin.pay.stripe.api-key': 'Stripe Private Key',
+  'plugin.pay.stripe.public-key': 'Stripe Public Key',
+  'plugin.pay.stripe.webhook-secret': 'Stripe Webhook Secret',
+  'plugin.sendmail.signup-verify': '邮箱注册需要验证',
+  'plugin.sendmail.signup-verify.no': '不需要',
+  'plugin.sendmail.signup-verify.yes': '需要',
+  'plugin.sendmail.signup-verify.description': '用户注册时是否需要发送邮箱验证',
+  'plugin.sendmail.signup-verify.title': '验证邮件标题',
+  'plugin.sendmail.signup-verify.title.description':
+    '支持使用的变量 {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
+  'plugin.sendmail.signup-verify.message': '验证邮件内容',
+  'plugin.sendmail.signup-verify.message.description':
+    '至少需要包含{verifyCode}或{verifyUrl}，支持使用的变量 {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
 };

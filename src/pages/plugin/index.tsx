@@ -15,6 +15,7 @@ import icon_fileupload from '@/images/icon_fileupload.png';
 import icon_finance from '@/images/icon_finance.png';
 import icon_friendlink from '@/images/icon_friendlink.png';
 import icon_fulltext from '@/images/icon_fulltext.png';
+import icon_google from '@/images/icon_google.png';
 import icon_group from '@/images/icon_group.png';
 import icon_guestbook from '@/images/icon_guestbook.png';
 import icon_htmlcache from '@/images/icon_htmlcache.png';
@@ -154,6 +155,8 @@ const PluginIndex: React.FC = () => {
         return icon_jsonld;
       case 'akismet':
         return icon_akismet;
+      case 'google':
+        return icon_google;
     }
   };
 

@@ -1082,6 +1082,8 @@ export default {
   'plugin.sendmail.send-type.new-order': 'There are new orders on the website',
   'plugin.sendmail.send-type.pay-order':
     'There is a payment order on the website',
+  'plugin.sendmail.send-type.register':
+    'Registration account email verification',
   'plugin.sendmail.send-type.description':
     'Once selected, emails will be sent in the selected scenario.',
   'plugin.sendmail.test.sending': 'Sending test email',
@@ -1541,4 +1543,25 @@ export default {
   'plugin.jsonld.open.true': 'Yes',
   'plugin.jsonld.author': 'Default author',
   'plugin.jsonld.brand': 'Default brand',
+  'plugin.google.setting': 'Google Auth Configuration',
+  'plugin.google.redirect-url': 'Callback URL',
+  'plugin.google.client-id': 'Client ID',
+  'plugin.google.client-id.description': 'Obtain from Google Developer Console',
+  'plugin.google.client-secret': 'Client Secret',
+  'plugin.google.client-secret.description':
+    'Obtain from Google Developer Console',
+  'plugin.pay.stripe.api-key': 'Stripe Private Key',
+  'plugin.pay.stripe.public-key': 'Stripe Public Key',
+  'plugin.pay.stripe.webhook-secret': 'Stripe Webhook Secret',
+  'plugin.sendmail.signup-verify': 'Signup Verification',
+  'plugin.sendmail.signup-verify.no': 'No',
+  'plugin.sendmail.signup-verify.yes': 'Yes',
+  'plugin.sendmail.signup-verify.description':
+    'Do users need to send email verification when registering',
+  'plugin.sendmail.signup-verify.title': "Verification Email's Subject",
+  'plugin.sendmail.signup-verify.title.description':
+    'Supported variables for use {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
+  'plugin.sendmail.signup-verify.message': "Verification Email's Content",
+  'plugin.sendmail.signup-verify.message.description':
+    'At least it needs to include {verifyCode}或{verifyUrl}, Supported variables for use {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
 };

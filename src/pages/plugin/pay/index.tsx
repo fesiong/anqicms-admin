@@ -94,6 +94,12 @@ const PluginPay: React.FC<any> = () => {
               >
                 <FormattedMessage id="plugin.pay.paypal" />
               </Button>
+              <Button
+                type={tabIndex === 2 ? 'primary' : 'default'}
+                onClick={() => setTabIndex(3)}
+              >
+                <FormattedMessage id="plugin.pay.stripe" />
+              </Button>
             </Space>
             <div className={'pay-tab ' + (tabIndex === 0 && 'active')}>
               <ProFormText
@@ -272,6 +278,29 @@ const PluginPay: React.FC<any> = () => {
               <ProFormText
                 name="paypal_client_secret"
                 label={intl.formatMessage({ id: 'plugin.pay.paypal.secret' })}
+                width="lg"
+              />
+            </div>
+            <div className={'pay-tab ' + (tabIndex === 3 && 'active')}>
+              <ProFormText
+                name="stripe_api_key"
+                label={intl.formatMessage({
+                  id: 'plugin.pay.stripe.api-key',
+                })}
+                width="lg"
+              />
+              <ProFormText
+                name="stripe_public_key"
+                label={intl.formatMessage({
+                  id: 'plugin.pay.stripe.public-key',
+                })}
+                width="lg"
+              />
+              <ProFormText
+                name="stripe_webhook_secret"
+                label={intl.formatMessage({
+                  id: 'plugin.pay.stripe.webhook-secret',
+                })}
                 width="lg"
               />
             </div>
