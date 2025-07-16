@@ -20,6 +20,8 @@
     "@bytemd/plugin-math": "^1.21.0",
     "@bytemd/plugin-mermaid": "^1.21.0",
     "@bytemd/react": "^1.21.0",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-react": "^1.0.6",
     "antd": "^5.13.2",
     "bytemd": "^1.21.0",
     "classnames": "^2.5.1",
@@ -33,8 +35,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-monaco-editor": "^0.48.0",
-    "spark-md5": "^3.0.2",
-    "wangeditor-for-react": "^1.5.6"
+    "spark-md5": "^3.0.2"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^3.3.0",
