@@ -5,8 +5,8 @@ export default {
   'pages.login.verify-failure': 'verification failed',
   'pages.login.reset-account-success':
     'Administrator account password reset successfully',
-  'pages.login.anqicms': 'Anqi CMS',
-  'pages.login.welcome': 'Welcome to AnQiCMS (AnQiCMS)',
+  'pages.login.anqicms': 'Anqi CMS - Shop',
+  'pages.login.welcome': 'Welcome to AnQiCMS - Help your brand go global',
   'pages.login.tips': 'You will log into the website:',
   'pages.login.account-falure': 'Wrong account or password',
   'pages.login.username.placeholder': 'username',

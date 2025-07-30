@@ -1,4 +1,4 @@
-.container {
+.login-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -7,30 +7,63 @@
 }
 
 .lang {
-  width: 100%;
-  height: 40px;
-  line-height: 44px;
-  text-align: right;
-  :global(.ant-dropdown-trigger) {
-    margin-right: 24px;
-  }
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
-
-.content {
+.login-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 60px);
+}
+.login-modal {
+  position: relative;
+  display: flex;
   flex: 1;
-  padding: 32px 0;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1200px;
+  max-height: 600px;
+  margin: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.login-bg {
+  flex: 1;
+}
+.login-form {
+  flex: 1;
+}
+.login-bg img {
+  width: 100%;
+  height: 100%;
 }
 
 @media (min-width: 768px) {
-  .container {
+  .login-container {
     background-image: url('https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg');
     background-repeat: no-repeat;
     background-position: center 110px;
     background-size: 100%;
   }
-
-  .content {
-    padding: 32px 0 24px;
+}
+@media (max-width: 1023px) {
+  .login-modal {
+    max-width: 600px;
+  }
+  .login-bg {
+    display: none;
+  }
+  .ant-pro-form-login-header {
+    height: inherit;
+  }
+  .ant-pro-form-login-main {
+    width: 100% !important;
+    min-width: inherit !important;
   }
 }
 
@@ -53,41 +86,41 @@
   margin-right: -10px;
   margin-left: -10px;
 }
-.resetBox {
+.reset-box {
   padding: 50px 0 30px;
 }
 
-.resetTips {
+.reset-tips {
   margin-top: 10px;
   color: #777;
   h3 {
     margin-bottom: 20px;
   }
 }
-.chooseItems {
+.choose-items {
   display: flex;
 }
-.chooseItem {
+.choose-item {
   flex: 1;
   padding: 0 20px;
   text-align: center;
 }
-.copyItem {
+.copy-item {
   display: flex;
   align-items: center;
   width: 80%;
 }
-.copyText {
+.copt-text {
   flex: 1;
   margin-right: 10px;
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
 }
-.copyTips {
+.copy-tips {
   margin-top: 10px;
   color: #777;
 }
-.resetPassword {
+.reset-password {
   width: 80%;
   margin: 0 auto;
   .field {

@@ -12,15 +12,22 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
+import {
+  FormattedMessage,
+  SelectLang,
+  history,
+  useIntl,
+  useModel,
+} from '@umijs/max';
 import { Alert, Button, Input, Modal, Steps, message } from 'antd';
 import { parse } from 'query-string';
 import React, { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import loginBg from '@/images/login_bg.webp';
 import { getSiteInfo } from '@/services';
 import { setSessionStore, setStore } from '@/utils/store';
-import styles from './index.less';
+import './index.less';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -227,111 +234,121 @@ const Login: React.FC = () => {
   const { code = 0, msg } = userLoginState;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <LoginForm
-          title={intl.formatMessage({ id: 'pages.login.anqicms' })}
-          subTitle={
-            <div>
-              <p>
-                <FormattedMessage id="pages.login.welcome" />
-              </p>
-              <p>
-                <FormattedMessage id="pages.login.tips" />
-                <a target="_blank" href={siteInfo.base_url} rel="noreferrer">
-                  {siteInfo.name}
-                </a>
-              </p>
-            </div>
-          }
-          initialValues={{
-            autoLogin: true,
-          }}
-          onFinish={async (values) => {
-            await handleSubmit(values);
-          }}
-        >
-          {code !== 0 && (
-            <LoginMessage
-              content={
-                msg || intl.formatMessage({ id: 'pages.login.account-falure' })
-              }
-            />
-          )}
-          <ProFormText
-            name="user_name"
-            fieldProps={{
-              size: 'large',
-              prefix: <UserOutlined className={styles.prefixIcon} />,
+    <div className="login-container">
+      <div className="login-body">
+        <div className="login-modal">
+          <div className="lang">
+            <SelectLang />
+          </div>
+          <div className="login-bg">
+            <img src={loginBg} />
+          </div>
+          <LoginForm
+            className="login-form"
+            title={intl.formatMessage({ id: 'pages.login.anqicms' })}
+            subTitle={
+              <div>
+                <p>
+                  <FormattedMessage id="pages.login.welcome" />
+                </p>
+                <p>
+                  <FormattedMessage id="pages.login.tips" />
+                  <a target="_blank" href={siteInfo.base_url} rel="noreferrer">
+                    {siteInfo.name}
+                  </a>
+                </p>
+              </div>
+            }
+            initialValues={{
+              autoLogin: true,
             }}
-            placeholder={intl.formatMessage({
-              id: 'pages.login.username.placeholder',
-            })}
-            rules={[
-              {
-                required: true,
-                message: intl.formatMessage({
-                  id: 'pages.login.username.required',
-                }),
-              },
-            ]}
-          />
-          <ProFormText.Password
-            name="password"
-            fieldProps={{
-              size: 'large',
-              prefix: <LockOutlined className={styles.prefixIcon} />,
-            }}
-            placeholder={intl.formatMessage({
-              id: 'pages.login.password.placeholder',
-            })}
-            rules={[
-              {
-                required: true,
-                message: intl.formatMessage({
-                  id: 'pages.login.password.required',
-                }),
-              },
-            ]}
-          />
-          {!captcha.captcha_off && (
-            <ProFormText
-              name="captcha"
-              placeholder={''}
-              fieldProps={{
-                size: 'large',
-                addonAfter: (
-                  <img
-                    className={styles.captcha}
-                    onClick={handleGetCaptcha}
-                    src={captcha.captcha}
-                  />
-                ),
-              }}
-            ></ProFormText>
-          )}
-
-          <div
-            style={{
-              marginBottom: 24,
+            onFinish={async (values) => {
+              await handleSubmit(values);
             }}
           >
-            <ProFormCheckbox noStyle name="remember">
-              <FormattedMessage id="pages.login.auto-login" />
-            </ProFormCheckbox>
-            <a
-              style={{
-                float: 'right',
+            {code !== 0 && (
+              <LoginMessage
+                content={
+                  msg ||
+                  intl.formatMessage({ id: 'pages.login.account-falure' })
+                }
+              />
+            )}
+            <ProFormText
+              name="user_name"
+              fieldProps={{
+                size: 'large',
+                prefix: <UserOutlined className="prefix-icon" />,
               }}
-              onClick={() => {
-                setFindSetp(0);
-                setFindVisible(true);
+              placeholder={intl.formatMessage({
+                id: 'pages.login.username.placeholder',
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({
+                    id: 'pages.login.username.required',
+                  }),
+                },
+              ]}
+            />
+            <ProFormText.Password
+              name="password"
+              fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined className="prefix-icon" />,
+              }}
+              placeholder={intl.formatMessage({
+                id: 'pages.login.password.placeholder',
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({
+                    id: 'pages.login.password.required',
+                  }),
+                },
+              ]}
+            />
+            {!captcha.captcha_off && (
+              <ProFormText
+                name="captcha"
+                placeholder={''}
+                fieldProps={{
+                  size: 'large',
+                  addonAfter: (
+                    <img
+                      className="captcha"
+                      onClick={handleGetCaptcha}
+                      src={captcha.captcha}
+                    />
+                  ),
+                }}
+              ></ProFormText>
+            )}
+
+            <div
+              style={{
+                marginBottom: 24,
               }}
             >
-              <FormattedMessage id="pages.login.forget-password" />
-            </a>
-          </div>
-        </LoginForm>
+              <ProFormCheckbox noStyle name="remember">
+                <FormattedMessage id="pages.login.auto-login" />
+              </ProFormCheckbox>
+              <a
+                style={{
+                  float: 'right',
+                }}
+                onClick={() => {
+                  setFindSetp(0);
+                  setFindVisible(true);
+                }}
+              >
+                <FormattedMessage id="pages.login.forget-password" />
+              </a>
+            </div>
+          </LoginForm>
+        </div>
       </div>
       <Footer />
       <Modal
@@ -370,14 +387,14 @@ const Login: React.FC = () => {
             title={intl.formatMessage({ id: 'pages.login.step.reset' })}
           />
         </Steps>
-        <div className={styles.resetBox}>
+        <div className="reset-box">
           {findStep === 2 ? (
-            <div className={styles.resetPassword}>
-              <div className={styles.field}>
+            <div className="reset-password">
+              <div className="field">
                 <Input
                   name="user_name"
                   size="large"
-                  prefix={<UserOutlined className={styles.prefixIcon} />}
+                  prefix={<UserOutlined className="prefix-icon" />}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.step.username',
                   })}
@@ -386,12 +403,12 @@ const Login: React.FC = () => {
                   onChange={(e) => onChangeResetInfo('user_name', e)}
                 />
               </div>
-              <div className={styles.field}>
+              <div className="field">
                 <Input.Password
                   name="password"
                   size="large"
                   value={resetInfo.password || ''}
-                  prefix={<LockOutlined className={styles.prefixIcon} />}
+                  prefix={<LockOutlined className="prefix-icon" />}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.step.password.placeholder',
                   })}
@@ -400,7 +417,7 @@ const Login: React.FC = () => {
               </div>
             </div>
           ) : findStep === 1 ? (
-            <div className={styles.resetTips}>
+            <div className="reset-tips">
               {findStatus.way === 'file' ? (
                 <div>
                   <h3>
@@ -443,8 +460,8 @@ const Login: React.FC = () => {
                     <code>{findStatus.host}</code>
                     <FormattedMessage id="pages.login.step.dns.tips2.after" />
                   </p>
-                  <div className={styles.copyItem}>
-                    <span className={styles.copyText}>{findStatus.token}</span>
+                  <div className="copy-item">
+                    <span className="copy-text">{findStatus.token}</span>
                     <CopyToClipboard
                       text={findStatus.token}
                       onCopy={() => {
@@ -455,12 +472,12 @@ const Login: React.FC = () => {
                         );
                       }}
                     >
-                      <Button className={styles.copyBtn}>
+                      <Button className="copy-btn">
                         <FormattedMessage id="pages.login.step.copy" />
                       </Button>
                     </CopyToClipboard>
                   </div>
-                  <p className={styles.copyTips}>
+                  <p className="copy-tips">
                     <FormattedMessage id="pages.login.step.dns.tips2.tips" />
                   </p>
                   <p>
@@ -470,8 +487,8 @@ const Login: React.FC = () => {
               )}
             </div>
           ) : (
-            <div className={styles.chooseItems}>
-              <div className={styles.chooseItem}>
+            <div className="choose-items">
+              <div className="choose-item">
                 <Button
                   size="large"
                   block
@@ -481,11 +498,11 @@ const Login: React.FC = () => {
                 >
                   <FormattedMessage id="pages.login.step.file" />
                 </Button>
-                <p className={styles.resetTips}>
+                <p className="reset-tips">
                   <FormattedMessage id="pages.login.step.file.tips" />
                 </p>
               </div>
-              <div className={styles.chooseItem}>
+              <div className="choose-item">
                 <Button
                   size="large"
                   block
@@ -495,7 +512,7 @@ const Login: React.FC = () => {
                 >
                   <FormattedMessage id="pages.login.step.dns" />
                 </Button>
-                <p className={styles.resetTips}>
+                <p className="reset-tips">
                   <FormattedMessage id="pages.login.step.dns.tips" />
                 </p>
               </div>
