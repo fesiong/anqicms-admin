@@ -23,6 +23,7 @@ const PluginLimiter: React.FC<any> = () => {
   const [limiterSetting, setLimiterSetting] = useState<any>({});
   const [blockedIPs, setBlockedIPs] = useState<any[]>([]);
   const [fetched, setFetched] = useState<boolean>(false);
+  const [memLimit, setMemLimit] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
@@ -35,6 +36,7 @@ const PluginLimiter: React.FC<any> = () => {
     setting.block_agents = setting.block_agents?.join('\n') || '';
     setting.allow_prefixes = setting.allow_prefixes?.join('\n') || '';
 
+    setMemLimit(setting.mem_limit || false);
     setLimiterSetting(setting);
     setFetched(true);
   };
@@ -277,6 +279,51 @@ const PluginLimiter: React.FC<any> = () => {
                     id: 'plugin.limiter.allow_prefixes.description',
                   })}
                 />
+                <ProFormRadio.Group
+                  name="mem_limit"
+                  label={intl.formatMessage({
+                    id: 'plugin.limiter.mem_limit',
+                  })}
+                  options={[
+                    {
+                      value: false,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.mem_limit.no',
+                      }),
+                    },
+                    {
+                      value: true,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.mem_limit.yes',
+                      }),
+                    },
+                  ]}
+                  fieldProps={{
+                    onChange: (e) => {
+                      setMemLimit(e.target.value);
+                    },
+                  }}
+                  extra={intl.formatMessage({
+                    id: 'plugin.limiter.mem_limit.description',
+                  })}
+                />
+                {memLimit && (
+                  <ProFormDigit
+                    name={'mem_percent'}
+                    label={intl.formatMessage({
+                      id: 'plugin.limiter.mem_percent',
+                    })}
+                    fieldProps={{
+                      suffix: '%',
+                    }}
+                    placeholder={intl.formatMessage({
+                      id: 'plugin.limiter.mem_percent.placeholder',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'plugin.limiter.mem_percent.description',
+                    })}
+                  />
+                )}
               </Card>
             </ProForm>
             <div className="mt-normal">

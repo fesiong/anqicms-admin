@@ -1449,6 +1449,15 @@ export default {
   'plugin.limiter.blocked_ips.remove': 'Remove the block',
   'plugin.limiter.blocked_ips.remove.yes': 'Remove',
   'plugin.limiter.blocked_ips.ended': 'Expires:',
+  'plugin.limiter.mem_limit': 'Memory Limit',
+  'plugin.limiter.mem_limit.no': 'No Limit',
+  'plugin.limiter.mem_limit.yes': 'Limit',
+  'plugin.limiter.mem_limit.description':
+    'After enabling the limit, access will be denied when the server memory exceeds the specified proportion',
+  'plugin.limiter.mem_percent': 'Memory Limit Percentage',
+  'plugin.limiter.mem_percent.placeholder': 'E.g.: 90%',
+  'plugin.limiter.mem_percent.description':
+    'Server memory limit percentage, default: 90%',
   'plugin.multilang.remove.confirm':
     'Are you sure you want to remove this multilingual site? ',
   'plugin.multilang.sync.confirm':
