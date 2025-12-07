@@ -24,7 +24,6 @@ const PluginLimiter: React.FC<any> = () => {
   const [blockedIPs, setBlockedIPs] = useState<any[]>([]);
   const [memLimit, setMemLimit] = useState<boolean>(false);
   const [fetched, setFetched] = useState<boolean>(false);
-  const [memLimit, setMemLimit] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
@@ -36,7 +35,6 @@ const PluginLimiter: React.FC<any> = () => {
     setting.black_ips = setting.black_ips?.join('\n') || '';
     setting.block_agents = setting.block_agents?.join('\n') || '';
     setting.allow_prefixes = setting.allow_prefixes?.join('\n') || '';
-    setMemLimit(setting.mem_limit);
 
     setMemLimit(setting.mem_limit || false);
     setLimiterSetting(setting);
