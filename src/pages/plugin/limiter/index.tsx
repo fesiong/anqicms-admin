@@ -22,6 +22,7 @@ const PluginLimiter: React.FC<any> = () => {
   const formRef = React.createRef<ProFormInstance>();
   const [limiterSetting, setLimiterSetting] = useState<any>({});
   const [blockedIPs, setBlockedIPs] = useState<any[]>([]);
+  const [memLimit, setMemLimit] = useState<boolean>(false);
   const [fetched, setFetched] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
@@ -34,6 +35,7 @@ const PluginLimiter: React.FC<any> = () => {
     setting.black_ips = setting.black_ips?.join('\n') || '';
     setting.block_agents = setting.block_agents?.join('\n') || '';
     setting.allow_prefixes = setting.allow_prefixes?.join('\n') || '';
+    setMemLimit(setting.mem_limit);
 
     setLimiterSetting(setting);
     setFetched(true);
@@ -202,6 +204,48 @@ const PluginLimiter: React.FC<any> = () => {
                     id: 'plugin.limiter.ban_empty_refer.description',
                   })}
                 />
+                <ProFormRadio.Group
+                  name="mem_limit"
+                  label={intl.formatMessage({
+                    id: 'plugin.limiter.mem-limit',
+                  })}
+                  options={[
+                    {
+                      value: false,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.is_allow_spider.no',
+                      }),
+                    },
+                    {
+                      value: true,
+                      label: intl.formatMessage({
+                        id: 'plugin.limiter.is_allow_spider.yes',
+                      }),
+                    },
+                  ]}
+                  extra={intl.formatMessage({
+                    id: 'plugin.limiter.mem-limit.description',
+                  })}
+                  fieldProps={{
+                    onChange: (e) => {
+                      setMemLimit(e.target.value);
+                    },
+                  }}
+                />
+                {memLimit && (
+                  <ProFormDigit
+                    name={'mem_percent'}
+                    label={intl.formatMessage({
+                      id: 'plugin.limiter.mem-percent',
+                    })}
+                    fieldProps={{
+                      suffix: '%',
+                    }}
+                    extra={intl.formatMessage({
+                      id: 'plugin.limiter.mem-percent.description',
+                    })}
+                  />
+                )}
                 <ProFormGroup>
                   <ProFormDigit
                     name={'max_requests'}

@@ -1,6 +1,6 @@
 export default {
   'plugin.aigenerate.demand.required':
-    'The unified requirement cannot exceed 500 characters.',
+    'The unified requirement cannot exceed 2000 characters.',
   'plugin.aigenerate.checking': 'Checking',
   'plugin.aigenerate.setting': 'AI automatic writing settings',
   'plugin.aigenerate.isopen': 'Whether to write automatically',
@@ -18,7 +18,7 @@ export default {
   'plugin.aigenerate.double-split.random': 'random',
   'plugin.aigenerate.demand': 'Uniform requirements for writing',
   'plugin.aigenerate.demand.description':
-    'It is possible to define unified requirements for all AI writing articles, no more than 200 characters. Leave it blank by default',
+    'It is possible to define unified requirements for all AI writing articles, no more than 2000 characters. Leave it blank by default',
   'plugin.aigenerate.source': 'AI writing source',
   'plugin.aigenerate.source.anqicms': 'AnQiCMS official',
   'plugin.aigenerate.source.openai': 'OpenAI',
@@ -825,13 +825,22 @@ export default {
   'plugin.order.vip': 'Buy VIP',
   'plugin.order.goods': 'order goods',
   'plugin.order.detail.title': 'name',
+  'plugin.order.detail.thumb': 'Thumbnail',
+  'plugin.order.detail.sku': 'SKU',
   'plugin.order.detail.price': 'unit price',
   'plugin.order.detail.quantity': 'Order quantity',
   'plugin.order.detail.amount': 'total price',
+  'plugin.order.detail.discount-amount': 'discount amount',
+  'plugin.order.detail.origin-amount': 'original amount',
   'plugin.order.recipient.name': 'recipient',
+  'plugin.order.recipient.email': 'Email',
+  'plugin.order.recipient.company': 'Company',
   'plugin.order.recipient.contact': 'Receiving phone number',
   'plugin.order.recipient.address': 'Recipient address',
   'plugin.order.setting': 'Order settings',
+  'plugin.order.setting.no-need-login': 'No need to log in',
+  'plugin.order.setting.no-need-login.description':
+    'No need to log in to place orders',
   'plugin.order.setting.progress': 'Order processing method',
   'plugin.order.setting.progress.yes': 'Normal transaction process',
   'plugin.order.setting.progress.no': 'The transaction is completed directly',
@@ -885,6 +894,7 @@ export default {
   'plugin.order.express-company.jitu': 'Jitu Express',
   'plugin.order.express-company.baishi': 'Best Huitong',
   'plugin.order.tracking-number': 'tracking number',
+  'plugin.pay.setting': 'Payment Settings',
   'plugin.pay.wechat': 'WeChat Pay',
   'plugin.pay.alipay': 'Pay with Ali-Pay',
   'plugin.pay.paypal': 'PayPal',
@@ -1082,6 +1092,8 @@ export default {
   'plugin.sendmail.send-type.new-order': 'There are new orders on the website',
   'plugin.sendmail.send-type.pay-order':
     'There is a payment order on the website',
+  'plugin.sendmail.send-type.register':
+    'Registration account email verification',
   'plugin.sendmail.send-type.description':
     'Once selected, emails will be sent in the selected scenario.',
   'plugin.sendmail.test.sending': 'Sending test email',
@@ -1445,6 +1457,11 @@ export default {
   'plugin.limiter.ban_empty_refer': 'Whether to restrict empty Refer access',
   'plugin.limiter.ban_empty_refer.description':
     'Only restrict empty Refer access to static resources such as images, web pages are not restricted',
+  'plugin.limiter.mem-limit': 'Control memory usage',
+  'plugin.limiter.mem-limit.description':
+    'If set to yes, requests that exceed the memory usage limit will be rejected',
+  'plugin.limiter.mem-percent': 'Maximum memory usage percentage',
+  'plugin.limiter.mem-percent.description': 'Valid values 50-100, default 90',
   'plugin.limiter.blocked_ips': 'Temporarily blocked IP',
   'plugin.limiter.blocked_ips.remove': 'Remove the block',
   'plugin.limiter.blocked_ips.remove.yes': 'Remove',
@@ -1541,4 +1558,26 @@ export default {
   'plugin.jsonld.open.true': 'Yes',
   'plugin.jsonld.author': 'Default author',
   'plugin.jsonld.brand': 'Default brand',
+  'plugin.google.setting': 'Google Auth Configuration',
+  'plugin.google.redirect-url': 'Callback URL',
+  'plugin.google.client-id': 'Client ID',
+  'plugin.google.client-id.description': 'Obtain from Google Developer Console',
+  'plugin.google.client-secret': 'Client Secret',
+  'plugin.google.client-secret.description':
+    'Obtain from Google Developer Console',
+  'plugin.pay.sandbox': 'Sandbox',
+  'plugin.pay.sandbox.description': 'Enable sandbox mode',
+  'plugin.pay.sandbox.no': 'Disable',
+  'plugin.pay.sandbox.yes': 'Enable',
+  'plugin.sendmail.signup-verify': 'Signup Verification',
+  'plugin.sendmail.signup-verify.no': 'No',
+  'plugin.sendmail.signup-verify.yes': 'Yes',
+  'plugin.sendmail.signup-verify.description':
+    'Do users need to send email verification when registering',
+  'plugin.sendmail.signup-verify.title': "Verification Email's Subject",
+  'plugin.sendmail.signup-verify.title.description':
+    'Supported variables for use {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
+  'plugin.sendmail.signup-verify.message': "Verification Email's Content",
+  'plugin.sendmail.signup-verify.message.description':
+    'At least it needs to include {verifyCode}或{verifyUrl}, Supported variables for use {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
 };

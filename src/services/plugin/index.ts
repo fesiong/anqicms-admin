@@ -7,6 +7,7 @@ export * from './commission';
 export * from './fileupload';
 export * from './finance';
 export * from './fulltext';
+export * from './google';
 export * from './guestbook';
 export * from './htmlcache';
 export * from './importApi';

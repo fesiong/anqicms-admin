@@ -41,6 +41,7 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
     const data = res.data || { extra: {}, flag: null };
     data.flag = data.flag?.split(',') || [];
     data.created_moment = dayjs(data.created_time * 1000);
+    data.tags = data.tags?.map((tag: any) => tag.title);
     setArchive(data);
     setFetched(true);
   };

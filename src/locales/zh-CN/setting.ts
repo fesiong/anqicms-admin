@@ -230,6 +230,9 @@ export default {
   'setting.nav.link': '填写链接',
   'setting.nav.link.description':
     '连接使用http或https开头，如： https://www.anqicms.com/',
+  'setting.nav.style': '显示样式',
+  'setting.nav.style.description':
+    '导航的样式，默认为默认样式，你需要使用自定义CSS来进行控制',
   'setting.nav.sort': '显示顺序',
   'setting.nav.sort.description': '值越小，排序越靠前，默认99',
   'plugin.diyfield.setting': '字段配置',

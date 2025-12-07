@@ -118,11 +118,11 @@ const ArchiveCategory: React.FC = () => {
         id: 'content.option.batch-add-anchor.confirm',
       }),
       onOk: async () => {
+        if (!selectedRowKeys) return true;
         const hide = message.loading(
           intl.formatMessage({ id: 'setting.system.submitting' }),
           0,
         );
-        if (!selectedRowKeys) return true;
         try {
           await addTitleToAnchor({
             type: 'category',

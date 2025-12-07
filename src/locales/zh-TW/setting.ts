@@ -230,6 +230,9 @@ export default {
   'setting.nav.link': '填寫連結',
   'setting.nav.link.description':
     '連線使用http或https開頭，如： https://www.anqicms.com/',
+  'setting.nav.style': '顯示樣式',
+  'setting.nav.style.description':
+    '導航的樣式，預設為預設樣式，你需要使用自訂CSS來進行控制',
   'setting.nav.sort': '顯示順序',
   'setting.nav.sort.description': '值越小，排序越前，預設99',
   'plugin.diyfield.setting': '字段配置',

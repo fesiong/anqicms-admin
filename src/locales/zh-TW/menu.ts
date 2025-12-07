@@ -59,6 +59,7 @@ export default {
   'menu.plugin.translate': '翻譯配置',
   'menu.plugin.jsonld': '結構化數據標記',
   'menu.plugin.akismet': 'Akismet',
+  'menu.plugin.google': '谷歌授权',
   'menu.design': '模板設計',
   'menu.design.index': '我的模板',
   'menu.design.editor': '修改程式碼',

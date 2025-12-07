@@ -2,7 +2,8 @@ import NewContainer from '@/components/NewContainer';
 import { getStatisticTraffic } from '@/services/statistic';
 import { Line } from '@ant-design/plots';
 import { StatisticCard } from '@ant-design/pro-components';
-import { useIntl } from '@umijs/max';
+import { history, useIntl } from '@umijs/max';
+import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const StatisticTraffic: React.FC<any> = () => {
@@ -50,6 +51,16 @@ const StatisticTraffic: React.FC<any> = () => {
         key={newKey}
         title={intl.formatMessage({ id: 'statistic.traffic' })}
         tooltip={intl.formatMessage({ id: 'statistic.traffic.tips' })}
+        extra={
+          <Button
+            size="small"
+            onClick={() => {
+              history.push('/statistic/detail?type=traffic');
+            }}
+          >
+            {intl.formatMessage({ id: 'menu.statistic.detail' })}
+          </Button>
+        }
         chart={<Line {...config} />}
       />
     </NewContainer>

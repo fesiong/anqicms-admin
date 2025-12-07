@@ -266,6 +266,7 @@ class ArchiveForm extends React.Component<intlProps> {
     let content = archive.data?.content || '';
     archive.flag = archive.flag?.split(',') || [];
     archive.created_moment = dayjs(archive.created_time * 1000);
+    archive.tags = archive.tags?.map((tag: any) => tag.title);
     this.defaultContent = content;
     const module = await this.getModule(archive.module_id);
     let extraContent: any = {};
@@ -623,7 +624,8 @@ class ArchiveForm extends React.Component<intlProps> {
         .map((item: any) => {
           return {
             key: item.key || '',
-            value: item.value || '',
+            value: (item.values || [''])[0],
+            values: item.values || [''],
           };
         })
         .filter((item: any) => item.key);
@@ -704,6 +706,21 @@ class ArchiveForm extends React.Component<intlProps> {
 
     const { archive } = this.state;
     delete archive.extra[field];
+    this.setState({
+      archive,
+    });
+  };
+
+  handleChangeExtraField = (field: string, value: any) => {
+    const extra: any = {};
+    extra[field] = { value: value };
+    this.formRef?.current?.setFieldsValue({ extra });
+    const { archive } = this.state;
+    if (!archive.extra[field]) {
+      archive.extra[field] = {};
+    }
+    archive.extra[field].value = value;
+
     this.setState({
       archive,
     });
@@ -801,6 +818,7 @@ class ArchiveForm extends React.Component<intlProps> {
     extraTexts[field].push({
       key: '',
       value: '',
+      values: [''],
     });
     const extra: any = {};
     extra[field] = { value: extraTexts[field] };
@@ -824,6 +842,28 @@ class ArchiveForm extends React.Component<intlProps> {
 
     const extra: any = {};
     extra[field] = { value: { idx: { keyName: value } } };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTexts,
+    });
+  };
+
+  onChangeExtraTextsFieldValue = (
+    field: string,
+    idx: number,
+    valueIdx: number,
+    value: any,
+  ) => {
+    const { extraTexts } = this.state;
+    if (!extraTexts[field][idx]) {
+      extraTexts[field][idx] = {};
+    }
+    extraTexts[field][idx].values[valueIdx] = value;
+
+    const extra: any = {};
+    extra[field] = {
+      value: { idx: { values: extraTexts[field][idx].values } },
+    };
     this.formRef?.current?.setFieldsValue({ extra });
     this.setState({
       extraTexts,
@@ -884,6 +924,35 @@ class ArchiveForm extends React.Component<intlProps> {
           extraTexts,
         });
       },
+    });
+  };
+
+  onAddExtraTextsFieldValue = (field: string, idx: number) => {
+    const { extraTexts } = this.state;
+    extraTexts[field][idx].values.push('');
+    const extra: any = {};
+    extra[field] = { value: extraTexts[field] };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTexts,
+    });
+  };
+
+  onReduceExtraTextsFieldValue = (
+    field: string,
+    idx: number,
+    valueIdx: number,
+  ) => {
+    const { extraTexts } = this.state;
+    if (extraTexts[field][idx].values.length <= 1) {
+      return;
+    }
+    extraTexts[field][idx].values.splice(valueIdx, 1);
+    const extra: any = {};
+    extra[field] = { value: extraTexts[field] };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTexts,
     });
   };
 

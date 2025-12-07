@@ -67,7 +67,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
 
   handleSubmit = async (values: any) => {
     const { setting } = this.state;
-    if (values.demand.length > 500) {
+    if (values.demand.length > 2000) {
       message.error(
         this.props.intl.formatMessage({
           id: 'plugin.aigenerate.demand.required',

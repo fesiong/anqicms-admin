@@ -431,6 +431,13 @@ export default [
         component: '@/pages/plugin/akismet/index',
         icon: 'akismet',
       },
+      {
+        path: '/plugin/google',
+        name: 'google',
+        type: 'system',
+        component: '@/pages/plugin/google/index',
+        icon: 'google',
+      },
     ],
   },
   {

@@ -509,6 +509,12 @@ const SettingNavFrom: React.FC<any> = () => {
               extra={intl.formatMessage({ id: 'setting.nav.link.description' })}
             />
           )}
+          <ProFormText
+            name="style"
+            label={intl.formatMessage({ id: 'setting.nav.style' })}
+            width="lg"
+            extra={intl.formatMessage({ id: 'setting.nav.style.description' })}
+          />
           <ProFormDigit
             name="sort"
             label={intl.formatMessage({ id: 'setting.nav.sort' })}

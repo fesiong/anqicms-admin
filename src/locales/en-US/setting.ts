@@ -251,6 +251,9 @@ export default {
   'setting.nav.link': 'Fill in the link',
   'setting.nav.link.description':
     'The connection starts with http or https, such as: https://www.anqicms.com/',
+  'setting.nav.style': 'Style',
+  'setting.nav.style.description':
+    'The style of the navigation, the default is the default style, you need to control the style through CSS',
   'setting.nav.sort': 'display order',
   'setting.nav.sort.description':
     'The smaller the value, the higher the sorting is. The default is 99.',
