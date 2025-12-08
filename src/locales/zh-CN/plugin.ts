@@ -275,6 +275,7 @@ export default {
   'plugin.comment.view-edit': '查看/编辑',
   'plugin.comment.delete.confirm': '确定要删除选中的评论吗？',
   'plugin.comment.status': '状态',
+  'plugin.comment.status.all': '全部',
   'plugin.comment.status.default': '待审',
   'plugin.comment.status.ok': '通过',
   'plugin.comment.status.spam': '垃圾',

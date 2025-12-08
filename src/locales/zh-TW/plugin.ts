@@ -274,6 +274,7 @@ export default {
   'plugin.comment.view-edit': '查看/編輯',
   'plugin.comment.delete.confirm': '確定要刪除選取的評論嗎？',
   'plugin.comment.status': '狀態',
+  'plugin.comment.status.all': '全部',
   'plugin.comment.status.default': '待審核',
   'plugin.comment.status.ok': '通過',
   'plugin.comment.status.spam': '垃圾',

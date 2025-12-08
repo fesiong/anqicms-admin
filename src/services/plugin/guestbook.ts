@@ -1,6 +1,9 @@
 import { get, post } from '../tools';
 
-export async function pluginGetGuestbooks(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetGuestbooks(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/guestbook/list',
     params,
@@ -8,7 +11,10 @@ export async function pluginGetGuestbooks(params?: any, options?: { [key: string
   });
 }
 
-export async function pluginDeleteGuestbook(body: any, options?: { [key: string]: any }) {
+export async function pluginDeleteGuestbook(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/guestbook/delete',
     body,
@@ -16,7 +22,10 @@ export async function pluginDeleteGuestbook(body: any, options?: { [key: string]
   });
 }
 
-export async function pluginExportGuestbook(body?: any, options?: { [key: string]: any }) {
+export async function pluginExportGuestbook(
+  body?: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/guestbook/export',
     body,
@@ -24,7 +33,10 @@ export async function pluginExportGuestbook(body?: any, options?: { [key: string
   });
 }
 
-export async function pluginGetGuestbookSetting(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetGuestbookSetting(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/guestbook/setting',
     params,
@@ -32,9 +44,23 @@ export async function pluginGetGuestbookSetting(params?: any, options?: { [key: 
   });
 }
 
-export async function pluginSaveGuestbookSetting(body: any, options?: { [key: string]: any }) {
+export async function pluginSaveGuestbookSetting(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/guestbook/setting',
+    body,
+    options,
+  });
+}
+
+export async function pluginUpdateGuestbookStatus(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/guestbook/status',
     body,
     options,
   });

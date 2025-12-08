@@ -4,9 +4,16 @@ import {
   pluginExportGuestbook,
   pluginGetGuestbooks,
   pluginGetGuestbookSetting,
+  pluginUpdateGuestbookStatus,
 } from '@/services/plugin/guestbook';
 import { exportFile } from '@/utils';
-import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  ModalForm,
+  ProColumns,
+  ProFormRadio,
+  ProTable,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, message, Modal, Space } from 'antd';
 import dayjs from 'dayjs';
@@ -17,6 +24,7 @@ import GuestbookSetting from './components/setting';
 const PluginGuestbook: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+  const [statusVisible, setStatusVisible] = useState<boolean>(false);
   const [currentGuestbook, setCurrentGuestbook] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [columns, setColumns] = useState<ProColumns<any>[]>([]);
@@ -26,6 +34,26 @@ const PluginGuestbook: React.FC = () => {
   const handlePreview = async (record: any) => {
     setCurrentGuestbook(record);
     setEditVisible(true);
+  };
+
+  const handleSetStatus = async (values: any) => {
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
+    pluginUpdateGuestbookStatus({
+      status: Number(values.status),
+      ids: selectedRowKeys,
+    })
+      .then((res) => {
+        message.success(res.msg);
+        setStatusVisible(false);
+        setSelectedRowKeys([]);
+        actionRef.current?.reloadAndRest?.();
+      })
+      .finally(() => {
+        hide();
+      });
   };
 
   const handleRemove = async (selectedRowKeys: any[]) => {
@@ -117,7 +145,6 @@ const PluginGuestbook: React.FC = () => {
       {
         title: intl.formatMessage({ id: 'plugin.comment.status' }),
         dataIndex: 'status',
-        hideInSearch: true,
         width: 100,
         valueEnum: {
           0: {
@@ -132,6 +159,37 @@ const PluginGuestbook: React.FC = () => {
             text: intl.formatMessage({ id: 'plugin.comment.status.spam' }),
             color: 'red',
           },
+        },
+        renderFormItem: () => {
+          return (
+            <ProFormRadio.Group
+              name="status"
+              options={[
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.comment.status.all',
+                  }),
+                  value: 'all',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.comment.status.default',
+                  }),
+                  value: 'default',
+                },
+                {
+                  label: intl.formatMessage({ id: 'plugin.comment.status.ok' }),
+                  value: 'ok',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.comment.status.spam',
+                  }),
+                  value: 'spam',
+                },
+              ]}
+            />
+          );
         },
       },
       {
@@ -236,6 +294,14 @@ const PluginGuestbook: React.FC = () => {
               <Button
                 size={'small'}
                 onClick={() => {
+                  setStatusVisible(true);
+                }}
+              >
+                <FormattedMessage id="content.option.update-status" />
+              </Button>
+              <Button
+                size={'small'}
+                onClick={() => {
                   handleRemove(selectedRowKeys);
                 }}
               >
@@ -280,6 +346,24 @@ const PluginGuestbook: React.FC = () => {
           />
         )}
       </Card>
+      {statusVisible && (
+        <ModalForm
+          width={480}
+          title={intl.formatMessage({ id: 'content.status.select' })}
+          open={statusVisible}
+          onFinish={handleSetStatus}
+          onOpenChange={(e) => setStatusVisible(e)}
+        >
+          <ProFormRadio.Group
+            name="status"
+            valueEnum={{
+              0: intl.formatMessage({ id: 'plugin.comment.status.default' }),
+              1: intl.formatMessage({ id: 'plugin.comment.status.ok' }),
+              2: intl.formatMessage({ id: 'plugin.comment.status.spam' }),
+            }}
+          />
+        </ModalForm>
+      )}
     </NewContainer>
   );
 };

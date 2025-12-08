@@ -305,6 +305,7 @@ export default {
   'plugin.comment.delete.confirm':
     'Are you sure you want to delete the selected comments?',
   'plugin.comment.status': 'Status',
+  'plugin.comment.status.all': 'All',
   'plugin.comment.status.default': 'Pending',
   'plugin.comment.status.ok': 'Approved',
   'plugin.comment.status.spam': 'Spam',
