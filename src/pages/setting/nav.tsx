@@ -348,22 +348,34 @@ const SettingNavFrom: React.FC<any> = () => {
             request={async () => {
               let newNavs = [
                 {
+                  spacer: '',
                   title: intl.formatMessage({ id: 'setting.nav.top' }),
                   id: 0,
                 },
               ];
-              for (let item of navs) {
-                newNavs.push(item);
+              for (let item of navs || []) {
+                newNavs.push({
+                  spacer: '',
+                  title: item.title,
+                  id: item.id,
+                });
                 for (let sub of item.nav_list || []) {
-                  sub.spacer = (item.spacer || '') + '└  ';
-                  newNavs.push(sub);
+                  let subItem = {
+                    spacer: (item.spacer || '') + '└  ',
+                    title: sub.title,
+                    id: sub.id,
+                  };
+                  newNavs.push(subItem);
                   for (let sub2 of sub.nav_list || []) {
-                    sub2.spacer = (sub.spacer || '') + '└  ';
-                    newNavs.push(sub2);
+                    newNavs.push({
+                      spacer: (sub.spacer || '') + '└  ',
+                      title: sub2.title,
+                      id: sub2.id,
+                    });
                   }
                 }
               }
-              return newNavs.concat(navs);
+              return newNavs;
             }}
           />
           <ProFormText
