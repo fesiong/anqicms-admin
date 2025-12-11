@@ -325,6 +325,12 @@ const PluginTimeFactor: React.FC<any> = () => {
                   label={intl.formatMessage({ id: 'plugin.timefactor.module' })}
                   options={modules}
                 />
+                <ProFormCheckbox
+                  name={'random'}
+                  label={intl.formatMessage({ id: 'plugin.timefactor.random' })}
+                >
+                  {intl.formatMessage({ id: 'plugin.timefactor.random' })}
+                </ProFormCheckbox>
                 <ProFormSelect
                   name={'category_ids'}
                   label={intl.formatMessage({

@@ -32,7 +32,11 @@ const StatisticDetail: React.FC = () => {
   }, []);
 
   const openLink = (text: string) => {
-    window.open((initialState?.system?.base_url || '') + text);
+    let link = text;
+    if (link.startsWith('http') === false) {
+      link = (initialState?.system?.base_url || '') + link;
+    }
+    window.open(link);
   };
 
   const handleSelectDate = (item: string) => {

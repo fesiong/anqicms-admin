@@ -1198,6 +1198,7 @@ export default {
   'plugin.timefactor.end-time.description':
     'If you fill in 0, it means it will end at 23:00',
   'plugin.timefactor.module': 'Open model',
+  'plugin.timefactor.random': 'Random update',
   'plugin.timefactor.category': 'Categories that do not participate in updates',
   'plugin.timefactor.category.placeholder':
     'If you want to exclude certain categories, you can choose here',

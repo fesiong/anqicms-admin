@@ -1086,6 +1086,7 @@ export default {
   'plugin.timefactor.end-time.placeholder': '如：18',
   'plugin.timefactor.end-time.description': '如果填0，则表示23点结束',
   'plugin.timefactor.module': '开启的模型',
+  'plugin.timefactor.random': '随机发布',
   'plugin.timefactor.category': '不参与更新的分类',
   'plugin.timefactor.category.placeholder':
     '如果你想排除某些分类，可以在这里选择',
