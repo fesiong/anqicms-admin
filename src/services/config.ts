@@ -16,7 +16,6 @@ if (typeof window !== 'undefined' && window.APP_CONFIG) {
 if (process.env.NODE_ENV === 'development') {
   host = 'http://127.0.0.1:8001/system/api';
 }
-host = 'https://www.anqicms.com/system/api';
 
 const config = {
   baseUrl: host,
