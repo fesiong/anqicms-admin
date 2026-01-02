@@ -109,6 +109,7 @@ const AiImageGenerate: React.FC<AiImageGenerateProps> = (props) => {
 
   const handleSaveToAttachment = (record: any) => {
     Modal.confirm({
+      zIndex: 9999,
       title: props.intl?.formatMessage({
         id: 'component.aiimage.title',
       }),
