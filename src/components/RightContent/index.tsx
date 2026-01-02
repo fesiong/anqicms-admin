@@ -393,82 +393,84 @@ const GlobalHeaderRight: React.FC = () => {
             </p>
           </div>
         )}
-        <div className="account-info">
-          <div className="item">
-            <label>
-              <FormattedMessage id="component.right-content.account-name" />
-            </label>
-            <div>{anqiUser.user_name}</div>
+        {anqiUser && (
+          <div className="account-info">
+            <div className="item">
+              <label>
+                <FormattedMessage id="component.right-content.account-name" />
+              </label>
+              <div>{anqiUser.user_name}</div>
+            </div>
+            {anqiUser?.valid && (
+              <>
+                <div className="item">
+                  <label>
+                    <FormattedMessage id="component.right-content.auth-id" />
+                  </label>
+                  <div>{anqiUser.auth_id}</div>
+                </div>
+                <div className="item">
+                  <label>
+                    <FormattedMessage id="component.right-content.expire-time" />
+                  </label>
+                  <Space>
+                    <span>
+                      {dayjs(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}
+                    </span>
+                    {anqiUser.valid === false && (
+                      <Tag color="red">
+                        {intl.formatMessage({
+                          id: 'component.right-content.invalid',
+                        })}
+                      </Tag>
+                    )}
+                  </Space>
+                </div>
+              </>
+            )}
+            <div className="item">
+              <label>
+                <FormattedMessage id="component.right-content.integral" />
+              </label>
+              <div>{anqiUser.integral}</div>
+            </div>
+            <div className="item">
+              <label>
+                <FormattedMessage id="component.right-content.free-token" />
+              </label>
+              <Space direction="vertical">
+                <div>{anqiUser.free_token}</div>
+                <div className="text-muted">
+                  <FormattedMessage id="component.right-content.free_token.description" />
+                </div>
+              </Space>
+            </div>
+            <div className="item">
+              <label>
+                <FormattedMessage id="component.right-content.total-token" />
+              </label>
+              <Space direction="vertical">
+                <div>{anqiUser.total_token}</div>
+                <div className="text-muted">
+                  <FormattedMessage id="component.right-content.total-token.description" />
+                </div>
+              </Space>
+            </div>
+            <div className="item">
+              <label>
+                <FormattedMessage id="component.right-content.un-pay-token" />
+              </label>
+              <Space>
+                <span>{anqiUser.un_pay_token}</span>
+                {anqiUser.is_owe_fee === 1 && (
+                  <Tag color="red">
+                    <FormattedMessage id="component.right-content.is-owe-fee" />
+                  </Tag>
+                )}
+              </Space>
+            </div>
           </div>
-          {anqiUser?.valid && (
-            <>
-              <div className="item">
-                <label>
-                  <FormattedMessage id="component.right-content.auth-id" />
-                </label>
-                <div>{anqiUser.auth_id}</div>
-              </div>
-              <div className="item">
-                <label>
-                  <FormattedMessage id="component.right-content.expire-time" />
-                </label>
-                <Space>
-                  <span>
-                    {dayjs(anqiUser.expire_time * 1000).format('YYYY-MM-DD')}
-                  </span>
-                  {anqiUser.valid === false && (
-                    <Tag color="red">
-                      {intl.formatMessage({
-                        id: 'component.right-content.invalid',
-                      })}
-                    </Tag>
-                  )}
-                </Space>
-              </div>
-            </>
-          )}
-          <div className="item">
-            <label>
-              <FormattedMessage id="component.right-content.integral" />
-            </label>
-            <div>{anqiUser.integral}</div>
-          </div>
-          <div className="item">
-            <label>
-              <FormattedMessage id="component.right-content.free-token" />
-            </label>
-            <Space direction="vertical">
-              <div>{anqiUser.free_token}</div>
-              <div className="text-muted">
-                <FormattedMessage id="component.right-content.free_token.description" />
-              </div>
-            </Space>
-          </div>
-          <div className="item">
-            <label>
-              <FormattedMessage id="component.right-content.total-token" />
-            </label>
-            <Space direction="vertical">
-              <div>{anqiUser.total_token}</div>
-              <div className="text-muted">
-                <FormattedMessage id="component.right-content.total-token.description" />
-              </div>
-            </Space>
-          </div>
-          <div className="item">
-            <label>
-              <FormattedMessage id="component.right-content.un-pay-token" />
-            </label>
-            <Space>
-              <span>{anqiUser.un_pay_token}</span>
-              {anqiUser.is_owe_fee === 1 && (
-                <Tag color="red">
-                  <FormattedMessage id="component.right-content.is-owe-fee" />
-                </Tag>
-              )}
-            </Space>
-          </div>
-        </div>
+        )}
         <div className="order-control">
           <Space align="center">
             <Button

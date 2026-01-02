@@ -8,7 +8,7 @@ import { message } from 'antd';
 import { BytemdPlugin } from 'bytemd';
 import 'bytemd/dist/index.css';
 import zhHans from 'bytemd/locales/zh_Hans.json';
-import { forwardRef, useEffect, useImperativeHandle } from 'react';
+import { forwardRef, useImperativeHandle } from 'react';
 import Attachment from '../attachment/dialog';
 import './index.less';
 
@@ -87,15 +87,11 @@ export function attachPlugin(intl: any): BytemdPlugin {
 }
 
 const plugins = [gfm(), pmath(), mermaid()];
-let initialAttach: BytemdPlugin;
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = forwardRef(
   (props, ref) => {
     const intl = useIntl();
 
-    useEffect(() => {
-      initialAttach = attachPlugin(intl);
-    }, []);
     function setInnerContent() {
       // how to set
       // setValue(content);
@@ -134,7 +130,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = forwardRef(
       >
         <Editor
           value={props.content}
-          plugins={[...plugins, initialAttach]}
+          plugins={[...plugins, attachPlugin(intl)]}
           locale={zhHans}
           onChange={(v) => {
             props.setContent(v);
