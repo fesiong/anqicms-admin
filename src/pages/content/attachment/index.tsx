@@ -1,3 +1,4 @@
+import AiImageGenerate from '@/components/aiimage';
 import NewContainer from '@/components/NewContainer';
 import {
   changeAttachmentCategory,
@@ -58,6 +59,7 @@ class ImageList extends React.Component<intlProps> {
 
     indeterminate: false,
     selectedAll: false,
+    aiVisible: false,
     kw: '',
     newKey: '',
   };
@@ -475,6 +477,14 @@ class ImageList extends React.Component<intlProps> {
     return pares.join('.');
   };
 
+  handleSubmitAi = () => {
+    this.getImageList();
+    this.setState({
+      aiVisible: false,
+      detailVisible: false,
+    });
+  };
+
   render() {
     const {
       images,
@@ -489,6 +499,7 @@ class ImageList extends React.Component<intlProps> {
       editVisible,
       indeterminate,
       selectedAll,
+      aiVisible,
       newKey,
     } = this.state;
 
@@ -574,6 +585,14 @@ class ImageList extends React.Component<intlProps> {
                     <FormattedMessage id="content.attachment.upload" />
                   </Button>
                 </Upload>
+                <Button
+                  type="primary"
+                  onClick={() =>
+                    this.setState({ aiVisible: true, currentAttach: {} })
+                  }
+                >
+                  <FormattedMessage id="component.aiimage.generate" />
+                </Button>
                 <Button onClick={() => this.scanUploadsDir()}>
                   <FormattedMessage id="content.attachment.scan.name" />
                 </Button>
@@ -664,7 +683,7 @@ class ImageList extends React.Component<intlProps> {
           </div>
         </Card>
         <Modal
-          width={900}
+          width={1000}
           title={this.props.intl.formatMessage({
             id: 'content.attachment.detail',
           })}
@@ -735,7 +754,7 @@ class ImageList extends React.Component<intlProps> {
                       <FormattedMessage id="content.attachment.ratio" />:
                     </div>
                     <div className="value">
-                      {currentAttach.width + '×' + currentAttach.height}
+                      {currentAttach.width + 'x' + currentAttach.height}
                     </div>
                   </div>
                 )}
@@ -747,6 +766,14 @@ class ImageList extends React.Component<intlProps> {
                 </div>
               </div>
               <Space size={16} align="center" className="btns">
+                {currentAttach.is_image === 1 && (
+                  <Button
+                    type="primary"
+                    onClick={() => this.setState({ aiVisible: true })}
+                  >
+                    <FormattedMessage id="component.aiimage.edit" />
+                  </Button>
+                )}
                 <Upload
                   name="file"
                   showUploadList={false}
@@ -812,6 +839,17 @@ class ImageList extends React.Component<intlProps> {
               }}
             />
           </ModalForm>
+        )}
+        {aiVisible && (
+          <AiImageGenerate
+            onCancel={() => {
+              this.setState({ aiVisible: false });
+            }}
+            onSubmit={this.handleSubmitAi}
+            open={aiVisible}
+            attach={currentAttach}
+            intl={this.props.intl}
+          />
         )}
       </NewContainer>
     );

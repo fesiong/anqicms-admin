@@ -897,7 +897,8 @@ export default {
   'plugin.order.tracking-number': 'tracking number',
   'plugin.pay.setting': 'Payment Settings',
   'plugin.pay.wechat': 'WeChat Pay',
-  'plugin.pay.alipay': 'Pay with Ali-Pay',
+  'plugin.pay.weapp': 'WeChat Mini Program Pay',
+  'plugin.pay.alipay': 'Alipay',
   'plugin.pay.paypal': 'PayPal',
   'plugin.pay.paypal.client-id': 'Client ID',
   'plugin.pay.paypal.secret': 'Client Secret',
@@ -1198,7 +1199,7 @@ export default {
   'plugin.timefactor.end-time.description':
     'If you fill in 0, it means it will end at 23:00',
   'plugin.timefactor.module': 'Open model',
-  'plugin.timefactor.random': 'Random update',
+  'plugin.timefactor.random': 'Random',
   'plugin.timefactor.category': 'Categories that do not participate in updates',
   'plugin.timefactor.category.placeholder':
     'If you want to exclude certain categories, you can choose here',
@@ -1293,6 +1294,9 @@ export default {
   'plugin.user.avatar_url': 'User avatar',
   'plugin.user.introduce': 'User introduction',
   'plugin.user.user-name': 'username',
+  'plugin.user.first-name': 'First Name',
+  'plugin.user.last-name': 'Last Name',
+  'plugin.user.birthday': 'Birthday',
   'plugin.user.real-name': 'actual name',
   'plugin.user.phone': 'Phone number',
   'plugin.user.email': 'email address',

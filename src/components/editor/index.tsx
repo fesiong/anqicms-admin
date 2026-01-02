@@ -139,7 +139,7 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
           uploadImgAccept: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
           // 上传图片处理
           uploadImgFromMedia: () => {
-            Attachment.show(true).then((res) => {
+            Attachment.show(true, intl).then((res) => {
               handleSelectImages(res);
             });
           },
@@ -212,6 +212,9 @@ const WangEditor: React.FC<WangEditorProps> = forwardRef((props, ref) => {
             theme="vs-dark"
             value={codes[props.field]}
             options={{
+              minimap: {
+                enabled: false,
+              },
               selectOnLineNumbers: false,
               wordWrap: 'on',
             }}

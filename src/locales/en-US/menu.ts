@@ -31,7 +31,7 @@ export default {
   'menu.plugin.keyword': 'Keywords',
   'menu.plugin.material': 'Content Material',
   'menu.plugin.fileupload': 'File Upload',
-  'menu.plugin.sendmail': 'Email Alert',
+  'menu.plugin.sendmail': 'Email Notification',
   'menu.plugin.collector': 'Content Collection',
   'menu.plugin.importapi': 'Content Import',
   'menu.plugin.redirect': '301 Redirect',

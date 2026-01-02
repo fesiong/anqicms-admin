@@ -1,7 +1,7 @@
 import NewContainer from '@/components/NewContainer';
 import AttachmentSelect from '@/components/attachment';
-import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import {
   getArchives,
   getCategories,
@@ -498,7 +498,7 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
                         ref={null}
                       />
                     ) : (
-                      <WangEditor
+                      <NewAiEditor
                         className="mb-normal"
                         setContent={async (val) => {
                           updateExtraContent(index, val);

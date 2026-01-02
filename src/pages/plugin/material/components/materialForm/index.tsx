@@ -1,5 +1,8 @@
-import WangEditor from '@/components/editor';
-import { pluginGetMaterialCategories, pluginSaveMaterial } from '@/services/plugin/material';
+import NewAiEditor from '@/components/newAiEditor';
+import {
+  pluginGetMaterialCategories,
+  pluginSaveMaterial,
+} from '@/services/plugin/material';
 import { ModalForm, ProFormSelect } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import React, { useState } from 'react';
@@ -57,7 +60,7 @@ const MaterialForm: React.FC<MaterialFormProps> = (props) => {
           },
         }}
       />
-      <WangEditor
+      <NewAiEditor
         className="mb-normal"
         setContent={async (html: string) => {
           setContent(html);

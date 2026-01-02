@@ -6,7 +6,7 @@ import {
 } from '@/services';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Divider, Modal, Space, message } from 'antd';
+import { Button, Divider, Modal, Space, Tag, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
 
@@ -55,7 +55,9 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
   const finishedGenerate = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'component.aigenerate.submit.title' }),
-      content: intl.formatMessage({ id: 'component.aigenerate.submit.content' }),
+      content: intl.formatMessage({
+        id: 'component.aigenerate.submit.content',
+      }),
       onOk: () => {
         props.onSubmit({
           title: aiTitle,
@@ -70,7 +72,9 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       return;
     }
     if (aiTitle.length < 2) {
-      message.error(intl.formatMessage({ id: 'component.aigenerate.title.required' }));
+      message.error(
+        intl.formatMessage({ id: 'component.aigenerate.title.required' }),
+      );
       return;
     }
     setLoading(true);
@@ -80,7 +84,10 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
     })
       .then((res) => {
         if (!res || res.code !== 0) {
-          message.error(res?.msg || intl.formatMessage({ id: 'component.aigenerate.error' }));
+          message.error(
+            res?.msg ||
+              intl.formatMessage({ id: 'component.aigenerate.error' }),
+          );
           return;
         }
         setAiTitle(res.data.title);
@@ -134,7 +141,9 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
       return;
     }
     if (aiTitle.length < 2) {
-      message.error(intl.formatMessage({ id: 'component.aigenerate.title.required' }));
+      message.error(
+        intl.formatMessage({ id: 'component.aigenerate.title.required' }),
+      );
       return;
     }
     setLoading(true);
@@ -162,29 +171,50 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
   return (
     <Modal
       width={800}
-      title={
-        <div>
-          <span>
-            <FormattedMessage id="component.aigenerate.name" />
-          </span>
-          <div className="extra-text">
-            <FormattedMessage id="component.aigenerate.remain" />{' '}
-            <span className="text-primary">{anqiUser.ai_remain}</span>{' '}
-            <FormattedMessage id="component.aigenerate.remain.suffix" />
-          </div>
-        </div>
-      }
+      title={<FormattedMessage id="component.aigenerate.name" />}
       open={props.open}
       onCancel={() => {
         props.onCancel();
       }}
       footer={null}
     >
+      <div className="mb-normal">
+        <div className="extra-text">
+          <Space>
+            <span>
+              <FormattedMessage id="component.right-content.integral" />
+              {anqiUser.integral}
+            </span>
+            <span>
+              <FormattedMessage id="component.right-content.free-token" />
+              {anqiUser.free_token}
+            </span>
+            <span>
+              <FormattedMessage id="component.right-content.total-token" />
+              {anqiUser.total_token}
+            </span>
+            <span>
+              <FormattedMessage id="component.right-content.un-pay-token" />
+              {anqiUser.un_pay_token}
+            </span>
+            {anqiUser.is_owe_fee === 1 && (
+              <Tag color="red">
+                <FormattedMessage id="component.right-content.is-owe-fee" />
+              </Tag>
+            )}
+          </Space>
+          <div>
+            <FormattedMessage id="component.right-content.total-token.description" />
+          </div>
+        </div>
+      </div>
       <ProForm layout="horizontal" submitter={false}>
         <ProFormText
           label={intl.formatMessage({ id: 'component.aigenerate.title' })}
           name="title"
-          placeholder={intl.formatMessage({ id: 'component.aigenerate.title.placeholder' })}
+          placeholder={intl.formatMessage({
+            id: 'component.aigenerate.title.placeholder',
+          })}
           fieldProps={{
             value: aiTitle,
             onChange: onChangeAiTitle,
@@ -193,7 +223,9 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
         <ProFormText
           label={intl.formatMessage({ id: 'component.aigenerate.demand' })}
           name="demand"
-          placeholder={intl.formatMessage({ id: 'component.aigenerate.demand.placeholder' })}
+          placeholder={intl.formatMessage({
+            id: 'component.aigenerate.demand.placeholder',
+          })}
           fieldProps={{
             maxLength: 150,
             value: aiDemand,
@@ -202,16 +234,29 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
         />
         <div className="generate-btn mb-normal">
           <Space size={20}>
-            <Button onClick={startGenerate} loading={loading} disabled={aiFinished}>
+            <Button
+              onClick={startGenerate}
+              loading={loading}
+              disabled={aiFinished}
+            >
               <FormattedMessage id="component.aigenerate.btn.start-generate" />
             </Button>
-            <Button onClick={startCombine} loading={loading} disabled={aiFinished}>
+            <Button
+              onClick={startCombine}
+              loading={loading}
+              disabled={aiFinished}
+            >
               <FormattedMessage id="component.aigenerate.btn.start-combine" />
             </Button>
             {aiFinished && (
-              <Button onClick={finishedGenerate} loading={loading}>
-                <FormattedMessage id="component.aigenerate.btn.finish" />
-              </Button>
+              <>
+                <Button onClick={finishedGenerate} loading={loading}>
+                  <FormattedMessage id="component.aigenerate.btn.finish" />
+                </Button>
+                <Button onClick={() => props.onCancel()} loading={loading}>
+                  <FormattedMessage id="component.aigenerate.btn.abundant" />
+                </Button>
+              </>
             )}
           </Space>
         </div>
@@ -223,7 +268,9 @@ const AiGenerate: React.FC<AiGenerateProps> = (props) => {
               ? props.editor === 'markdown'
                 ? aiContent.replace(/\n+/g, '</p>\n<p>')
                 : aiContent
-              : intl.formatMessage({ id: 'component.aigenerate.content.default' }),
+              : intl.formatMessage({
+                  id: 'component.aigenerate.content.default',
+                }),
           }}
         ></div>
       </ProForm>

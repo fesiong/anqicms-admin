@@ -3,11 +3,12 @@ import gfm from '@bytemd/plugin-gfm';
 import pmath from '@bytemd/plugin-math';
 import mermaid from '@bytemd/plugin-mermaid';
 import { Editor } from '@bytemd/react';
+import { useIntl } from '@umijs/max';
 import { message } from 'antd';
 import { BytemdPlugin } from 'bytemd';
 import 'bytemd/dist/index.css';
 import zhHans from 'bytemd/locales/zh_Hans.json';
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import Attachment from '../attachment/dialog';
 import './index.less';
 
@@ -18,7 +19,7 @@ export type MarkdownEditorProps = {
   ref: any;
 };
 
-export function attachPlugin(): BytemdPlugin {
+export function attachPlugin(intl: any): BytemdPlugin {
   return {
     actions: [
       {
@@ -54,7 +55,9 @@ export function attachPlugin(): BytemdPlugin {
                 item.file_location.indexOf('.mp3') !== -1 ||
                 item.file_location.indexOf('.wav') !== -1
               ) {
-                return `<audio src="${item.logo}" controls="controls"><source src="${
+                return `<audio src="${
+                  item.logo
+                }" controls="controls"><source src="${
                   item.logo
                 }" type="audio/${item.file_location.substr(
                   item.file_location.lastIndexOf('.') + 1,
@@ -64,7 +67,7 @@ export function attachPlugin(): BytemdPlugin {
               }
             };
 
-            Attachment.show(true).then((res: any) => {
+            Attachment.show(true, intl).then((res: any) => {
               let addon = [];
               for (let i in res) {
                 if (res.hasOwnProperty(i)) {
@@ -83,56 +86,64 @@ export function attachPlugin(): BytemdPlugin {
   };
 }
 
-const plugins = [gfm(), pmath(), mermaid(), attachPlugin()];
+const plugins = [gfm(), pmath(), mermaid()];
+let initialAttach: BytemdPlugin;
 
-const MarkdownEditor: React.FC<MarkdownEditorProps> = forwardRef((props, ref) => {
-  function setInnerContent() {
-    // how to set
-    // setValue(content);
-  }
+const MarkdownEditor: React.FC<MarkdownEditorProps> = forwardRef(
+  (props, ref) => {
+    const intl = useIntl();
 
-  useImperativeHandle(ref, () => ({
-    setInnerContent: setInnerContent,
-  }));
+    useEffect(() => {
+      initialAttach = attachPlugin(intl);
+    }, []);
+    function setInnerContent() {
+      // how to set
+      // setValue(content);
+    }
 
-  const handleUpload = async (files: File[]) => {
-    let result: any[] = [];
+    useImperativeHandle(ref, () => ({
+      setInnerContent: setInnerContent,
+    }));
 
-    const hide = message.loading('插入中...', 0);
-    for (let i in files) {
-      if (files.hasOwnProperty(i)) {
-        let formData = new FormData();
-        formData.append('file', files[i]);
-        let res = await uploadAttachment(formData);
-        if (res.code !== 0) {
-          message.info(res.msg);
-        } else {
-          result.push({
-            url: res.data.logo,
-          });
+    const handleUpload = async (files: File[]) => {
+      let result: any[] = [];
+
+      const hide = message.loading('插入中...', 0);
+      for (let i in files) {
+        if (files.hasOwnProperty(i)) {
+          let formData = new FormData();
+          formData.append('file', files[i]);
+          let res = await uploadAttachment(formData);
+          if (res.code !== 0) {
+            message.info(res.msg);
+          } else {
+            result.push({
+              url: res.data.logo,
+            });
+          }
         }
       }
-    }
-    hide();
-    return result;
-  };
+      hide();
+      return result;
+    };
 
-  return (
-    <div
-      className={'editor-container ' + props.className}
-      style={{ border: '1px solid #ccc', marginTop: '10px' }}
-    >
-      <Editor
-        value={props.content}
-        plugins={plugins}
-        locale={zhHans}
-        onChange={(v) => {
-          props.setContent(v);
-        }}
-        uploadImages={handleUpload}
-      />
-    </div>
-  );
-});
+    return (
+      <div
+        className={'editor-container ' + props.className}
+        style={{ border: '1px solid #ccc', marginTop: '10px' }}
+      >
+        <Editor
+          value={props.content}
+          plugins={[...plugins, initialAttach]}
+          locale={zhHans}
+          onChange={(v) => {
+            props.setContent(v);
+          }}
+          uploadImages={handleUpload}
+        />
+      </div>
+    );
+  },
+);
 
 export default MarkdownEditor;

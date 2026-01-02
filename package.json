@@ -20,6 +20,7 @@
     "@bytemd/plugin-math": "^1.21.0",
     "@bytemd/plugin-mermaid": "^1.21.0",
     "@bytemd/react": "^1.21.0",
+    "aieditor": "^1.4.2",
     "antd": "^5.13.2",
     "bytemd": "^1.21.0",
     "classnames": "^2.5.1",

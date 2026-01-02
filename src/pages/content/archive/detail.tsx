@@ -1,11 +1,12 @@
 import NewContainer from '@/components/NewContainer';
 import AiGenerate from '@/components/aiGenerate';
+import AiGetTdk from '@/components/aitdk';
 import ArchiveSearch from '@/components/archiveSearch';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
-import WangEditor from '@/components/editor';
 import Keywords from '@/components/keywords';
 import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import {
   anqiExtractDescription,
   anqiExtractKeywords,
@@ -101,6 +102,7 @@ class ArchiveForm extends React.Component<intlProps> {
 
     aiVisible: false,
     aiTitle: '',
+    aiTdkVisible: false,
     newKey: '',
   };
 
@@ -980,6 +982,18 @@ class ArchiveForm extends React.Component<intlProps> {
     });
   };
 
+  aiTdkGenerate = () => {
+    this.setState({
+      aiTdkVisible: true,
+    });
+  };
+
+  onHideAiTdkVisible = () => {
+    this.setState({
+      aiTdkVisible: false,
+    });
+  };
+
   onFinishAiGenerate = async (values: any) => {
     this.onHideAiGenerate();
     this.formRef.current?.setFieldsValue({ title: values.title });
@@ -988,6 +1002,21 @@ class ArchiveForm extends React.Component<intlProps> {
 
     this.setContent(content);
     this.editorRef.current?.setInnerContent(content);
+  };
+
+  onFinishAiTdk = async (values: any) => {
+    this.onHideAiTdkVisible();
+    let data: any = {};
+    if (values.title?.length > 0) {
+      data.title = values.title;
+    }
+    if (values.keywords?.length > 0) {
+      data.keywords = values.keywords;
+    }
+    if (values.description?.length > 0) {
+      data.description = values.description;
+    }
+    this.formRef.current?.setFieldsValue(data);
   };
 
   onSearchArchives = (e: any) => {
@@ -1042,6 +1071,7 @@ class ArchiveForm extends React.Component<intlProps> {
       searchedTags,
       aiTitle,
       aiVisible,
+      aiTdkVisible,
       contentSetting,
       archiveSearchVisible,
       relations,
@@ -1139,14 +1169,22 @@ class ArchiveForm extends React.Component<intlProps> {
                       id: 'content.description.name',
                     })}
                     extra={
-                      <Space size={16}>
-                        <span
-                          className="link extract-tag"
-                          onClick={this.handleExtractDescription}
-                        >
-                          <FormattedMessage id="content.description.extract" />
-                        </span>
-                      </Space>
+                      <div className="mt-small">
+                        <Space size={20}>
+                          <span
+                            className="link extract-tag"
+                            onClick={this.aiTdkGenerate}
+                          >
+                            <FormattedMessage id="component.aitdk.btn.generate" />
+                          </span>
+                          <span
+                            className="link extract-tag"
+                            onClick={this.handleExtractDescription}
+                          >
+                            <FormattedMessage id="content.description.extract" />
+                          </span>
+                        </Space>
+                      </div>
                     }
                   />
 
@@ -1798,7 +1836,7 @@ class ArchiveForm extends React.Component<intlProps> {
                                   ref={null}
                                 />
                               ) : (
-                                <WangEditor
+                                <NewAiEditor
                                   className="mb-normal"
                                   setContent={this.setExtraContent.bind(
                                     this,
@@ -1823,7 +1861,7 @@ class ArchiveForm extends React.Component<intlProps> {
                       ref={this.editorRef}
                     />
                   ) : (
-                    <WangEditor
+                    <NewAiEditor
                       className="mb-normal"
                       setContent={this.setContent}
                       content={content}
@@ -2153,6 +2191,14 @@ class ArchiveForm extends React.Component<intlProps> {
             editor={contentSetting.editor}
             onCancel={this.onHideAiGenerate}
             onSubmit={this.onFinishAiGenerate}
+          />
+        )}
+        {aiTdkVisible && (
+          <AiGetTdk
+            open={aiTdkVisible}
+            content={content}
+            onCancel={this.onHideAiTdkVisible}
+            onSubmit={this.onFinishAiTdk}
           />
         )}
         {archiveSearchVisible && (

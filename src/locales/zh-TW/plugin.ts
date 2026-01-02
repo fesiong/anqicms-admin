@@ -811,6 +811,7 @@ export default {
   'plugin.order.tracking-number': '快遞單號',
   'plugin.pay.setting': '支付設置',
   'plugin.pay.wechat': '微信支付',
+  'plugin.pay.weapp': '微信小程序支付',
   'plugin.pay.alipay': '支付寶支付',
   'plugin.pay.paypal': 'PayPal',
   'plugin.pay.paypal.client-id': 'Client ID',
@@ -999,6 +1000,7 @@ export default {
   'plugin.sendmail.status': '發送狀態',
   'plugin.sendmail.tips': '郵件提醒可以將網站的留言透過郵件寄到你的信箱。',
   'plugin.sendmail.test.send': '發送測試郵件',
+  'plugin.sendmail.logs': '郵件發送记录',
   'plugin.sitemap.tips1':
     '現在各大搜尋引擎的sitemap提交，都已支援txt格式的sitemap，並且txt的sitemap檔案大小相比於xml的sitemap檔案更小，因此建議使用txt格式的Sitemap。',
   'plugin.sitemap.tips2':
@@ -1171,6 +1173,9 @@ export default {
   'plugin.user.avatar_url': '用戶头像',
   'plugin.user.introduce': '用戶介绍',
   'plugin.user.user-name': '使用者名稱',
+  'plugin.user.first-name': '名字',
+  'plugin.user.last-name': '姓氏',
+  'plugin.user.birthday': '生日',
   'plugin.user.real-name': '真實姓名',
   'plugin.user.phone': '手機號',
   'plugin.user.email': '郵件地址',

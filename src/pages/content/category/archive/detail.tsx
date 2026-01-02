@@ -1,9 +1,12 @@
 import NewContainer from '@/components/NewContainer';
+import AiGenerate from '@/components/aiGenerate';
+import AiGetTdk from '@/components/aitdk';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
-import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import {
+  anqiExtractDescription,
   getArchives,
   getCategories,
   getCategoryInfo,
@@ -31,7 +34,17 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Card, Col, Image, Modal, Row, Tag, message } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Image,
+  Modal,
+  Row,
+  Space,
+  Tag,
+  message,
+} from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import '../index.less';
 
@@ -61,6 +74,9 @@ const ArchiveCategoryDetail: React.FC = () => {
     },
   ]);
   const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
+  const [aiTitle, setAiTitle] = useState<string>('');
+  const [aiVisible, setAiVisible] = useState<boolean>(false);
+  const [aiTdkVisible, setAiTdkVisible] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
 
   const changeModule = (e: any, tmpModels?: any) => {
@@ -422,6 +438,81 @@ const ArchiveCategoryDetail: React.FC = () => {
     }
   };
 
+  const aiGenerateArticle = () => {
+    const values = formRef.current?.getFieldsFormatValue?.() || {};
+    setAiTitle(values.title);
+    setAiVisible(true);
+  };
+
+  const aiTdkGenerate = () => {
+    setAiTdkVisible(true);
+  };
+
+  const onFinishAiGenerate = async (values: any) => {
+    setAiVisible(false);
+    formRef.current?.setFieldsValue({ title: values.title });
+    //
+    let content = values.content.trim();
+    setContent(content);
+    editorRef.current?.setInnerContent(content);
+  };
+
+  const onFinishAiTdk = async (values: any) => {
+    setAiTdkVisible(false);
+    let data: any = {};
+    if (values.title?.length > 0) {
+      data.seo_title = values.title;
+    }
+    if (values.keywords?.length > 0) {
+      data.keywords = values.keywords;
+    }
+    if (values.description?.length > 0) {
+      data.description = values.description;
+    }
+    formRef.current?.setFieldsValue(data);
+  };
+
+  const handleExtractDescription = () => {
+    if (content.length < 100) {
+      message.error(
+        intl.formatMessage({
+          id: 'content.archive.content.length.error',
+        }),
+      );
+      return false;
+    }
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.archive.extract.description',
+      }),
+      content: intl.formatMessage({
+        id: 'content.archive.extract.description.content',
+      }),
+      onOk: () => {
+        anqiExtractDescription({
+          text: content,
+        })
+          .then((res) => {
+            if (res.code === 0) {
+              formRef?.current?.setFieldsValue({
+                description: res.data,
+              });
+            } else {
+              message.info(res.msg);
+            }
+          })
+          .catch((err) => {
+            message.error(
+              err.msg ||
+                intl.formatMessage({
+                  id: 'content.submit.failure',
+                }),
+            );
+          });
+      },
+    });
+  };
+
   return (
     <NewContainer
       onTabChange={(key) => onTabChange(key)}
@@ -522,6 +613,24 @@ const ArchiveCategoryDetail: React.FC = () => {
                   label={intl.formatMessage({
                     id: 'content.category.description',
                   })}
+                  extra={
+                    <div className="mt-small">
+                      <Space size={20}>
+                        <span
+                          className="link extract-tag"
+                          onClick={aiTdkGenerate}
+                        >
+                          <FormattedMessage id="component.aitdk.btn.generate" />
+                        </span>
+                        <span
+                          className="link extract-tag"
+                          onClick={handleExtractDescription}
+                        >
+                          <FormattedMessage id="content.description.extract" />
+                        </span>
+                      </Space>
+                    </div>
+                  }
                 />
                 <ProFormText
                   name="seo_title"
@@ -1001,7 +1110,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                 ref={null}
                               />
                             ) : (
-                              <WangEditor
+                              <NewAiEditor
                                 className="mb-normal"
                                 setContent={(html) =>
                                   updateExtraContent(item.field_name, html)
@@ -1031,15 +1140,13 @@ const ArchiveCategoryDetail: React.FC = () => {
                         ref={editorRef}
                       />
                     ) : (
-                      <WangEditor
+                      <NewAiEditor
                         className="mb-normal"
-                        setContent={async (html: string) => {
-                          setContent(html);
-                        }}
+                        setContent={async (html: string) => setContent(html)}
                         key="content"
                         field="content"
-                        ref={editorRef}
                         content={content}
+                        ref={editorRef}
                       />
                     )}
                   </>
@@ -1067,6 +1174,26 @@ const ArchiveCategoryDetail: React.FC = () => {
                         }}
                       >
                         <FormattedMessage id="design.back" />
+                      </Button>
+                    </Col>
+                    <Col span={12}>
+                      <Button
+                        block
+                        onClick={() => {
+                          aiGenerateArticle();
+                        }}
+                      >
+                        <FormattedMessage id="content.submit.aigenerate" />
+                      </Button>
+                    </Col>
+                    <Col span={12}>
+                      <Button
+                        block
+                        onClick={() => {
+                          aiTdkGenerate();
+                        }}
+                      >
+                        <FormattedMessage id="component.aitdk.btn.generate" />
                       </Button>
                     </Col>
                   </Row>
@@ -1281,6 +1408,23 @@ const ArchiveCategoryDetail: React.FC = () => {
               </Col>
             </Row>
           </ProForm>
+        )}
+        {aiVisible && (
+          <AiGenerate
+            open={aiVisible}
+            title={aiTitle}
+            editor={contentSetting.editor}
+            onCancel={() => setAiVisible(false)}
+            onSubmit={onFinishAiGenerate}
+          />
+        )}
+        {aiTdkVisible && (
+          <AiGetTdk
+            open={aiTdkVisible}
+            content={content}
+            onCancel={() => setAiTdkVisible(false)}
+            onSubmit={onFinishAiTdk}
+          />
         )}
       </Card>
     </NewContainer>
