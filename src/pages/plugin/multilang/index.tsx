@@ -42,6 +42,7 @@ import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import TranslateHtmlCache from './components/htmlCache';
 import TranslateHtmlLog from './components/htmlLog';
+import TranslateTextLog from './components/textLog';
 
 let running = false;
 let intXhr: any = null;
@@ -54,6 +55,7 @@ const PluginMultiLang: React.FC<any> = () => {
   const [currentSite, setCurrentSite] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [historyVisible, setHistoryVisible] = useState<boolean>(false);
+  const [textLogVisible, setTextLogVisible] = useState<boolean>(false);
   const [cacheVisible, setCacheVisible] = useState<boolean>(false);
   const [addNewSiteVisible, setAddNewSiteVisible] = useState<boolean>(false);
   const [defaultSite, setDefaultSite] = useState<any>({});
@@ -496,29 +498,34 @@ const PluginMultiLang: React.FC<any> = () => {
                 siteType === 'single' && (
                   <>
                     <Button
-                      key="log"
-                      type="primary"
+                      key="manage"
                       onClick={() => {
-                        setHistoryVisible(true);
+                        setTextLogVisible(true);
                       }}
                     >
-                      <FormattedMessage id="plugin.multilang.translate-log" />
+                      <FormattedMessage id="plugin.multilang.text-log.manage" />
                     </Button>
                     <Button
                       key="cache"
-                      type="primary"
                       onClick={() => {
                         setCacheVisible(true);
                       }}
                     >
                       <FormattedMessage id="plugin.multilang.translate-cache" />
                     </Button>
+                    <Button
+                      key="log"
+                      onClick={() => {
+                        setHistoryVisible(true);
+                      }}
+                    >
+                      <FormattedMessage id="plugin.multilang.translate-log" />
+                    </Button>
                   </>
                 ),
                 limiterSetting.open && (
                   <Button
                     key="add"
-                    type="primary"
                     onClick={() => {
                       setCurrentSite({});
                       setEditVisible(true);
@@ -566,13 +573,6 @@ const PluginMultiLang: React.FC<any> = () => {
               request={async () => {
                 const res = await pluginGetMultiLangValidSites({});
                 const data = res.data.map((item: any) => {
-                  console.log(
-                    item.parent_id,
-                    item.status,
-                    item.parent_id > 0,
-                    item.status !== true,
-                    item.parent_id > 0 || item.status !== true,
-                  );
                   return {
                     label: item.name + '(ID:' + item.id + ')',
                     value: item.id,
@@ -722,6 +722,12 @@ const PluginMultiLang: React.FC<any> = () => {
       >
         <FormattedMessage id="plugin.multilang.sync.content" />
       </Modal>
+      {textLogVisible && (
+        <TranslateTextLog
+          open={textLogVisible}
+          onCancel={() => setTextLogVisible(false)}
+        />
+      )}
     </PageContainer>
   );
 };

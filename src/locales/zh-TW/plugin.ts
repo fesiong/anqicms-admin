@@ -1367,7 +1367,7 @@ export default {
   'plugin.multilang.auto_translate.true': '是',
   'plugin.multilang.auto_translate.description':
     '自動翻譯是一個付費功能，請查閱官網查看具體價格',
-  'plugin.multilang.sites': '多語言網站清單',
+  'plugin.multilang.sites': '多語言網站管理',
   'plugin.multilang.add': '新增網站',
   'plugin.multilang.edit': '編輯多語言網站',
   'plugin.multilang.select': '選擇網站',

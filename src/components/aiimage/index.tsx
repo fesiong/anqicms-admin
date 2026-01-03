@@ -303,6 +303,15 @@ const AiImageGenerate: React.FC<AiImageGenerateProps> = (props) => {
           <div className="generate-btn mb-normal">
             <Space size={20}>
               <Button
+                onClick={() => setHistoryVisible(true)}
+                loading={loading}
+                disabled={loading}
+              >
+                {props.intl?.formatMessage({
+                  id: 'component.aiimage.history',
+                })}
+              </Button>
+              <Button
                 onClick={startGenerate}
                 loading={loading}
                 disabled={aiFinished}

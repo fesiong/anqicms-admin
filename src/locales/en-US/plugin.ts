@@ -1509,7 +1509,7 @@ export default {
   'plugin.multilang.auto_translate.true': 'Yes',
   'plugin.multilang.auto_translate.description':
     'Automatic translation is a paid feature. Please check the official website for specific prices',
-  'plugin.multilang.sites': 'Multilingual site list',
+  'plugin.multilang.sites': 'Multilingual Sites Management',
   'plugin.multilang.add': 'Add site',
   'plugin.multilang.edit': 'Edit multilingual site',
   'plugin.multilang.select': 'Select site',

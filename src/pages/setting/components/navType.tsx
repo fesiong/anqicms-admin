@@ -1,5 +1,10 @@
-import { deleteSettingNavType, getSettingNavTypes, saveSettingNavType } from '@/services';
+import {
+  deleteSettingNavType,
+  getSettingNavTypes,
+  saveSettingNavType,
+} from '@/services';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Input, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 
@@ -14,6 +19,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
   const [editVisbile, setEditVisible] = useState<boolean>(false);
   const [editingType, setEditingType] = useState<any>({});
   const [editingInput, setEditingInput] = useState<string>('');
+  const intl = useIntl();
 
   const handleAddType = () => {
     setEditingType({});
@@ -29,7 +35,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
 
   const handleRemove = async (record: any) => {
     Modal.confirm({
-      title: '确定要删除吗？',
+      title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
       onOk: async () => {
         let res = await deleteSettingNavType(record);
 
@@ -65,11 +71,11 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
       width: 60,
     },
     {
-      title: '导航名称',
+      title: intl.formatMessage({ id: 'setting.nav.types.title' }),
       dataIndex: 'title',
     },
     {
-      title: '操作',
+      title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       width: 120,
@@ -81,7 +87,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
               handleEditType(record);
             }}
           >
-            编辑
+            <FormattedMessage id="setting.action.edit" />
           </a>
           <a
             className="text-red"
@@ -90,7 +96,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
               handleRemove(record);
             }}
           >
-            删除
+            <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>
       ),
@@ -116,7 +122,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
               handleAddType();
             }}
           >
-            新增导航类别
+            <FormattedMessage id="setting.nav.types.add" />
           </Button>
         }
         width={600}
@@ -146,11 +152,17 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
       </Modal>
       <Modal
         open={editVisbile}
-        title={editingType.id ? '重命名类别：' + editingType.title : '新增导航类别'}
+        title={
+          editingType.id
+            ? intl.formatMessage({
+                id: 'setting.nav.types.edit',
+              }) + editingType.title
+            : intl.formatMessage({
+                id: 'setting.nav.types.add',
+              })
+        }
         width={480}
         zIndex={2000}
-        okText="确认"
-        cancelText="取消"
         maskClosable={false}
         onOk={handleSaveType}
         onCancel={() => {
@@ -158,7 +170,9 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
         }}
       >
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-          <p>请填写名称: </p>
+          <p>
+            <FormattedMessage id="'setting.nav.types.name.require" />:{' '}
+          </p>
           <Input
             size="large"
             value={editingInput}
