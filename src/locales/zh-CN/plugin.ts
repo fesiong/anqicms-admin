@@ -934,7 +934,7 @@ export default {
   'plugin.rewrite.setting.diy': '自定义伪静态规则',
   'plugin.rewrite.setting.diy.explain': '自定义伪静态规则说明',
   'plugin.rewrite.setting.diy.tips':
-    '请复制下面的规则到输入框里修改,一共6行,分别是文档详情、文档列表、模型首页、页面、标签列表、标签详情。===和前面部分不可修改。',
+    '请复制下面的规则到输入框里修改,一共6行,分别是文档详情、文档列表、模型首页、页面、标签列表、标签详情。===和前面部分不可修改。<br>文档详情还支持更灵活的自定义模式，可以单独给某个内容模型设置不同的伪静态规则。设置方法：<code>{内容模型的URL别名}:archive==={规则}</code>，如产品模型的URL别名后台设置的是：<code>products</code>，如需单独设置产品模型详情的伪静态规则为<code>/{catname}/{filename}.html</code>，则规则为：<code>products:archive===/{catname}/{filename}.html</code>',
   'plugin.rewrite.variable.tips':
     '变量由花括号包裹 `{}` ,如 `{id}` 。可用的变量有:数据ID `{id}` ； 文档自定义链接名 `{filename}` ； 分类自定义链接名 `{catname}` ， 多级分类自定义链接名 `{multicatname}` , `{multicatname}` 和 `{catname}` 只能使用一个； 分类ID `{catid}` ； 模型表名 `{module}` ；年 `{year}` ， 月 `{month}` ， 日 `{day}` ， 时 `{hour}` ， 分 `{minute}` ， 秒 `{second}` ，年月日时分秒只有文档(archive)可用； 分页页码 `{page}` ,分页需放在小括号内, 如: `(/{page})` 。',
   'plugin.rewrite.formula.direct1': '可直接使用的方案1',

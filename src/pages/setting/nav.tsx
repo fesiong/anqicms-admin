@@ -250,7 +250,9 @@ const SettingNavFrom: React.FC<any> = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-          {(record.parent_id === 0 || record.nav_list?.length > 0) && (
+          {(record.parent_id === 0 ||
+            record.level < 2 ||
+            record.nav_list?.length > 0) && (
             <a onClick={() => editNav({ parent_id: record.id })} key="add">
               <FormattedMessage id="setting.nav.children.add" />
             </a>
