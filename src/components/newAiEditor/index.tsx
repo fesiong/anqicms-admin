@@ -163,7 +163,12 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
 
   const showSourceCode = (ev: MouseEvent, editor: AiEditor) => {
     setCurEditor(editor);
-    console.log('showSourceCode');
+    let htmlCode = editor.getHtml();
+    // 移除 a标签的 rel 属性，其它属性保留
+    htmlCode = htmlCode.replace(/<a(\s[^>]*)?>/gi, (match) => {
+      return match.replaceAll(/\srel\s*=\s*["'][^"']*["']/gi, '');
+    });
+    codes[props.field] = htmlCode;
     setHtmlMode(true);
   };
 

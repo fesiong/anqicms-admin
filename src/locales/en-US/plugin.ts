@@ -1509,6 +1509,10 @@ export default {
   'plugin.multilang.auto_translate.true': 'Yes',
   'plugin.multilang.auto_translate.description':
     'Automatic translation is a paid feature. Please check the official website for specific prices',
+  'plugin.multilang.show_main_dir':
+    'Whether to display the main site directory',
+  'plugin.multilang.show_main_dir.description':
+    'If yes is selected, the main site directory will be displayed',
   'plugin.multilang.sites': 'Multilingual Sites Management',
   'plugin.multilang.add': 'Add site',
   'plugin.multilang.edit': 'Edit multilingual site',
