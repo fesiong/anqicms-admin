@@ -92,6 +92,7 @@ const TranslateTextLog: React.FC<TextLogProps> = (props) => {
       title: intl.formatMessage({
         id: 'plugin.multilang.html-log.create-time',
       }),
+      hideInSearch: true,
       dataIndex: 'created_time',
       render: (item) => {
         return dayjs((item as number) * 1000).format('YYYY-MM-DD HH:mm');
@@ -101,6 +102,7 @@ const TranslateTextLog: React.FC<TextLogProps> = (props) => {
       title: intl.formatMessage({
         id: 'plugin.multilang.html-log.to-language',
       }),
+      hideInSearch: true,
       dataIndex: 'to_language',
       render: (text, record: any) => {
         return (
@@ -112,14 +114,18 @@ const TranslateTextLog: React.FC<TextLogProps> = (props) => {
     {
       title: intl.formatMessage({ id: 'content.translate.origin-content' }),
       dataIndex: 'text',
+      width: 400,
     },
     {
       title: intl.formatMessage({ id: 'plugin.translate.result' }),
       dataIndex: 'translated',
+      width: 400,
     },
     {
       title: intl.formatMessage({ id: 'setting.action' }),
+      hideInSearch: true,
       dataIndex: 'option',
+      valueType: 'option',
       render: (text: any, record) => (
         <Space size={20}>
           <a
@@ -146,7 +152,7 @@ const TranslateTextLog: React.FC<TextLogProps> = (props) => {
   return (
     <>
       <Modal
-        width={1000}
+        width={1200}
         title={intl.formatMessage({ id: 'plugin.multilang.text-log.manage' })}
         open={props.open}
         onCancel={props.onCancel}
@@ -155,7 +161,6 @@ const TranslateTextLog: React.FC<TextLogProps> = (props) => {
         <ProTable<any>
           actionRef={actionRef}
           rowKey="id"
-          search={false}
           ghost
           toolBarRender={() => [
             <Button

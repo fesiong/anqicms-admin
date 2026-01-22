@@ -556,7 +556,11 @@ const ArchiveList: React.FC = () => {
       render: (dom, entity) => {
         return (
           <div style={{ maxWidth: 400 }}>
-            <a href={entity.link} target="_blank">
+            <a
+              href={entity.link + (entity.status !== 1 ? '?preview=true' : '')}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               {latestUpdateId === entity.id && (
                 <Tooltip
                   title={intl.formatMessage({ id: 'content.latest-update' })}

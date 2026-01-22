@@ -4,8 +4,9 @@ import 'aieditor/dist/style.css';
 import { uploadAttachment } from '@/services';
 import config from '@/services/config';
 import { getSessionStore, getStore } from '@/utils/store';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useIntl } from '@umijs/max';
-import { Button, Input, message, Modal, Space } from 'antd';
+import { Button, Input, message, Modal, Space, Tooltip } from 'antd';
 import {
   forwardRef,
   useEffect,
@@ -13,6 +14,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import MonacoEditor from 'react-monaco-editor';
 import AttachmentSelect from '../attachment';
 import './index.less';
 import MaterialSelect, { MaterialElement } from './material';
@@ -25,17 +27,25 @@ export type NewAiEditorProps = {
   ref: any;
 };
 
+let codes: any = {};
+
 const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
   const divRef = useRef<HTMLDivElement>(null);
   const aiEditorRef = useRef<AiEditor | null>(null);
   const [videoVisible, setVideoVisible] = useState(false);
   const [curEditor, setCurEditor] = useState<AiEditor | null>(null);
+  const [htmlMode, setHtmlMode] = useState<boolean>(false);
   const [videoUrl, setVideoUrl] = useState<string>('');
   const [materialVisible, setMaterialVisible] = useState(false);
   const [attachVisible, setAttachVisible] = useState(false);
   const intl = useIntl();
   function setInnerContent(content: string) {
-    aiEditorRef.current?.setContent(content);
+    // 判断是不是Markdown
+    if (content.indexOf('<') !== -1 && content.indexOf('>') !== -1) {
+      aiEditorRef.current?.setContent(content);
+    } else {
+      aiEditorRef.current?.setMarkdownContent(content);
+    }
   }
 
   useImperativeHandle(ref, () => ({
@@ -139,7 +149,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
     formData.append('file', file);
     let res = await uploadAttachment(formData);
     hide();
-    if (res.code !== 200) {
+    if (res.code !== 0) {
       message.info(res.msg);
       result.errorCode = res.code;
       result.msg = res.msg;
@@ -149,6 +159,24 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
       result.data.alt = res.data.file_name;
     }
     return result;
+  };
+
+  const showSourceCode = (ev: MouseEvent, editor: AiEditor) => {
+    setCurEditor(editor);
+    console.log('showSourceCode');
+    setHtmlMode(true);
+  };
+
+  const hideSourceCode = () => {
+    curEditor?.setContent(codes[props.field]);
+    setHtmlMode(false);
+  };
+
+  const onChangeCode = (newCode: string) => {
+    if (codes[props.field] !== newCode) {
+      codes[props.field] = newCode;
+      props.setContent(codes[props.field]);
+    }
   };
 
   const initEditor = async () => {
@@ -236,7 +264,11 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
           'code-block',
           'table',
           '|',
-          'source-code',
+          {
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2 4C2 3.44772 2.44772 3 3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4ZM4 19H20V9H4V19ZM11 13H6V17H11V13Z"></path></svg>',
+            onClick: showSourceCode,
+            tip: 'source-code',
+          },
           'printer',
           'fullscreen',
           'ai',
@@ -263,12 +295,13 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
           models: cfg,
         },
         onChange: (ed: AiEditor) => {
-          let codes = ed.getHtml();
+          let htmlCode = ed.getHtml();
           // 移除 a标签的 rel 属性，其它属性保留
-          codes = codes.replace(/<a(\s[^>]*)?>/gi, (match) => {
+          htmlCode = htmlCode.replace(/<a(\s[^>]*)?>/gi, (match) => {
             return match.replaceAll(/\srel\s*=\s*["'][^"']*["']/gi, '');
           });
-          props.setContent(codes);
+          props.setContent(htmlCode);
+          codes[props.field] = htmlCode;
         },
         image: {
           customMenuInvoke: (editor: AiEditor) => {
@@ -403,7 +436,10 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
   };
 
   return (
-    <div className={'editor-container ' + props.className}>
+    <div
+      className={'editor-container ' + props.className}
+      style={{ border: '1px solid #ccc', marginTop: '10px' }}
+    >
       <div ref={divRef} {...props} style={{ height: '100%' }} />
       {videoVisible && (
         <Modal
@@ -431,6 +467,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
             </Button>
             <Button
               onClick={() => {
+                setVideoVisible(false);
                 handleSelectVideo();
               }}
             >
@@ -439,6 +476,39 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
           </Space>
         </Modal>
       )}
+      <div
+        style={{ display: htmlMode ? 'block' : 'none' }}
+        className="tmp-editor"
+      >
+        <div className="html-menus">
+          <div className="menu-item" onClick={() => hideSourceCode()}>
+            <Tooltip
+              title={intl.formatMessage({
+                id: 'component.editor.mode.return-view',
+              })}
+            >
+              <ArrowLeftOutlined className="icon" />
+            </Tooltip>
+          </div>
+        </div>
+        {htmlMode && (
+          <MonacoEditor
+            height={563}
+            language={'markdown'}
+            theme="vs-dark"
+            value={codes[props.field]}
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              selectOnLineNumbers: false,
+              wordWrap: 'on',
+            }}
+            onChange={onChangeCode}
+            editorDidMount={() => {}}
+          />
+        )}
+      </div>
       {materialVisible && (
         <MaterialSelect
           open={materialVisible}
@@ -446,13 +516,15 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
           onSelect={handleSelectMaterial}
         />
       )}
-      <AttachmentSelect
-        open={attachVisible}
-        onCancel={() => setAttachVisible(false)}
-        onSelect={handleSelectAttachment}
-        multiple={true}
-        manual={true}
-      />
+      {attachVisible && (
+        <AttachmentSelect
+          open={attachVisible}
+          onCancel={() => setAttachVisible(false)}
+          onSelect={handleSelectAttachment}
+          multiple={true}
+          manual={true}
+        />
+      )}
     </div>
   );
 });
