@@ -108,7 +108,7 @@ const SettingContactFrom: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    values.default_thumb_type = Number(setting.default_thumb_type); // 0 = default, 1 = category
+    values.default_thumb_type = Number(values.default_thumb_type); // 0 = default, 1 = category
     values.default_thumbs = setting.default_thumbs || [];
     values.thumb_category_id = Number(values.thumb_category_id);
     values.filter_outlink = Number(values.filter_outlink);
