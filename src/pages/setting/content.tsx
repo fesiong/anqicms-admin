@@ -538,7 +538,7 @@ const SettingContactFrom: React.FC<any> = () => {
                 label={intl.formatMessage({
                   id: 'setting.content.default-thumb.category',
                 })}
-                name="image_category_id"
+                name="thumb_category_id"
                 width={'lg'}
                 request={async () => {
                   const res = await getAttachmentCategories();
