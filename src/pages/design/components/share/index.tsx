@@ -1,3 +1,4 @@
+import MarkdownEditor from '@/components/markdown';
 import { anqiShareTemplate, anqiUpload } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import {
@@ -6,7 +7,6 @@ import {
   ProFormInstance,
   ProFormRadio,
   ProFormText,
-  ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Modal, RadioChangeEvent, Upload, message } from 'antd';
@@ -26,6 +26,7 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
   const [mobileThumb, setMobileThumb] = useState<string>('');
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [onlyTemplate, setOnlyTemplate] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>('');
   const formRef = useRef<ProFormInstance>();
   const intl = useIntl();
 
@@ -52,10 +53,14 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
         postData.mobile_thumb = mobileThumb;
         postData.preview_images = previewImages;
         postData.only_template = onlyTemplate;
+        postData.description = description;
 
         anqiShareTemplate(postData).then((res) => {
           if (res.code === 0) {
-            message.info(res.msg || intl.formatMessage({ id: 'setting.system.submit-success' }));
+            message.info(
+              res.msg ||
+                intl.formatMessage({ id: 'setting.system.submit-success' }),
+            );
             setVisible(false);
             props.onFinished?.();
           } else {
@@ -67,7 +72,10 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
   };
 
   const handleUploadImage = (field: string, e: any) => {
-    const hide = message.loading(intl.formatMessage({ id: 'setting.system.submitting' }), 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
 
     let formData = new FormData();
     formData.append('file', e.file);
@@ -76,7 +84,10 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
         if (res.code !== 0) {
           message.info(res.msg);
         } else {
-          message.info(res.msg || intl.formatMessage({ id: 'setting.system.upload-success' }));
+          message.info(
+            res.msg ||
+              intl.formatMessage({ id: 'setting.system.upload-success' }),
+          );
           if (field === 'pc_thumb') {
             setPcThumb(res.data.logo);
           } else if (field === 'mobile_thumb') {
@@ -128,7 +139,27 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
         <ProFormText
           name="name"
           label={intl.formatMessage({ id: 'design.detail.template-name' })}
-          extra={intl.formatMessage({ id: 'design.detail.template-name.example' })}
+          extra={intl.formatMessage({
+            id: 'design.detail.template-name.example',
+          })}
+        />
+        <ProFormRadio.Group
+          label={intl.formatMessage({ id: 'content.category.name' })}
+          name="category_id"
+          options={[
+            {
+              label: '外贸模板',
+              value: 36,
+            },
+            {
+              label: '中文模板',
+              value: 37,
+            },
+            {
+              label: '免费模板',
+              value: 38,
+            },
+          ]}
         />
         {props.templateId > 0 && (
           <ProFormRadio.Group
@@ -138,31 +169,43 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
             options={[
               {
                 value: false,
-                label: intl.formatMessage({ id: 'design.share.only-template.no' }),
+                label: intl.formatMessage({
+                  id: 'design.share.only-template.no',
+                }),
               },
               {
                 value: true,
-                label: intl.formatMessage({ id: 'design.share.only-template.yes' }),
+                label: intl.formatMessage({
+                  id: 'design.share.only-template.yes',
+                }),
               },
             ]}
             fieldProps={{
               onChange: handleChangeOption,
             }}
-            extra={intl.formatMessage({ id: 'design.share.only-template.tips' })}
+            extra={intl.formatMessage({
+              id: 'design.share.only-template.tips',
+            })}
           />
         )}
         <ProFormText
           name="version"
           label={intl.formatMessage({ id: 'design.share.version' })}
-          placeholder={intl.formatMessage({ id: 'design.share.version.placeholder' })}
+          placeholder={intl.formatMessage({
+            id: 'design.share.version.placeholder',
+          })}
         />
         {!onlyTemplate && (
           <>
             <ProFormDigit
               name="price"
               label={intl.formatMessage({ id: 'design.share.price' })}
-              addonAfter={intl.formatMessage({ id: 'design.share.price.suffix' })}
-              extra={intl.formatMessage({ id: 'design.share.price.description' })}
+              addonAfter={intl.formatMessage({
+                id: 'design.share.price.suffix',
+              })}
+              extra={intl.formatMessage({
+                id: 'design.share.price.description',
+              })}
             />
             <ProFormRadio.Group
               name="auto_backup"
@@ -170,26 +213,40 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
               options={[
                 {
                   value: 0,
-                  label: intl.formatMessage({ id: 'design.share.example-data.no' }),
+                  label: intl.formatMessage({
+                    id: 'design.share.example-data.no',
+                  }),
                 },
                 {
                   value: 1,
-                  label: intl.formatMessage({ id: 'design.share.example-data.yes' }),
+                  label: intl.formatMessage({
+                    id: 'design.share.example-data.yes',
+                  }),
                 },
               ]}
-              extra={intl.formatMessage({ id: 'design.share.example-data.description' })}
+              extra={intl.formatMessage({
+                id: 'design.share.example-data.description',
+              })}
             />
-            <ProFormText name="author" label={intl.formatMessage({ id: 'design.share.author' })} />
+            <ProFormText
+              name="author"
+              label={intl.formatMessage({ id: 'design.share.author' })}
+            />
             <ProFormText
               name="homepage"
               label={intl.formatMessage({ id: 'design.share.homepage' })}
             />
-            <ProFormTextArea
-              fieldProps={{ rows: 10 }}
-              name="description"
-              label={intl.formatMessage({ id: 'design.share.description' })}
+            <MarkdownEditor
+              className="mb-normal"
+              setContent={async (html) => {
+                setDescription(html);
+              }}
+              content={description}
+              ref={null}
             />
-            <ProFormText label={intl.formatMessage({ id: 'design.share.thumb.pc' })}>
+            <ProFormText
+              label={intl.formatMessage({ id: 'design.share.thumb.pc' })}
+            >
               <Upload
                 name="file"
                 multiple
@@ -213,7 +270,9 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
                 </div>
               </Upload>
             </ProFormText>
-            <ProFormText label={intl.formatMessage({ id: 'design.share.thumb.m' })}>
+            <ProFormText
+              label={intl.formatMessage({ id: 'design.share.thumb.m' })}
+            >
               <Upload
                 name="file"
                 multiple
@@ -239,7 +298,9 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
             </ProFormText>
             <ProFormText
               label={intl.formatMessage({ id: 'design.share.preview' })}
-              extra={intl.formatMessage({ id: 'design.share.preview.description' })}
+              extra={intl.formatMessage({
+                id: 'design.share.preview.description',
+              })}
             >
               <Upload
                 name="file"
