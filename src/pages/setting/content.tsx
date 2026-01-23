@@ -1,5 +1,6 @@
 import AttachmentSelect from '@/components/attachment';
 import NewContainer from '@/components/NewContainer';
+import { getAttachmentCategories } from '@/services';
 import {
   convertImagetoWebp,
   getSettingContent,
@@ -11,16 +12,17 @@ import {
   ProForm,
   ProFormGroup,
   ProFormRadio,
+  ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, message, Modal } from 'antd';
+import { Button, Card, Divider, message, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const SettingContactFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
-  const [defaultThumb, setDefaultThumb] = useState<string>('');
   const [resize_image, setResizeImage] = useState<number>(0);
+  const [defaultThumbType, setDefaultThumbType] = useState<number>(0);
   const [useWebp, setUseWebp] = useState<number>(0);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
@@ -28,7 +30,7 @@ const SettingContactFrom: React.FC<any> = () => {
   const getSetting = async () => {
     const res = await getSettingContent();
     let setting = res.data || null;
-    setDefaultThumb(setting?.default_thumb || '');
+    setDefaultThumbType(setting?.default_thumb_type || 0);
     setResizeImage(setting?.resize_image || 0);
     setUseWebp(setting?.use_webp || 0);
     setSetting(setting);
@@ -44,19 +46,35 @@ const SettingContactFrom: React.FC<any> = () => {
     getSetting();
   }, []);
 
-  const handleSelectLogo = (row: any) => {
-    setDefaultThumb(row.logo);
+  const handleSelectDefaultThumb = (rows: any[]) => {
+    if (!setting.default_thumbs) {
+      setting.default_thumbs = [];
+    }
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      if (!setting.default_thumbs.includes(row.logo)) {
+        setting.default_thumbs.push(row.logo);
+      }
+    }
+    setSetting({
+      ...setting,
+      default_thumbs: [...setting.default_thumbs],
+    });
     message.success(
       intl.formatMessage({ id: 'setting.system.upload-success' }),
     );
   };
 
-  const handleRemoveLogo = (e: any) => {
+  const handleRemoveDefaultThumb = (e: any, index: number) => {
     e.stopPropagation();
     Modal.confirm({
       title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
       onOk: async () => {
-        setDefaultThumb('');
+        setting.default_thumbs.splice(index, 1);
+        setSetting({
+          ...setting,
+          default_thumbs: [...setting.default_thumbs],
+        });
       },
     });
   };
@@ -90,7 +108,9 @@ const SettingContactFrom: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    values.default_thumb = defaultThumb;
+    values.default_thumb_type = Number(setting.default_thumb_type); // 0 = default, 1 = category
+    values.default_thumbs = setting.default_thumbs || [];
+    values.thumb_category_id = Number(values.thumb_category_id);
     values.filter_outlink = Number(values.filter_outlink);
     values.url_token_type = Number(values.url_token_type);
     values.remote_download = Number(values.remote_download);
@@ -455,7 +475,9 @@ const SettingContactFrom: React.FC<any> = () => {
                 </Button>
               </span>
             </div>
-            <ProFormText
+            <Divider />
+            <ProFormRadio.Group
+              name="default_thumb_type"
               label={intl.formatMessage({
                 id: 'setting.content.default-thumb',
               })}
@@ -463,27 +485,87 @@ const SettingContactFrom: React.FC<any> = () => {
               extra={intl.formatMessage({
                 id: 'setting.content.default-thumb.description',
               })}
-            >
-              <AttachmentSelect onSelect={handleSelectLogo} open={false}>
-                <div className="ant-upload-item">
-                  {defaultThumb ? (
-                    <>
-                      <img src={defaultThumb} style={{ width: '100%' }} />
-                      <a className="delete" onClick={handleRemoveLogo}>
-                        <FormattedMessage id="setting.system.delete" />
-                      </a>
-                    </>
-                  ) : (
+              options={[
+                {
+                  label: intl.formatMessage({
+                    id: 'setting.content.default-thumb.thumbs',
+                  }),
+                  value: 0,
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'setting.content.default-thumb.category',
+                  }),
+                  value: 3,
+                },
+              ]}
+              fieldProps={{
+                onChange: (e) => {
+                  setDefaultThumbType(e.target.value);
+                },
+              }}
+            />
+            {defaultThumbType === 0 ? (
+              <ProFormText>
+                {setting.default_thumbs?.map((item: any, index: number) => (
+                  <div key={index} className="ant-upload-item">
+                    <img src={item} style={{ width: '100%' }} />
+                    <a
+                      className="delete"
+                      onClick={(e) => handleRemoveDefaultThumb(e, index)}
+                    >
+                      <FormattedMessage id="setting.system.delete" />
+                    </a>
+                  </div>
+                ))}
+                <AttachmentSelect
+                  onSelect={handleSelectDefaultThumb}
+                  multiple
+                  open={false}
+                >
+                  <div className="ant-upload-item">
                     <div className="add">
                       <PlusOutlined />
                       <div style={{ marginTop: 8 }}>
                         <FormattedMessage id="setting.system.upload" />
                       </div>
                     </div>
-                  )}
-                </div>
-              </AttachmentSelect>
-            </ProFormText>
+                  </div>
+                </AttachmentSelect>
+              </ProFormText>
+            ) : (
+              <ProFormSelect
+                label={intl.formatMessage({
+                  id: 'setting.content.default-thumb.category',
+                })}
+                name="image_category_id"
+                width={'lg'}
+                request={async () => {
+                  const res = await getAttachmentCategories();
+                  const data = (res.data || []).concat(
+                    {
+                      id: 0,
+                      title: intl.formatMessage({
+                        id: 'plugin.aigenerate.image.category.default',
+                      }),
+                    },
+                    {
+                      id: -1,
+                      title: intl.formatMessage({
+                        id: 'plugin.aigenerate.image.category.all',
+                      }),
+                    },
+                  );
+                  return data;
+                }}
+                fieldProps={{
+                  fieldNames: {
+                    label: 'title',
+                    value: 'id',
+                  },
+                }}
+              />
+            )}
           </ProForm>
         )}
       </Card>

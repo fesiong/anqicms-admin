@@ -139,7 +139,9 @@ export default {
   'setting.content.thumb-size.height': '像素高',
   'setting.content.default-thumb': '默认缩略图',
   'setting.content.default-thumb.description':
-    '如果文章没有缩略图，继续调用将会使用默认缩略图代替',
+    '如果文章没有缩略图，继续调用将会使用默认缩略图代替，默认缩略图支持单图、选定的随机图片，或指定图片分类随机图片',
+  'setting.content.default-thumb.thumbs': '随机图片',
+  'setting.content.default-thumb.category': '图片分类',
   'setting.content.make-thumb': '批量生成缩略图',
   'setting.system.thumb-size.tips':
     '如果你更改了缩略图尺寸，请先提交保存，然后再点击重新',

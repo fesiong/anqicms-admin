@@ -155,7 +155,9 @@ export default {
   'setting.content.thumb-size.height': 'Pixel height',
   'setting.content.default-thumb': 'Default thumbnail',
   'setting.content.default-thumb.description':
-    'If the article does not have a thumbnail, continuing the call will use the default thumbnail instead.',
+    'If the article does not have a thumbnail, the default thumbnail will be used instead when calling. The default thumbnail supports single image, selected random images, or random images from specified image categories',
+  'setting.content.default-thumb.thumbs': 'Random Images',
+  'setting.content.default-thumb.category': 'Image Category',
   'setting.content.make-thumb': 'Generate thumbnails in batches',
   'setting.system.thumb-size.tips':
     'If you change the thumbnail size, please save it first and then click Reset',

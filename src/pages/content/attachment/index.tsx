@@ -715,6 +715,10 @@ class ImageList extends React.Component<intlProps> {
             <div className="detail">
               <div className="info">
                 <div className="item">
+                  <div className="name">ID:</div>
+                  <div className="value">{currentAttach.id}</div>
+                </div>
+                <div className="item">
                   <div className="name">
                     <FormattedMessage id="content.attachment.alt" />:
                   </div>
