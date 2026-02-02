@@ -1,6 +1,9 @@
 import { get, post } from '../tools';
 
-export async function pluginGetUsers(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetUsers(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/user/list',
     params,
@@ -8,7 +11,10 @@ export async function pluginGetUsers(params?: any, options?: { [key: string]: an
   });
 }
 
-export async function pluginGetUserInfo(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetUserInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/user/detail',
     params,
@@ -16,7 +22,10 @@ export async function pluginGetUserInfo(params?: any, options?: { [key: string]:
   });
 }
 
-export async function pluginSaveUserInfo(body: any, options?: { [key: string]: any }) {
+export async function pluginSaveUserInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/user/detail',
     body,
@@ -24,7 +33,21 @@ export async function pluginSaveUserInfo(body: any, options?: { [key: string]: a
   });
 }
 
-export async function pluginDeleteUserInfo(body: any, options?: { [key: string]: any }) {
+export async function pluginAddUserBalance(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/user/balance',
+    body,
+    options,
+  });
+}
+
+export async function pluginDeleteUserInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/user/delete',
     body,
@@ -32,7 +55,10 @@ export async function pluginDeleteUserInfo(body: any, options?: { [key: string]:
   });
 }
 
-export async function pluginGetUserGroups(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetUserGroups(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/user/group/list',
     params,
@@ -40,7 +66,10 @@ export async function pluginGetUserGroups(params?: any, options?: { [key: string
   });
 }
 
-export async function pluginGetUserGroupInfo(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetUserGroupInfo(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/user/group/detail',
     params,
@@ -48,7 +77,10 @@ export async function pluginGetUserGroupInfo(params?: any, options?: { [key: str
   });
 }
 
-export async function pluginSaveUserGroupInfo(body: any, options?: { [key: string]: any }) {
+export async function pluginSaveUserGroupInfo(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/user/group/detail',
     body,
@@ -56,7 +88,10 @@ export async function pluginSaveUserGroupInfo(body: any, options?: { [key: strin
   });
 }
 
-export async function pluginDeleteUserGroup(body: any, options?: { [key: string]: any }) {
+export async function pluginDeleteUserGroup(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/user/group/delete',
     body,
@@ -64,7 +99,10 @@ export async function pluginDeleteUserGroup(body: any, options?: { [key: string]
   });
 }
 
-export async function pluginGetUserFieldsSetting(params?: any, options?: { [key: string]: any }) {
+export async function pluginGetUserFieldsSetting(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/plugin/user/fields',
     params,
@@ -72,7 +110,10 @@ export async function pluginGetUserFieldsSetting(params?: any, options?: { [key:
   });
 }
 
-export async function pluginSaveUserFieldsSetting(body: any, options?: { [key: string]: any }) {
+export async function pluginSaveUserFieldsSetting(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/user/fields',
     body,
@@ -80,7 +121,10 @@ export async function pluginSaveUserFieldsSetting(body: any, options?: { [key: s
   });
 }
 
-export async function pluginDeleteUserField(body: any, options?: { [key: string]: any }) {
+export async function pluginDeleteUserField(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/plugin/user/field/delete',
     body,

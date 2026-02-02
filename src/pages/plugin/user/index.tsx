@@ -11,7 +11,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Modal, Space, message } from 'antd';
+import { Button, Modal, Space, Tag, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import UserFieldSetting from './components/setting';
@@ -21,7 +21,9 @@ const PluginUser: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentUser, setCurrentUser] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [balanceVisible, setBalanceVisible] = useState<boolean>(false);
   const [userGroups, setUserGroups] = useState<any[]>([]);
+  const [userType, setUserType] = useState<string>('all');
   const intl = useIntl();
 
   const getUserGroups = () => {
@@ -37,6 +39,11 @@ const PluginUser: React.FC = () => {
   const handleEditUser = async (record: any) => {
     setCurrentUser(record);
     setEditVisible(true);
+  };
+
+  const handleChangeBalance = (record: any) => {
+    setCurrentUser(record);
+    setBalanceVisible(true);
   };
 
   const handleDelete = (row: any) => {
@@ -73,6 +80,17 @@ const PluginUser: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.user.email' }),
       hideInSearch: true,
       dataIndex: 'email',
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.user.balance' }),
+      dataIndex: 'balance',
+      render: (text, record) => {
+        return (
+          <div>
+            {record.balance > 0 ? (record.balance / 100).toFixed(2) : '-'}
+          </div>
+        );
+      },
     },
     {
       title: intl.formatMessage({ id: 'plugin.user.real-name' }),
@@ -135,6 +153,14 @@ const PluginUser: React.FC = () => {
           <a
             key="edit"
             onClick={() => {
+              handleChangeBalance(record);
+            }}
+          >
+            <FormattedMessage id="plugin.user.change-balance" />
+          </a>
+          <a
+            key="edit"
+            onClick={() => {
               handleEditUser(record);
             }}
           >
@@ -192,6 +218,21 @@ const PluginUser: React.FC = () => {
           }}
           onSubmit={async () => {
             setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }}
+        />
+      )}
+      {balanceVisible && (
+        <BalanceForm
+          open={balanceVisible}
+          user={currentUser}
+          onCancel={() => {
+            setBalanceVisible(false);
+          }}
+          onSubmit={async () => {
+            setBalanceVisible(false);
             if (actionRef.current) {
               actionRef.current.reload();
             }

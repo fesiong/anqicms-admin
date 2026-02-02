@@ -81,6 +81,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       if (data.expire_time) {
         data.expire_time = dayjs(data.expire_time * 1000);
       }
+      if (data.birthday) {
+        data.birthday = dayjs(data.birthday * 1000);
+      }
       if (data.avatar_url) {
         data.avatar_url = data.full_avatar_url;
       }
@@ -356,6 +359,22 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       <ProFormText
         name="user_name"
         label={intl.formatMessage({ id: 'plugin.user.user-name' })}
+      />
+      <ProFormText
+        name="first_name"
+        label={intl.formatMessage({ id: 'plugin.user.first-name' })}
+      />
+      <ProFormText
+        name="last_name"
+        label={intl.formatMessage({ id: 'plugin.user.last-name' })}
+      />
+      <ProFormDatePicker
+        name="birthday"
+        label={intl.formatMessage({ id: 'plugin.user.birthday' })}
+        width="lg"
+        transform={(value, namePath) => {
+          return { [namePath]: dayjs(value).unix() };
+        }}
       />
       <ProFormText
         name="real_name"

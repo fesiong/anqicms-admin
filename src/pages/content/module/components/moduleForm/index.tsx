@@ -581,6 +581,21 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
               category: intl.formatMessage({
                 id: 'content.module.field.type.category',
               }),
+              date: intl.formatMessage({
+                id: 'content.module.field.type.date',
+              }),
+              time: intl.formatMessage({
+                id: 'content.module.field.type.time',
+              }),
+              datetime: intl.formatMessage({
+                id: 'content.module.field.type.datetime',
+              }),
+              color: intl.formatMessage({
+                id: 'content.module.field.type.color',
+              }),
+              timeline: intl.formatMessage({
+                id: 'content.module.field.type.timeline',
+              }),
             }}
           />
           <ProFormRadio.Group

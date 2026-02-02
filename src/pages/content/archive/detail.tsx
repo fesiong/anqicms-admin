@@ -3,10 +3,12 @@ import AiGenerate from '@/components/aiGenerate';
 import AiGetTdk from '@/components/aitdk';
 import ArchiveSearch from '@/components/archiveSearch';
 import AttachmentSelect from '@/components/attachment';
+import ImageItem from '@/components/attachment/image';
 import CollapseItem from '@/components/collaspeItem';
 import Keywords from '@/components/keywords';
 import MarkdownEditor from '@/components/markdown';
 import NewAiEditor from '@/components/newAiEditor';
+import SelectColor from '@/components/selectColor';
 import {
   anqiExtractDescription,
   anqiExtractKeywords,
@@ -35,8 +37,10 @@ import {
   UpOutlined,
 } from '@ant-design/icons';
 import {
+  ModalForm,
   ProForm,
   ProFormCheckbox,
+  ProFormDatePicker,
   ProFormDateTimePicker,
   ProFormDigit,
   ProFormInstance,
@@ -44,6 +48,7 @@ import {
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
+  ProFormTimePicker,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, injectIntl } from '@umijs/max';
 import {
@@ -73,10 +78,14 @@ class ArchiveForm extends React.Component<intlProps> {
     relations: [],
     extraContent: {},
     extraTexts: {},
+    extraTimelines: {},
     content: '',
     modules: [],
     module: { fields: [] },
     contentSetting: {},
+    timelineExtraVisible: false,
+    timelineField: '',
+    timelineItemIndex: -1,
 
     archiveSearchVisible: false,
     keywordsVisible: false,
@@ -106,6 +115,7 @@ class ArchiveForm extends React.Component<intlProps> {
     newKey: '',
   };
 
+  loading = false;
   submitted = false;
   defaultContent = '';
 
@@ -276,17 +286,36 @@ class ArchiveForm extends React.Component<intlProps> {
       if (module.fields[i].type === 'editor') {
         extraContent[module.fields[i].field_name] =
           archive.extra[module.fields[i].field_name]?.value || '';
+      } else if (
+        module.fields[i].type === 'date' ||
+        module.fields[i].type === 'time' ||
+        module.fields[i].type === 'datetime'
+      ) {
+        archive.extra[module.fields[i].field_name].value =
+          archive.extra[module.fields[i].field_name]?.value || null;
       }
     }
     let arcIds = [];
     if (archive.parent_id > 0) {
       arcIds.push(archive.parent_id);
     }
+    let extraTimelines: any = {};
     let extraTexts: any = {};
     for (let i in module.fields) {
       if (module.fields[i].type === 'texts') {
         extraTexts[module.fields[i].field_name] =
           archive.extra[module.fields[i].field_name]?.value || [];
+      } else if (module.fields[i].type === 'timeline') {
+        extraTimelines[module.fields[i].field_name] = archive.extra[
+          module.fields[i].field_name
+        ]?.value || {
+          title: '',
+          content: '',
+          status: '',
+          images: [],
+          extra: {},
+          items: [],
+        };
       } else if (
         module.fields[i].type === 'archive' &&
         archive.extra[module.fields[i].field_name]?.value?.length > 0
@@ -314,6 +343,7 @@ class ArchiveForm extends React.Component<intlProps> {
       content: content,
       extraContent: extraContent,
       extraTexts: extraTexts,
+      extraTimelines: extraTimelines,
       relations: archive.relations || [],
     });
   };
@@ -603,8 +633,18 @@ class ArchiveForm extends React.Component<intlProps> {
   };
 
   onSubmit = async (values: any) => {
-    const { archive, content, extraContent, extraTexts, relations } =
-      this.state;
+    if (this.loading) {
+      return;
+    }
+    const {
+      archive,
+      content,
+      extraContent,
+      extraTexts,
+      extraTimelines,
+      relations,
+    } = this.state;
+    this.loading = true;
     const postData = Object.assign(archive, values);
     postData.relation_ids = relations.map((item: any) => item.id);
     delete postData.relations;
@@ -632,6 +672,13 @@ class ArchiveForm extends React.Component<intlProps> {
         })
         .filter((item: any) => item.key);
     }
+    // eslint-disable-next-line guard-for-in
+    for (let field in extraTimelines) {
+      if (!postData.extra[field]) {
+        postData.extra[field] = {};
+      }
+      postData.extra[field].value = extraTimelines[field];
+    }
     // 必须选择分类
     let categoryIds = [];
     let categoryId = 0;
@@ -649,6 +696,7 @@ class ArchiveForm extends React.Component<intlProps> {
       }
     }
     if (categoryId === 0) {
+      this.loading = false;
       message.error(
         this.props.intl.formatMessage({ id: 'content.category.required' }),
       );
@@ -665,6 +713,7 @@ class ArchiveForm extends React.Component<intlProps> {
       postData.flag = postData.flag.join(',');
     }
     const res = await saveArchive(postData);
+    this.loading = false;
     hide();
     if (res.code !== 0) {
       if (res.data && res.data.id) {
@@ -958,6 +1007,322 @@ class ArchiveForm extends React.Component<intlProps> {
     });
   };
 
+  //////////
+  onChangeExtraTimelineField = (field: string, keyName: any, value: any) => {
+    const { extraTimelines } = this.state;
+    if (!extraTimelines[field]) {
+      extraTimelines[field] = {
+        title: '',
+        content: '',
+        status: '',
+        images: [],
+        extra: {},
+        items: [],
+      };
+    }
+    extraTimelines[field][keyName] = value;
+
+    const extra: any = {};
+    extra[field] = { value: { idx: { keyName: value } } };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onChangeExtraTimelineExtra = (
+    field: string,
+    extraKey: string,
+    extraValue: any,
+  ) => {
+    const { extraTimelines } = this.state;
+    if (!extraTimelines[field].extra) {
+      extraTimelines[field].extra = {};
+    }
+    extraTimelines[field].extra[extraKey] = extraValue;
+    const extra: any = {};
+    extra[field] = {
+      value: { extra: extraTimelines[field].extra },
+    };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  handleUploadExtraTimelineImage = (field: string, rows: any) => {
+    const { extraTimelines } = this.state;
+    if (!extraTimelines[field].images) {
+      extraTimelines[field].images = [];
+    }
+    for (const row of rows) {
+      let exists = false;
+      for (const i in extraTimelines[field].images) {
+        if (extraTimelines[field].images[i] === row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        extraTimelines[field].images.push(row.logo);
+      }
+    }
+    const extra: any = {};
+    extra[field] = { value: { images: extraTimelines[field].images } };
+    this.formRef?.current?.setFieldsValue({ extra });
+
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onAddExtraTimelineItem = (field: string) => {
+    const { extraTimelines } = this.state;
+    if (!extraTimelines[field].items) {
+      extraTimelines[field].items = [];
+    }
+    extraTimelines[field].items.push({
+      title: '',
+      content: '',
+      status: '',
+      images: [],
+      extra: {},
+      items: [],
+    });
+
+    const extra: any = {};
+    extra[field] = {
+      value: { items: extraTimelines[field].items },
+    };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onChangeExtraTimelineItemField = (
+    field: string,
+    idx: number,
+    keyName: any,
+    value: any,
+  ) => {
+    const { extraTimelines } = this.state;
+    if (!extraTimelines[field].items[idx]) {
+      extraTimelines[field].items[idx] = {
+        title: '',
+        content: '',
+        status: '',
+        images: [],
+        extra: {},
+        items: [],
+      };
+    }
+    extraTimelines[field].items[idx][keyName] = value;
+
+    const extra: any = {};
+    extra[field] = {
+      value: { items: extraTimelines[field].items },
+    };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onChangeExtraTimelineItemExtra = (
+    field: string,
+    idx: number,
+    extraKey: string,
+    extraValue: any,
+  ) => {
+    const { extraTimelines } = this.state;
+    if (!extraTimelines[field].items[idx].extra) {
+      extraTimelines[field].items[idx].extra = {};
+    }
+    extraTimelines[field].items[idx].extra[extraKey] = extraValue;
+
+    const extra: any = {};
+    extra[field] = {
+      value: { items: extraTimelines[field].items },
+    };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  handleUploadExtraTimelineItemImage = (
+    field: string,
+    idx: number,
+    rows: any,
+  ) => {
+    const { extraTimelines } = this.state;
+    if (!extraTimelines[field].items[idx].images) {
+      extraTimelines[field].items[idx].images = [];
+    }
+    for (const row of rows) {
+      let exists = false;
+      for (const i in extraTimelines[field].items[idx].images) {
+        if (extraTimelines[field].items[idx].images[i] === row.logo) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        extraTimelines[field].items[idx].images.push(row.logo);
+      }
+    }
+    const extra: any = {};
+    extra[field] = {
+      value: { items: extraTimelines[field].items },
+    };
+    this.formRef?.current?.setFieldsValue({ extra });
+
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onMoveUpExtraTimelineItem = (field: string, idx: number) => {
+    const { extraTimelines } = this.state;
+    // 移动
+    if (idx > 0) {
+      const tmp = extraTimelines[field].items[idx];
+      extraTimelines[field].items[idx] = extraTimelines[field].items[idx - 1];
+      extraTimelines[field].items[idx - 1] = tmp;
+      const extra: any = {};
+      extra[field] = { value: { items: extraTimelines[field].items } };
+      this.formRef?.current?.setFieldsValue({ extra });
+      this.setState({
+        extraTimelines,
+      });
+    }
+  };
+
+  onMoveDownExtraTimelineItem = (field: string, idx: number) => {
+    const { extraTimelines } = this.state;
+    // 移动
+    if (idx < extraTimelines[field].items.length - 1) {
+      const tmp = extraTimelines[field].items[idx];
+      extraTimelines[field].items[idx] = extraTimelines[field].items[idx + 1];
+      extraTimelines[field].items[idx + 1] = tmp;
+      const extra: any = {};
+      extra[field] = { value: { items: extraTimelines[field].items } };
+      this.formRef?.current?.setFieldsValue({ extra });
+      this.setState({
+        extraTimelines,
+      });
+    }
+  };
+
+  onRemoveExtraTimelineItem = (field: string, idx: number) => {
+    const { extraTimelines } = this.state;
+    Modal.confirm({
+      title: this.props.intl.formatMessage({
+        id: 'content.module.field.delete.confirm',
+      }),
+      content: this.props.intl.formatMessage({
+        id: 'content.module.field.delete.content',
+      }),
+      onOk: () => {
+        if (extraTimelines[field].items.length === 1) {
+          extraTimelines[field] = [];
+        } else {
+          extraTimelines[field].items.splice(idx, 1);
+        }
+        const extra: any = {};
+        extra[field] = { value: { items: extraTimelines[field].items } };
+        this.formRef?.current?.setFieldsValue({ extra });
+        this.setState({
+          extraTimelines,
+        });
+      },
+    });
+  };
+
+  onRemoveExtraTimelineImage = (field: string, imageIdx: number) => {
+    const { extraTimelines } = this.state;
+    if (extraTimelines[field].images.length <= 1) {
+      extraTimelines[field] = [];
+    } else {
+      extraTimelines[field].images.splice(imageIdx, 1);
+    }
+    const extra: any = {};
+    extra[field] = { value: { images: extraTimelines[field].images } };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onRemoveExtraTimelineItemImage = (
+    field: string,
+    idx: number,
+    imageIdx: number,
+  ) => {
+    const { extraTimelines } = this.state;
+    if (extraTimelines[field].items[idx].images.length <= 1) {
+      extraTimelines[field] = [];
+    } else {
+      extraTimelines[field].items[idx].images.splice(imageIdx, 1);
+    }
+    const extra: any = {};
+    extra[field] = { value: { items: extraTimelines[field].items } };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onReduceExtraTimelineExtra = (field: string, extraKey: string) => {
+    const { extraTimelines } = this.state;
+    if (extraTimelines[field].extra.length < 1) {
+      return;
+    }
+    delete extraTimelines[field].extra[extraKey];
+    const extra: any = {};
+    extra[field] = { value: { extra: extraTimelines[field].extra } };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  onReduceExtraTimelineItemExtra = (
+    field: string,
+    idx: number,
+    extraKey: string,
+  ) => {
+    const { extraTimelines } = this.state;
+    if (extraTimelines[field].items[idx].extra.length < 1) {
+      return;
+    }
+    delete extraTimelines[field].items[idx].extra[extraKey];
+    const extra: any = {};
+    extra[field] = { value: { items: extraTimelines[field].items } };
+    this.formRef?.current?.setFieldsValue({ extra });
+    this.setState({
+      extraTimelines,
+    });
+  };
+
+  handleAddTimelineExtra = (field: string) => {
+    this.setState({
+      timelineField: field,
+      timelineExtraVisible: true,
+      timelineItemIndex: -1,
+    });
+  };
+
+  handleAddTimelineItemExtra = (field: string, idx: number) => {
+    this.setState({
+      timelineField: field,
+      timelineExtraVisible: true,
+      timelineItemIndex: idx,
+    });
+  };
+  //////////
+
   handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 's' && (event.ctrlKey || event.metaKey)) {
       const values = this.formRef.current?.getFieldsFormatValue?.();
@@ -1065,6 +1430,7 @@ class ArchiveForm extends React.Component<intlProps> {
       content,
       extraContent,
       extraTexts,
+      extraTimelines,
       module,
       fetched,
       keywordsVisible,
@@ -1074,6 +1440,9 @@ class ArchiveForm extends React.Component<intlProps> {
       aiTdkVisible,
       contentSetting,
       archiveSearchVisible,
+      timelineExtraVisible,
+      timelineField,
+      timelineItemIndex,
       relations,
       searchArchives,
       searchUsers,
@@ -1388,7 +1757,11 @@ class ArchiveForm extends React.Component<intlProps> {
                         {module.fields?.map(
                           (item: any, index: number) =>
                             item.type !== 'editor' && (
-                              <Col sm={12} xs={24} key={index}>
+                              <Col
+                                sm={item.type === 'timeline' ? 24 : 12}
+                                xs={24}
+                                key={index}
+                              >
                                 {item.type === 'text' ? (
                                   <ProFormText
                                     name={['extra', item.field_name, 'value']}
@@ -1482,16 +1855,12 @@ class ArchiveForm extends React.Component<intlProps> {
                                   >
                                     {archive.extra?.[item.field_name]?.value ? (
                                       <div className="ant-upload-item">
-                                        <Image
-                                          preview={{
-                                            src: archive.extra?.[
-                                              item.field_name
-                                            ]?.value,
-                                          }}
+                                        <ImageItem
                                           src={
                                             archive.extra?.[item.field_name]
                                               ?.value
                                           }
+                                          size={100}
                                         />
                                         <span
                                           className="delete"
@@ -1537,11 +1906,9 @@ class ArchiveForm extends React.Component<intlProps> {
                                               className="ant-upload-item"
                                               key={idx}
                                             >
-                                              <Image
-                                                preview={{
-                                                  src: inner,
-                                                }}
+                                              <ImageItem
                                                 src={inner}
+                                                size={100}
                                               />
                                               <div className="ant-upload-item-action">
                                                 <Tag
@@ -1639,7 +2006,7 @@ class ArchiveForm extends React.Component<intlProps> {
                                     <div className="text-groups">
                                       <div className="text-group">
                                         <div className="text-key">Key</div>
-                                        <div className="text-value">Value</div>
+                                        <div className="text-value">Values</div>
                                         <div className="text-action"></div>
                                       </div>
                                       {extraTexts?.[item.field_name]?.length
@@ -1671,27 +2038,73 @@ class ArchiveForm extends React.Component<intlProps> {
                                                   />
                                                 </div>
                                                 <div className="text-value">
-                                                  <ProFormText
-                                                    name={[
-                                                      'extra',
-                                                      item.field_name,
-                                                      'value',
-                                                      idx,
-                                                      'value',
-                                                    ]}
-                                                    fieldProps={{
-                                                      onChange: (e: any) => {
-                                                        this.onChangeExtraTextsField(
-                                                          item.field_name,
-                                                          idx,
-                                                          'value',
-                                                          e.target.value,
-                                                        );
-                                                      },
-                                                    }}
-                                                  />
+                                                  <Space
+                                                    size={16}
+                                                    direction="vertical"
+                                                    style={{ width: '100%' }}
+                                                  >
+                                                    {inner.values?.map(
+                                                      (
+                                                        value: string,
+                                                        valueIdx: number,
+                                                      ) => (
+                                                        <ProFormText
+                                                          key={valueIdx}
+                                                          name={[
+                                                            'extra',
+                                                            item.field_name,
+                                                            'value',
+                                                            idx,
+                                                            'values',
+                                                            valueIdx,
+                                                          ]}
+                                                          fieldProps={{
+                                                            onChange: (
+                                                              e: any,
+                                                            ) => {
+                                                              this.onChangeExtraTextsFieldValue(
+                                                                item.field_name,
+                                                                idx,
+                                                                valueIdx,
+                                                                e.target.value,
+                                                              );
+                                                            },
+                                                            prefix: inner.values
+                                                              .length > 1 && (
+                                                              <span>
+                                                                {valueIdx + 1}.
+                                                              </span>
+                                                            ),
+                                                            addonAfter: (
+                                                              <Tag
+                                                                onClick={() =>
+                                                                  this.onReduceExtraTextsFieldValue(
+                                                                    item.field_name,
+                                                                    idx,
+                                                                    valueIdx,
+                                                                  )
+                                                                }
+                                                              >
+                                                                <DeleteOutlined />
+                                                              </Tag>
+                                                            ),
+                                                          }}
+                                                        />
+                                                      ),
+                                                    )}
+                                                  </Space>
                                                 </div>
                                                 <div className="text-action">
+                                                  <Tag
+                                                    onClick={() =>
+                                                      this.onAddExtraTextsFieldValue(
+                                                        item.field_name,
+                                                        idx,
+                                                      )
+                                                    }
+                                                  >
+                                                    <PlusOutlined />
+                                                  </Tag>
                                                   <Tag
                                                     onClick={() =>
                                                       this.onMoveUpExtraTextsField(
@@ -1803,6 +2216,569 @@ class ArchiveForm extends React.Component<intlProps> {
                                             ></div>
                                           );
                                         },
+                                      }}
+                                    />
+                                  </ProFormText>
+                                ) : item.type === 'timeline' ? (
+                                  <ProFormText
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    extra={
+                                      <div className="mt-small">
+                                        <Button
+                                          onClick={() =>
+                                            this.onAddExtraTimelineItem(
+                                              item.field_name,
+                                            )
+                                          }
+                                        >
+                                          <FormattedMessage id="content.param.add-timeline" />
+                                        </Button>
+                                      </div>
+                                    }
+                                  >
+                                    <div className="timeline-container">
+                                      <div className="timeline-header">
+                                        <ProFormText
+                                          label={this.props.intl.formatMessage({
+                                            id: 'content.module.field.timeline.title',
+                                          })}
+                                          name={[
+                                            'extra',
+                                            item.field_name,
+                                            'value',
+                                            'title',
+                                          ]}
+                                          fieldProps={{
+                                            onChange: (e: any) => {
+                                              this.onChangeExtraTimelineField(
+                                                item.field_name,
+                                                'title',
+                                                e.target.value,
+                                              );
+                                            },
+                                          }}
+                                        />
+                                        <ProFormTextArea
+                                          label={this.props.intl.formatMessage({
+                                            id: 'content.module.field.timeline.content',
+                                          })}
+                                          name={[
+                                            'extra',
+                                            item.field_name,
+                                            'value',
+                                            'content',
+                                          ]}
+                                          fieldProps={{
+                                            onChange: (e: any) => {
+                                              this.onChangeExtraTimelineField(
+                                                item.field_name,
+                                                'content',
+                                                e.target.value,
+                                              );
+                                            },
+                                          }}
+                                        />
+                                        <ProFormText
+                                          label={this.props.intl.formatMessage({
+                                            id: 'content.module.field.timeline.status',
+                                          })}
+                                          name={[
+                                            'extra',
+                                            item.field_name,
+                                            'value',
+                                            'status',
+                                          ]}
+                                          fieldProps={{
+                                            onChange: (e: any) => {
+                                              this.onChangeExtraTimelineField(
+                                                item.field_name,
+                                                'status',
+                                                e.target.value,
+                                              );
+                                            },
+                                          }}
+                                        />
+                                        <ProFormText
+                                          name={[
+                                            'extra',
+                                            item.field_name,
+                                            'value',
+                                            'images',
+                                          ]}
+                                          label={this.props.intl.formatMessage({
+                                            id: 'content.module.field.timeline.images',
+                                          })}
+                                        >
+                                          {extraTimelines?.[item.field_name]
+                                            ?.images?.length
+                                            ? extraTimelines[
+                                                item.field_name
+                                              ].images.map(
+                                                (
+                                                  inner: string,
+                                                  idx: number,
+                                                ) => (
+                                                  <div
+                                                    className="ant-upload-item"
+                                                    key={idx}
+                                                  >
+                                                    <ImageItem
+                                                      src={inner}
+                                                      size={100}
+                                                    />
+                                                    <div className="ant-upload-item-action">
+                                                      <Tag
+                                                        color="red"
+                                                        onClick={this.onRemoveExtraTimelineImage.bind(
+                                                          this,
+                                                          item.field_name,
+                                                          idx,
+                                                        )}
+                                                      >
+                                                        <DeleteOutlined />
+                                                      </Tag>
+                                                    </div>
+                                                  </div>
+                                                ),
+                                              )
+                                            : null}
+                                          <AttachmentSelect
+                                            onSelect={this.handleUploadExtraTimelineImage.bind(
+                                              this,
+                                              item.field_name,
+                                            )}
+                                            open={false}
+                                            multiple={true}
+                                          >
+                                            <div className="ant-upload-item">
+                                              <div className="add">
+                                                <PlusOutlined />
+                                                <div style={{ marginTop: 8 }}>
+                                                  <FormattedMessage id="setting.system.upload" />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </AttachmentSelect>
+                                        </ProFormText>
+                                        <ProFormText
+                                          label={this.props.intl.formatMessage({
+                                            id: 'content.module.field.timeline.extra',
+                                          })}
+                                        >
+                                          <div className="text-groups">
+                                            <div className="text-group">
+                                              <div className="text-key">
+                                                Key
+                                              </div>
+                                              <div className="text-value">
+                                                Value
+                                              </div>
+                                              <div className="text-action"></div>
+                                            </div>
+                                            {extraTimelines?.[item.field_name]
+                                              ?.extra
+                                              ? Object.entries(
+                                                  extraTimelines[
+                                                    item.field_name
+                                                  ].extra,
+                                                ).map(
+                                                  ([extraKey, inner]: [
+                                                    string,
+                                                    any,
+                                                  ]) => (
+                                                    <div
+                                                      className="text-group"
+                                                      key={extraKey}
+                                                    >
+                                                      <div className="text-key">
+                                                        {extraKey}
+                                                      </div>
+                                                      <div className="text-value">
+                                                        {inner}
+                                                      </div>
+                                                      <div className="text-action">
+                                                        <Tag
+                                                          color="red"
+                                                          onClick={() =>
+                                                            this.onReduceExtraTimelineExtra(
+                                                              item.field_name,
+                                                              extraKey,
+                                                            )
+                                                          }
+                                                        >
+                                                          <DeleteOutlined />
+                                                        </Tag>
+                                                      </div>
+                                                    </div>
+                                                  ),
+                                                )
+                                              : null}
+                                            <div className="text-group">
+                                              <div className="text-key">
+                                                <Tag
+                                                  color="blue"
+                                                  className="add-line"
+                                                  onClick={() =>
+                                                    this.handleAddTimelineExtra(
+                                                      item.field_name,
+                                                    )
+                                                  }
+                                                >
+                                                  <FormattedMessage id="content.module.field.timeline.extra.add" />
+                                                </Tag>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </ProFormText>
+                                      </div>
+                                    </div>
+                                    <div className="timeline-groups">
+                                      {extraTimelines?.[item.field_name]?.items
+                                        .length
+                                        ? extraTimelines[
+                                            item.field_name
+                                          ].items.map(
+                                            (
+                                              itemInner: string,
+                                              idx: number,
+                                            ) => (
+                                              <CollapseItem
+                                                header={'Item ' + (idx + 1)}
+                                                open
+                                                showArrow
+                                                key={'timeline-item-' + idx}
+                                                extra={
+                                                  <Space size={16}>
+                                                    <Tag
+                                                      onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        this.onMoveUpExtraTimelineItem(
+                                                          item.field_name,
+                                                          idx,
+                                                        );
+                                                      }}
+                                                    >
+                                                      <UpOutlined />
+                                                    </Tag>
+                                                    <Tag
+                                                      onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        this.onMoveDownExtraTimelineItem(
+                                                          item.field_name,
+                                                          idx,
+                                                        );
+                                                      }}
+                                                    >
+                                                      <DownOutlined />
+                                                    </Tag>
+                                                    <Tag
+                                                      color="red"
+                                                      onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        this.onRemoveExtraTimelineItem(
+                                                          item.field_name,
+                                                          idx,
+                                                        );
+                                                      }}
+                                                    >
+                                                      <DeleteOutlined />
+                                                    </Tag>
+                                                  </Space>
+                                                }
+                                              >
+                                                <div className="timeline-container">
+                                                  <div className="timeline-header">
+                                                    <ProFormText
+                                                      label={this.props.intl.formatMessage(
+                                                        {
+                                                          id: 'content.module.field.timeline.title',
+                                                        },
+                                                      )}
+                                                      name={[
+                                                        'extra',
+                                                        item.field_name,
+                                                        'value',
+                                                        'items',
+                                                        idx,
+                                                        'title',
+                                                      ]}
+                                                      fieldProps={{
+                                                        onChange: (e: any) => {
+                                                          this.onChangeExtraTimelineItemField(
+                                                            item.field_name,
+                                                            idx,
+                                                            'title',
+                                                            e.target.value,
+                                                          );
+                                                        },
+                                                      }}
+                                                    />
+                                                    <ProFormTextArea
+                                                      label={this.props.intl.formatMessage(
+                                                        {
+                                                          id: 'content.module.field.timeline.content',
+                                                        },
+                                                      )}
+                                                      name={[
+                                                        'extra',
+                                                        item.field_name,
+                                                        'value',
+                                                        'items',
+                                                        idx,
+                                                        'content',
+                                                      ]}
+                                                      fieldProps={{
+                                                        onChange: (e: any) => {
+                                                          this.onChangeExtraTimelineItemField(
+                                                            item.field_name,
+                                                            idx,
+                                                            'content',
+                                                            e.target.value,
+                                                          );
+                                                        },
+                                                      }}
+                                                    />
+                                                    <ProFormText
+                                                      label={this.props.intl.formatMessage(
+                                                        {
+                                                          id: 'content.module.field.timeline.status',
+                                                        },
+                                                      )}
+                                                      name={[
+                                                        'extra',
+                                                        item.field_name,
+                                                        'value',
+                                                        'items',
+                                                        idx,
+                                                        'status',
+                                                      ]}
+                                                      fieldProps={{
+                                                        onChange: (e: any) => {
+                                                          this.onChangeExtraTimelineItemField(
+                                                            item.field_name,
+                                                            idx,
+                                                            'status',
+                                                            e.target.value,
+                                                          );
+                                                        },
+                                                      }}
+                                                    />
+                                                    <ProFormText
+                                                      name={[
+                                                        'extra',
+                                                        item.field_name,
+                                                        'value',
+                                                        'items',
+                                                        idx,
+                                                        'images',
+                                                      ]}
+                                                      label={this.props.intl.formatMessage(
+                                                        {
+                                                          id: 'content.module.field.timeline.images',
+                                                        },
+                                                      )}
+                                                    >
+                                                      {extraTimelines?.[
+                                                        item.field_name
+                                                      ]?.items[idx]?.images
+                                                        ?.length
+                                                        ? extraTimelines[
+                                                            item.field_name
+                                                          ].items[
+                                                            idx
+                                                          ].images.map(
+                                                            (
+                                                              imgInner: string,
+                                                              imgIdx: number,
+                                                            ) => (
+                                                              <div
+                                                                className="ant-upload-item"
+                                                                key={imgIdx}
+                                                              >
+                                                                <ImageItem
+                                                                  src={imgInner}
+                                                                  size={100}
+                                                                />
+                                                                <div className="ant-upload-item-action">
+                                                                  <Tag
+                                                                    color="red"
+                                                                    onClick={this.onRemoveExtraTimelineItemImage.bind(
+                                                                      this,
+                                                                      item.field_name,
+                                                                      idx,
+                                                                      imgIdx,
+                                                                    )}
+                                                                  >
+                                                                    <DeleteOutlined />
+                                                                  </Tag>
+                                                                </div>
+                                                              </div>
+                                                            ),
+                                                          )
+                                                        : null}
+                                                      <AttachmentSelect
+                                                        onSelect={this.handleUploadExtraTimelineItemImage.bind(
+                                                          this,
+                                                          item.field_name,
+                                                          idx,
+                                                        )}
+                                                        open={false}
+                                                        multiple={true}
+                                                      >
+                                                        <div className="ant-upload-item">
+                                                          <div className="add">
+                                                            <PlusOutlined />
+                                                            <div
+                                                              style={{
+                                                                marginTop: 8,
+                                                              }}
+                                                            >
+                                                              <FormattedMessage id="setting.system.upload" />
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </AttachmentSelect>
+                                                    </ProFormText>
+                                                    <ProFormText
+                                                      label={this.props.intl.formatMessage(
+                                                        {
+                                                          id: 'content.module.field.timeline.extra',
+                                                        },
+                                                      )}
+                                                    >
+                                                      <div className="text-groups">
+                                                        <div className="text-group">
+                                                          <div className="text-key">
+                                                            Key
+                                                          </div>
+                                                          <div className="text-value">
+                                                            Value
+                                                          </div>
+                                                          <div className="text-action"></div>
+                                                        </div>
+                                                        {extraTimelines?.[
+                                                          item.field_name
+                                                        ]?.items[idx]?.extra
+                                                          ? Object.entries(
+                                                              extraTimelines[
+                                                                item.field_name
+                                                              ].items[idx]
+                                                                .extra,
+                                                            ).map(
+                                                              ([
+                                                                extraKey,
+                                                                inner,
+                                                              ]: [
+                                                                string,
+                                                                any,
+                                                              ]) => (
+                                                                <div
+                                                                  className="text-group"
+                                                                  key={extraKey}
+                                                                >
+                                                                  <div className="text-key">
+                                                                    {extraKey}
+                                                                  </div>
+                                                                  <div className="text-value">
+                                                                    {inner}
+                                                                  </div>
+                                                                  <div className="text-action">
+                                                                    <Tag
+                                                                      color="red"
+                                                                      onClick={() =>
+                                                                        this.onReduceExtraTimelineItemExtra(
+                                                                          item.field_name,
+                                                                          idx,
+                                                                          extraKey,
+                                                                        )
+                                                                      }
+                                                                    >
+                                                                      <DeleteOutlined />
+                                                                    </Tag>
+                                                                  </div>
+                                                                </div>
+                                                              ),
+                                                            )
+                                                          : null}
+                                                        <div className="text-group">
+                                                          <div className="text-key">
+                                                            <Tag
+                                                              color="blue"
+                                                              className="add-line"
+                                                              onClick={() =>
+                                                                this.handleAddTimelineItemExtra(
+                                                                  item.field_name,
+                                                                  idx,
+                                                                )
+                                                              }
+                                                            >
+                                                              <FormattedMessage id="content.module.field.timeline.extra.add" />
+                                                            </Tag>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </ProFormText>
+                                                  </div>
+                                                </div>
+                                              </CollapseItem>
+                                            ),
+                                          )
+                                        : null}
+                                    </div>
+                                  </ProFormText>
+                                ) : item.type === 'date' ? (
+                                  <ProFormDatePicker
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    required={item.required ? true : false}
+                                    placeholder={
+                                      item.content &&
+                                      this.props.intl.formatMessage({
+                                        id: 'content.param.default',
+                                      }) + item.content
+                                    }
+                                  />
+                                ) : item.type === 'time' ? (
+                                  <ProFormTimePicker
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    required={item.required ? true : false}
+                                    placeholder={
+                                      item.content &&
+                                      this.props.intl.formatMessage({
+                                        id: 'content.param.default',
+                                      }) + item.content
+                                    }
+                                  />
+                                ) : item.type === 'datetime' ? (
+                                  <ProFormDateTimePicker
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                    required={item.required ? true : false}
+                                    placeholder={
+                                      item.content &&
+                                      this.props.intl.formatMessage({
+                                        id: 'content.param.default',
+                                      }) + item.content
+                                    }
+                                  />
+                                ) : item.type === 'color' ? (
+                                  <ProFormText
+                                    name={['extra', item.field_name, 'value']}
+                                    label={item.name}
+                                  >
+                                    <SelectColor
+                                      defaultValue={
+                                        archive.extra?.[item.field_name]
+                                          ?.value || null
+                                      }
+                                      showText
+                                      onChangeComplete={(value) => {
+                                        this.handleChangeExtraField(
+                                          item.field_name,
+                                          value.toHexString(),
+                                        );
                                       }}
                                     />
                                   </ProFormText>
@@ -1997,12 +2973,7 @@ class ArchiveForm extends React.Component<intlProps> {
                       {archive.images?.length
                         ? archive.images.map((item: string, index: number) => (
                             <div className="ant-upload-item" key={index}>
-                              <Image
-                                preview={{
-                                  src: item,
-                                }}
-                                src={item}
-                              />
+                              <ImageItem src={item} size={100} />
                               <span
                                 className="delete"
                                 onClick={this.handleCleanLogo.bind(this, index)}
@@ -2207,6 +3178,41 @@ class ArchiveForm extends React.Component<intlProps> {
             onCancel={this.handleHideArchiveSearchs}
             onSubmit={this.handleSelectedArchives}
           />
+        )}
+        {timelineExtraVisible && (
+          <ModalForm
+            width={600}
+            title={this.props.intl.formatMessage({
+              id: 'content.module.field.timeline.extra',
+            })}
+            open={timelineExtraVisible}
+            layout="vertical"
+            onOpenChange={(flag) => {
+              if (!flag) {
+                this.setState({ timelineExtraVisible: false });
+              }
+            }}
+            onFinish={async (values) => {
+              if (timelineItemIndex < 0) {
+                this.onChangeExtraTimelineExtra(
+                  timelineField,
+                  values.key,
+                  values.value,
+                );
+              } else {
+                this.onChangeExtraTimelineItemExtra(
+                  timelineField,
+                  timelineItemIndex,
+                  values.key,
+                  values.value,
+                );
+              }
+              this.setState({ timelineExtraVisible: false });
+            }}
+          >
+            <ProFormText name="key" label="Key" />
+            <ProFormText name="value" label="Value" />
+          </ModalForm>
         )}
       </NewContainer>
     );

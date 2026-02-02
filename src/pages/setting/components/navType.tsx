@@ -171,7 +171,7 @@ const NavTypes: React.FC<navTypesProps> = (props) => {
       >
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <p>
-            <FormattedMessage id="'setting.nav.types.name.require" />:{' '}
+            <FormattedMessage id="setting.nav.types.name.require" />:{' '}
           </p>
           <Input
             size="large"

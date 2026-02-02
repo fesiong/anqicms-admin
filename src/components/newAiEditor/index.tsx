@@ -499,7 +499,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
         {htmlMode && (
           <MonacoEditor
             height={563}
-            language={'markdown'}
+            language={'html'}
             theme="vs-dark"
             value={codes[props.field]}
             options={{

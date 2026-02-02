@@ -126,7 +126,10 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = forwardRef(
     return (
       <div
         className={'editor-container ' + props.className}
-        style={{ border: '1px solid #ccc', marginTop: '10px' }}
+        style={{
+          border: '1px solid #ccc',
+          marginTop: '10px',
+        }}
       >
         <Editor
           value={props.content}

@@ -1,5 +1,6 @@
-import AiImageGenerate from '@/components/aiimage';
 import NewContainer from '@/components/NewContainer';
+import AiImageGenerate from '@/components/aiimage';
+import ImageItem from '@/components/attachment/image';
 import {
   changeAttachmentCategory,
   changeAttachmentName,
@@ -15,13 +16,11 @@ import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, injectIntl } from '@umijs/max';
 import {
   Alert,
-  Avatar,
   Button,
   Card,
   Checkbox,
   Col,
   Empty,
-  Image,
   Input,
   Modal,
   Pagination,
@@ -625,20 +624,12 @@ class ImageList extends React.Component<intlProps> {
                             className="link"
                             onClick={this.handlePreview.bind(this, item)}
                           >
-                            {item.thumb ? (
-                              <Image
-                                className="img"
-                                preview={false}
-                                src={item.thumb + '?t=' + item.updated_time}
-                                alt={item.file_name}
-                              />
-                            ) : (
-                              <Avatar className="default-img" size={120}>
-                                {item.file_location.substring(
-                                  item.file_location.lastIndexOf('.'),
-                                )}
-                              </Avatar>
-                            )}
+                            <ImageItem
+                              isImage={item.is_image === 1}
+                              timestamp={item.updated_time}
+                              src={item.logo || item.file_location}
+                              alt={item.file_name}
+                            />
                           </div>
                           <div className="info">
                             <div>{item.file_name}</div>
@@ -693,24 +684,12 @@ class ImageList extends React.Component<intlProps> {
         >
           <div className="attachment-detail">
             <div className="preview">
-              {currentAttach.thumb ? (
-                <Image
-                  width={'100%'}
-                  className="img"
-                  preview={{
-                    src:
-                      currentAttach.logo + '?t=' + currentAttach.updated_time,
-                  }}
-                  src={currentAttach.logo + '?t=' + currentAttach.updated_time}
-                  alt={currentAttach.file_name}
-                />
-              ) : (
-                <Avatar className="default-img" size={200}>
-                  {currentAttach.file_location?.substring(
-                    currentAttach.file_location?.lastIndexOf('.'),
-                  )}
-                </Avatar>
-              )}
+              <ImageItem
+                isImage={currentAttach.is_image === 1}
+                timestamp={currentAttach.updated_time}
+                src={currentAttach.logo || currentAttach.file_location}
+                alt={currentAttach.file_name}
+              />
             </div>
             <div className="detail">
               <div className="info">
