@@ -257,6 +257,7 @@ const PluginFulltext: React.FC<any> = () => {
                 label={intl.formatMessage({
                   id: 'plugin.fulltext.contain_length',
                 })}
+                width="lg"
                 extra={
                   <FormattedMessage id="plugin.fulltext.contain_length.tips" />
                 }
@@ -266,6 +267,7 @@ const PluginFulltext: React.FC<any> = () => {
                 label={intl.formatMessage({
                   id: 'plugin.fulltext.ranking_score',
                 })}
+                width="lg"
                 extra={
                   <FormattedMessage id="plugin.fulltext.ranking_score.tips" />
                 }
