@@ -9,6 +9,7 @@ import {
 import {
   ProForm,
   ProFormCheckbox,
+  ProFormDigit,
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
@@ -251,6 +252,24 @@ const PluginFulltext: React.FC<any> = () => {
                   />
                 </>
               )}
+              <ProFormDigit
+                name="contain_length"
+                label={intl.formatMessage({
+                  id: 'plugin.fulltext.contain_length',
+                })}
+                extra={
+                  <FormattedMessage id="plugin.fulltext.contain_length.tips" />
+                }
+              />
+              <ProFormDigit
+                name="ranking_score"
+                label={intl.formatMessage({
+                  id: 'plugin.fulltext.ranking_score',
+                })}
+                extra={
+                  <FormattedMessage id="plugin.fulltext.ranking_score.tips" />
+                }
+              />
               <ProFormRadio.Group
                 name={'use_content'}
                 label={intl.formatMessage({

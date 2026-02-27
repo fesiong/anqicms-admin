@@ -381,6 +381,12 @@ export default {
   'plugin.fulltext.rebuild.confirm':
     'Are you sure you want to rebuild the index? ',
   'plugin.fulltext.indexing': 'Rebuilding the index, please wait. ',
+  'plugin.fulltext.contain_length': 'Search term minimum length',
+  'plugin.fulltext.contain_length.tips':
+    'The minimum length of the search term. By default, 0. If the search term length is less than x, the search results must fully contain it. If it is greater than x, at least x characters must be included.',
+  'plugin.fulltext.ranking_score': 'Search term ranking score',
+  'plugin.fulltext.ranking_score.tips':
+    'The scoring range is 0-100 points. By default, 0 points. Only results with scores higher than this value will be displayed.',
   'plugin.group.edit': 'Modify user group',
   'plugin.group.add': 'Add user group',
   'plugin.group.name': 'name',

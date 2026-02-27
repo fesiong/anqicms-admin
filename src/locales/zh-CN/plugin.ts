@@ -324,7 +324,7 @@ export default {
   'plugin.finance.withdraw.name': '提现管理',
   'plugin.finance.withdraw.apply': '提现申请',
   'plugin.fulltext.tips':
-    '开启全文搜索后，可以搜索文档内容。悟空搜索(内置)会占用大量的服务器内存，如果你的服务器内存较小，建议关闭全文搜索或者选择其它的全文搜索引擎。',
+    '开启全文搜索后，可以搜索文档内容。悟空搜索(内置)会占用大量的服务器内存，如果你的服务器内存较小，建议关闭全文搜索或者选择其它的全文搜索引擎。使用悟空搜索需要配置分词词典，请修改根目录下的dictionary.txt文件添加词条。范例：https://github.com/huichen/wukong/blob/master/data/dictionary.txt',
   'plugin.fulltext.open.name': '是否开启全文搜索',
   'plugin.fulltext.open.false': '关闭',
   'plugin.fulltext.open.true': '开启',
@@ -347,6 +347,12 @@ export default {
   'plugin.fulltext.engine-password': '密码',
   'plugin.fulltext.rebuild.confirm': '确定要重建索引吗？',
   'plugin.fulltext.indexing': '正在重建索引，请稍候。。',
+  'plugin.fulltext.contain_length': '搜索词包含长度',
+  'plugin.fulltext.contain_length.tips':
+    '搜索词包含的最小长度，默认 0，搜索词长度低于x个则搜索结果需要全包含，高于x个则至少包含x个字符',
+  'plugin.fulltext.ranking_score': '搜索词排名分数',
+  'plugin.fulltext.ranking_score.tips':
+    '可设置评分 0-100分，默认 0分 高于这个评分的结果才显示',
   'plugin.group.edit': '修改用户组',
   'plugin.group.add': '添加用户组',
   'plugin.group.name': '名称',
