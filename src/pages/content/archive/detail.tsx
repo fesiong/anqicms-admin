@@ -33,6 +33,7 @@ import {
   DownOutlined,
   LeftOutlined,
   PlusOutlined,
+  QuestionCircleOutlined,
   RightOutlined,
   UpOutlined,
 } from '@ant-design/icons';
@@ -55,8 +56,8 @@ import {
   Button,
   Card,
   Col,
-  Image,
   Modal,
+  Popover,
   Row,
   Space,
   Tag,
@@ -108,6 +109,7 @@ class ArchiveForm extends React.Component<intlProps> {
       },
     ],
     selectedUser: {},
+    categories: [],
 
     aiVisible: false,
     aiTitle: '',
@@ -200,6 +202,23 @@ class ArchiveForm extends React.Component<intlProps> {
         }
       },
     );
+    // 获取分类
+    getCategories().then((res) => {
+      let categories = res.data || [];
+      this.setState({
+        categories,
+      });
+      if (categories.length === 0) {
+        Modal.error({
+          title: this.props.intl.formatMessage({
+            id: 'content.category.error',
+          }),
+          onOk: () => {
+            history.push('/archive/category');
+          },
+        });
+      }
+    });
   };
 
   componentDidMount = async () => {
@@ -1446,6 +1465,7 @@ class ArchiveForm extends React.Component<intlProps> {
       relations,
       searchArchives,
       searchUsers,
+      categories,
       newKey,
     } = this.state;
     return (
@@ -1588,9 +1608,30 @@ class ArchiveForm extends React.Component<intlProps> {
                           placeholder={this.props.intl.formatMessage({
                             id: 'content.seo-title.placeholder',
                           })}
-                          extra={this.props.intl.formatMessage({
-                            id: 'content.seo-title.description',
-                          })}
+                          extra={
+                            <div>
+                              {this.props.intl.formatMessage({
+                                id: 'content.seo-title.description',
+                              })}
+                              {', '}
+                              <FormattedMessage id="setting.index.title.tips" />
+                              <Popover
+                                content={
+                                  <div style={{ whiteSpace: 'pre-wrap' }}>
+                                    {this.props.intl.formatMessage({
+                                      id: 'setting.index.params.tips',
+                                    })}
+                                  </div>
+                                }
+                                title={this.props.intl.formatMessage({
+                                  id: 'setting.index.title.tips',
+                                })}
+                              >
+                                {' '}
+                                <QuestionCircleOutlined />
+                              </Popover>
+                            </div>
+                          }
                         />
                       </Col>
                       <Col sm={12} xs={24}>
@@ -1758,7 +1799,13 @@ class ArchiveForm extends React.Component<intlProps> {
                           (item: any, index: number) =>
                             item.type !== 'editor' && (
                               <Col
-                                sm={item.type === 'timeline' ? 24 : 12}
+                                sm={
+                                  item.type === 'timeline' ||
+                                  item.type === 'images' ||
+                                  item.type === 'texts'
+                                    ? 24
+                                    : 12
+                                }
                                 xs={24}
                                 key={index}
                               >
@@ -2184,38 +2231,44 @@ class ArchiveForm extends React.Component<intlProps> {
                                       showSearch
                                       name={['extra', item.field_name, 'value']}
                                       mode={'single'}
-                                      request={async () => {
-                                        const res = await getCategories({
-                                          type: 1,
-                                        });
-                                        const categories = (res.data || []).map(
-                                          (cat: any) => ({
-                                            spacer: cat.spacer,
-                                            label:
-                                              cat.title +
-                                              (cat.status === 1
-                                                ? ''
-                                                : this.props.intl.formatMessage(
-                                                    {
-                                                      id: 'setting.nav.hide',
-                                                    },
-                                                  )),
-                                            value: cat.id,
+                                      options={[
+                                        {
+                                          title: this.props.intl.formatMessage({
+                                            id: 'content.please-select',
                                           }),
-                                        );
-                                        return categories;
-                                      }}
-                                      fieldProps={{
-                                        optionItemRender(item: any) {
-                                          return (
-                                            <div
-                                              dangerouslySetInnerHTML={{
-                                                __html:
-                                                  item.spacer + item.label,
-                                              }}
-                                            ></div>
-                                          );
+                                          value: 0,
                                         },
+                                      ]
+                                        .concat(categories)
+                                        .map((cat: any) => ({
+                                          title: cat.title,
+                                          label: (
+                                            <div title={cat.title}>
+                                              {cat.parent_titles?.length > 0 ? (
+                                                <span className="text-muted">
+                                                  {cat.parent_titles?.join(
+                                                    ' > ',
+                                                  )}
+                                                  {' > '}
+                                                </span>
+                                              ) : (
+                                                ''
+                                              )}
+                                              {cat.title}
+                                            </div>
+                                          ),
+                                          value: cat.id,
+                                          disabled: cat.status !== 1,
+                                        }))}
+                                      fieldProps={{
+                                        showSearch: true,
+                                        filterOption: (
+                                          input: string,
+                                          option: any,
+                                        ) =>
+                                          (option?.title ?? option?.label)
+                                            .toLowerCase()
+                                            .includes(input.toLowerCase()),
                                       }}
                                     />
                                   </ProFormText>
@@ -2435,7 +2488,7 @@ class ArchiveForm extends React.Component<intlProps> {
                                     </div>
                                     <div className="timeline-groups">
                                       {extraTimelines?.[item.field_name]?.items
-                                        .length
+                                        ?.length
                                         ? extraTimelines[
                                             item.field_name
                                           ].items.map(
@@ -2909,7 +2962,6 @@ class ArchiveForm extends React.Component<intlProps> {
                   >
                     <ProFormSelect
                       //label="所属分类"
-                      showSearch
                       name="category_ids"
                       width="lg"
                       mode={
@@ -2917,41 +2969,30 @@ class ArchiveForm extends React.Component<intlProps> {
                           ? 'multiple'
                           : 'single'
                       }
-                      request={async () => {
-                        const res = await getCategories({ type: 1 });
-                        const categories = (res.data || []).map((cat: any) => ({
-                          spacer: cat.spacer,
-                          label:
-                            cat.title +
-                            (cat.status === 1
-                              ? ''
-                              : this.props.intl.formatMessage({
-                                  id: 'setting.nav.hide',
-                                })),
-                          value: cat.id,
-                        }));
-                        if (categories.length === 0) {
-                          Modal.error({
-                            title: this.props.intl.formatMessage({
-                              id: 'content.category.error',
-                            }),
-                            onOk: () => {
-                              history.push('/archive/category');
-                            },
-                          });
-                        }
-                        return categories;
-                      }}
+                      options={categories.map((cat: any) => ({
+                        title: cat.title,
+                        label: (
+                          <div title={cat.title}>
+                            {cat.parent_titles?.length > 0 ? (
+                              <span className="text-muted">
+                                {cat.parent_titles?.join(' > ')}
+                                {' > '}
+                              </span>
+                            ) : (
+                              ''
+                            )}
+                            {cat.title}
+                          </div>
+                        ),
+                        value: cat.id,
+                        disabled: cat.status !== 1,
+                      }))}
                       fieldProps={{
-                        optionItemRender(item) {
-                          return (
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: item.spacer + item.label,
-                              }}
-                            ></div>
-                          );
-                        },
+                        showSearch: true,
+                        filterOption: (input: string, option: any) =>
+                          (option?.title ?? option?.label)
+                            .toLowerCase()
+                            .includes(input.toLowerCase()),
                         onChange: this.onChangeSelectCategory,
                       }}
                       extra={

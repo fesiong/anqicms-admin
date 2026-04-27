@@ -16,8 +16,8 @@ import {
   saveArchive,
 } from '@/services';
 import { setStore } from '@/utils/store';
-import { history, useIntl } from '@umijs/max';
-import { Col, Modal, Row, message } from 'antd';
+import { useIntl } from '@umijs/max';
+import { Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
 
 export type QuickEditFormProps = {
@@ -32,6 +32,7 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
   const [contentSetting, setContentSetting] = useState<any>({});
   const [archive, setArchive] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const [categories, setCategories] = useState<any[]>([]);
   const intl = useIntl();
 
   const getArchive = async (id: number) => {
@@ -50,6 +51,9 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
     getArchive(props.archive.id);
     getSettingContent().then((res) => {
       setContentSetting(res.data || {});
+    });
+    getCategories().then((res) => {
+      setCategories(res.data || []);
     });
   }, []);
 
@@ -174,33 +178,30 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
               showSearch
               name="category_ids"
               mode={contentSetting.multi_category === 1 ? 'multiple' : 'single'}
-              request={async () => {
-                const res = await getCategories({ type: 1 });
-                const categories = res.data || [];
-                if (categories.length === 0) {
-                  Modal.error({
-                    title: intl.formatMessage({ id: 'content.category.error' }),
-                    onOk: () => {
-                      history.push('/archive/category');
-                    },
-                  });
-                }
-                return categories;
-              }}
+              options={categories.map((cat: any) => ({
+                title: cat.title,
+                label: (
+                  <div title={cat.title}>
+                    {cat.parent_titles?.length > 0 ? (
+                      <span className="text-muted">
+                        {cat.parent_titles?.join(' > ')}
+                        {' > '}
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                    {cat.title}
+                  </div>
+                ),
+                value: cat.id,
+                disabled: cat.status !== 1,
+              }))}
               fieldProps={{
-                fieldNames: {
-                  label: 'title',
-                  value: 'id',
-                },
-                optionItemRender(item: any) {
-                  return (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: item.spacer + item.title,
-                      }}
-                    ></div>
-                  );
-                },
+                showSearch: true,
+                filterOption: (input: string, option: any) =>
+                  (option?.title ?? option?.label)
+                    .toLowerCase()
+                    .includes(input.toLowerCase()),
               }}
             />
             <ProFormSelect

@@ -16,6 +16,7 @@ export * from './jsonld';
 export * from './keyword';
 export * from './limiter';
 export * from './link';
+export * from './llms';
 export * from './material';
 export * from './multilang';
 export * from './order';

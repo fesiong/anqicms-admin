@@ -82,7 +82,12 @@ const SettingSystemFrom: React.FC<any> = () => {
     saveSystemFavicon(formData)
       .then((res) => {
         message.success(res.msg);
-        getSetting();
+        if (res.data?.favicon) {
+          setSetting({
+            ...setting,
+            system: { ...setting.system, favicon: res.data.favicon },
+          });
+        }
       })
       .finally(() => {
         hide();

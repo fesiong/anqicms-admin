@@ -42,6 +42,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
   const formRef = useRef<ProFormInstance>();
   const [userFields, setUserFields] = useState<any[]>([]);
   const [user, setUser] = useState<any>({ extra: {} });
+  const [categories, setCategories] = useState<any[]>([]);
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
   const [searchArchives, setSearchArchives] = useState<any[]>([
@@ -99,6 +100,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         }
       }
       getSelectedArchives(arcIds);
+      getCategories({ type: 1 }).then((res) => {
+        setCategories(res.data || []);
+      });
       setUser(data);
       setFetched(true);
     });
@@ -124,7 +128,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     formRef?.current?.setFieldsValue({ extra });
 
     delete user.extra[field];
-    setUser(user);
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const handleUploadExtraField = (field: string, row: any) => {
@@ -139,7 +148,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     }
     user.extra[field].value = row.logo;
 
-    setUser(user);
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const handleMoveExtraFieldItem = (
@@ -162,7 +176,13 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       user.extra[field].value[index] = user.extra[field].value[index + 1];
       user.extra[field].value[index + 1] = temp;
     }
-    setUser(Object.assign({}, user));
+
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const handleCleanExtraFieldItem = (field: string, index: number) => {
@@ -171,7 +191,13 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     extra[field] = { value: user.extra[field]?.value };
     formRef?.current?.setFieldsValue({ extra });
 
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...prevUser.extra,
+        [field]: user.extra[field],
+      },
+    }));
   };
 
   const handleUploadExtraFieldItem = (field: string, rows: any) => {
@@ -197,7 +223,13 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     extra[field] = { value: user.extra[field].value };
     formRef?.current?.setFieldsValue({ extra });
 
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...prevUser.extra,
+        [field]: user.extra[field],
+      },
+    }));
   };
 
   const onAddExtraTextsField = (field: string) => {
@@ -211,7 +243,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     const extra: any = {};
     extra[field] = { value: user.extra[field].value };
     formRef?.current?.setFieldsValue({ extra });
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const onChangeExtraTextsField = (
@@ -227,7 +264,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     const extra: any = {};
     extra[field] = { idx: { keyName: value } };
     formRef?.current?.setFieldsValue({ extra });
-    setUser(user);
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const onMoveUpExtraTextsField = (field: string, idx: number) => {
@@ -239,7 +281,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       const extra: any = {};
       extra[field] = { value: user.extra[field].value };
       formRef?.current?.setFieldsValue({ extra });
-      setUser(Object.assign({}, user));
+      setUser((prevUser: any) => ({
+        ...prevUser,
+        extra: {
+          ...user.extra,
+        },
+      }));
     }
   };
 
@@ -252,7 +299,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       const extra: any = {};
       extra[field] = { value: user.extra[field].value };
       formRef?.current?.setFieldsValue({ extra });
-      setUser(Object.assign({}, user));
+      setUser((prevUser: any) => ({
+        ...prevUser,
+        extra: {
+          ...user.extra,
+        },
+      }));
     }
   };
 
@@ -270,7 +322,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         } else {
           user.extra[field].value.splice(idx, 1);
         }
-        setUser(Object.assign({}, user));
+        setUser((prevUser: any) => ({
+          ...prevUser,
+          extra: {
+            ...user.extra,
+          },
+        }));
         const extra: any = {};
         extra[field] = { value: user.extra[field].value };
         formRef?.current?.setFieldsValue({ extra });
@@ -298,12 +355,18 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 
   const handleDeleteAvatarUrl = () => {
     user.avatar_url = '';
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      avatar_url: '',
+    }));
   };
 
   const handleUploadAvatarUrl = (row: any) => {
     user.avatar_url = row.logo;
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      avatar_url: row.logo,
+    }));
   };
 
   return fetched ? (
@@ -444,6 +507,24 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         transform={(value, namePath) => {
           return { [namePath]: dayjs(value).unix() };
         }}
+      />
+      <ProFormRadio.Group
+        label={intl.formatMessage({ id: 'website.status' })}
+        name="status"
+        options={[
+          {
+            label: intl.formatMessage({ id: 'plugin.user.normal' }),
+            value: 1,
+          },
+          {
+            label: intl.formatMessage({ id: 'plugin.user.pending' }),
+            value: 0,
+          },
+          {
+            label: intl.formatMessage({ id: 'plugin.user.blocked' }),
+            value: -1,
+          },
+        ]}
       />
       <Divider>
         <FormattedMessage id="plugin.user.extra-fields" />
@@ -648,7 +729,15 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           >
             {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item ant-upload-file">
-                <span>{user.extra[item.field_name]?.value}</span>
+                <div style={{ height: 60 }}>
+                  <a
+                    href={user.extra[item.field_name]?.value}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {user.extra[item.field_name]?.value}
+                  </a>
+                </div>
                 <span
                   className="delete"
                   onClick={() => handleCleanExtraField(item.field_name)}
@@ -788,34 +877,39 @@ const UserForm: React.FC<UserFormProps> = (props) => {
               showSearch
               name={['extra', item.field_name, 'value']}
               mode={'single'}
-              request={async () => {
-                const res = await getCategories({
-                  type: 1,
-                });
-                const categories = (res.data || []).map((cat: any) => ({
-                  spacer: cat.spacer,
-                  label:
-                    cat.title +
-                    (cat.status === 1
-                      ? ''
-                      : intl.formatMessage({
-                          id: 'setting.nav.hide',
-                        })),
-                  value: cat.id,
-                }));
-
-                return categories;
-              }}
-              fieldProps={{
-                optionItemRender(item: any) {
-                  return (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: item.spacer + item.label,
-                      }}
-                    ></div>
-                  );
+              options={[
+                {
+                  title: intl.formatMessage({
+                    id: 'content.please-select',
+                  }),
+                  value: 0,
                 },
+              ]
+                .concat(categories)
+                .map((cat: any) => ({
+                  title: cat.title,
+                  label: (
+                    <div title={cat.title}>
+                      {cat.parent_titles?.length > 0 ? (
+                        <span className="text-muted">
+                          {cat.parent_titles?.join(' > ')}
+                          {' > '}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {cat.title}
+                    </div>
+                  ),
+                  value: cat.id,
+                  disabled: cat.status !== 1,
+                }))}
+              fieldProps={{
+                showSearch: true,
+                filterOption: (input: string, option: any) =>
+                  (option?.title ?? option?.label)
+                    .toLowerCase()
+                    .includes(input.toLowerCase()),
               }}
             />
           </ProFormText>

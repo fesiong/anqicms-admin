@@ -72,11 +72,8 @@ const PageCategory: React.FC = () => {
       render: (dom, entity) => {
         return (
           <>
-            <div
-              className="spacer"
-              dangerouslySetInnerHTML={{ __html: entity.spacer }}
-            ></div>
-            <a href={entity.link} target="_blank">
+            {entity.spacer}
+            <a href={entity.link} target="_blank" rel="noreferrer">
               {dom}
             </a>
           </>

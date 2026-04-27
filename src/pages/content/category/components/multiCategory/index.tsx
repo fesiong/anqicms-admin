@@ -21,6 +21,7 @@ export type MultiCategoryProps = {
 const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
   const formRef = React.createRef<ProFormInstance>();
   const [currentModule, setCurrentModule] = useState<any>({});
+  const [categories, setCategories] = useState<any[]>([]);
   const intl = useIntl();
 
   const changeModule = (e: any) => {
@@ -30,6 +31,9 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
         break;
       }
     }
+    getCategories({}).then((res) => {
+      setCategories(res.data || []);
+    });
   };
 
   useEffect(() => {
@@ -100,54 +104,54 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
         }}
       />
       <ProFormSelect
-        label={intl.formatMessage({ id: 'content.category.top' })}
+        label={intl.formatMessage({ id: 'content.category.parent' })}
         name="parent_id"
         width="lg"
-        request={async () => {
-          let res = await getCategories({ type: props.type });
-          let categories = res.data || [];
-          // 排除自己
-          if (props.category.id) {
-            let tmpCategory = [];
-            for (let i in categories) {
-              if (
-                categories[i].id === props.category.id ||
-                categories[i].parent_id === props.category.id ||
-                categories[i].module_id !== props.category.module_id
-              ) {
-                continue;
-              }
-              tmpCategory.push(categories[i]);
-            }
-            categories = tmpCategory;
-          }
-          categories = [
-            {
-              id: 0,
-              title: intl.formatMessage({ id: 'content.category.top' }),
-              spacer: '',
-            },
-          ].concat(categories);
-          return categories;
+        options={[
+          {
+            id: 0,
+            title: intl.formatMessage({
+              id: 'content.category.top',
+            }),
+          },
+        ]
+          .concat(
+            categories.filter((item) =>
+              props.category.id > 0
+                ? item.module_id === props.category.module_id &&
+                  item.id !== props.category.id &&
+                  item.parent_id !== props.category.id
+                : true,
+            ),
+          )
+          .map((cat: any) => ({
+            title: cat.title,
+            label: (
+              <div title={cat.title}>
+                {cat.parent_titles?.length > 0 ? (
+                  <span className="text-muted">
+                    {cat.parent_titles?.join(' > ')}
+                    {' > '}
+                  </span>
+                ) : (
+                  ''
+                )}
+                {cat.title}
+              </div>
+            ),
+            value: cat.id,
+            disabled: cat.status !== 1,
+          }))}
+        fieldProps={{
+          showSearch: true,
+          filterOption: (input: string, option: any) =>
+            (option?.title ?? option?.label)
+              .toLowerCase()
+              .includes(input.toLowerCase()),
         }}
         readonly={
           props.category?.id || props.category?.module_id > 0 ? false : true
         }
-        fieldProps={{
-          fieldNames: {
-            label: 'title',
-            value: 'id',
-          },
-          optionItemRender(item: any) {
-            return (
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: (item.spacer || '') + item.title,
-                }}
-              ></div>
-            );
-          },
-        }}
       />
       <ProFormTextArea
         name="inputs"

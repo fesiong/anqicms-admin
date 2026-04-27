@@ -258,6 +258,10 @@ const PluginTransfer: React.FC = () => {
                     value: 'empire',
                     label: 'EmpireCMS',
                   },
+                  {
+                    value: 'xunruicms',
+                    label: 'XunruiCMS',
+                  },
                 ]}
                 value={provider}
                 onChange={(e) => {
@@ -341,6 +345,15 @@ const PluginTransfer: React.FC = () => {
                       })}
                       placeholder={intl.formatMessage({
                         id: 'plugin.transfer.token.placeholder',
+                      })}
+                    />
+                    <ProFormText
+                      name="target_id"
+                      label={intl.formatMessage({
+                        id: 'plugin.transfer.site-id',
+                      })}
+                      placeholder={intl.formatMessage({
+                        id: 'plugin.transfer.site-id.placeholder',
                       })}
                     />
                   </ProForm>

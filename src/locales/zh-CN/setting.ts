@@ -191,6 +191,11 @@ export default {
   'setting.index.keywords': '首页关键词',
   'setting.index.keywords.tips': '多个关键词请用,隔开',
   'setting.index.description': '首页描述',
+  'setting.index.sep': 'SEO链接符',
+  'setting.index.sep.tips': '默认： - ',
+  'setting.index.title.tips': '支持使用变量',
+  'setting.index.params.tips':
+    '{sep} SEO链接符，默认“ - ”\n(第{page}页) 分页页码\n{siteName} 当前站点名称\n{catname} 当前分类名称\n{multicatname} 当前分类带层次的分类名称\n支持“当前内容”内置字段，不支持自定义字段，格式：{字段名}，\n如：{title}表示标题\t{keywords} 内容关键词\t{description} 内容描述信息',
   'setting.banner.name.require': '请填写分组名称',
   'setting.banner.confirm-delete': '确定要删除该Banner吗',
   'setting.banner.logo': '图片',

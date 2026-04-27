@@ -209,6 +209,11 @@ export default {
   'setting.index.keywords.tips':
     'Please use multiple keywords and separate them',
   'setting.index.description': 'Home page description',
+  'setting.index.sep': 'Seo Separator',
+  'setting.index.sep.tips': 'Default: - ',
+  'setting.index.title.tips': 'Support the use of variables',
+  'setting.index.params.tips':
+    '{sep} SEO separator, default "-"\n(Page {page})\nPaginated page number\n{siteName} Current site name\n{catname} Current category name\n{multicatname} Current hierarchical category name\nSupports "current content" built-in fields, but does not support custom fields. Format: {field name}, \nFor example: {title} represents the title\t{keywords} content keywords\t{description} content description information',
   'setting.banner.name.require': 'Please fill in the group name',
   'setting.banner.confirm-delete':
     'Are you sure you want to delete this Banner?',

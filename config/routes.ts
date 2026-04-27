@@ -438,6 +438,13 @@ export default [
         component: '@/pages/plugin/google/index',
         icon: 'google',
       },
+      {
+        path: '/plugin/llms',
+        name: 'llms',
+        type: 'normal',
+        component: '@/pages/plugin/llms/index',
+        icon: 'llms',
+      },
     ],
   },
   {

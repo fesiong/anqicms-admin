@@ -145,6 +145,24 @@ const PluginUser: React.FC = () => {
       },
     },
     {
+      title: intl.formatMessage({ id: 'website.status' }),
+      dataIndex: 'status',
+      valueEnum: {
+        0: {
+          text: intl.formatMessage({ id: 'plugin.user.pending' }),
+          status: 'Default',
+        },
+        1: {
+          text: intl.formatMessage({ id: 'plugin.user.normal' }),
+          status: 'Success',
+        },
+        [-1]: {
+          text: intl.formatMessage({ id: 'plugin.user.blocked' }),
+          status: 'Warning',
+        },
+      },
+    },
+    {
       title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',

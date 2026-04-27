@@ -20,6 +20,7 @@ import {
   DownOutlined,
   LeftOutlined,
   PlusOutlined,
+  QuestionCircleOutlined,
   RightOutlined,
   UpOutlined,
 } from '@ant-design/icons';
@@ -40,6 +41,7 @@ import {
   Col,
   Image,
   Modal,
+  Popover,
   Row,
   Space,
   Tag,
@@ -65,6 +67,7 @@ const ArchiveCategoryDetail: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [category, setCategory] = useState<any>({ status: 1 });
   const [modules, setModules] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [searchArchives, setSearchArchives] = useState<any[]>([
     {
       id: 0,
@@ -157,6 +160,9 @@ const ArchiveCategoryDetail: React.FC = () => {
     getSettingContent().then((res) => {
       setContentSetting(res.data || {});
       setLoaded(true);
+    });
+    getCategories({}).then((res) => {
+      setCategories(res.data || []);
     });
   };
 
@@ -263,7 +269,12 @@ const ArchiveCategoryDetail: React.FC = () => {
     formRef.current?.setFieldsValue({ extra });
 
     delete category.extra[field];
-    setCategory(category);
+    setCategory((prev: any) => ({
+      ...prev,
+      extra: {
+        ...category.extra,
+      },
+    }));
   };
 
   const handleUploadExtraField = (field: string, row: any) => {
@@ -275,7 +286,12 @@ const ArchiveCategoryDetail: React.FC = () => {
     }
     category.extra[field] = row.logo;
 
-    setCategory(category);
+    setCategory((prev: any) => ({
+      ...prev,
+      extra: {
+        ...category.extra,
+      },
+    }));
   };
 
   const handleMoveExtraFieldItem = (
@@ -298,7 +314,12 @@ const ArchiveCategoryDetail: React.FC = () => {
       category.extra[field][index] = category.extra[field][index + 1];
       category.extra[field][index + 1] = temp;
     }
-    setCategory(Object.assign({}, category));
+    setCategory((prev: any) => ({
+      ...prev,
+      extra: {
+        ...category.extra,
+      },
+    }));
   };
 
   const handleCleanExtraFieldItem = (field: string, index: number) => {
@@ -307,7 +328,12 @@ const ArchiveCategoryDetail: React.FC = () => {
     extra[field] = category.extra[field];
     formRef?.current?.setFieldsValue({ extra });
 
-    setCategory(Object.assign({}, category));
+    setCategory((prev: any) => ({
+      ...prev,
+      extra: {
+        ...category.extra,
+      },
+    }));
   };
 
   const handleUploadExtraFieldItem = (field: string, rows: any) => {
@@ -330,7 +356,12 @@ const ArchiveCategoryDetail: React.FC = () => {
     extra[field] = category.extra[field];
     formRef?.current?.setFieldsValue({ extra });
 
-    setCategory(Object.assign({}, category));
+    setCategory((prev: any) => ({
+      ...prev,
+      extra: {
+        ...category.extra,
+      },
+    }));
   };
 
   const onAddExtraTextsField = (field: string) => {
@@ -344,7 +375,12 @@ const ArchiveCategoryDetail: React.FC = () => {
     const extra: any = {};
     extra[field] = category.extra[field];
     formRef?.current?.setFieldsValue({ extra });
-    setCategory(Object.assign({}, category));
+    setCategory((prev: any) => ({
+      ...prev,
+      extra: {
+        ...category.extra,
+      },
+    }));
   };
 
   const onChangeExtraTextsField = (
@@ -360,7 +396,12 @@ const ArchiveCategoryDetail: React.FC = () => {
     const extra: any = {};
     extra[field] = { idx: { keyName: value } };
     formRef?.current?.setFieldsValue({ extra });
-    setCategory(category);
+    setCategory((prev: any) => ({
+      ...prev,
+      extra: {
+        ...category.extra,
+      },
+    }));
   };
 
   const onMoveUpExtraTextsField = (field: string, idx: number) => {
@@ -372,7 +413,12 @@ const ArchiveCategoryDetail: React.FC = () => {
       const extra: any = {};
       extra[field] = category.extra[field];
       formRef?.current?.setFieldsValue({ extra });
-      setCategory(Object.assign({}, category));
+      setCategory((prev: any) => ({
+        ...prev,
+        extra: {
+          ...category.extra,
+        },
+      }));
     }
   };
 
@@ -385,7 +431,12 @@ const ArchiveCategoryDetail: React.FC = () => {
       const extra: any = {};
       extra[field] = category.extra[field];
       formRef?.current?.setFieldsValue({ extra });
-      setCategory(Object.assign({}, category));
+      setCategory((prev: any) => ({
+        ...prev,
+        extra: {
+          ...category.extra,
+        },
+      }));
     }
   };
 
@@ -403,7 +454,12 @@ const ArchiveCategoryDetail: React.FC = () => {
         } else {
           category.extra[field].splice(idx, 1);
         }
-        setCategory(Object.assign({}, category));
+        setCategory((prev: any) => ({
+          ...prev,
+          extra: {
+            ...category.extra,
+          },
+        }));
         const extra: any = {};
         extra[field] = category.extra[field];
         formRef?.current?.setFieldsValue({ extra });
@@ -556,52 +612,47 @@ const ArchiveCategoryDetail: React.FC = () => {
                   label={intl.formatMessage({ id: 'content.category.parent' })}
                   name="parent_id"
                   width="lg"
-                  request={async () => {
-                    let res = await getCategories({ type: categoryType });
-                    let categories = res.data || [];
-                    // 排除自己
-                    if (category.id) {
-                      let tmpCategory = [];
-                      for (let i in categories) {
-                        if (
-                          categories[i].id === category.id ||
-                          categories[i].parent_id === category.id ||
-                          categories[i].module_id !== category.module_id
-                        ) {
-                          continue;
-                        }
-                        tmpCategory.push(categories[i]);
-                      }
-                      categories = tmpCategory;
-                    }
-                    categories = [
-                      {
-                        id: 0,
-                        title: intl.formatMessage({
-                          id: 'content.category.top',
-                        }),
-                        spacer: '',
-                      },
-                    ].concat(categories);
-                    return categories;
-                  }}
-                  readonly={
-                    category.id || category.module_id > 0 ? false : true
-                  }
+                  options={[
+                    {
+                      id: 0,
+                      title: intl.formatMessage({
+                        id: 'content.category.top',
+                      }),
+                    },
+                  ]
+                    .concat(
+                      categories.filter((item) =>
+                        category.id > 0
+                          ? item.module_id === category.module_id &&
+                            item.id !== category.id &&
+                            item.parent_id !== category.id
+                          : true,
+                      ),
+                    )
+                    .map((cat: any) => ({
+                      title: cat.title,
+                      label: (
+                        <div title={cat.title}>
+                          {cat.parent_titles?.length > 0 ? (
+                            <span className="text-muted">
+                              {cat.parent_titles?.join(' > ')}
+                              {' > '}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                          {cat.title}
+                        </div>
+                      ),
+                      value: cat.id,
+                      disabled: cat.status !== 1,
+                    }))}
                   fieldProps={{
-                    fieldNames: {
-                      label: 'title',
-                      value: 'id',
-                    },
-                    optionItemRender(item: any) {
-                      return (
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: (item.spacer || '') + item.title,
-                          }}
-                        ></div>
-                      );
-                    },
+                    showSearch: true,
+                    filterOption: (input: string, option: any) =>
+                      (option?.title ?? option?.label)
+                        .toLowerCase()
+                        .includes(input.toLowerCase()),
                   }}
                 />
                 <ProFormText
@@ -638,9 +689,30 @@ const ArchiveCategoryDetail: React.FC = () => {
                   placeholder={intl.formatMessage({
                     id: 'content.category.seo-title.placeholder',
                   })}
-                  extra={intl.formatMessage({
-                    id: 'content.category.seo-title.description',
-                  })}
+                  extra={
+                    <div>
+                      {intl.formatMessage({
+                        id: 'content.category.seo-title.description',
+                      })}
+                      {', '}
+                      <FormattedMessage id="setting.index.title.tips" />
+                      <Popover
+                        content={
+                          <div style={{ whiteSpace: 'pre-wrap' }}>
+                            {intl.formatMessage({
+                              id: 'setting.index.params.tips',
+                            })}
+                          </div>
+                        }
+                        title={intl.formatMessage({
+                          id: 'setting.index.title.tips',
+                        })}
+                      >
+                        {' '}
+                        <QuestionCircleOutlined />
+                      </Popover>
+                    </div>
+                  }
                 />
                 <ProFormText
                   name="keywords"
@@ -683,7 +755,17 @@ const ArchiveCategoryDetail: React.FC = () => {
                       {currentModule.category_fields?.map(
                         (item: any, index: number) =>
                           item.type !== 'editor' && (
-                            <Col sm={12} xs={24} key={index}>
+                            <Col
+                              sm={
+                                item.type === 'timeline' ||
+                                item.type === 'images' ||
+                                item.type === 'texts'
+                                  ? 24
+                                  : 12
+                              }
+                              xs={24}
+                              key={index}
+                            >
                               {item.type === 'text' ? (
                                 <ProFormText
                                   name={['extra', item.field_name]}
@@ -1049,35 +1131,42 @@ const ArchiveCategoryDetail: React.FC = () => {
                                     showSearch
                                     name={['extra', item.field_name]}
                                     mode={'single'}
-                                    request={async () => {
-                                      const res = await getCategories({
-                                        type: 1,
-                                      });
-                                      const categories = (res.data || []).map(
-                                        (cat: any) => ({
-                                          spacer: cat.spacer,
-                                          label:
-                                            cat.title +
-                                            (cat.status === 1
-                                              ? ''
-                                              : intl.formatMessage({
-                                                  id: 'setting.nav.hide',
-                                                })),
-                                          value: cat.id,
+                                    options={[
+                                      {
+                                        title: intl.formatMessage({
+                                          id: 'content.please-select',
                                         }),
-                                      );
-                                      return categories;
-                                    }}
-                                    fieldProps={{
-                                      optionItemRender(item: any) {
-                                        return (
-                                          <div
-                                            dangerouslySetInnerHTML={{
-                                              __html: item.spacer + item.label,
-                                            }}
-                                          ></div>
-                                        );
+                                        value: 0,
                                       },
+                                    ]
+                                      .concat(categories)
+                                      .map((cat: any) => ({
+                                        title: cat.title,
+                                        label: (
+                                          <div title={cat.title}>
+                                            {cat.parent_titles?.length > 0 ? (
+                                              <span className="text-muted">
+                                                {cat.parent_titles?.join(' > ')}
+                                                {' > '}
+                                              </span>
+                                            ) : (
+                                              ''
+                                            )}
+                                            {cat.title}
+                                          </div>
+                                        ),
+                                        value: cat.id,
+                                        disabled: cat.status !== 1,
+                                      }))}
+                                    fieldProps={{
+                                      showSearch: true,
+                                      filterOption: (
+                                        input: string,
+                                        option: any,
+                                      ) =>
+                                        (option?.title ?? option?.label)
+                                          .toLowerCase()
+                                          .includes(input.toLowerCase()),
                                     }}
                                   />
                                 </ProFormText>

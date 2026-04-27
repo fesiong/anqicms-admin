@@ -49,6 +49,7 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
   const [currentField, setCurrentField] = useState<any>({});
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [contentSetting, setContentSetting] = useState<any>({});
+  const [categories, setCategories] = useState<any>([]);
   const [setting, setSetting] = useState<any[]>([]);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
@@ -89,6 +90,9 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
         }
       }
       getSelectedArchives(arcIds);
+      getCategories().then((res) => {
+        setCategories(res.data);
+      });
       setSetting(data);
     });
   };
@@ -123,25 +127,35 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
     if (name.length === 0) {
       return false;
     }
-    values.name = capitalizeFirstLetter(values.name);
-    if (!values.type) {
-      values.type = 'text';
-    }
-    if (currentIndex === -1) {
-      // 不允许重复
-      for (const i in setting) {
-        if (setting[i].name === values.name) {
-          message.error(
-            intl.formatMessage({ id: 'setting.diyfield.name-duplicate' }),
-          );
-          return false;
-        }
+    const normalizedValues = {
+      ...values,
+      name: capitalizeFirstLetter(name),
+      type: values.type || 'text',
+    };
+
+    setSetting((prevSetting) => {
+      // ✅ 检查重复名称
+      const isDuplicate = prevSetting.some(
+        (item: any) => item.name === normalizedValues.name,
+      );
+
+      if (currentIndex === -1 && isDuplicate) {
+        message.error(
+          intl.formatMessage({ id: 'setting.diyfield.name-duplicate' }),
+        );
+        return prevSetting;
       }
-      setting.push(values);
-    } else {
-      setting[currentIndex] = Object.assign(setting[currentIndex], values);
-    }
-    setSetting([].concat(...setting));
+
+      // ✅ 不可变方式更新数组
+      if (currentIndex === -1) {
+        return [...prevSetting, normalizedValues];
+      } else {
+        return prevSetting.map((item: any, index: number) =>
+          index === currentIndex ? { ...item, ...normalizedValues } : item,
+        );
+      }
+    });
+
     setAddFieldOpen(false);
   };
 
@@ -1007,37 +1021,42 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
                       showSearch
                       name={[index, 'value']}
                       mode={'single'}
-                      request={async () => {
-                        const res = await getCategories({
-                          type: 1,
-                        });
-                        const categories = (res.data || []).map((cat: any) => ({
-                          spacer: cat.spacer,
-                          label:
-                            cat.title +
-                            (cat.status === 1
-                              ? ''
-                              : intl.formatMessage({
-                                  id: 'setting.nav.hide',
-                                })),
+                      options={[
+                        {
+                          title: intl.formatMessage({
+                            id: 'content.please-select',
+                          }),
+                          value: 0,
+                        },
+                      ]
+                        .concat(categories)
+                        .map((cat: any) => ({
+                          title: cat.title,
+                          label: (
+                            <div title={cat.title}>
+                              {cat.parent_titles?.length > 0 ? (
+                                <span className="text-muted">
+                                  {cat.parent_titles?.join(' > ')}
+                                  {' > '}
+                                </span>
+                              ) : (
+                                ''
+                              )}
+                              {cat.title}
+                            </div>
+                          ),
                           value: cat.id,
-                        }));
-
-                        return categories;
-                      }}
+                          disabled: cat.status !== 1,
+                        }))}
                       fieldProps={{
+                        showSearch: true,
+                        filterOption: (input: string, option: any) =>
+                          (option?.title ?? option?.label)
+                            .toLowerCase()
+                            .includes(input.toLowerCase()),
                         value: Number(item.value) || undefined,
                         onChange: (e: any) => {
                           handleUpdateFieldValue(index, e);
-                        },
-                        optionItemRender(item: any) {
-                          return (
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: item.spacer + item.label,
-                              }}
-                            ></div>
-                          );
                         },
                       }}
                     />
