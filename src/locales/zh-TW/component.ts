@@ -144,4 +144,6 @@ export default {
   'component.right-content.vip-prefix': '了解VIP詳情，請訪問',
   'component.right-content.vip-name': 'VIP介紹頁面',
   'component.right-content.vip-suffix': '獲取最新信息',
+  'component.ai-chat.title': 'AI助手',
+  'component.ai-chat.tips': 'AI助手正在开发中，敬请期待！',
 };
