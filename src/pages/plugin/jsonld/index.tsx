@@ -490,7 +490,7 @@ const Pluginjsonld: React.FC<any> = () => {
   };
 
   const onSubmit = async (data: any) => {
-    for (let i = 0; i < data.category.length; i++) {
+    for (let i = 0; i < data.category?.length; i++) {
       const category = data.category[i];
       if (setting.category[i]) {
         category.id = setting.category[i].id;
