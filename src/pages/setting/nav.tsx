@@ -170,7 +170,7 @@ const SettingNavFrom: React.FC<any> = () => {
   };
 
   const handleSelectLogo = (row: any) => {
-    setNavLogo(row.logo);
+    setNavLogo(row.file_path);
     message.success(
       intl.formatMessage({ id: 'setting.system.upload-success' }),
     );
@@ -250,7 +250,9 @@ const SettingNavFrom: React.FC<any> = () => {
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
-          {(record.parent_id === 0 || record.nav_list?.length > 0) && (
+          {(record.parent_id === 0 ||
+            record.level < 2 ||
+            record.nav_list?.length > 0) && (
             <a onClick={() => editNav({ parent_id: record.id })} key="add">
               <FormattedMessage id="setting.nav.children.add" />
             </a>
@@ -348,22 +350,34 @@ const SettingNavFrom: React.FC<any> = () => {
             request={async () => {
               let newNavs = [
                 {
+                  spacer: '',
                   title: intl.formatMessage({ id: 'setting.nav.top' }),
                   id: 0,
                 },
               ];
-              for (let item of navs) {
-                newNavs.push(item);
+              for (let item of navs || []) {
+                newNavs.push({
+                  spacer: '',
+                  title: item.title,
+                  id: item.id,
+                });
                 for (let sub of item.nav_list || []) {
-                  sub.spacer = (item.spacer || '') + '└  ';
-                  newNavs.push(sub);
+                  let subItem = {
+                    spacer: (item.spacer || '') + '└  ',
+                    title: sub.title,
+                    id: sub.id,
+                  };
+                  newNavs.push(subItem);
                   for (let sub2 of sub.nav_list || []) {
-                    sub2.spacer = (sub.spacer || '') + '└  ';
-                    newNavs.push(sub2);
+                    newNavs.push({
+                      spacer: (sub.spacer || '') + '└  ',
+                      title: sub2.title,
+                      id: sub2.id,
+                    });
                   }
                 }
               }
-              return newNavs.concat(navs);
+              return newNavs;
             }}
           />
           <ProFormText
@@ -509,6 +523,12 @@ const SettingNavFrom: React.FC<any> = () => {
               extra={intl.formatMessage({ id: 'setting.nav.link.description' })}
             />
           )}
+          <ProFormText
+            name="style"
+            label={intl.formatMessage({ id: 'setting.nav.style' })}
+            width="lg"
+            extra={intl.formatMessage({ id: 'setting.nav.style.description' })}
+          />
           <ProFormDigit
             name="sort"
             label={intl.formatMessage({ id: 'setting.nav.sort' })}

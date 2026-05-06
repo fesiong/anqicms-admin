@@ -1,12 +1,13 @@
 import NewContainer from '@/components/NewContainer';
 import { getSettingIndex, saveSettingIndex } from '@/services/setting';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import {
   ProForm,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Card, message } from 'antd';
+import { Card, message, Popover } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const SettingIndexFrom: React.FC<any> = () => {
@@ -60,6 +61,26 @@ const SettingIndexFrom: React.FC<any> = () => {
               name="seo_title"
               label={intl.formatMessage({ id: 'setting.index.title' })}
               width="lg"
+              extra={
+                <div>
+                  <FormattedMessage id="setting.index.title.tips" />
+                  <Popover
+                    content={
+                      <div style={{ whiteSpace: 'pre-wrap' }}>
+                        {intl.formatMessage({
+                          id: 'setting.index.params.tips',
+                        })}
+                      </div>
+                    }
+                    title={intl.formatMessage({
+                      id: 'setting.index.title.tips',
+                    })}
+                  >
+                    {' '}
+                    <QuestionCircleOutlined />
+                  </Popover>
+                </div>
+              }
             />
             <ProFormText
               name="seo_keywords"
@@ -75,6 +96,16 @@ const SettingIndexFrom: React.FC<any> = () => {
               name="seo_description"
               label={intl.formatMessage({ id: 'setting.index.description' })}
               width="lg"
+            />
+            <ProFormText
+              name="sep"
+              label={intl.formatMessage({ id: 'setting.index.sep' })}
+              width="lg"
+              extra={
+                <div>
+                  <FormattedMessage id="setting.index.sep.tips" />
+                </div>
+              }
             />
           </ProForm>
         )}

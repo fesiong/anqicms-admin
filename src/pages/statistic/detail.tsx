@@ -12,6 +12,7 @@ const StatisticDetail: React.FC = () => {
   const intl = useIntl();
   const [dates, setDates] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState('');
+  const [type, setType] = useState<string>('traffic');
   const [newKey, setNewKey] = useState<string>('');
 
   const onTabChange = (key: string) => {
@@ -22,14 +23,20 @@ const StatisticDetail: React.FC = () => {
   };
 
   useEffect(() => {
-    getStatisticDates().then((res) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    setType(searchParams.get('type') || 'traffic');
+    getStatisticDates({}).then((res) => {
       setDates(res.data || []);
     });
     setSelectedDate(dayjs().format('YYYYMMDD'));
   }, []);
 
   const openLink = (text: string) => {
-    window.open((initialState?.system?.base_url || '') + text);
+    let link = text;
+    if (link.startsWith('http') === false) {
+      link = (initialState?.system?.base_url || '') + link;
+    }
+    window.open(link);
   };
 
   const handleSelectDate = (item: string) => {
@@ -112,6 +119,7 @@ const StatisticDetail: React.FC = () => {
           search={false}
           request={(params) => {
             params.date = selectedDate;
+            params.type = type;
             return getStatisticInfo(params);
           }}
           columnsState={{

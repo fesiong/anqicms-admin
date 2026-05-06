@@ -1,4 +1,5 @@
 import account from './zh-TW/account';
+import common from './zh-TW/common';
 import component from './zh-TW/component';
 import content from './zh-TW/content';
 import dashboard from './zh-TW/dashboard';
@@ -27,4 +28,5 @@ export default {
   ...design,
   ...content,
   ...plugin,
+  ...common,
 };

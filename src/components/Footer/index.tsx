@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
           message.info(
             res.msg || intl.formatMessage({ id: 'component.footer.uploaded' }),
           );
-          images.push(res.data.logo);
+          images.push(res.data.file_path);
           setImages(([] as string[]).concat(...images));
         }
       })

@@ -2,7 +2,8 @@ import NewContainer from '@/components/NewContainer';
 import { getStatisticSpider } from '@/services/statistic';
 import { Line } from '@ant-design/plots';
 import { StatisticCard } from '@ant-design/pro-components';
-import { useIntl } from '@umijs/max';
+import { history, useIntl } from '@umijs/max';
+import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const StatisticSpider: React.FC<any> = () => {
@@ -56,6 +57,16 @@ const StatisticSpider: React.FC<any> = () => {
         key={newKey}
         title={intl.formatMessage({ id: 'statistic.spider' })}
         tooltip={intl.formatMessage({ id: 'statistic.spider.tips' })}
+        extra={
+          <Button
+            size="small"
+            onClick={() => {
+              history.push('/statistic/detail?type=spider');
+            }}
+          >
+            {intl.formatMessage({ id: 'menu.statistic.detail' })}
+          </Button>
+        }
         chart={<Line {...config} />}
       />
     </NewContainer>

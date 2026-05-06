@@ -3,7 +3,7 @@ import {
   getAttachments,
   uploadAttachment,
 } from '@/services/attachment';
-import { calculateFileMd5 } from '@/utils';
+import { acceptedExtensions, calculateFileMd5 } from '@/utils';
 import { CloseOutlined } from '@ant-design/icons';
 import { ActionType, ProList } from '@ant-design/pro-components';
 import {
@@ -18,12 +18,17 @@ import {
   message,
 } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
+import AiImageGenerate from '../aiimage';
+import AttachmentAddUrl from './addUrl';
 import './index.less';
 
 export type AttachmentContentProps = {
   onSelect: (row?: any) => void;
   onCancel?: () => void;
+  style?: React.CSSProperties;
+  className?: string;
   multiple?: boolean;
+  intl?: any;
 };
 
 const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
@@ -32,6 +37,8 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
   const [categories, setCategories] = useState<any[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
   const [keyword, setKeyword] = useState<string>('');
+  const [aiVisible, setAiVisible] = useState<boolean>(false);
+  const [addUrlVisible, setAddUrlVisible] = useState<boolean>(false);
 
   useEffect(() => {
     getAttachmentCategories().then((res) => {
@@ -39,10 +46,15 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
     });
   }, []);
 
+  const handleAddUrl = () => {
+    setAddUrlVisible(true);
+  };
   const handleUploadImage = async (e: any) => {
     // 上传前先计算MD5
     let hide = message.loading({
-      content: '正在上传',
+      content:
+        props.intl?.formatMessage({ id: 'component.footer.submitting' }) ||
+        '上传中...',
       duration: 0,
       key: 'uploading',
     });
@@ -71,14 +83,25 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
           } else {
             hide = message.loading({
               content:
-                '正在上传 - ' + Math.ceil(((i + 1) * 100) / totalChunks) + '%',
+                (props.intl?.formatMessage({
+                  id: 'component.footer.submitting',
+                }) || '正在上传') +
+                ' - ' +
+                Math.ceil(((i + 1) * 100) / totalChunks) +
+                '%',
               duration: 0,
               key: 'uploading',
             });
             if (res.data) {
               // 上传完成
               hide();
-              message.info(res.msg || '上传成功');
+              message.info(
+                res.msg ||
+                  props.intl?.formatMessage({
+                    id: 'component.footer.uploaded',
+                  }) ||
+                  '上传成功',
+              );
               if (props.multiple) {
                 setSelectedRowKeys([]);
                 props.onSelect([]);
@@ -99,7 +122,13 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
           if (res.code !== 0) {
             message.info(res.msg);
           } else {
-            message.info(res.msg || '上传成功');
+            message.info(
+              res.msg ||
+                props.intl?.formatMessage({
+                  id: 'component.footer.uploaded',
+                }) ||
+                '上传成功',
+            );
             if (props.multiple) {
               setSelectedRowKeys([]);
               props.onSelect([]);
@@ -111,6 +140,10 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
           hide();
         });
     }
+  };
+
+  const handleGenerateImage = async () => {
+    setAiVisible(true);
   };
 
   const handleChangeCategory = (e: any) => {
@@ -157,17 +190,29 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
     props.onSelect(e);
   };
 
+  const handleSubmitAi = () => {
+    actionRef.current?.reloadAndRest?.();
+    setAiVisible(false);
+  };
+
+  const handleSubmitAddUrl = () => {
+    actionRef.current?.reloadAndRest?.();
+    setAddUrlVisible(false);
+  };
+
   return (
-    <div>
+    <div style={props.style} className={props.className}>
       <div className="material-header">
         <Space size={16}>
-          <span>选择文件</span>
           <Select
             defaultValue={categoryId}
             style={{ width: 120 }}
             onChange={handleChangeCategory}
           >
-            <Select.Option value={0}>全部资源</Select.Option>
+            <Select.Option value={0}>
+              {props.intl?.formatMessage({ id: 'component.attachment.all' }) ||
+                '全部资源'}
+            </Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.title}
@@ -175,22 +220,44 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
             ))}
           </Select>
           <Input.Search
-            placeholder="输入文件名关键词搜索"
+            placeholder={
+              props.intl?.formatMessage({
+                id: 'component.attachment.search.placeholder',
+              }) || '输入文件名关键词搜索'
+            }
             onSearch={handleSearch}
           />
           <Upload
             name="file"
             showUploadList={false}
             multiple
-            //accept="*"
+            accept={acceptedExtensions}
             customRequest={handleUploadImage}
           >
-            <Button type="primary">上传新文件</Button>
+            <Button type="primary">
+              {props.intl?.formatMessage({
+                id: 'component.attachment.upload',
+              }) || '上传新文件'}
+            </Button>
           </Upload>
+          <Button onClick={() => handleAddUrl()}>
+            {props.intl?.formatMessage({ id: 'content.attachment.add-url' }) ||
+              '添加远程资源'}
+          </Button>
+          <Button type="default" onClick={handleGenerateImage}>
+            {props.intl?.formatMessage({
+              id: 'component.aiimage.generate',
+            }) || 'AI生成图片'}
+          </Button>
           {selectedRowKeys.length > 0 && (
             <span>
-              已选
-              {selectedRowKeys.length}个
+              {props.intl?.formatMessage({
+                id: 'component.attachment.select.selected',
+              }) || '已选'}
+              {selectedRowKeys.length}
+              {props.intl?.formatMessage({
+                id: 'component.attachment.select.selected.suffix',
+              }) || '个'}
             </span>
           )}
         </Space>
@@ -236,13 +303,17 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
                         <Image
                           className="img"
                           preview={{
-                            src: row.logo,
+                            src: row.file_path,
                           }}
                           src={row.thumb}
                           alt={row.file_name}
                         />
                       ) : (
-                        <a href={row.logo} target="_blank" rel="noreferrer">
+                        <a
+                          href={row.file_path}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
                           <Avatar className="default-img" size={100}>
                             {row.file_location.substring(
                               row.file_location.lastIndexOf('.'),
@@ -257,7 +328,9 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
                           setDetail(row);
                         }}
                       >
-                        点击使用
+                        {props.intl?.formatMessage({
+                          id: 'component.attachment.use',
+                        }) || '点击使用'}
                       </div>
                     </div>
                   </div>
@@ -267,6 +340,22 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
           }}
         />
       </Checkbox.Group>
+      {aiVisible && (
+        <AiImageGenerate
+          onCancel={() => setAiVisible(false)}
+          onSubmit={handleSubmitAi}
+          open={aiVisible}
+          intl={props.intl}
+        />
+      )}
+      {addUrlVisible && (
+        <AttachmentAddUrl
+          onCancel={() => setAddUrlVisible(false)}
+          onSubmit={handleSubmitAddUrl}
+          open={addUrlVisible}
+          intl={props.intl}
+        />
+      )}
     </div>
   );
 };

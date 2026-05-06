@@ -7,11 +7,12 @@ import {
   ActionType,
   PageContainer,
   ProColumns,
+  ProFormRadio,
   ProFormSelect,
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Modal, Space, message } from 'antd';
+import { Button, Modal, Space, Tag, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import UserFieldSetting from './components/setting';
@@ -21,7 +22,9 @@ const PluginUser: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentUser, setCurrentUser] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [balanceVisible, setBalanceVisible] = useState<boolean>(false);
   const [userGroups, setUserGroups] = useState<any[]>([]);
+  const [userType, setUserType] = useState<string>('all');
   const intl = useIntl();
 
   const getUserGroups = () => {
@@ -37,6 +40,11 @@ const PluginUser: React.FC = () => {
   const handleEditUser = async (record: any) => {
     setCurrentUser(record);
     setEditVisible(true);
+  };
+
+  const handleChangeBalance = (record: any) => {
+    setCurrentUser(record);
+    setBalanceVisible(true);
   };
 
   const handleDelete = (row: any) => {
@@ -56,6 +64,14 @@ const PluginUser: React.FC = () => {
     setEditVisible(true);
   };
 
+  const switchUserType = (type: string) => {
+    if (type === userType) {
+      return;
+    }
+    setUserType(type);
+    actionRef.current?.reload();
+  };
+
   const columns: ProColumns<any>[] = [
     {
       title: intl.formatMessage({ id: 'plugin.retailer.user-id' }),
@@ -73,10 +89,33 @@ const PluginUser: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.user.email' }),
       hideInSearch: true,
       dataIndex: 'email',
+      render: (text, record) => {
+        return (
+          <div>
+            {text || record.email}{' '}
+            {record.subscribed ? (
+              <Tag color="green">
+                {intl.formatMessage({ id: 'plugin.user.subscribed' })}
+              </Tag>
+            ) : (
+              <Tag>
+                {intl.formatMessage({ id: 'plugin.user.unsubscribed' })}
+              </Tag>
+            )}
+          </div>
+        );
+      },
     },
     {
-      title: intl.formatMessage({ id: 'plugin.user.real-name' }),
-      dataIndex: 'real_name',
+      title: intl.formatMessage({ id: 'plugin.user.balance' }),
+      dataIndex: 'balance',
+      render: (text, record) => {
+        return (
+          <div>
+            {record.balance > 0 ? (record.balance / 100).toFixed(2) : '-'}
+          </div>
+        );
+      },
     },
     {
       title: intl.formatMessage({ id: 'plugin.user.avatar_url' }),
@@ -127,11 +166,58 @@ const PluginUser: React.FC = () => {
       },
     },
     {
+      title: intl.formatMessage({ id: 'website.status' }),
+      dataIndex: 'status',
+      valueEnum: {
+        0: {
+          text: intl.formatMessage({ id: 'plugin.user.pending' }),
+          status: 'Default',
+        },
+        1: {
+          text: intl.formatMessage({ id: 'plugin.user.normal' }),
+          status: 'Success',
+        },
+        [-1]: {
+          text: intl.formatMessage({ id: 'plugin.user.blocked' }),
+          status: 'Warning',
+        },
+      },
+      renderFormItem: () => {
+        return (
+          <ProFormRadio.Group
+            name="status"
+            options={[
+              {
+                label: intl.formatMessage({ id: 'plugin.user.normal' }),
+                value: 'normal',
+              },
+              {
+                label: intl.formatMessage({ id: 'plugin.user.pending' }),
+                value: 'pending',
+              },
+              {
+                label: intl.formatMessage({ id: 'plugin.user.blocked' }),
+                value: 'blocked',
+              },
+            ]}
+          />
+        );
+      },
+    },
+    {
       title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
         <Space size={20}>
+          <a
+            key="edit"
+            onClick={() => {
+              handleChangeBalance(record);
+            }}
+          >
+            <FormattedMessage id="plugin.user.change-balance" />
+          </a>
           <a
             key="edit"
             onClick={() => {
@@ -155,7 +241,34 @@ const PluginUser: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.user' })}
+        headerTitle={
+          <Space>
+            <Button
+              onClick={() => switchUserType('all')}
+              type={userType === 'all' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.all' })}
+            </Button>
+            <Button
+              onClick={() => switchUserType('subscribed')}
+              type={userType === 'subscribed' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.subscribed' })}
+            </Button>
+            <Button
+              onClick={() => switchUserType('ordered')}
+              type={userType === 'ordered' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.ordered' })}
+            </Button>
+            <Button
+              onClick={() => switchUserType('repurchase')}
+              type={userType === 'repurchase' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.repurchase' })}
+            </Button>
+          </Space>
+        }
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
@@ -170,6 +283,7 @@ const PluginUser: React.FC = () => {
         ]}
         tableAlertOptionRender={false}
         request={(params) => {
+          params.user_type = userType;
           return pluginGetUsers(params);
         }}
         columnsState={{
@@ -192,6 +306,21 @@ const PluginUser: React.FC = () => {
           }}
           onSubmit={async () => {
             setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }}
+        />
+      )}
+      {balanceVisible && (
+        <BalanceForm
+          open={balanceVisible}
+          user={currentUser}
+          onCancel={() => {
+            setBalanceVisible(false);
+          }}
+          onSubmit={async () => {
+            setBalanceVisible(false);
             if (actionRef.current) {
               actionRef.current.reload();
             }

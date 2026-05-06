@@ -4,7 +4,7 @@ import './index.less';
 
 const Attachment = () => {};
 
-Attachment.show = (multiple?: boolean) => {
+Attachment.show = (multiple?: boolean, intl?: any) => {
   let p = new Promise((res, rej) => {
     let selectedKeys: any[] = [];
     let close: () => void;
@@ -39,9 +39,14 @@ Attachment.show = (multiple?: boolean) => {
           onSelect={onSelect}
           onCancel={() => onCancel()}
           multiple={multiple}
+          style={{ marginBottom: 16 }}
+          intl={intl}
         />
       ),
-      okText: 'OK',
+      okText:
+        intl?.formatMessage({
+          id: 'component.attachment.dialog.ok',
+        }) || '确定',
       onCancel: () => {
         onCancel();
       },

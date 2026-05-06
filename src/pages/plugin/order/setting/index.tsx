@@ -1,5 +1,10 @@
 import { pluginGetOrderSetting, pluginSaveOrderSetting } from '@/services';
-import { ModalForm, ProFormDigit, ProFormRadio } from '@ant-design/pro-components';
+import {
+  ModalForm,
+  ProFormCheckbox,
+  ProFormDigit,
+  ProFormRadio,
+} from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import { message } from 'antd';
 import React, { useState } from 'react';
@@ -54,31 +59,74 @@ const OrderSetting: React.FC<OrderSettingProps> = (props) => {
           handleSaveSetting(values);
         }}
       >
+        <ProFormCheckbox
+          name="no_need_login"
+          label={intl.formatMessage({
+            id: 'plugin.order.setting.no-need-login',
+          })}
+          extra={intl.formatMessage({
+            id: 'plugin.order.setting.no-need-login.description',
+          })}
+        >
+          {intl.formatMessage({
+            id: 'plugin.order.setting.no-need-login',
+          })}
+        </ProFormCheckbox>
         <ProFormRadio.Group
           name="no_process"
           label={intl.formatMessage({ id: 'plugin.order.setting.progress' })}
           options={[
-            { label: intl.formatMessage({ id: 'plugin.order.setting.progress.yes' }), value: false },
-            { label: intl.formatMessage({ id: 'plugin.order.setting.progress.no' }), value: true },
+            {
+              label: intl.formatMessage({
+                id: 'plugin.order.setting.progress.yes',
+              }),
+              value: false,
+            },
+            {
+              label: intl.formatMessage({
+                id: 'plugin.order.setting.progress.no',
+              }),
+              value: true,
+            },
           ]}
-          extra={intl.formatMessage({ id: 'plugin.order.setting.progress.description' })}
+          extra={intl.formatMessage({
+            id: 'plugin.order.setting.progress.description',
+          })}
         />
         <ProFormDigit
           label={intl.formatMessage({ id: 'plugin.order.setting.auto-finish' })}
           name="auto_finish_day"
-          extra={intl.formatMessage({ id: 'plugin.order.setting.auto-finish.placeholder' })}
-          fieldProps={{ precision: 0, addonAfter: intl.formatMessage({ id: 'plugin.order.setting.auto-finish.suffix' }) }}
+          extra={intl.formatMessage({
+            id: 'plugin.order.setting.auto-finish.placeholder',
+          })}
+          fieldProps={{
+            precision: 0,
+            addonAfter: intl.formatMessage({
+              id: 'plugin.order.setting.auto-finish.suffix',
+            }),
+          }}
         />
         <ProFormDigit
           label={intl.formatMessage({ id: 'plugin.order.setting.auto-close' })}
           name="auto_close_minute"
-          extra={intl.formatMessage({ id: 'plugin.order.setting.auto-close.description' })}
-          fieldProps={{ precision: 0, addonAfter: intl.formatMessage({ id: 'plugin.order.setting.auto-close.suffix' }) }}
+          extra={intl.formatMessage({
+            id: 'plugin.order.setting.auto-close.description',
+          })}
+          fieldProps={{
+            precision: 0,
+            addonAfter: intl.formatMessage({
+              id: 'plugin.order.setting.auto-close.suffix',
+            }),
+          }}
         />
         <ProFormDigit
-          label={intl.formatMessage({ id: 'plugin.order.setting.seller-percent' })}
+          label={intl.formatMessage({
+            id: 'plugin.order.setting.seller-percent',
+          })}
           name="seller_percent"
-          extra={intl.formatMessage({ id: 'plugin.order.setting.seller-percent.description' })}
+          extra={intl.formatMessage({
+            id: 'plugin.order.setting.seller-percent.description',
+          })}
           fieldProps={{ precision: 0, addonAfter: '%' }}
         />
       </ModalForm>

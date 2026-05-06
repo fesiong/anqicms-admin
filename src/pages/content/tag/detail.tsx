@@ -1,9 +1,12 @@
 import NewContainer from '@/components/NewContainer';
+import AiGenerate from '@/components/aiGenerate';
+import AiGetTdk from '@/components/aitdk';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
-import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import {
+  anqiExtractDescription,
   getArchives,
   getCategories,
   getDesignTemplateFiles,
@@ -31,7 +34,17 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Card, Col, Image, Modal, Row, Tag, message } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Image,
+  Modal,
+  Row,
+  Space,
+  Tag,
+  message,
+} from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
@@ -56,6 +69,9 @@ const ArchiveTagDetail: React.FC = () => {
   ]);
   const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
   const editorRef = useRef(null);
+  const [aiTitle, setAiTitle] = useState<string>('');
+  const [aiVisible, setAiVisible] = useState<boolean>(false);
+  const [aiTdkVisible, setAiTdkVisible] = useState<boolean>(false);
 
   const getSelectedArchives = (arcIds: number[]) => {
     if (arcIds.length > 0) {
@@ -123,7 +139,7 @@ const ArchiveTagDetail: React.FC = () => {
   };
 
   const handleSelectLogo = (row: any) => {
-    setTagLogo(row.logo);
+    setTagLogo(row.file_path);
     message.success(
       intl.formatMessage({ id: 'setting.system.upload-success' }),
     );
@@ -174,19 +190,29 @@ const ArchiveTagDetail: React.FC = () => {
     formRef.current?.setFieldsValue({ extra });
 
     delete tag.extra[field];
-    setTag(tag);
+    setTag((prev: any) => ({
+      ...prev,
+      extra: {
+        ...tag.extra,
+      },
+    }));
   };
 
   const handleUploadExtraField = (field: string, row: any) => {
     const extra: any = {};
-    extra[field] = row.logo;
+    extra[field] = row.file_path;
     formRef.current?.setFieldsValue({ extra });
     if (!tag.extra[field]) {
       tag.extra[field] = null;
     }
-    tag.extra[field] = row.logo;
+    tag.extra[field] = row.file_path;
 
-    setTag(tag);
+    setTag((prev: any) => ({
+      ...prev,
+      extra: {
+        ...tag.extra,
+      },
+    }));
   };
 
   const handleCleanExtraFieldItem = (field: string, index: number) => {
@@ -195,7 +221,12 @@ const ArchiveTagDetail: React.FC = () => {
     extra[field] = tag.extra[field];
     formRef?.current?.setFieldsValue({ extra });
 
-    setTag(Object.assign({}, tag));
+    setTag((prev: any) => ({
+      ...prev,
+      extra: {
+        ...tag.extra,
+      },
+    }));
   };
 
   const handleUploadExtraFieldItem = (field: string, rows: any) => {
@@ -206,20 +237,25 @@ const ArchiveTagDetail: React.FC = () => {
     for (const row of rows) {
       let exists = false;
       for (const i in tag.extra[field]) {
-        if (tag.extra[field][i] === row.logo) {
+        if (tag.extra[field][i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        tag.extra[field].push(row.logo);
+        tag.extra[field].push(row.file_path);
       }
     }
     const extra: any = {};
     extra[field] = tag.extra[field];
     formRef?.current?.setFieldsValue({ extra });
 
-    setTag(Object.assign({}, tag));
+    setTag((prev: any) => ({
+      ...prev,
+      extra: {
+        ...tag.extra,
+      },
+    }));
   };
 
   const handleMoveExtraFieldItem = (
@@ -242,7 +278,12 @@ const ArchiveTagDetail: React.FC = () => {
       tag.extra[field][index] = tag.extra[field][index + 1];
       tag.extra[field][index + 1] = temp;
     }
-    setTag(Object.assign({}, tag));
+    setTag((prev: any) => ({
+      ...prev,
+      extra: {
+        ...tag.extra,
+      },
+    }));
   };
 
   const onAddExtraTextsField = (field: string) => {
@@ -253,7 +294,12 @@ const ArchiveTagDetail: React.FC = () => {
       key: '',
       value: '',
     });
-    setTag(Object.assign({}, tag));
+    setTag((prev: any) => ({
+      ...prev,
+      extra: {
+        ...tag.extra,
+      },
+    }));
     const extra: any = {};
     extra[field] = tag.extra[field];
     formRef?.current?.setFieldsValue({ extra });
@@ -272,7 +318,12 @@ const ArchiveTagDetail: React.FC = () => {
     const extra: any = {};
     extra[field] = { idx: { keyName: value } };
     formRef?.current?.setFieldsValue({ extra });
-    setTag(tag);
+    setTag((prev: any) => ({
+      ...prev,
+      extra: {
+        ...tag.extra,
+      },
+    }));
   };
 
   const onMoveUpExtraTextsField = (field: string, idx: number) => {
@@ -284,7 +335,12 @@ const ArchiveTagDetail: React.FC = () => {
       const extra: any = {};
       extra[field] = tag.extra[field];
       formRef?.current?.setFieldsValue({ extra });
-      setTag(tag);
+      setTag((prev: any) => ({
+        ...prev,
+        extra: {
+          ...tag.extra,
+        },
+      }));
     }
   };
 
@@ -297,7 +353,12 @@ const ArchiveTagDetail: React.FC = () => {
       const extra: any = {};
       extra[field] = tag.extra[field];
       formRef?.current?.setFieldsValue({ extra });
-      setTag(Object.assign({}, tag));
+      setTag((prev: any) => ({
+        ...prev,
+        extra: {
+          ...tag.extra,
+        },
+      }));
     }
   };
 
@@ -318,7 +379,12 @@ const ArchiveTagDetail: React.FC = () => {
         const extra: any = {};
         extra[field] = tag.extra[field];
         formRef?.current?.setFieldsValue({ extra });
-        setTag(Object.assign({}, tag));
+        setTag((prev: any) => ({
+          ...prev,
+          extra: {
+            ...tag.extra,
+          },
+        }));
       },
     });
   };
@@ -343,6 +409,81 @@ const ArchiveTagDetail: React.FC = () => {
   const updateExtraContent = async (field: string, html: string) => {
     extraContent[field] = html;
     setExtraContent(extraContent);
+  };
+
+  const aiGenerateArticle = () => {
+    const values = formRef.current?.getFieldsFormatValue?.() || {};
+    setAiTitle(values.title);
+    setAiVisible(true);
+  };
+
+  const aiTdkGenerate = () => {
+    setAiTdkVisible(true);
+  };
+
+  const onFinishAiGenerate = async (values: any) => {
+    setAiVisible(false);
+    formRef.current?.setFieldsValue({ title: values.title });
+    //
+    let content = values.content.trim();
+    setContent(content);
+    editorRef.current?.setInnerContent(content);
+  };
+
+  const onFinishAiTdk = async (values: any) => {
+    setAiTdkVisible(false);
+    let data: any = {};
+    if (values.title?.length > 0) {
+      data.seo_title = values.title;
+    }
+    if (values.keywords?.length > 0) {
+      data.keywords = values.keywords;
+    }
+    if (values.description?.length > 0) {
+      data.description = values.description;
+    }
+    formRef.current?.setFieldsValue(data);
+  };
+
+  const handleExtractDescription = () => {
+    if (content.length < 100) {
+      message.error(
+        intl.formatMessage({
+          id: 'content.archive.content.length.error',
+        }),
+      );
+      return false;
+    }
+    Modal.confirm({
+      title: intl.formatMessage({
+        id: 'content.archive.extract.description',
+      }),
+      content: intl.formatMessage({
+        id: 'content.archive.extract.description.content',
+      }),
+      onOk: () => {
+        anqiExtractDescription({
+          text: content,
+        })
+          .then((res) => {
+            if (res.code === 0) {
+              formRef?.current?.setFieldsValue({
+                description: res.data,
+              });
+            } else {
+              message.info(res.msg);
+            }
+          })
+          .catch((err) => {
+            message.error(
+              err.msg ||
+                intl.formatMessage({
+                  id: 'content.submit.failure',
+                }),
+            );
+          });
+      },
+    });
   };
 
   return (
@@ -378,6 +519,24 @@ const ArchiveTagDetail: React.FC = () => {
                 <ProFormTextArea
                   name="description"
                   label={intl.formatMessage({ id: 'content.description.name' })}
+                  extra={
+                    <div className="mt-small">
+                      <Space size={20}>
+                        <span
+                          className="link extract-tag"
+                          onClick={aiTdkGenerate}
+                        >
+                          <FormattedMessage id="component.aitdk.btn.generate" />
+                        </span>
+                        <span
+                          className="link extract-tag"
+                          onClick={handleExtractDescription}
+                        >
+                          <FormattedMessage id="content.description.extract" />
+                        </span>
+                      </Space>
+                    </div>
+                  }
                 />
                 {tagFields && (
                   <CollapseItem
@@ -392,7 +551,17 @@ const ArchiveTagDetail: React.FC = () => {
                       {tagFields.map(
                         (item: any, index: number) =>
                           item.type !== 'editor' && (
-                            <Col sm={12} xs={24} key={index}>
+                            <Col
+                              sm={
+                                item.type === 'timeline' ||
+                                item.type === 'images' ||
+                                item.type === 'texts'
+                                  ? 24
+                                  : 12
+                              }
+                              xs={24}
+                              key={index}
+                            >
                               {item.type === 'text' ? (
                                 <ProFormText
                                   name={['extra', item.field_name]}
@@ -838,7 +1007,7 @@ const ArchiveTagDetail: React.FC = () => {
                                 ref={null}
                               />
                             ) : (
-                              <WangEditor
+                              <NewAiEditor
                                 className="mb-normal"
                                 setContent={(html) =>
                                   updateExtraContent(item.field_name, html)
@@ -864,7 +1033,7 @@ const ArchiveTagDetail: React.FC = () => {
                     ref={editorRef}
                   />
                 ) : (
-                  <WangEditor
+                  <NewAiEditor
                     className="mb-normal"
                     setContent={async (html: string) => {
                       setContent(html);
@@ -898,6 +1067,26 @@ const ArchiveTagDetail: React.FC = () => {
                         }}
                       >
                         <FormattedMessage id="design.back" />
+                      </Button>
+                    </Col>
+                    <Col span={12}>
+                      <Button
+                        block
+                        onClick={() => {
+                          aiGenerateArticle();
+                        }}
+                      >
+                        <FormattedMessage id="content.submit.aigenerate" />
+                      </Button>
+                    </Col>
+                    <Col span={12}>
+                      <Button
+                        block
+                        onClick={() => {
+                          aiTdkGenerate();
+                        }}
+                      >
+                        <FormattedMessage id="component.aitdk.btn.generate" />
                       </Button>
                     </Col>
                   </Row>
@@ -1068,6 +1257,23 @@ const ArchiveTagDetail: React.FC = () => {
               </Col>
             </Row>
           </ProForm>
+        )}
+        {aiVisible && (
+          <AiGenerate
+            open={aiVisible}
+            title={aiTitle}
+            editor={contentSetting.editor}
+            onCancel={() => setAiVisible(false)}
+            onSubmit={onFinishAiGenerate}
+          />
+        )}
+        {aiTdkVisible && (
+          <AiGetTdk
+            open={aiTdkVisible}
+            content={content}
+            onCancel={() => setAiTdkVisible(false)}
+            onSubmit={onFinishAiTdk}
+          />
         )}
       </Card>
     </NewContainer>

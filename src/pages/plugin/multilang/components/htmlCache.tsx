@@ -49,6 +49,7 @@ const TranslateHtmlCache: React.FC<HtmlCacheProps> = (props) => {
       title: intl.formatMessage({
         id: 'plugin.multilang.html-cache.create-time',
       }),
+      hideInSearch: true,
       dataIndex: 'last_mod',
       render: (item) => {
         return dayjs((item as number) * 1000).format('YYYY-MM-DD HH:mm');
@@ -62,6 +63,7 @@ const TranslateHtmlCache: React.FC<HtmlCacheProps> = (props) => {
       title: intl.formatMessage({
         id: 'plugin.multilang.html-cache.language',
       }),
+      hideInSearch: true,
       dataIndex: 'lang',
       render: (text, record: any) => {
         return (
@@ -74,6 +76,7 @@ const TranslateHtmlCache: React.FC<HtmlCacheProps> = (props) => {
       title: intl.formatMessage({ id: 'setting.action' }),
       dataIndex: 'option',
       valueType: 'option',
+      hideInSearch: true,
       render: (_, record) => (
         <Space size={20}>
           <span
@@ -102,7 +105,6 @@ const TranslateHtmlCache: React.FC<HtmlCacheProps> = (props) => {
         <ProTable<any>
           actionRef={actionRef}
           rowKey="id"
-          search={false}
           ghost
           toolBarRender={() => [
             <Button

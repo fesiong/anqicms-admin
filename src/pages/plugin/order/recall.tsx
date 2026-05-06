@@ -171,6 +171,7 @@ const PluginOrderRecall: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'plugin.order.status' }),
       dataIndex: 'status',
+      hideInSearch: true,
       valueEnum: {
         0: {
           text: intl.formatMessage({ id: 'plugin.order.status.wait' }),
@@ -194,47 +195,6 @@ const PluginOrderRecall: React.FC = () => {
         '-1': {
           text: intl.formatMessage({ id: 'plugin.order.status.closed' }),
         },
-      },
-      renderFormItem: () => {
-        return (
-          <ProFormSelect
-            name="status"
-            request={async () => {
-              return [
-                {
-                  label: intl.formatMessage({ id: 'plugin.order.status.all' }),
-                  value: '',
-                },
-                {
-                  label: intl.formatMessage({ id: 'plugin.order.status.wait' }),
-                  value: 'waiting',
-                },
-                {
-                  label: intl.formatMessage({ id: 'plugin.order.status.paid' }),
-                  value: 'paid',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.order.status.delivery',
-                  }),
-                  value: 'delivery',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.order.status.finished',
-                  }),
-                  value: 'finished',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.order.status.refunding',
-                  }),
-                  value: 'refunding',
-                },
-              ];
-            }}
-          />
-        );
       },
     },
     {
@@ -328,6 +288,7 @@ const PluginOrderRecall: React.FC = () => {
         ]}
         tableAlertOptionRender={false}
         request={(params) => {
+          params.status = 'closed';
           return pluginGetOrders(params);
         }}
         columnsState={{

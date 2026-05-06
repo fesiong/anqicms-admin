@@ -1,7 +1,7 @@
 import NewContainer from '@/components/NewContainer';
 import AttachmentSelect from '@/components/attachment';
-import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import {
   getArchives,
   getCategories,
@@ -123,25 +123,35 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
     if (name.length === 0) {
       return false;
     }
-    values.name = capitalizeFirstLetter(values.name);
-    if (!values.type) {
-      values.type = 'text';
-    }
-    if (currentIndex === -1) {
-      // 不允许重复
-      for (const i in setting) {
-        if (setting[i].name === values.name) {
-          message.error(
-            intl.formatMessage({ id: 'setting.diyfield.name-duplicate' }),
-          );
-          return false;
-        }
+    const normalizedValues = {
+      ...values,
+      name: capitalizeFirstLetter(name),
+      type: values.type || 'text',
+    };
+
+    setSetting((prevSetting) => {
+      // ✅ 检查重复名称
+      const isDuplicate = prevSetting.some(
+        (item: any) => item.name === normalizedValues.name,
+      );
+
+      if (currentIndex === -1 && isDuplicate) {
+        message.error(
+          intl.formatMessage({ id: 'setting.diyfield.name-duplicate' }),
+        );
+        return prevSetting;
       }
-      setting.push(values);
-    } else {
-      setting[currentIndex] = Object.assign(setting[currentIndex], values);
-    }
-    setSetting([].concat(...setting));
+
+      // ✅ 不可变方式更新数组
+      if (currentIndex === -1) {
+        return [...prevSetting, normalizedValues];
+      } else {
+        return prevSetting.map((item: any, index: number) =>
+          index === currentIndex ? { ...item, ...normalizedValues } : item,
+        );
+      }
+    });
+
     setAddFieldOpen(false);
   };
 
@@ -193,13 +203,13 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
     for (const row of rows) {
       let exists = false;
       for (const i in setting[index].value) {
-        if (setting[index].value[i] === row.logo) {
+        if (setting[index].value[i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        setting[index].value.push(row.logo);
+        setting[index].value.push(row.file_path);
       }
     }
 
@@ -211,7 +221,7 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
   };
 
   const handleUploadExtraField = (index: number, row: any) => {
-    handleUpdateFieldValue(index, row.logo);
+    handleUpdateFieldValue(index, row.file_path);
   };
 
   const handleDeleteField = (index: number) => {
@@ -498,7 +508,7 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
                         ref={null}
                       />
                     ) : (
-                      <WangEditor
+                      <NewAiEditor
                         className="mb-normal"
                         setContent={async (val) => {
                           updateExtraContent(index, val);

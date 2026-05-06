@@ -42,6 +42,7 @@ import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import TranslateHtmlCache from './components/htmlCache';
 import TranslateHtmlLog from './components/htmlLog';
+import TranslateTextLog from './components/textLog';
 
 let running = false;
 let intXhr: any = null;
@@ -54,11 +55,13 @@ const PluginMultiLang: React.FC<any> = () => {
   const [currentSite, setCurrentSite] = useState<any>({});
   const [editVisible, setEditVisible] = useState<boolean>(false);
   const [historyVisible, setHistoryVisible] = useState<boolean>(false);
+  const [textLogVisible, setTextLogVisible] = useState<boolean>(false);
   const [cacheVisible, setCacheVisible] = useState<boolean>(false);
   const [addNewSiteVisible, setAddNewSiteVisible] = useState<boolean>(false);
   const [defaultSite, setDefaultSite] = useState<any>({});
   const [langOptions, setLangOptions] = useState<any[]>([]);
   const [siteType, setSiteType] = useState<any>('multi');
+  const [showType, setShowType] = useState<string>('');
   const [syncSite, setSyncSite] = useState<any>(null);
   const [syncConfirmVisible, setSyncConfirmVisible] = useState<boolean>(false);
   const [task, setTask] = useState<any>(null);
@@ -87,6 +90,7 @@ const PluginMultiLang: React.FC<any> = () => {
     // 需要转换数组成字符串
     setting.site_type = setting.site_type || 'multi';
     setSiteType(setting.site_type);
+    setShowType(setting.type);
     setLimiterSetting(setting);
     setFetched(true);
   };
@@ -239,7 +243,7 @@ const PluginMultiLang: React.FC<any> = () => {
   };
 
   const handleSelectImage = (row: any) => {
-    currentSite.language_icon = row.logo;
+    currentSite.language_icon = row.file_path;
     setCurrentSite({ ...currentSite });
   };
 
@@ -444,10 +448,40 @@ const PluginMultiLang: React.FC<any> = () => {
                     }),
                   },
                 ]}
+                fieldProps={{
+                  onChange: (e) => {
+                    setShowType(e.target.value);
+                  },
+                }}
                 extra={intl.formatMessage({
                   id: 'plugin.multilang.type.description',
                 })}
               />
+              {showType === 'directory' && (
+                <ProFormRadio.Group
+                  name="show_main_dir"
+                  label={intl.formatMessage({
+                    id: 'plugin.multilang.show_main_dir',
+                  })}
+                  options={[
+                    {
+                      value: false,
+                      label: intl.formatMessage({
+                        id: 'plugin.multilang.auto_translate.false',
+                      }),
+                    },
+                    {
+                      value: true,
+                      label: intl.formatMessage({
+                        id: 'plugin.multilang.auto_translate.true',
+                      }),
+                    },
+                  ]}
+                  extra={intl.formatMessage({
+                    id: 'plugin.multilang.show_main_dir.description',
+                  })}
+                />
+              )}
               <ProFormSelect
                 name="default_language"
                 label={intl.formatMessage({
@@ -496,29 +530,34 @@ const PluginMultiLang: React.FC<any> = () => {
                 siteType === 'single' && (
                   <>
                     <Button
-                      key="log"
-                      type="primary"
+                      key="manage"
                       onClick={() => {
-                        setHistoryVisible(true);
+                        setTextLogVisible(true);
                       }}
                     >
-                      <FormattedMessage id="plugin.multilang.translate-log" />
+                      <FormattedMessage id="plugin.multilang.text-log.manage" />
                     </Button>
                     <Button
                       key="cache"
-                      type="primary"
                       onClick={() => {
                         setCacheVisible(true);
                       }}
                     >
                       <FormattedMessage id="plugin.multilang.translate-cache" />
                     </Button>
+                    <Button
+                      key="log"
+                      onClick={() => {
+                        setHistoryVisible(true);
+                      }}
+                    >
+                      <FormattedMessage id="plugin.multilang.translate-log" />
+                    </Button>
                   </>
                 ),
                 limiterSetting.open && (
                   <Button
                     key="add"
-                    type="primary"
                     onClick={() => {
                       setCurrentSite({});
                       setEditVisible(true);
@@ -566,13 +605,6 @@ const PluginMultiLang: React.FC<any> = () => {
               request={async () => {
                 const res = await pluginGetMultiLangValidSites({});
                 const data = res.data.map((item: any) => {
-                  console.log(
-                    item.parent_id,
-                    item.status,
-                    item.parent_id > 0,
-                    item.status !== true,
-                    item.parent_id > 0 || item.status !== true,
-                  );
                   return {
                     label: item.name + '(ID:' + item.id + ')',
                     value: item.id,
@@ -722,6 +754,12 @@ const PluginMultiLang: React.FC<any> = () => {
       >
         <FormattedMessage id="plugin.multilang.sync.content" />
       </Modal>
+      {textLogVisible && (
+        <TranslateTextLog
+          open={textLogVisible}
+          onCancel={() => setTextLogVisible(false)}
+        />
+      )}
     </PageContainer>
   );
 };

@@ -49,6 +49,21 @@ export default [
         name: 'waybill',
         component: '@/pages/plugin/order/waybill',
       },
+      {
+        path: '/order/communication',
+        name: 'communication',
+        component: '@/pages/plugin/order/communication',
+      },
+      {
+        path: '/order/service',
+        name: 'service',
+        component: '@/pages/plugin/order/service',
+      },
+      {
+        path: '/order/shipping',
+        name: 'shipping',
+        component: '@/pages/plugin/shipping/index',
+      },
     ],
   },
   {
@@ -62,15 +77,25 @@ export default [
         component: '@/pages/content/product/index',
       },
       {
+        hideInMenu: true,
+        path: '/product/detail',
+        component: '@/pages/content/product/detail',
+      },
+      {
         path: '/product/category',
         name: 'category',
         component: '@/pages/content/category/product/index',
       },
       {
-        path: '/product/inventory',
-        name: 'inventory',
-        component: '@/pages/content/product/inventory',
+        hideInMenu: true,
+        path: '/product/category/detail',
+        component: '@/pages/content/category/product/detail',
       },
+      // {
+      //   path: '/product/inventory',
+      //   name: 'inventory',
+      //   component: '@/pages/content/product/inventory',
+      // },
       {
         path: '/product/review',
         name: 'review',
@@ -115,15 +140,24 @@ export default [
       //   name: 'promotion',
       //   component: '@/pages/promotion/index',
       // },
-      // {
-      //   path: '/promotion/automation',
-      //   name: 'automation',
-      //   component: '@/pages/promotion/automation',
-      // },
+      {
+        path: '/promotion/automation',
+        name: 'automation',
+        component: '@/pages/plugin/sendmail/index',
+      },
       {
         path: '/promotion/subscription',
         name: 'subscription',
         component: '@/pages/promotion/subscription',
+      },
+      {
+        path: '/promotion/googlemerchant',
+        name: 'googlemerchant',
+        component: '@/pages/promotion/googlemerchant/index',
+      },
+      {
+        path: '/promotion/googlemerchant/callback',
+        component: '@/pages/promotion/googlemerchant/callback',
       },
     ],
   },
@@ -131,12 +165,11 @@ export default [
     path: '/sale',
     name: 'sale',
     icon: 'percentage',
-    component: '@/pages/sale/index',
     routes: [
       {
         path: '/sale/index',
         name: 'coupon',
-        component: '@/pages/sale/index',
+        component: '@/pages/sale/coupon',
       },
       {
         path: '/sale/sales',
@@ -144,25 +177,25 @@ export default [
         component: '@/pages/sale/sales',
       },
       {
-        path: '/sale/popup',
-        name: 'popup',
-        component: '@/pages/sale/popup',
+        path: '/sale/activity',
+        name: 'activity',
+        component: '@/pages/sale/activity',
       },
-      {
-        path: '/sale/package',
-        name: 'package',
-        component: '@/pages/sale/package',
-      },
-      {
-        path: '/sale/freeshipping',
-        name: 'freeshipping',
-        component: '@/pages/sale/freeshipping',
-      },
-      {
-        path: '/sale/buygifts',
-        name: 'buygifts',
-        component: '@/pages/sale/buygifts',
-      },
+      // {
+      //   path: '/sale/package',
+      //   name: 'package',
+      //   component: '@/pages/sale/package',
+      // },
+      // {
+      //   path: '/sale/freeshipping',
+      //   name: 'freeshipping',
+      //   component: '@/pages/sale/freeshipping',
+      // },
+      // {
+      //   path: '/sale/buygifts',
+      //   name: 'buygifts',
+      //   component: '@/pages/sale/buygifts',
+      // },
     ],
   },
   {
@@ -411,6 +444,13 @@ export default [
         icon: 'finance',
       },
       {
+        path: '/plugin/shipping',
+        name: 'shipping',
+        type: 'shop',
+        component: '@/pages/plugin/shipping/index',
+        icon: 'shipping',
+      },
+      {
         path: '/plugin/retailer',
         name: 'retailer',
         type: 'shop',
@@ -567,9 +607,9 @@ export default [
     access: 'canAdmin',
     routes: [
       {
-        path: '/statistic/traffic',
-        name: 'traffic',
-        component: '@/pages/statistic/traffic',
+        path: '/statistic/liveview',
+        name: 'liveview',
+        component: '@/pages/statistic/liveview',
       },
       {
         path: '/statistic/conversion',
@@ -597,14 +637,15 @@ export default [
         component: '@/pages/statistic/search',
       },
       {
+        hideInMenu: true,
+        path: '/statistic/search/detail',
+        name: 'searchdetail',
+        component: '@/pages/statistic/searchDetail',
+      },
+      {
         path: '/statistic/coupons',
         name: 'coupons',
         component: '@/pages/statistic/coupons',
-      },
-      {
-        path: '/statistic/liveview',
-        name: 'liveview',
-        component: '@/pages/statistic/liveview',
       },
       {
         path: '/statistic/spider',
@@ -617,6 +658,7 @@ export default [
         component: '@/pages/statistic/traffic',
       },
       {
+        hideInMenu: true,
         path: '/statistic/detail',
         name: 'detail',
         component: '@/pages/statistic/detail',
@@ -627,6 +669,7 @@ export default [
         component: '@/pages/statistic/include',
       },
       {
+        hideInMenu: true,
         path: '/statistic/include/detail',
         name: 'includedetail',
         component: '@/pages/statistic/include/detail',
@@ -646,6 +689,11 @@ export default [
         component: './setting/system',
       },
       {
+        path: '/setting/contact',
+        name: 'contact',
+        component: './setting/contact',
+      },
+      {
         path: '/setting/content',
         name: 'content',
         component: './setting/content',
@@ -659,11 +707,6 @@ export default [
         path: '/setting/sensitive',
         name: 'sensitive',
         component: './setting/sensitive',
-      },
-      {
-        path: '/setting/contact',
-        name: 'contact',
-        component: './setting/contact',
       },
       {
         path: '/setting/tdk',
@@ -684,6 +727,16 @@ export default [
         path: '/setting/diyfield',
         name: 'diy',
         component: './setting/diyfield',
+      },
+      {
+        path: '/setting/currency',
+        name: 'currency',
+        component: './setting/currency',
+      },
+      {
+        path: '/setting/pay',
+        name: 'pay',
+        component: '@/pages/plugin/pay/index',
       },
     ],
   },

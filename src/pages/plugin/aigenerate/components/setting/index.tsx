@@ -67,7 +67,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
 
   handleSubmit = async (values: any) => {
     const { setting } = this.state;
-    if (values.demand.length > 500) {
+    if (values.demand.length > 2000) {
       message.error(
         this.props.intl.formatMessage({
           id: 'plugin.aigenerate.demand.required',
@@ -170,13 +170,13 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     for (const row of rows) {
       let exists = false;
       for (let i in setting['images']) {
-        if (setting['images'][i] === row.logo) {
+        if (setting['images'][i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        setting['images'].push(row.logo);
+        setting['images'].push(row.file_path);
       }
     }
     this.setState({

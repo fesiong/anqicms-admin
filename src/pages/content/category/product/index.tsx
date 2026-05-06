@@ -11,7 +11,6 @@ import {
   ActionType,
   ProColumns,
   ProFormInstance,
-  ProFormSelect,
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
@@ -52,32 +51,19 @@ const ProductCategory: React.FC = () => {
     readModules();
   }, []);
 
-  const onSelectModule = (id: number) => {
-    lastParams.module_id = id;
-    setModuleId(id);
-    formRef.current?.setFieldsValue({
-      module_id: id,
-      category_id: 0,
-    });
-    history.replace('/archive/category?module_id=' + id);
-    formRef.current?.submit();
-  };
-
   const beforeSearch = (searchParams: any) => {
     let params = searchParams;
     if (!firstFetch) {
       setFirstFetch(true);
       const searchParams = new URLSearchParams(window.location.search);
-      lastParams.module_id = Number(searchParams.get('module_id') || 0);
+      lastParams.module_id = 2;
       lastParams.category_id = Number(searchParams.get('category_id') || 0);
       lastParams.status = searchParams.get('status') || 'ok';
       formRef.current?.setFieldsValue(lastParams);
       params = lastParams;
     } else {
       lastParams = params;
-      if (params.module_id !== moduleId) {
-        onSelectModule(params.module_id);
-      }
+      lastParams.module_id = 2;
     }
 
     return params;
@@ -144,7 +130,7 @@ const ProductCategory: React.FC = () => {
 
   const handleEditCategory = async (record: any) => {
     history.push(
-      '/archive/category/detail?id=' +
+      '/product/category/detail?id=' +
         (record.id || 'new') +
         '&parent_id=' +
         record.parent_id,
@@ -157,16 +143,7 @@ const ProductCategory: React.FC = () => {
   };
 
   const handleShowArchives = (record: any) => {
-    history.push('/archive/list?category_id=' + record.id);
-  };
-
-  const getModuleName = (moduleId: number) => {
-    for (let item of modules) {
-      if (moduleId === item.id) {
-        return item.name;
-      }
-    }
-    return null;
+    history.push('/product/index?category_id=' + record.id);
   };
 
   const handleUpdateArchiveCount = () => {
@@ -225,35 +202,6 @@ const ProductCategory: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'content.module.name' }),
-      dataIndex: 'module_id',
-      render: (dom, entity) => {
-        return getModuleName(entity.module_id);
-      },
-      renderFormItem: () => {
-        return (
-          <ProFormSelect
-            name="module_id"
-            request={async () => {
-              let res = await getModules({});
-              const tmpModules = [
-                {
-                  name: intl.formatMessage({ id: 'content.archive.all' }),
-                  id: 0,
-                },
-              ]
-                .concat(res.data || [])
-                .map((item: any) => ({
-                  label: item.name,
-                  value: item.id,
-                }));
-              return tmpModules;
-            }}
-          />
-        );
-      },
-    },
-    {
       title: intl.formatMessage({ id: 'content.category.template' }),
       dataIndex: 'template',
       hideInSearch: true,
@@ -295,7 +243,7 @@ const ProductCategory: React.FC = () => {
               handleShowArchives(record);
             }}
           >
-            <FormattedMessage id="menu.archive.list" />
+            <FormattedMessage id="menu.product.product" />
           </a>
           {!isSubSite && (
             <>
@@ -351,31 +299,6 @@ const ProductCategory: React.FC = () => {
     <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
         key={newKey}
-        headerTitle={
-          <div className="module-tags">
-            <div
-              className={'module-tag ' + (0 === moduleId ? 'active' : '')}
-              onClick={() => {
-                onSelectModule(0);
-              }}
-            >
-              <FormattedMessage id="menu.archive.category" />
-            </div>
-            {modules.map((item: any) => (
-              <div
-                className={
-                  'module-tag ' + (item.id === moduleId ? 'active' : '')
-                }
-                key={item.id}
-                onClick={() => {
-                  onSelectModule(item.id);
-                }}
-              >
-                {item.name}
-              </div>
-            ))}
-          </div>
-        }
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -402,7 +325,7 @@ const ProductCategory: React.FC = () => {
               onClick={() => {
                 handleAddMultiCategory({
                   parent_id: 0,
-                  module_id: null,
+                  module_id: 2,
                   status: 1,
                 });
               }}
@@ -417,7 +340,7 @@ const ProductCategory: React.FC = () => {
               onClick={() => {
                 handleEditCategory({
                   parent_id: 0,
-                  module_id: null,
+                  module_id: 2,
                   status: 1,
                 });
               }}
@@ -451,6 +374,7 @@ const ProductCategory: React.FC = () => {
         request={(params) => {
           params.type = 1;
           params.show_type = 1;
+          params.module_id = 2;
           lastParams = params;
           return getCategories(params);
         }}

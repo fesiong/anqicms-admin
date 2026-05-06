@@ -3,7 +3,12 @@ import CollapseItem from '@/components/collaspeItem';
 import NewContainer from '@/components/NewContainer';
 import { getSettingContact, saveSettingContact } from '@/services/setting';
 import { PlusOutlined } from '@ant-design/icons';
-import { ProForm, ProFormText } from '@ant-design/pro-components';
+import {
+  ProForm,
+  ProFormDigit,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Col, message, Modal, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -11,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 const SettingContactFrom: React.FC<any> = () => {
   const [setting, setSetting] = useState<any>(null);
   const [qrcode, setQrcode] = useState<string>('');
+  const [shopLogo, setShopLogo] = useState<string>('');
   const [extraFields, setExtraFields] = useState<any[]>([]);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
@@ -20,6 +26,7 @@ const SettingContactFrom: React.FC<any> = () => {
     let setting = res.data || null;
     setSetting(setting);
     setQrcode(setting?.qrcode || '');
+    setShopLogo(setting?.shop_logo || '');
     setExtraFields(setting.extra_fields || []);
   };
 
@@ -33,14 +40,14 @@ const SettingContactFrom: React.FC<any> = () => {
     getSetting();
   }, []);
 
-  const handleSelectLogo = (row: any) => {
-    setQrcode(row.logo);
+  const handleSelectQrcode = (row: any) => {
+    setQrcode(row.file_path);
     message.success(
       intl.formatMessage({ id: 'setting.system.upload-success' }),
     );
   };
 
-  const handleRemoveLogo = (e: any) => {
+  const handleRemoveQrcode = (e: any) => {
     e.stopPropagation();
     Modal.confirm({
       title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
@@ -50,8 +57,26 @@ const SettingContactFrom: React.FC<any> = () => {
     });
   };
 
+  const handleSelectShopLogo = (row: any) => {
+    setShopLogo(row.file_path);
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
+  };
+
+  const handleRemoveShopLogo = (e: any) => {
+    e.stopPropagation();
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
+      onOk: async () => {
+        setShopLogo('');
+      },
+    });
+  };
+
   const onSubmit = async (values: any) => {
     values.qrcode = qrcode;
+    values.shop_logo = shopLogo;
     values.extra_fields = extraFields;
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
@@ -107,12 +132,12 @@ const SettingContactFrom: React.FC<any> = () => {
               label={intl.formatMessage({ id: 'setting.contact.qrcode' })}
               width="lg"
             >
-              <AttachmentSelect onSelect={handleSelectLogo} open={false}>
+              <AttachmentSelect onSelect={handleSelectQrcode} open={false}>
                 <div className="ant-upload-item">
                   {qrcode ? (
                     <>
                       <img src={qrcode} style={{ width: '100%' }} />
-                      <a className="delete" onClick={handleRemoveLogo}>
+                      <a className="delete" onClick={handleRemoveQrcode}>
                         <FormattedMessage id="setting.system.delete" />
                       </a>
                     </>
@@ -127,6 +152,127 @@ const SettingContactFrom: React.FC<any> = () => {
                 </div>
               </AttachmentSelect>
             </ProFormText>
+
+            <CollapseItem
+              header={intl.formatMessage({ id: 'setting.shop.info' })}
+              showArrow
+              open
+              key="shop"
+            >
+              <ProFormText
+                name="shop_name"
+                label={intl.formatMessage({ id: 'setting.shop.name' })}
+                width="lg"
+                placeholder={intl.formatMessage({ id: 'setting.shop.name' })}
+                extra={intl.formatMessage({
+                  id: 'setting.shop.name-description',
+                })}
+              />
+              <ProFormText
+                label={intl.formatMessage({ id: 'setting.shop.logo' })}
+                width="lg"
+                extra={intl.formatMessage({
+                  id: 'setting.shop.logo-description',
+                })}
+              >
+                <AttachmentSelect onSelect={handleSelectShopLogo} open={false}>
+                  <div className="ant-upload-item">
+                    {shopLogo ? (
+                      <>
+                        <img src={shopLogo} style={{ width: '100%' }} />
+                        <a className="delete" onClick={handleRemoveShopLogo}>
+                          <FormattedMessage id="setting.system.delete" />
+                        </a>
+                      </>
+                    ) : (
+                      <div className="add">
+                        <PlusOutlined />
+                        <div style={{ marginTop: 8 }}>
+                          <FormattedMessage id="setting.system.upload" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </AttachmentSelect>
+              </ProFormText>
+              <ProFormTextArea
+                name="shop_description"
+                label={intl.formatMessage({ id: 'setting.shop.description' })}
+                width="lg"
+                fieldProps={{ rows: 3 }}
+                placeholder={intl.formatMessage({
+                  id: 'setting.shop.description-placeholder',
+                })}
+                extra={intl.formatMessage({
+                  id: 'setting.shop.description-description',
+                })}
+              />
+              <ProFormText
+                name="business_hours"
+                label={intl.formatMessage({
+                  id: 'setting.shop.business-hours',
+                })}
+                width="lg"
+                placeholder={intl.formatMessage({
+                  id: 'setting.shop.business-hours-placeholder',
+                })}
+                extra={intl.formatMessage({
+                  id: 'setting.shop.business-hours-description',
+                })}
+              />
+              <ProFormText
+                name="delivery_location"
+                label={intl.formatMessage({
+                  id: 'setting.shop.delivery-location',
+                })}
+                width="lg"
+                placeholder={intl.formatMessage({
+                  id: 'setting.shop.delivery-location-placeholder',
+                })}
+              />
+              <ProFormText
+                name="delivery_latitude"
+                label={intl.formatMessage({
+                  id: 'setting.shop.delivery-latitude',
+                })}
+                width="lg"
+              />
+              <ProFormText
+                name="delivery_longitude"
+                label={intl.formatMessage({
+                  id: 'setting.shop.delivery-longitude',
+                })}
+                width="lg"
+                extra={intl.formatMessage({
+                  id: 'setting.shop.delivery-longitude-description',
+                })}
+              />
+              <ProFormDigit
+                name="shipping_time"
+                label={intl.formatMessage({ id: 'setting.shop.shipping-time' })}
+                width="lg"
+                fieldProps={{
+                  suffix: intl.formatMessage({
+                    id: 'setting.shop.shipping-time.suffix',
+                  }),
+                }}
+              />
+              <ProFormText
+                name="shipping_time_remark"
+                label={intl.formatMessage({
+                  id: 'setting.shop.shipping-time-description',
+                })}
+                width="lg"
+                placeholder={intl.formatMessage({
+                  id: 'setting.shop.shipping-time-placeholder',
+                })}
+                extra={intl.formatMessage({
+                  id: 'setting.shop.shipping-time-description',
+                })}
+              />
+            </CollapseItem>
+
+
 
             <CollapseItem
               header={intl.formatMessage({ id: 'setting.contact.more' })}

@@ -1,8 +1,8 @@
 import NewContainer from '@/components/NewContainer';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
-import WangEditor from '@/components/editor';
 import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import {
   getArchives,
   getCategories,
@@ -36,6 +36,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../index.less';
 
 const categoryType = 1;
+const moduleId = 2;
 
 const ArchiveCategoryDetail: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
@@ -105,7 +106,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     if (typeof cat.extra === 'undefined' || cat.extra === null) {
       cat.extra = {};
     }
-    let moduleId = cat.module_id || 1;
+    let moduleId = cat.module_id || 2;
     if (parent_id > 0) {
       let parentRes = await getCategoryInfo({
         id: parent_id,
@@ -161,6 +162,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     cat.type = categoryType;
     cat.images = categoryImages;
     cat.logo = categoryLogo;
+    cat.module_id = moduleId;
     if (cat.title === '') {
       message.error(
         intl.formatMessage({ id: 'content.category.input.required' }),
@@ -203,13 +205,13 @@ const ArchiveCategoryDetail: React.FC = () => {
     for (const row of rows) {
       let exists = false;
       for (let i in categoryImages) {
-        if (categoryImages[i] === row.logo) {
+        if (categoryImages[i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        categoryImages.push(row.logo);
+        categoryImages.push(row.file_path);
       }
     }
     setCategoryImages([].concat(categoryImages));
@@ -225,7 +227,7 @@ const ArchiveCategoryDetail: React.FC = () => {
   };
 
   const handleSelectLogo = (row: any) => {
-    setCategoryLogo(row.logo);
+    setCategoryLogo(row.file_path);
     message.success(
       intl.formatMessage({ id: 'setting.system.upload-success' }),
     );
@@ -252,12 +254,12 @@ const ArchiveCategoryDetail: React.FC = () => {
 
   const handleUploadExtraField = (field: string, row: any) => {
     const extra: any = {};
-    extra[field] = row.logo;
+    extra[field] = row.file_path;
     formRef.current?.setFieldsValue({ extra });
     if (!category.extra[field]) {
       category.extra[field] = null;
     }
-    category.extra[field] = row.logo;
+    category.extra[field] = row.file_path;
 
     setCategory(category);
   };
@@ -301,13 +303,13 @@ const ArchiveCategoryDetail: React.FC = () => {
     for (const row of rows) {
       let exists = false;
       for (const i in category.extra[field]) {
-        if (category.extra[field][i] === row.logo) {
+        if (category.extra[field][i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        category.extra[field].push(row.logo);
+        category.extra[field].push(row.file_path);
       }
     }
     const extra: any = {};
@@ -442,31 +444,14 @@ const ArchiveCategoryDetail: React.FC = () => {
             <Row gutter={20}>
               <Col sm={18} xs={24}>
                 <ProFormSelect
-                  name="module_id"
-                  label={intl.formatMessage({ id: 'content.module.name' })}
-                  width="lg"
-                  request={async () => {
-                    return modules;
-                  }}
-                  readonly={
-                    category.id || category.module_id > 0 ? true : false
-                  }
-                  fieldProps={{
-                    fieldNames: {
-                      label: 'name',
-                      value: 'id',
-                    },
-                    onChange: (e) => {
-                      changeModule(e);
-                    },
-                  }}
-                />
-                <ProFormSelect
                   label={intl.formatMessage({ id: 'content.category.parent' })}
                   name="parent_id"
                   width="lg"
                   request={async () => {
-                    let res = await getCategories({ type: categoryType });
+                    let res = await getCategories({
+                      type: categoryType,
+                      module_id: moduleId,
+                    });
                     let categories = res.data || [];
                     // 排除自己
                     if (category.id) {
@@ -1001,7 +986,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                 ref={null}
                               />
                             ) : (
-                              <WangEditor
+                              <NewAiEditor
                                 className="mb-normal"
                                 setContent={(html) =>
                                   updateExtraContent(item.field_name, html)
@@ -1031,7 +1016,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                         ref={editorRef}
                       />
                     ) : (
-                      <WangEditor
+                      <NewAiEditor
                         className="mb-normal"
                         setContent={async (html: string) => {
                           setContent(html);

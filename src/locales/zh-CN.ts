@@ -1,4 +1,5 @@
 import account from './zh-CN/account';
+import common from './zh-CN/common';
 import component from './zh-CN/component';
 import content from './zh-CN/content';
 import dashboard from './zh-CN/dashboard';
@@ -27,4 +28,5 @@ export default {
   ...design,
   ...content,
   ...plugin,
+  ...common,
 };

@@ -123,6 +123,47 @@ export async function anqiAiGenerateStreamData(
   });
 }
 
+export async function anqiAiChat(body: any, options?: { [key: string]: any }) {
+  return post({
+    url: '/anqi/ai/chat',
+    body,
+    options,
+  });
+}
+
+export async function anqiAiImageGenerate(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/anqi/ai/image',
+    body,
+    options,
+  });
+}
+
+export async function anqiAiImageConfirm(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/anqi/ai/image/confirm',
+    body,
+    options,
+  });
+}
+
+export async function anqiAiImageHistories(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/anqi/ai/image/histories',
+    params,
+    options,
+  });
+}
+
 export async function anqiExtractDescription(
   body: any,
   options?: { [key: string]: any },

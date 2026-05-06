@@ -1,4 +1,7 @@
 import NewContainer from '@/components/NewContainer';
+import AiImageGenerate from '@/components/aiimage';
+import AttachmentAddUrl from '@/components/attachment/addUrl';
+import ImageItem from '@/components/attachment/image';
 import {
   changeAttachmentCategory,
   changeAttachmentName,
@@ -8,19 +11,17 @@ import {
   scanUploadsAttachment,
   uploadAttachment,
 } from '@/services/attachment';
-import { calculateFileMd5, sizeFormat } from '@/utils';
+import { acceptedExtensions, calculateFileMd5, sizeFormat } from '@/utils';
 import { LoadingOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, injectIntl } from '@umijs/max';
 import {
   Alert,
-  Avatar,
   Button,
   Card,
   Checkbox,
   Col,
   Empty,
-  Image,
   Input,
   Modal,
   Pagination,
@@ -55,9 +56,11 @@ class ImageList extends React.Component<intlProps> {
     currentAttach: {},
     detailVisible: false,
     editVisible: false,
+    addUrlVisible: false,
 
     indeterminate: false,
     selectedAll: false,
+    aiVisible: false,
     kw: '',
     newKey: '',
   };
@@ -475,6 +478,22 @@ class ImageList extends React.Component<intlProps> {
     return pares.join('.');
   };
 
+  handleSubmitAi = () => {
+    this.getImageList();
+    this.setState({
+      aiVisible: false,
+      detailVisible: false,
+    });
+  };
+
+  handleSubmitAddUrl = () => {
+    this.getImageList();
+    this.setState({
+      addUrlVisible: false,
+      detailVisible: false,
+    });
+  };
+
   render() {
     const {
       images,
@@ -489,6 +508,8 @@ class ImageList extends React.Component<intlProps> {
       editVisible,
       indeterminate,
       selectedAll,
+      aiVisible,
+      addUrlVisible,
       newKey,
     } = this.state;
 
@@ -567,13 +588,28 @@ class ImageList extends React.Component<intlProps> {
                   name="file"
                   multiple
                   showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                  accept={acceptedExtensions}
                   customRequest={this.handleUploadImage}
                 >
                   <Button type="primary">
                     <FormattedMessage id="content.attachment.upload" />
                   </Button>
                 </Upload>
+                <Button
+                  type="primary"
+                  onClick={() =>
+                    this.setState({ aiVisible: true, currentAttach: {} })
+                  }
+                >
+                  <FormattedMessage id="component.aiimage.generate" />
+                </Button>
+                <Button
+                  onClick={() =>
+                    this.setState({ addUrlVisible: true, currentAttach: {} })
+                  }
+                >
+                  <FormattedMessage id="content.attachment.add-url" />
+                </Button>
                 <Button onClick={() => this.scanUploadsDir()}>
                   <FormattedMessage id="content.attachment.scan.name" />
                 </Button>
@@ -606,20 +642,13 @@ class ImageList extends React.Component<intlProps> {
                             className="link"
                             onClick={this.handlePreview.bind(this, item)}
                           >
-                            {item.thumb ? (
-                              <Image
-                                className="img"
-                                preview={false}
-                                src={item.thumb + '?t=' + item.updated_time}
-                                alt={item.file_name}
-                              />
-                            ) : (
-                              <Avatar className="default-img" size={120}>
-                                {item.file_location.substring(
-                                  item.file_location.lastIndexOf('.'),
-                                )}
-                              </Avatar>
-                            )}
+                            <ImageItem
+                              isImage={item.is_image}
+                              timestamp={item.updated_time}
+                              src={item.logo || item.file_location}
+                              preview={false}
+                              alt={item.file_name}
+                            />
                           </div>
                           <div className="info">
                             <div>{item.file_name}</div>
@@ -640,7 +669,7 @@ class ImageList extends React.Component<intlProps> {
                     name="file"
                     showUploadList={false}
                     multiple={true}
-                    accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
+                    accept={acceptedExtensions}
                     customRequest={this.handleUploadImage}
                   >
                     <Button type="primary">
@@ -664,7 +693,7 @@ class ImageList extends React.Component<intlProps> {
           </div>
         </Card>
         <Modal
-          width={900}
+          width={1000}
           title={this.props.intl.formatMessage({
             id: 'content.attachment.detail',
           })}
@@ -674,27 +703,20 @@ class ImageList extends React.Component<intlProps> {
         >
           <div className="attachment-detail">
             <div className="preview">
-              {currentAttach.thumb ? (
-                <Image
-                  width={'100%'}
-                  className="img"
-                  preview={{
-                    src:
-                      currentAttach.logo + '?t=' + currentAttach.updated_time,
-                  }}
-                  src={currentAttach.logo + '?t=' + currentAttach.updated_time}
-                  alt={currentAttach.file_name}
-                />
-              ) : (
-                <Avatar className="default-img" size={200}>
-                  {currentAttach.file_location?.substring(
-                    currentAttach.file_location?.lastIndexOf('.'),
-                  )}
-                </Avatar>
-              )}
+              <ImageItem
+                isImage={currentAttach.is_image}
+                timestamp={currentAttach.updated_time}
+                src={currentAttach.logo || currentAttach.file_path}
+                previewSrc={currentAttach.file_path}
+                alt={currentAttach.file_name}
+              />
             </div>
             <div className="detail">
               <div className="info">
+                <div className="item">
+                  <div className="name">ID:</div>
+                  <div className="value">{currentAttach.id}</div>
+                </div>
                 <div className="item">
                   <div className="name">
                     <FormattedMessage id="content.attachment.alt" />:
@@ -726,7 +748,11 @@ class ImageList extends React.Component<intlProps> {
                     <FormattedMessage id="content.attachment.size" />:
                   </div>
                   <div className="value">
-                    {sizeFormat(currentAttach.file_size)}
+                    {currentAttach.is_remote === 1
+                      ? this.props.intl.formatMessage({
+                          id: 'content.attachment.add-url.name',
+                        })
+                      : sizeFormat(currentAttach.file_size)}
                   </div>
                 </div>
                 {currentAttach.width > 0 && (
@@ -735,7 +761,7 @@ class ImageList extends React.Component<intlProps> {
                       <FormattedMessage id="content.attachment.ratio" />:
                     </div>
                     <div className="value">
-                      {currentAttach.width + '×' + currentAttach.height}
+                      {currentAttach.width + 'x' + currentAttach.height}
                     </div>
                   </div>
                 )}
@@ -743,20 +769,31 @@ class ImageList extends React.Component<intlProps> {
                   <div className="name">
                     <FormattedMessage id="content.attachment.address" />:
                   </div>
-                  <div className="value">{currentAttach.logo}</div>
+                  <div className="value">{currentAttach.file_path}</div>
                 </div>
               </div>
               <Space size={16} align="center" className="btns">
-                <Upload
-                  name="file"
-                  showUploadList={false}
-                  accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt"
-                  customRequest={this.handleReplaceAttach}
-                >
-                  <Button>
-                    <FormattedMessage id="content.attachment.replace.name" />
-                  </Button>
-                </Upload>
+                {currentAttach.is_image === 1 &&
+                  currentAttach.is_remote !== 1 && (
+                    <Button
+                      type="primary"
+                      onClick={() => this.setState({ aiVisible: true })}
+                    >
+                      <FormattedMessage id="component.aiimage.edit" />
+                    </Button>
+                  )}
+                {currentAttach.is_remote !== 1 && (
+                  <Upload
+                    name="file"
+                    showUploadList={false}
+                    accept={acceptedExtensions}
+                    customRequest={this.handleReplaceAttach}
+                  >
+                    <Button>
+                      <FormattedMessage id="content.attachment.replace.name" />
+                    </Button>
+                  </Upload>
+                )}
                 <Button onClick={this.handleModifyName}>
                   <FormattedMessage id="content.attachment.edit" />
                 </Button>
@@ -812,6 +849,25 @@ class ImageList extends React.Component<intlProps> {
               }}
             />
           </ModalForm>
+        )}
+        {aiVisible && (
+          <AiImageGenerate
+            onCancel={() => {
+              this.setState({ aiVisible: false });
+            }}
+            onSubmit={this.handleSubmitAi}
+            open={aiVisible}
+            attach={currentAttach}
+            intl={this.props.intl}
+          />
+        )}
+        {addUrlVisible && (
+          <AttachmentAddUrl
+            onCancel={() => this.setState({ addUrlVisible: false })}
+            onSubmit={this.handleSubmitAddUrl}
+            open={addUrlVisible}
+            intl={this.props.intl}
+          />
         )}
       </NewContainer>
     );

@@ -32,3 +32,36 @@ export async function pluginSaveTranslateConfig(
     options,
   });
 }
+
+export async function pluginTranslateTextLogs(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/plugin/translate/log/texts',
+    params,
+    options,
+  });
+}
+
+export async function pluginSaveTranslateTextLog(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/translate/log/text/save',
+    body,
+    options,
+  });
+}
+
+export async function pluginDeleteTranslateTextLog(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/translate/log/text/remove',
+    body,
+    options,
+  });
+}

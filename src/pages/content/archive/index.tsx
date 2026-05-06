@@ -106,7 +106,8 @@ const ArchiveList: React.FC = () => {
   };
 
   const loadModules = async () => {
-    let res = await getModules({});
+    // 排除产品
+    let res = await getModules({ exclude_id: 2 });
     setModules(
       [
         { title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 },
@@ -556,7 +557,11 @@ const ArchiveList: React.FC = () => {
       render: (dom, entity) => {
         return (
           <div style={{ maxWidth: 400 }}>
-            <a href={entity.link} target="_blank">
+            <a
+              href={entity.link + (entity.status !== 1 ? '?preview=true' : '')}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               {latestUpdateId === entity.id && (
                 <Tooltip
                   title={intl.formatMessage({ id: 'content.latest-update' })}
@@ -598,6 +603,7 @@ const ArchiveList: React.FC = () => {
                 },
               ]
                 .concat(res.data || [])
+                .filter((item: any) => item.id !== 2)
                 .map((item: any) => ({
                   label: item.name,
                   value: item.id,
@@ -635,6 +641,7 @@ const ArchiveList: React.FC = () => {
                 },
               ]
                 .concat(res.data || [])
+                .filter((item: any) => item.module_id !== 2)
                 .map((cat: any) => ({
                   spacer: cat.spacer,
                   label:

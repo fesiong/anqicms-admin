@@ -1,6 +1,7 @@
 import {
   pluginDeleteUserField,
   pluginGetUserFieldsSetting,
+  pluginGetUserGroups,
   pluginSaveUserFieldsSetting,
 } from '@/services';
 import {
@@ -8,6 +9,7 @@ import {
   ModalForm,
   ProColumns,
   ProFormRadio,
+  ProFormSelect,
   ProFormText,
   ProFormTextArea,
   ProTable,
@@ -88,17 +90,38 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
   };
 
   const handleSaveSetting = async () => {
-    const res = await pluginSaveUserFieldsSetting(setting);
-
-    if (res.code === 0) {
-      message.success(res.msg);
-      setEditVisible(false);
-      if (actionRef.current) {
-        actionRef.current.reload();
-      }
-    } else {
-      message.error(res.msg);
+    if (loading) {
+      return;
     }
+    setLoading(true);
+    const hide = message.loading('loading', 0);
+    try {
+      const res = await pluginSaveUserFieldsSetting(setting);
+
+      if (res.code === 0) {
+        message.success(res.msg);
+        setEditVisible(false);
+        if (actionRef.current) {
+          actionRef.current.reload();
+        }
+      } else {
+        message.error(res.msg);
+      }
+    } catch (error: any) {
+      message.error(error.message || 'Error');
+    }
+    hide();
+    setLoading(false);
+  };
+
+  const handleSetDefaultStatus = (e: any) => {
+    setting.default_status = e.target.value;
+    setSetting(setting);
+  };
+
+  const handleSetDefaultGroupId = (e: any) => {
+    setting.default_group_id = e;
+    setSetting(setting);
   };
 
   const columns: ProColumns<any>[] = [
@@ -174,6 +197,50 @@ const UserFieldSetting: React.FC<UserFieldSettingProps> = (props) => {
           handleSaveSetting();
         }}
       >
+        <ProFormSelect
+          label={intl.formatMessage({ id: 'plugin.user.default_group_id' })}
+          name="group_id"
+          request={async () => {
+            const res = await pluginGetUserGroups();
+            return res.data || [];
+          }}
+          fieldProps={{
+            fieldNames: {
+              label: 'title',
+              value: 'id',
+            },
+            defaultValue: setting.default_group_id,
+          }}
+          extra={intl.formatMessage({
+            id: 'plugin.user.default_group_id.description',
+          })}
+          onChange={handleSetDefaultGroupId}
+        />
+        <ProFormRadio.Group
+          label={intl.formatMessage({ id: 'plugin.user.default_status' })}
+          name="default_status"
+          options={[
+            {
+              label: intl.formatMessage({ id: 'plugin.user.normal' }),
+              value: 'normal',
+            },
+            {
+              label: intl.formatMessage({ id: 'plugin.user.pending' }),
+              value: 'pending',
+            },
+            {
+              label: intl.formatMessage({ id: 'plugin.user.blocked' }),
+              value: 'blocked',
+            },
+          ]}
+          fieldProps={{
+            onChange: handleSetDefaultStatus,
+            defaultValue: setting.default_status,
+          }}
+          extra={intl.formatMessage({
+            id: 'plugin.user.default_status.description',
+          })}
+        />
         <ProTable<any>
           rowKey="name"
           search={false}

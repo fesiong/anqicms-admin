@@ -102,7 +102,7 @@ const SettingBannerFrom: React.FC<any> = () => {
   };
 
   const handleSelectLogo = (row: any) => {
-    editingBanner.logo = row.logo;
+    editingBanner.logo = row.file_path;
     setEditingBanner(Object.assign({}, editingBanner));
   };
 

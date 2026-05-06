@@ -81,6 +81,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       if (data.expire_time) {
         data.expire_time = dayjs(data.expire_time * 1000);
       }
+      if (data.birthday) {
+        data.birthday = dayjs(data.birthday * 1000);
+      }
       if (data.avatar_url) {
         data.avatar_url = data.full_avatar_url;
       }
@@ -121,12 +124,17 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     formRef?.current?.setFieldsValue({ extra });
 
     delete user.extra[field];
-    setUser(user);
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const handleUploadExtraField = (field: string, row: any) => {
     const extra: any = {};
-    extra[field] = { value: row.logo };
+    extra[field] = { value: row.file_path };
     formRef?.current?.setFieldsValue({ extra });
     if (!user.extra) {
       user.extra = {};
@@ -134,9 +142,14 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     if (!user.extra[field]) {
       user.extra[field] = {};
     }
-    user.extra[field].value = row.logo;
+    user.extra[field].value = row.file_path;
 
-    setUser(user);
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const handleMoveExtraFieldItem = (
@@ -159,7 +172,13 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       user.extra[field].value[index] = user.extra[field].value[index + 1];
       user.extra[field].value[index + 1] = temp;
     }
-    setUser(Object.assign({}, user));
+
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const handleCleanExtraFieldItem = (field: string, index: number) => {
@@ -168,7 +187,13 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     extra[field] = { value: user.extra[field]?.value };
     formRef?.current?.setFieldsValue({ extra });
 
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...prevUser.extra,
+        [field]: user.extra[field],
+      },
+    }));
   };
 
   const handleUploadExtraFieldItem = (field: string, rows: any) => {
@@ -181,20 +206,26 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     for (const row of rows) {
       let exists = false;
       for (const i in user.extra[field].value) {
-        if (user.extra[field].value[i] === row.logo) {
+        if (user.extra[field].value[i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        user.extra[field].value.push(row.logo);
+        user.extra[field].value.push(row.file_path);
       }
     }
     const extra: any = {};
     extra[field] = { value: user.extra[field].value };
     formRef?.current?.setFieldsValue({ extra });
 
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...prevUser.extra,
+        [field]: user.extra[field],
+      },
+    }));
   };
 
   const onAddExtraTextsField = (field: string) => {
@@ -208,7 +239,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     const extra: any = {};
     extra[field] = { value: user.extra[field].value };
     formRef?.current?.setFieldsValue({ extra });
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const onChangeExtraTextsField = (
@@ -224,7 +260,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     const extra: any = {};
     extra[field] = { idx: { keyName: value } };
     formRef?.current?.setFieldsValue({ extra });
-    setUser(user);
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      extra: {
+        ...user.extra,
+      },
+    }));
   };
 
   const onMoveUpExtraTextsField = (field: string, idx: number) => {
@@ -236,7 +277,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       const extra: any = {};
       extra[field] = { value: user.extra[field].value };
       formRef?.current?.setFieldsValue({ extra });
-      setUser(Object.assign({}, user));
+      setUser((prevUser: any) => ({
+        ...prevUser,
+        extra: {
+          ...user.extra,
+        },
+      }));
     }
   };
 
@@ -249,7 +295,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       const extra: any = {};
       extra[field] = { value: user.extra[field].value };
       formRef?.current?.setFieldsValue({ extra });
-      setUser(Object.assign({}, user));
+      setUser((prevUser: any) => ({
+        ...prevUser,
+        extra: {
+          ...user.extra,
+        },
+      }));
     }
   };
 
@@ -267,7 +318,12 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         } else {
           user.extra[field].value.splice(idx, 1);
         }
-        setUser(Object.assign({}, user));
+        setUser((prevUser: any) => ({
+          ...prevUser,
+          extra: {
+            ...user.extra,
+          },
+        }));
         const extra: any = {};
         extra[field] = { value: user.extra[field].value };
         formRef?.current?.setFieldsValue({ extra });
@@ -295,12 +351,18 @@ const UserForm: React.FC<UserFormProps> = (props) => {
 
   const handleDeleteAvatarUrl = () => {
     user.avatar_url = '';
-    setUser(Object.assign({}, user));
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      avatar_url: '',
+    }));
   };
 
   const handleUploadAvatarUrl = (row: any) => {
-    user.avatar_url = row.logo;
-    setUser(Object.assign({}, user));
+    user.avatar_url = row.file_path;
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      avatar_url: row.file_path,
+    }));
   };
 
   return fetched ? (
@@ -356,6 +418,22 @@ const UserForm: React.FC<UserFormProps> = (props) => {
       <ProFormText
         name="user_name"
         label={intl.formatMessage({ id: 'plugin.user.user-name' })}
+      />
+      <ProFormText
+        name="first_name"
+        label={intl.formatMessage({ id: 'plugin.user.first-name' })}
+      />
+      <ProFormText
+        name="last_name"
+        label={intl.formatMessage({ id: 'plugin.user.last-name' })}
+      />
+      <ProFormDatePicker
+        name="birthday"
+        label={intl.formatMessage({ id: 'plugin.user.birthday' })}
+        width="lg"
+        transform={(value, namePath) => {
+          return { [namePath]: dayjs(value).unix() };
+        }}
       />
       <ProFormText
         name="real_name"
@@ -425,6 +503,24 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         transform={(value, namePath) => {
           return { [namePath]: dayjs(value).unix() };
         }}
+      />
+      <ProFormRadio.Group
+        label={intl.formatMessage({ id: 'website.status' })}
+        name="status"
+        options={[
+          {
+            label: intl.formatMessage({ id: 'plugin.user.normal' }),
+            value: 1,
+          },
+          {
+            label: intl.formatMessage({ id: 'plugin.user.pending' }),
+            value: 0,
+          },
+          {
+            label: intl.formatMessage({ id: 'plugin.user.blocked' }),
+            value: -1,
+          },
+        ]}
       />
       <Divider>
         <FormattedMessage id="plugin.user.extra-fields" />
@@ -629,7 +725,15 @@ const UserForm: React.FC<UserFormProps> = (props) => {
           >
             {user.extra?.[item.field_name]?.value ? (
               <div className="ant-upload-item ant-upload-file">
-                <span>{user.extra[item.field_name]?.value}</span>
+                <div style={{ height: 60 }}>
+                  <a
+                    href={user.extra[item.field_name]?.value}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {user.extra[item.field_name]?.value}
+                  </a>
+                </div>
                 <span
                   className="delete"
                   onClick={() => handleCleanExtraField(item.field_name)}

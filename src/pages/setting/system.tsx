@@ -48,7 +48,7 @@ const SettingSystemFrom: React.FC<any> = () => {
   }, []);
 
   const handleSelectLogo = (row: any) => {
-    setSiteLogo(row.logo);
+    setSiteLogo(row.file_path);
     message.success(
       intl.formatMessage({ id: 'setting.system.upload-success' }),
     );
@@ -182,6 +182,14 @@ const SettingSystemFrom: React.FC<any> = () => {
                   }),
                 },
               ]}
+            />
+            <ProFormText
+              name="front_url"
+              label={intl.formatMessage({ id: 'setting.system.front-url' })}
+              width="lg"
+              extra={intl.formatMessage({
+                id: 'setting.system.front-url-description',
+              })}
             />
             <ProFormText
               name="mobile_url"

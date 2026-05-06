@@ -5,9 +5,15 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 import defaultSettings from './defaultSettings';
 import routes from './routes';
 
+let publicPath = '/system/';
+
+if (typeof window !== 'undefined' && window.APP_CONFIG) {
+  publicPath = window.APP_CONFIG.apiBaseUrl;
+}
+
 export default defineConfig({
-  base: '/system/',
-  publicPath: '/system/',
+  base: publicPath,
+  publicPath: publicPath,
   /**
    * @name 开启 hash 模式
    * @description 让 build 之后的产物包含 hash 后缀。通常用于增量发布和避免浏览器加载缓存。
@@ -59,10 +65,10 @@ export default defineConfig({
    * @name <head> 中额外的 script
    * @description 配置 <head> 中额外的 script
    */
-  headScripts: [
-    // 解决首次加载时白屏的问题
-    { src: '/system/scripts/loading.js', async: true },
-  ],
+  // headScripts: [
+  //   // 解决首次加载时白屏的问题
+  //   { src: publicPath + 'scripts/loading.js', async: true },
+  // ],
   /**
    * @name 兼容性设置
    * @description 设置 ie11 不一定完美兼容，需要检查自己使用的所有依赖
@@ -97,7 +103,7 @@ export default defineConfig({
    */
   ignoreMomentLocale: false,
   manifest: {
-    basePath: '/system/',
+    basePath: publicPath,
   },
   /**
    * @name 快速热更新配置

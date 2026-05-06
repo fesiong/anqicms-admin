@@ -1,4 +1,5 @@
 import account from './en-US/account';
+import common from './en-US/common';
 import component from './en-US/component';
 import content from './en-US/content';
 import dashboard from './en-US/dashboard';
@@ -27,4 +28,5 @@ export default {
   ...design,
   ...content,
   ...plugin,
+  ...common,
 };

@@ -6,7 +6,6 @@ import {
   anqiTranslateArchive,
   deleteArchive,
   getArchives,
-  getModules,
   getSettingContent,
   updateArchivesCategory,
   updateArchivesFlag,
@@ -72,8 +71,7 @@ const ProductList: React.FC = () => {
   const [categoryVisible, setCategoryVisible] = useState<boolean>(false);
   const [timeVisible, setTimeVisible] = useState<boolean>(false);
   const [releaseVisible, setReleaseVisible] = useState<boolean>(false);
-  const [modules, setModules] = useState<any[]>([]);
-  const [moduleId, setModuleId] = useState<number>(0);
+  const [moduleId, setModuleId] = useState<number>(2);
   const [contentSetting, setContentSetting] = useState<any>({});
   const [currentArchive, setCurrentArchive] = useState<any>({});
   const [quickVisible, setQuickVisible] = useState<boolean>(false);
@@ -103,15 +101,6 @@ const ProductList: React.FC = () => {
       .catch();
   };
 
-  const loadModules = async () => {
-    let res = await getModules({});
-    setModules(
-      [
-        { title: intl.formatMessage({ id: 'content.archive.all' }), id: 0 },
-      ].concat(res.data || []),
-    );
-  };
-
   const loadLatestUpdate = () => {
     let latestUpdate = getStore('latest_update') || {};
     // 最近7天更新过的文档
@@ -124,8 +113,7 @@ const ProductList: React.FC = () => {
   };
 
   const onTabChange = (key: string, isSubSite: boolean) => {
-    setModuleId(lastParams.module_id);
-    loadModules();
+    setModuleId(2);
     loadContentSetting();
     loadLatestUpdate();
 
@@ -134,38 +122,23 @@ const ProductList: React.FC = () => {
   };
 
   useEffect(() => {
-    setModuleId(lastParams.module_id);
-    loadModules();
+    setModuleId(2);
     loadContentSetting();
     loadLatestUpdate();
   }, []);
-
-  const onSelectModule = (id: number) => {
-    lastParams.module_id = id;
-    setModuleId(id);
-    formRef.current?.setFieldsValue({
-      module_id: id,
-      category_id: 0,
-    });
-    history.replace('/archive/list?module_id=' + id);
-    formRef.current?.submit();
-  };
 
   const beforeSearch = (searchParams: any) => {
     let params = searchParams;
     if (!firstFetch) {
       setFirstFetch(true);
       const searchParams = new URLSearchParams(window.location.search);
-      lastParams.module_id = Number(searchParams.get('module_id') || 0);
+      lastParams.module_id = 2;
       lastParams.category_id = Number(searchParams.get('category_id') || 0);
       lastParams.status = searchParams.get('status') || 'ok';
       formRef.current?.setFieldsValue(lastParams);
       params = lastParams;
     } else {
       lastParams = params;
-      if (params.module_id !== moduleId) {
-        onSelectModule(params.module_id);
-      }
     }
 
     return params;
@@ -302,16 +275,15 @@ const ProductList: React.FC = () => {
   };
 
   const handleEditArchive = async (record: any) => {
-    history.push('/archive/detail?id=' + record.id);
+    history.push('/product/detail?id=' + record.id);
   };
 
   const handleCopyArchive = async (record: any) => {
-    history.push('/archive/detail?copyid=' + record.id);
+    history.push('/product/detail?copyid=' + record.id);
   };
 
   const handleShowChildren = (record: any) => {
     setCurrentArchive(record);
-    setChildrenOpen(true);
   };
 
   const handleTranslate = (selectedRowKeys: any[]) => {
@@ -578,33 +550,46 @@ const ProductList: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'content.module.name' }),
-      dataIndex: 'module_id',
-      render: (_: any, entity) => {
-        return entity.module_name;
+      title: intl.formatMessage({ id: 'content.product.type' }),
+      dataIndex: 'product_type',
+      valueEnum: {
+        0: {
+          text: intl.formatMessage({ id: 'content.product.type.all' }),
+        },
+        1: {
+          text: intl.formatMessage({ id: 'content.product.type.normal' }),
+        },
+        2: {
+          text: intl.formatMessage({ id: 'content.product.type.wholesale' }),
+        },
+        3: {
+          text: intl.formatMessage({ id: 'content.product.type.custom' }),
+        },
+        // 4: {
+        //   text: intl.formatMessage({ id: 'content.product.type.virtual' }),
+        // },
+        // 5: {
+        //   text: intl.formatMessage({ id: 'content.product.type.service' }),
+        // },
+        // 6: {
+        //   text: intl.formatMessage({ id: 'content.product.type.subscription' }),
+        // },
       },
-      renderFormItem: () => {
-        return (
-          <ProFormSelect
-            name="module_id"
-            request={async () => {
-              let res = await getModules({});
-              const tmpModules = [
-                {
-                  name: intl.formatMessage({ id: 'content.archive.all' }),
-                  id: 0,
-                },
-              ]
-                .concat(res.data || [])
-                .map((item: any) => ({
-                  label: item.name,
-                  value: item.id,
-                }));
-              return tmpModules;
-            }}
-          />
-        );
+    },
+    {
+      title: intl.formatMessage({ id: 'content.price.name' }),
+      dataIndex: 'price',
+      hideInSearch: true,
+      width: 70,
+      render: (_, record) => {
+        return record.price > 0 ? (record.price / 100).toFixed(2) : null;
       },
+    },
+    {
+      title: intl.formatMessage({ id: 'content.stock.name' }),
+      dataIndex: 'stock',
+      hideInSearch: true,
+      width: 70,
     },
     {
       title: intl.formatMessage({ id: 'content.category.name' }),
@@ -834,27 +819,6 @@ const ProductList: React.FC = () => {
     <NewContainer onTabChange={onTabChange}>
       <ProTable<any>
         key={newKey}
-        headerTitle={
-          <div className="module-tags">
-            {modules.map((item: any) => (
-              <div
-                className={
-                  'module-tag ' + (item.id === moduleId ? 'active' : '')
-                }
-                key={item.id}
-                onClick={() => {
-                  onSelectModule(item.id);
-                }}
-              >
-                {item.id === 0
-                  ? intl.formatMessage({
-                      id: 'content.archive.all',
-                    })
-                  : item.name}
-              </div>
-            ))}
-          </div>
-        }
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -868,14 +832,6 @@ const ProductList: React.FC = () => {
         beforeSearchSubmit={beforeSearch}
         toolBarRender={() => [
           <Button
-            key="recycle"
-            onClick={() => {
-              history.push('/archive/recycle');
-            }}
-          >
-            <FormattedMessage id="content.recycle.name" />
-          </Button>,
-          <Button
             key="import"
             onClick={() => {
               setImportVisible(true);
@@ -883,27 +839,15 @@ const ProductList: React.FC = () => {
           >
             <FormattedMessage id="content.quick-import.name" />
           </Button>,
-          <Button
-            key="replace"
-            onClick={() => {
-              setReplaceVisible(true);
-            }}
-          >
-            <FormattedMessage id="content.replace.name" />
-          </Button>,
           !isSubSite && (
             <Button
               type="primary"
               key="add"
               onClick={() => {
-                if (moduleId > 0) {
-                  history.push('/archive/detail?module_id=' + moduleId);
-                } else {
-                  history.push('/archive/detail');
-                }
+                history.push('/product/detail');
               }}
             >
-              <PlusOutlined /> <FormattedMessage id="content.archive.add" />
+              <PlusOutlined /> <FormattedMessage id="content.product.add" />
             </Button>
           ),
         ]}

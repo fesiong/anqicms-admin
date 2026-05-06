@@ -6,7 +6,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
-import { Card, message } from 'antd';
+import { Card, Divider, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const PluginGoogle: React.FC<any> = () => {
@@ -92,6 +92,16 @@ const PluginGoogle: React.FC<any> = () => {
                 })}
                 extra={intl.formatMessage({
                   id: 'plugin.google.client-secret.description',
+                })}
+              />
+              <Divider></Divider>
+              <ProFormText
+                name="places_api_key"
+                label={intl.formatMessage({
+                  id: 'plugin.google.places-api-key',
+                })}
+                extra={intl.formatMessage({
+                  id: 'plugin.google.places-api-key.description',
                 })}
               />
             </ProForm>

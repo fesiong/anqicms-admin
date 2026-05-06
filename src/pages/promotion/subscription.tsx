@@ -113,6 +113,10 @@ const PromotionSubscription: React.FC = () => {
       dataIndex: 'email',
     },
     {
+      title: intl.formatMessage({ id: 'plugin.subscription.remark' }),
+      dataIndex: 'remark',
+    },
+    {
       title: intl.formatMessage({ id: 'plugin.subscription.status' }),
       dataIndex: 'status',
       valueEnum: {
@@ -156,7 +160,7 @@ const PromotionSubscription: React.FC = () => {
           >
             <FormattedMessage id="setting.action.edit" />
           </a>
-          <a onClick={() => handleDelete(record)}>
+          <a onClick={() => handleDelete([record.id])}>
             <FormattedMessage id="setting.system.delete" />
           </a>
         </Space>

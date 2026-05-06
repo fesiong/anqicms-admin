@@ -1,6 +1,9 @@
 import { get, post } from './tools';
 
-export async function getAttachments(params?: any, options?: { [key: string]: any }) {
+export async function getAttachments(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/attachment/list',
     params,
@@ -8,7 +11,10 @@ export async function getAttachments(params?: any, options?: { [key: string]: an
   });
 }
 
-export async function uploadAttachment(body: any, options?: { [key: string]: any }) {
+export async function uploadAttachment(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/attachment/upload',
     body,
@@ -16,7 +22,10 @@ export async function uploadAttachment(body: any, options?: { [key: string]: any
   });
 }
 
-export async function scanUploadsAttachment(body: any, options?: { [key: string]: any }) {
+export async function scanUploadsAttachment(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/attachment/scan',
     body,
@@ -24,7 +33,10 @@ export async function scanUploadsAttachment(body: any, options?: { [key: string]
   });
 }
 
-export async function changeAttachmentName(body: any, options?: { [key: string]: any }) {
+export async function changeAttachmentName(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/attachment/edit',
     body,
@@ -32,7 +44,10 @@ export async function changeAttachmentName(body: any, options?: { [key: string]:
   });
 }
 
-export async function deleteAttachment(body: any, options?: { [key: string]: any }) {
+export async function deleteAttachment(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/attachment/delete',
     body,
@@ -40,7 +55,10 @@ export async function deleteAttachment(body: any, options?: { [key: string]: any
   });
 }
 
-export async function getAttachmentCategories(params?: any, options?: { [key: string]: any }) {
+export async function getAttachmentCategories(
+  params?: any,
+  options?: { [key: string]: any },
+) {
   return get({
     url: '/attachment/category/list',
     params,
@@ -48,7 +66,10 @@ export async function getAttachmentCategories(params?: any, options?: { [key: st
   });
 }
 
-export async function changeAttachmentCategory(body: any, options?: { [key: string]: any }) {
+export async function changeAttachmentCategory(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/attachment/category',
     body,
@@ -56,7 +77,10 @@ export async function changeAttachmentCategory(body: any, options?: { [key: stri
   });
 }
 
-export async function saveAttachmentCategory(body: any, options?: { [key: string]: any }) {
+export async function saveAttachmentCategory(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/attachment/category/detail',
     body,
@@ -64,9 +88,23 @@ export async function saveAttachmentCategory(body: any, options?: { [key: string
   });
 }
 
-export async function deleteAttachmentCategory(body: any, options?: { [key: string]: any }) {
+export async function deleteAttachmentCategory(
+  body: any,
+  options?: { [key: string]: any },
+) {
   return post({
     url: '/attachment/category/delete',
+    body,
+    options,
+  });
+}
+
+export async function addUrlToAttachment(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/attachment/addurl',
     body,
     options,
   });

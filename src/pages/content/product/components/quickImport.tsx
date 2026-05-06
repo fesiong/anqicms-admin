@@ -84,13 +84,13 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
     for (const row of rows) {
       let exists = false;
       for (let i in images) {
-        if (images[i] === row.logo) {
+        if (images[i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        images.push(row.logo);
+        images.push(row.file_path);
       }
     }
 

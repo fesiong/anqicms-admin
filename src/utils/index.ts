@@ -9,6 +9,8 @@ import { getSessionStore, getStore } from './store';
  */
 export const checkLogin = (permits: any): boolean => !!permits;
 
+export const acceptedExtensions =
+  '.jpg,.jpeg,.png,.gif,.webp,.svg,.bmp,.tiff,.avif,.webm,.mp4,.mp3,.zip,.rar,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.txt';
 export const queryParams = (params: any) => {
   let _result = [];
   for (let key in params) {
