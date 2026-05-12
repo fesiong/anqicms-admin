@@ -1,5 +1,5 @@
 export default {
-  'menu.dashboard': 'Dashboard',
+  'menu.dashboard': 'Home',
   'menu.setting': 'Settings',
   'menu.setting.system': 'Global Settings',
   'menu.setting.content': 'Content Settings',

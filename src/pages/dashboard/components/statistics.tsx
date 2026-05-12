@@ -74,7 +74,7 @@ const StatisticsRow = ({
                 label={intl.formatMessage({ id: 'dashboard.component.today' })}
                 value={data.archive_count?.today || 0}
               />
-              <Link to={'/archive/list?status=plan'}>
+              <Link to={'/product/index?status=plan'}>
                 <Field
                   label={intl.formatMessage({
                     id: 'dashboard.component.unrelease',
@@ -82,7 +82,7 @@ const StatisticsRow = ({
                   value={data.archive_count?.un_release || 0}
                 />
               </Link>
-              <Link to={'/archive/list?status=draft'}>
+              <Link to={'/product/index?status=draft'}>
                 <Field
                   label={intl.formatMessage({
                     id: 'dashboard.component.draft',

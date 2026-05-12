@@ -4,7 +4,8 @@ import { PageContainer } from '@ant-design/pro-components';
 import { useEffect, useState } from 'react';
 
 export type NewContainerProps = {
-  title?: string;
+  title?: any;
+  extra?: React.ReactNode;
   onTabChange?: (key: string, isSubsite: boolean) => void;
   children: React.ReactNode;
 };
@@ -66,6 +67,7 @@ const NewContainer: React.FC<NewContainerProps> = (props) => {
       tabActiveKey={activeKey}
       onTabChange={handleChangeSite}
       title={props.title}
+      extra={props.extra}
     >
       {props.children}
     </PageContainer>

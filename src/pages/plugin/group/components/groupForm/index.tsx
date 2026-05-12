@@ -47,7 +47,10 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
         onSubmit(values);
       }}
     >
-      <ProFormText name="title" label={intl.formatMessage({ id: 'plugin.group.name' })} />
+      <ProFormText
+        name="title"
+        label={intl.formatMessage({ id: 'plugin.group.name' })}
+      />
       <ProFormTextArea
         name="description"
         label={intl.formatMessage({ id: 'plugin.group.description' })}
@@ -78,11 +81,17 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
         width="sm"
         fieldProps={{
           precision: 0,
-          addonAfter: intl.formatMessage({ id: 'plugin.group.expire_day.suffix' }),
+          addonAfter: intl.formatMessage({
+            id: 'plugin.group.expire_day.suffix',
+          }),
         }}
-        extra={intl.formatMessage({ id: 'plugin.group.expire_day.description' })}
+        extra={intl.formatMessage({
+          id: 'plugin.group.expire_day.description',
+        })}
       />
-      <ProFormText label={intl.formatMessage({ id: 'plugin.group.content_safe' })}>
+      <ProFormText
+        label={intl.formatMessage({ id: 'plugin.group.content_safe' })}
+      >
         <Space>
           <ProFormCheckbox name={['setting', 'content_no_verify']}>
             <FormattedMessage id="plugin.group.content_safe.no-verify" />
@@ -100,14 +109,27 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
         label={intl.formatMessage({ id: 'plugin.group.share_reward' })}
         width="sm"
         fieldProps={{ precision: 0, addonAfter: '%' }}
-        extra={intl.formatMessage({ id: 'plugin.group.share_reward.description' })}
+        extra={intl.formatMessage({
+          id: 'plugin.group.share_reward.description',
+        })}
       />
       <ProFormDigit
         name={['setting', 'parent_reward']}
         label={intl.formatMessage({ id: 'plugin.group.parent_reward' })}
         width="sm"
         fieldProps={{ precision: 0, addonAfter: '%' }}
-        extra={intl.formatMessage({ id: 'plugin.group.parent_reward.description' })}
+        extra={intl.formatMessage({
+          id: 'plugin.group.parent_reward.description',
+        })}
+      />
+      <ProFormDigit
+        name={['setting', 'share_discount']}
+        label={intl.formatMessage({ id: 'plugin.group.share_discount' })}
+        width="sm"
+        fieldProps={{ precision: 0, addonAfter: '%' }}
+        extra={intl.formatMessage({
+          id: 'plugin.group.share_discount.description',
+        })}
       />
       <ProFormDigit
         name={['setting', 'discount']}
@@ -115,6 +137,15 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
         width="sm"
         fieldProps={{ precision: 0, addonAfter: '%' }}
         extra={intl.formatMessage({ id: 'plugin.group.discount.description' })}
+      />
+      <ProFormDigit
+        name={['setting', 'shipping_discount']}
+        label={intl.formatMessage({ id: 'plugin.group.shipping_discount' })}
+        width="sm"
+        fieldProps={{ precision: 0, addonAfter: '%' }}
+        extra={intl.formatMessage({
+          id: 'plugin.group.shipping_discount.description',
+        })}
       />
     </ModalForm>
   );

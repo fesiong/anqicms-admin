@@ -12,6 +12,7 @@ import SelectColor from '@/components/selectColor';
 import {
   anqiExtractDescription,
   anqiExtractKeywords,
+  deleteArchive,
   deleteArchiveImage,
   getArchiveInfo,
   getArchives,
@@ -33,6 +34,7 @@ import {
   DeleteOutlined,
   DownOutlined,
   LeftOutlined,
+  MoreOutlined,
   PlusOutlined,
   QuestionCircleOutlined,
   RightOutlined,
@@ -58,6 +60,7 @@ import '@ant-design/pro-table/';
 import { FormattedMessage, history, injectIntl } from '@umijs/max';
 import {
   Avatar,
+  Badge,
   Button,
   Card,
   Checkbox,
@@ -1821,6 +1824,13 @@ class ProductForm extends React.Component<intlProps> {
       });
       return;
     }
+    // 多属性加价不需要生成sku
+    if (optionType === OptionTypeAddon) {
+      this.setState({
+        skus,
+      });
+      return;
+    }
 
     // 递归构建SKU组合
     const buildSkuRecursive = (
@@ -2114,6 +2124,34 @@ class ProductForm extends React.Component<intlProps> {
     });
   };
 
+  handleRemove = (id: number) => {
+    Modal.confirm({
+      title: this.props.intl.formatMessage({ id: 'content.delete.confirm' }),
+      onOk: async () => {
+        const hide = message.loading(
+          this.props.intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
+        deleteArchive({
+          id: id,
+        })
+          .then(() => {
+            message.success(
+              this.props.intl.formatMessage({ id: 'content.delete.success' }),
+            );
+          })
+          .catch(() => {
+            message.error(
+              this.props.intl.formatMessage({ id: 'content.delete.failure' }),
+            );
+          })
+          .finally(() => {
+            hide();
+          });
+      },
+    });
+  };
+
   render() {
     const {
       archive,
@@ -2175,9 +2213,73 @@ class ProductForm extends React.Component<intlProps> {
     return (
       <NewContainer
         title={
-          archive.id > 0
-            ? this.props.intl.formatMessage({ id: 'content.archive.edit' })
-            : this.props.intl.formatMessage({ id: 'content.archive.add' })
+          <div>
+            {archive.id > 0 ? (
+              <div>
+                {archive.title}{' '}
+                {archive.status === 1 ? (
+                  <Badge
+                    className="site-badge-count-109"
+                    count={this.props.intl.formatMessage({
+                      id: 'content.status.normal',
+                    })}
+                    style={{ backgroundColor: '#52c41a' }}
+                  />
+                ) : (
+                  <Badge
+                    className="site-badge-count-109"
+                    count={this.props.intl.formatMessage({
+                      id: 'content.status.draft',
+                    })}
+                    style={{ backgroundColor: '#999999' }}
+                  />
+                )}
+              </div>
+            ) : (
+              <FormattedMessage id="content.product.add" />
+            )}
+          </div>
+        }
+        extra={
+          archive.id > 0 ? (
+            <Space size={8}>
+              <Button
+                onClick={() => {
+                  history.push('/product/detail?copyid=' + archive.id);
+                }}
+              >
+                <FormattedMessage id="content.action.copy" />
+              </Button>
+              <Button
+                onClick={() => {
+                  window.open(archive.link);
+                }}
+              >
+                <FormattedMessage id="menu.preview" />
+              </Button>
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'delete',
+                      label: this.props.intl.formatMessage({
+                        id: 'setting.system.delete',
+                      }),
+                      onClick: () => {
+                        this.handleRemove(archive.id);
+                      },
+                    },
+                  ],
+                }}
+                key="more"
+              >
+                <Button>
+                  <FormattedMessage id="content.action.more" />
+                  <MoreOutlined />
+                </Button>
+              </Dropdown>
+            </Space>
+          ) : null
         }
         onTabChange={(key) => this.onTabChange(key)}
       >
@@ -4357,43 +4459,82 @@ class ProductForm extends React.Component<intlProps> {
                                             />
                                             {archive.option_type ===
                                               OptionTypeAddon && (
-                                              <ProFormDigit
-                                                name={[
-                                                  'options',
-                                                  index,
-                                                  'values',
-                                                  idx,
-                                                  'price',
-                                                ]}
-                                                rules={[
-                                                  {
-                                                    required: false,
-                                                    message:
+                                              <>
+                                                <ProFormDigit
+                                                  name={[
+                                                    'options',
+                                                    index,
+                                                    'values',
+                                                    idx,
+                                                    'price',
+                                                  ]}
+                                                  rules={[
+                                                    {
+                                                      required: false,
+                                                      message:
+                                                        this.props.intl.formatMessage(
+                                                          {
+                                                            id: 'content.product.option.value.price.placeholder',
+                                                          },
+                                                        ),
+                                                    },
+                                                  ]}
+                                                  fieldProps={{
+                                                    prefix:
                                                       this.props.intl.formatMessage(
                                                         {
-                                                          id: 'content.product.option.value.price.placeholder',
+                                                          id: 'content.product.option.value.price',
                                                         },
                                                       ),
-                                                  },
-                                                ]}
-                                                fieldProps={{
-                                                  prefix:
-                                                    this.props.intl.formatMessage(
-                                                      {
-                                                        id: 'content.product.option.value.price',
-                                                      },
-                                                    ),
-                                                  precision: 2,
-                                                  onChange: (e) => {
-                                                    this.handleChangeOptionValue(
-                                                      index,
-                                                      idx,
-                                                      'price',
-                                                      e,
-                                                    );
-                                                  },
-                                                }}
-                                              />
+                                                    precision: 2,
+                                                    onChange: (e) => {
+                                                      this.handleChangeOptionValue(
+                                                        index,
+                                                        idx,
+                                                        'price',
+                                                        e,
+                                                      );
+                                                    },
+                                                  }}
+                                                />
+                                                <ProFormDigit
+                                                  name={[
+                                                    'options',
+                                                    index,
+                                                    'values',
+                                                    idx,
+                                                    'stock',
+                                                  ]}
+                                                  rules={[
+                                                    {
+                                                      required: false,
+                                                      message:
+                                                        this.props.intl.formatMessage(
+                                                          {
+                                                            id: 'content.product.option.sku.stock.placeholder',
+                                                          },
+                                                        ),
+                                                    },
+                                                  ]}
+                                                  fieldProps={{
+                                                    prefix:
+                                                      this.props.intl.formatMessage(
+                                                        {
+                                                          id: 'content.product.option.sku.stock',
+                                                        },
+                                                      ),
+                                                    precision: 0,
+                                                    onChange: (e) => {
+                                                      this.handleChangeOptionValue(
+                                                        index,
+                                                        idx,
+                                                        'stock',
+                                                        e,
+                                                      );
+                                                    },
+                                                  }}
+                                                />
+                                              </>
                                             )}
                                             <div className="text-action">
                                               <Tag
@@ -4445,343 +4586,352 @@ class ProductForm extends React.Component<intlProps> {
                               ))}
                           </div>
                         </Card>
-                        <Card
-                          bordered={false}
-                          className="aside-card"
-                          size="small"
-                          title={this.props.intl.formatMessage({
-                            id: 'content.product.option.skus',
-                          })}
-                          extra={
-                            <Dropdown menu={skuMenu}>
-                              <a>
-                                <FormattedMessage id="content.product.option.skus.extra" />
-                              </a>
-                            </Dropdown>
-                          }
-                        >
-                          <div className="ant-table">
-                            <div className="ant-table-container">
-                              <div className="ant-table-content">
-                                <table className="archive-skus">
-                                  <colgroup>
-                                    {options.map((item: any, index: number) => (
-                                      <col key={index} />
-                                    ))}
-                                    {skuFields.map(
-                                      (field: any, idx: number) =>
-                                        field.checked && <col key={idx} />,
-                                    )}
-                                    <col />
-                                    <col />
-                                  </colgroup>
-                                  <thead className="ant-table-thead">
-                                    <tr>
-                                      <th
-                                        className="ant-table-cell"
-                                        colSpan={options.length || 1}
-                                      >
-                                        <FormattedMessage id="content.product.option.sku.name" />
-                                      </th>
+                        {archive.option_type === OptionTypeMulti && (
+                          <Card
+                            bordered={false}
+                            className="aside-card"
+                            size="small"
+                            title={this.props.intl.formatMessage({
+                              id: 'content.product.option.skus',
+                            })}
+                            extra={
+                              <Dropdown menu={skuMenu}>
+                                <a>
+                                  <FormattedMessage id="content.product.option.skus.extra" />
+                                </a>
+                              </Dropdown>
+                            }
+                          >
+                            <div className="ant-table">
+                              <div className="ant-table-container">
+                                <div className="ant-table-content">
+                                  <table className="archive-skus">
+                                    <colgroup>
+                                      {options.map(
+                                        (item: any, index: number) => (
+                                          <col key={index} />
+                                        ),
+                                      )}
                                       {skuFields.map(
                                         (field: any, idx: number) =>
-                                          field.checked && (
-                                            <th
-                                              className="ant-table-cell"
-                                              key={idx}
-                                            >
-                                              {field.value === 'logo'
-                                                ? this.props.intl.formatMessage(
-                                                    {
-                                                      id: 'content.product.option.sku.image',
-                                                    },
-                                                  )
-                                                : field.label}
-                                            </th>
-                                          ),
+                                          field.checked && <col key={idx} />,
                                       )}
-                                      <th className="ant-table-cell">
-                                        <FormattedMessage id="content.product.option.sku.price" />
-                                      </th>
-                                      <th className="ant-table-cell">
-                                        <FormattedMessage id="content.product.option.sku.stock" />
-                                      </th>
-                                      <th className="ant-table-cell">
-                                        <FormattedMessage id="content.product.option.sku.active" />
-                                        <Checkbox
-                                          checked={skus?.find(
-                                            (sku: any) => sku.status === 1,
-                                          )}
-                                          indeterminate={
-                                            skus?.find(
+                                      <col />
+                                      <col />
+                                    </colgroup>
+                                    <thead className="ant-table-thead">
+                                      <tr>
+                                        <th
+                                          className="ant-table-cell"
+                                          colSpan={options.length || 1}
+                                        >
+                                          <FormattedMessage id="content.product.option.sku.name" />
+                                        </th>
+                                        {skuFields.map(
+                                          (field: any, idx: number) =>
+                                            field.checked && (
+                                              <th
+                                                className="ant-table-cell"
+                                                key={idx}
+                                              >
+                                                {field.value === 'logo'
+                                                  ? this.props.intl.formatMessage(
+                                                      {
+                                                        id: 'content.product.option.sku.image',
+                                                      },
+                                                    )
+                                                  : field.label}
+                                              </th>
+                                            ),
+                                        )}
+                                        <th className="ant-table-cell">
+                                          <FormattedMessage id="content.product.option.sku.price" />
+                                        </th>
+                                        <th className="ant-table-cell">
+                                          <FormattedMessage id="content.product.option.sku.stock" />
+                                        </th>
+                                        <th className="ant-table-cell">
+                                          <FormattedMessage id="content.product.option.sku.active" />
+                                          <Checkbox
+                                            checked={skus?.find(
                                               (sku: any) => sku.status === 1,
-                                            ) &&
-                                            skus?.find(
-                                              (sku: any) => sku.status !== 1,
-                                            )
-                                          }
-                                          onChange={(e) =>
-                                            this.handleUpdateSkuActive(
-                                              e.target.checked,
-                                            )
-                                          }
-                                        />
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody className="ant-table-tbody">
-                                    {skus &&
-                                      skus.map((item: any, index: number) => (
-                                        <tr className="sku-item" key={index}>
-                                          {index === 0 &&
-                                            options.map(
-                                              (opt: any, optIdx: number) =>
-                                                opt.is_attribute && (
+                                            )}
+                                            indeterminate={
+                                              skus?.find(
+                                                (sku: any) => sku.status === 1,
+                                              ) &&
+                                              skus?.find(
+                                                (sku: any) => sku.status !== 1,
+                                              )
+                                            }
+                                            onChange={(e) =>
+                                              this.handleUpdateSkuActive(
+                                                e.target.checked,
+                                              )
+                                            }
+                                          />
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody className="ant-table-tbody">
+                                      {skus &&
+                                        skus.map((item: any, index: number) => (
+                                          <tr className="sku-item" key={index}>
+                                            {index === 0 &&
+                                              options.map(
+                                                (opt: any, optIdx: number) =>
+                                                  opt.is_attribute && (
+                                                    <td
+                                                      className="sku-item-value sku-item-value-border"
+                                                      key={optIdx}
+                                                      rowSpan={skus.length}
+                                                    >
+                                                      {opt.values.map(
+                                                        (optVal: any) => (
+                                                          <div
+                                                            key={optVal.title}
+                                                          >
+                                                            {optVal.title}
+                                                          </div>
+                                                        ),
+                                                      )}
+                                                    </td>
+                                                  ),
+                                              )}
+                                            {item.values.map(
+                                              (value: any, idx: number) =>
+                                                value.show && (
                                                   <td
-                                                    className="sku-item-value sku-item-value-border"
-                                                    key={optIdx}
-                                                    rowSpan={skus.length}
+                                                    className={
+                                                      'sku-item-value ' +
+                                                      (idx + 1 <
+                                                        item.values.length &&
+                                                        'sku-item-value-border')
+                                                    }
+                                                    key={idx}
+                                                    rowSpan={value.rowSpan}
                                                   >
-                                                    {opt.values.map(
-                                                      (optVal: any) => (
-                                                        <div key={optVal.title}>
-                                                          {optVal.title}
-                                                        </div>
-                                                      ),
+                                                    {value.title}
+                                                    {value.color && (
+                                                      <span
+                                                        className="sku-item-value-color"
+                                                        style={{
+                                                          background:
+                                                            value.color,
+                                                        }}
+                                                      ></span>
                                                     )}
                                                   </td>
                                                 ),
                                             )}
-                                          {item.values.map(
-                                            (value: any, idx: number) =>
-                                              value.show && (
-                                                <td
-                                                  className={
-                                                    'sku-item-value ' +
-                                                    (idx + 1 <
-                                                      item.values.length &&
-                                                      'sku-item-value-border')
-                                                  }
-                                                  key={idx}
-                                                  rowSpan={value.rowSpan}
-                                                >
-                                                  {value.title}
-                                                  {value.color && (
-                                                    <span
-                                                      className="sku-item-value-color"
-                                                      style={{
-                                                        background: value.color,
-                                                      }}
-                                                    ></span>
-                                                  )}
-                                                </td>
-                                              ),
-                                          )}
-                                          {skuFields.map(
-                                            (field: any, fieldId: number) =>
-                                              field.checked &&
-                                              (field.value === 'logo' ? (
-                                                <td key={fieldId}>
-                                                  <Space>
-                                                    {item.images && (
-                                                      <div>
-                                                        {item.images.map(
-                                                          (
-                                                            iimg: any,
-                                                            iidx: number,
-                                                          ) => (
-                                                            <div
-                                                              key={iidx}
-                                                              className="ant-upload-item sku-logo-item"
-                                                            >
-                                                              <Image
-                                                                preview={{
-                                                                  src: iimg,
-                                                                }}
-                                                                src={iimg}
-                                                              />
-                                                              <span
-                                                                className="delete"
-                                                                onClick={() => {
-                                                                  let newVal =
-                                                                    item.images.filter(
-                                                                      (
-                                                                        img: any,
-                                                                      ) =>
-                                                                        img !==
-                                                                        iimg,
-                                                                    );
-                                                                  this.handleChangeSkuValue(
-                                                                    index,
-                                                                    'images',
-                                                                    newVal,
-                                                                  );
-                                                                }}
+                                            {skuFields.map(
+                                              (field: any, fieldId: number) =>
+                                                field.checked &&
+                                                (field.value === 'logo' ? (
+                                                  <td key={fieldId}>
+                                                    <Space>
+                                                      {item.images && (
+                                                        <div>
+                                                          {item.images.map(
+                                                            (
+                                                              iimg: any,
+                                                              iidx: number,
+                                                            ) => (
+                                                              <div
+                                                                key={iidx}
+                                                                className="ant-upload-item sku-logo-item"
                                                               >
-                                                                <DeleteOutlined />
-                                                              </span>
-                                                            </div>
-                                                          ),
-                                                        )}
-                                                      </div>
-                                                    )}
-                                                    <AttachmentSelect
-                                                      onSelect={(rows) => {
-                                                        let logoValues =
-                                                          item.images || [];
-                                                        for (
-                                                          let i = 0;
-                                                          i < rows.length;
-                                                          i++
-                                                        ) {
-                                                          if (
-                                                            logoValues.includes(
-                                                              rows[i].file_path,
-                                                            )
-                                                          ) {
-                                                            continue;
-                                                          }
-                                                          logoValues.push(
-                                                            rows[i].file_path,
-                                                          );
-                                                        }
-                                                        this.handleChangeSkuValue(
-                                                          index,
-                                                          'images',
-                                                          logoValues,
-                                                        );
-                                                      }}
-                                                      multiple={true}
-                                                      open={false}
-                                                    >
-                                                      <div className="ant-upload-item sku-logo-item">
-                                                        <div className="add">
-                                                          <PlusOutlined />
+                                                                <Image
+                                                                  preview={{
+                                                                    src: iimg,
+                                                                  }}
+                                                                  src={iimg}
+                                                                />
+                                                                <span
+                                                                  className="delete"
+                                                                  onClick={() => {
+                                                                    let newVal =
+                                                                      item.images.filter(
+                                                                        (
+                                                                          img: any,
+                                                                        ) =>
+                                                                          img !==
+                                                                          iimg,
+                                                                      );
+                                                                    this.handleChangeSkuValue(
+                                                                      index,
+                                                                      'images',
+                                                                      newVal,
+                                                                    );
+                                                                  }}
+                                                                >
+                                                                  <DeleteOutlined />
+                                                                </span>
+                                                              </div>
+                                                            ),
+                                                          )}
                                                         </div>
-                                                      </div>
-                                                    </AttachmentSelect>
-                                                  </Space>
-                                                </td>
-                                              ) : (
-                                                <td key={fieldId}>
-                                                  {field.value === 'weight' ? (
-                                                    <ProFormDigit
-                                                      label={this.props.intl.formatMessage(
-                                                        {
-                                                          id: 'content.product.weight',
-                                                        },
                                                       )}
-                                                      name={[
-                                                        'skus',
-                                                        index,
-                                                        'weight',
-                                                      ]}
-                                                      fieldProps={{
-                                                        precision: 1,
-                                                        onChange: (e) => {
+                                                      <AttachmentSelect
+                                                        onSelect={(rows) => {
+                                                          let logoValues =
+                                                            item.images || [];
+                                                          for (
+                                                            let i = 0;
+                                                            i < rows.length;
+                                                            i++
+                                                          ) {
+                                                            if (
+                                                              logoValues.includes(
+                                                                rows[i]
+                                                                  .file_path,
+                                                              )
+                                                            ) {
+                                                              continue;
+                                                            }
+                                                            logoValues.push(
+                                                              rows[i].file_path,
+                                                            );
+                                                          }
                                                           this.handleChangeSkuValue(
                                                             index,
-                                                            field.value,
-                                                            e,
+                                                            'images',
+                                                            logoValues,
                                                           );
-                                                        },
-                                                      }}
-                                                    />
-                                                  ) : field.value ===
-                                                      'cost_price' ||
-                                                    field.value ===
-                                                      'origin_price' ? (
-                                                    <ProFormDigit
-                                                      name={[
-                                                        'skus',
-                                                        index,
-                                                        field.value,
-                                                      ]}
-                                                      fieldProps={{
-                                                        precision: 2,
-                                                        onChange: (e) => {
-                                                          this.handleChangeSkuValue(
-                                                            index,
-                                                            field.value,
-                                                            e,
-                                                          );
-                                                        },
-                                                      }}
-                                                    />
-                                                  ) : (
-                                                    <ProFormText
-                                                      name={[
-                                                        'skus',
-                                                        index,
-                                                        field.value,
-                                                      ]}
-                                                      fieldProps={{
-                                                        onChange: (e) => {
-                                                          this.handleChangeSkuValue(
-                                                            index,
-                                                            field.value,
-                                                            e.target.value,
-                                                          );
-                                                        },
-                                                      }}
-                                                    />
-                                                  )}
-                                                </td>
-                                              )),
-                                          )}
-                                          <td>
-                                            <ProFormDigit
-                                              name={['skus', index, 'price']}
-                                              fieldProps={{
-                                                precision: 2,
-                                                onChange: (e) => {
-                                                  this.handleChangeSkuValue(
-                                                    index,
-                                                    'price',
-                                                    e,
-                                                  );
-                                                },
-                                              }}
-                                            />
-                                          </td>
-                                          <td>
-                                            <ProFormDigit
-                                              name={['skus', index, 'stock']}
-                                              fieldProps={{
-                                                precision: 0,
-                                                onChange: (e) => {
-                                                  this.handleChangeSkuValue(
-                                                    index,
-                                                    'stock',
-                                                    e,
-                                                  );
-                                                },
-                                              }}
-                                            />
-                                          </td>
-                                          <td>
-                                            <ProFormCheckbox
-                                              name={['skus', index, 'status']}
-                                              fieldProps={{
-                                                checked: item.status === 1,
-                                                onChange: (e) => {
-                                                  this.handleChangeSkuValue(
-                                                    index,
-                                                    'status',
-                                                    e.target.checked ? 1 : 0,
-                                                  );
-                                                },
-                                              }}
-                                            />
-                                          </td>
-                                        </tr>
-                                      ))}
-                                  </tbody>
-                                </table>
+                                                        }}
+                                                        multiple={true}
+                                                        open={false}
+                                                      >
+                                                        <div className="ant-upload-item sku-logo-item">
+                                                          <div className="add">
+                                                            <PlusOutlined />
+                                                          </div>
+                                                        </div>
+                                                      </AttachmentSelect>
+                                                    </Space>
+                                                  </td>
+                                                ) : (
+                                                  <td key={fieldId}>
+                                                    {field.value ===
+                                                    'weight' ? (
+                                                      <ProFormDigit
+                                                        label={this.props.intl.formatMessage(
+                                                          {
+                                                            id: 'content.product.weight',
+                                                          },
+                                                        )}
+                                                        name={[
+                                                          'skus',
+                                                          index,
+                                                          'weight',
+                                                        ]}
+                                                        fieldProps={{
+                                                          precision: 1,
+                                                          onChange: (e) => {
+                                                            this.handleChangeSkuValue(
+                                                              index,
+                                                              field.value,
+                                                              e,
+                                                            );
+                                                          },
+                                                        }}
+                                                      />
+                                                    ) : field.value ===
+                                                        'cost_price' ||
+                                                      field.value ===
+                                                        'origin_price' ? (
+                                                      <ProFormDigit
+                                                        name={[
+                                                          'skus',
+                                                          index,
+                                                          field.value,
+                                                        ]}
+                                                        fieldProps={{
+                                                          precision: 2,
+                                                          onChange: (e) => {
+                                                            this.handleChangeSkuValue(
+                                                              index,
+                                                              field.value,
+                                                              e,
+                                                            );
+                                                          },
+                                                        }}
+                                                      />
+                                                    ) : (
+                                                      <ProFormText
+                                                        name={[
+                                                          'skus',
+                                                          index,
+                                                          field.value,
+                                                        ]}
+                                                        fieldProps={{
+                                                          onChange: (e) => {
+                                                            this.handleChangeSkuValue(
+                                                              index,
+                                                              field.value,
+                                                              e.target.value,
+                                                            );
+                                                          },
+                                                        }}
+                                                      />
+                                                    )}
+                                                  </td>
+                                                )),
+                                            )}
+                                            <td>
+                                              <ProFormDigit
+                                                name={['skus', index, 'price']}
+                                                fieldProps={{
+                                                  precision: 2,
+                                                  onChange: (e) => {
+                                                    this.handleChangeSkuValue(
+                                                      index,
+                                                      'price',
+                                                      e,
+                                                    );
+                                                  },
+                                                }}
+                                              />
+                                            </td>
+                                            <td>
+                                              <ProFormDigit
+                                                name={['skus', index, 'stock']}
+                                                fieldProps={{
+                                                  precision: 0,
+                                                  onChange: (e) => {
+                                                    this.handleChangeSkuValue(
+                                                      index,
+                                                      'stock',
+                                                      e,
+                                                    );
+                                                  },
+                                                }}
+                                              />
+                                            </td>
+                                            <td>
+                                              <ProFormCheckbox
+                                                name={['skus', index, 'status']}
+                                                fieldProps={{
+                                                  checked: item.status === 1,
+                                                  onChange: (e) => {
+                                                    this.handleChangeSkuValue(
+                                                      index,
+                                                      'status',
+                                                      e.target.checked ? 1 : 0,
+                                                    );
+                                                  },
+                                                }}
+                                              />
+                                            </td>
+                                          </tr>
+                                        ))}
+                                    </tbody>
+                                  </table>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </Card>
+                          </Card>
+                        )}
                       </>
                     )}
                   </Card>

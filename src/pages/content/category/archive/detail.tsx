@@ -115,7 +115,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     let parent_id = Number(searchParams.get('parent_id') || 0);
 
     let modRes = await getModules();
-    setModules(modRes.data || []);
+    setModules((modRes.data || []).filter((item: any) => item.id !== 2));
     let catRes = await getCategoryInfo({
       id: id,
     });
@@ -634,7 +634,9 @@ const ArchiveCategoryDetail: React.FC = () => {
                         }),
                         spacer: '',
                       },
-                    ].concat(categories);
+                    ]
+                      .concat(categories)
+                      .filter((item: any) => item.module_id !== 2);
                     return categories;
                   }}
                   readonly={
@@ -1136,8 +1138,11 @@ const ArchiveCategoryDetail: React.FC = () => {
                                       const res = await getCategories({
                                         type: 1,
                                       });
-                                      const categories = (res.data || []).map(
-                                        (cat: any) => ({
+                                      const categories = (res.data || [])
+                                        .filter(
+                                          (item: any) => item.module_id !== 2,
+                                        )
+                                        .map((cat: any) => ({
                                           spacer: cat.spacer,
                                           label:
                                             cat.title +
@@ -1147,8 +1152,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                                   id: 'setting.nav.hide',
                                                 })),
                                           value: cat.id,
-                                        }),
-                                      );
+                                        }));
                                       return categories;
                                     }}
                                     fieldProps={{

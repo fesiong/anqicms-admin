@@ -279,7 +279,46 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
             })}
             readonly
           >
-            {order.discount_amount > 0 ? order.discount_amount / 100 : 0}
+            <Space size={10} direction="vertical">
+              <div className="text-muted">
+                {order.discount_amount > 0 ? order.discount_amount / 100 : 0}
+              </div>
+              {order.user_discount > 0 && (
+                <div className="text-muted ml-normal">
+                  {intl.formatMessage({
+                    id: 'plugin.order.detail.user-discount',
+                  })}
+                  {': '}
+                  {order.user_discount / 100}
+                </div>
+              )}
+              {order.coupon_discount > 0 && (
+                <div className="text-muted ml-normal">
+                  {intl.formatMessage({
+                    id: 'plugin.order.detail.coupon-discount',
+                  })}
+                  {': '}
+                  {order.coupon_discount / 100}
+                </div>
+              )}
+              {order.shipping_discount > 0 && (
+                <div className="text-muted ml-normal">
+                  {intl.formatMessage({
+                    id: 'plugin.order.detail.shipping-discount',
+                  })}
+                  {': '}
+                  {order.shipping_discount / 100}
+                </div>
+              )}
+            </Space>
+          </ProFormText>
+          <ProFormText
+            label={intl.formatMessage({
+              id: 'plugin.order.detail.shipping-fee',
+            })}
+            readonly
+          >
+            {order.shipping_fee > 0 ? order.shipping_fee / 100 : 0}
           </ProFormText>
           <ProFormText
             label={intl.formatMessage({ id: 'plugin.order.pay-amount' })}
@@ -432,13 +471,8 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
                     })}
                     readonly
                   >
-                    {item.sku_values
-                      ? item.sku_values.map((sv: any, idx: number) => (
-                          <span key={idx}>
-                            {sv.option_title}: {sv.title}
-                          </span>
-                        ))
-                      : item.goods_sku?.title}
+                    {item.sku_values?.map((sv: any) => sv.title).join(' / ') ||
+                      item.goods_sku?.title}
                   </ProFormText>
                   {item.order_fields && (
                     <div

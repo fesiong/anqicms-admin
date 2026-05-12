@@ -1,5 +1,5 @@
 export default {
-  'menu.dashboard': '后台首页',
+  'menu.dashboard': '首页',
   'menu.setting': '设置',
   'menu.setting.system': '全局设置',
   'menu.setting.content': '内容设置',

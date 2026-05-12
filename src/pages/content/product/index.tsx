@@ -593,7 +593,7 @@ const ProductList: React.FC = () => {
     },
     {
       title: intl.formatMessage({ id: 'content.category.name' }),
-      dataIndex: 'category_titles',
+      dataIndex: 'category_id',
       render: (_: any, entity) => {
         return (
           <div>
@@ -608,7 +608,7 @@ const ProductList: React.FC = () => {
           <ProFormSelect
             name="category_id"
             request={async () => {
-              let res = await getCategories({ type: 1 });
+              let res = await getCategories({ type: 1, module_id: 2 });
               const categories = [
                 {
                   spacer: '',
@@ -831,14 +831,6 @@ const ProductList: React.FC = () => {
         }}
         beforeSearchSubmit={beforeSearch}
         toolBarRender={() => [
-          <Button
-            key="import"
-            onClick={() => {
-              setImportVisible(true);
-            }}
-          >
-            <FormattedMessage id="content.quick-import.name" />
-          </Button>,
           !isSubSite && (
             <Button
               type="primary"
@@ -1060,7 +1052,7 @@ const ProductList: React.FC = () => {
           <ProFormSelect
             name="category_ids"
             request={async () => {
-              let res = await getCategories({ type: 1 });
+              let res = await getCategories({ type: 1, module_id: 2 });
               return [
                 {
                   spacer: '',

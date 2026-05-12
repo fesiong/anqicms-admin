@@ -370,9 +370,15 @@ export default {
   'plugin.group.parent_reward': '邀請獎勵比例',
   'plugin.group.parent_reward.description':
     '建議設定1%-5%，不能設定小數點。上級佣金比。經銷商a邀請b成為經銷商，b就為a的下家，當b成功推廣一筆訂單時，b可以獲得分銷佣金，a只獲得邀請獎勵',
-  'plugin.group.discount': '用戶折扣',
+  'plugin.group.share_discount': '用户分享优惠',
+  'plugin.group.share_discount.description':
+    '建议设置为90%-100%。用户通过分销员分享的链接进入页面后，下单时可享受折扣价格。',
+  'plugin.group.discount': '用户折扣',
   'plugin.group.discount.description':
-    '建議設定90%-100%，用戶透過經銷商分享的連結來到頁面後，下單可以享受的折扣價',
+    '建议设置为90%-100%。用户下单时可享受折扣价格。',
+  'plugin.group.shipping_discount': '运费折扣',
+  'plugin.group.shipping_discount.description':
+    '建议设置为90%-100%。用户下单时可享受运费折扣。',
   'plugin.group.permission': '分銷權限設定',
   'plugin.group.delete.confirm': '確定要刪除該條資料嗎？',
   'plugin.guestbook.reply.required':
@@ -751,6 +757,10 @@ export default {
   'plugin.order.detail.quantity': '訂購數量',
   'plugin.order.detail.amount': '總價',
   'plugin.order.detail.discount-amount': '折扣金额',
+  'plugin.order.detail.user-discount': '用户折扣',
+  'plugin.order.detail.coupon-discount': '优惠券折扣',
+  'plugin.order.detail.shipping-discount': '运费折扣',
+  'plugin.order.detail.shipping-fee': '运费',
   'plugin.order.detail.origin-amount': '折扣前金额',
   'plugin.order.recipient.name': '收件者',
   'plugin.order.recipient.email': 'Email',

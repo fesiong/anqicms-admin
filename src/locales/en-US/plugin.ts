@@ -408,9 +408,15 @@ export default {
   'plugin.group.parent_reward': 'Invitation reward ratio',
   'plugin.group.parent_reward.description':
     "It is recommended to set 1%-5%, and the decimal point cannot be set. Superior commission ratio. Distributor a invites b to become a distributor, and b becomes a's next seller. When b successfully promotes an order, b can get distribution commission, and a only gets the invitation reward.",
+  'plugin.group.share_discount': 'User Share discount',
+  'plugin.group.share_discount.description':
+    'It is recommended to set 90%-100%. After users come to the page through the link shared by the distributor, they can enjoy the discounted price when placing an order.',
   'plugin.group.discount': 'User discount',
   'plugin.group.discount.description':
-    'It is recommended to set 90%-100%. After users come to the page through the link shared by the distributor, they can enjoy the discounted price when placing an order.',
+    'It is recommended to set 90%-100%. Users can enjoy the discounted price when placing an order.',
+  'plugin.group.shipping_discount': 'User discount',
+  'plugin.group.shipping_discount.description':
+    'It is recommended to set 90%-100%. Users can enjoy the discounted shipping price when placing an order.',
   'plugin.group.permission': 'Distribution permission settings',
   'plugin.group.delete.confirm':
     'Are you sure you want to delete this piece of data?',
@@ -832,6 +838,10 @@ export default {
   'plugin.order.detail.quantity': 'Order quantity',
   'plugin.order.detail.amount': 'total price',
   'plugin.order.detail.discount-amount': 'discount amount',
+  'plugin.order.detail.user-discount': 'User discount',
+  'plugin.order.detail.coupon-discount': 'Coupon discount',
+  'plugin.order.detail.shipping-discount': 'Shipping discount',
+  'plugin.order.detail.shipping-fee': 'Shipping fee',
   'plugin.order.detail.origin-amount': 'original amount',
   'plugin.order.recipient.name': 'recipient',
   'plugin.order.recipient.email': 'Email',

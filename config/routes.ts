@@ -567,7 +567,7 @@ export default [
   {
     path: '/design',
     name: 'design',
-    icon: 'Code',
+    icon: 'Layout',
     hideInTop: true,
     access: 'canAdmin',
     routes: [

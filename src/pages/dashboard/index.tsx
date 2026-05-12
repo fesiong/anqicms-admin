@@ -1,12 +1,22 @@
 import {
   checkVersion,
   getDashboardInfo,
-  getStatisticInclude,
+  getStatisticOrder,
   getStatisticSpider,
   getStatisticSummary,
   getStatisticTraffic,
 } from '@/services';
 import { getStore, setStore } from '@/utils/store';
+import {
+  FileAddOutlined,
+  LayoutOutlined,
+  LinkOutlined,
+  MoneyCollectOutlined,
+  ProductOutlined,
+  SendOutlined,
+  ShopOutlined,
+  TagOutlined,
+} from '@ant-design/icons';
 import { Line } from '@ant-design/plots';
 import { PageContainer } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl, useModel } from '@umijs/max';
@@ -32,7 +42,7 @@ const { TabPane } = Tabs;
 const Dashboard: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [data, setData] = useState<any>({});
-  const [includeData, setIncludeData] = useState<any[]>([]);
+  const [ordersData, setOrdersData] = useState<any[]>([]);
   const [spiderData, setSpiderData] = useState<any[]>([]);
   const [trafficData, setTrafficData] = useState<any[]>([]);
   const [infoData, setInfoData] = useState<any>({});
@@ -56,6 +66,7 @@ const Dashboard: React.FC = () => {
         setData(res.data || {});
         setExact(res.data?.exact || false);
         let needShow = res.data?.show_guide || false;
+        needShow = true;
         // 读取localStorage
         let hasClose = getStore('close_guide') || false;
         if (hasClose) {
@@ -71,9 +82,9 @@ const Dashboard: React.FC = () => {
 
   const getSetting = async () => {
     getSummary(false);
-    getStatisticInclude()
+    getStatisticOrder()
       .then((res) => {
-        setIncludeData(res.data || []);
+        setOrdersData(res.data || []);
       })
       .catch(() => {});
     getStatisticTraffic()
@@ -129,8 +140,8 @@ const Dashboard: React.FC = () => {
     setShowGuide(false);
   };
 
-  const includeConfig = {
-    data: includeData,
+  const ordersConfig = {
+    data: ordersData,
     //padding: 'auto',
     xField: 'date',
     yField: 'value',
@@ -178,10 +189,20 @@ const Dashboard: React.FC = () => {
           <Card className="guide-card" style={{ marginBottom: 24 }}>
             <div className="guide-header">
               <h1>
-                <FormattedMessage id="dashboard.guide.welcome" />
+                <FormattedMessage id="dashboard.guide.name" />
               </h1>
               <p>
                 <FormattedMessage id="dashboard.guide.description" />
+                <span>
+                  <a
+                    className="link"
+                    href="https://www.anqicms.com/help"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FormattedMessage id="dashboard.guide.help" />
+                  </a>
+                </span>
               </p>
               <span className="guild-close" onClick={handleCloseGuide}>
                 <FormattedMessage id="component.close" />
@@ -191,6 +212,7 @@ const Dashboard: React.FC = () => {
               <Col flex={1}>
                 <div className="guide-start">
                   <h2>
+                    <ShopOutlined />{' '}
                     <FormattedMessage id="dashboard.guide.welcome" />
                   </h2>
                   <div className="main-start">
@@ -202,26 +224,56 @@ const Dashboard: React.FC = () => {
                       <FormattedMessage id="dashboard.guide.system" />
                     </Button>
                   </div>
-                  <div>
-                    <FormattedMessage id="dashboard.guide.or" />
-                    <span
-                      className="link"
-                      onClick={() => handleJump('/design/index')}
-                    >
-                      <FormattedMessage id="dashboard.guide.design" />
-                    </span>
-                    <FormattedMessage id="dashboard.guide.comma" />
-                    <a
-                      className="link"
-                      href="https://www.anqicms.com/help"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FormattedMessage id="dashboard.guide.help" />
-                    </a>
-                  </div>
                 </div>
               </Col>
+              <Col flex={1}>
+                <Space
+                  className="add-design"
+                  direction="vertical"
+                  size={16}
+                  style={{ width: '100%' }}
+                >
+                  <div>
+                    <h3>
+                      <ProductOutlined />{' '}
+                      <FormattedMessage id="dashboard.guide.product" />
+                    </h3>
+                    <div className="text-muted">
+                      <FormattedMessage id="dashboard.guide.product.tips" />
+                    </div>
+                  </div>
+                  <div className="show-button">
+                    <Button size="large" type="primary">
+                      <FormattedMessage id="dashboard.guide.product.start" />
+                    </Button>
+                  </div>
+                </Space>
+              </Col>
+              <Col flex={1}>
+                <Space
+                  className="add-design"
+                  direction="vertical"
+                  size={16}
+                  style={{ width: '100%' }}
+                >
+                  <div>
+                    <h3>
+                      <LayoutOutlined />{' '}
+                      <FormattedMessage id="dashboard.guide.design" />
+                    </h3>
+                    <div className="text-muted">
+                      <FormattedMessage id="dashboard.guide.design.tips" />
+                    </div>
+                  </div>
+                  <div className="show-button">
+                    <Button size="large" type="primary">
+                      <FormattedMessage id="dashboard.guide.design.start" />
+                    </Button>
+                  </div>
+                </Space>
+              </Col>
+            </Row>
+            <Row gutter={16} className="mt-normal">
               <Col flex={1}>
                 <div className="guide-start">
                   <h2>
@@ -230,29 +282,34 @@ const Dashboard: React.FC = () => {
                   <ul className="guide-list">
                     <li
                       className="link"
-                      onClick={() => handleJump('/archive/category')}
+                      onClick={() => handleJump('/setting/pay')}
                     >
-                      <FormattedMessage id="dashboard.guide.new-category" />
+                      <MoneyCollectOutlined />{' '}
+                      <FormattedMessage id="dashboard.guide.set-payment" />
                     </li>
                     <li
                       className="link"
-                      onClick={() => handleJump('/archive/detail')}
+                      onClick={() => handleJump('/order/shipping')}
                     >
-                      <FormattedMessage id="dashboard.guide.new-archive" />
+                      <SendOutlined />{' '}
+                      <FormattedMessage id="dashboard.guide.shipping" />
                     </li>
                     <li
                       className="link"
                       onClick={() => handleJump('/archive/page')}
                     >
+                      <FileAddOutlined />{' '}
                       <FormattedMessage id="dashboard.guide.new-page" />
                     </li>
                     <li
                       className="link"
                       onClick={() => handleJump('/setting/tdk')}
                     >
+                      <TagOutlined />{' '}
                       <FormattedMessage id="dashboard.guide.tdk" />
                     </li>
                     <li className="link" onClick={handlePreview}>
+                      <LinkOutlined />{' '}
                       <FormattedMessage id="dashboard.guide.preview" />
                     </li>
                   </ul>
@@ -306,7 +363,7 @@ const Dashboard: React.FC = () => {
                             className="link"
                             onClick={() => handleJump('/archive/category')}
                           >
-                            <FormattedMessage id="menu.archive.category" />
+                            <FormattedMessage id="dashboard.guide.category" />
                           </span>
                           ；{' '}
                         </li>
@@ -372,7 +429,7 @@ const Dashboard: React.FC = () => {
                           10.{' '}
                           <span
                             className="link"
-                            onClick={() => handleJump('/archive/detail')}
+                            onClick={() => handleJump('/product/detail')}
                           >
                             <FormattedMessage id="dashboard.guide.step.publish" />
                           </span>
@@ -402,7 +459,7 @@ const Dashboard: React.FC = () => {
           <Card
             title={intl.formatMessage({ id: 'dashboard.quick' })}
             extra={
-              <Button onClick={() => handleJump('/archive/detail')}>
+              <Button onClick={() => handleJump('/product/detail')}>
                 <FormattedMessage id="dashboard.guide.step.publish" />
               </Button>
             }
@@ -413,7 +470,7 @@ const Dashboard: React.FC = () => {
                   flex={1}
                   key={index}
                   onClick={() => {
-                    handleJump('/archive/list?module_id=' + item.id);
+                    handleJump('/product/index?module_id=' + item.id);
                   }}
                 >
                   <Statistic
@@ -423,18 +480,6 @@ const Dashboard: React.FC = () => {
                   />
                 </Col>
               ))}
-              <Col
-                flex={1}
-                onClick={() => {
-                  handleJump('/archive/category');
-                }}
-              >
-                <Statistic
-                  className="link"
-                  title={intl.formatMessage({ id: 'menu.archive.category' })}
-                  value={data.category_count}
-                />
-              </Col>
               <Col
                 flex={1}
                 onClick={() => {
@@ -506,6 +551,14 @@ const Dashboard: React.FC = () => {
               <div className="statistic-card">
                 <Tabs size="large" tabBarStyle={{ marginBottom: 24 }}>
                   <TabPane
+                    tab={intl.formatMessage({ id: 'menu.statistic.orders' })}
+                    key="orders"
+                  >
+                    <div className="statistic-bar">
+                      <Line {...ordersConfig} />
+                    </div>
+                  </TabPane>
+                  <TabPane
                     tab={intl.formatMessage({ id: 'menu.statistic.traffic' })}
                     key="traffic"
                   >
@@ -519,14 +572,6 @@ const Dashboard: React.FC = () => {
                   >
                     <div className="statistic-bar">
                       <Line {...spiderConfig} />
-                    </div>
-                  </TabPane>
-                  <TabPane
-                    tab={intl.formatMessage({ id: 'menu.statistic.includes' })}
-                    key="include"
-                  >
-                    <div className="statistic-bar">
-                      <Line {...includeConfig} />
                     </div>
                   </TabPane>
                 </Tabs>

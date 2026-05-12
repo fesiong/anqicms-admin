@@ -23,7 +23,8 @@ export type HeaderSearchProps = {
 };
 
 const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
-  const { className, defaultValue, onOpenChange, placeholder, defaultOpen } = props;
+  const { className, defaultValue, onOpenChange, placeholder, defaultOpen } =
+    props;
   const intl = useIntl();
 
   const inputRef = useRef<InputRef | null>(null);
@@ -46,21 +47,33 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
       if (routes[i].routes) {
         let supName = routes[i].name;
         for (let j in routes[i].routes) {
-          if (supName && routes[i].routes[j].name && !routes[i].routes[j].hideInMenu) {
-              let idName = 'menu.' + supName + '.' + routes[i].routes[j].name;
-              let name = intl.formatMessage({ id: idName });
-              if (!value || (name.indexOf(value) !== -1 || routes[i].routes[j].path.indexOf(value) !== -1)) {
-                tmpOptions.push({
-                  label: name,
-                  value: name,
-                  path: routes[i].routes[j].path,
-                });
-              }
+          if (
+            supName &&
+            routes[i].routes[j].name &&
+            !routes[i].routes[j].hideInMenu
+          ) {
+            let idName = 'menu.' + supName + '.' + routes[i].routes[j].name;
+            let name = intl.formatMessage({ id: idName });
+            if (
+              !value ||
+              name.indexOf(value) !== -1 ||
+              routes[i].routes[j].path.indexOf(value) !== -1
+            ) {
+              tmpOptions.push({
+                label: name,
+                value: name,
+                path: routes[i].routes[j].path,
+              });
             }
           }
+        }
       } else if (routes[i].name && !routes[i].hideInMenu) {
         let name = intl.formatMessage({ id: 'menu.' + routes[i].name });
-        if (!value || (name?.indexOf(value) !== -1 || routes[i].path?.indexOf(value) !== -1)) {
+        if (
+          !value ||
+          name?.indexOf(value) !== -1 ||
+          routes[i].path?.indexOf(value) !== -1
+        ) {
           tmpOptions.push({
             label: name,
             value: name,
@@ -114,13 +127,6 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
         }
       }}
     >
-      <SearchOutlined
-        className={styles.searchIcon}
-        key="Icon"
-        style={{
-          cursor: 'pointer',
-        }}
-      />
       <AutoComplete
         key="AutoComplete"
         className={inputClass}
@@ -146,6 +152,13 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
           }}
         />
       </AutoComplete>
+      <SearchOutlined
+        className={styles.searchIcon}
+        key="Icon"
+        style={{
+          cursor: 'pointer',
+        }}
+      />
     </div>
   );
 };

@@ -151,10 +151,10 @@ const PluginShipping: React.FC = () => {
       },
       region_rules: (values.region_rules || []).map((r: any) => ({
         regions: r.regions,
-        first_unit: Number(r.rule?.first_unit) || 1,
-        first_fee: Number((r.rule?.first_fee * 100).toFixed(0)) || 0,
-        continue_unit: Number(r.rule?.continue_unit) || 1,
-        continue_fee: Number((r.rule?.continue_fee * 100).toFixed(0)) || 0,
+        first_unit: Number(r.first_unit) || 1,
+        first_fee: Number((r.first_fee * 100).toFixed(0)) || 0,
+        continue_unit: Number(r.continue_unit) || 1,
+        continue_fee: Number((r.continue_fee * 100).toFixed(0)) || 0,
       })),
       free_shipping_rule: {
         type: Number(values.free_shipping_rule?.type) || 1,
