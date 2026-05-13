@@ -90,46 +90,43 @@ const ArticleTag: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'content.category.name' }),
       dataIndex: 'category_title',
-      renderFormItem: (_, { fieldProps }) => {
-        return (
-          <ProFormSelect
-            name="category_id"
-            request={async () => {
-              let res = await getCategories({ type: 1 });
-              const categories = [
-                {
-                  spacer: '',
-                  title: intl.formatMessage({ id: 'content.category.all' }),
-                  id: 0,
-                  status: 1,
-                },
-              ]
-                .concat(res.data || [])
-                .map((cat: any) => ({
-                  spacer: cat.spacer,
-                  label:
-                    cat.title +
-                    (cat.status === 1
-                      ? ''
-                      : intl.formatMessage({ id: 'setting.nav.hide' })),
-                  value: cat.id,
-                }));
-              return categories;
-            }}
-            fieldProps={{
-              ...fieldProps,
-              optionItemRender(item: any) {
-                return (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: item.spacer + item.label,
-                    }}
-                  ></div>
-                );
-              },
-            }}
-          />
-        );
+      request: async () => {
+        let res = await getCategories({ type: 1 });
+        const categories = [
+          {
+            parent_titles: [],
+            title: intl.formatMessage({ id: 'content.category.all' }),
+            id: 0,
+            status: 1,
+          },
+        ]
+          .concat(res.data || [])
+          .map((cat: any) => ({
+            title: cat.title,
+            label: (
+              <div title={cat.title}>
+                {cat.parent_titles?.length > 0 ? (
+                  <span className="text-muted">
+                    {cat.parent_titles?.join(' > ')}
+                    {' > '}
+                  </span>
+                ) : (
+                  ''
+                )}
+                {cat.title}
+              </div>
+            ),
+            value: cat.id,
+            disabled: cat.status !== 1,
+          }));
+        return categories;
+      },
+      fieldProps: {
+        showSearch: true,
+        filterOption: (input: string, option: any) =>
+          (option?.title ?? option?.label)
+            .toLowerCase()
+            .includes(input.toLowerCase()),
       },
     },
     {

@@ -36,6 +36,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
     tmpInput: {},
     insertImage: 0,
     aiEngine: '',
+    categories: [],
   };
 
   componentDidMount() {
@@ -55,6 +56,11 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
         fetched: true,
         insertImage: setting.insert_image,
         aiEngine: setting.ai_engine || '',
+      });
+    });
+    getCategories({ type: 1 }).then((res) => {
+      this.setState({
+        categories: res.data,
       });
     });
   }
@@ -215,8 +221,15 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
   };
 
   render() {
-    const { visible, fetched, setting, tmpInput, insertImage, aiEngine } =
-      this.state;
+    const {
+      visible,
+      fetched,
+      setting,
+      tmpInput,
+      insertImage,
+      aiEngine,
+      categories,
+    } = this.state;
 
     return (
       <>
@@ -554,24 +567,39 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
               extra={this.props.intl.formatMessage({
                 id: 'plugin.aigenerate.default-category.description',
               })}
-              request={async () => {
-                const res = await getCategories({ type: 1 });
-                return res.data || [];
-              }}
+              options={[
+                {
+                  title: this.props.intl.formatMessage({
+                    id: 'content.please-select',
+                  }),
+                  value: 0,
+                },
+              ]
+                .concat(categories)
+                .map((cat: any) => ({
+                  title: cat.title,
+                  label: (
+                    <div title={cat.title}>
+                      {cat.parent_titles?.length > 0 ? (
+                        <span className="text-muted">
+                          {cat.parent_titles?.join(' > ')}
+                          {' > '}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {cat.title}
+                    </div>
+                  ),
+                  value: cat.id,
+                  disabled: cat.status !== 1,
+                }))}
               fieldProps={{
-                fieldNames: {
-                  label: 'title',
-                  value: 'id',
-                },
-                optionItemRender(item: any) {
-                  return (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: item.spacer + item.title,
-                      }}
-                    ></div>
-                  );
-                },
+                showSearch: true,
+                filterOption: (input: string, option: any) =>
+                  (option?.title ?? option?.label)
+                    .toLowerCase()
+                    .includes(input.toLowerCase()),
               }}
             />
             <ProFormRadio.Group

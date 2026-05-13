@@ -44,6 +44,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
   const [insertImage, setInsertImage] = useState<number>(0);
   const [images, setImages] = useState<any[]>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
+  const [categories, setCategories] = useState<any[]>([]);
   const intl = useIntl();
 
   const syncTask = async () => {
@@ -62,6 +63,9 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
   };
 
   useEffect(() => {
+    getCategories().then((res) => {
+      setCategories(res.data);
+    });
     // 进入页面的时候查询一次task
     syncTask();
     // 定时查询task
@@ -359,32 +363,40 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
           label={intl.formatMessage({
             id: 'content.quick-import.category_id.title',
           })}
-          request={async () => {
-            let res = await getCategories({ type: 1 });
-            return [
-              {
-                spacer: '',
-                title: intl.formatMessage({ id: 'content.please-select' }),
-                id: 0,
-              },
-            ].concat(res.data || []);
-          }}
-          fieldProps={{
-            fieldNames: {
-              label: 'title',
-              value: 'id',
+          options={[
+            {
+              parent_titles: [],
+              title: intl.formatMessage({ id: 'content.please-select' }),
+              id: 0,
             },
+          ]
+            .concat(categories)
+            .map((cat: any) => ({
+              title: cat.title,
+              label: (
+                <div title={cat.title}>
+                  {cat.parent_titles?.length > 0 ? (
+                    <span className="text-muted">
+                      {cat.parent_titles?.join(' > ')}
+                      {' > '}
+                    </span>
+                  ) : (
+                    ''
+                  )}
+                  {cat.title}
+                </div>
+              ),
+              value: cat.id,
+              disabled: cat.status !== 1,
+            }))}
+          fieldProps={{
+            showSearch: true,
+            filterOption: (input: string, option: any) =>
+              (option?.title ?? option?.label)
+                .toLowerCase()
+                .includes(input.toLowerCase()),
             onChange: (value) => {
               setCategoryId(value as number);
-            },
-            optionItemRender(item: any) {
-              return (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: item.spacer + item.title,
-                  }}
-                ></div>
-              );
             },
           }}
         />

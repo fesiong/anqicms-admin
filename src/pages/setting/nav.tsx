@@ -339,38 +339,44 @@ const SettingNavFrom: React.FC<any> = () => {
               },
               optionItemRender(item: any) {
                 return (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: (item.spacer || '') + item.title,
-                    }}
-                  ></div>
+                  <div title={item.title}>
+                    {item.parent_titles?.length > 0 ? (
+                      <span className="text-muted">
+                        {item.parent_titles?.join(' > ')}
+                        {' > '}
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                    {item.title}
+                  </div>
                 );
               },
             }}
             request={async () => {
               let newNavs = [
                 {
-                  spacer: '',
+                  parent_titles: [],
                   title: intl.formatMessage({ id: 'setting.nav.top' }),
                   id: 0,
                 },
               ];
               for (let item of navs || []) {
                 newNavs.push({
-                  spacer: '',
+                  parent_titles: [],
                   title: item.title,
                   id: item.id,
                 });
                 for (let sub of item.nav_list || []) {
                   let subItem = {
-                    spacer: (item.spacer || '') + '└  ',
+                    parent_titles: sub.parent_titles || [],
                     title: sub.title,
                     id: sub.id,
                   };
                   newNavs.push(subItem);
                   for (let sub2 of sub.nav_list || []) {
                     newNavs.push({
-                      spacer: (sub.spacer || '') + '└  ',
+                      parent_titles: sub2.parent_titles || [],
                       title: sub2.title,
                       id: sub2.id,
                     });
@@ -466,32 +472,25 @@ const SettingNavFrom: React.FC<any> = () => {
             <ProFormSelect
               name="page_id"
               width="lg"
+              showSearch
               label={intl.formatMessage({ id: 'setting.nav.select-page' })}
               options={categories.map((cat: any) => ({
-                spacer: cat.spacer,
-                title: cat.title,
-                label:
-                  cat.title +
-                  (cat.status === 1
-                    ? ''
-                    : intl.formatMessage({ id: 'setting.nav.hide' })),
+                label: (
+                  <div title={cat.title}>
+                    {cat.parent_titles?.length > 0 ? (
+                      <span className="text-muted">
+                        {cat.parent_titles?.join(' > ')}
+                        {' > '}
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                    {cat.title}
+                  </div>
+                ),
                 value: cat.id,
                 disabled: cat.status !== 1,
               }))}
-              fieldProps={{
-                optionItemRender(item: any) {
-                  return (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: item.spacer + item.label,
-                      }}
-                    ></div>
-                  );
-                },
-                onChange: (_, a: any) => {
-                  setDefaultTitle(a.title);
-                },
-              }}
             />
           )}
           {nav_type === 3 && (

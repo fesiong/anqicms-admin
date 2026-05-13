@@ -145,4 +145,7 @@ export default {
   'component.right-content.vip-prefix': '了解VIP详情，请访问',
   'component.right-content.vip-name': 'VIP介绍页面',
   'component.right-content.vip-suffix': '获取最新信息',
+  'component.ai-chat.title': 'AI助手',
+  'component.ai-chat.tips':
+    'AI助手将集成到AnQiCMS中，提供更便捷的AI服务。敬请期待！',
 };

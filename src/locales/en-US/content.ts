@@ -176,6 +176,7 @@ export default {
   'content.quick-import.status': 'Document import progress',
   'content.recycle.name': 'Document Recycle Bin',
   'content.replace.name': 'Replace keywords in batches',
+  'content.option.batch-add-tag': 'Batch add tags',
   'content.option.change-flag': 'Change Flags in Batch',
   'content.option.change-category': 'Change categories in batches',
   'content.option.reflash-time': 'refresh time',
@@ -221,6 +222,7 @@ export default {
   'content.title.required': 'Please fill in the title',
   'content.relation.name': 'Related Archives',
   'content.tag.name': 'Tag tag',
+  'content.tag.required': 'Please fill in the tag',
   'content.tag.placeholder':
     'Tags can be entered or selected, multiple tags available, separated',
   'content.url-token.name': 'URL alias',

@@ -21,6 +21,7 @@ const PluginSitemap: React.FC<any> = () => {
   const formRef = React.createRef<ProFormInstance>();
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
+  const [categories, setCategories] = useState<any[]>([]);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
@@ -28,6 +29,9 @@ const PluginSitemap: React.FC<any> = () => {
     const res = await pluginGetSitemap();
     let setting = res.data || {};
     setSitemapSetting(setting);
+    getCategories().then((res) => {
+      setCategories(res.data);
+    });
     setFetched(true);
   };
 
@@ -175,13 +179,39 @@ const PluginSitemap: React.FC<any> = () => {
                     id: 'plugin.sitemap.exculde-category',
                   })}
                   mode="multiple"
-                  request={async () => {
-                    let res = await getCategories({ type: 1 });
-                    const tmpData = (res.data || []).map((item: any) => ({
-                      label: item.spacer.replaceAll('&nbsp;', ' ') + item.title,
-                      value: item.id,
-                    }));
-                    return tmpData;
+                  options={[
+                    {
+                      title: intl.formatMessage({
+                        id: 'content.please-select',
+                      }),
+                      value: 0,
+                    },
+                  ]
+                    .concat(categories)
+                    .map((cat: any) => ({
+                      title: cat.title,
+                      label: (
+                        <div title={cat.title}>
+                          {cat.parent_titles?.length > 0 ? (
+                            <span className="text-muted">
+                              {cat.parent_titles?.join(' > ')}
+                              {' > '}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                          {cat.title}
+                        </div>
+                      ),
+                      value: cat.id,
+                      disabled: cat.status !== 1,
+                    }))}
+                  fieldProps={{
+                    showSearch: true,
+                    filterOption: (input: string, option: any) =>
+                      (option?.title ?? option?.label)
+                        .toLowerCase()
+                        .includes(input.toLowerCase()),
                   }}
                   placeholder={intl.formatMessage({
                     id: 'plugin.sitemap.exculde-category.description',
@@ -196,7 +226,7 @@ const PluginSitemap: React.FC<any> = () => {
                   request={async () => {
                     let res = await getCategories({ type: 3 });
                     const tmpData = (res.data || []).map((item: any) => ({
-                      label: item.spacer.replaceAll('&nbsp;', ' ') + item.title,
+                      label: item.title,
                       value: item.id,
                     }));
                     return tmpData;

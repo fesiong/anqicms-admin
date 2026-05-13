@@ -24,6 +24,7 @@ import icon_interference from '@/images/icon_interference.png';
 import icon_jsonld from '@/images/icon_jsonld.png';
 import icon_keyword from '@/images/icon_keyword.png';
 import icon_limiter from '@/images/icon_limiter.png';
+import icon_llms from '@/images/icon_llms.png';
 import icon_material from '@/images/icon_material.png';
 import icon_multilang from '@/images/icon_multilang.png';
 import icon_order from '@/images/icon_order.png';
@@ -157,6 +158,10 @@ const PluginIndex: React.FC = () => {
         return icon_akismet;
       case 'google':
         return icon_google;
+      case 'llms':
+        return icon_llms;
+      default:
+        return icon_backup;
     }
   };
 

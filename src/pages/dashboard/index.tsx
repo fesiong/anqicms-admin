@@ -66,7 +66,6 @@ const Dashboard: React.FC = () => {
         setData(res.data || {});
         setExact(res.data?.exact || false);
         let needShow = res.data?.show_guide || false;
-        needShow = true;
         // 读取localStorage
         let hasClose = getStore('close_guide') || false;
         if (hasClose) {

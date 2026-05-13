@@ -67,6 +67,7 @@ const ArchiveCategoryDetail: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [category, setCategory] = useState<any>({ status: 1 });
   const [modules, setModules] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [searchArchives, setSearchArchives] = useState<any[]>([
     {
       id: 0,
@@ -159,6 +160,9 @@ const ArchiveCategoryDetail: React.FC = () => {
     getSettingContent().then((res) => {
       setContentSetting(res.data || {});
       setLoaded(true);
+    });
+    getCategories({}).then((res) => {
+      setCategories((res.data || []).filter((item: any) => item.module_id !== 2));
     });
   };
 
@@ -608,54 +612,47 @@ const ArchiveCategoryDetail: React.FC = () => {
                   label={intl.formatMessage({ id: 'content.category.parent' })}
                   name="parent_id"
                   width="lg"
-                  request={async () => {
-                    let res = await getCategories({ type: categoryType });
-                    let categories = res.data || [];
-                    // 排除自己
-                    if (category.id) {
-                      let tmpCategory = [];
-                      for (let i in categories) {
-                        if (
-                          categories[i].id === category.id ||
-                          categories[i].parent_id === category.id ||
-                          categories[i].module_id !== category.module_id
-                        ) {
-                          continue;
-                        }
-                        tmpCategory.push(categories[i]);
-                      }
-                      categories = tmpCategory;
-                    }
-                    categories = [
-                      {
-                        id: 0,
-                        title: intl.formatMessage({
-                          id: 'content.category.top',
-                        }),
-                        spacer: '',
-                      },
-                    ]
-                      .concat(categories)
-                      .filter((item: any) => item.module_id !== 2);
-                    return categories;
-                  }}
-                  readonly={
-                    category.id || category.module_id > 0 ? false : true
-                  }
+                  options={[
+                    {
+                      id: 0,
+                      title: intl.formatMessage({
+                        id: 'content.category.top',
+                      }),
+                    },
+                  ]
+                    .concat(
+                      categories.filter((item) =>
+                        category.id > 0
+                          ? item.module_id === category.module_id &&
+                            item.id !== category.id &&
+                            item.parent_id !== category.id
+                          : true,
+                      ),
+                    )
+                    .map((cat: any) => ({
+                      title: cat.title,
+                      label: (
+                        <div title={cat.title}>
+                          {cat.parent_titles?.length > 0 ? (
+                            <span className="text-muted">
+                              {cat.parent_titles?.join(' > ')}
+                              {' > '}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                          {cat.title}
+                        </div>
+                      ),
+                      value: cat.id,
+                      disabled: cat.status !== 1,
+                    }))}
                   fieldProps={{
-                    fieldNames: {
-                      label: 'title',
-                      value: 'id',
-                    },
-                    optionItemRender(item: any) {
-                      return (
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: (item.spacer || '') + item.title,
-                          }}
-                        ></div>
-                      );
-                    },
+                    showSearch: true,
+                    filterOption: (input: string, option: any) =>
+                      (option?.title ?? option?.label)
+                        .toLowerCase()
+                        .includes(input.toLowerCase()),
                   }}
                 />
                 <ProFormText
@@ -1134,37 +1131,42 @@ const ArchiveCategoryDetail: React.FC = () => {
                                     showSearch
                                     name={['extra', item.field_name]}
                                     mode={'single'}
-                                    request={async () => {
-                                      const res = await getCategories({
-                                        type: 1,
-                                      });
-                                      const categories = (res.data || [])
-                                        .filter(
-                                          (item: any) => item.module_id !== 2,
-                                        )
-                                        .map((cat: any) => ({
-                                          spacer: cat.spacer,
-                                          label:
-                                            cat.title +
-                                            (cat.status === 1
-                                              ? ''
-                                              : intl.formatMessage({
-                                                  id: 'setting.nav.hide',
-                                                })),
-                                          value: cat.id,
-                                        }));
-                                      return categories;
-                                    }}
-                                    fieldProps={{
-                                      optionItemRender(item: any) {
-                                        return (
-                                          <div
-                                            dangerouslySetInnerHTML={{
-                                              __html: item.spacer + item.label,
-                                            }}
-                                          ></div>
-                                        );
+                                    options={[
+                                      {
+                                        title: intl.formatMessage({
+                                          id: 'content.please-select',
+                                        }),
+                                        value: 0,
                                       },
+                                    ]
+                                      .concat(categories)
+                                      .map((cat: any) => ({
+                                        title: cat.title,
+                                        label: (
+                                          <div title={cat.title}>
+                                            {cat.parent_titles?.length > 0 ? (
+                                              <span className="text-muted">
+                                                {cat.parent_titles?.join(' > ')}
+                                                {' > '}
+                                              </span>
+                                            ) : (
+                                              ''
+                                            )}
+                                            {cat.title}
+                                          </div>
+                                        ),
+                                        value: cat.id,
+                                        disabled: cat.status !== 1,
+                                      }))}
+                                    fieldProps={{
+                                      showSearch: true,
+                                      filterOption: (
+                                        input: string,
+                                        option: any,
+                                      ) =>
+                                        (option?.title ?? option?.label)
+                                          .toLowerCase()
+                                          .includes(input.toLowerCase()),
                                     }}
                                   />
                                 </ProFormText>

@@ -62,6 +62,7 @@ export default {
   'menu.plugin.jsonld': 'Schema Data',
   'menu.plugin.akismet': 'Akismet',
   'menu.plugin.google': 'Google Auth',
+  'menu.plugin.llms': 'LLMs Settings',
   'menu.design': 'Template',
   'menu.design.index': 'My Template',
   'menu.design.editor': 'Modify Code',

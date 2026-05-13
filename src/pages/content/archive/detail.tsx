@@ -109,6 +109,7 @@ class ArchiveForm extends React.Component<intlProps> {
       },
     ],
     selectedUser: {},
+    categories: [],
 
     aiVisible: false,
     aiTitle: '',
@@ -201,6 +202,23 @@ class ArchiveForm extends React.Component<intlProps> {
         }
       },
     );
+    // 获取分类
+    getCategories().then((res) => {
+      let categories = (res.data || []).filter((item: any) => item.module_id !== 2);
+      this.setState({
+        categories,
+      });
+      if (categories.length === 0) {
+        Modal.error({
+          title: this.props.intl.formatMessage({
+            id: 'content.category.error',
+          }),
+          onOk: () => {
+            history.push('/archive/category');
+          },
+        });
+      }
+    });
   };
 
   componentDidMount = async () => {
@@ -1450,6 +1468,7 @@ class ArchiveForm extends React.Component<intlProps> {
       relations,
       searchArchives,
       searchUsers,
+      categories,
       newKey,
     } = this.state;
     return (
@@ -2215,40 +2234,44 @@ class ArchiveForm extends React.Component<intlProps> {
                                       showSearch
                                       name={['extra', item.field_name, 'value']}
                                       mode={'single'}
-                                      request={async () => {
-                                        const res = await getCategories({
-                                          type: 1,
-                                        });
-                                        const categories = (res.data || [])
-                                          .filter(
-                                            (item: any) => item.module_id !== 2,
-                                          )
-                                          .map((cat: any) => ({
-                                            spacer: cat.spacer,
-                                            label:
-                                              cat.title +
-                                              (cat.status === 1
-                                                ? ''
-                                                : this.props.intl.formatMessage(
-                                                    {
-                                                      id: 'setting.nav.hide',
-                                                    },
-                                                  )),
-                                            value: cat.id,
-                                          }));
-                                        return categories;
-                                      }}
-                                      fieldProps={{
-                                        optionItemRender(item: any) {
-                                          return (
-                                            <div
-                                              dangerouslySetInnerHTML={{
-                                                __html:
-                                                  item.spacer + item.label,
-                                              }}
-                                            ></div>
-                                          );
+                                      options={[
+                                        {
+                                          title: this.props.intl.formatMessage({
+                                            id: 'content.please-select',
+                                          }),
+                                          value: 0,
                                         },
+                                      ]
+                                        .concat(categories)
+                                        .map((cat: any) => ({
+                                          title: cat.title,
+                                          label: (
+                                            <div title={cat.title}>
+                                              {cat.parent_titles?.length > 0 ? (
+                                                <span className="text-muted">
+                                                  {cat.parent_titles?.join(
+                                                    ' > ',
+                                                  )}
+                                                  {' > '}
+                                                </span>
+                                              ) : (
+                                                ''
+                                              )}
+                                              {cat.title}
+                                            </div>
+                                          ),
+                                          value: cat.id,
+                                          disabled: cat.status !== 1,
+                                        }))}
+                                      fieldProps={{
+                                        showSearch: true,
+                                        filterOption: (
+                                          input: string,
+                                          option: any,
+                                        ) =>
+                                          (option?.title ?? option?.label)
+                                            .toLowerCase()
+                                            .includes(input.toLowerCase()),
                                       }}
                                     />
                                   </ProFormText>
@@ -2942,7 +2965,6 @@ class ArchiveForm extends React.Component<intlProps> {
                   >
                     <ProFormSelect
                       //label="所属分类"
-                      showSearch
                       name="category_ids"
                       width="lg"
                       mode={
@@ -2950,41 +2972,30 @@ class ArchiveForm extends React.Component<intlProps> {
                           ? 'multiple'
                           : 'single'
                       }
-                      request={async () => {
-                        const res = await getCategories({ type: 1 });
-                        const categories = (res.data || []).map((cat: any) => ({
-                          spacer: cat.spacer,
-                          label:
-                            cat.title +
-                            (cat.status === 1
-                              ? ''
-                              : this.props.intl.formatMessage({
-                                  id: 'setting.nav.hide',
-                                })),
-                          value: cat.id,
-                        }));
-                        if (categories.length === 0) {
-                          Modal.error({
-                            title: this.props.intl.formatMessage({
-                              id: 'content.category.error',
-                            }),
-                            onOk: () => {
-                              history.push('/archive/category');
-                            },
-                          });
-                        }
-                        return categories;
-                      }}
+                      options={categories.map((cat: any) => ({
+                        title: cat.title,
+                        label: (
+                          <div title={cat.title}>
+                            {cat.parent_titles?.length > 0 ? (
+                              <span className="text-muted">
+                                {cat.parent_titles?.join(' > ')}
+                                {' > '}
+                              </span>
+                            ) : (
+                              ''
+                            )}
+                            {cat.title}
+                          </div>
+                        ),
+                        value: cat.id,
+                        disabled: cat.status !== 1,
+                      }))}
                       fieldProps={{
-                        optionItemRender(item) {
-                          return (
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: item.spacer + item.label,
-                              }}
-                            ></div>
-                          );
-                        },
+                        showSearch: true,
+                        filterOption: (input: string, option: any) =>
+                          (option?.title ?? option?.label)
+                            .toLowerCase()
+                            .includes(input.toLowerCase()),
                         onChange: this.onChangeSelectCategory,
                       }}
                       extra={

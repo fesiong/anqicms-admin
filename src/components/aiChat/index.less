@@ -1,0 +1,122 @@
+.ai-chat-modal {
+  position: fixed;
+  right: 90px;
+  bottom: 90px;
+  width: 380px;
+  height: 520px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+  overflow: hidden;
+
+  @media screen and (max-width: 768px) {
+    width: calc(100vw - 20px);
+    height: calc(100vh - 100px);
+    right: 10px;
+    bottom: 50px;
+  }
+}
+
+.ai-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  color: #fff;
+  flex-shrink: 0;
+
+  .ai-chat-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+
+    .ai-chat-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .ai-chat-close {
+    color: #fff;
+    border: none;
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d9d9d9;
+    border-radius: 3px;
+
+    &:hover {
+      background: #bfbfbf;
+    }
+  }
+}
+
+.ai-chat-message {
+  display: flex;
+  max-width: 85%;
+  word-break: break-word;
+
+  &.user {
+    align-self: flex-end;
+
+    .ai-chat-message-content {
+      background: #1890ff;
+      color: #fff;
+      border-radius: 12px 12px 0 12px;
+      padding: 10px 14px;
+    }
+  }
+
+  &.assistant {
+    align-self: flex-start;
+
+    .ai-chat-message-content {
+      background: #fff;
+      color: #333;
+      border-radius: 12px 12px 12px 0;
+      padding: 10px 14px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+  }
+}
+
+.ai-chat-input {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+  border-top: 1px solid #e8e8e8;
+  background: #fff;
+  flex-shrink: 0;
+
+  .ant-input {
+    flex: 1;
+  }
+
+  .ai-chat-send {
+    flex-shrink: 0;
+  }
+}

@@ -67,6 +67,7 @@ const ArchiveTagDetail: React.FC = () => {
       }),
     },
   ]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
   const editorRef = useRef(null);
   const [aiTitle, setAiTitle] = useState<string>('');
@@ -121,6 +122,9 @@ const ArchiveTagDetail: React.FC = () => {
     }
     setExtraContent(extraContent);
     getSelectedArchives(arcIds);
+    getCategories().then((res) => {
+      setCategories(res.data);
+    });
 
     const res2 = await getSettingContent();
     setContentSetting(res2.data || {});
@@ -936,45 +940,42 @@ const ArchiveTagDetail: React.FC = () => {
                                     showSearch
                                     name={['extra', item.field_name]}
                                     mode={'single'}
-                                    request={async () => {
-                                      const res = await getCategories({
-                                        type: 1,
-                                      });
-                                      const categories = (res.data || []).map(
-                                        (cat: any) => ({
-                                          spacer: cat.spacer,
-                                          label:
-                                            cat.title +
-                                            (cat.status === 1
-                                              ? ''
-                                              : intl.formatMessage({
-                                                  id: 'setting.nav.hide',
-                                                })),
-                                          value: cat.id,
+                                    options={[
+                                      {
+                                        title: intl.formatMessage({
+                                          id: 'content.please-select',
                                         }),
-                                      );
-                                      if (categories.length === 0) {
-                                        Modal.error({
-                                          title: intl.formatMessage({
-                                            id: 'content.category.error',
-                                          }),
-                                          onOk: () => {
-                                            history.push('/archive/category');
-                                          },
-                                        });
-                                      }
-                                      return categories;
-                                    }}
-                                    fieldProps={{
-                                      optionItemRender(item: any) {
-                                        return (
-                                          <div
-                                            dangerouslySetInnerHTML={{
-                                              __html: item.spacer + item.label,
-                                            }}
-                                          ></div>
-                                        );
+                                        value: 0,
                                       },
+                                    ]
+                                      .concat(categories)
+                                      .map((cat: any) => ({
+                                        title: cat.title,
+                                        label: (
+                                          <div title={cat.title}>
+                                            {cat.parent_titles?.length > 0 ? (
+                                              <span className="text-muted">
+                                                {cat.parent_titles?.join(' > ')}
+                                                {' > '}
+                                              </span>
+                                            ) : (
+                                              ''
+                                            )}
+                                            {cat.title}
+                                          </div>
+                                        ),
+                                        value: cat.id,
+                                        disabled: cat.status !== 1,
+                                      }))}
+                                    fieldProps={{
+                                      showSearch: true,
+                                      filterOption: (
+                                        input: string,
+                                        option: any,
+                                      ) =>
+                                        (option?.title ?? option?.label)
+                                          .toLowerCase()
+                                          .includes(input.toLowerCase()),
                                     }}
                                   />
                                 </ProFormText>
@@ -1099,39 +1100,39 @@ const ArchiveTagDetail: React.FC = () => {
                   <ProFormSelect
                     showSearch
                     name="category_id"
-                    request={async () => {
-                      const res = await getCategories({ type: 1 });
-                      const categories = (res.data || []).map((cat: any) => ({
-                        spacer: cat.spacer,
-                        label:
-                          cat.title +
-                          (cat.status === 1
-                            ? ''
-                            : intl.formatMessage({
-                                id: 'setting.nav.hide',
-                              })),
-                        value: cat.id,
-                      }));
-                      return [
-                        {
-                          spacer: '',
-                          label: intl.formatMessage({
-                            id: 'content.category.top',
-                          }),
-                          value: 0,
-                        },
-                      ].concat(categories);
-                    }}
-                    fieldProps={{
-                      optionItemRender(item: any) {
-                        return (
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: item.spacer + item.label,
-                            }}
-                          ></div>
-                        );
+                    options={[
+                      {
+                        title: intl.formatMessage({
+                          id: 'content.please-select',
+                        }),
+                        value: 0,
                       },
+                    ]
+                      .concat(categories)
+                      .map((cat: any) => ({
+                        title: cat.title,
+                        label: (
+                          <div title={cat.title}>
+                            {cat.parent_titles?.length > 0 ? (
+                              <span className="text-muted">
+                                {cat.parent_titles?.join(' > ')}
+                                {' > '}
+                              </span>
+                            ) : (
+                              ''
+                            )}
+                            {cat.title}
+                          </div>
+                        ),
+                        value: cat.id,
+                        disabled: cat.status !== 1,
+                      }))}
+                    fieldProps={{
+                      showSearch: true,
+                      filterOption: (input: string, option: any) =>
+                        (option?.title ?? option?.label)
+                          .toLowerCase()
+                          .includes(input.toLowerCase()),
                     }}
                   />
                 </Card>

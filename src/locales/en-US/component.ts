@@ -155,4 +155,7 @@ export default {
   'component.right-content.vip-prefix': 'Learn more about VIP, please visit',
   'component.right-content.vip-name': 'VIP Details Page',
   'component.right-content.vip-suffix': 'Get latest updates',
+  'component.ai-chat.title': 'AI Assistant',
+  'component.ai-chat.tips':
+    'AI Assistant is under development, please stay tuned!',
 };

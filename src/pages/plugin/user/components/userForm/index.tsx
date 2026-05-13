@@ -42,6 +42,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
   const formRef = useRef<ProFormInstance>();
   const [userFields, setUserFields] = useState<any[]>([]);
   const [user, setUser] = useState<any>({ extra: {} });
+  const [categories, setCategories] = useState<any[]>([]);
   const [fetched, setFetched] = useState<boolean>(false);
   const intl = useIntl();
   const [searchArchives, setSearchArchives] = useState<any[]>([
@@ -99,6 +100,9 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         }
       }
       getSelectedArchives(arcIds);
+      getCategories({ type: 1 }).then((res) => {
+        setCategories(res.data || []);
+      });
       setUser(data);
       setFetched(true);
     });
@@ -873,34 +877,39 @@ const UserForm: React.FC<UserFormProps> = (props) => {
               showSearch
               name={['extra', item.field_name, 'value']}
               mode={'single'}
-              request={async () => {
-                const res = await getCategories({
-                  type: 1,
-                });
-                const categories = (res.data || []).map((cat: any) => ({
-                  spacer: cat.spacer,
-                  label:
-                    cat.title +
-                    (cat.status === 1
-                      ? ''
-                      : intl.formatMessage({
-                          id: 'setting.nav.hide',
-                        })),
-                  value: cat.id,
-                }));
-
-                return categories;
-              }}
-              fieldProps={{
-                optionItemRender(item: any) {
-                  return (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: item.spacer + item.label,
-                      }}
-                    ></div>
-                  );
+              options={[
+                {
+                  title: intl.formatMessage({
+                    id: 'content.please-select',
+                  }),
+                  value: 0,
                 },
+              ]
+                .concat(categories)
+                .map((cat: any) => ({
+                  title: cat.title,
+                  label: (
+                    <div title={cat.title}>
+                      {cat.parent_titles?.length > 0 ? (
+                        <span className="text-muted">
+                          {cat.parent_titles?.join(' > ')}
+                          {' > '}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {cat.title}
+                    </div>
+                  ),
+                  value: cat.id,
+                  disabled: cat.status !== 1,
+                }))}
+              fieldProps={{
+                showSearch: true,
+                filterOption: (input: string, option: any) =>
+                  (option?.title ?? option?.label)
+                    .toLowerCase()
+                    .includes(input.toLowerCase()),
               }}
             />
           </ProFormText>

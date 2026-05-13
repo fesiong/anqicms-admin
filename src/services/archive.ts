@@ -118,6 +118,17 @@ export async function updateArchivesCategory(
   });
 }
 
+export async function updateArchivesTags(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/archive/tags',
+    body,
+    options,
+  });
+}
+
 export async function updateArchivesSort(
   body: any,
   options?: { [key: string]: any },
