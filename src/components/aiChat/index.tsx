@@ -1,15 +1,29 @@
+import { getAiHistories } from '@/services';
 import config from '@/services/config';
-import { getSessionStore, getStore } from '@/utils/store';
-import { CloseOutlined, SendOutlined } from '@ant-design/icons';
+import { getSessionStore, getStore, setStore } from '@/utils/store';
+import { CloseOutlined, FullscreenOutlined, FullscreenExitOutlined, PlusOutlined, SendOutlined } from '@ant-design/icons';
+import gfm from '@bytemd/plugin-gfm';
+import { Viewer } from '@bytemd/react';
 import { useIntl } from '@umijs/max';
 import { Button, Input, Spin, message } from 'antd';
+import 'bytemd/dist/index.css';
 import { useEffect, useRef, useState } from 'react';
 import './index.less';
+
+interface ToolCallItem {
+  name: string;
+  arguments: string;
+  tool_call_id: string;
+  status: 'calling' | 'completed';
+  result?: string;
+}
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: number;
+  thinking?: string;
+  toolCalls?: ToolCallItem[];
 }
 
 interface AiChatProps {
@@ -17,13 +31,107 @@ interface AiChatProps {
   onClose: () => void;
 }
 
+/** 思维链条折叠展示组件 */
+const ThinkingBlock: React.FC<{ thinking: string }> = ({ thinking }) => {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <div className="ai-chat-thinking">
+      <div
+        className="ai-chat-thinking-header"
+        onClick={() => setExpanded(!expanded)}
+      >
+        <span className={`ai-chat-thinking-arrow ${expanded ? 'expanded' : ''}`}>
+          ▶
+        </span>
+        <span className="ai-chat-thinking-label">已思考</span>
+      </div>
+      {expanded && (
+        <div className="ai-chat-thinking-body">
+          <pre>{thinking}</pre>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/** 工具调用链折叠展示组件 */
+const ToolCallsBlock: React.FC<{ toolCalls: ToolCallItem[] }> = ({ toolCalls }) => {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <div className="ai-chat-thinking" style={{ marginBottom: 8 }}>
+      <div
+        className="ai-chat-thinking-header"
+        onClick={() => setExpanded(!expanded)}
+      >
+        <span className={`ai-chat-thinking-arrow ${expanded ? 'expanded' : ''}`}>
+          ▶
+        </span>
+        <span className="ai-chat-thinking-label">
+          调用了 {toolCalls.length} 个工具
+          {toolCalls.some(t => t.status === 'calling') ? '（进行中...）' : ''}
+        </span>
+      </div>
+      {expanded && (
+        <div className="ai-chat-thinking-body">
+          {toolCalls.map((tc, idx) => (
+            <div key={tc.tool_call_id} style={{ marginBottom: 8, padding: '4px 0', borderBottom: idx < toolCalls.length - 1 ? '1px solid #eee' : 'none' }}>
+              <div style={{ fontWeight: 500, fontSize: 13, color: '#1890ff' }}>
+                {tc.status === 'calling' ? '🔄' : '✅'} {tc.name}
+              </div>
+              <pre style={{ fontSize: 12, background: '#f5f5f5', padding: 4, borderRadius: 4, margin: '4px 0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+                {tc.arguments.length > 200 ? tc.arguments.slice(0, 200) + '...' : tc.arguments}
+              </pre>
+              {tc.result && (
+                <pre style={{ fontSize: 12, background: '#f6ffed', padding: 4, borderRadius: 4, margin: '4px 0', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+                  {tc.result.length > 300 ? tc.result.slice(0, 300) + '...' : tc.result}
+                </pre>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
   const intl = useIntl();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState('');
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(getStore('aiSessionId') || '');
+  const [maximized, setMaximized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const welcomeShownRef = useRef(false);
+  const handleNewSession = () => { setMessages([]); setSessionId(''); setStore('aiSessionId', ''); welcomeShownRef.current = false; };
+
+  // 打开组件时检查 sessionId，不存在则显示欢迎消息，存在则从服务器加载历史记录
+  useEffect(() => {
+    if (!visible) return;
+    if (welcomeShownRef.current) return;
+    welcomeShownRef.current = true;
+
+    const cachedSessionId = getStore('aiSessionId');
+    if (cachedSessionId) {
+      setHistoryLoading(true);
+      getAiHistories({ session_id: cachedSessionId })
+        .then((res) => {
+          setMessages(res.data || []);
+        })
+        .finally(() => {
+          setHistoryLoading(false);
+        });
+    } else {
+      const welcomeMessage: Message = {
+        role: 'assistant',
+        content:
+          '你好！我是安企 CMS AI 助手。我可以帮你管理文章、分类、标签和附件。\n\n输入 help 查看可用命令。',
+        timestamp: Date.now(),
+      };
+      setMessages([welcomeMessage]);
+    }
+  }, [visible]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,16 +152,6 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
     setMessages((prev) => [...prev, userMessage]);
 
     try {
-      if (!sessionId) {
-        const welcomeMessage: Message = {
-          role: 'assistant',
-          content:
-            '你好！我是安企 CMS AI 助手。我可以帮你管理文章、分类、标签和附件。\n\n输入 help 查看可用命令。',
-          timestamp: Date.now(),
-        };
-        setMessages((prev) => [...prev, welcomeMessage]);
-      }
-
       let adminToken = getStore('adminToken');
       const sessionToken = getSessionStore('adminToken');
       if (sessionToken) {
@@ -85,25 +183,16 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
       let buffer = '';
       let assistantMessage: Message | null = null;
 
-      const assistantMsg: Message = {
-        role: 'assistant',
-        content: '',
-        timestamp: Date.now(),
-      };
-
       const readStream = async () => {
         try {
           while (true) {
             const { done, value } = await reader.read();
-            console.log('readStream', done, value);
             if (done) break;
 
             buffer += decoder.decode(value, { stream: true });
 
             const events = buffer.split('\n\n');
             buffer = events.pop() || '';
-
-            console.log('readBuffer', buffer);
 
             for (const event of events) {
               if (!event.trim()) continue;
@@ -120,36 +209,108 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
                 }
               }
 
+              console.log('readBuffer data', data);
+
               if (eventType === 'session' && data) {
                 setSessionId(data);
+                setStore('aiSessionId', data);
+              } else if (eventType === 'reasoning' && data) {
+                try {
+                  const parsed = JSON.parse(data);
+                  if (parsed.v !== undefined) {
+                    if (!assistantMessage) {
+                      assistantMessage = {
+                        role: 'assistant',
+                        content: '',
+                        thinking: parsed.v,
+                        timestamp: parsed.timestamp || Date.now(),
+                      };
+                      setMessages((prev) => [...prev, assistantMessage!]);
+                    } else {
+                      assistantMessage.thinking = (assistantMessage.thinking || '') + parsed.v;
+                      setMessages((prev) => {
+                        const newMessages = [...prev];
+                        newMessages[newMessages.length - 1] = assistantMessage!;
+                        return newMessages;
+                      });
+                    }
+                  }
+                } catch (e) {
+                  console.error('Failed to parse reasoning data:', e);
+                }
+              } else if (eventType === 'tool_call' && data) {
+                try {
+                  const parsed = JSON.parse(data);
+                  // tool_call format: {"name":"xxx","arguments":"{...}","tool_call_id":"xxx"}
+                  const toolCall: ToolCallItem = {
+                    name: parsed.name || '',
+                    arguments: typeof parsed.arguments === 'object' ? JSON.stringify(parsed.arguments) : (parsed.arguments || ''),
+                    tool_call_id: parsed.tool_call_id || '',
+                    status: 'calling',
+                  };
+                  if (!assistantMessage) {
+                    assistantMessage = {
+                      role: 'assistant',
+                      content: '',
+                      timestamp: parsed.timestamp || Date.now(),
+                      toolCalls: [toolCall],
+                    };
+                    setMessages((prev) => [...prev, assistantMessage!]);
+                  } else {
+                    if (!assistantMessage.toolCalls) {
+                      assistantMessage.toolCalls = [];
+                    }
+                    assistantMessage.toolCalls.push(toolCall);
+                    setMessages((prev) => {
+                      const newMessages = [...prev];
+                      newMessages[newMessages.length - 1] = assistantMessage!;
+                      return newMessages;
+                    });
+                  }
+                } catch (e) {
+                  console.error('Failed to parse tool_call data:', e);
+                }
+              } else if (eventType === 'tool_result' && data) {
+                try {
+                  const parsed = JSON.parse(data);
+                  // tool_result format: {"tool_call_id":"xxx","result":"..."}
+                  if (assistantMessage && assistantMessage.toolCalls) {
+                    const idx = assistantMessage.toolCalls.findIndex(
+                      (tc) => tc.tool_call_id === parsed.tool_call_id
+                    );
+                    if (idx !== -1) {
+                      assistantMessage.toolCalls[idx].status = 'completed';
+                      assistantMessage.toolCalls[idx].result = typeof parsed.result === 'object' ? JSON.stringify(parsed.result) : (parsed.result || '');
+                      setMessages((prev) => {
+                        const newMessages = [...prev];
+                        newMessages[newMessages.length - 1] = assistantMessage!;
+                        return newMessages;
+                      });
+                    }
+                  }
+                } catch (e) {
+                  console.error('Failed to parse tool_result data:', e);
+                }
               } else if (eventType === 'message' && data) {
                 try {
                   const parsed = JSON.parse(data);
-                  if (parsed.message) {
-                    if (parsed.message.role === 'user') {
-                      const userMsg: Message = {
-                        role: 'user',
-                        content: parsed.message.content,
+                  // SSE stream data format: {"v":"text_chunk","timestamp":...}
+                  if (parsed.v !== undefined) {
+                    if (!assistantMessage) {
+                      assistantMessage = {
+                        role: 'assistant',
+                        content: parsed.v,
                         timestamp: parsed.timestamp || Date.now(),
                       };
-                      setMessages((prev) => [...prev, userMsg]);
+                      setMessages((prev) => [...prev, assistantMessage!]);
                     } else {
-                      if (!assistantMessage) {
-                        assistantMessage = {
-                          role: 'assistant',
-                          content: parsed.message.content,
-                          timestamp: parsed.timestamp || Date.now(),
-                        };
-                        setMessages((prev) => [...prev, assistantMessage!]);
-                      } else {
-                        assistantMessage.content = parsed.message.content;
-                        setMessages((prev) => {
-                          const newMessages = [...prev];
-                          newMessages[newMessages.length - 1] =
-                            assistantMessage!;
-                          return newMessages;
-                        });
-                      }
+                      assistantMessage.content += parsed.v;
+                      setMessages((prev) => {
+                        const newMessages = [...prev];
+                        newMessages[newMessages.length - 1] =
+                          assistantMessage!;
+                        return newMessages;
+                      });
                     }
                   }
                 } catch (e) {
@@ -204,7 +365,7 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
   if (!visible) return null;
 
   return (
-    <div className="ai-chat-modal">
+    <div className={`ai-chat-modal${maximized ? ' maximized' : ''}`}>
       <div className="ai-chat-header">
         <div className="ai-chat-title">
           <svg
@@ -225,15 +386,34 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
           </svg>
           <span>AI 助手</span>
         </div>
-        <Button
-          type="text"
-          icon={<CloseOutlined />}
-          onClick={onClose}
-          className="ai-chat-close"
-        />
+        <div className="ai-chat-header-actions" style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+          <Button
+            type="text"
+            icon={<PlusOutlined />}
+            onClick={handleNewSession}
+          />
+          <Button
+            type="text"
+            icon={maximized ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
+            onClick={() => setMaximized(!maximized)}
+          />
+          <Button
+            type="text"
+            icon={<CloseOutlined />}
+            onClick={onClose}
+            className="ai-chat-close"
+          />
+        </div>
       </div>
 
       <div className="ai-chat-messages">
+        {historyLoading && (
+          <div className="ai-chat-message assistant">
+            <div className="ai-chat-message-content">
+              <Spin size="small" /> 加载历史记录...
+            </div>
+          </div>
+        )}
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -241,16 +421,35 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
               msg.role === 'user' ? 'user' : 'assistant'
             }`}
           >
-            <div className="ai-chat-message-content">{msg.content}</div>
-          </div>
-        ))}
-        {loading && (
-          <div className="ai-chat-message assistant">
             <div className="ai-chat-message-content">
-              <Spin size="small" />
+              {msg.role === 'assistant' && msg.thinking ? (
+                <ThinkingBlock thinking={msg.thinking} />
+              ) : null}
+              {msg.role === 'assistant' && msg.toolCalls && msg.toolCalls.length > 0 ? (
+                <ToolCallsBlock toolCalls={msg.toolCalls} />
+              ) : null}
+              {msg.role === 'assistant' ? (
+                msg.content ? (
+                  <Viewer value={msg.content} plugins={[gfm()]} />
+                ) : msg.thinking ? null : (
+                  <Spin size="small" />
+                )
+              ) : (
+                msg.content
+              )}
             </div>
           </div>
-        )}
+        ))}
+        {loading &&
+          !messages.some(
+            (m) => m.role === 'assistant' && m.content.length > 0,
+          ) && (
+            <div className="ai-chat-message assistant">
+              <div className="ai-chat-message-content">
+                <Spin size="small" />
+              </div>
+            </div>
+          )}
         <div ref={messagesEndRef} />
       </div>
 

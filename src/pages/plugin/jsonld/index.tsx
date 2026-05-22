@@ -331,15 +331,15 @@ const Pluginjsonld: React.FC<any> = () => {
     },
     {
       label: intl.formatMessage({
-        id: 'plugin.jsonld.list-type.detailed-item-list',
-      }),
-      value: 'DetailedItemList',
-    },
-    {
-      label: intl.formatMessage({
         id: 'plugin.jsonld.list-type.item-list',
       }),
       value: 'ItemList',
+    },
+    {
+      label: intl.formatMessage({
+        id: 'plugin.jsonld.list-type.detailed-item-list',
+      }),
+      value: 'DetailedItemList',
     },
   ];
 
@@ -728,9 +728,13 @@ const Pluginjsonld: React.FC<any> = () => {
                                       }
                                       return (
                                         <>
-                                          {cat.parent_titles?.length > 0 && (
+                                          {cat.parents?.length > 0 && (
                                             <span className="text-muted">
-                                              {cat.parent_titles.join(' > ')}
+                                              {cat.parents
+                                                ?.map(
+                                                  (parent: any) => parent.title,
+                                                )
+                                                .join(' > ')}
                                               {' > '}
                                             </span>
                                           )}
@@ -1259,9 +1263,11 @@ const Pluginjsonld: React.FC<any> = () => {
                 title: cat.title,
                 label: (
                   <div title={cat.title}>
-                    {cat.parent_titles?.length > 0 ? (
+                    {cat.parents?.length > 0 ? (
                       <span className="text-muted">
-                        {cat.parent_titles?.join(' > ')}
+                        {cat.parents
+                          ?.map((parent: any) => parent.title)
+                          .join(' > ')}
                         {' > '}
                       </span>
                     ) : (

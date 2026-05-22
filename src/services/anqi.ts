@@ -185,3 +185,14 @@ export async function anqiExtractKeywords(
     options,
   });
 }
+
+export async function getAiHistories(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/anqi/ai/history',
+    params,
+    options,
+  });
+}

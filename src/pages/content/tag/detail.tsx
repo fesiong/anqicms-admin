@@ -953,9 +953,14 @@ const ArchiveTagDetail: React.FC = () => {
                                         title: cat.title,
                                         label: (
                                           <div title={cat.title}>
-                                            {cat.parent_titles?.length > 0 ? (
+                                            {cat.parents?.length > 0 ? (
                                               <span className="text-muted">
-                                                {cat.parent_titles?.join(' > ')}
+                                                {cat.parents
+                                                  ?.map(
+                                                    (parent: any) =>
+                                                      parent.title,
+                                                  )
+                                                  .join(' > ')}
                                                 {' > '}
                                               </span>
                                             ) : (
@@ -1113,9 +1118,11 @@ const ArchiveTagDetail: React.FC = () => {
                         title: cat.title,
                         label: (
                           <div title={cat.title}>
-                            {cat.parent_titles?.length > 0 ? (
+                            {cat.parents?.length > 0 ? (
                               <span className="text-muted">
-                                {cat.parent_titles?.join(' > ')}
+                                {cat.parents
+                                  ?.map((parent: any) => parent.title)
+                                  .join(' > ')}
                                 {' > '}
                               </span>
                             ) : (

@@ -365,7 +365,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
           })}
           options={[
             {
-              parent_titles: [],
+              parents: [],
               title: intl.formatMessage({ id: 'content.please-select' }),
               id: 0,
             },
@@ -375,9 +375,11 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
               title: cat.title,
               label: (
                 <div title={cat.title}>
-                  {cat.parent_titles?.length > 0 ? (
+                  {cat.parents?.length > 0 ? (
                     <span className="text-muted">
-                      {cat.parent_titles?.join(' > ')}
+                      {cat.parents
+                        .map((parent: any) => parent.title)
+                        .join(' > ')}
                       {' > '}
                     </span>
                   ) : (

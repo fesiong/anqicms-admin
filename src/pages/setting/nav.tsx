@@ -340,9 +340,11 @@ const SettingNavFrom: React.FC<any> = () => {
               optionItemRender(item: any) {
                 return (
                   <div title={item.title}>
-                    {item.parent_titles?.length > 0 ? (
+                    {item.parents?.length > 0 ? (
                       <span className="text-muted">
-                        {item.parent_titles?.join(' > ')}
+                        {item.parents
+                          ?.map((parent: any) => parent.title)
+                          .join(' > ')}
                         {' > '}
                       </span>
                     ) : (
@@ -356,27 +358,27 @@ const SettingNavFrom: React.FC<any> = () => {
             request={async () => {
               let newNavs = [
                 {
-                  parent_titles: [],
+                  parents: [],
                   title: intl.formatMessage({ id: 'setting.nav.top' }),
                   id: 0,
                 },
               ];
               for (let item of navs || []) {
                 newNavs.push({
-                  parent_titles: [],
+                  parents: [],
                   title: item.title,
                   id: item.id,
                 });
                 for (let sub of item.nav_list || []) {
                   let subItem = {
-                    parent_titles: sub.parent_titles || [],
+                    parents: sub.parents || [],
                     title: sub.title,
                     id: sub.id,
                   };
                   newNavs.push(subItem);
                   for (let sub2 of sub.nav_list || []) {
                     newNavs.push({
-                      parent_titles: sub2.parent_titles || [],
+                      parents: sub2.parents || [],
                       title: sub2.title,
                       id: sub2.id,
                     });
@@ -477,9 +479,11 @@ const SettingNavFrom: React.FC<any> = () => {
               options={categories.map((cat: any) => ({
                 label: (
                   <div title={cat.title}>
-                    {cat.parent_titles?.length > 0 ? (
+                    {cat.parents?.length > 0 ? (
                       <span className="text-muted">
-                        {cat.parent_titles?.join(' > ')}
+                        {cat.parents
+                          ?.map((parent: any) => parent.title)
+                          .join(' > ')}
                         {' > '}
                       </span>
                     ) : (
