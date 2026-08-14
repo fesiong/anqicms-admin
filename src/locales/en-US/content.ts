@@ -113,6 +113,8 @@ export default {
   'content.category.all': 'all categories',
   'content.category.error':
     'Please create a category first and then publish the document',
+  'content.page.parent': 'Parent page',
+  'content.page.top': 'Root page',
   'content.views.name': 'Browse',
   'content.status.draft': 'draft',
   'content.status.normal': 'normal',

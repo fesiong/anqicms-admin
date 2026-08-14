@@ -105,6 +105,8 @@ export default {
   'content.category.parent': '上級分類',
   'content.category.all': '所有分類',
   'content.category.error': '請先建立分類，再來發布文檔',
+  'content.page.parent': '上级页面',
+  'content.page.top': '无',
   'content.views.name': '瀏覽',
   'content.status.draft': '草稿',
   'content.status.normal': '正常',

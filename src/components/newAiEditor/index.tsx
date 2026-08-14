@@ -6,7 +6,7 @@ import config from '@/services/config';
 import { getSessionStore, getStore } from '@/utils/store';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useIntl } from '@umijs/max';
-import { Button, Input, Modal, Space, Spin, Tooltip, message } from 'antd';
+import { Button, Input, message, Modal, Space, Spin, Tooltip } from 'antd';
 import {
   forwardRef,
   lazy,
@@ -17,10 +17,10 @@ import {
   useState,
 } from 'react';
 import AttachmentSelect from '../attachment';
-
-const MonacoEditor = lazy(() => import('react-monaco-editor'));
 import './index.less';
 import MaterialSelect, { MaterialElement } from './material';
+
+const MonacoEditor = lazy(() => import('react-monaco-editor'));
 
 export type NewAiEditorProps = {
   className: string;
@@ -162,6 +162,9 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
     } else {
       result.data.src = res.data.file_path;
       result.data.alt = res.data.file_name;
+      result.data.align = 'center';
+      result.data.width = '100%';
+      result.data.height = 'auto';
     }
     return result;
   };
@@ -502,7 +505,11 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
           </div>
         </div>
         {htmlMode && (
-          <Suspense fallback={<Spin style={{ display: 'block', margin: '200px auto' }} />}>
+          <Suspense
+            fallback={
+              <Spin style={{ display: 'block', margin: '200px auto' }} />
+            }
+          >
             <MonacoEditor
               height={563}
               language={'html'}

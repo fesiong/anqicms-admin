@@ -4,6 +4,7 @@ import AiGetTdk from '@/components/aitdk';
 import AttachmentSelect from '@/components/attachment';
 import {
   anqiExtractDescription,
+  getCategories,
   getCategoryInfo,
   getDesignTemplateFiles,
   getModules,
@@ -44,6 +45,7 @@ const PageCategoryDetail: React.FC = () => {
   const [aiTitle, setAiTitle] = useState<string>('');
   const [aiVisible, setAiVisible] = useState<boolean>(false);
   const [aiTdkVisible, setAiTdkVisible] = useState<boolean>(false);
+  const [categories, setCategories] = useState<any[]>([]);
   const intl = useIntl();
 
   const changeModule = (e: any) => {
@@ -90,6 +92,9 @@ const PageCategoryDetail: React.FC = () => {
     getSettingContent().then((res) => {
       setContentSetting(res.data || {});
       setLoaded(true);
+    });
+    getCategories({ type: 3 }).then((res) => {
+      setCategories(res.data || []);
     });
   };
 
@@ -265,6 +270,54 @@ const PageCategoryDetail: React.FC = () => {
           >
             <Row gutter={20}>
               <Col sm={18} xs={24}>
+                <ProFormSelect
+                  label={intl.formatMessage({ id: 'content.page.parent' })}
+                  name="parent_id"
+                  width="lg"
+                  options={[
+                    {
+                      id: 0,
+                      title: intl.formatMessage({
+                        id: 'content.page.top',
+                      }),
+                    },
+                  ]
+                    .concat(
+                      categories.filter((item) =>
+                        category.id > 0
+                          ? item.id !== category.id &&
+                            item.parent_id !== category.id
+                          : true,
+                      ),
+                    )
+                    .map((cat: any) => ({
+                      title: cat.title,
+                      label: (
+                        <div title={cat.title}>
+                          {cat.parents?.length > 0 ? (
+                            <span className="text-muted">
+                              {cat.parents
+                                .map((parent: any) => parent.title)
+                                .join(' > ')}
+                              {' > '}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                          {cat.title}
+                        </div>
+                      ),
+                      value: cat.id,
+                      disabled: cat.status !== 1,
+                    }))}
+                  fieldProps={{
+                    showSearch: true,
+                    filterOption: (input: string, option: any) =>
+                      (option?.title ?? option?.label)
+                        .toLowerCase()
+                        .includes(input.toLowerCase()),
+                  }}
+                />
                 <ProFormText
                   name="title"
                   label={intl.formatMessage({ id: 'content.page.name' })}

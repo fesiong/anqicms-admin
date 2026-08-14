@@ -108,6 +108,8 @@ export default {
   'content.category.parent': '上级分类',
   'content.category.all': '所有分类',
   'content.category.error': '请先创建分类，再来发布文档',
+  'content.page.parent': '上级页面',
+  'content.page.top': '无',
   'content.views.name': '浏览',
   'content.status.draft': '草稿',
   'content.status.normal': '正常',
