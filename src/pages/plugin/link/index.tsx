@@ -7,7 +7,7 @@ import {
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Modal, Space, message } from 'antd';
+import { Button, Card, Image, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import LinkApi from './components/api';
@@ -99,6 +99,7 @@ const PluginLink: React.FC = () => {
             <a href={record.link} target="_blank" rel="noreferrer">
               {record.link}
             </a>
+            {record.logo && <Image width={100} src={record.logo} />}
           </div>
         );
       },

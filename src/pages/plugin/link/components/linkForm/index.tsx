@@ -1,5 +1,7 @@
+import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
 import { pluginSaveLink } from '@/services/plugin/link';
+import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
   ProFormDigit,
@@ -7,8 +9,9 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import { useIntl } from '@umijs/max';
-import React from 'react';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { message, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 export type LinkFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -19,11 +22,34 @@ export type LinkFormProps = {
 
 const LinkForm: React.FC<LinkFormProps> = (props) => {
   const intl = useIntl();
+  const [logo, setLogo] = useState<string>('');
+
+  useEffect(() => {
+    setLogo(props.editingLink.logo || '');
+  }, [props.editingLink]);
   const onSubmit = async (values: any) => {
     let editingLink = Object.assign(props.editingLink, values);
+    editingLink.logo = logo;
     await pluginSaveLink(editingLink);
 
     props.onSubmit();
+  };
+
+  const handleSelectQrcode = (row: any) => {
+    setLogo(row.file_path);
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
+  };
+
+  const handleRemoveQrcode = (e: any) => {
+    e.stopPropagation();
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
+      onOk: async () => {
+        setLogo('');
+      },
+    });
   };
 
   return (
@@ -53,14 +79,46 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
       <ProFormText
         name="link"
         label={intl.formatMessage({ id: 'plugin.link.field.other-link' })}
-        extra={intl.formatMessage({ id: 'plugin.link.field.other-link.description' })}
+        extra={intl.formatMessage({
+          id: 'plugin.link.field.other-link.description',
+        })}
       />
+      <ProFormText
+        label={intl.formatMessage({ id: 'plugin.jsonld.logo-image' })}
+        width="lg"
+      >
+        <AttachmentSelect onSelect={handleSelectQrcode} open={false}>
+          <div className="ant-upload-item">
+            {logo ? (
+              <>
+                <img src={logo} style={{ width: '100%' }} />
+                <a className="delete" onClick={handleRemoveQrcode}>
+                  <FormattedMessage id="setting.system.delete" />
+                </a>
+              </>
+            ) : (
+              <div className="add">
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>
+                  <FormattedMessage id="setting.system.upload" />
+                </div>
+              </div>
+            )}
+          </div>
+        </AttachmentSelect>
+      </ProFormText>
       <ProFormRadio.Group
         name="nofollow"
         label="NOFOLLOW"
         options={[
-          { value: 0, label: intl.formatMessage({ id: 'plugin.link.nofollow.no' }) },
-          { value: 1, label: intl.formatMessage({ id: 'plugin.link.nofollow.yes' }) },
+          {
+            value: 0,
+            label: intl.formatMessage({ id: 'plugin.link.nofollow.no' }),
+          },
+          {
+            value: 1,
+            label: intl.formatMessage({ id: 'plugin.link.nofollow.yes' }),
+          },
         ]}
         extra={intl.formatMessage({ id: 'plugin.link.nofollow.description' })}
       />
@@ -69,26 +127,38 @@ const LinkForm: React.FC<LinkFormProps> = (props) => {
         label={intl.formatMessage({ id: 'content.category.sort' })}
         extra={intl.formatMessage({ id: 'content.category.sort.description' })}
       />
-      <CollapseItem header={intl.formatMessage({ id: 'plugin.link.more' })} showArrow key="1">
+      <CollapseItem
+        header={intl.formatMessage({ id: 'plugin.link.more' })}
+        showArrow
+        key="1"
+      >
         <ProFormText
           name="back_link"
           label={intl.formatMessage({ id: 'plugin.link.field.back-link' })}
-          extra={intl.formatMessage({ id: 'plugin.link.field.back-link.description' })}
+          extra={intl.formatMessage({
+            id: 'plugin.link.field.back-link.description',
+          })}
         />
         <ProFormText
           name="my_title"
           label={intl.formatMessage({ id: 'plugin.link.field.self-title' })}
-          extra={intl.formatMessage({ id: 'plugin.link.field.self-title.description' })}
+          extra={intl.formatMessage({
+            id: 'plugin.link.field.self-title.description',
+          })}
         />
         <ProFormText
           name="my_link"
           label={intl.formatMessage({ id: 'plugin.link.field.self-link' })}
-          extra={intl.formatMessage({ id: 'plugin.link.field.self-link.description' })}
+          extra={intl.formatMessage({
+            id: 'plugin.link.field.self-link.description',
+          })}
         />
         <ProFormText
           name="contact"
           label={intl.formatMessage({ id: 'plugin.link.field.contact' })}
-          extra={intl.formatMessage({ id: 'plugin.link.field.contact.description' })}
+          extra={intl.formatMessage({
+            id: 'plugin.link.field.contact.description',
+          })}
         />
         <ProFormTextArea
           name="remark"
