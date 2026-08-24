@@ -185,7 +185,7 @@ class ArchiveForm extends React.Component<intlProps> {
                   extra: {},
                   content: '',
                   flag: [],
-                  category_ids: [categoryId],
+                  category_id: categoryId,
                 },
               });
             }
