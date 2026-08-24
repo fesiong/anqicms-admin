@@ -363,6 +363,12 @@ class ArchiveForm extends React.Component<intlProps> {
         }
       });
     }
+    // category_ids 问题
+    if (archive.category_id > 0) {
+      archive.category_ids = archive.category_ids.filter(
+        (catid: number) => catid !== archive.category_id,
+      );
+    }
     this.getSelectedArchives(arcIds);
     this.getArchiveCategory(archive.category_id);
     this.setState({
@@ -709,26 +715,25 @@ class ArchiveForm extends React.Component<intlProps> {
     }
     // 必须选择分类
     let categoryIds = [];
-    let categoryId = 0;
-    if (typeof values.category_ids === 'number') {
-      // 单分类
-      categoryId = Number(values.category_ids);
-    } else {
-      for (let i in values.category_ids) {
-        if (values.category_ids[i] > 0) {
-          categoryIds.push(values.category_ids[i]);
-        }
-      }
-      if (categoryIds.length > 0) {
-        categoryId = categoryIds[0];
-      }
-    }
+    let categoryId = values.category_id;
     if (categoryId === 0) {
       this.loading = false;
       message.error(
         this.props.intl.formatMessage({ id: 'content.category.required' }),
       );
       return;
+    }
+    // 优先
+    categoryIds.push(categoryId);
+    if (values.category_ids) {
+      for (let i in values.category_ids) {
+        if (
+          values.category_ids[i] > 0 &&
+          values.category_ids[i] !== categoryId
+        ) {
+          categoryIds.push(values.category_ids[i]);
+        }
+      }
     }
     postData.category_id = categoryId;
     postData.category_ids = categoryIds;
@@ -2972,13 +2977,8 @@ class ArchiveForm extends React.Component<intlProps> {
                   >
                     <ProFormSelect
                       //label="所属分类"
-                      name="category_ids"
+                      name="category_id"
                       width="lg"
-                      mode={
-                        contentSetting.multi_category === 1
-                          ? 'multiple'
-                          : 'single'
-                      }
                       options={categories.map((cat: any) => ({
                         title: cat.title,
                         label: (
@@ -3014,6 +3014,41 @@ class ArchiveForm extends React.Component<intlProps> {
                         </div>
                       }
                     />
+                    {contentSetting.multi_category === 1 && (
+                      <ProFormSelect
+                        name="category_ids"
+                        width="lg"
+                        mode="multiple"
+                        options={categories.map((cat: any) => ({
+                          title: cat.title,
+                          label: (
+                            <div title={cat.title}>
+                              {cat.parents?.length > 0 ? (
+                                <span className="text-muted">
+                                  {cat.parents
+                                    ?.map((parent: any) => parent.title)
+                                    .join(' > ')}
+                                  {' > '}
+                                </span>
+                              ) : (
+                                ''
+                              )}
+                              {cat.title}
+                            </div>
+                          ),
+                          value: cat.id,
+                          disabled: cat.status !== 1,
+                        }))}
+                        fieldProps={{
+                          showSearch: true,
+                          filterOption: (input: string, option: any) =>
+                            (option?.title ?? option?.label)
+                              .toLowerCase()
+                              .includes(input.toLowerCase()),
+                        }}
+                        extra={<div>关联分类，可选</div>}
+                      />
+                    )}
                   </Card>
                   <Card
                     className="aside-card"

@@ -274,23 +274,21 @@ const ArchiveList: React.FC = () => {
 
   const handleSetCategory = async (values: any) => {
     let categoryIds = [];
-    let categoryId = 0;
-    if (typeof values.category_ids === 'number') {
-      // 单分类
-      categoryId = Number(values.category_ids);
-    } else {
-      for (let i in values.category_ids) {
-        if (values.category_ids[i] > 0) {
-          categoryIds.push(values.category_ids[i]);
-        }
-      }
-      if (categoryIds.length > 0) {
-        categoryId = categoryIds[0];
-      }
-    }
+    let categoryId = values.category_id;
     if (categoryId === 0) {
       message.error(intl.formatMessage({ id: 'content.category.required' }));
       return;
+    }
+    categoryIds.push(categoryId);
+    if (values.category_ids) {
+      for (let i in values.category_ids) {
+        if (
+          values.category_ids[i] > 0 &&
+          values.category_ids[i] !== categoryId
+        ) {
+          categoryIds.push(values.category_ids[i]);
+        }
+      }
     }
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
@@ -1193,8 +1191,10 @@ const ArchiveList: React.FC = () => {
           onOpenChange={(e) => setCategoryVisible(e)}
         >
           <ProFormSelect
-            name="category_ids"
-            mode={contentSetting.multi_category === 1 ? 'multiple' : 'single'}
+            name="category_id"
+            label={intl.formatMessage({
+              id: 'content.category.name',
+            })}
             options={categories.map((cat: any) => ({
               title: cat.title,
               label: (
@@ -1223,6 +1223,41 @@ const ArchiveList: React.FC = () => {
                   .includes(input.toLowerCase()),
             }}
           />
+          {contentSetting.multi_category === 1 && (
+            <ProFormSelect
+              name="category_ids"
+              mode="multiple"
+              label="关联分类"
+              options={categories.map((cat: any) => ({
+                title: cat.title,
+                label: (
+                  <div title={cat.title}>
+                    {cat.parents?.length > 0 ? (
+                      <span className="text-muted">
+                        {cat.parents
+                          ?.map((parent: any) => parent.title)
+                          .join(' > ')}
+                        {' > '}
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                    {cat.title}
+                  </div>
+                ),
+                value: cat.id,
+                disabled: cat.status !== 1,
+              }))}
+              fieldProps={{
+                showSearch: true,
+                filterOption: (input: string, option: any) =>
+                  (option?.title ?? option?.label)
+                    .toLowerCase()
+                    .includes(input.toLowerCase()),
+              }}
+              extra={<div>关联分类，可选</div>}
+            />
+          )}
         </ModalForm>
       )}
       {releaseVisible && (

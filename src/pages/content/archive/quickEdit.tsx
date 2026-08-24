@@ -43,6 +43,9 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
     data.flag = data.flag?.split(',') || [];
     data.created_moment = dayjs(data.created_time * 1000);
     data.tags = data.tags?.map((tag: any) => tag.title);
+    data.category_ids = data.category_ids.filter(
+      (catid: number) => catid !== data.category_id,
+    );
     setArchive(data);
     setFetched(true);
   };
@@ -64,23 +67,21 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
       return;
     }
     let categoryIds = [];
-    let categoryId = 0;
-    if (typeof values.category_ids === 'number') {
-      // 单分类
-      categoryId = Number(values.category_ids);
-    } else {
-      for (let i in values.category_ids) {
-        if (values.category_ids[i] > 0) {
-          categoryIds.push(values.category_ids[i]);
-        }
-      }
-      if (categoryIds.length > 0) {
-        categoryId = categoryIds[0];
-      }
-    }
+    let categoryId = values.category_id;
     if (categoryId === 0) {
       message.error(intl.formatMessage({ id: 'content.category.required' }));
       return;
+    }
+    categoryIds.push(categoryId);
+    if (values.category_ids) {
+      for (let i in values.category_ids) {
+        if (
+          values.category_ids[i] > 0 &&
+          values.category_ids[i] !== categoryId
+        ) {
+          categoryIds.push(values.category_ids[i]);
+        }
+      }
     }
     postData.category_id = categoryId;
     postData.category_ids = categoryIds;
@@ -176,8 +177,7 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
             <ProFormSelect
               label={intl.formatMessage({ id: 'content.category.name' })}
               showSearch
-              name="category_ids"
-              mode={contentSetting.multi_category === 1 ? 'multiple' : 'single'}
+              name="category_id"
               options={categories.map((cat: any) => ({
                 title: cat.title,
                 label: (
@@ -206,6 +206,41 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
                     .includes(input.toLowerCase()),
               }}
             />
+            {contentSetting.multi_category === 1 && (
+              <ProFormSelect
+                name="category_ids"
+                mode="multiple"
+                label="关联分类"
+                options={categories.map((cat: any) => ({
+                  title: cat.title,
+                  label: (
+                    <div title={cat.title}>
+                      {cat.parents?.length > 0 ? (
+                        <span className="text-muted">
+                          {cat.parents
+                            ?.map((parent: any) => parent.title)
+                            .join(' > ')}
+                          {' > '}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {cat.title}
+                    </div>
+                  ),
+                  value: cat.id,
+                  disabled: cat.status !== 1,
+                }))}
+                fieldProps={{
+                  showSearch: true,
+                  filterOption: (input: string, option: any) =>
+                    (option?.title ?? option?.label)
+                      .toLowerCase()
+                      .includes(input.toLowerCase()),
+                }}
+                extra={<div>关联分类，可选</div>}
+              />
+            )}
             <ProFormSelect
               label={intl.formatMessage({ id: 'content.tag.name' })}
               mode="tags"
