@@ -10,6 +10,7 @@ export default {
   'menu.setting.banner': 'Home Banner',
   'menu.setting.nav': 'Navigation',
   'menu.setting.diy': 'Custom Settings',
+  'menu.setting.ai': 'AI Settings',
   'menu.archive': 'Content',
   'menu.archive.list': 'Documents',
   'menu.archive.recycle': 'Document Recycle Bin',

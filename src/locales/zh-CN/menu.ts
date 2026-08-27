@@ -10,6 +10,7 @@ export default {
   'menu.setting.banner': '首页幻灯片',
   'menu.setting.nav': '导航设置',
   'menu.setting.diy': '自定义内容',
+  'menu.setting.ai': 'AI统一配置',
   'menu.archive': '内容',
   'menu.archive.list': '文档列表',
   'menu.archive.recycle': '文档回收站',

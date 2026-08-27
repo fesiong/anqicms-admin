@@ -341,7 +341,7 @@ const CollectorSetting: React.FC<CollectorSettingProps> = (props) => {
               id: 'plugin.aigenerate.demand',
             })}
             fieldProps={{
-              maxLength: 500,
+              maxLength: 1000,
             }}
             extra={intl.formatMessage({
               id: 'plugin.aigenerate.demand.description',

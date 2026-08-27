@@ -13,7 +13,7 @@ import {
   ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl } from '@umijs/max';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Alert, Button, Card, Col, Modal, Row, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
@@ -134,6 +134,12 @@ const PluginTranslate: React.FC<any> = () => {
                   },
                   {
                     label: intl.formatMessage({
+                      id: 'plugin.translate.engine.ai',
+                    }),
+                    value: 'ai',
+                  },
+                  {
+                    label: intl.formatMessage({
                       id: 'plugin.translate.engine.baidu',
                     }),
                     value: 'baidu',
@@ -165,6 +171,18 @@ const PluginTranslate: React.FC<any> = () => {
                   ) : null
                 }
               />
+              {engine === 'ai' && (
+                <div>
+                  <div
+                    className="link mb-normal"
+                    onClick={() => {
+                      history.push('/setting/ai');
+                    }}
+                  >
+                    AI 接口配置请到 [设置] -&gt; [AI统一配置] 中设置
+                  </div>
+                </div>
+              )}
               {engine === 'baidu' && (
                 <Card
                   size="small"

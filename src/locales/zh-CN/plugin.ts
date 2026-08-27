@@ -1460,6 +1460,7 @@ export default {
   'plugin.translate.view-log': '查看翻译记录',
   'plugin.translate.engine': '选择翻译接口',
   'plugin.translate.engine.anqicms': '官方接口',
+  'plugin.translate.engine.ai': 'AI大模型',
   'plugin.translate.engine.baidu': '百度翻译',
   'plugin.translate.engine.youdao': '有道翻译',
   'plugin.translate.engine.baidu.app-id': 'APPID',

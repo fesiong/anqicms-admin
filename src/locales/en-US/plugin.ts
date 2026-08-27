@@ -1603,6 +1603,7 @@ export default {
   'plugin.translate.view-log': 'View translation records',
   'plugin.translate.engine': 'Select translation interface',
   'plugin.translate.engine.anqicms': 'Official interface',
+  'plugin.translate.engine.ai': 'AI translation',
   'plugin.translate.engine.baidu': 'Baidu translation',
   'plugin.translate.engine.youdao': 'Youdao translation',
   'plugin.translate.engine.baidu.app-id': 'APPID',

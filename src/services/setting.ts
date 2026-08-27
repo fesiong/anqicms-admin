@@ -351,3 +351,25 @@ export async function saveSettingDiyFields(
     options,
   });
 }
+
+export async function getSettingAi(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/setting/ai',
+    params,
+    options,
+  });
+}
+
+export async function saveSettingAi(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/setting/ai',
+    body,
+    options,
+  });
+}

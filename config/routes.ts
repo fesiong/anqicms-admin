@@ -80,6 +80,11 @@ export default [
         name: 'diy',
         component: './setting/diyfield',
       },
+      {
+        path: '/setting/ai',
+        name: 'ai',
+        component: './setting/ai',
+      },
     ],
   },
   {
