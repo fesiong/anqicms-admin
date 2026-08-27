@@ -75,9 +75,60 @@ const DesignEditor: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('');
   const [renderTick, setRenderTick] = useState(0);
   const tabDataRef = useRef<Record<string, TabData>>({});
+  // 每个 tab 独立的 monaco model，持有各自的滚动位置、undo 栈、语言
+  const modelsRef = useRef<Record<string, any>>({});
+  // 每个 tab 独立的 view state（光标、滚动等），在切走前保存
+  const viewStatesRef = useRef<Record<string, any>>({});
+  const editorRef = useRef<any>(null);
   const intl = useIntl();
 
   const forceRender = () => setRenderTick((t) => t + 1);
+
+  const getLanguage = (filePath: string) => {
+    return filePath.indexOf('.html') !== -1
+      ? 'html'
+      : filePath.indexOf('.css') !== -1
+      ? 'css'
+      : filePath.indexOf('.yml') !== -1
+      ? 'yaml'
+      : 'javascript';
+  };
+
+  // 为指定 tab 创建（或复用）独立的 monaco model 并切到该 model
+  const switchToTabModel = (
+    key: string,
+    fileInfoData: any,
+    codeStr: string,
+  ) => {
+    const editor = editorRef.current;
+    if (!editor || !key) return;
+    const lang = getLanguage(fileInfoData?.path || '');
+    // 用唯一 URI 创建 model，避免不同 tab/语言复用同一 in-memory model
+    // 导致 css 颜色方块等装饰器残留到 html tab
+    let model = modelsRef.current[key];
+    if (!model) {
+      const uri = monaco.Uri.parse(
+        `inmemory://design/${encodeURIComponent(key)}`,
+      );
+      model = monaco.editor.createModel(codeStr || '', lang, uri);
+      modelsRef.current[key] = model;
+    } else {
+      // model 已存在，只在内容真正变化时更新（避免覆盖用户编辑）
+      if (model.getValue() !== (codeStr || '')) {
+        model.setValue(codeStr || '');
+      }
+    }
+    // 切走前保存当前 tab 的 view state（滚动位置/光标）
+    const prevKey = activeTab;
+    if (prevKey && prevKey !== key && editor.getModel()) {
+      viewStatesRef.current[prevKey] = editor.saveViewState();
+    }
+    editor.setModel(model);
+    // 恢复目标 tab 的 view state（各自的滚动位置）
+    if (viewStatesRef.current[key]) {
+      editor.restoreViewState(viewStatesRef.current[key]);
+    }
+  };
 
   const saveActiveTabData = () => {
     if (activeTab && tabDataRef.current[activeTab]) {
@@ -127,6 +178,8 @@ const DesignEditor: React.FC = () => {
           fileInfo: { ...res.data },
           unsave: false,
         };
+        // 切换到该 tab 的独立 model（保留各自滚动位置、避免跨语言色块残留）
+        switchToTabModel(key, res.data, res.data.content || '');
         forceRender();
         actionRef.current?.reload();
       })
@@ -351,6 +404,7 @@ const DesignEditor: React.FC = () => {
   };
 
   const editorDidMount = (editor: any) => {
+    editorRef.current = editor;
     editor.createContextKey('showTplHelperAction', true);
     editor.addAction({
       // id
@@ -370,6 +424,10 @@ const DesignEditor: React.FC = () => {
         getTplHelpers();
       },
     });
+    // 如果挂载时已有 active tab 的内容，切换到对应 model
+    if (activeTab && tabDataRef.current[activeTab]) {
+      switchToTabModel(activeTab, tabDataRef.current[activeTab].fileInfo, code);
+    }
   };
 
   const onChangeCode = (newCode: string) => {
@@ -437,6 +495,11 @@ const DesignEditor: React.FC = () => {
     if (tab) {
       fileType = tab.type;
       restoreActiveTabData(key);
+      // 切到目标 tab 的独立 model（恢复该 tab 各自的滚动位置/光标）
+      const data = tabDataRef.current[key];
+      if (data) {
+        switchToTabModel(key, data.fileInfo, data.code);
+      }
       scrollToTop();
     }
   };
@@ -473,6 +536,13 @@ const DesignEditor: React.FC = () => {
     const remainingTabs = tabs.filter((t) => t.key !== targetKey);
     // Clean up tab data
     delete tabDataRef.current[targetKey];
+    // 释放被关闭 tab 的独立 model，避免内存泄漏与脏装饰器残留
+    const model = modelsRef.current[targetKey];
+    if (model) {
+      model.dispose();
+      delete modelsRef.current[targetKey];
+    }
+    delete viewStatesRef.current[targetKey];
 
     if (remainingTabs.length === 0) {
       setTabs([]);
@@ -498,6 +568,11 @@ const DesignEditor: React.FC = () => {
     if (nextTab) {
       fileType = nextTab.type;
       restoreActiveTabData(nextKey);
+      // 切到下一个 tab 的独立 model（恢复其滚动位置/光标）
+      const data = tabDataRef.current[nextKey];
+      if (data) {
+        switchToTabModel(nextKey, data.fileInfo, data.code);
+      }
     }
   };
 
@@ -627,16 +702,6 @@ const DesignEditor: React.FC = () => {
     return (size / 1024 / 1024).toFixed(2) + 'MB';
   };
 
-  const getLanguage = (filePath: string) => {
-    return filePath.indexOf('.html') !== -1
-      ? 'html'
-      : filePath.indexOf('.css') !== -1
-      ? 'css'
-      : filePath.indexOf('.yml') !== -1
-      ? 'yaml'
-      : 'javascript';
-  };
-
   const handleAddCode = (addCode: any, docLink: string) => {
     if (docLink) {
       addCode.link = docLink;
@@ -762,9 +827,7 @@ const DesignEditor: React.FC = () => {
               {loaded && (
                 <MonacoEditor
                   height={height}
-                  language={getLanguage(fileInfo?.path || '')}
                   theme="vs-dark"
-                  value={code}
                   options={{
                     selectOnLineNumbers: false,
                     wordWrap: 'on',
