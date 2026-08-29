@@ -4,20 +4,25 @@ import {
   pluginBackupData,
   pluginBackupDelete,
   pluginBackupImport,
+  pluginBackupRemark,
   pluginBackupRestore,
   pluginGetBackupList,
   pluginGetBackupStatus,
 } from '@/services';
-import { calculateFileMd5, downloadFile, sizeFormat } from '@/utils';
+import config from '@/services/config';
+import { calculateFileMd5, sizeFormat } from '@/utils';
+import { getSessionStore, getStore } from '@/utils/store';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import {
   Button,
   Card,
+  Input,
   Modal,
   Progress,
   Radio,
   Space,
+  Tag,
   Upload,
   message,
 } from 'antd';
@@ -143,19 +148,44 @@ const PluginUserGroup: React.FC = () => {
     });
   };
 
-  const handleDownloadBackup = (record: any) => {
+  const handleRemark = (record: any) => {
+    let remark = record.remark || '';
     Modal.confirm({
-      title: intl.formatMessage({ id: 'plugin.backup.download.confirm' }),
+      title: intl.formatMessage({ id: 'plugin.backup.remark.title' }),
+      content: (
+        <Input.TextArea
+          rows={3}
+          defaultValue={remark}
+          onChange={(e) => {
+            remark = e.target.value;
+          }}
+          placeholder={intl.formatMessage({
+            id: 'plugin.backup.remark.placeholder',
+          })}
+        />
+      ),
       onOk: () => {
-        downloadFile(
-          '/plugin/backup/export',
-          {
-            name: record.name,
-          },
-          record.name,
-        );
+        return pluginBackupRemark({
+          name: record.name,
+          remark: remark,
+        }).then((res) => {
+          message.info(res.msg);
+          actionRef.current?.reload();
+        });
       },
     });
+  };
+
+  const handleDownloadBackup = (record: any) => {
+    // 使用浏览器原生下载（window.open），避免大文件全量缓冲到内存。
+    // 认证 token 通过 query string 传递，后端 ParseAdminToken 已支持 fallback。
+    const token = getSessionStore('adminToken') || getStore('adminToken') || '';
+    const params = new URLSearchParams({
+      name: record.name,
+      token,
+    });
+    const url = `${config.baseUrl}/plugin/backup/export?${params.toString()}`;
+    window.open(url, '_blank');
   };
 
   const handleUploadFile = async (e: any) => {
@@ -291,6 +321,29 @@ const PluginUserGroup: React.FC = () => {
       dataIndex: 'name',
     },
     {
+      title: intl.formatMessage({ id: 'plugin.backup.format' }),
+      dataIndex: 'name',
+      width: 80,
+      render: (_, record) => {
+        if (record.name.endsWith('.zip')) {
+          return <Tag color="blue">ZIP</Tag>;
+        }
+        return <Tag>SQL</Tag>;
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.backup.remark' }),
+      dataIndex: 'remark',
+      width: 180,
+      ellipsis: true,
+      render: (text) => {
+        if (!text) {
+          return <span style={{ color: '#999' }}>-</span>;
+        }
+        return text;
+      },
+    },
+    {
       title: intl.formatMessage({ id: 'plugin.backup.size' }),
       dataIndex: 'size',
       render: (item) => {
@@ -318,6 +371,13 @@ const PluginUserGroup: React.FC = () => {
             }}
           >
             <FormattedMessage id="plugin.backup.download" />
+          </a>
+          <a
+            onClick={() => {
+              handleRemark(record);
+            }}
+          >
+            <FormattedMessage id="plugin.backup.remark.edit" />
           </a>
           <a
             onClick={() => {
@@ -373,9 +433,13 @@ const PluginUserGroup: React.FC = () => {
             showSizeChanger: true,
           }}
           summary={() => (
-            <div style={{ marginTop: 10 }}>
-              <FormattedMessage id="plugin.backup.tips" />
-            </div>
+            <tr>
+              <td colSpan={6}>
+                <div style={{ marginTop: 10 }}>
+                  <FormattedMessage id="plugin.backup.tips" />
+                </div>
+              </td>
+            </tr>
           )}
         />
         {task !== null && (

@@ -183,6 +183,7 @@ export default {
   'plugin.backup.download': 'download',
   'plugin.backup.download.confirm':
     'Are you sure you want to download it locally?',
+  'plugin.backup.download.success': 'Download successfully.',
   'plugin.backup.cleanup.confirm':
     'Are you sure you want to clear website data?',
   'plugin.backup.cleaning': 'Cleaning operation in progress, please wait. .',
@@ -195,6 +196,12 @@ export default {
   'plugin.backup.time': 'Backup time',
   'plugin.backup.name': 'Backup name',
   'plugin.backup.size': 'Backup size',
+  'plugin.backup.format': 'Format',
+  'plugin.backup.remark': 'Remark',
+  'plugin.backup.remark.edit': 'Remark',
+  'plugin.backup.remark.title': 'Set backup remark',
+  'plugin.backup.remark.placeholder':
+    'Enter a remark to help identify the purpose of this backup',
   'plugin.backup.new': 'Add backup',
   'plugin.backup.import': 'Import local backup',
   'plugin.backup.cleanup': 'Clear website data',
@@ -987,6 +994,13 @@ export default {
   'plugin.replace.tips':
     'Whole-site replacement is an advanced operation, and replacement errors may occur. It is recommended to perform a content backup before replacement.',
   'plugin.replace.replace-tag': 'Whether to replace label content',
+  'plugin.replace.backup-before': 'Backup before replacement',
+  'plugin.replace.backup-before.tips':
+    'Backup-before-replacement is enabled. A full-site backup (including templates) will be performed first, and the replacement will be executed after completion.',
+  'plugin.replace.backuping':
+    'Performing pre-replacement backup, please wait...',
+  'plugin.replace.backup.failed':
+    'Backup failed, the replacement operation has been cancelled',
   'plugin.replace.place': 'replace position',
   'plugin.replace.keyword': 'Replacement rules',
   'plugin.replace.add': 'Add replacement rules',
@@ -998,6 +1012,12 @@ export default {
   'plugin.replace.place.keyword': 'Key words',
   'plugin.replace.place.comment': 'Comment',
   'plugin.replace.place.attachment': 'Picture resources',
+  'plugin.replace.place.nav': 'Navigation menu',
+  'plugin.replace.place.link': 'Friendship link',
+  'plugin.replace.place.redirect': 'Redirect link',
+  'plugin.replace.place.place': 'Region/Location',
+  'plugin.replace.place.guestbook': 'Message board',
+  'plugin.replace.place.template': 'Template file',
   'plugin.retailer.setting': 'distribution configuration',
   'plugin.retailer.allow-self':
     'Distributors earn commissions from their own purchases',

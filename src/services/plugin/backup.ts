@@ -75,3 +75,14 @@ export async function pluginBackupCleanup(
     options,
   });
 }
+
+export async function pluginBackupRemark(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/plugin/backup/remark',
+    body,
+    options,
+  });
+}

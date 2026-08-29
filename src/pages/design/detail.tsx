@@ -165,6 +165,12 @@ const DesignDetail: React.FC = () => {
       content: (
         <div>
           <div style={{ padding: '10px 0' }}>
+            <div>原模板文件名</div>
+            <div>
+              <Input disabled value={info.path} />
+            </div>
+          </div>
+          <div style={{ padding: '10px 0' }}>
             <div>{intl.formatMessage({ id: 'design.detail.new-name' })}</div>
             <div>
               <Input ref={inputRef} defaultValue={info.path} />
