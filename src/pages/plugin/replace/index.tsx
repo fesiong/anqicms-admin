@@ -1,5 +1,5 @@
 import NewContainer from '@/components/NewContainer';
-import { pluginReplaceValues } from '@/services';
+import { pluginReplaceValues, pluginBackupData, pluginGetBackupStatus } from '@/services';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ProForm,
@@ -28,6 +28,8 @@ const PluginReplace: React.FC<any> = () => {
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
   const [newKey, setNewKey] = useState<string>('');
+  const [backupBefore, setBackupBefore] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const intl = useIntl();
 
   const onTabChange = (key: string) => {
@@ -68,6 +70,41 @@ const PluginReplace: React.FC<any> = () => {
     setToValue('');
   };
 
+  const waitBackupFinished = (onDone: () => void) => {
+    const timer = setInterval(() => {
+      pluginGetBackupStatus().then((res) => {
+        if (!res.data || res.data.finished) {
+          clearInterval(timer);
+          onDone();
+        }
+      }).catch(() => {
+        clearInterval(timer);
+        onDone();
+      });
+    }, 1000);
+  };
+
+  const doReplace = (values: any) => {
+    const postData = Object.assign({}, values);
+    postData.keywords = keywords;
+    setSubmitting(true);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
+    pluginReplaceValues(postData)
+      .then((res) => {
+        message.success(res.msg);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        hide();
+        setSubmitting(false);
+      });
+  };
+
   const onSubmit = async (values: any) => {
     if (!values.places || values.places.length === 0) {
       message.error(
@@ -84,21 +121,30 @@ const PluginReplace: React.FC<any> = () => {
     Modal.confirm({
       title: intl.formatMessage({ id: 'plugin.replace.confirm' }),
       onOk: () => {
-        const postData = Object.assign({}, values);
-        postData.keywords = keywords;
+        if (!backupBefore) {
+          doReplace(values);
+          return;
+        }
+        // 先执行备份
+        setSubmitting(true);
         const hide = message.loading(
-          intl.formatMessage({ id: 'setting.system.submitting' }),
+          intl.formatMessage({ id: 'plugin.replace.backuping' }),
           0,
         );
-        pluginReplaceValues(postData)
-          .then((res) => {
-            message.success(res.msg);
+        pluginBackupData({})
+          .then(() => {
+            // 轮询备份状态，完成后执行替换
+            waitBackupFinished(() => {
+              hide();
+              setSubmitting(false);
+              doReplace(values);
+            });
           })
           .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {
             hide();
+            setSubmitting(false);
+            console.log(err);
+            message.error(intl.formatMessage({ id: 'plugin.replace.backup.failed' }));
           });
       },
     });
@@ -213,12 +259,60 @@ const PluginReplace: React.FC<any> = () => {
                       id: 'plugin.replace.place.attachment',
                     }),
                   },
+                  {
+                    value: 'nav',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.nav',
+                    }),
+                  },
+                  {
+                    value: 'link',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.link',
+                    }),
+                  },
+                  {
+                    value: 'redirect',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.redirect',
+                    }),
+                  },
+                  {
+                    value: 'place',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.place',
+                    }),
+                  },
+                  {
+                    value: 'guestbook',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.guestbook',
+                    }),
+                  },
+                  {
+                    value: 'template',
+                    label: intl.formatMessage({
+                      id: 'plugin.replace.place.template',
+                    }),
+                  },
                 ]}
               />
               <ProFormCheckbox
                 label={intl.formatMessage({ id: 'plugin.replace.replace-tag' })}
                 name="replace_tag"
               />
+              <ProFormCheckbox
+                label={intl.formatMessage({ id: 'plugin.replace.backup-before' })}
+                name="backup_before"
+                fieldProps={{
+                  onChange: (e: any) => setBackupBefore(e.target.checked),
+                }}
+              />
+              {backupBefore && (
+                <div className="text-red" style={{ marginTop: -8, marginBottom: 12 }}>
+                  <FormattedMessage id="plugin.replace.backup-before.tips" />
+                </div>
+              )}
               <Divider orientation={'left'}>
                 <FormattedMessage id="plugin.replace.keyword" />
               </Divider>
