@@ -2,15 +2,17 @@ import NewContainer from '@/components/NewContainer';
 import { getSettingSafe, saveSettingSafe } from '@/services';
 import {
   ProForm,
+  ProFormInstance,
   ProFormRadio,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
 import { Card, message } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const SettingSafeFrom: React.FC<any> = () => {
+  const formRef = useRef<ProFormInstance>();
   const [setting, setSetting] = useState<any>(null);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
@@ -19,6 +21,7 @@ const SettingSafeFrom: React.FC<any> = () => {
     const res = await getSettingSafe();
     let setting = res.data || null;
     setSetting(setting);
+    formRef.current?.setFieldsValue(setting);
   };
 
   const onTabChange = (key: string) => {
@@ -56,154 +59,153 @@ const SettingSafeFrom: React.FC<any> = () => {
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card key={newKey}>
-        {setting && (
-          <ProForm
-            initialValues={setting}
-            onFinish={onSubmit}
-            title={intl.formatMessage({ id: 'menu.setting.safe' })}
-          >
-            <ProFormRadio.Group
-              name="admin_captcha_off"
-              label={intl.formatMessage({ id: 'setting.safe.admin-captcha' })}
-              options={[
-                {
-                  value: 0,
-                  label: intl.formatMessage({ id: 'setting.content.enable' }),
-                },
-                {
-                  value: 1,
-                  label: intl.formatMessage({
-                    id: 'setting.content.notenable',
-                  }),
-                },
-              ]}
-              extra={intl.formatMessage({
-                id: 'setting.safe.admin-captcha.description',
-              })}
-            />
-            <ProFormRadio.Group
-              name="captcha"
-              label={intl.formatMessage({ id: 'setting.safe.captcha' })}
-              options={[
-                {
-                  value: 0,
-                  label: intl.formatMessage({
-                    id: 'setting.content.notenable',
-                  }),
-                },
-                {
-                  value: 1,
-                  label: intl.formatMessage({ id: 'setting.content.enable' }),
-                },
-              ]}
-              extra={intl.formatMessage({
-                id: 'setting.safe.captcha.description',
-              })}
-            />
-            <ProFormText
-              name="daily_limit"
-              label={intl.formatMessage({ id: 'setting.safe.daily-limit' })}
-              width="lg"
-              fieldProps={{
-                suffix: intl.formatMessage({
-                  id: 'setting.safe.daily-limit.suffix',
+        <ProForm
+          formRef={formRef}
+          initialValues={setting}
+          onFinish={onSubmit}
+          title={intl.formatMessage({ id: 'menu.setting.safe' })}
+        >
+          <ProFormRadio.Group
+            name="admin_captcha_off"
+            label={intl.formatMessage({ id: 'setting.safe.admin-captcha' })}
+            options={[
+              {
+                value: 0,
+                label: intl.formatMessage({ id: 'setting.content.enable' }),
+              },
+              {
+                value: 1,
+                label: intl.formatMessage({
+                  id: 'setting.content.notenable',
                 }),
-              }}
-              extra={intl.formatMessage({
-                id: 'setting.safe.daily-limit.description',
-              })}
-            />
-            <ProFormText
-              name="content_limit"
-              label={intl.formatMessage({ id: 'setting.safe.content-limit' })}
-              width="lg"
-              fieldProps={{
-                suffix: intl.formatMessage({
-                  id: 'setting.safe.content-limit.suffix',
+              },
+            ]}
+            extra={intl.formatMessage({
+              id: 'setting.safe.admin-captcha.description',
+            })}
+          />
+          <ProFormRadio.Group
+            name="captcha"
+            label={intl.formatMessage({ id: 'setting.safe.captcha' })}
+            options={[
+              {
+                value: 0,
+                label: intl.formatMessage({
+                  id: 'setting.content.notenable',
                 }),
-              }}
-              extra={intl.formatMessage({
-                id: 'setting.safe.daily-limit.description',
-              })}
-            />
-            <ProFormText
-              name="interval_limit"
-              label={intl.formatMessage({ id: 'setting.safe.interval-limit' })}
-              width="lg"
-              fieldProps={{
-                suffix: intl.formatMessage({
-                  id: 'setting.safe.interval-limit.suffix',
+              },
+              {
+                value: 1,
+                label: intl.formatMessage({ id: 'setting.content.enable' }),
+              },
+            ]}
+            extra={intl.formatMessage({
+              id: 'setting.safe.captcha.description',
+            })}
+          />
+          <ProFormText
+            name="daily_limit"
+            label={intl.formatMessage({ id: 'setting.safe.daily-limit' })}
+            width="lg"
+            fieldProps={{
+              suffix: intl.formatMessage({
+                id: 'setting.safe.daily-limit.suffix',
+              }),
+            }}
+            extra={intl.formatMessage({
+              id: 'setting.safe.daily-limit.description',
+            })}
+          />
+          <ProFormText
+            name="content_limit"
+            label={intl.formatMessage({ id: 'setting.safe.content-limit' })}
+            width="lg"
+            fieldProps={{
+              suffix: intl.formatMessage({
+                id: 'setting.safe.content-limit.suffix',
+              }),
+            }}
+            extra={intl.formatMessage({
+              id: 'setting.safe.daily-limit.description',
+            })}
+          />
+          <ProFormText
+            name="interval_limit"
+            label={intl.formatMessage({ id: 'setting.safe.interval-limit' })}
+            width="lg"
+            fieldProps={{
+              suffix: intl.formatMessage({
+                id: 'setting.safe.interval-limit.suffix',
+              }),
+            }}
+            extra={intl.formatMessage({
+              id: 'setting.safe.daily-limit.description',
+            })}
+          />
+          <ProFormTextArea
+            name="content_forbidden"
+            label={intl.formatMessage({
+              id: 'setting.safe.content-forbidden',
+            })}
+            width="lg"
+            extra={intl.formatMessage({
+              id: 'setting.safe.content-forbidden.description',
+            })}
+          />
+          <ProFormTextArea
+            name="ua_forbidden"
+            label={intl.formatMessage({ id: 'setting.safe.ua-forbidden' })}
+            width="lg"
+            extra={intl.formatMessage({
+              id: 'setting.safe.ua-forbidden.description',
+            })}
+          />
+          <ProFormTextArea
+            name="ip_forbidden"
+            label={intl.formatMessage({ id: 'setting.safe.ip-forbidden' })}
+            width="lg"
+            extra={intl.formatMessage({
+              id: 'setting.safe.ip-forbidden.description',
+            })}
+          />
+          <ProFormRadio.Group
+            name="api_open"
+            label={intl.formatMessage({ id: 'setting.safe.api-open' })}
+            options={[
+              {
+                value: 0,
+                label: intl.formatMessage({
+                  id: 'setting.content.notenable',
                 }),
-              }}
-              extra={intl.formatMessage({
-                id: 'setting.safe.daily-limit.description',
-              })}
-            />
-            <ProFormTextArea
-              name="content_forbidden"
-              label={intl.formatMessage({
-                id: 'setting.safe.content-forbidden',
-              })}
-              width="lg"
-              extra={intl.formatMessage({
-                id: 'setting.safe.content-forbidden.description',
-              })}
-            />
-            <ProFormTextArea
-              name="ua_forbidden"
-              label={intl.formatMessage({ id: 'setting.safe.ua-forbidden' })}
-              width="lg"
-              extra={intl.formatMessage({
-                id: 'setting.safe.ua-forbidden.description',
-              })}
-            />
-            <ProFormTextArea
-              name="ip_forbidden"
-              label={intl.formatMessage({ id: 'setting.safe.ip-forbidden' })}
-              width="lg"
-              extra={intl.formatMessage({
-                id: 'setting.safe.ip-forbidden.description',
-              })}
-            />
-            <ProFormRadio.Group
-              name="api_open"
-              label={intl.formatMessage({ id: 'setting.safe.api-open' })}
-              options={[
-                {
-                  value: 0,
-                  label: intl.formatMessage({
-                    id: 'setting.content.notenable',
-                  }),
-                },
-                {
-                  value: 1,
-                  label: intl.formatMessage({ id: 'setting.content.enable' }),
-                },
-              ]}
-              extra={intl.formatMessage({
-                id: 'setting.safe.api-open.description',
-              })}
-            />
-            <ProFormRadio.Group
-              name="api_publish"
-              label={intl.formatMessage({ id: 'setting.safe.api-publish' })}
-              options={[
-                {
-                  value: 0,
-                  label: intl.formatMessage({
-                    id: 'setting.safe.api-publish.draft',
-                  }),
-                },
-                {
-                  value: 1,
-                  label: intl.formatMessage({
-                    id: 'setting.safe.api-publish.normal',
-                  }),
-                },
-              ]}
-            />
-          </ProForm>
-        )}
+              },
+              {
+                value: 1,
+                label: intl.formatMessage({ id: 'setting.content.enable' }),
+              },
+            ]}
+            extra={intl.formatMessage({
+              id: 'setting.safe.api-open.description',
+            })}
+          />
+          <ProFormRadio.Group
+            name="api_publish"
+            label={intl.formatMessage({ id: 'setting.safe.api-publish' })}
+            options={[
+              {
+                value: 0,
+                label: intl.formatMessage({
+                  id: 'setting.safe.api-publish.draft',
+                }),
+              },
+              {
+                value: 1,
+                label: intl.formatMessage({
+                  id: 'setting.safe.api-publish.normal',
+                }),
+              },
+            ]}
+          />
+        </ProForm>
       </Card>
     </NewContainer>
   );

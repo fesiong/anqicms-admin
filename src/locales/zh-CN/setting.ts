@@ -104,6 +104,9 @@ export default {
   'setting.content.archive-sort': '启用文档排序',
   'setting.content.archive-sort.description':
     '默认不启用文档排序支持，启用文档可能会导致网站加载变慢',
+  'setting.content.auto-match-tag': '自动添加文档标签',
+  'setting.content.auto-match-tag.description':
+    '在文章创建时，会自动匹配标签库',
   'setting.content.use-webp': '启用Webp图片格式',
   'setting.content.use-webp.description':
     '如果你希望上传的jpg、png等图片，都全部转为webp图片格式(可以减少体积),则选择启用。只对修改后的上传的图片生效。',

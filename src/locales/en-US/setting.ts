@@ -115,6 +115,9 @@ export default {
   'setting.content.archive-sort': 'Enable document sorting',
   'setting.content.archive-sort.description':
     'Document sorting support is not enabled by default. Enabling documents may cause the website to load slower.',
+  'setting.content.auto-match-tag': 'Auto match tag',
+  'setting.content.auto-match-tag.description':
+    'The article automatically matches tags when it is created.',
   'setting.content.use-webp': 'Enable Webp image format',
   'setting.content.use-webp.description':
     'If you want all uploaded images such as jpg and png to be converted to webp image format (which can reduce the size), select Enable. It will only take effect on modified uploaded images.',
