@@ -11,7 +11,12 @@ import {
   getSettingContent,
   saveCategory,
 } from '@/services';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 import {
   ProForm,
   ProFormDigit,
@@ -22,7 +27,17 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Card, Col, Image, message, Modal, Row, Space } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Image,
+  message,
+  Modal,
+  Row,
+  Space,
+  Tag,
+} from 'antd';
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import '../index.less';
 const MarkdownEditor = lazy(() => import('@/components/markdown'));
@@ -46,6 +61,7 @@ const PageCategoryDetail: React.FC = () => {
   const [aiVisible, setAiVisible] = useState<boolean>(false);
   const [aiTdkVisible, setAiTdkVisible] = useState<boolean>(false);
   const [categories, setCategories] = useState<any[]>([]);
+  const [dragImageIndex, setDragImageIndex] = useState<number>(-1);
   const intl = useIntl();
 
   const changeModule = (e: any) => {
@@ -129,29 +145,76 @@ const PageCategoryDetail: React.FC = () => {
   };
 
   const handleSelectImages = (rows: any) => {
+    const images = [...categoryImages];
     for (const row of rows) {
       let exists = false;
-
-      for (let i in categoryImages) {
-        if (categoryImages[i] === row.file_path) {
+      for (let i in images) {
+        if (images[i] === row.file_path) {
           exists = true;
           break;
         }
       }
       if (!exists) {
-        categoryImages.push(row.file_path);
+        images.push(row.file_path);
       }
     }
-    setCategoryImages([].concat(categoryImages));
+    setCategoryImages(images);
     message.success(
       intl.formatMessage({ id: 'setting.system.upload-success' }),
     );
   };
 
+  const handleDragStart = (index: number) => {
+    setDragImageIndex(index);
+  };
+
+  const handleDragOver = (e: any, index: number) => {
+    e.preventDefault();
+    if (dragImageIndex === -1 || dragImageIndex === index) {
+      return;
+    }
+    const images = [...categoryImages];
+    const [moved] = images.splice(dragImageIndex, 1);
+    images.splice(index, 0, moved);
+    setDragImageIndex(index);
+    setCategoryImages(images);
+  };
+
+  const handleDragEnd = () => {
+    setDragImageIndex(-1);
+  };
+
+  const handleDrop = (e: any) => {
+    e.preventDefault();
+    handleDragEnd();
+  };
+
+  const handleMoveImages = (index: number, direction: string, e: any) => {
+    e.stopPropagation();
+    const images = [...categoryImages];
+    if (direction === 'up') {
+      if (index <= 0) {
+        return;
+      }
+      const temp = images[index];
+      images[index] = images[index - 1];
+      images[index - 1] = temp;
+    } else {
+      if (index >= images.length - 1) {
+        return;
+      }
+      const temp = images[index];
+      images[index] = images[index + 1];
+      images[index + 1] = temp;
+    }
+    setCategoryImages(images);
+  };
+
   const handleCleanImages = (index: number, e: any) => {
     e.stopPropagation();
-    categoryImages.splice(index, 1);
-    setCategoryImages([].concat(categoryImages));
+    const images = [...categoryImages];
+    images.splice(index, 1);
+    setCategoryImages(images);
   };
 
   const handleSelectLogo = (row: any) => {
@@ -459,19 +522,44 @@ const PageCategoryDetail: React.FC = () => {
                 >
                   {categoryImages.length
                     ? categoryImages.map((item: string, index: number) => (
-                        <div className="ant-upload-item" key={index}>
+                        <div
+                          className={
+                            'ant-upload-item' +
+                            (dragImageIndex === index ? ' drag-over' : '')
+                          }
+                          key={index}
+                          draggable
+                          onDragStart={() => handleDragStart(index)}
+                          onDragOver={(e) => handleDragOver(e, index)}
+                          onDragEnd={() => handleDragEnd}
+                          onDrop={(e) => handleDrop(e)}
+                        >
                           <Image
                             preview={{
                               src: item,
                             }}
                             src={item}
                           />
-                          <span
-                            className="delete"
-                            onClick={handleCleanImages.bind(this, index)}
-                          >
-                            <DeleteOutlined />
-                          </span>
+                          <div className="ant-upload-item-action">
+                            <Tag
+                              onClick={(e) => handleMoveImages(index, 'up', e)}
+                            >
+                              <LeftOutlined />
+                            </Tag>
+                            <Tag
+                              color="red"
+                              onClick={(e) => handleCleanImages(index, e)}
+                            >
+                              <DeleteOutlined />
+                            </Tag>
+                            <Tag
+                              onClick={(e) =>
+                                handleMoveImages(index, 'down', e)
+                              }
+                            >
+                              <RightOutlined />
+                            </Tag>
+                          </div>
                         </div>
                       ))
                     : null}
