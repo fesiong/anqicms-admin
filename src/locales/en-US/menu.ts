@@ -59,7 +59,7 @@ export default {
   'menu.plugin.multilang': 'Multi-language Site',
   'menu.plugin.translate': 'Translation',
   'menu.plugin.jsonld': 'Schema Data',
-  'menu.plugin.akismet': 'Akismet',
+  'menu.plugin.akismet': 'Akismet/reCAPTCHA',
   'menu.plugin.google': 'Google Auth',
   'menu.plugin.llms': 'LLMs Settings',
   'menu.design': 'Template',

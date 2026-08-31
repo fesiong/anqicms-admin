@@ -8,7 +8,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { useIntl } from '@umijs/max';
-import { Card, message } from 'antd';
+import { Card, Col, Divider, message, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 const PluginAkismet: React.FC<any> = () => {
@@ -74,57 +74,100 @@ const PluginAkismet: React.FC<any> = () => {
               initialValues={akismetSetting}
               formRef={formRef}
             >
-              <ProFormRadio.Group
-                name={'open'}
-                label={intl.formatMessage({ id: 'plugin.akismet.open.name' })}
-                options={[
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.akismet.open.false',
-                    }),
-                    value: false,
-                  },
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.akismet.open.true',
-                    }),
-                    value: true,
-                  },
-                ]}
-                extra={intl.formatMessage({
-                  id: 'plugin.akismet.description',
-                })}
-              />
-              <ProFormText
-                name="api_key"
-                label={intl.formatMessage({ id: 'plugin.akismet.api-key' })}
-                extra={intl.formatMessage({
-                  id: 'plugin.akismet.api-key.description',
-                })}
-              />
-              <ProFormCheckbox.Group
-                name="check_type"
-                label={intl.formatMessage({
-                  id: 'plugin.akismet.check-type',
-                })}
-                options={[
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.akismet.check-type.guestbook',
-                    }),
-                    value: 1,
-                  },
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.akismet.check-type.comment',
-                    }),
-                    value: 2,
-                  },
-                ]}
-                extra={intl.formatMessage({
-                  id: 'plugin.akismet.check-type.description',
-                })}
-              />
+              <Row gutter={16}>
+                <Col xs={24} sm={12}>
+                  <Divider>Akismet</Divider>
+                  <ProFormRadio.Group
+                    name={'open'}
+                    label={intl.formatMessage({
+                      id: 'plugin.akismet.open.name',
+                    })}
+                    options={[
+                      {
+                        label: intl.formatMessage({
+                          id: 'plugin.akismet.open.false',
+                        }),
+                        value: false,
+                      },
+                      {
+                        label: intl.formatMessage({
+                          id: 'plugin.akismet.open.true',
+                        }),
+                        value: true,
+                      },
+                    ]}
+                    extra={intl.formatMessage({
+                      id: 'plugin.akismet.description',
+                    })}
+                  />
+                  <ProFormText
+                    name="api_key"
+                    label={intl.formatMessage({ id: 'plugin.akismet.api-key' })}
+                    extra={intl.formatMessage({
+                      id: 'plugin.akismet.api-key.description',
+                    })}
+                  />
+                  <ProFormCheckbox.Group
+                    name="check_type"
+                    label={intl.formatMessage({
+                      id: 'plugin.akismet.check-type',
+                    })}
+                    options={[
+                      {
+                        label: intl.formatMessage({
+                          id: 'plugin.akismet.check-type.guestbook',
+                        }),
+                        value: 1,
+                      },
+                      {
+                        label: intl.formatMessage({
+                          id: 'plugin.akismet.check-type.comment',
+                        }),
+                        value: 2,
+                      },
+                    ]}
+                    extra={intl.formatMessage({
+                      id: 'plugin.akismet.check-type.description',
+                    })}
+                  />
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Divider>reCAPTCHA</Divider>
+                  <ProFormRadio.Group
+                    name={'recaptcha_open'}
+                    label={intl.formatMessage({
+                      id: 'plugin.akismet.open.recaptcha',
+                    })}
+                    options={[
+                      {
+                        label: intl.formatMessage({
+                          id: 'plugin.akismet.open.false',
+                        }),
+                        value: false,
+                      },
+                      {
+                        label: intl.formatMessage({
+                          id: 'plugin.akismet.open.true',
+                        }),
+                        value: true,
+                      },
+                    ]}
+                    extra={intl.formatMessage({
+                      id: 'plugin.akismet.recaptcha.description',
+                    })}
+                  />
+                  <ProFormText
+                    name="recaptcha_site_key"
+                    label="reCAPTCHA Site Key"
+                    extra="网站密钥"
+                  />
+                  <ProFormText
+                    name="recaptcha_private_key"
+                    label="reCAPTCHA Private Key"
+                    extra="通信密钥"
+                  />
+                </Col>
+              </Row>
             </ProForm>
           </div>
         )}

@@ -59,7 +59,7 @@ export default {
   'menu.plugin.multilang': '多語言網站支援',
   'menu.plugin.translate': '翻譯配置',
   'menu.plugin.jsonld': '結構化數據標記',
-  'menu.plugin.akismet': 'Akismet',
+  'menu.plugin.akismet': 'Akismet/reCAPTCHA',
   'menu.plugin.google': '谷歌授权',
   'menu.plugin.llms': 'LLMs 配置',
   'menu.design': '模板設計',

@@ -1079,7 +1079,8 @@ export default {
   'plugin.robots.content.tips2':
     '2. You can use the Robots tool to create, verify, and update your robots.txt file.',
   'plugin.robots.view': 'View Robots',
-  'plugin.akismet.setting': 'Akismet Spam Message/Comment Detection Settings',
+  'plugin.akismet.setting':
+    'Akismet/reCAPTCHA Spam Message/Comment Detection Settings',
   'plugin.akismet.open.name': 'Enable Akismet',
   'plugin.akismet.open.false': 'Close',
   'plugin.akismet.open.true': 'Enable',
@@ -1093,6 +1094,9 @@ export default {
   'plugin.akismet.check-type.comment': 'Comment',
   'plugin.akismet.check-type.description':
     'Select the detection type; by default, only messages are detected.',
+  'plugin.akismet.open.recaptcha': 'Enable reCAPTCHA',
+  'plugin.akismet.recaptcha.description':
+    'See: https://cloud.google.com/security/products/recaptcha',
   'plugin.sendmail.setting': 'E-Mail settings',
   'plugin.sendmail.server': 'SMTP server',
   'plugin.sendmail.server.description':

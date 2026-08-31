@@ -981,7 +981,7 @@ export default {
   'plugin.robots.content.tips2':
     '2、您可以透過Robots工具來建立、校驗、更新您的robots.txt檔案。',
   'plugin.robots.view': '看Robots',
-  'plugin.akismet.setting': 'Akismet 垃圾留言/評論檢測設置',
+  'plugin.akismet.setting': 'Akismet/reCAPTCHA 垃圾留言/評論檢測設置',
   'plugin.akismet.open.name': '開啟Akismet',
   'plugin.akismet.open.false': '關閉',
   'plugin.akismet.open.true': '開啟',
@@ -994,6 +994,9 @@ export default {
   'plugin.akismet.check-type.guestbook': '留言',
   'plugin.akismet.check-type.comment': '評論',
   'plugin.akismet.check-type.description': '選擇檢測類型，默认只檢測留言',
+  'plugin.akismet.open.recaptcha': '开启reCAPTCHA',
+  'plugin.akismet.recaptcha.description':
+    '利用现代化的漫游器防护功能阻止自动化攻击, 来源：https://cloud.google.com/security/products/recaptcha',
   'plugin.sendmail.setting': '郵件設定',
   'plugin.sendmail.server': 'SMTP伺服器',
   'plugin.sendmail.server.description': '如QQ郵箱,為smtp.qq.com',
