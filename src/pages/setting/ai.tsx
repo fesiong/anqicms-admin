@@ -1,22 +1,32 @@
 import NewContainer from '@/components/NewContainer';
 import { useVipModal } from '@/components/vipModal';
 import { checkOpenAIApi, getSettingAi, saveSettingAi } from '@/services';
+import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   ModalForm,
   ProForm,
   ProFormDigit,
   ProFormRadio,
+  ProFormSwitch,
   ProFormText,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl } from '@umijs/max';
+import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import { Button, Card, Input, List, message, Space, Tabs, Tag } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const SettingContactFrom: React.FC<any> = () => {
+  const { initialState } = useModel('@@initialState');
   const { isVip, checkVip, VipModal } = useVipModal();
   const [fetched, setFetched] = useState<boolean>(false);
   const [writeSetting, setWriteSetting] = useState<any>({});
   const [chatSetting, setChatSetting] = useState<any>([]);
+  const [mcpSetting, setMcpSetting] = useState<any>({
+    enabled: false,
+    token: '',
+    rate_limit: 0,
+    exposed_tools: [],
+  });
+  const mcpFormRef = useRef<ProFormInstance<any>>();
   const [editChatIndex, setEditChatIndex] = useState<number>(-1);
   const [editChatSetting, setEditChatSetting] = useState<any>({});
   const [editChatOpen, setEditChatOpen] = useState<boolean>(false);
@@ -31,6 +41,9 @@ const SettingContactFrom: React.FC<any> = () => {
     setAiEngine(setting?.write?.ai_engine || '');
     setWriteSetting(setting.write || {});
     setChatSetting(setting.chat || []);
+    if (setting.mcp) {
+      setMcpSetting(setting.mcp);
+    }
     setFetched(true);
   };
 
@@ -194,6 +207,94 @@ const SettingContactFrom: React.FC<any> = () => {
         }
       })
       .catch(() => message.error('保存失败'));
+  };
+
+  const onSubmitMcp = async (values: any) => {
+    const postData = {
+      ...mcpSetting,
+      ...values,
+    };
+    // 处理 exposed_tools：逗号分隔字符串转数组
+    if (typeof postData.exposed_tools === 'string') {
+      postData.exposed_tools = postData.exposed_tools
+        .split(',')
+        .map((s: string) => s.trim())
+        .filter(Boolean);
+    } else if (!Array.isArray(postData.exposed_tools)) {
+      postData.exposed_tools = [];
+    }
+
+    const hide = message.loading(
+      intl.formatMessage({ id: 'setting.system.submitting' }),
+      0,
+    );
+    saveSettingAi({ mcp: postData })
+      .then((res: any) => {
+        if (res.code === 0) {
+          if (res.data?.mcp) {
+            setMcpSetting(res.data.mcp);
+          }
+          message.success(res.msg);
+        } else {
+          message.info(res.msg || '保存失败');
+        }
+      })
+      .catch(() => message.error('保存失败'))
+      .finally(() => {
+        hide();
+      });
+  };
+
+  const handleGenerateToken = () => {
+    // 生成 32 位随机 token
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let token = '';
+    for (let i = 0; i < 32; i++) {
+      token += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    // 直接写入 ProForm 字段，避免表单内部值与 state 不同步
+    mcpFormRef.current?.setFieldValue('token', token);
+    setMcpSetting({ ...mcpSetting, token });
+  };
+
+  const handleCopyMcpConfig = () => {
+    const baseUrl = initialState?.system?.base_url || window.location.origin;
+    const token = mcpSetting.token || '';
+    if (!token) {
+      message.warning('请先生成鉴权 Token');
+      return;
+    }
+    const config = {
+      mcpServers: {
+        anqicms: {
+          url: `${baseUrl}/api/mcp`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      },
+    };
+    const text = JSON.stringify(config, null, 2);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        () => message.success('配置已复制到剪贴板'),
+        () => message.error('复制失败，请手动复制'),
+      );
+    } else {
+      // 降级方案
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        message.success('配置已复制到剪贴板');
+      } catch {
+        message.error('复制失败，请手动复制');
+      }
+      document.body.removeChild(textarea);
+    }
   };
 
   return (
@@ -401,12 +502,6 @@ const SettingContactFrom: React.FC<any> = () => {
                 label: 'AI接口配置(AI助手)',
                 children: (
                   <div>
-                    <div style={{ marginBottom: 16 }}>
-                      <span style={{ color: '#666', fontSize: 13 }}>
-                        默认使用安企官方接口，VIP用户可以添加自定义 AI
-                        模型接口。
-                      </span>
-                    </div>
                     <div style={{ marginBottom: 12 }}>
                       <Button type="primary" size="small" onClick={onAddChatAi}>
                         添加自定义接口
@@ -461,6 +556,81 @@ const SettingContactFrom: React.FC<any> = () => {
                       />
                     )}
                   </div>
+                ),
+              },
+              {
+                key: 'mcp',
+                label: 'MCP 对外接口',
+                children: (
+                  <ProForm
+                    formRef={mcpFormRef}
+                    initialValues={{
+                      enabled: mcpSetting.enabled || false,
+                      token: mcpSetting.token || '',
+                      rate_limit: mcpSetting.rate_limit || 0,
+                      exposed_tools: Array.isArray(mcpSetting.exposed_tools)
+                        ? mcpSetting.exposed_tools.join(', ')
+                        : '',
+                    }}
+                    onFinish={onSubmitMcp}
+                  >
+                    <div
+                      style={{
+                        marginBottom: 16,
+                        padding: 12,
+                        background: '#f6f8fa',
+                        borderRadius: 6,
+                        fontSize: 13,
+                        color: '#666',
+                      }}
+                    >
+                      启用后，第三方 AI 客户端（Claude Desktop、Cursor、Cherry
+                      Studio 等）可通过 MCP 协议调用本站点的 100+ 工具，
+                      实现内容管理、SEO 优化等操作。端点地址：
+                      <code style={{ marginLeft: 6 }}>
+                        {initialState?.system?.base_url || ''}/api/mcp
+                      </code>
+                      <Button
+                        type="link"
+                        size="small"
+                        onClick={handleCopyMcpConfig}
+                        style={{ float: 'right', padding: 0 }}
+                      >
+                        一键复制配置
+                      </Button>
+                    </div>
+                    <ProFormSwitch
+                      name="enabled"
+                      label="启用 MCP 对外接口"
+                      extra="开启后允许第三方 AI 通过 MCP 协议访问本站点"
+                    />
+                    <ProFormText
+                      name="token"
+                      label="鉴权 Token"
+                      placeholder="点击右侧按钮生成随机 Token"
+                      extra="第三方 AI 调用时需在 Header 中携带 Authorization: Bearer {token}"
+                      fieldProps={{
+                        addonAfter: (
+                          <Button size="small" onClick={handleGenerateToken}>
+                            生成随机 Token
+                          </Button>
+                        ),
+                      }}
+                    />
+                    <ProFormDigit
+                      name="rate_limit"
+                      label="速率限制（次/分钟）"
+                      placeholder="0 表示不限制"
+                      min={0}
+                      extra="防止第三方 AI 过度调用导致服务压力过大，0 表示不限制"
+                    />
+                    <ProFormText
+                      name="exposed_tools"
+                      label="暴露的工具列表"
+                      placeholder="留空表示暴露全部工具；多个工具名用英文逗号分隔"
+                      extra="可限制第三方 AI 仅能调用指定工具，例如 archive_list, category_list"
+                    />
+                  </ProForm>
                 ),
               },
             ]}

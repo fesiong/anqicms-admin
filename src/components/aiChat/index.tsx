@@ -1,4 +1,3 @@
-import { useVipModal } from '@/components/vipModal';
 import {
   anqiAiToolConfirm,
   anqiAiUpload,
@@ -73,7 +72,6 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
     completion: 0,
     total: 0,
   });
-  const { checkVip, VipModal } = useVipModal();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const welcomeShownRef = useRef(false);
 
@@ -745,20 +743,18 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
     index: number,
     provider?: AiProviderConfig,
   ) => {
-    checkVip(() => {
-      setEditProviderIndex(index);
-      setEditProvider(
-        provider || {
-          name: '',
-          base_url: '',
-          api_key: '',
-          model: '',
-          enable_reasoning: true,
-          max_tokens: 8192,
-        },
-      );
-      setEditProviderModalVisible(true);
-    });
+    setEditProviderIndex(index);
+    setEditProvider(
+      provider || {
+        name: '',
+        base_url: '',
+        api_key: '',
+        model: '',
+        enable_reasoning: true,
+        max_tokens: 8192,
+      },
+    );
+    setEditProviderModalVisible(true);
   };
 
   const handleOpenTemplateSelect = () => {
@@ -905,8 +901,6 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
           onSave={handleSaveCustomProvider}
         />
       )}
-
-      <VipModal />
 
       <AgentDrawer
         visible={agentDrawerVisible}

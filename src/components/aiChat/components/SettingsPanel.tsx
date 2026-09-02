@@ -32,11 +32,6 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
       footer={null}
       width={560}
     >
-      <div style={{ marginBottom: 16 }}>
-        <span style={{ color: '#666', fontSize: 13 }}>
-          默认使用安企官方接口，VIP用户可以添加自定义 AI 模型接口。
-        </span>
-      </div>
       <div style={{ marginBottom: 12 }}>
         <Button type="primary" size="small" onClick={onAdd}>
           添加自定义接口
