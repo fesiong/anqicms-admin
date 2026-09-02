@@ -1,5 +1,6 @@
 import { Viewer } from '@bytemd/react';
-import { Drawer, List, Spin, Tag } from 'antd';
+import { Button, Drawer, List, Spin, Tag } from 'antd';
+import React from 'react';
 
 interface AgentLogDrawerProps {
   visible: boolean;
@@ -26,6 +27,8 @@ const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
   logs,
   onClose,
 }) => {
+  const [openidx, setOpenidx] = React.useState<number | null>(null);
+
   return (
     <Drawer
       title={agent ? `执行日志 - ${agent.name || `#${agent.id}`}` : '执行日志'}
@@ -63,7 +66,27 @@ const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
                   <div style={{ fontSize: 12, color: '#666' }}>
                     {item.summary && (
                       <div style={{ marginBottom: 4 }}>
-                        <Viewer key={`seg-${index}`} value={item.summary} />
+                        {openidx === index ? (
+                          <>
+                            <Viewer key={`seg-${index}`} value={item.summary} />
+                            <Button
+                              size="small"
+                              onClick={() => setOpenidx(null)}
+                            >
+                              收起
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <div>{item.summary.substring(0, 80)}</div>
+                            <Button
+                              size="small"
+                              onClick={() => setOpenidx(index)}
+                            >
+                              展开
+                            </Button>
+                          </>
+                        )}
                       </div>
                     )}
                     {item.error && (
