@@ -295,7 +295,6 @@ export default {
   'content.attachment.filter': '篩選',
   'content.attachment.search': '輸入檔名關鍵字搜尋',
   'content.attachment.all-source': '全部資源',
-  'content.attachment.category.manage': '分類管理',
   'content.attachment.upload': '上傳新資源',
   'content.attachment.scan.name': '掃描Uploads目錄',
   'content.attachment.loading': '載入中...',

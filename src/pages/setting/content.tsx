@@ -1,6 +1,6 @@
 import AttachmentSelect from '@/components/attachment';
 import NewContainer from '@/components/NewContainer';
-import { getAttachmentCategories } from '@/services';
+import { getCategories } from '@/services';
 import {
   convertImagetoWebp,
   getSettingContent,
@@ -582,7 +582,7 @@ const SettingContactFrom: React.FC<any> = () => {
               name="thumb_category_id"
               width={'lg'}
               request={async () => {
-                const res = await getAttachmentCategories();
+                const res = await getCategories();
                 const data = (res.data || []).concat(
                   {
                     id: 0,

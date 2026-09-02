@@ -3,7 +3,6 @@ import { useVipModal } from '@/components/vipModal';
 import {
   checkOpenAIApi,
   getAiGenerateSetting,
-  getAttachmentCategories,
   saveAiGenerateSetting,
 } from '@/services';
 import { getCategories } from '@/services/category';
@@ -714,7 +713,7 @@ const CollectorSetting: React.FC<CollectorSettingProps> = (props) => {
                 id: 'plugin.aigenerate.image.category.description',
               })}
               request={async () => {
-                const res = await getAttachmentCategories();
+                const res = await getCategories();
                 const data = (res.data || []).concat(
                   {
                     id: 0,

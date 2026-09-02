@@ -1,4 +1,4 @@
-import { addUrlToAttachment, getAttachmentCategories } from '@/services';
+import { addUrlToAttachment, getCategories } from '@/services';
 import { DeleteOutlined } from '@ant-design/icons';
 import {
   ProForm,
@@ -92,7 +92,7 @@ const AttachmentAddUrl: React.FC<AttachmentAddUrlProps> = (props) => {
               id: 'content.category.name',
             })}
             request={async () => {
-              let res = await getAttachmentCategories({});
+              let res = await getCategories({});
               let categories = res.data || [];
               categories = [
                 {
@@ -101,17 +101,39 @@ const AttachmentAddUrl: React.FC<AttachmentAddUrlProps> = (props) => {
                     id: 'content.attachment.unclassified',
                   }),
                 },
-              ].concat(categories);
+              ]
+                .concat(categories)
+                .map((cat: any) => ({
+                  title: cat.title,
+                  label: (
+                    <div title={cat.title}>
+                      {cat.parents?.length > 0 ? (
+                        <span className="text-muted">
+                          {cat.parents
+                            ?.map((parent: any) => parent.title)
+                            .join(' > ')}
+                          {' > '}
+                        </span>
+                      ) : (
+                        ''
+                      )}
+                      {cat.title}
+                    </div>
+                  ),
+                  value: cat.id,
+                  disabled: cat.status !== 1,
+                }));
               return categories;
             }}
             fieldProps={{
-              fieldNames: {
-                label: 'title',
-                value: 'id',
-              },
               onChange: (value) => {
                 setSelectedCategory(value as number);
               },
+              showSearch: true,
+              filterOption: (input: string, option: any) =>
+                (option?.title ?? option?.label)
+                  .toLowerCase()
+                  .includes(input.toLowerCase()),
             }}
           />
           <ProFormTextArea

@@ -1,7 +1,6 @@
 import AttachmentSelect from '@/components/attachment';
 import {
   archiveQuickImport,
-  getAttachmentCategories,
   getCategories,
   getQuickImportArchiveStatus,
 } from '@/services';
@@ -495,7 +494,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
               id: 'plugin.aigenerate.image.category.description',
             })}
             request={async () => {
-              const res = await getAttachmentCategories();
+              const res = await getCategories();
               const data = (res.data || []).concat(
                 {
                   id: 0,

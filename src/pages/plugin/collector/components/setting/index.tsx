@@ -1,5 +1,4 @@
 import AttachmentSelect from '@/components/attachment';
-import { getAttachmentCategories } from '@/services';
 import { getCategories } from '@/services/category';
 import {
   getCollectorSetting,
@@ -715,7 +714,7 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                   id: 'plugin.aigenerate.image.category.description',
                 })}
                 request={async () => {
-                  const res = await getAttachmentCategories();
+                  const res = await getCategories();
                   const data = (res.data || []).concat(
                     {
                       id: 0,

@@ -32,7 +32,7 @@ Attachment.show = (multiple?: boolean, intl?: any) => {
     const { destroy } = Modal.info({
       icon: null,
       maskClosable: true,
-      width: 800,
+      width: 950,
       wrapClassName: 'attachment-dialog',
       content: (
         <AttachmentContent

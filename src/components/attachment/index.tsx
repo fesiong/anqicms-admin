@@ -54,7 +54,7 @@ const AttachmentSelect: React.FC<AttachmentProps> = (props) => {
       </div>
       <Modal
         className="material-modal"
-        width={800}
+        width={950}
         open={props.manual ? props.open : visible}
         onCancel={() => {
           visibleControl(false);

@@ -322,7 +322,6 @@ export default {
   'content.attachment.filter': 'filter',
   'content.attachment.search': 'Enter file name keyword search',
   'content.attachment.all-source': 'All resources',
-  'content.attachment.category.manage': 'Classification management',
   'content.attachment.upload': 'Upload new resources',
   'content.attachment.scan.name': 'Scan the Uploads directory',
   'content.attachment.loading': 'loading...',

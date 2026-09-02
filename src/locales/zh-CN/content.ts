@@ -298,7 +298,6 @@ export default {
   'content.attachment.filter': '筛选',
   'content.attachment.search': '输入文件名关键词搜索',
   'content.attachment.all-source': '全部资源',
-  'content.attachment.category.manage': '分类管理',
   'content.attachment.add-url': '添加URL资源',
   'content.attachment.add-url.name': 'URL资源',
   'content.attachment.add-url.placeholder':

@@ -1,8 +1,5 @@
-import {
-  getAttachmentCategories,
-  getAttachments,
-  uploadAttachment,
-} from '@/services/attachment';
+import { getCategories } from '@/services';
+import { getAttachments, uploadAttachment } from '@/services/attachment';
 import { acceptedExtensions, calculateFileMd5 } from '@/utils';
 import { CloseOutlined } from '@ant-design/icons';
 import { ActionType, ProList } from '@ant-design/pro-components';
@@ -41,7 +38,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
   const [addUrlVisible, setAddUrlVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    getAttachmentCategories().then((res) => {
+    getCategories().then((res) => {
       setCategories(res.data || []);
     });
   }, []);
@@ -206,7 +203,7 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
         <Space size={16}>
           <Select
             defaultValue={categoryId}
-            style={{ width: 120 }}
+            style={{ width: 180 }}
             onChange={handleChangeCategory}
           >
             <Select.Option value={0}>
@@ -215,6 +212,16 @@ const AttachmentContent: React.FC<AttachmentContentProps> = (props) => {
             </Select.Option>
             {categories.map((item: any) => (
               <Select.Option key={item.id} value={item.id}>
+                {item.parents?.length > 0 ? (
+                  <span className="text-muted">
+                    {item.parents
+                      ?.map((parent: any) => parent.title)
+                      .join(' > ')}
+                    {' > '}
+                  </span>
+                ) : (
+                  ''
+                )}
                 {item.title}
               </Select.Option>
             ))}

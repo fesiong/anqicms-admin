@@ -6,13 +6,13 @@ import {
   changeAttachmentCategory,
   changeAttachmentName,
   deleteAttachment,
-  getAttachmentCategories,
   getAttachments,
+  getCategories,
   scanUploadsAttachment,
   uploadAttachment,
-} from '@/services/attachment';
+} from '@/services';
 import { acceptedExtensions, calculateFileMd5, sizeFormat } from '@/utils';
-import { LoadingOutlined } from '@ant-design/icons';
+import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { FormattedMessage, injectIntl } from '@umijs/max';
 import {
@@ -21,6 +21,7 @@ import {
   Card,
   Checkbox,
   Col,
+  Dropdown,
   Empty,
   Input,
   Modal,
@@ -34,7 +35,6 @@ import {
 import dayjs from 'dayjs';
 import React from 'react';
 import { IntlShape } from 'react-intl';
-import AttachmentCategory from './components/category';
 import './index.less';
 
 export type intlProps = {
@@ -101,7 +101,7 @@ class ImageList extends React.Component<intlProps> {
   };
 
   getCategories = () => {
-    getAttachmentCategories().then((res) => {
+    getCategories().then((res) => {
       this.setState({
         categories: res.data || [],
       });
@@ -313,7 +313,7 @@ class ImageList extends React.Component<intlProps> {
           <Select
             defaultValue={tmpCategoryId}
             onChange={this.handleSetTmpCategoryId}
-            style={{ width: 200 }}
+            style={{ width: '100%' }}
           >
             <Select.Option value={0}>
               {this.props.intl.formatMessage({
@@ -321,7 +321,21 @@ class ImageList extends React.Component<intlProps> {
               })}
             </Select.Option>
             {categories.map((item: any) => (
-              <Select.Option key={item.id} value={item.id}>
+              <Select.Option
+                key={item.id}
+                value={item.id}
+                disabled={item.status !== 1}
+              >
+                {item.parents?.length > 0 ? (
+                  <span className="text-muted">
+                    {item.parents
+                      ?.map((parent: any) => parent.title)
+                      .join(' > ')}
+                    {' > '}
+                  </span>
+                ) : (
+                  ''
+                )}
                 {item.title}
               </Select.Option>
             ))}
@@ -558,7 +572,7 @@ class ImageList extends React.Component<intlProps> {
                 />
                 <Select
                   defaultValue={categoryId}
-                  style={{ width: 120 }}
+                  style={{ width: 180 }}
                   onChange={this.handleChangeCategory}
                 >
                   <Select.Option value={0}>
@@ -566,53 +580,94 @@ class ImageList extends React.Component<intlProps> {
                   </Select.Option>
                   {categories.map((item: any) => (
                     <Select.Option key={item.id} value={item.id}>
+                      {item.parents?.length > 0 ? (
+                        <span className="text-muted">
+                          {item.parents
+                            ?.map((parent: any) => parent.title)
+                            .join(' > ')}
+                          {' > '}
+                        </span>
+                      ) : (
+                        ''
+                      )}
                       {item.title}
                     </Select.Option>
                   ))}
                 </Select>
-                <AttachmentCategory
-                  onCancel={() => {
-                    this.getCategories();
+                <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        key: 'upload',
+                        label: (
+                          <Upload
+                            name="file"
+                            multiple
+                            showUploadList={false}
+                            accept={acceptedExtensions}
+                            customRequest={this.handleUploadImage}
+                            style={{ display: 'block' }}
+                          >
+                            <Button type="link" block>
+                              <FormattedMessage id="content.attachment.upload" />
+                            </Button>
+                          </Upload>
+                        ),
+                      },
+                      {
+                        key: 'generate',
+                        label: (
+                          <Button
+                            type="link"
+                            block
+                            onClick={() =>
+                              this.setState({
+                                aiVisible: true,
+                                currentAttach: {},
+                              })
+                            }
+                          >
+                            <FormattedMessage id="component.aiimage.generate" />
+                          </Button>
+                        ),
+                      },
+                      {
+                        key: 'addUrl',
+                        label: (
+                          <Button
+                            type="link"
+                            block
+                            onClick={() =>
+                              this.setState({
+                                addUrlVisible: true,
+                                currentAttach: {},
+                              })
+                            }
+                          >
+                            <FormattedMessage id="content.attachment.add-url" />
+                          </Button>
+                        ),
+                      },
+                      {
+                        key: 'scan',
+                        label: (
+                          <Button
+                            type="link"
+                            block
+                            onClick={() => this.scanUploadsDir()}
+                          >
+                            <FormattedMessage id="content.attachment.scan.name" />
+                          </Button>
+                        ),
+                      },
+                    ],
                   }}
+                  placement="bottomRight"
                 >
-                  <Button
-                    key="category"
-                    onClick={() => {
-                      //todo
-                    }}
-                  >
-                    <FormattedMessage id="content.attachment.category.manage" />
-                  </Button>
-                </AttachmentCategory>
-                <Upload
-                  name="file"
-                  multiple
-                  showUploadList={false}
-                  accept={acceptedExtensions}
-                  customRequest={this.handleUploadImage}
-                >
-                  <Button type="primary">
+                  <Button icon={<DownOutlined />} iconPosition="end">
                     <FormattedMessage id="content.attachment.upload" />
                   </Button>
-                </Upload>
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    this.setState({ aiVisible: true, currentAttach: {} })
-                  }
-                >
-                  <FormattedMessage id="component.aiimage.generate" />
-                </Button>
-                <Button
-                  onClick={() =>
-                    this.setState({ addUrlVisible: true, currentAttach: {} })
-                  }
-                >
-                  <FormattedMessage id="content.attachment.add-url" />
-                </Button>
-                <Button onClick={() => this.scanUploadsDir()}>
-                  <FormattedMessage id="content.attachment.scan.name" />
-                </Button>
+                </Dropdown>
               </Space>
             </div>
           }
