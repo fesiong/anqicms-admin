@@ -42,24 +42,38 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
           <br />
           在 AI 聊天中告诉 AI 创建即可，例如：
           <br />
-          <em>
-            创建一个每日写作智能体，每天早上8点搜索热词并写3篇文章
-          </em>
+          <em>创建一个每日写作智能体，每天早上8点搜索热词并写3篇文章</em>
         </div>
       ) : (
         <List
           size="small"
           dataSource={agents}
+          itemLayout="vertical"
           renderItem={(item: any) => (
             <List.Item
               actions={[
-                <Button key="run" type="link" size="small" onClick={() => onRun(item)}>
+                <Button
+                  key="run"
+                  type="link"
+                  size="small"
+                  onClick={() => onRun(item)}
+                >
                   执行
                 </Button>,
-                <Button key="chat" type="link" size="small" onClick={() => onChat(item)}>
+                <Button
+                  key="chat"
+                  type="link"
+                  size="small"
+                  onClick={() => onChat(item)}
+                >
                   对话
                 </Button>,
-                <Button key="logs" type="link" size="small" onClick={() => onLogs(item)}>
+                <Button
+                  key="logs"
+                  type="link"
+                  size="small"
+                  onClick={() => onLogs(item)}
+                >
                   日志
                 </Button>,
                 <Button
@@ -103,7 +117,9 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
                     {' | '}
                     运行 {item.run_count || 0} 次
                     {item.last_run_at > 0
-                      ? ` | 上次 ${new Date(item.last_run_at * 1000).toLocaleString()}`
+                      ? ` | 上次 ${new Date(
+                          item.last_run_at * 1000,
+                        ).toLocaleString()}`
                       : ''}
                     {item.last_summary && (
                       <div

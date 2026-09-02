@@ -1,5 +1,6 @@
 import { useVipModal } from '@/components/vipModal';
 import {
+  anqiAiToolConfirm,
   anqiAiUpload,
   anqiSkillDelete,
   anqiSkillReload,
@@ -15,7 +16,7 @@ import {
 import config from '@/services/config';
 import { getSessionStore, getStore, setStore } from '@/utils/store';
 import { CloudServerOutlined, PaperClipOutlined } from '@ant-design/icons';
-import { MenuProps, Upload, message } from 'antd';
+import { Button, MenuProps, Modal, Upload, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import AgentDrawer from './components/AgentDrawer';
 import AgentLogDrawer from './components/AgentLogDrawer';
@@ -89,6 +90,10 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
   const [skillDrawerVisible, setSkillDrawerVisible] = useState(false);
   const [skillList, setSkillList] = useState<any[]>([]);
   const [skillListLoading, setSkillListLoading] = useState(false);
+
+  // ── P0: 工具执行审批 ──
+  // 用 antd Modal.confirm 命令式 API（在 tool_confirm handler 内调用），
+  // 不再持有 pendingApproval React state，避免渲染队列积压导致 Modal 延迟弹出。
 
   const handleShowAgentLogs = async (agent: any) => {
     setSelectedAgent(agent);
@@ -247,21 +252,31 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
       let buffer = '';
       let segments: Segment[] = [];
 
+      // 节流 flushSegments: 用 RAF 合并多个 reasoning/message chunk
+      // 避免 React 渲染队列饱和导致电脑卡顿、审批 Modal 延迟弹出
+      let flushRafId: number | null = null;
       const flushSegments = () => {
         if (segments.length === 0) return;
-        setMessages((prev) => {
-          const newMsgs = [...prev];
-          const last = newMsgs[newMsgs.length - 1];
-          if (last && last.role === 'assistant') {
-            newMsgs[newMsgs.length - 1] = { ...last, segments: [...segments] };
-          } else {
-            newMsgs.push({
-              role: 'assistant',
-              segments: [...segments],
-              timestamp: Date.now(),
-            });
-          }
-          return newMsgs;
+        if (flushRafId !== null) return; // 已有待执行的 flush
+        flushRafId = requestAnimationFrame(() => {
+          flushRafId = null;
+          setMessages((prev) => {
+            const newMsgs = [...prev];
+            const last = newMsgs[newMsgs.length - 1];
+            if (last && last.role === 'assistant') {
+              newMsgs[newMsgs.length - 1] = {
+                ...last,
+                segments: [...segments],
+              };
+            } else {
+              newMsgs.push({
+                role: 'assistant',
+                segments: [...segments],
+                timestamp: Date.now(),
+              });
+            }
+            return newMsgs;
+          });
         });
       };
 
@@ -302,6 +317,11 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
                 continue;
               }
 
+              // end 事件携带 [DONE] 非 JSON，需在 JSON.parse 前处理
+              if (eventType === 'end') {
+                continue;
+              }
+
               try {
                 const parsed = JSON.parse(data || '{}');
 
@@ -328,6 +348,7 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
                 }
 
                 if (eventType === 'tool_call') {
+                  console.log('tool_call', parsed);
                   segments.push({
                     type: 'tool_call',
                     toolName: parsed.name || '',
@@ -340,6 +361,96 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
                     result: undefined,
                   });
                   flushSegments();
+                  continue;
+                }
+
+                if (eventType === 'tool_confirm') {
+                  console.log('tool_confirm', parsed);
+                  // P0: 主会话写操作审批 — 用 antd Modal.confirm 命令式 API
+                  // 绕过 React 渲染队列，Modal 立即弹出，不受 setMessages 积压影响
+                  const toolCallId = parsed.tool_call_id || '';
+                  const toolName = parsed.name || '';
+                  const toolArgs =
+                    typeof parsed.arguments === 'object'
+                      ? JSON.stringify(parsed.arguments, null, 2)
+                      : parsed.arguments || '';
+
+                  const approvalResult = async (
+                    decision: 'allow' | 'once_allow' | 'deny',
+                  ) => {
+                    await anqiAiToolConfirm({
+                      tool_call_id: toolCallId,
+                      decision,
+                    });
+                  };
+
+                  const modal = Modal.confirm({
+                    title: `AI 请求执行写操作: ${toolName}`,
+                    content: (
+                      <div>
+                        <pre
+                          style={{
+                            background: '#f5f5f5',
+                            padding: 12,
+                            borderRadius: 4,
+                            maxHeight: 300,
+                            overflow: 'auto',
+                            fontSize: 12,
+                            whiteSpace: 'pre-wrap',
+                            wordBreak: 'break-all',
+                            margin: '8px 0',
+                          }}
+                        >
+                          {toolArgs}
+                        </pre>
+                        <p style={{ color: '#999', fontSize: 12 }}>
+                          本次允许: 仅本次执行 | 本会话允许:
+                          本会话内该工具不再询问 | 拒绝: 不执行
+                        </p>
+                      </div>
+                    ),
+                    okText: '本次允许',
+                    cancelText: '拒绝',
+                    onOk: () => approvalResult('allow'),
+                    onCancel: () => approvalResult('deny'),
+                    footer: (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'flex-end',
+                          gap: 8,
+                        }}
+                      >
+                        <Button
+                          danger
+                          onClick={() => {
+                            modal.destroy();
+                            approvalResult('deny');
+                          }}
+                        >
+                          拒绝
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            modal.destroy();
+                            approvalResult('once_allow');
+                          }}
+                        >
+                          本会话允许
+                        </Button>
+                        <Button
+                          type="primary"
+                          onClick={() => {
+                            modal.destroy();
+                            approvalResult('allow');
+                          }}
+                        >
+                          本次允许
+                        </Button>
+                      </div>
+                    ),
+                  });
+
                   continue;
                 }
 

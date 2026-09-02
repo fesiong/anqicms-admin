@@ -131,6 +131,19 @@ export async function anqiAiChat(body: any, options?: { [key: string]: any }) {
   });
 }
 
+// P0: 工具执行审批 — 主会话写操作需要前端确认
+// decision: "allow" 本次允许 | "deny" 拒绝 | "once_allow" 本会话允许
+export async function anqiAiToolConfirm(
+  body: { tool_call_id: string; decision: 'allow' | 'deny' | 'once_allow' },
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/anqi/ai/chat/confirm',
+    body,
+    options,
+  });
+}
+
 export async function anqiAiImageGenerate(
   body: any,
   options?: { [key: string]: any },
