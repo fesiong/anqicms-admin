@@ -1,4 +1,6 @@
-import { anqiAiChat, getAnqiInfo } from '@/services';
+import { getAnqiInfo } from '@/services';
+import config from '@/services/config';
+import { getSessionStore, getStore } from '@/utils/store';
 import {
   ProForm,
   ProFormInstance,
@@ -9,6 +11,7 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Checkbox, Modal, Space, Tag, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
+import { parseTdkJson } from './parseTdk';
 
 export type AiGetTdkProps = {
   onCancel: (flag?: boolean) => void;
@@ -30,8 +33,6 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
 
   const prompt = `<content>{content}</content>\n请帮我根据以上内容生成TDK，并按 {"title": "标题", "description": "描述", "keywords": "关键词"} 的JSON格式返回结果\n注意：你应该先判断一下这句话是中文还是英文，如果是中文，请给我返回中文的内容，如果是英文，请给我返回英文内容，只需要返回JSON内容即可，不需要告知我是中文还是英文。`;
 
-  let tmpContent = '';
-
   useEffect(() => {
     // 获取AIremain
     getAnqiInfo().then((res) => {
@@ -49,7 +50,7 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
     props.onSubmit(newTdk);
   };
 
-  const startGenerate = () => {
+  const startGenerate = async () => {
     if (loading) {
       return;
     }
@@ -61,62 +62,134 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
     }
     setLoading(true);
     setAiContent('');
-    anqiAiChat(
-      {
-        prompt: prompt.replace('{content}', plainText),
-        type: 3, // 使用普通ai来做总结
-      },
-      {
-        //responseType: 'stream',
-        onDownloadProgress: (progressEvent: any) => {
-          // 处理 SSE 数据
-          const chunks = progressEvent.target.response.split('\n');
-          tmpContent = '';
+    setAiFinished(false);
+    setParseOk(false);
+    setTdk({});
 
-          for (const chunk of chunks) {
-            if (chunk.startsWith('data: ')) {
-              let data = chunk.slice(6); // 移除 'data: ' 前缀
+    const adminToken = getStore('adminToken') || getSessionStore('adminToken');
+    const body: any = {
+      prompt: prompt.replace('{content}', plainText),
+    };
 
-              try {
-                const parsed = JSON.parse(data);
-                tmpContent += parsed.content;
-              } catch (e) {
-                console.error('Error parsing SSE data:', e);
-              }
+    try {
+      const response = await fetch(config.baseUrl + '/anqi/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Admin: adminToken },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // 检查响应类型：如果返回的是 JSON（非 SSE），说明需要特殊处理
+      const contentType = response.headers.get('Content-Type') || '';
+      if (contentType.includes('application/json')) {
+        const jsonResp = await response.json();
+        throw new Error(jsonResp.msg || '请求失败');
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('No readable stream');
+      }
+
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let tmpContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const events = buffer.split('\n\n');
+        buffer = events.pop() || '';
+
+        for (const event of events) {
+          if (!event.trim()) continue;
+
+          const lines = event.split('\n');
+          let eventType = 'message';
+          let data = '';
+
+          for (const line of lines) {
+            if (line.startsWith('event:')) {
+              eventType = line.substring(6).trim();
+            } else if (line.startsWith('data:')) {
+              data = line.substring(5).trim();
             }
           }
-          setAiContent(tmpContent);
-        },
-      },
-    )
-      .then(async (res) => {
-        if (res.code) {
-          Modal.error({
-            title: res.msg,
-          });
+
+          // end 事件：AI 响应结束
+          if (eventType === 'end') {
+            setAiFinished(true);
+            setLoading(false);
+
+            // 尝试解析 JSON（兼容纯 JSON / ```json 代码块 / 重复 JSON / 前后多余文字）
+            const parsed = parseTdkJson(tmpContent);
+            if (parsed) {
+              setParseOk(true);
+              setTdk(parsed);
+            } else {
+              console.error('Error parsing TDK JSON:', tmpContent);
+            }
+            continue;
+          }
+
+          // message 事件：AI 响应内容
+          if (eventType === 'message') {
+            try {
+              const parsed = JSON.parse(data || '{}');
+              if (parsed.v !== undefined) {
+                tmpContent += parsed.v;
+                setAiContent(tmpContent);
+              }
+            } catch (e) {
+              console.error('Error parsing SSE data:', e);
+            }
+            continue;
+          }
+
+          // warning 事件：显示警告
+          if (eventType === 'warning') {
+            try {
+              const parsed = JSON.parse(data || '{}');
+              if (parsed.v) {
+                message.warning(parsed.v);
+              }
+            } catch (e) {
+              // ignore
+            }
+            continue;
+          }
+
+          // config 事件：AI 配置错误
+          if (eventType === 'config') {
+            message.error('AI接口尚未配置或配置错误。');
+            setLoading(false);
+            continue;
+          }
         }
+      }
+
+      // 如果流结束但没有收到 end 事件，也标记完成
+      if (!aiFinished) {
         setAiFinished(true);
         setLoading(false);
-        if (tmpContent) {
-          if (tmpContent.includes('{') && tmpContent.includes('}')) {
-            let idx1 = tmpContent.indexOf('{');
-            let idx2 = tmpContent.lastIndexOf('}');
-            let parsed: any = JSON.parse(tmpContent.slice(idx1, idx2 + 1));
-            if (typeof parsed.keywords === 'object') {
-              parsed.keywords = parsed.keywords.join(',');
-            }
-            if (parsed.title) {
-              setParseOk(true);
-            }
-            parsed.title_ok = true;
-            parsed.description_ok = true;
-            parsed.keywords_ok = true;
-            setTdk(parsed);
-          }
+        const parsed = parseTdkJson(tmpContent);
+        if (parsed) {
+          setParseOk(true);
+          setTdk(parsed);
+        } else {
+          console.error('Error parsing TDK JSON:', tmpContent);
         }
-      })
-      .catch(() => {})
-      .finally(() => {});
+      }
+    } catch (error: any) {
+      console.error('TDK generation error:', error);
+      message.error(error.message || '生成失败，请重试');
+      setLoading(false);
+    }
   };
 
   return (
