@@ -58,6 +58,7 @@ const TranslateHtmlCache: React.FC<HtmlCacheProps> = (props) => {
     {
       title: intl.formatMessage({ id: 'plugin.multilang.html-cache.uri' }),
       dataIndex: 'uri',
+      ellipsis: true,
     },
     {
       title: intl.formatMessage({
