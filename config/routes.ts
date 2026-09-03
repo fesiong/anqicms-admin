@@ -601,7 +601,7 @@ export default [
     path: '/ai-design',
     layout: false,
     hideInMenu: true,
-    name: 'ai-design',
+    hideInTop: true,
     component: '@/pages/design/preview',
   },
   {
