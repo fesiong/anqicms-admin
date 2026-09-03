@@ -69,6 +69,7 @@ export default {
   'menu.design.detail': '模板管理',
   'menu.design.doc': '开发文档',
   'menu.design.market': '设计市场',
+  'menu.design.ai-design': 'AI模板设计',
   'menu.statistic': '数据',
   'menu.statistic.spider': '蜘蛛分析',
   'menu.statistic.traffic': '流量分析',

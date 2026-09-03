@@ -39,7 +39,13 @@ import { convertHistoryMessages } from './utils';
 // 主组件
 // =====================================================================
 
-const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
+const AiChat: React.FC<AiChatProps> = ({
+  visible,
+  onClose,
+  iframeUrl,
+  selectedDom,
+  onIframeReload,
+}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -216,6 +222,13 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
         message: messageContent,
         model: selectedModel,
       };
+      // 前端 AI 编辑器：附带 iframe 上下文
+      if (iframeUrl) {
+        body.iframe_url = iframeUrl;
+      }
+      if (selectedDom) {
+        body.selected_dom = selectedDom;
+      }
       if (uploadedFiles.length > 0) {
         body.files = uploadedFiles.map((f: any) => ({
           file_name: f.file_name,
@@ -317,6 +330,8 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
 
               // end 事件携带 [DONE] 非 JSON，需在 JSON.parse 前处理
               if (eventType === 'end') {
+                // 前端 AI 编辑器：AI 写模板成功后刷新 iframe 预览
+                onIframeReload?.();
                 continue;
               }
 
@@ -483,6 +498,12 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
                   continue;
                 }
 
+                if (eventType === 'iframe-reload') {
+                  // 前端 AI 编辑器：AI 写模板成功后刷新 iframe 预览
+                  onIframeReload?.();
+                  continue;
+                }
+
                 if (eventType === 'error') {
                   const errMsg = parsed.message?.content || 'An error occurred';
                   segments.push({ type: 'text', content: errMsg });
@@ -544,7 +565,7 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
   };
 
   const handleDeleteAgent = async (agent: any) => {
-    message.loading('删除中...', 0);
+    //message.loading('删除中...', 0);
     handleSend(`使用 agent_delete 工具删除 ID 为 ${agent.id} 的智能体`);
     setAgentDrawerVisible(false);
   };
@@ -587,10 +608,10 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
   };
 
   const handleDeleteSkill = async (skill: any) => {
-    message.loading('删除中...', 0);
+    //message.loading('删除中...', 0);
     try {
       const res = await anqiSkillDelete({ name: skill.name });
-      message.destroy();
+      //message.destroy();
       if (res.code === 0) {
         message.success('删除成功');
         loadSkillList();
@@ -598,7 +619,7 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
         message.error(res.msg || '删除失败');
       }
     } catch (_) {
-      message.destroy();
+      //message.destroy();
       message.error('删除失败');
     }
   };
@@ -852,6 +873,51 @@ const AiChat: React.FC<AiChatProps> = ({ visible, onClose }) => {
         errorMsg={errorMsg}
         messagesEndRef={messagesEndRef}
       />
+
+      {(iframeUrl || selectedDom) && (
+        <div
+          style={{
+            padding: '4px 12px',
+            fontSize: 12,
+            color: '#666',
+            background: '#fafafa',
+            borderBottom: '1px solid #f0f0f0',
+            display: 'flex',
+            gap: 8,
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
+          {iframeUrl && (
+            <span
+              style={{
+                maxWidth: 240,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              title={iframeUrl}
+            >
+              🔗 {iframeUrl}
+            </span>
+          )}
+          {selectedDom && (
+            <span
+              style={{
+                color: '#d46b08',
+                maxWidth: 280,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              title={selectedDom}
+            >
+              🎯 {selectedDom.slice(0, 50)}
+              {selectedDom.length > 50 ? '...' : ''}
+            </span>
+          )}
+        </div>
+      )}
 
       <ChatInput
         inputValue={inputValue}

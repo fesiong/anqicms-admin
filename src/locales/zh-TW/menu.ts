@@ -64,6 +64,7 @@ export default {
   'menu.plugin.llms': 'LLMs 配置',
   'menu.design': '模板設計',
   'menu.design.index': '我的模板',
+  'menu.design.ai-design': 'AI模板設計',
   'menu.design.editor': '修改程式碼',
   'menu.design.detail': '範本管理',
   'menu.design.doc': '開發文件',

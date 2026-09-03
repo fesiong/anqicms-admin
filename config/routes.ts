@@ -486,6 +486,11 @@ export default [
         component: '@/pages/design/detail',
       },
       {
+        path: '/design/preview',
+        name: 'ai-design',
+        redirect: '/ai-design',
+      },
+      {
         path: '/design/doc',
         name: 'doc',
         component: '@/pages/design/doc',
@@ -591,6 +596,13 @@ export default [
     link: 'preview',
     name: 'preview',
     hideInMenu: true,
+  },
+  {
+    path: '/ai-design',
+    layout: false,
+    hideInMenu: true,
+    name: 'ai-design',
+    component: '@/pages/design/preview',
   },
   {
     path: '/',

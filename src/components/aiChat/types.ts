@@ -26,6 +26,12 @@ export interface Message {
 export interface AiChatProps {
   visible: boolean;
   onClose: () => void;
+  /** 前端 AI 编辑器：当前 iframe 页面 URL */
+  iframeUrl?: string;
+  /** 前端 AI 编辑器：管理员选中的 DOM 片段 */
+  selectedDom?: string;
+  /** 前端 AI 编辑器：AI 写模板成功后刷新 iframe */
+  onIframeReload?: () => void;
 }
 
 export interface AiProviderConfig {

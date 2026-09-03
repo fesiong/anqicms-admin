@@ -68,6 +68,7 @@ export default {
   'menu.design.detail': 'Template Management',
   'menu.design.doc': 'Documentation',
   'menu.design.market': 'Market',
+  'menu.design.ai-design': 'Frontend AI Editor',
   'menu.statistic': 'Statistics',
   'menu.statistic.spider': 'Spider Statistics',
   'menu.statistic.traffic': 'Traffic Statistics',
