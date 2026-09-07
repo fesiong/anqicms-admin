@@ -172,7 +172,7 @@ export default {
   'content.quick-import.category_id.required': 'Please select a category',
   'content.quick-import.upload': 'Upload file',
   'content.quick-import.upload.description':
-    'Please select a zip archive containing txt or html documents, or an Excel file',
+    'Please select a zip archive containing txt or html or md documents(md documents supports YAML Front Matter), or an Excel file',
   'content.quick-import.upload.btn': 'Select a zip file/Excel file',
   'content.quick-import.upload.selected': 'Selected:',
   'content.quick-import.status': 'Document import progress',

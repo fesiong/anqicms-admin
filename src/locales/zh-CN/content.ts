@@ -165,7 +165,7 @@ export default {
   'content.quick-import.category_id.required': '请选择一个分类',
   'content.quick-import.upload': '上传文件',
   'content.quick-import.upload.description':
-    '请选择包含txt、html文档的ZIP压缩包，或Excel文件',
+    '请选择包含txt、html、md文档的ZIP压缩包(md文档支持前置元信息)，或Excel文件',
   'content.quick-import.upload.btn': '选择Zip文件/Excel文件',
   'content.quick-import.upload.selected': '已选择：',
   'content.quick-import.status': '文档导入进度',

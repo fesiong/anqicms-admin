@@ -86,7 +86,7 @@ const PluginLink: React.FC = () => {
   const columns: ProColumns<any>[] = [
     {
       title: intl.formatMessage({ id: 'ID' }),
-      dataIndex: 'sort',
+      dataIndex: 'id',
     },
     {
       title: intl.formatMessage({ id: 'plugin.link.other-title-link' }),
