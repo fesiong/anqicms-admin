@@ -20,7 +20,7 @@ import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Divider, message, Modal } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
-const SettingContactFrom: React.FC<any> = () => {
+const SettingContentFrom: React.FC<any> = () => {
   const formRef = useRef<ProFormInstance>();
   const [setting, setSetting] = useState<any>(null);
   const [resize_image, setResizeImage] = useState<number>(0);
@@ -613,4 +613,4 @@ const SettingContactFrom: React.FC<any> = () => {
   );
 };
 
-export default SettingContactFrom;
+export default SettingContentFrom;

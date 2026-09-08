@@ -14,7 +14,7 @@ import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import { Button, Card, Input, List, message, Space, Tabs, Tag } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
-const SettingContactFrom: React.FC<any> = () => {
+const SettingAiFrom: React.FC<any> = () => {
   const { initialState } = useModel('@@initialState');
   const { isVip, checkVip, VipModal } = useVipModal();
   const [fetched, setFetched] = useState<boolean>(false);
@@ -703,4 +703,4 @@ const SettingContactFrom: React.FC<any> = () => {
   );
 };
 
-export default SettingContactFrom;
+export default SettingAiFrom;

@@ -32,7 +32,7 @@ import React, { useEffect, useRef, useState } from 'react';
 let running = false;
 let intXhr: any = null;
 
-const PluginUserGroup: React.FC = () => {
+const PluginBackup: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [task, setTask] = useState<any>(null);
   const [newKey, setNewKey] = useState<string>('');
@@ -463,4 +463,4 @@ const PluginUserGroup: React.FC = () => {
   );
 };
 
-export default PluginUserGroup;
+export default PluginBackup;

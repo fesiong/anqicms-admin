@@ -6,7 +6,7 @@ import { Card } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 
-const StatisticDetail: React.FC = () => {
+const StatisticIncludeDetail: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
@@ -71,4 +71,4 @@ const StatisticDetail: React.FC = () => {
   );
 };
 
-export default StatisticDetail;
+export default StatisticIncludeDetail;

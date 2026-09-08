@@ -1,5 +1,6 @@
 import { uploadAttachment } from '@/services';
 import config from '@/services/config';
+import { calculateFileMd5 } from '@/utils';
 import { getSessionStore, getStore } from '@/utils/store';
 import {
   AlignLeftOutlined,
@@ -433,25 +434,67 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = forwardRef(
       setInnerContent: setInnerContent,
     }));
 
-    const handleUpload = async (files: File[]) => {
-      let result: any[] = [];
+    const uploadFile = async (file: File): Promise<{ url: string } | null> => {
+      const size = file.size;
+      const md5Value = await calculateFileMd5(file);
+      const chunkSize = 2 * 1024 * 1024; // 每个分片大小 2MB
+      const totalChunks = Math.ceil(size / chunkSize);
 
-      const hide = message.loading('插入中...', 0);
+      let hide = message.loading('插入中...', 0);
+      let res: any;
+      if (totalChunks > 1) {
+        // 大于 chunkSize 的，使用分片上传
+        let formData = new FormData();
+        formData.append('file_name', file.name);
+        formData.append('md5', md5Value as string);
+        formData.append('chunks', totalChunks + '');
+        for (let i = 0; i < totalChunks; i++) {
+          const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
+          formData.set('chunk', i + '');
+          formData.set('file', chunk, file.name);
+          res = await uploadAttachment(formData);
+          if (res.code !== 0) {
+            hide();
+            message.info(res.msg);
+            return null;
+          }
+          hide();
+          hide = message.loading(
+            '插入中... - ' + Math.ceil(((i + 1) * 100) / totalChunks) + '%',
+            0,
+          );
+          if (res.data) {
+            // 上传完成
+            hide();
+            return { url: res.data.file_path };
+          }
+        }
+        hide();
+      } else {
+        // 小于 chunkSize 的，直接上传
+        let formData = new FormData();
+        formData.append('file', file);
+        res = await uploadAttachment(formData);
+        hide();
+        if (res.code !== 0) {
+          message.info(res.msg);
+          return null;
+        }
+        return { url: res.data.file_path };
+      }
+      return null;
+    };
+
+    const handleUpload = async (files: File[]) => {
+      const result: { url: string }[] = [];
       for (let i in files) {
         if (files.hasOwnProperty(i)) {
-          let formData = new FormData();
-          formData.append('file', files[i]);
-          let res = await uploadAttachment(formData);
-          if (res.code !== 0) {
-            message.info(res.msg);
-          } else {
-            result.push({
-              url: res.data.file_path,
-            });
+          const uploaded = await uploadFile(files[i]);
+          if (uploaded) {
+            result.push(uploaded);
           }
         }
       }
-      hide();
       return result;
     };
 

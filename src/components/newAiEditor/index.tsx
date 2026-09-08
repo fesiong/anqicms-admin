@@ -2,6 +2,7 @@ import {
   AiEditor,
   AiService,
   AiServiceConfig,
+  Editor,
   UploadResult,
   type AiEditorContext,
   type AiGenerateRequest,
@@ -10,6 +11,7 @@ import 'aieditor/style.css';
 
 import { uploadAttachment } from '@/services';
 import config from '@/services/config';
+import { calculateFileMd5 } from '@/utils';
 import { getSessionStore, getStore } from '@/utils/store';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useIntl } from '@umijs/max';
@@ -44,7 +46,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
   const divRef = useRef<HTMLDivElement>(null);
   const aiEditorRef = useRef<AiEditor | null>(null);
   const [videoVisible, setVideoVisible] = useState(false);
-  const [curEditor, setCurEditor] = useState<AiEditor | null>(null);
+  const [curEditor, setCurEditor] = useState<Editor | null>(null);
   const [htmlMode, setHtmlMode] = useState<boolean>(false);
   const [videoUrl, setVideoUrl] = useState<string>('');
   const [materialVisible, setMaterialVisible] = useState(false);
@@ -101,7 +103,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
       return `<a href="${item.file_path}" target="_blank" title="${item.file_name}">${item.file_name}</a>`;
     }
   };
-  function attachPlugin({ editor }) {
+  function attachPlugin(editor: Editor) {
     setCurEditor(editor);
     setAttachVisible(true);
   }
@@ -125,13 +127,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
     setVideoVisible(false);
   };
 
-  const showVideo = (editor: AiEditor) => {
-    setVideoUrl('');
-    setVideoVisible(true);
-    setCurEditor(editor);
-  };
-
-  const showMaterial = ({ editor }) => {
+  const showMaterial = (editor: Editor) => {
     setCurEditor(editor);
     setMaterialVisible(true);
   };
@@ -160,32 +156,82 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
       errorCode: 0,
       data: {},
     };
-    const hide = message.loading(
-      intl.formatMessage({ id: 'component.footer.submitting' }),
-      0,
-    );
-    let formData = new FormData();
-    formData.append('file', file);
-    let res = await uploadAttachment(formData);
-    hide();
-    // 返回值至少包含 url；还可返回 alt、title、poster、name、mimeType 和 size。
-    if (res.code !== 0) {
-      message.info(res.msg);
-      result.errorCode = res.code;
-      result.msg = res.msg;
-      return Promise.reject(result);
+    const size = file.size;
+    const md5Value = await calculateFileMd5(file);
+    const chunkSize = 2 * 1024 * 1024; // 每个分片大小 2MB
+    const totalChunks = Math.ceil(size / chunkSize);
+
+    let hide = message.loading({
+      key: 'uploading',
+      content: intl.formatMessage({ id: 'component.footer.submitting' }),
+      duration: 0,
+    });
+
+    let res: any;
+    if (totalChunks > 1) {
+      // 大于 chunkSize 的，使用分片上传
+      let formData = new FormData();
+      formData.append('file_name', file.name);
+      formData.append('md5', md5Value as string);
+      formData.append('chunks', totalChunks + '');
+      for (let i = 0; i < totalChunks; i++) {
+        const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
+        formData.set('chunk', i + '');
+        formData.set('file', chunk, file.name);
+        res = await uploadAttachment(formData);
+        if (res.code !== 0) {
+          hide();
+          message.info(res.msg);
+          result.errorCode = res.code;
+          result.msg = res.msg;
+          return Promise.reject(result);
+        }
+        hide();
+        hide = message.loading({
+          key: 'uploading',
+          content:
+            intl.formatMessage({ id: 'component.footer.submitting' }) +
+            ' - ' +
+            Math.ceil(((i + 1) * 100) / totalChunks) +
+            '%',
+          duration: 0,
+        });
+        if (res.data) {
+          // 上传完成
+          hide();
+          result.url = res.data.file_path;
+          result.alt = res.data.file_name;
+          result.align = 'center';
+          result.width = '100%';
+          result.height = 'auto';
+          return result;
+        }
+      }
+      hide();
     } else {
-      result.url = res.data.file_path;
-      result.alt = res.data.file_name;
-      result.align = 'center';
-      result.width = '100%';
-      result.height = 'auto';
+      // 小于 chunkSize 的，直接上传
+      let formData = new FormData();
+      formData.append('file', file);
+      res = await uploadAttachment(formData);
+      hide();
+      if (res.code !== 0) {
+        message.info(res.msg);
+        result.errorCode = res.code;
+        result.msg = res.msg;
+        return Promise.reject(result);
+      } else {
+        result.url = res.data.file_path;
+        result.alt = res.data.file_name;
+        result.align = 'center';
+        result.width = '100%';
+        result.height = 'auto';
+      }
     }
 
     return result;
   };
 
-  const showSourceCode = ({ editor }) => {
+  const showSourceCode = (editor: Editor) => {
     setCurEditor(editor);
     let htmlCode = editor.getHTML();
     // 移除 a标签的 rel 属性，其它属性保留
@@ -357,7 +403,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
               key: 'images',
               label: '图片附件',
               icon: Images,
-              onClick: attachPlugin,
+              onClick: ({ editor }) => attachPlugin(editor),
               tip: 'Images',
               isEnabled: ({ editor }) => editor.isEditable,
             },
@@ -366,7 +412,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
               key: 'material',
               label: '内容素材',
               icon: Layers,
-              onClick: showMaterial,
+              onClick: ({ editor }) => showMaterial(editor),
               tip: 'material',
               isEnabled: ({ editor }) => editor.isEditable,
             },
@@ -375,22 +421,12 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
               key: 'source-code',
               label: '查看源码',
               icon: Code,
-              onClick: showSourceCode,
+              onClick: ({ editor }) => showSourceCode(editor),
               tip: 'source-code',
             },
           ],
         },
-        // htmlPasteConfig: {
-        //   pasteAsText: false,
-        //   pasteClean: true,
-        // },
-        link: {
-          autolink: true,
-          rel: '',
-          class: '',
-          bubbleMenuItems: ['Edit', 'UnLink', 'visit'],
-        },
-        i18n: {
+        translations: {
           zh: {
             material: '内容片段',
           },
@@ -405,7 +441,7 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
           placeholder: '询问当前文档...',
           toolApproval: 'always',
         },
-        onChange: (ed: AiEditor) => {
+        onUpdate: (ed: Editor) => {
           let htmlCode = ed.getHTML();
           // 移除 a标签的 rel 属性，其它属性保留
           htmlCode = htmlCode.replace(/<a(\s[^>]*)?>/gi, (match) => {
@@ -428,41 +464,6 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
             attachment: 200 * 1024 * 1024,
           },
           async upload(file) {
-            return handleUpload(file);
-            // const body = new FormData();
-            // body.append('file', file);
-            // body.append('type', type);
-            // const response = await fetch('/api/uploads', {
-            //   method: 'POST',
-            //   body,
-            //   signal,
-            // });
-            // if (!response.ok) throw new Error('上传失败');
-            // onProgress(100);
-            // return await response.json();
-          },
-        },
-        image: {
-          customMenuInvoke: (editor: AiEditor) => {
-            attachPlugin(editor);
-          },
-          uploader: (file: File) => {
-            return handleUpload(file);
-          },
-        },
-        attachment: {
-          customMenuInvoke: (editor: AiEditor) => {
-            attachPlugin(editor);
-          },
-          uploader: (file: File) => {
-            return handleUpload(file);
-          },
-        },
-        video: {
-          customMenuInvoke: (editor: AiEditor) => {
-            showVideo(editor);
-          },
-          uploader: (file: File) => {
             return handleUpload(file);
           },
         },

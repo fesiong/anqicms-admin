@@ -134,5 +134,10 @@ export default defineConfig({
         languages: ['javascript', 'css', 'html', 'markdown', 'yaml'],
       },
     ]);
+    // webpack 5.88.2 InnerGraphPlugin bug (webpack#17711):
+    // mis-optimizes `class extends Super` into `extends (null && Super)` in production builds,
+    // causing "Super constructor null ... is not a constructor" at runtime.
+    // Fixed in webpack 5.90; disable until umi bundles a newer webpack.
+    config.optimization.set('innerGraph', false);
   },
 });

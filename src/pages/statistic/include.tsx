@@ -6,7 +6,7 @@ import { history, useIntl } from '@umijs/max';
 import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const StatisticTraffic: React.FC<any> = () => {
+const StatisticInclude: React.FC<any> = () => {
   const [data, setData] = useState<any[]>([]);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
@@ -67,4 +67,4 @@ const StatisticTraffic: React.FC<any> = () => {
   );
 };
 
-export default StatisticTraffic;
+export default StatisticInclude;
