@@ -180,9 +180,11 @@ const PluginBackup: React.FC = () => {
     // 使用浏览器原生下载（window.open），避免大文件全量缓冲到内存。
     // 认证 token 通过 query string 传递，后端 ParseAdminToken 已支持 fallback。
     const token = getSessionStore('adminToken') || getStore('adminToken') || '';
+    const siteId = getSessionStore('site-id') || '';
     const params = new URLSearchParams({
       name: record.name,
       token,
+      site_id: siteId,
     });
     const url = `${config.baseUrl}/plugin/backup/export?${params.toString()}`;
     window.open(url, '_blank');
