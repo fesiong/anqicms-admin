@@ -66,7 +66,7 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
     setParseOk(false);
     setTdk({});
 
-    const adminToken = getStore('adminToken') || getSessionStore('adminToken');
+    const adminToken = getSessionStore('adminToken') || getStore('adminToken');
     const body: any = {
       prompt: prompt.replace('{content}', plainText),
     };
