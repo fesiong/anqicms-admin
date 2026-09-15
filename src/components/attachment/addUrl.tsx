@@ -100,6 +100,7 @@ const AttachmentAddUrl: React.FC<AttachmentAddUrlProps> = (props) => {
                   title: props.intl?.formatMessage({
                     id: 'content.attachment.unclassified',
                   }),
+                  status: 1,
                 },
               ]
                 .concat(categories)

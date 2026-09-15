@@ -946,6 +946,7 @@ const ArchiveTagDetail: React.FC = () => {
                                           id: 'content.please-select',
                                         }),
                                         value: 0,
+                                        status: 1,
                                       },
                                     ]
                                       .concat(categories)
@@ -1111,6 +1112,7 @@ const ArchiveTagDetail: React.FC = () => {
                           id: 'content.please-select',
                         }),
                         value: 0,
+                        status: 1,
                       },
                     ]
                       .concat(categories)

@@ -343,6 +343,7 @@ const PageCategoryDetail: React.FC = () => {
                       title: intl.formatMessage({
                         id: 'content.page.top',
                       }),
+                      status: 1,
                     },
                   ]
                     .concat(

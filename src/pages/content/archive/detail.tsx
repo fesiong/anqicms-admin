@@ -3312,6 +3312,7 @@ class ArchiveForm extends React.Component<intlProps> {
                                 id: 'content.parent_id.empty',
                               }),
                               value: 0,
+                              status: 1,
                             },
                           ]
                             .concat(res.data || [])

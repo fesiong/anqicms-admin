@@ -667,6 +667,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                       title: intl.formatMessage({
                         id: 'content.category.top',
                       }),
+                      status: 1,
                     },
                   ]
                     .concat(
@@ -1188,6 +1189,7 @@ const ArchiveCategoryDetail: React.FC = () => {
                                           id: 'content.please-select',
                                         }),
                                         value: 0,
+                                        status: 1,
                                       },
                                     ]
                                       .concat(categories)

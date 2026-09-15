@@ -110,7 +110,12 @@ const DesignEditor: React.FC = () => {
       const uri = monaco.Uri.parse(
         `inmemory://design/${encodeURIComponent(key)}`,
       );
-      model = monaco.editor.createModel(codeStr || '', lang, uri);
+      // 组件卸载时 model 可能仍留在 monaco 全局注册表中（如 HMR 后重挂载），
+      // 创建前优先复用同 URI 的已有 model，避免 ModelService 重复注册报错
+      model = monaco.editor.getModel(uri);
+      if (!model) {
+        model = monaco.editor.createModel(codeStr || '', lang, uri);
+      }
       modelsRef.current[key] = model;
     } else {
       // model 已存在，只在内容真正变化时更新（避免覆盖用户编辑）
@@ -392,6 +397,16 @@ const DesignEditor: React.FC = () => {
     return () => {
       // 组件销毁时移除监听事件
       window.removeEventListener('resize', getHeight);
+      // 组件销毁时释放所有 tab 的 monaco model（留在全局注册表会导致
+      // 下次挂载 createModel 时报 ModelService: Cannot add model ...）
+      Object.keys(modelsRef.current).forEach((key) => {
+        try {
+          modelsRef.current[key]?.dispose();
+        } catch {
+          // ignore
+        }
+        delete modelsRef.current[key];
+      });
     };
   }, []);
 

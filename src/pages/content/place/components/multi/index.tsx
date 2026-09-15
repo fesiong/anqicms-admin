@@ -77,6 +77,7 @@ const MultiPlaceAdd: React.FC<MultiPlaceAddProps> = (props) => {
             title: intl.formatMessage({
               id: 'content.place.top',
             }),
+            status: 1,
           },
         ]
           .concat(

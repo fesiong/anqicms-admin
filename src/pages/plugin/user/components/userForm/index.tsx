@@ -883,6 +883,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
                     id: 'content.please-select',
                   }),
                   value: 0,
+                  status: 1,
                 },
               ]
                 .concat(categories)

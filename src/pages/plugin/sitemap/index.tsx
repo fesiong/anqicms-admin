@@ -195,6 +195,7 @@ const PluginSitemap: React.FC<any> = () => {
                         id: 'content.please-select',
                       }),
                       value: 0,
+                      status: 1,
                     },
                   ]
                     .concat(categories)

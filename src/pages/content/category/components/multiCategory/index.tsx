@@ -113,6 +113,7 @@ const MultiCategory: React.FC<MultiCategoryProps> = (props) => {
             title: intl.formatMessage({
               id: 'content.category.top',
             }),
+            status: 1,
           },
         ]
           .concat(
