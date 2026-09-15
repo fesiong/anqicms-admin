@@ -1101,7 +1101,7 @@ const ArchiveTagDetail: React.FC = () => {
                 <Card
                   className="aside-card"
                   size="small"
-                  title={intl.formatMessage({ id: 'content.category.name' })}
+                  title={intl.formatMessage({ id: 'content.tag.template' })}
                 >
                   <ProFormSelect
                     showSearch

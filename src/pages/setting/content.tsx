@@ -279,25 +279,6 @@ const SettingContentFrom: React.FC<any> = () => {
             })}
           />
           <ProFormRadio.Group
-            name="use_sort"
-            label={intl.formatMessage({ id: 'setting.content.archive-sort' })}
-            options={[
-              {
-                value: 0,
-                label: intl.formatMessage({
-                  id: 'setting.content.notenable',
-                }),
-              },
-              {
-                value: 1,
-                label: intl.formatMessage({ id: 'setting.content.enable' }),
-              },
-            ]}
-            extra={intl.formatMessage({
-              id: 'setting.content.archive-sort.description',
-            })}
-          />
-          <ProFormRadio.Group
             name="match_tag"
             label={intl.formatMessage({ id: 'setting.content.auto-match-tag' })}
             options={[
