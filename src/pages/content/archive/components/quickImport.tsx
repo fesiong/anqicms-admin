@@ -63,7 +63,7 @@ const QuickImportModal: React.FC<quickImportProps> = (props) => {
 
   useEffect(() => {
     getCategories().then((res) => {
-      setCategories(res.data);
+      setCategories(res.data || []);
     });
     // 进入页面的时候查询一次task
     syncTask();

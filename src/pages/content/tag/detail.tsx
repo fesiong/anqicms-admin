@@ -123,7 +123,7 @@ const ArchiveTagDetail: React.FC = () => {
     setExtraContent(extraContent);
     getSelectedArchives(arcIds);
     getCategories().then((res) => {
-      setCategories(res.data);
+      setCategories(res.data || []);
     });
 
     const res2 = await getSettingContent();

@@ -22,7 +22,7 @@ const BatchForm: React.FC<BatchFormProps> = (props) => {
 
   useEffect(() => {
     getCategories({ type: 1 }).then((res) => {
-      setCategories(res.data);
+      setCategories(res.data || []);
     });
   }, []);
 

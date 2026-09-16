@@ -23,7 +23,7 @@ const KeywordForm: React.FC<KeywordFormProps> = (props) => {
 
   useEffect(() => {
     getCategories({ type: 1 }).then((res) => {
-      setCategories(res.data);
+      setCategories(res.data || []);
     });
   }, []);
 

@@ -31,7 +31,7 @@ const PluginSitemap: React.FC<any> = () => {
     let setting = res.data || {};
     setSitemapSetting(setting);
     getCategories().then((res) => {
-      setCategories(res.data);
+      setCategories(res.data || []);
     });
     setFetched(true);
   };

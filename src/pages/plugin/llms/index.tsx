@@ -37,7 +37,7 @@ const PluginLLMs: React.FC<any> = () => {
     const res = await pluginGetLLMs();
     setSetting(res.data || { open: false });
     getCategories({ type: 1 }).then((res) => {
-      setCategories(res.data);
+      setCategories(res.data || []);
     });
     setFetched(true);
   };

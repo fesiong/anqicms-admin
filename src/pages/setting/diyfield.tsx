@@ -91,7 +91,7 @@ const SettingDiyFieldFrom: React.FC<any> = () => {
       }
       getSelectedArchives(arcIds);
       getCategories().then((res) => {
-        setCategories(res.data);
+        setCategories(res.data || []);
       });
       setSetting(data);
     });
