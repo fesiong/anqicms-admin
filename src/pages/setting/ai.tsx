@@ -13,6 +13,7 @@ import {
 import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import { Button, Card, Input, List, message, Space, Tabs, Tag } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
+import './index.less';
 
 const SettingAiFrom: React.FC<any> = () => {
   const { initialState } = useModel('@@initialState');

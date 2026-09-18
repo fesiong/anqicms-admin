@@ -46,6 +46,8 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
       const res = await getModuleInfo({ id: props.module.id });
       let setting = res.data || { fields: [] };
       setSetting(setting);
+    } else {
+      setSetting({ status: 1 });
     }
     setFetched(true);
   };

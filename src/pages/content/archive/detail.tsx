@@ -31,6 +31,7 @@ import {
   DeleteOutlined,
   DownOutlined,
   LeftOutlined,
+  MoreOutlined,
   PlusOutlined,
   QuestionCircleOutlined,
   RightOutlined,
@@ -52,9 +53,11 @@ import {
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, injectIntl } from '@umijs/max';
 import {
+  Badge,
   Button,
   Card,
   Col,
+  Dropdown,
   message,
   Modal,
   Popover,
@@ -301,6 +304,8 @@ class ArchiveForm extends React.Component<intlProps> {
       archive.created_time = 0;
       archive.updated_time = 0;
     }
+    // 价格转换为元
+    archive.price = archive.price > 0 ? archive.price / 100 : 0;
     if (typeof archive.extra === 'undefined' || archive.extra === null) {
       archive.extra = {};
     }
@@ -735,7 +740,7 @@ class ArchiveForm extends React.Component<intlProps> {
     const postData = Object.assign(archive, values);
     postData.relation_ids = relations.map((item: any) => item.id);
     delete postData.relations;
-    postData.price = Number(values.price);
+    postData.price = Number((values.price * 100).toFixed(0));
     postData.stock = Number(values.stock);
     // eslint-disable-next-line guard-for-in
     for (let field in extraContent) {
@@ -1539,9 +1544,73 @@ class ArchiveForm extends React.Component<intlProps> {
     return (
       <NewContainer
         title={
-          archive.id > 0
-            ? this.props.intl.formatMessage({ id: 'content.archive.edit' })
-            : this.props.intl.formatMessage({ id: 'content.archive.add' })
+          <div className="heading-title">
+            {archive.id > 0 ? (
+              <div>
+                {archive.title}{' '}
+                {archive.status === 1 ? (
+                  <Badge
+                    className="site-badge-count-109"
+                    count={this.props.intl.formatMessage({
+                      id: 'content.status.normal',
+                    })}
+                    style={{ backgroundColor: '#52c41a' }}
+                  />
+                ) : (
+                  <Badge
+                    className="site-badge-count-109"
+                    count={this.props.intl.formatMessage({
+                      id: 'content.status.draft',
+                    })}
+                    style={{ backgroundColor: '#999999' }}
+                  />
+                )}
+              </div>
+            ) : (
+              <FormattedMessage id="content.archive.add" />
+            )}
+          </div>
+        }
+        extra={
+          archive.id > 0 ? (
+            <Space size={8}>
+              <Button
+                onClick={() => {
+                  history.push('/archive/detail?copyid=' + archive.id);
+                }}
+              >
+                <FormattedMessage id="content.action.copy" />
+              </Button>
+              <Button
+                onClick={() => {
+                  window.open(archive.link);
+                }}
+              >
+                <FormattedMessage id="menu.preview" />
+              </Button>
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'delete',
+                      label: this.props.intl.formatMessage({
+                        id: 'setting.system.delete',
+                      }),
+                      onClick: () => {
+                        this.handleRemove(archive.id);
+                      },
+                    },
+                  ],
+                }}
+                key="more"
+              >
+                <Button>
+                  <FormattedMessage id="content.action.more" />
+                  <MoreOutlined />
+                </Button>
+              </Dropdown>
+            </Space>
+          ) : null
         }
         onTabChange={(key) => this.onTabChange(key)}
       >

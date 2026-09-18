@@ -163,7 +163,7 @@ const ModuleList: React.FC = () => {
               type="primary"
               key="add"
               onClick={() => {
-                handleEditModule({});
+                handleEditModule({ status: 1 });
               }}
             >
               <PlusOutlined /> <FormattedMessage id="content.module.add" />

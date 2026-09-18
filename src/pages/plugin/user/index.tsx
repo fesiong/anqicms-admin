@@ -7,6 +7,7 @@ import {
   ActionType,
   PageContainer,
   ProColumns,
+  ProFormRadio,
   ProFormSelect,
   ProTable,
 } from '@ant-design/pro-components';
@@ -59,8 +60,16 @@ const PluginUser: React.FC = () => {
   };
 
   const handleAddUser = () => {
-    setCurrentUser({});
+    setCurrentUser({ status: 1 });
     setEditVisible(true);
+  };
+
+  const switchUserType = (type: string) => {
+    if (type === userType) {
+      return;
+    }
+    setUserType(type);
+    actionRef.current?.reload();
   };
 
   const columns: ProColumns<any>[] = [
@@ -80,6 +89,22 @@ const PluginUser: React.FC = () => {
       title: intl.formatMessage({ id: 'plugin.user.email' }),
       hideInSearch: true,
       dataIndex: 'email',
+      render: (text, record) => {
+        return (
+          <div>
+            {text || record.email}{' '}
+            {record.subscribed ? (
+              <Tag color="green">
+                {intl.formatMessage({ id: 'plugin.user.subscribed' })}
+              </Tag>
+            ) : (
+              <Tag>
+                {intl.formatMessage({ id: 'plugin.user.unsubscribed' })}
+              </Tag>
+            )}
+          </div>
+        );
+      },
     },
     {
       title: intl.formatMessage({ id: 'plugin.user.balance' }),
@@ -161,6 +186,27 @@ const PluginUser: React.FC = () => {
           status: 'Warning',
         },
       },
+      renderFormItem: () => {
+        return (
+          <ProFormRadio.Group
+            name="status"
+            options={[
+              {
+                label: intl.formatMessage({ id: 'plugin.user.normal' }),
+                value: 'normal',
+              },
+              {
+                label: intl.formatMessage({ id: 'plugin.user.pending' }),
+                value: 'pending',
+              },
+              {
+                label: intl.formatMessage({ id: 'plugin.user.blocked' }),
+                value: 'blocked',
+              },
+            ]}
+          />
+        );
+      },
     },
     {
       title: intl.formatMessage({ id: 'setting.action' }),
@@ -199,7 +245,28 @@ const PluginUser: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.user' })}
+        headerTitle={
+          <Space>
+            <Button
+              onClick={() => switchUserType('all')}
+              type={userType === 'all' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.all' })}
+            </Button>
+            <Button
+              onClick={() => switchUserType('subscribed')}
+              type={userType === 'subscribed' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.subscribed' })}
+            </Button>
+            <Button
+              onClick={() => switchUserType('ordered')}
+              type={userType === 'ordered' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.ordered' })}
+            </Button>
+          </Space>
+        }
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
@@ -214,6 +281,7 @@ const PluginUser: React.FC = () => {
         ]}
         tableAlertOptionRender={false}
         request={(params) => {
+          params.user_type = userType;
           return pluginGetUsers(params);
         }}
         columnsState={{

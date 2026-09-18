@@ -75,7 +75,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
     let fields = res.data?.fields || [];
     setUserFields(fields);
     pluginGetUserInfo({ id: props.user.id }).then((res) => {
-      let data = res.data || { extra: {} };
+      let data = res.data || { extra: {}, status: 1 };
       if (typeof data.extra === 'undefined' || data.extra === null) {
         data.extra = {};
       }

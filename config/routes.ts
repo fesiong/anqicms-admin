@@ -258,6 +258,13 @@ export default [
         icon: 'sendmail',
       },
       {
+        path: '/plugin/subscription',
+        name: 'subscription',
+        type: 'system',
+        component: '@/pages/plugin/subscription/index',
+        icon: 'sendmail',
+      },
+      {
         path: '/plugin/collector',
         name: 'collector',
         type: 'content',

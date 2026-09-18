@@ -1,359 +1,285 @@
+import { pluginDeletePayAccount, pluginGetPayAccounts } from '@/services';
 import {
-  pluginGetPayConfig,
-  pluginPayUploadFile,
-  pluginSavePayConfig,
-} from '@/services';
-import {
+  ActionType,
   PageContainer,
-  ProForm,
-  ProFormCheckbox,
-  ProFormFieldSet,
-  ProFormRadio,
-  ProFormText,
+  ProColumns,
+  ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Space, Upload, message } from 'antd';
-import React, { useEffect, useState } from 'react';
-import './index.less';
+import { Button, Modal, Space, Tag, message } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
+import PaymentAccountForm from './components/form';
+import PluginPayStatistic from './components/statistic';
 
-const PluginPay: React.FC<any> = () => {
-  const [setting, setSetting] = useState<any>(null);
-  const [fetched, setFetched] = useState<boolean>(false);
-  const [tabIndex, setTabIndex] = useState<number>(-1);
+const PluginPay: React.FC = () => {
+  const actionRef = useRef<ActionType>();
+  const [currentAccount, setCurrentAccount] = useState<any>({});
+  const [editVisible, setEditVisible] = useState<boolean>(false);
+  const [statisticVisible, setStatisticVisible] = useState<boolean>(false);
   const intl = useIntl();
 
-  const getSetting = async () => {
-    const res = await pluginGetPayConfig();
-    setSetting(res.data || {});
-    setFetched(true);
+  // plugin pay form 也有一份
+  const PayWayOptions = [
+    {
+      value: 'wechat',
+      label: intl.formatMessage({ id: 'plugin.pay.wechat' }),
+    },
+    {
+      value: 'weapp',
+      label: intl.formatMessage({ id: 'plugin.pay.weapp' }),
+    },
+    {
+      value: 'alipay',
+      label: intl.formatMessage({ id: 'plugin.pay.alipay' }),
+    },
+    {
+      value: 'paypal',
+      label: intl.formatMessage({ id: 'plugin.pay.paypal' }),
+    },
+    {
+      value: 'balance',
+      label: intl.formatMessage({ id: 'plugin.pay.balance' }),
+    },
+    {
+      value: 'offline',
+      label: intl.formatMessage({ id: 'plugin.pay.offline' }),
+    },
+  ];
+
+  useEffect(() => {}, []);
+
+  const handleEditAccount = async (record: any) => {
+    setCurrentAccount(record);
+    setEditVisible(true);
   };
 
-  useEffect(() => {
-    getSetting();
-  }, []);
-
-  const onSubmit = async (values: any) => {
-    const hide = message.loading(
-      intl.formatMessage({ id: 'setting.system.submitting' }),
-      0,
-    );
-    pluginSavePayConfig(Object.assign(setting, values))
-      .then((res) => {
-        message.success(res.msg);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        hide();
-      });
-  };
-
-  const handleUploadFile = (field: string, e: any) => {
-    const formData = new FormData();
-    formData.append('file', e.file);
-    formData.append('name', field);
-    const hide = message.loading(
-      intl.formatMessage({ id: 'setting.system.submitting' }),
-      0,
-    );
-    pluginPayUploadFile(formData)
-      .then((res) => {
-        message.success(res.msg);
-        setting[field] = res.data;
-        setSetting(Object.assign({}, setting));
-      })
-      .finally(() => {
-        hide();
-      });
-  };
-
-  const onChangePayOpen = (field: string, checked: boolean) => {
-    setting[field] = checked;
-    if (setting.wechat_open) {
-      setTabIndex(0);
-    } else if (setting.alipay_open) {
-      setTabIndex(1);
-    } else if (setting.paypal_open) {
-      setTabIndex(2);
-    }
-    setSetting({
-      ...setting,
+  const handleDelete = (row: any) => {
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'plugin.pay.delete.confirm' }),
+      onOk: () => {
+        pluginDeletePayAccount(row).then((res) => {
+          message.info(res.msg);
+          actionRef.current?.reload();
+        });
+      },
     });
   };
 
+  const handleAddAccount = () => {
+    setCurrentAccount({});
+    setEditVisible(true);
+  };
+
+  const handleViewAccount = (row: any) => {
+    setCurrentAccount(row);
+    setStatisticVisible(true);
+  };
+
+  const columns: ProColumns<any>[] = [
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.account-id' }),
+      dataIndex: 'id',
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.account-name' }),
+      dataIndex: 'account_name',
+      render: (dom: any, entity) => {
+        return (
+          <div>
+            {dom}{' '}
+            {entity.is_default && (
+              <Tag>{intl.formatMessage({ id: 'plugin.pay.is-default' })}</Tag>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.pay-way' }),
+      dataIndex: 'pay_way',
+      valueEnum: PayWayOptions.reduce((acc: any, option) => {
+        acc[option.value] = { text: option.label };
+        return acc;
+      }, {}),
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.weight' }),
+      dataIndex: 'weight',
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.health-score' }),
+      dataIndex: 'health_score',
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.amount-limit' }),
+      hideInSearch: true,
+      dataIndex: 'min_amount',
+      render: (_: any, entity) => {
+        return (
+          <div>
+            {(entity.min_amount > 0 || entity.max_amount > 0) && (
+              <div>
+                {entity.min_amount > 0 && (
+                  <span>Min: {(entity.min_amount / 100).toFixed(2)} - </span>
+                )}
+                {entity.max_amount > 0 && (
+                  <span>Max: {(entity.max_amount / 100).toFixed(2)}</span>
+                )}
+              </div>
+            )}
+            {(entity.daily_amount_limit > 0 ||
+              entity.daily_count_limit > 0) && (
+              <div>
+                {entity.daily_amount_limit > 0 && (
+                  <span>
+                    <FormattedMessage id="plugin.pay.daily-amount-limit" />:{' '}
+                    {(entity.daily_amount_limit / 100).toFixed(2)}
+                  </span>
+                )}
+                {entity.daily_count_limit > 0 && (
+                  <span>
+                    <FormattedMessage id="plugin.pay.daily-count-limit" />:{' '}
+                    {entity.daily_count_limit}
+                    <FormattedMessage id="plugin.pay.daily-count-limit.suffix" />
+                  </span>
+                )}
+              </div>
+            )}
+            {entity.monthly_amount_limit > 0 && (
+              <div>
+                <FormattedMessage id="plugin.pay.monthly-amount-limit" />:{' '}
+                {(entity.monthly_amount_limit / 100).toFixed(2)}
+              </div>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.last-used-time' }),
+      hideInSearch: true,
+      dataIndex: 'last_used_time',
+      render: (_: any, entity) => {
+        return entity.last_used_time > 0
+          ? dayjs(entity.last_used_time * 1000).format('YYYY-MM-DD HH:mm')
+          : '-';
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.used-count' }),
+      dataIndex: 'used_count',
+      hideInSearch: true,
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.used-amount' }),
+      dataIndex: 'used_amount',
+      hideInSearch: true,
+      render: (_: any, entity) => {
+        return (entity.used_amount / 100).toFixed(2);
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'plugin.pay.status' }),
+      dataIndex: 'status',
+      hideInSearch: true,
+      valueEnum: {
+        0: {
+          text: intl.formatMessage({ id: 'plugin.pay.status.stop' }),
+          status: 'Default',
+        },
+        1: {
+          text: intl.formatMessage({ id: 'plugin.pay.status.normal' }),
+          status: 'Success',
+        },
+        2: {
+          text: intl.formatMessage({ id: 'plugin.pay.status.pause' }),
+          status: 'Warning',
+        },
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'setting.action' }),
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+        <Space size={20}>
+          <a
+            key="view"
+            onClick={() => {
+              handleViewAccount(record);
+            }}
+          >
+            <FormattedMessage id="plugin.pay.view.log" />
+          </a>
+          <a
+            key="edit"
+            onClick={() => {
+              handleEditAccount(record);
+            }}
+          >
+            <FormattedMessage id="setting.action.edit" />
+          </a>
+          <a
+            onClick={() => {
+              handleDelete(record);
+            }}
+          >
+            <FormattedMessage id="setting.system.delete" />
+          </a>
+        </Space>
+      ),
+    },
+  ];
+
   return (
     <PageContainer>
-      <Card>
-        {fetched && (
-          <ProForm
-            title={intl.formatMessage({ id: 'menu.plugin.pay' })}
-            layout="vertical"
-            initialValues={setting}
-            onFinish={onSubmit}
-          >
-            <ProFormFieldSet>
-              <ProFormCheckbox
-                name="wechat_open"
-                fieldProps={{
-                  onChange: (e) => {
-                    onChangePayOpen('wechat_open', e.target.checked);
-                  },
-                }}
-              >
-                {intl.formatMessage({ id: 'plugin.pay.wechat' })}
-              </ProFormCheckbox>
-              <ProFormCheckbox
-                name="alipay_open"
-                fieldProps={{
-                  onChange: (e) => {
-                    onChangePayOpen('alipay_open', e.target.checked);
-                  },
-                }}
-              >
-                {intl.formatMessage({ id: 'plugin.pay.alipay' })}
-              </ProFormCheckbox>
-              <ProFormCheckbox
-                name="paypal_open"
-                fieldProps={{
-                  onChange: (e) => {
-                    onChangePayOpen('paypal_open', e.target.checked);
-                  },
-                }}
-              >
-                {intl.formatMessage({ id: 'plugin.pay.paypal' })}
-              </ProFormCheckbox>
-            </ProFormFieldSet>
-            <Space size={20} className="pay-tabs">
-              {setting.wechat_open && (
-              <Button
-                type={tabIndex === 0 ? 'primary' : 'default'}
-                onClick={() => setTabIndex(0)}
-              >
-                <FormattedMessage id="plugin.pay.wechat" />
-              </Button>
-              )}
-              {setting.alipay_open && (
-              <Button
-                type={tabIndex === 1 ? 'primary' : 'default'}
-                onClick={() => setTabIndex(1)}
-              >
-                <FormattedMessage id="plugin.pay.alipay" />
-              </Button>
-              )}
-              {setting.paypal_open && (
-              <Button
-                type={tabIndex === 2 ? 'primary' : 'default'}
-                onClick={() => setTabIndex(2)}
-              >
-                <FormattedMessage id="plugin.pay.paypal" />
-              </Button>
-              )}
-            </Space>
-            <div className={'pay-tab ' + (tabIndex === 0 && 'active')}>
-              <ProFormText
-                name="wechat_app_id"
-                label={intl.formatMessage({
-                  id: 'plugin.pay.wechat.wechat.appid',
-                })}
-                width="lg"
-              />
-              <ProFormText
-                name="wechat_app_secret"
-                label={intl.formatMessage({
-                  id: 'plugin.pay.wechat.wechat.app-secret',
-                })}
-                width="lg"
-              />
-              <ProFormText
-                name="weapp_app_id"
-                label={intl.formatMessage({
-                  id: 'plugin.pay.wechat.weapp.appid',
-                })}
-                width="lg"
-              />
-              <ProFormText
-                name="weapp_app_secret"
-                label={intl.formatMessage({
-                  id: 'plugin.pay.wechat.weapp.app-secret',
-                })}
-                width="lg"
-              />
-              <ProFormText
-                name="wechat_mch_id"
-                label={intl.formatMessage({ id: 'plugin.pay.wechat.mchid' })}
-                width="lg"
-              />
-              <ProFormText
-                name="wechat_api_key"
-                label={intl.formatMessage({ id: 'plugin.pay.wechat.apikey' })}
-                width="lg"
-              />
-              <ProFormText
-                label={intl.formatMessage({
-                  id: 'plugin.pay.wechat.cert-path',
-                })}
-              >
-                <Upload
-                  name="file"
-                  className="logo-uploader"
-                  showUploadList={false}
-                  accept=".crt,.pem"
-                  customRequest={async (e) =>
-                    handleUploadFile('wechat_cert_path', e)
-                  }
-                >
-                  <Button type="primary">
-                    <FormattedMessage id="plugin.pay.upload" />
-                  </Button>
-                </Upload>
-                {setting.wechat_cert_path && (
-                  <div className="upload-file">{setting.wechat_cert_path}</div>
-                )}
-              </ProFormText>
-              <ProFormText
-                label={intl.formatMessage({ id: 'plugin.pay.wechat.key-path' })}
-              >
-                <Upload
-                  name="file"
-                  className="logo-uploader"
-                  showUploadList={false}
-                  accept=".crt,.pem"
-                  customRequest={async (e) =>
-                    handleUploadFile('wechat_key_path', e)
-                  }
-                >
-                  <Button type="primary">
-                    <FormattedMessage id="plugin.pay.upload" />
-                  </Button>
-                </Upload>
-                {setting.wechat_key_path && (
-                  <div className="upload-file">{setting.wechat_key_path}</div>
-                )}
-              </ProFormText>
-            </div>
-            <div className={'pay-tab ' + (tabIndex === 1 && 'active')}>
-              <ProFormText
-                name="alipay_app_id"
-                label={intl.formatMessage({ id: 'plugin.pay.alipay.appid' })}
-                width="lg"
-              />
-              <ProFormText
-                name="alipay_private_key"
-                label={intl.formatMessage({
-                  id: 'plugin.pay.alipay.private-key',
-                })}
-                width="lg"
-              />
-              <ProFormText
-                label={intl.formatMessage({
-                  id: 'plugin.pay.alipay.cert-path',
-                })}
-              >
-                <Upload
-                  name="file"
-                  className="logo-uploader"
-                  showUploadList={false}
-                  accept=".crt,.pem"
-                  customRequest={async (e) =>
-                    handleUploadFile('alipay_cert_path', e)
-                  }
-                >
-                  <Button type="primary">
-                    <FormattedMessage id="plugin.pay.upload" />
-                  </Button>
-                </Upload>
-                {setting.alipay_cert_path && (
-                  <div className="upload-file">{setting.alipay_cert_path}</div>
-                )}
-              </ProFormText>
-              <ProFormText
-                label={intl.formatMessage({
-                  id: 'plugin.pay.alipay.root-cert-path',
-                })}
-              >
-                <Upload
-                  name="file"
-                  className="logo-uploader"
-                  showUploadList={false}
-                  accept=".crt,.pem"
-                  customRequest={async (e) =>
-                    handleUploadFile('alipay_root_cert_path', e)
-                  }
-                >
-                  <Button type="primary">
-                    <FormattedMessage id="plugin.pay.upload" />
-                  </Button>
-                </Upload>
-                {setting.alipay_root_cert_path && (
-                  <div className="upload-file">
-                    {setting.alipay_root_cert_path}
-                  </div>
-                )}
-              </ProFormText>
-              <ProFormText
-                label={intl.formatMessage({
-                  id: 'plugin.pay.alipay.public-cert-path',
-                })}
-              >
-                <Upload
-                  name="file"
-                  className="logo-uploader"
-                  showUploadList={false}
-                  accept=".crt,.pem"
-                  customRequest={async (e) =>
-                    handleUploadFile('alipay_public_cert_path', e)
-                  }
-                >
-                  <Button type="primary">
-                    <FormattedMessage id="plugin.pay.upload" />
-                  </Button>
-                </Upload>
-                {setting.alipay_public_cert_path && (
-                  <div className="upload-file">
-                    {setting.alipay_public_cert_path}
-                  </div>
-                )}
-              </ProFormText>
-            </div>
-            <div className={'pay-tab ' + (tabIndex === 2 && 'active')}>
-              <ProFormText
-                name="paypal_client_id"
-                label={intl.formatMessage({
-                  id: 'plugin.pay.paypal.client-id',
-                })}
-                width="lg"
-              />
-              <ProFormText
-                name="paypal_client_secret"
-                label={intl.formatMessage({ id: 'plugin.pay.paypal.secret' })}
-                width="lg"
-              />
-              <ProFormRadio.Group
-                label={intl.formatMessage({ id: 'plugin.pay.sandbox' })}
-                name="paypal_sandbox"
-                options={[
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.pay.sandbox.yes',
-                    }),
-                    value: true,
-                  },
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.pay.sandbox.no',
-                    }),
-                    value: false,
-                  },
-                ]}
-                extra={intl.formatMessage({
-                  id: 'plugin.pay.sandbox.description',
-                })}
-              />
-            </div>
-          </ProForm>
-        )}
-      </Card>
+      <ProTable<any>
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.pay' })}
+        actionRef={actionRef}
+        rowKey="id"
+        toolBarRender={() => [
+          <Button key="add" onClick={handleAddAccount}>
+            <FormattedMessage id="plugin.pay.add" />
+          </Button>,
+        ]}
+        tableAlertOptionRender={false}
+        request={(params) => {
+          return pluginGetPayAccounts(params);
+        }}
+        search={false}
+        columnsState={{
+          persistenceKey: 'payment-account-table',
+          persistenceType: 'localStorage',
+        }}
+        columns={columns}
+        rowSelection={false}
+        pagination={false}
+      />
+      {editVisible && (
+        <PaymentAccountForm
+          open={editVisible}
+          account={currentAccount}
+          onCancel={() => {
+            setEditVisible(false);
+          }}
+          onSubmit={async () => {
+            setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }}
+        />
+      )}
+      {statisticVisible && (
+        <PluginPayStatistic
+          open={statisticVisible}
+          account={currentAccount}
+          onCancel={() => {
+            setStatisticVisible(false);
+          }}
+        />
+      )}
     </PageContainer>
   );
 };

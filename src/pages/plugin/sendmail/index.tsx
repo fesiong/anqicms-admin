@@ -1,25 +1,39 @@
 import NewContainer from '@/components/NewContainer';
 import {
   pluginGetSendmailSetting,
-  pluginGetSendmails,
+  pluginGetSendmailTemplates,
   pluginTestSendmail,
-} from '@/services/plugin/sendmail';
-import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+} from '@/services';
+import { CheckCircleOutlined } from '@ant-design/icons';
+import { ActionType } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Alert, Button, Card, message } from 'antd';
-import dayjs from 'dayjs';
+import { Button, Card, Col, Row, Space, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
+import PluginSendMailLogs from './components/logs';
 import SendmailSetting from './components/setting';
+import EmailTemplateForm from './components/templateForm';
+import { EmailTemplate } from './components/templates';
+import './index.less';
 
 const PluginSendmail: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [setting, setSetting] = useState<any>({});
+  const [settingVisible, setSettingVisible] = useState<boolean>(false);
+  const [logsVisible, setLogsVisible] = useState<boolean>(false);
+  const [templates, setTemplates] = useState<EmailTemplate[]>([]);
+  const [currentTemplate, setCurrentTemplate] =
+    useState<EmailTemplate | null>();
+  const [templateVisible, setTemplateVisible] = useState<boolean>(false);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
   const getSetting = async () => {
-    let res = await pluginGetSendmailSetting();
-    setSetting(res.data || {});
+    pluginGetSendmailSetting().then((res) => {
+      setSetting(res.data || {});
+    });
+    pluginGetSendmailTemplates().then((res) => {
+      setTemplates(res.data || []);
+    });
   };
 
   const onTabChange = (key: string) => {
@@ -44,43 +58,24 @@ const PluginSendmail: React.FC = () => {
     message.info(res.msg);
   };
 
-  const columns: ProColumns<any>[] = [
-    {
-      title: intl.formatMessage({ id: 'plugin.sendmail.send-time' }),
-      width: 160,
-      dataIndex: 'created_time',
-      render: (text, record) =>
-        dayjs(record.created_time * 1000).format('YYYY-MM-DD HH:mm'),
-    },
-    {
-      title: intl.formatMessage({ id: 'plugin.sendmail.recipient' }),
-      dataIndex: 'address',
-    },
-    {
-      title: intl.formatMessage({ id: 'plugin.sendmail.subject' }),
-      dataIndex: 'subject',
-    },
-    {
-      title: intl.formatMessage({ id: 'plugin.sendmail.status' }),
-      width: 160,
-      dataIndex: 'status',
-    },
-  ];
+  const handleEditTemplate = (template: EmailTemplate) => {
+    setCurrentTemplate(template);
+    setTemplateVisible(true);
+  };
 
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
-      <Card key={newKey}>
-        <Alert
-          className="mb-normal"
-          message={intl.formatMessage({ id: 'plugin.sendmail.tips' })}
-        />
-        <ProTable<any>
-          headerTitle={intl.formatMessage({ id: 'menu.plugin.sendmail' })}
-          rowKey="id"
-          actionRef={actionRef}
-          search={false}
-          pagination={false}
-          toolBarRender={() => [
+      <Card
+        key={newKey}
+        title={intl.formatMessage({ id: 'menu.plugin.sendmail' })}
+        extra={
+          <Space>
+            <Button onClick={() => setLogsVisible(true)}>
+              <FormattedMessage id="plugin.sendmail.logs" />
+            </Button>
+            <Button onClick={() => setSettingVisible(true)}>
+              <FormattedMessage id="plugin.sendmail.setting" />
+            </Button>
             <div key="sender">
               <span>
                 <FormattedMessage id="plugin.sendmail.recipient" />:{' '}
@@ -100,28 +95,59 @@ const PluginSendmail: React.FC = () => {
                   </Button>
                 </span>
               )}
-            </div>,
-            <SendmailSetting
-              key="setting"
-              onCancel={() => {
-                getSetting();
-              }}
-            >
-              <Button>
-                <FormattedMessage id="plugin.sendmail.setting" />
-              </Button>
-            </SendmailSetting>,
-          ]}
-          request={(params) => {
-            return pluginGetSendmails(params);
-          }}
-          columnsState={{
-            persistenceKey: 'sendmail-log-table',
-            persistenceType: 'localStorage',
-          }}
-          columns={columns}
-        />
+            </div>
+          </Space>
+        }
+      >
+        <Row gutter={[16, 16]}>
+          {templates.map((item) => (
+            <Col key={item.key} sm={8} xs={24}>
+              <Card
+                className={`template-card ${item.open ? 'open' : ''}`}
+                onClick={() => handleEditTemplate(item)}
+              >
+                <h3 className="template-card-header">
+                  <span>{item.name}</span>
+                  <span className="template-open-icon">
+                    <CheckCircleOutlined />
+                  </span>
+                </h3>
+                <div>{item.description}</div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </Card>
+      {logsVisible && (
+        <PluginSendMailLogs
+          open={logsVisible}
+          onCancel={() => {
+            setLogsVisible(false);
+          }}
+        />
+      )}
+      {settingVisible && (
+        <SendmailSetting
+          open={settingVisible}
+          onCancel={() => {
+            setSettingVisible(false);
+            getSetting();
+          }}
+        />
+      )}
+      {templateVisible && (
+        <EmailTemplateForm
+          open={templateVisible}
+          template={currentTemplate || {}}
+          onCancel={() => {
+            setTemplateVisible(false);
+          }}
+          onSubmit={() => {
+            setTemplateVisible(false);
+            getSetting();
+          }}
+        />
+      )}
     </NewContainer>
   );
 };

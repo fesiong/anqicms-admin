@@ -33,6 +33,7 @@ export default {
   'menu.plugin.material': '內容素材管理',
   'menu.plugin.fileupload': '驗證文件上傳',
   'menu.plugin.sendmail': '郵件提醒',
+  'menu.plugin.subscription': '邮件订阅',
   'menu.plugin.collector': '內容採集管理',
   'menu.plugin.importapi': '內容導入介面',
   'menu.plugin.redirect': '301跳轉管理',
