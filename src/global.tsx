@@ -1,6 +1,22 @@
 import { useIntl } from '@umijs/max';
 import { Button, message, notification } from 'antd';
 import defaultSettings from '../config/defaultSettings';
+
+if (process.env.NODE_ENV !== 'production') {
+  const isFindDomNodeWarning = (arg: unknown) =>
+    typeof arg === 'string' && arg.includes('findDOMNode is deprecated');
+  const originalWarn = console.warn;
+  console.warn = (...args: any[]) => {
+    if (isFindDomNodeWarning(args[0])) return;
+    originalWarn.apply(console, args);
+  };
+  const originalError = console.error;
+  console.error = (...args: any[]) => {
+    if (isFindDomNodeWarning(args[0])) return;
+    originalError.apply(console, args);
+  };
+}
+
 const { pwa } = defaultSettings;
 const isHttps = document.location.protocol === 'https:';
 
