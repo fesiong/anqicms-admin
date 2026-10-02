@@ -167,7 +167,6 @@ const PluginComment: React.FC = () => {
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card key={newKey}>
         <ProTable<any>
-          headerTitle={intl.formatMessage({ id: 'menu.plugin.comment' })}
           actionRef={actionRef}
           rowKey="id"
           search={false}

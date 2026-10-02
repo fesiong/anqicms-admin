@@ -16,7 +16,7 @@ import {
   saveArchive,
 } from '@/services';
 import { setStore } from '@/utils/store';
-import { useIntl } from '@umijs/max';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
 
@@ -210,7 +210,7 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
               <ProFormSelect
                 name="category_ids"
                 mode="multiple"
-                label="关联分类"
+                label={intl.formatMessage({ id: 'content.archive.related-category' })}
                 options={categories.map((cat: any) => ({
                   title: cat.title,
                   label: (
@@ -238,7 +238,11 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
                       .toLowerCase()
                       .includes(input.toLowerCase()),
                 }}
-                extra={<div>关联分类，可选</div>}
+                extra={
+                  <div>
+                    <FormattedMessage id="content.archive.related-category.description" />
+                  </div>
+                }
               />
             )}
             <ProFormSelect

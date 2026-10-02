@@ -1227,7 +1227,7 @@ const ArchiveList: React.FC = () => {
             <ProFormSelect
               name="category_ids"
               mode="multiple"
-              label="关联分类"
+              label={intl.formatMessage({ id: 'content.archive.related-category' })}
               options={categories.map((cat: any) => ({
                 title: cat.title,
                 label: (
@@ -1255,7 +1255,11 @@ const ArchiveList: React.FC = () => {
                     .toLowerCase()
                     .includes(input.toLowerCase()),
               }}
-              extra={<div>关联分类，可选</div>}
+              extra={
+                <div>
+                  <FormattedMessage id="content.archive.related-category.description" />
+                </div>
+              }
             />
           )}
         </ModalForm>

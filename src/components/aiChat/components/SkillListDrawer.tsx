@@ -1,3 +1,4 @@
+import { useIntl } from '@umijs/max';
 import { Button, Drawer, List, Popconfirm, Spin, Tag, Tooltip, message } from 'antd';
 import {
   ReloadOutlined,
@@ -35,16 +36,17 @@ const SkillListDrawer: React.FC<SkillListDrawerProps> = ({
   onReload,
   onDelete,
 }) => {
+  const intl = useIntl();
   return (
     <Drawer
-      title="技能 (Skills) 管理"
+      title={intl.formatMessage({ id: 'ai.panel.skill-title' })}
       placement="right"
       className="skill-list-drawer"
       open={visible}
       onClose={onClose}
       width={560}
       extra={
-        <Tooltip title="重载所有技能">
+        <Tooltip title={intl.formatMessage({ id: 'ai.panel.skill-reload' })}>
           <Button
             type="text"
             icon={<ReloadOutlined />}
@@ -59,11 +61,13 @@ const SkillListDrawer: React.FC<SkillListDrawerProps> = ({
         </div>
       ) : skills.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-          暂无技能。
+          {intl.formatMessage({ id: 'ai.panel.no-skills' })}
           <br />
-          在 AI 聊天中告诉 AI 创建即可，例如：
+          {intl.formatMessage({ id: 'ai.panel.create-hint' })}
           <br />
-          <em>创建一个翻译技能，将英文文章翻译成中文</em>
+          <em>
+            {intl.formatMessage({ id: 'ai.panel.skill-create-example' })}
+          </em>
         </div>
       ) : (
         <List
@@ -79,14 +83,17 @@ const SkillListDrawer: React.FC<SkillListDrawerProps> = ({
                   icon={<EyeOutlined />}
                   onClick={() => onView(item)}
                 >
-                  查看
+                  {intl.formatMessage({ id: 'ai.panel.view' })}
                 </Button>,
                 <Popconfirm
                   key="delete"
-                  title={`确定删除技能 "${item.name}"？`}
+                  title={intl.formatMessage(
+                    { id: 'ai.panel.skill-delete-confirm' },
+                    { name: item.name },
+                  )}
                   onConfirm={() => onDelete(item)}
-                  okText="确定"
-                  cancelText="取消"
+                  okText={intl.formatMessage({ id: 'ai.panel.confirm' })}
+                  cancelText={intl.formatMessage({ id: 'ai.panel.cancel' })}
                 >
                   <Button
                     type="link"
@@ -94,7 +101,7 @@ const SkillListDrawer: React.FC<SkillListDrawerProps> = ({
                     danger
                     icon={<DeleteOutlined />}
                   >
-                    删除
+                    {intl.formatMessage({ id: 'ai.settings.delete' })}
                   </Button>
                 </Popconfirm>,
               ]}
@@ -141,9 +148,15 @@ const SkillListDrawer: React.FC<SkillListDrawerProps> = ({
                         </span>
                       )}
                       <span>
-                        {item.file_count} 个文件
+                        {intl.formatMessage(
+                          { id: 'ai.panel.file-count' },
+                          { count: item.file_count },
+                        )}
                         {item.updated_at
-                          ? ` | 更新于 ${item.updated_at}`
+                          ? ` | ${intl.formatMessage(
+                              { id: 'ai.panel.updated-at' },
+                              { time: item.updated_at },
+                            )}`
                           : ''}
                       </span>
                     </div>

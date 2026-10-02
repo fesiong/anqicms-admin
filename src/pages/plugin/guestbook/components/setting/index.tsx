@@ -238,11 +238,26 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
           />
           <ProFormRadio.Group
             name="push_way"
-            label="留言推送"
+            label={intl.formatMessage({ id: 'plugin.guestbook.push-way' })}
             options={[
-              { label: '邮件(默认)', value: 0 },
-              { label: '站点', value: 1 },
-              { label: 'API接口', value: 2 },
+              {
+                label: intl.formatMessage({
+                  id: 'plugin.guestbook.push-way.email',
+                }),
+                value: 0,
+              },
+              {
+                label: intl.formatMessage({
+                  id: 'plugin.guestbook.push-way.site',
+                }),
+                value: 1,
+              },
+              {
+                label: intl.formatMessage({
+                  id: 'plugin.guestbook.push-way.api',
+                }),
+                value: 2,
+              },
             ]}
             disabled={isVip === false}
             fieldProps={{
@@ -256,23 +271,31 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
                     checkVip(() => {});
                   }}
                 >
-                  留言推送为VIP功能，点击查看VIP
+                  <FormattedMessage id="plugin.guestbook.vip-tip" />
                 </div>
               ) : null
             }
           />
           {setting.push_way === 0 && (
-            <ProFormText label="邮件设置" readonly>
+            <ProFormText
+              label={intl.formatMessage({
+                id: 'plugin.guestbook.email-setting',
+              })}
+              readonly
+            >
               <div>
-                留言默认推送到邮件,需要到
-                <Link to={'/plugin/sendmail'}>邮件提醒</Link>设置
+                <FormattedMessage id="plugin.guestbook.email-tips.before" />
+                <Link to={'/plugin/sendmail'}>
+                  <FormattedMessage id="plugin.guestbook.email-tips.link" />
+                </Link>
+                <FormattedMessage id="plugin.guestbook.email-tips.after" />
               </div>
             </ProFormText>
           )}
           {setting.push_way === 1 && (
             <ProFormSelect
               name="site_id"
-              label="选择站点"
+              label={intl.formatMessage({ id: 'plugin.guestbook.select-site' })}
               request={async () => {
                 const res = await getWebsiteList();
                 return (
@@ -295,7 +318,10 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
           )}
           {setting.push_way === 2 && (
             <div>
-              <ProFormText name="api_url" label="API地址" />
+              <ProFormText
+                name="api_url"
+                label={intl.formatMessage({ id: 'plugin.guestbook.api-url' })}
+              />
               <ProFormText label="Header">
                 <Space className="no-margin">
                   <ProFormText
@@ -312,7 +338,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
               </ProFormText>
               <ProFormRadio.Group
                 name="api_method"
-                label="提交方式"
+                label={intl.formatMessage({ id: 'plugin.guestbook.submit-way' })}
                 options={[
                   { label: 'JSON', value: 'json' },
                   { label: 'Form-Data', value: 'formdata' },

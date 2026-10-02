@@ -1,6 +1,7 @@
 import { PaperClipOutlined } from '@ant-design/icons';
 import gfm from '@bytemd/plugin-gfm';
 import { Viewer } from '@bytemd/react';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Alert, Spin } from 'antd';
 import 'bytemd/dist/index.css';
 import { Message, Segment } from '../types';
@@ -59,56 +60,91 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   errorMsg,
   messagesEndRef,
 }) => {
+  const intl = useIntl();
   // 欢迎界面
   if (!historyLoading && messages.length === 0) {
     return (
       <div className="ai-chat-messages">
         <div className="ai-chat-welcome">
-          <div className="ai-chat-welcome-title">有什么我能帮你的吗？</div>
+          <div className="ai-chat-welcome-title">
+            <FormattedMessage id="ai.chat.welcome-title" />
+          </div>
           <div className="ai-chat-welcome-actions">
-            <div className="ai-chat-welcome-actions-title">常用功能</div>
+            <div className="ai-chat-welcome-actions-title">
+              <FormattedMessage id="ai.chat.common-functions" />
+            </div>
             <div className="ai-chat-welcome-actions-grid">
               <div
                 className="ai-chat-welcome-action-item"
-                onClick={() => onSend('帮我写一篇文章')}
+                onClick={() =>
+                  onSend(intl.formatMessage({ id: 'ai.prompt.write-article' }))
+                }
               >
                 <span className="action-icon">📝</span>
-                <span className="action-label">创建文章</span>
+                <span className="action-label">
+                  <FormattedMessage id="ai.action.create-article" />
+                </span>
               </div>
               <div
                 className="ai-chat-welcome-action-item"
-                onClick={() => onSend('查看最近发布的文章')}
+                onClick={() =>
+                  onSend(
+                    intl.formatMessage({ id: 'ai.prompt.recent-articles' }),
+                  )
+                }
               >
                 <span className="action-icon">📋</span>
-                <span className="action-label">查看文章</span>
+                <span className="action-label">
+                  <FormattedMessage id="ai.action.view-articles" />
+                </span>
               </div>
               <div
                 className="ai-chat-welcome-action-item"
-                onClick={() => onSend('帮我管理分类')}
+                onClick={() =>
+                  onSend(
+                    intl.formatMessage({ id: 'ai.prompt.manage-categories' }),
+                  )
+                }
               >
                 <span className="action-icon">📂</span>
-                <span className="action-label">管理分类</span>
+                <span className="action-label">
+                  <FormattedMessage id="ai.action.manage-categories" />
+                </span>
               </div>
               <div
                 className="ai-chat-welcome-action-item"
-                onClick={() => onSend('帮我修改模板')}
+                onClick={() =>
+                  onSend(
+                    intl.formatMessage({ id: 'ai.prompt.modify-template' }),
+                  )
+                }
               >
                 <span className="action-icon">🎨</span>
-                <span className="action-label">修改模板</span>
+                <span className="action-label">
+                  <FormattedMessage id="ai.action.modify-template" />
+                </span>
               </div>
               <div
                 className="ai-chat-welcome-action-item"
-                onClick={() => onSend('帮我翻译文章')}
+                onClick={() =>
+                  onSend(
+                    intl.formatMessage({ id: 'ai.prompt.translate-article' }),
+                  )
+                }
               >
                 <span className="action-icon">🌐</span>
-                <span className="action-label">翻译文章</span>
+                <span className="action-label">
+                  <FormattedMessage id="ai.action.translate-article" />
+                </span>
               </div>
               <div
                 className="ai-chat-welcome-action-item"
                 onClick={() => onSend('help')}
               >
                 <span className="action-icon">💡</span>
-                <span className="action-label">查看帮助</span>
+                <span className="action-label">
+                  <FormattedMessage id="ai.action.view-help" />
+                </span>
               </div>
             </div>
           </div>
@@ -122,7 +158,8 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       {historyLoading && (
         <div className="ai-chat-message assistant">
           <div className="ai-chat-message-content">
-            <Spin size="small" /> 加载历史记录...
+            <Spin size="small" />{' '}
+            <FormattedMessage id="ai.chat.loading-history" />
           </div>
         </div>
       )}

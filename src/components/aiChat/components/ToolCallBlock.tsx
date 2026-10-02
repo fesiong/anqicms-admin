@@ -1,10 +1,11 @@
+import { FormattedMessage } from '@umijs/max';
 import { useState } from 'react';
 
 /** 单个工具调用块 */
 const ToolCallBlock: React.FC<{
   toolName: string;
   arguments: string;
-  status: 'calling' | 'completed';
+  status: 'calling' | 'completed' | 'denied';
   result?: string;
 }> = ({ toolName: name, arguments: args, status: st, result: res }) => {
   const [expanded, setExpanded] = useState(false);
@@ -30,8 +31,21 @@ const ToolCallBlock: React.FC<{
         >
           ▶
         </span>
-        {st === 'calling' ? '🔄' : '✅'} <strong>{name}</strong>
-        {st === 'calling' ? ' 进行中...' : ''}
+        {st === 'denied' ? '🚫' : st === 'calling' ? '🔄' : '✅'}{' '}
+        <strong>{name}</strong>
+        {st === 'calling' ? (
+          <>
+            {' '}
+            <FormattedMessage id="ai.toolcall.running" />
+          </>
+        ) : st === 'denied' ? (
+          <>
+            {' '}
+            <FormattedMessage id="ai.toolcall.denied" />
+          </>
+        ) : (
+          ''
+        )}
       </div>
       {expanded && (
         <div className="ai-chat-toolcall-body" style={{ marginTop: 4 }}>

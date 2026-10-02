@@ -272,32 +272,12 @@ const SettingNavFrom: React.FC<any> = () => {
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card
         key={newKey}
-        title={
-          <div>
-            <Space>
-              {navTypes.map((item) => (
-                <Button
-                  key={item.id}
-                  type={typeId === item.id ? 'primary' : 'default'}
-                  onClick={() => {
-                    handleChangeNavType(item.id);
-                  }}
-                >
-                  {item.title}
-                </Button>
-              ))}
-              <NavTypes
-                onCancel={() => {
-                  getNavTypes();
-                }}
-              >
-                <Button>
-                  <FormattedMessage id="setting.nav.types" />
-                </Button>
-              </NavTypes>
-            </Space>
-          </div>
-        }
+        activeTabKey={typeId + ''}
+        onTabChange={(tabKey) => handleChangeNavType(Number(tabKey))}
+        tabList={navTypes.map((item) => ({
+          key: item.id + '',
+          label: item.title,
+        }))}
       >
         <ProTable<any>
           key={newKey}
@@ -309,6 +289,16 @@ const SettingNavFrom: React.FC<any> = () => {
             <Button key="add" onClick={handleShowAddNav}>
               <FormattedMessage id="setting.nav.add" />
             </Button>,
+            <NavTypes
+              key="type"
+              onCancel={() => {
+                getNavTypes();
+              }}
+            >
+              <Button>
+                <FormattedMessage id="setting.nav.types" />
+              </Button>
+            </NavTypes>,
           ]}
           columns={columns}
           expandable={{

@@ -320,7 +320,7 @@ const PluginHtmlCache: React.FC<any> = () => {
           <ProForm
             initialValues={setting}
             onFinish={onSubmit}
-            title={intl.formatMessage({ id: 'menu.plugin.htmlcache' })}
+            title={intl.formatMessage({ id: 'menu.plugin.system.htmlcache' })}
           >
             <Row gutter={16}>
               <Col sm={10} xs={24}>
@@ -407,7 +407,7 @@ const PluginHtmlCache: React.FC<any> = () => {
                           checkVip(() => {});
                         }}
                       >
-                        更多存储方式为VIP功能，点击查看VIP
+                        <FormattedMessage id="plugin.htmlcache.vip-tip" />
                       </div>
                     ) : null
                   }

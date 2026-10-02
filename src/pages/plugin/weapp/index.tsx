@@ -29,7 +29,7 @@ const PluginWeapp: React.FC<any> = () => {
             return res.data || [];
           }}
           onFinish={onSubmit}
-          title={intl.formatMessage({ id: 'menu.plugin.weapp' })}
+          title={intl.formatMessage({ id: 'menu.plugin.channel.weapp' })}
         >
           <ProFormText name="app_id" label={intl.formatMessage({ id: 'plugin.weapp.appid' })} width="lg" />
           <ProFormText name="app_secret" label={intl.formatMessage({ id: 'plugin.weapp.app-secret' })} width="lg" />

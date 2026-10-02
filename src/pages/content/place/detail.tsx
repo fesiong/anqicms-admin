@@ -45,6 +45,7 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import './index.less';
 const MarkdownEditor = lazy(() => import('@/components/markdown'));
 const NewAiEditor = lazy(() => import('@/components/newAiEditor'));
+const SimpleEditor = lazy(() => import('@/components/simpleEditor'));
 
 const PlaceDetail: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
@@ -67,7 +68,7 @@ const PlaceDetail: React.FC = () => {
   ]);
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
-  const editorRef = useRef(null);
+  const editorRef = useRef<any>(null);
   const [aiTitle, setAiTitle] = useState<string>('');
   const [aiVisible, setAiVisible] = useState<boolean>(false);
   const [aiTdkVisible, setAiTdkVisible] = useState<boolean>(false);
@@ -1018,6 +1019,19 @@ const PlaceDetail: React.FC = () => {
                                   ref={null}
                                 />
                               </Suspense>
+                            ) : contentSetting.editor === 'simple' ? (
+                              <Suspense
+                                fallback={<div style={{ height: 500 }} />}
+                              >
+                                <SimpleEditor
+                                  className="mb-normal"
+                                  setContent={(html) =>
+                                    updateExtraContent(item.field_name, html)
+                                  }
+                                  content={extraContent[item.field_name] || ''}
+                                  ref={null}
+                                />
+                              </Suspense>
                             ) : (
                               <Suspense
                                 fallback={<div style={{ height: 500 }} />}
@@ -1042,6 +1056,17 @@ const PlaceDetail: React.FC = () => {
                 {contentSetting.editor === 'markdown' ? (
                   <Suspense fallback={<div style={{ height: 500 }} />}>
                     <MarkdownEditor
+                      className="mb-normal"
+                      setContent={async (html: string) => {
+                        setContent(html);
+                      }}
+                      content={content}
+                      ref={editorRef}
+                    />
+                  </Suspense>
+                ) : contentSetting.editor === 'simple' ? (
+                  <Suspense fallback={<div style={{ height: 500 }} />}>
+                    <SimpleEditor
                       className="mb-normal"
                       setContent={async (html: string) => {
                         setContent(html);

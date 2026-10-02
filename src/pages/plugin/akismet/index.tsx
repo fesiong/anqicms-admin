@@ -159,12 +159,16 @@ const PluginAkismet: React.FC<any> = () => {
                   <ProFormText
                     name="recaptcha_site_key"
                     label="reCAPTCHA Site Key"
-                    extra="网站密钥"
+                    extra={intl.formatMessage({
+                      id: 'plugin.akismet.recaptcha-site-key-tips',
+                    })}
                   />
                   <ProFormText
                     name="recaptcha_private_key"
                     label="reCAPTCHA Private Key"
-                    extra="通信密钥"
+                    extra={intl.formatMessage({
+                      id: 'plugin.akismet.recaptcha-private-key-tips',
+                    })}
                   />
                 </Col>
               </Row>

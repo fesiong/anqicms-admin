@@ -230,7 +230,6 @@ const PluginKeyword: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.keyword' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [

@@ -49,12 +49,13 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import '../index.less';
 const MarkdownEditor = lazy(() => import('@/components/markdown'));
 const NewAiEditor = lazy(() => import('@/components/newAiEditor'));
+const SimpleEditor = lazy(() => import('@/components/simpleEditor'));
 
 const categoryType = 1;
 
 const ArchiveCategoryDetail: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
-  const editorRef = useRef(null);
+  const editorRef = useRef<any>(null);
   const [content, setContent] = useState<string>('');
   const [categoryImages, setCategoryImages] = useState<string[]>([]);
   const [categoryLogo, setCategoryLogo] = useState<string>('');
@@ -1259,6 +1260,15 @@ const ArchiveCategoryDetail: React.FC = () => {
                                   content={extraContent[item.field_name] || ''}
                                   ref={null}
                                 />
+                              ) : contentSetting.editor === 'simple' ? (
+                                <SimpleEditor
+                                  className="mb-normal"
+                                  setContent={(html) =>
+                                    updateExtraContent(item.field_name, html)
+                                  }
+                                  content={extraContent[item.field_name] || ''}
+                                  ref={null}
+                                />
                               ) : (
                                 <NewAiEditor
                                   className="mb-normal"
@@ -1284,6 +1294,17 @@ const ArchiveCategoryDetail: React.FC = () => {
                     {contentSetting.editor === 'markdown' ? (
                       <Suspense fallback={<div style={{ height: 500 }} />}>
                         <MarkdownEditor
+                          className="mb-normal"
+                          setContent={async (html: string) => {
+                            setContent(html);
+                          }}
+                          content={content}
+                          ref={editorRef}
+                        />
+                      </Suspense>
+                    ) : contentSetting.editor === 'simple' ? (
+                      <Suspense fallback={<div style={{ height: 500 }} />}>
+                        <SimpleEditor
                           className="mb-normal"
                           setContent={async (html: string) => {
                             setContent(html);

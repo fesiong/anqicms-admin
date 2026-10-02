@@ -1,14 +1,17 @@
 import {
+  BugOutlined,
   CloseOutlined,
   CloudServerOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
   HistoryOutlined,
+  MoreOutlined,
   PlusOutlined,
   SettingOutlined,
   ToolOutlined,
 } from '@ant-design/icons';
-import { Button, List, Popover, Spin, Tooltip } from 'antd';
+import { useIntl } from '@umijs/max';
+import { Button, Dropdown, List, Popover, Spin, Tooltip } from 'antd';
 
 interface HeaderProps {
   maximized: boolean;
@@ -18,6 +21,7 @@ interface HeaderProps {
   onOpenAgentDrawer: () => void;
   onOpenSettings: () => void;
   onOpenSkillsList: () => void;
+  onOpenTrace: () => void;
   sessionListOpen: boolean;
   sessionListLoading: boolean;
   sessionList: any[];
@@ -34,6 +38,7 @@ const Header: React.FC<HeaderProps> = ({
   onOpenAgentDrawer,
   onOpenSettings,
   onOpenSkillsList,
+  onOpenTrace,
   sessionListOpen,
   sessionListLoading,
   sessionList,
@@ -41,6 +46,7 @@ const Header: React.FC<HeaderProps> = ({
   onSwitchSession,
   onCloseSessionList,
 }) => {
+  const intl = useIntl();
   return (
     <div className="ai-chat-header">
       <div className="ai-chat-title">
@@ -61,13 +67,13 @@ const Header: React.FC<HeaderProps> = ({
             fill="#ffffff"
           ></path>
         </svg>
-        <span>AI 助手</span>
+        <span>{intl.formatMessage({ id: 'ai.panel.assistant' })}</span>
       </div>
       <div
         className="ai-chat-header-actions"
         style={{ display: 'flex', gap: 4, alignItems: 'center' }}
       >
-        <Tooltip title="新建会话">
+        <Tooltip title={intl.formatMessage({ id: 'ai.panel.new-session' })}>
           <Button type="text" icon={<PlusOutlined />} onClick={onNewSession} />
         </Tooltip>
         <Popover
@@ -91,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({
                     color: '#999',
                   }}
                 >
-                  暂无历史记录
+                  {intl.formatMessage({ id: 'ai.panel.no-history' })}
                 </div>
               ) : (
                 <List
@@ -127,10 +133,15 @@ const Header: React.FC<HeaderProps> = ({
                             }}
                           >
                             {item.title ||
-                              `会话 ${(item.session_id || item.id || '').slice(
-                                0,
-                                8,
-                              )}`}
+                              intl.formatMessage(
+                                { id: 'ai.panel.session-title' },
+                                {
+                                  id: (item.session_id || item.id || '').slice(
+                                    0,
+                                    8,
+                                  ),
+                                },
+                              )}
                           </div>
                         }
                         description={
@@ -150,7 +161,9 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           }
         >
-          <Tooltip title="历史会话">
+          <Tooltip
+            title={intl.formatMessage({ id: 'ai.panel.history-session' })}
+          >
             <Button
               type="text"
               icon={<HistoryOutlined />}
@@ -158,28 +171,48 @@ const Header: React.FC<HeaderProps> = ({
             />
           </Tooltip>
         </Popover>
-        <Tooltip title="AI 设置">
-          <Button
-            type="text"
-            icon={<SettingOutlined />}
-            onClick={onOpenSettings}
-          />
-        </Tooltip>
-        <Tooltip title="Skills">
-          <Button
-            type="text"
-            icon={<ToolOutlined />}
-            onClick={onOpenSkillsList}
-          ></Button>
-        </Tooltip>
-        <Tooltip title="智能体">
-          <Button
-            type="text"
-            icon={<CloudServerOutlined />}
-            onClick={onOpenAgentDrawer}
-          ></Button>
-        </Tooltip>
-        <Tooltip title={maximized ? '还原窗口' : '最大化'}>
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: 'agents',
+                icon: <CloudServerOutlined />,
+                label: intl.formatMessage({ id: 'ai.panel.agents' }),
+                onClick: onOpenAgentDrawer,
+              },
+              {
+                key: 'skills',
+                icon: <ToolOutlined />,
+                label: intl.formatMessage({ id: 'ai.panel.skills' }),
+                onClick: onOpenSkillsList,
+              },
+              {
+                key: 'settings',
+                icon: <SettingOutlined />,
+                label: intl.formatMessage({ id: 'ai.settings.title' }),
+                onClick: onOpenSettings,
+              },
+              {
+                key: 'trace',
+                icon: <BugOutlined />,
+                label: intl.formatMessage({ id: 'ai.panel.open-trace' }),
+                onClick: onOpenTrace,
+              },
+            ],
+          }}
+          key="ai-more"
+        >
+          <Button type="text">
+            <MoreOutlined />
+          </Button>
+        </Dropdown>
+        <Tooltip
+          title={
+            maximized
+              ? intl.formatMessage({ id: 'ai.panel.restore' })
+              : intl.formatMessage({ id: 'ai.panel.maximize' })
+          }
+        >
           <Button
             type="text"
             icon={

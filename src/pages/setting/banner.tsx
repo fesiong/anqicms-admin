@@ -79,10 +79,6 @@ const SettingBannerFrom: React.FC<any> = () => {
     getBanners();
   }, []);
 
-  const handleChangeType = (type: string) => {
-    setCurrentType(type);
-  };
-
   const editBanner = (row: any) => {
     setEditingBanner(row);
     setModalVisible(true);
@@ -123,6 +119,9 @@ const SettingBannerFrom: React.FC<any> = () => {
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
     );
+    if (!values.type) {
+      values['type'] = 'default';
+    }
     saveSettingBanner(values)
       .then((res) => {
         message.success(res.msg);
@@ -206,23 +205,12 @@ const SettingBannerFrom: React.FC<any> = () => {
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card
         key={newKey}
-        title={
-          <div>
-            <Space>
-              {banners.map((item: any) => (
-                <Button
-                  key={item.type}
-                  type={currentType === item.type ? 'primary' : 'default'}
-                  onClick={() => {
-                    handleChangeType(item.type);
-                  }}
-                >
-                  {item.type}
-                </Button>
-              ))}
-            </Space>
-          </div>
-        }
+        activeTabKey={currentType}
+        onTabChange={(tabKey) => setCurrentType(tabKey)}
+        tabList={banners.map((item: any) => ({
+          key: item.type,
+          label: item.type,
+        }))}
       >
         {banners.map((item: any, index: number) =>
           item.type === currentType ? (

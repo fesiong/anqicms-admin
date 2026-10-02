@@ -11,7 +11,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useModel } from '@umijs/max';
-import { Button, Card, Input, List, message, Space, Tabs, Tag } from 'antd';
+import { Button, Card, Input, List, message, Space, Tag, Tooltip } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
@@ -25,8 +25,9 @@ const SettingAiFrom: React.FC<any> = () => {
     enabled: false,
     token: '',
     rate_limit: 0,
-    exposed_tools: [],
+    exposed_intents: [],
   });
+  const [mcpTools, setMcpTools] = useState<any[]>([]);
   const mcpFormRef = useRef<ProFormInstance<any>>();
   const [editChatIndex, setEditChatIndex] = useState<number>(-1);
   const [editChatSetting, setEditChatSetting] = useState<any>({});
@@ -34,6 +35,7 @@ const SettingAiFrom: React.FC<any> = () => {
   const [aiEngine, setAiEngine] = useState<string>('');
   const [tmpInput, setTmpInput] = useState<any>({});
   const [newKey, setNewKey] = useState<string>('');
+  const [activeTabKey, setActiveTabKey] = useState<string>('write');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -45,6 +47,7 @@ const SettingAiFrom: React.FC<any> = () => {
     if (setting.mcp) {
       setMcpSetting(setting.mcp);
     }
+    setMcpTools(Array.isArray(setting.mcp_tools) ? setting.mcp_tools : []);
     setFetched(true);
   };
 
@@ -176,17 +179,23 @@ const SettingAiFrom: React.FC<any> = () => {
             setChatSetting(res.data);
           }
           setEditChatSetting(null);
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'setting.ai.delete-success' }));
         } else {
-          message.info(res.msg || '删除失败');
+          message.info(
+            res.msg || intl.formatMessage({ id: 'setting.ai.delete-failed' }),
+          );
         }
       })
-      .catch(() => message.error('删除成功'));
+      .catch(() =>
+        message.error(intl.formatMessage({ id: 'setting.ai.delete-success' })),
+      );
   };
 
   const onSubmitChat = async (values: any) => {
     if (!values.name || !values.base_url || !values.api_key || !values.model) {
-      message.warning('请填写完整的接口信息');
+      message.warning(
+        intl.formatMessage({ id: 'setting.ai.fill-endpoint-info' }),
+      );
       return;
     }
     const provider = Object.assign({}, editChatSetting, values);
@@ -202,12 +211,16 @@ const SettingAiFrom: React.FC<any> = () => {
           if (Array.isArray(res.data.chat)) setChatSetting(res.data.chat);
           setEditChatOpen(false);
           setEditChatSetting(null);
-          message.success('保存成功');
+          message.success(intl.formatMessage({ id: 'setting.ai.save-success' }));
         } else {
-          message.info(res.msg || '保存失败');
+          message.info(
+            res.msg || intl.formatMessage({ id: 'setting.ai.save-failed' }),
+          );
         }
       })
-      .catch(() => message.error('保存失败'));
+      .catch(() =>
+        message.error(intl.formatMessage({ id: 'setting.ai.save-failed' })),
+      );
   };
 
   const onSubmitMcp = async (values: any) => {
@@ -215,14 +228,14 @@ const SettingAiFrom: React.FC<any> = () => {
       ...mcpSetting,
       ...values,
     };
-    // 处理 exposed_tools：逗号分隔字符串转数组
-    if (typeof postData.exposed_tools === 'string') {
-      postData.exposed_tools = postData.exposed_tools
+    // exposed_intents：逗号/空白分隔字符串转数组
+    if (typeof postData.exposed_intents === 'string') {
+      postData.exposed_intents = postData.exposed_intents
         .split(',')
         .map((s: string) => s.trim())
         .filter(Boolean);
-    } else if (!Array.isArray(postData.exposed_tools)) {
-      postData.exposed_tools = [];
+    } else if (!Array.isArray(postData.exposed_intents)) {
+      postData.exposed_intents = [];
     }
 
     const hide = message.loading(
@@ -237,10 +250,14 @@ const SettingAiFrom: React.FC<any> = () => {
           }
           message.success(res.msg);
         } else {
-          message.info(res.msg || '保存失败');
+          message.info(
+            res.msg || intl.formatMessage({ id: 'setting.ai.save-failed' }),
+          );
         }
       })
-      .catch(() => message.error('保存失败'))
+      .catch(() =>
+        message.error(intl.formatMessage({ id: 'setting.ai.save-failed' })),
+      )
       .finally(() => {
         hide();
       });
@@ -259,11 +276,34 @@ const SettingAiFrom: React.FC<any> = () => {
     setMcpSetting({ ...mcpSetting, token });
   };
 
+  const handleAddIntent = (name: string) => {
+    const field = mcpFormRef.current as any;
+    const cur: string = field?.getFieldValue?.('exposed_intents') || '';
+    const parts = cur
+      .split(',')
+      .map((s: string) => s.trim())
+      .filter(Boolean);
+    if (parts.includes(name)) {
+      return;
+    }
+    parts.push(name);
+    mcpFormRef.current?.setFieldValue('exposed_intents', parts.join(', '));
+  };
+
+  // 按能力域分组，用于「暴露的工具列表」下方的可选清单
+  const toolsByDomain = mcpTools.reduce((acc: any, t: any) => {
+    const d = t.domain || 'other';
+    (acc[d] = acc[d] || []).push(t);
+    return acc;
+  }, {});
+
   const handleCopyMcpConfig = () => {
     const baseUrl = initialState?.system?.base_url || window.location.origin;
     const token = mcpSetting.token || '';
     if (!token) {
-      message.warning('请先生成鉴权 Token');
+      message.warning(
+        intl.formatMessage({ id: 'setting.ai.token-generate-first' }),
+      );
       return;
     }
     const config = {
@@ -279,8 +319,14 @@ const SettingAiFrom: React.FC<any> = () => {
     const text = JSON.stringify(config, null, 2);
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(
-        () => message.success('配置已复制到剪贴板'),
-        () => message.error('复制失败，请手动复制'),
+        () =>
+          message.success(
+            intl.formatMessage({ id: 'setting.ai.copied-to-clipboard' }),
+          ),
+        () =>
+          message.error(
+            intl.formatMessage({ id: 'setting.ai.copy-failed-manual' }),
+          ),
       );
     } else {
       // 降级方案
@@ -290,9 +336,13 @@ const SettingAiFrom: React.FC<any> = () => {
       textarea.select();
       try {
         document.execCommand('copy');
-        message.success('配置已复制到剪贴板');
+        message.success(
+          intl.formatMessage({ id: 'setting.ai.copied-to-clipboard' }),
+        );
       } catch {
-        message.error('复制失败，请手动复制');
+        message.error(
+          intl.formatMessage({ id: 'setting.ai.copy-failed-manual' }),
+        );
       }
       document.body.removeChild(textarea);
     }
@@ -300,347 +350,434 @@ const SettingAiFrom: React.FC<any> = () => {
 
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
-      <Card key={newKey}>
-        {fetched && (
-          <Tabs
-            size="large"
-            items={[
-              {
-                key: 'write',
-                label: 'AI接口配置(写作/翻译)',
-                children: (
-                  <ProForm
-                    initialValues={writeSetting}
-                    onFinish={onSubmitWrite}
+      <Card
+        key={newKey}
+        activeTabKey={activeTabKey}
+        onTabChange={(tabKey) => setActiveTabKey(tabKey)}
+        tabList={[
+          {
+            key: 'write',
+            label: intl.formatMessage({ id: 'setting.tab.ai-writing' }),
+          },
+          {
+            key: 'chat',
+            label: intl.formatMessage({ id: 'setting.tab.ai-assistant' }),
+          },
+          {
+            key: 'mcp',
+            label: intl.formatMessage({ id: 'setting.tab.mcp' }),
+          },
+        ]}
+      >
+        {fetched && activeTabKey === 'write' ? (
+          <ProForm initialValues={writeSetting} onFinish={onSubmitWrite}>
+            <ProFormRadio.Group
+              name="ai_engine"
+              label={intl.formatMessage({
+                id: 'plugin.aigenerate.source',
+              })}
+              options={[
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.aigenerate.source.anqicms',
+                  }),
+                  value: '',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.aigenerate.source.openai',
+                  }),
+                  value: 'openai',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.aigenerate.source.deepseek',
+                  }),
+                  value: 'deepseek',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.aigenerate.source.spark',
+                  }),
+                  value: 'spark',
+                },
+              ]}
+              fieldProps={{
+                onChange: (e) => {
+                  handleChangeAiEngine(e);
+                },
+              }}
+              extra={
+                <div>
+                  <span>
+                    <FormattedMessage id="plugin.aigenerate.source.description" />
+                  </span>
+                  <Tag
+                    style={{ marginLeft: 10 }}
+                    className="link"
+                    onClick={handleCheckOpenAIApi}
                   >
-                    <ProFormRadio.Group
-                      name="ai_engine"
-                      label={intl.formatMessage({
-                        id: 'plugin.aigenerate.source',
-                      })}
-                      options={[
-                        {
-                          label: intl.formatMessage({
-                            id: 'plugin.aigenerate.source.anqicms',
-                          }),
-                          value: '',
-                        },
-                        {
-                          label: intl.formatMessage({
-                            id: 'plugin.aigenerate.source.openai',
-                          }),
-                          value: 'openai',
-                        },
-                        {
-                          label: intl.formatMessage({
-                            id: 'plugin.aigenerate.source.deepseek',
-                          }),
-                          value: 'deepseek',
-                        },
-                        {
-                          label: intl.formatMessage({
-                            id: 'plugin.aigenerate.source.spark',
-                          }),
-                          value: 'spark',
-                        },
-                      ]}
-                      fieldProps={{
-                        onChange: (e) => {
-                          handleChangeAiEngine(e);
-                        },
-                      }}
-                      extra={
+                    <FormattedMessage id="plugin.aigenerate.source.check-openai" />
+                  </Tag>
+                </div>
+              }
+              disabled={isVip === false}
+            />
+            {!isVip ? (
+              <div
+                className="link mb-normal"
+                onClick={() => {
+                  checkVip(() => {});
+                }}
+              >
+                <FormattedMessage id="setting.ai.vip-more-ai" />
+              </div>            ) : null}
+            {(aiEngine === 'openai' || aiEngine === 'deepseek') && (
+              <>
+                <ProFormText
+                  name={'open_ai_api'}
+                  label={intl.formatMessage({
+                    id: 'plugin.aigenerate.openai.base-url',
+                  })}
+                  extra={intl.formatMessage({
+                    id:
+                      aiEngine === 'deepseek'
+                        ? 'plugin.aigenerate.openai.base-url.deepseek'
+                        : 'plugin.aigenerate.openai.base-url.openai',
+                  })}
+                />
+                <ProFormText
+                  name={'open_ai_model'}
+                  label={intl.formatMessage({
+                    id: 'plugin.aigenerate.openai.model',
+                  })}
+                  extra={intl.formatMessage({
+                    id:
+                      aiEngine === 'deepseek'
+                        ? 'plugin.aigenerate.openai.model.deepseek'
+                        : 'plugin.aigenerate.openai.model.openai',
+                  })}
+                />
+                <ProFormText
+                  label="API Keys"
+                  extra={
+                    <div>
+                      <div className="text-muted">
                         <div>
-                          <span>
-                            <FormattedMessage id="plugin.aigenerate.source.description" />
-                          </span>
-                          <Tag
-                            style={{ marginLeft: 10 }}
-                            className="link"
-                            onClick={handleCheckOpenAIApi}
-                          >
-                            <FormattedMessage id="plugin.aigenerate.source.check-openai" />
-                          </Tag>
+                          <span className="text-red">*</span>
+                          <FormattedMessage id="plugin.aigenerate.openai.description" />
                         </div>
-                      }
-                      disabled={isVip === false}
-                    />
-                    {!isVip ? (
-                      <div
-                        className="link mb-normal"
-                        onClick={() => {
-                          checkVip(() => {});
-                        }}
-                      >
-                        更多AI接口为VIP功能，点击查看VIP
                       </div>
-                    ) : null}
-                    {(aiEngine === 'openai' || aiEngine === 'deepseek') && (
-                      <>
-                        <ProFormText
-                          name={'open_ai_api'}
-                          label={intl.formatMessage({
-                            id: 'plugin.aigenerate.openai.base-url',
-                          })}
-                          extra={intl.formatMessage({
-                            id:
-                              aiEngine === 'deepseek'
-                                ? 'plugin.aigenerate.openai.base-url.deepseek'
-                                : 'plugin.aigenerate.openai.base-url.openai',
-                          })}
-                        />
-                        <ProFormText
-                          name={'open_ai_model'}
-                          label={intl.formatMessage({
-                            id: 'plugin.aigenerate.openai.model',
-                          })}
-                          extra={intl.formatMessage({
-                            id:
-                              aiEngine === 'deepseek'
-                                ? 'plugin.aigenerate.openai.model.deepseek'
-                                : 'plugin.aigenerate.openai.model.openai',
-                          })}
-                        />
-                        <ProFormText
-                          label="API Keys"
-                          extra={
+                      <div className="tag-lists">
+                        <Space size={[12, 12]} wrap>
+                          {writeSetting.open_ai_keys?.map(
+                            (tag: any, index: number) => (
+                              <span className="edit-tag" key={index}>
+                                <span className="key">{tag.key}</span>
+                                <span className="divide">
+                                  <span className="value">
+                                    {tag.invalid
+                                      ? intl.formatMessage({
+                                          id: 'plugin.aigenerate.openai.invalid',
+                                        })
+                                      : intl.formatMessage({
+                                          id: 'plugin.aigenerate.openai.valid',
+                                        })}
+                                  </span>
+                                </span>
+                                <span
+                                  className="close"
+                                  onClick={() => handleRemoveOpenAIKey(index)}
+                                >
+                                  ×
+                                </span>
+                              </span>
+                            ),
+                          )}
+                        </Space>
+                      </div>
+                    </div>
+                  }
+                >
+                  <Input.Group compact>
+                    <Input
+                      value={tmpInput.key || ''}
+                      onChange={(e) => handleChangeTmpInput('key', e)}
+                      onPressEnter={() => handleAddOpenAIKey()}
+                      suffix={
+                        <a onClick={() => handleAddOpenAIKey()}>
+                          <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                        </a>
+                      }
+                    />
+                  </Input.Group>
+                </ProFormText>
+              </>
+            )}
+            {aiEngine === 'spark' && (
+              <>
+                <div className="mb-normal">
+                  <FormattedMessage id="plugin.aigenerate.spark.description" />:
+                  <a
+                    href="https://xinghuo.xfyun.cn/sparkapi?ch=gjp"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    https://xinghuo.xfyun.cn/sparkapi?ch=gjp
+                  </a>
+                </div>
+                <ProFormRadio.Group
+                  name={['spark', 'version']}
+                  label={intl.formatMessage({
+                    id: 'plugin.aigenerate.spark.version',
+                  })}
+                  options={[
+                    { label: 'Spark Lite(Free)', value: '1.5' },
+                    { label: 'Spark Pro', value: '3.0' },
+                    { label: 'Spark Max', value: '3.5' },
+                    { label: 'Spark4.0 Ultra', value: '4.0' },
+                  ]}
+                />
+                <ProFormText name={['spark', 'app_id']} label="APPID" />
+                <ProFormText name={['spark', 'api_secret']} label="APISecret" />
+                <ProFormText name={['spark', 'api_key']} label="APIKey" />
+              </>
+            )}
+          </ProForm>
+        ) : activeTabKey === 'chat' ? (
+          <div>
+            <div style={{ marginBottom: 12 }}>
+              <Button type="primary" size="small" onClick={onAddChatAi}>
+                <FormattedMessage id="setting.ai.add-custom-endpoint" />
+              </Button>
+            </div>
+            {chatSetting.length === 0 ? (
+              <div
+                style={{
+                  textAlign: 'center',
+                  padding: '24px 0',
+                  color: '#999',
+                }}
+              >
+                <FormattedMessage id="setting.ai.no-custom-endpoint" />
+              </div>
+            ) : (
+              <List
+                size="small"
+                dataSource={chatSetting}
+                renderItem={(item: any, index: number) => (
+                  <List.Item
+                    actions={[
+                      <Button
+                        key="edit"
+                        type="link"
+                        size="small"
+                        onClick={() => onEditChatSetting(index, item)}
+                      >
+                        <FormattedMessage id="common.edit" />
+                      </Button>,
+                      <Button
+                        key="delete"
+                        type="link"
+                        size="small"
+                        danger
+                        onClick={() => handleDeleteChatSetting(index)}
+                      >
+                        <FormattedMessage id="setting.system.delete" />
+                      </Button>,
+                    ]}
+                  >
+                    <List.Item.Meta
+                      title={item.name}
+                      description={
+                        <span style={{ fontSize: 12, color: '#999' }}>
+                          {item.base_url} | {item.model}
+                        </span>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
+          </div>
+        ) : activeTabKey === 'mcp' ? (
+          <ProForm
+            formRef={mcpFormRef}
+            initialValues={{
+              enabled: mcpSetting.enabled || false,
+              token: mcpSetting.token || '',
+              rate_limit: mcpSetting.rate_limit || 0,
+              exposed_intents: Array.isArray(mcpSetting.exposed_intents)
+                ? mcpSetting.exposed_intents.join(', ')
+                : '',
+            }}
+            onFinish={onSubmitMcp}
+          >
+            <div
+              style={{
+                marginBottom: 16,
+                padding: 12,
+                background: '#f6f8fa',
+                borderRadius: 6,
+                fontSize: 13,
+                color: '#666',
+              }}
+            >
+              {intl.formatMessage(
+                { id: 'setting.ai.mcp-intro' },
+                {
+                  tools:
+                    mcpTools.length > 0
+                      ? intl.formatMessage(
+                          { id: 'setting.ai.mcp-tools-count' },
+                          { count: mcpTools.length },
+                        )
+                      : intl.formatMessage({ id: 'setting.ai.mcp-tools-all' }),
+                },
+              )}
+              <code style={{ marginLeft: 6 }}>
+                {initialState?.system?.base_url || ''}/api/mcp
+              </code>
+              <Button
+                type="link"
+                size="small"
+                onClick={handleCopyMcpConfig}
+                style={{ float: 'right', padding: 0 }}
+              >
+                <FormattedMessage id="setting.ai.copy-mcp-config" />
+              </Button>
+            </div>
+            <ProFormSwitch
+              name="enabled"
+              label={intl.formatMessage({ id: 'setting.ai.mcp-enable' })}
+              extra={intl.formatMessage({
+                id: 'setting.ai.mcp-enable-description',
+              })}
+            />
+            <ProFormText
+              name="token"
+              label={intl.formatMessage({ id: 'setting.ai.mcp-token-label' })}
+              placeholder={intl.formatMessage({
+                id: 'setting.ai.mcp-token-placeholder',
+              })}
+              extra={intl.formatMessage({ id: 'setting.ai.mcp-token-extra' })}
+              fieldProps={{
+                addonAfter: (
+                  <Button size="small" onClick={handleGenerateToken}>
+                    <FormattedMessage id="setting.ai.mcp-generate-token" />
+                  </Button>
+                ),
+              }}
+            />
+            <ProFormDigit
+              name="rate_limit"
+              label={intl.formatMessage({ id: 'setting.ai.mcp-rate-limit' })}
+              placeholder={intl.formatMessage({
+                id: 'setting.ai.mcp-rate-limit-placeholder',
+              })}
+              min={0}
+              extra={intl.formatMessage({
+                id: 'setting.ai.mcp-rate-limit-extra',
+              })}
+            />
+            <ProFormText
+              name="exposed_intents"
+              label={intl.formatMessage({ id: 'setting.ai.mcp-exposed-tools' })}
+              placeholder={intl.formatMessage({
+                id: 'setting.ai.mcp-exposed-tools-placeholder',
+              })}
+              extra={intl.formatMessage({
+                id: 'setting.ai.mcp-exposed-tools-extra',
+              })}
+            />
+            {mcpTools.length > 0 && (
+              <div
+                style={{
+                  marginTop: -8,
+                  marginBottom: 16,
+                  padding: 12,
+                  background: '#fafafa',
+                  border: '1px solid #f0f0f0',
+                  borderRadius: 6,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 13,
+                    color: '#999',
+                    marginBottom: 8,
+                  }}
+                >
+                  <FormattedMessage
+                    id="setting.ai.mcp-available-tools"
+                    values={{ count: mcpTools.length }}
+                  />
+                </div>
+                {Object.entries(toolsByDomain).map(([domain, list]: any) => (
+                  <div key={domain} style={{ marginBottom: 6 }}>
+                    <span
+                      style={{
+                        fontSize: 12,
+                        color: '#666',
+                        marginRight: 8,
+                      }}
+                    >
+                      {domain}
+                    </span>
+                    <Space size={[6, 6]} wrap>
+                      {list.map((t: any) => (
+                        <Tooltip
+                          key={t.name}
+                          title={
                             <div>
-                              <div className="text-muted">
-                                <div>
-                                  <span className="text-red">*</span>
-                                  <FormattedMessage id="plugin.aigenerate.openai.description" />
-                                </div>
-                              </div>
-                              <div className="tag-lists">
-                                <Space size={[12, 12]} wrap>
-                                  {writeSetting.open_ai_keys?.map(
-                                    (tag: any, index: number) => (
-                                      <span className="edit-tag" key={index}>
-                                        <span className="key">{tag.key}</span>
-                                        <span className="divide">
-                                          <span className="value">
-                                            {tag.invalid
-                                              ? intl.formatMessage({
-                                                  id: 'plugin.aigenerate.openai.invalid',
-                                                })
-                                              : intl.formatMessage({
-                                                  id: 'plugin.aigenerate.openai.valid',
-                                                })}
-                                          </span>
-                                        </span>
-                                        <span
-                                          className="close"
-                                          onClick={() =>
-                                            handleRemoveOpenAIKey(index)
-                                          }
-                                        >
-                                          ×
-                                        </span>
-                                      </span>
-                                    ),
-                                  )}
-                                </Space>
+                              <div>{t.title || t.name}</div>
+                              <div style={{ marginTop: 4 }}>{t.desc}</div>
+                              <div style={{ marginTop: 4 }}>
+                                <FormattedMessage id="setting.ai.mcp-risk-level" />
+                                {t.risk}
+                                {t.default_off ? (
+                                  <FormattedMessage id="setting.ai.mcp-default-off" />
+                                ) : null}
                               </div>
                             </div>
                           }
                         >
-                          <Input.Group compact>
-                            <Input
-                              value={tmpInput.key || ''}
-                              onChange={(e) => handleChangeTmpInput('key', e)}
-                              onPressEnter={() => handleAddOpenAIKey()}
-                              suffix={
-                                <a onClick={() => handleAddOpenAIKey()}>
-                                  <FormattedMessage id="plugin.aigenerate.enter-to-add" />
-                                </a>
-                              }
-                            />
-                          </Input.Group>
-                        </ProFormText>
-                      </>
-                    )}
-                    {aiEngine === 'spark' && (
-                      <>
-                        <div className="mb-normal">
-                          <FormattedMessage id="plugin.aigenerate.spark.description" />
-                          :
-                          <a
-                            href="https://xinghuo.xfyun.cn/sparkapi?ch=gjp"
-                            target="_blank"
-                            rel="noreferrer"
+                          <Tag
+                            style={{
+                              cursor: 'pointer',
+                              marginRight: 0,
+                              opacity: t.default_off ? 0.65 : 1,
+                            }}
+                            color={
+                              t.risk === 'read'
+                                ? 'green'
+                                : t.risk === 'write'
+                                ? 'blue'
+                                : t.risk === 'destructive'
+                                ? 'orange'
+                                : 'red'
+                            }
+                            onClick={() => handleAddIntent(t.name)}
                           >
-                            https://xinghuo.xfyun.cn/sparkapi?ch=gjp
-                          </a>
-                        </div>
-                        <ProFormRadio.Group
-                          name={['spark', 'version']}
-                          label={intl.formatMessage({
-                            id: 'plugin.aigenerate.spark.version',
-                          })}
-                          options={[
-                            { label: 'Spark Lite(Free)', value: '1.5' },
-                            { label: 'Spark Pro', value: '3.0' },
-                            { label: 'Spark Max', value: '3.5' },
-                            { label: 'Spark4.0 Ultra', value: '4.0' },
-                          ]}
-                        />
-                        <ProFormText name={['spark', 'app_id']} label="APPID" />
-                        <ProFormText
-                          name={['spark', 'api_secret']}
-                          label="APISecret"
-                        />
-                        <ProFormText
-                          name={['spark', 'api_key']}
-                          label="APIKey"
-                        />
-                      </>
-                    )}
-                  </ProForm>
-                ),
-              },
-              {
-                key: 'chat',
-                label: 'AI接口配置(AI助手)',
-                children: (
-                  <div>
-                    <div style={{ marginBottom: 12 }}>
-                      <Button type="primary" size="small" onClick={onAddChatAi}>
-                        添加自定义接口
-                      </Button>
-                    </div>
-                    {chatSetting.length === 0 ? (
-                      <div
-                        style={{
-                          textAlign: 'center',
-                          padding: '24px 0',
-                          color: '#999',
-                        }}
-                      >
-                        暂无自定义接口
-                      </div>
-                    ) : (
-                      <List
-                        size="small"
-                        dataSource={chatSetting}
-                        renderItem={(item: any, index: number) => (
-                          <List.Item
-                            actions={[
-                              <Button
-                                key="edit"
-                                type="link"
-                                size="small"
-                                onClick={() => onEditChatSetting(index, item)}
-                              >
-                                编辑
-                              </Button>,
-                              <Button
-                                key="delete"
-                                type="link"
-                                size="small"
-                                danger
-                                onClick={() => handleDeleteChatSetting(index)}
-                              >
-                                删除
-                              </Button>,
-                            ]}
-                          >
-                            <List.Item.Meta
-                              title={item.name}
-                              description={
-                                <span style={{ fontSize: 12, color: '#999' }}>
-                                  {item.base_url} | {item.model}
-                                </span>
-                              }
-                            />
-                          </List.Item>
-                        )}
-                      />
-                    )}
+                            {t.name}
+                          </Tag>
+                        </Tooltip>
+                      ))}
+                    </Space>
                   </div>
-                ),
-              },
-              {
-                key: 'mcp',
-                label: 'MCP 对外接口',
-                children: (
-                  <ProForm
-                    formRef={mcpFormRef}
-                    initialValues={{
-                      enabled: mcpSetting.enabled || false,
-                      token: mcpSetting.token || '',
-                      rate_limit: mcpSetting.rate_limit || 0,
-                      exposed_tools: Array.isArray(mcpSetting.exposed_tools)
-                        ? mcpSetting.exposed_tools.join(', ')
-                        : '',
-                    }}
-                    onFinish={onSubmitMcp}
-                  >
-                    <div
-                      style={{
-                        marginBottom: 16,
-                        padding: 12,
-                        background: '#f6f8fa',
-                        borderRadius: 6,
-                        fontSize: 13,
-                        color: '#666',
-                      }}
-                    >
-                      启用后，第三方 AI 客户端（Claude Desktop、Cursor、Cherry
-                      Studio 等）可通过 MCP 协议调用本站点的 100+ 工具，
-                      实现内容管理、SEO 优化等操作。端点地址：
-                      <code style={{ marginLeft: 6 }}>
-                        {initialState?.system?.base_url || ''}/api/mcp
-                      </code>
-                      <Button
-                        type="link"
-                        size="small"
-                        onClick={handleCopyMcpConfig}
-                        style={{ float: 'right', padding: 0 }}
-                      >
-                        一键复制配置
-                      </Button>
-                    </div>
-                    <ProFormSwitch
-                      name="enabled"
-                      label="启用 MCP 对外接口"
-                      extra="开启后允许第三方 AI 通过 MCP 协议访问本站点"
-                    />
-                    <ProFormText
-                      name="token"
-                      label="鉴权 Token"
-                      placeholder="点击右侧按钮生成随机 Token"
-                      extra="第三方 AI 调用时需在 Header 中携带 Authorization: Bearer {token}"
-                      fieldProps={{
-                        addonAfter: (
-                          <Button size="small" onClick={handleGenerateToken}>
-                            生成随机 Token
-                          </Button>
-                        ),
-                      }}
-                    />
-                    <ProFormDigit
-                      name="rate_limit"
-                      label="速率限制（次/分钟）"
-                      placeholder="0 表示不限制"
-                      min={0}
-                      extra="防止第三方 AI 过度调用导致服务压力过大，0 表示不限制"
-                    />
-                    <ProFormText
-                      name="exposed_tools"
-                      label="暴露的工具列表"
-                      placeholder="留空表示暴露全部工具；多个工具名用英文逗号分隔"
-                      extra="可限制第三方 AI 仅能调用指定工具，例如 archive_list, category_list"
-                    />
-                  </ProForm>
-                ),
-              },
-            ]}
-          ></Tabs>
-        )}
+                ))}
+              </div>
+            )}
+          </ProForm>
+        ) : null}
       </Card>
       <VipModal />
       <ModalForm
-        title={editChatIndex !== -1 ? '编辑自定义接口' : '添加自定义接口'}
+        title={
+          editChatIndex !== -1
+            ? intl.formatMessage({ id: 'setting.ai.edit-custom-endpoint' })
+            : intl.formatMessage({ id: 'setting.ai.add-custom-endpoint' })
+        }
         open={editChatOpen}
         onOpenChange={(flag) => {
           setEditChatOpen(flag);
@@ -657,44 +794,80 @@ const SettingAiFrom: React.FC<any> = () => {
           <div>
             <ProFormText
               name="name"
-              label="接口名称"
-              placeholder="例如：我的 DeepSeek"
-              rules={[{ required: true, message: '请填写接口名称' }]}
+              label={intl.formatMessage({ id: 'setting.ai.endpoint-name' })}
+              placeholder={intl.formatMessage({
+                id: 'setting.ai.endpoint-name-example',
+              })}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({
+                    id: 'setting.ai.endpoint-name-required',
+                  }),
+                },
+              ]}
             />
             <ProFormText
               name="base_url"
-              label="API 地址"
+              label={intl.formatMessage({ id: 'setting.ai.api-url' })}
               placeholder="https://api.openai.com/v1"
-              rules={[{ required: true, message: '请填写 API 地址' }]}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({
+                    id: 'setting.ai.api-url-required',
+                  }),
+                },
+              ]}
             />
             <ProFormText
               name="api_key"
               label="API Key"
               placeholder="sk-xxxxxxxxxxxxxxxx"
-              rules={[{ required: true, message: '请填写 API Key' }]}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({
+                    id: 'setting.ai.api-key-required',
+                  }),
+                },
+              ]}
             />
             <ProFormText
               name="model"
-              label="模型"
+              label={intl.formatMessage({ id: 'setting.ai.model' })}
               placeholder="deepseek-v4-flash"
-              rules={[{ required: true, message: '请填写模型名称' }]}
+              rules={[
+                {
+                  required: true,
+                  message: intl.formatMessage({
+                    id: 'setting.ai.model-required',
+                  }),
+                },
+              ]}
             />
             <ProFormRadio.Group
               name="enable_reasoning"
-              label="思考模式"
+              label={intl.formatMessage({ id: 'setting.ai.thinking-mode' })}
               options={[
-                { label: '开启', value: true },
-                { label: '关闭', value: false },
+                {
+                  label: intl.formatMessage({ id: 'setting.ai.thinking-on' }),
+                  value: true,
+                },
+                {
+                  label: intl.formatMessage({ id: 'setting.ai.thinking-off' }),
+                  value: false,
+                },
               ]}
             />
             <ProFormDigit
               name="max_tokens"
-              label="最大回复长度"
+              label={intl.formatMessage({ id: 'setting.ai.max-tokens' })}
               placeholder="8192"
             />
             <ProFormDigit
               name="timeout_seconds"
-              label="请求超时时间"
+              label={intl.formatMessage({ id: 'setting.ai.timeout-seconds' })}
               placeholder="120"
             />
           </div>

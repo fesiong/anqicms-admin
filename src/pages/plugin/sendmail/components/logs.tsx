@@ -42,13 +42,10 @@ const PluginSendMailLogs: React.FC<SendMailLogsProps> = (props) => {
   return (
     <Modal
       width={1200}
-      title={intl.formatMessage({ id: 'menu.plugin.sendmail' })}
+      title={intl.formatMessage({ id: 'plugin.sendmail.logs' })}
       open={props.open}
       footer={null}
       onCancel={() => {
-        props.onCancel();
-      }}
-      onClose={() => {
         props.onCancel();
       }}
     >

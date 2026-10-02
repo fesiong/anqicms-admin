@@ -16,7 +16,6 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import {
   Button,
-  Card,
   Input,
   Modal,
   Progress,
@@ -395,72 +394,70 @@ const PluginBackup: React.FC = () => {
 
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
-      <Card key={newKey}>
-        <ProTable<any>
-          headerTitle={intl.formatMessage({ id: 'menu.plugin.backup' })}
-          actionRef={actionRef}
-          rowKey="id"
-          toolBarRender={() => [
-            <Button type="primary" key="add" onClick={() => handleBackupData()}>
-              <FormattedMessage id="plugin.backup.new" />
-            </Button>,
-            <Upload
-              key="upload"
-              name="file"
-              className="logo-uploader"
-              showUploadList={false}
-              accept=".sql"
-              customRequest={handleUploadFile}
-            >
-              <Button type="primary">
-                <FormattedMessage id="plugin.backup.import" />
-              </Button>
-            </Upload>,
-            <Button key="clean" onClick={() => handleCleanup()}>
-              <FormattedMessage id="plugin.backup.cleanup" />
-            </Button>,
-          ]}
-          search={false}
-          tableAlertOptionRender={false}
-          request={(params) => {
-            return pluginGetBackupList(params);
-          }}
-          columnsState={{
-            persistenceKey: 'backup-table',
-            persistenceType: 'localStorage',
-          }}
-          columns={columns}
-          rowSelection={false}
-          pagination={{
-            showSizeChanger: true,
-          }}
-          summary={() => (
-            <tr>
-              <td colSpan={6}>
-                <div style={{ marginTop: 10 }}>
-                  <FormattedMessage id="plugin.backup.tips" />
-                </div>
-              </td>
-            </tr>
-          )}
-        />
-        {task !== null && (
-          <Modal
-            title={
-              task.type === 'backup'
-                ? intl.formatMessage({ id: 'plugin.backup.new' })
-                : intl.formatMessage({ id: 'plugin.backup.restore' })
-            }
-            open={true}
-            footer={null}
+      <ProTable<any>
+        key={newKey}
+        actionRef={actionRef}
+        rowKey="id"
+        toolBarRender={() => [
+          <Button type="primary" key="add" onClick={() => handleBackupData()}>
+            <FormattedMessage id="plugin.backup.new" />
+          </Button>,
+          <Upload
+            key="upload"
+            name="file"
+            className="logo-uploader"
+            showUploadList={false}
+            accept=".sql"
+            customRequest={handleUploadFile}
           >
-            <div className="task-progress">
-              <Progress percent={task.finished ? 100 : task.percent} />
-            </div>
-            <div className="task-message">{task.message}</div>
-          </Modal>
+            <Button type="primary">
+              <FormattedMessage id="plugin.backup.import" />
+            </Button>
+          </Upload>,
+          <Button key="clean" onClick={() => handleCleanup()}>
+            <FormattedMessage id="plugin.backup.cleanup" />
+          </Button>,
+        ]}
+        search={false}
+        tableAlertOptionRender={false}
+        request={(params) => {
+          return pluginGetBackupList(params);
+        }}
+        columnsState={{
+          persistenceKey: 'backup-table',
+          persistenceType: 'localStorage',
+        }}
+        columns={columns}
+        rowSelection={false}
+        pagination={{
+          showSizeChanger: true,
+        }}
+        summary={() => (
+          <tr>
+            <td colSpan={6}>
+              <div style={{ marginTop: 10 }}>
+                <FormattedMessage id="plugin.backup.tips" />
+              </div>
+            </td>
+          </tr>
         )}
-      </Card>
+      />
+      {task !== null && (
+        <Modal
+          title={
+            task.type === 'backup'
+              ? intl.formatMessage({ id: 'plugin.backup.new' })
+              : intl.formatMessage({ id: 'plugin.backup.restore' })
+          }
+          open={true}
+          footer={null}
+        >
+          <div className="task-progress">
+            <Progress percent={task.finished ? 100 : task.percent} />
+          </div>
+          <div className="task-message">{task.message}</div>
+        </Modal>
+      )}
     </NewContainer>
   );
 };

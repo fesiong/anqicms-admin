@@ -42,12 +42,13 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import '../index.less';
 const MarkdownEditor = lazy(() => import('@/components/markdown'));
 const NewAiEditor = lazy(() => import('@/components/newAiEditor'));
+const SimpleEditor = lazy(() => import('@/components/simpleEditor'));
 
 const categoryType = 3;
 
 const PageCategoryDetail: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
-  const editorRef = useRef(null);
+  const editorRef = useRef<any>(null);
   const [content, setContent] = useState<string>('');
   const [categoryImages, setCategoryImages] = useState<string[]>([]);
   const [categoryLogo, setCategoryLogo] = useState<string>('');
@@ -448,6 +449,15 @@ const PageCategoryDetail: React.FC = () => {
                   <Suspense fallback={<div style={{ height: 500 }} />}>
                     {contentSetting.editor === 'markdown' ? (
                       <MarkdownEditor
+                        className="mb-normal"
+                        setContent={async (html: string) => {
+                          setContent(html);
+                        }}
+                        content={content}
+                        ref={editorRef}
+                      />
+                    ) : contentSetting.editor === 'simple' ? (
+                      <SimpleEditor
                         className="mb-normal"
                         setContent={async (html: string) => {
                           setContent(html);

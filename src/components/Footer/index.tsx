@@ -158,7 +158,7 @@ const Footer: React.FC = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                AnqiCMS
+                AnQiCMS
               </a>
               <FormattedMessage id="component.footer.feedback.tips-after" />
             </div>

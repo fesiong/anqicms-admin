@@ -9,7 +9,7 @@ import {
   ReloadOutlined,
   RobotOutlined,
 } from '@ant-design/icons';
-import { useModel } from '@umijs/max';
+import { FormattedMessage, useIntl, useModel } from '@umijs/max';
 import { Button, Space, Tag, Tooltip, message } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import './preview.less';
@@ -255,6 +255,7 @@ const AGENT_JS_CODE = `(function(){
 })();`;
 
 const DesignPreview: React.FC = () => {
+  const intl = useIntl();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeUrl, setIframeUrl] = useState('');
   const [iframeTitle, setIframeTitle] = useState('');
@@ -387,7 +388,7 @@ const DesignPreview: React.FC = () => {
     setIframeKey((k) => k + 1);
     setSelectedDom('');
     setSelectedXPath('');
-    message.success('模板已更新，正在刷新预览...');
+    message.success(intl.formatMessage({ id: 'design.preview.refresh-after-ai' }));
   };
 
   // 启用元素选择模式：向 iframe 发送 enable-pick 指令
@@ -398,7 +399,7 @@ const DesignPreview: React.FC = () => {
       { type: 'enable-pick' },
       window.location.origin,
     );
-    message.info('请在预览区点击要编辑的元素，按 Esc 取消');
+    message.info(intl.formatMessage({ id: 'design.preview.pick-hint' }));
   };
 
   // 取消元素选择模式
@@ -425,7 +426,7 @@ const DesignPreview: React.FC = () => {
       <div className="preview-toolbar">
         <div className="toolbar-left">
           <Space>
-            <Tooltip title="后退">
+            <Tooltip title={intl.formatMessage({ id: 'design.preview.back' })}>
               <Button
                 type="text"
                 icon={<ArrowLeftOutlined />}
@@ -433,14 +434,18 @@ const DesignPreview: React.FC = () => {
                 onClick={handleGoBack}
               />
             </Tooltip>
-            <Tooltip title="刷新预览">
+            <Tooltip
+              title={intl.formatMessage({ id: 'design.preview.refresh' })}
+            >
               <Button
                 type="text"
                 icon={<ReloadOutlined />}
                 onClick={handleRefresh}
               />
             </Tooltip>
-            <Tooltip title="在新窗口打开">
+            <Tooltip
+              title={intl.formatMessage({ id: 'design.preview.open-new-tab' })}
+            >
               <Button
                 type="text"
                 icon={<GlobalOutlined />}
@@ -464,7 +469,7 @@ const DesignPreview: React.FC = () => {
                   icon={<MobileOutlined />}
                   onClick={() => handleDeviceChange('mobile')}
                 >
-                  移动
+                  <FormattedMessage id="design.preview.mobile" />
                 </Button>
               </Space>
             )}
@@ -473,7 +478,7 @@ const DesignPreview: React.FC = () => {
               icon={<RobotOutlined />}
               onClick={() => setAiChatVisible(!aiChatVisible)}
             >
-              AI 助手
+              <FormattedMessage id="design.preview.ai-assistant" />
             </Button>
             {pickingMode ? (
               <Button
@@ -482,10 +487,14 @@ const DesignPreview: React.FC = () => {
                 icon={<AimOutlined />}
                 onClick={handleDisablePick}
               >
-                取消选取
+                <FormattedMessage id="design.preview.cancel-pick" />
               </Button>
             ) : (
-              <Tooltip title="点击选取页面元素">
+              <Tooltip
+                title={intl.formatMessage({
+                  id: 'design.preview.pick-element-tip',
+                })}
+              >
                 <Button
                   type="default"
                   icon={<AimOutlined />}
@@ -497,7 +506,9 @@ const DesignPreview: React.FC = () => {
         </div>
         <div className="toolbar-center">
           <Space size={8}>
-            <Tag color="blue">{iframeTitle || '加载中...'}</Tag>
+            <Tag color="blue">
+              {iframeTitle || intl.formatMessage({ id: 'design.preview.loading' })}
+            </Tag>
             <span className="url-display" title={iframeUrl}>
               {iframeUrl}
             </span>
@@ -515,7 +526,8 @@ const DesignPreview: React.FC = () => {
                   handleClearSelection();
                 }}
               >
-                已选: {selectedDom.slice(0, 30)}
+                <FormattedMessage id="design.preview.selected" />
+                {selectedDom.slice(0, 30)}
                 {selectedDom.length > 30 ? '...' : ''}
               </Tag>
             )}
@@ -544,7 +556,7 @@ const DesignPreview: React.FC = () => {
             src={iframeUrl}
             onLoad={handleIframeLoad}
             style={{ width: '100%', height: '100%', border: 'none' }}
-            title="前端预览"
+            title={intl.formatMessage({ id: 'design.preview.iframe-title' })}
           />
         </div>
       </div>

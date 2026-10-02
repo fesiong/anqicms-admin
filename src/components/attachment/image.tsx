@@ -1,3 +1,4 @@
+import { useIntl } from '@umijs/max';
 import { Avatar, Image, ImageProps } from 'antd';
 import React from 'react';
 import './index.less';
@@ -10,6 +11,7 @@ const ImageItem: React.FC<
     size?: any;
   }
 > = (props) => {
+  const intl = useIntl();
   const isImage =
     props.isImage === 1 ||
     props.src?.endsWith('.png') ||
@@ -45,7 +47,9 @@ const ImageItem: React.FC<
                       props.previewSrc || props.src + '?t=' + props.timestamp
                     }
                   />
-                  您的浏览器不支持 video 标签。
+                  {intl.formatMessage({
+                    id: 'component.attachment.video-unsupport',
+                  })}
                 </video>
               ),
             }

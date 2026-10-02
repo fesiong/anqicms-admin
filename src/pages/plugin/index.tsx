@@ -67,9 +67,18 @@ const PluginIndex: React.FC = () => {
     for (let i in routes) {
       if (routes[i].path === '/plugin') {
         // 需要处理
-        for (let j in routes[i].routes) {
-          if (permissions.indexOf(routes[i].routes[j].path) === -1) {
-            routes[i].routes[j].unaccessible = true;
+        if (!routes[i].routes) {
+          continue;
+        }
+        for (let j = 0; j < routes[i].routes.length; j++) {
+          let item = routes[i].routes[j] as any;
+          if (!item.routes) {
+            continue;
+          }
+          for (let k in item.routes) {
+            if (permissions.indexOf(item.routes[k].path) === -1) {
+              item.routes[k].unaccessible = true;
+            }
           }
         }
       }
@@ -178,70 +187,77 @@ const PluginIndex: React.FC = () => {
             >
               <FormattedMessage id="plugin.type.all" />
             </div>
-            <div
-              className={'module-tag ' + (type === 'normal' ? 'active' : '')}
-              onClick={() => {
-                onChangeType('normal');
-              }}
-            >
-              <FormattedMessage id="plugin.type.normal" />
-            </div>
-            <div
-              className={'module-tag ' + (type === 'content' ? 'active' : '')}
-              onClick={() => {
-                onChangeType('content');
-              }}
-            >
-              <FormattedMessage id="plugin.type.archive" />
-            </div>
-            <div
-              className={'module-tag ' + (type === 'shop' ? 'active' : '')}
-              onClick={() => {
-                onChangeType('shop');
-              }}
-            >
-              <FormattedMessage id="plugin.type.user-mall" />
-            </div>
-            <div
-              className={'module-tag ' + (type === 'system' ? 'active' : '')}
-              onClick={() => {
-                onChangeType('system');
-              }}
-            >
-              <FormattedMessage id="plugin.type.system" />
-            </div>
+            {routes.map((item: any) => {
+              if (item.path === '/plugin') {
+                return item.routes.map((inner: any) => {
+                  if (!inner.hideInMenu && inner.name && !inner.unaccessible) {
+                    return (
+                      <div
+                        key={inner.name}
+                        className={
+                          'module-tag ' + (type === inner.name ? 'active' : '')
+                        }
+                        onClick={() => {
+                          onChangeType(inner.name);
+                        }}
+                      >
+                        <FormattedMessage id={'menu.plugin.' + inner.name} />
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                });
+              } else {
+                return null;
+              }
+            })}
           </div>
         }
       >
         <Row gutter={[20, 20]}>
           {routes.map((item: any) => {
             if (item.path === '/plugin') {
-              return item.routes.map((inner: any, i: number) => {
+              return item.routes.map((inner: any) => {
                 if (
                   !inner.hideInMenu &&
                   inner.name &&
                   !inner.unaccessible &&
                   (!type || type === inner.type)
                 ) {
-                  return (
-                    <Col key={i} sm={6} xs={12}>
-                      <div
-                        className="plugin-item"
-                        onClick={() => {
-                          jumpToPlugin(inner);
-                        }}
-                      >
-                        <img className="avatar" src={getIcon(inner.icon)} />
-                        <div className="info">
-                          <div className="title">
-                            <FormattedMessage
-                              id={'menu.plugin.' + inner.name}
+                  return inner.routes.map((inner2: any, i: number) => {
+                    if (inner2.name && !inner2.unaccessible) {
+                      return (
+                        <Col key={i} sm={6} xs={12}>
+                          <div
+                            className="plugin-item"
+                            onClick={() => {
+                              jumpToPlugin(inner2);
+                            }}
+                          >
+                            <img
+                              className="avatar"
+                              src={getIcon(inner2.icon)}
                             />
+                            <div className="info">
+                              <div className="title">
+                                <FormattedMessage
+                                  id={
+                                    'menu.plugin.' +
+                                    inner.name +
+                                    '.' +
+                                    inner2.name
+                                  }
+                                />
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </Col>
-                  );
+                        </Col>
+                      );
+                    } else {
+                      return null;
+                    }
+                  });
                 } else {
                   return null;
                 }

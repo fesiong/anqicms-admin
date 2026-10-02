@@ -195,7 +195,7 @@ const PluginTransfer: React.FC = () => {
 
   return (
     <PageContainer>
-      <Card title={intl.formatMessage({ id: 'menu.plugin.transfer' })}>
+      <Card>
         <Alert
           style={{ marginBottom: '30px' }}
           message={intl.formatMessage({ id: 'plugin.transfer.tips' })}

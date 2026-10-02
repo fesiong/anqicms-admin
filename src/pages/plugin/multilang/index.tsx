@@ -31,7 +31,6 @@ import {
   Avatar,
   Button,
   Card,
-  Divider,
   Image,
   Modal,
   Progress,
@@ -68,6 +67,7 @@ const PluginMultiLang: React.FC<any> = () => {
   const [syncSite, setSyncSite] = useState<any>(null);
   const [syncConfirmVisible, setSyncConfirmVisible] = useState<boolean>(false);
   const [task, setTask] = useState<any>(null);
+  const [activeTabKey, setActiveTabKey] = useState<string>('setting');
 
   const intl = useIntl();
 
@@ -267,7 +267,7 @@ const PluginMultiLang: React.FC<any> = () => {
       checkVip(() => {
         setCurrentSite({});
         setEditVisible(true);
-      }, 'VIP会员可以添加2个以上的多语言站点。');
+      }, intl.formatMessage({ id: 'plugin.multilang.vip-tip' }));
     } else {
       setCurrentSite({});
       setEditVisible(true);
@@ -379,141 +379,116 @@ const PluginMultiLang: React.FC<any> = () => {
 
   return (
     <PageContainer>
-      <Card bordered={false}>
-        {fetched && (
-          <div className="mt-normal">
-            <ProForm
-              onFinish={onSubmit}
-              initialValues={limiterSetting}
-              formRef={formRef}
-            >
+      <Card
+        activeTabKey={activeTabKey}
+        onTabChange={(tabKey) => setActiveTabKey(tabKey)}
+        tabList={[
+          {
+            key: 'setting',
+            label: intl.formatMessage({ id: 'plugin.multilang.setting' }),
+          },
+          {
+            key: 'sites',
+            label: intl.formatMessage({ id: 'plugin.multilang.sites' }),
+          },
+        ]}
+      >
+        {fetched && activeTabKey === 'setting' ? (
+          <ProForm
+            onFinish={onSubmit}
+            initialValues={limiterSetting}
+            formRef={formRef}
+          >
+            <ProFormRadio.Group
+              name={'open'}
+              label={intl.formatMessage({
+                id: 'plugin.multilang.open.name',
+              })}
+              options={[
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.open.false',
+                  }),
+                  value: false,
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.open.true',
+                  }),
+                  value: true,
+                },
+              ]}
+              extra={intl.formatMessage({
+                id: 'plugin.multilang.open.description',
+              })}
+            />
+            <ProFormRadio.Group
+              name="site_type"
+              label={intl.formatMessage({
+                id: 'plugin.multilang.site-type',
+              })}
+              options={[
+                {
+                  value: 'multi',
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.site-type.domain',
+                  }),
+                },
+                {
+                  value: 'single',
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.site-type.direction',
+                  }),
+                },
+              ]}
+              fieldProps={{
+                onChange: (e) => {
+                  setSiteType(e.target.value);
+                },
+              }}
+              extra={intl.formatMessage({
+                id: 'plugin.multilang.site-type.description',
+              })}
+            />
+            <ProFormRadio.Group
+              name="type"
+              label={intl.formatMessage({
+                id: 'plugin.multilang.type',
+              })}
+              options={[
+                {
+                  value: 'domain',
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.type.domain',
+                  }),
+                },
+                {
+                  value: 'directory',
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.type.direction',
+                  }),
+                },
+                {
+                  value: 'same',
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.type.same-url',
+                  }),
+                },
+              ]}
+              fieldProps={{
+                onChange: (e) => {
+                  setShowType(e.target.value);
+                },
+              }}
+              extra={intl.formatMessage({
+                id: 'plugin.multilang.type.description',
+              })}
+            />
+            {showType === 'directory' && (
               <ProFormRadio.Group
-                name={'open'}
+                name="show_main_dir"
                 label={intl.formatMessage({
-                  id: 'plugin.multilang.open.name',
-                })}
-                options={[
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.multilang.open.false',
-                    }),
-                    value: false,
-                  },
-                  {
-                    label: intl.formatMessage({
-                      id: 'plugin.multilang.open.true',
-                    }),
-                    value: true,
-                  },
-                ]}
-                extra={intl.formatMessage({
-                  id: 'plugin.multilang.open.description',
-                })}
-              />
-              <ProFormRadio.Group
-                name="site_type"
-                label={intl.formatMessage({
-                  id: 'plugin.multilang.site-type',
-                })}
-                options={[
-                  {
-                    value: 'multi',
-                    label: intl.formatMessage({
-                      id: 'plugin.multilang.site-type.domain',
-                    }),
-                  },
-                  {
-                    value: 'single',
-                    label: intl.formatMessage({
-                      id: 'plugin.multilang.site-type.direction',
-                    }),
-                  },
-                ]}
-                fieldProps={{
-                  onChange: (e) => {
-                    setSiteType(e.target.value);
-                  },
-                }}
-                extra={intl.formatMessage({
-                  id: 'plugin.multilang.site-type.description',
-                })}
-              />
-              <ProFormRadio.Group
-                name="type"
-                label={intl.formatMessage({
-                  id: 'plugin.multilang.type',
-                })}
-                options={[
-                  {
-                    value: 'domain',
-                    label: intl.formatMessage({
-                      id: 'plugin.multilang.type.domain',
-                    }),
-                  },
-                  {
-                    value: 'directory',
-                    label: intl.formatMessage({
-                      id: 'plugin.multilang.type.direction',
-                    }),
-                  },
-                  {
-                    value: 'same',
-                    label: intl.formatMessage({
-                      id: 'plugin.multilang.type.same-url',
-                    }),
-                  },
-                ]}
-                fieldProps={{
-                  onChange: (e) => {
-                    setShowType(e.target.value);
-                  },
-                }}
-                extra={intl.formatMessage({
-                  id: 'plugin.multilang.type.description',
-                })}
-              />
-              {showType === 'directory' && (
-                <ProFormRadio.Group
-                  name="show_main_dir"
-                  label={intl.formatMessage({
-                    id: 'plugin.multilang.show_main_dir',
-                  })}
-                  options={[
-                    {
-                      value: false,
-                      label: intl.formatMessage({
-                        id: 'plugin.multilang.auto_translate.false',
-                      }),
-                    },
-                    {
-                      value: true,
-                      label: intl.formatMessage({
-                        id: 'plugin.multilang.auto_translate.true',
-                      }),
-                    },
-                  ]}
-                  extra={intl.formatMessage({
-                    id: 'plugin.multilang.show_main_dir.description',
-                  })}
-                />
-              )}
-              <ProFormSelect
-                name="default_language"
-                label={intl.formatMessage({
-                  id: 'plugin.multilang.default_language',
-                })}
-                style={{ width: '100%' }}
-                options={supportLanguages.map((item) => {
-                  return {
-                    label: item.label,
-                    value: item.value,
-                  };
-                })}
-              />
-              <ProFormRadio.Group
-                name="auto_translate"
-                label={intl.formatMessage({
-                  id: 'plugin.multilang.auto_translate',
+                  id: 'plugin.multilang.show_main_dir',
                 })}
                 options={[
                   {
@@ -530,70 +505,104 @@ const PluginMultiLang: React.FC<any> = () => {
                   },
                 ]}
                 extra={intl.formatMessage({
-                  id: 'plugin.multilang.auto_translate.description',
+                  id: 'plugin.multilang.show_main_dir.description',
                 })}
               />
-            </ProForm>
-            <Divider>
-              <FormattedMessage id="plugin.multilang.sites" />
-            </Divider>
-            <ProTable<any>
-              rowKey="language"
-              search={false}
-              actionRef={actionRef}
-              toolBarRender={() => [
-                siteType === 'single' && (
-                  <>
-                    <Button
-                      key="manage"
-                      onClick={() => {
-                        setTextLogVisible(true);
-                      }}
-                    >
-                      <FormattedMessage id="plugin.multilang.text-log.manage" />
-                    </Button>
-                    <Button
-                      key="cache"
-                      onClick={() => {
-                        setCacheVisible(true);
-                      }}
-                    >
-                      <FormattedMessage id="plugin.multilang.translate-cache" />
-                    </Button>
-                    <Button
-                      key="log"
-                      onClick={() => {
-                        setHistoryVisible(true);
-                      }}
-                    >
-                      <FormattedMessage id="plugin.multilang.translate-log" />
-                    </Button>
-                  </>
-                ),
-                limiterSetting.open && (
+            )}
+            <ProFormSelect
+              name="default_language"
+              label={intl.formatMessage({
+                id: 'plugin.multilang.default_language',
+              })}
+              style={{ width: '100%' }}
+              options={supportLanguages.map((item) => {
+                return {
+                  label: item.label,
+                  value: item.value,
+                };
+              })}
+            />
+            <ProFormRadio.Group
+              name="auto_translate"
+              label={intl.formatMessage({
+                id: 'plugin.multilang.auto_translate',
+              })}
+              options={[
+                {
+                  value: false,
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.auto_translate.false',
+                  }),
+                },
+                {
+                  value: true,
+                  label: intl.formatMessage({
+                    id: 'plugin.multilang.auto_translate.true',
+                  }),
+                },
+              ]}
+              extra={intl.formatMessage({
+                id: 'plugin.multilang.auto_translate.description',
+              })}
+            />
+          </ProForm>
+        ) : activeTabKey === 'sites' ? (
+          <ProTable<any>
+            rowKey="language"
+            search={false}
+            actionRef={actionRef}
+            toolBarRender={() => [
+              siteType === 'single' && (
+                <>
                   <Button
-                    key="add"
+                    key="manage"
                     onClick={() => {
-                      handleAddSite();
+                      setTextLogVisible(true);
                     }}
                   >
-                    <FormattedMessage id="plugin.multilang.add" />
+                    <FormattedMessage id="plugin.multilang.text-log.manage" />
                   </Button>
-                ),
-              ]}
-              tableAlertRender={false}
-              tableAlertOptionRender={false}
-              request={async (params) => {
-                const res = await pluginGetMultiLangSites(params);
-                setMultiSites(res.data || []);
-                setDefaultSite(res.data?.[0] || {});
-                return res;
-              }}
-              columns={columns}
-              pagination={false}
-            />
-          </div>
-        )}
+                  <Button
+                    key="cache"
+                    onClick={() => {
+                      setCacheVisible(true);
+                    }}
+                  >
+                    <FormattedMessage id="plugin.multilang.translate-cache" />
+                  </Button>
+                  <Button
+                    key="log"
+                    onClick={() => {
+                      setHistoryVisible(true);
+                    }}
+                  >
+                    <FormattedMessage id="plugin.multilang.translate-log" />
+                  </Button>
+                </>
+              ),
+              limiterSetting.open && (
+                <Button
+                  key="add"
+                  onClick={() => {
+                    handleAddSite();
+                  }}
+                >
+                  <FormattedMessage id="plugin.multilang.add" />
+                </Button>
+              ),
+            ]}
+            tableAlertRender={false}
+            tableAlertOptionRender={false}
+            request={async (params) => {
+              const res = await pluginGetMultiLangSites(params);
+              setMultiSites(res.data || []);
+              setDefaultSite(res.data?.[0] || {});
+              return res;
+            }}
+            columns={columns}
+            pagination={false}
+          />
+        ) : null}
       </Card>
       {editVisible && (
         <ModalForm

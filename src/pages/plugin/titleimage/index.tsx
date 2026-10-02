@@ -173,7 +173,7 @@ const PluginTitleImage: React.FC<any> = () => {
           <Col span={12}>
             {fetched && (
               <ProForm
-                title={intl.formatMessage({ id: 'menu.plugin.titleimage' })}
+                title={intl.formatMessage({ id: 'menu.plugin.contentops.titleimage' })}
                 layout="vertical"
                 initialValues={setting}
                 onFinish={onSubmit}
@@ -210,7 +210,7 @@ const PluginTitleImage: React.FC<any> = () => {
                       checkVip(() => {});
                     }}
                   >
-                    更多存储方式为VIP功能，点击查看VIP
+                    <FormattedMessage id="plugin.titleimage.vip-tip" />
                   </div>
                 ) : null}
                 <div style={{ display: setting.open ? 'block' : 'none' }}>

@@ -67,7 +67,6 @@ const PluginSendmail: React.FC = () => {
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card
         key={newKey}
-        title={intl.formatMessage({ id: 'menu.plugin.sendmail' })}
         extra={
           <Space>
             <Button onClick={() => setLogsVisible(true)}>

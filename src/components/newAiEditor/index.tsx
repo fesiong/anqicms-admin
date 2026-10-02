@@ -308,7 +308,10 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
         const contentType = response.headers.get('Content-Type') || '';
         if (contentType.includes('application/json')) {
           const jsonResp = await response.json();
-          throw new Error(jsonResp.msg || '请求失败');
+          throw new Error(
+            jsonResp.msg ||
+              intl.formatMessage({ id: 'component.ai.request-failed' }),
+          );
         }
         const reader = response.body?.getReader();
         if (!reader) {
@@ -376,7 +379,9 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
 
             // config 事件：AI 配置错误
             if (eventType === 'config') {
-              message.error('AI接口尚未配置或配置错误。');
+              message.error(
+                intl.formatMessage({ id: 'component.ai.config-error' }),
+              );
               continue;
             }
           }
@@ -401,7 +406,9 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
             {
               type: 'button',
               key: 'images',
-              label: '图片附件',
+              label: intl.formatMessage({
+                id: 'component.newAiEditor.toolbar.image-attachment',
+              }),
               icon: Images,
               onClick: ({ editor }) => attachPlugin(editor),
               tip: 'Images',
@@ -410,7 +417,9 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
             {
               type: 'button',
               key: 'material',
-              label: '内容素材',
+              label: intl.formatMessage({
+                id: 'component.newAiEditor.toolbar.content-material',
+              }),
               icon: Layers,
               onClick: ({ editor }) => showMaterial(editor),
               tip: 'material',
@@ -419,7 +428,9 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
             {
               type: 'button',
               key: 'source-code',
-              label: '查看源码',
+              label: intl.formatMessage({
+                id: 'component.newAiEditor.toolbar.source-code',
+              }),
               icon: Code,
               onClick: ({ editor }) => showSourceCode(editor),
               tip: 'source-code',
@@ -436,9 +447,12 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
         },
         ai: aiCfg,
         aiChat: {
-          welcomeMessage:
-            '你好，我是 **AI 文档助手**。\n\n- 优化表达\n- 总结内容',
-          placeholder: '询问当前文档...',
+          welcomeMessage: intl.formatMessage({
+            id: 'component.newAiEditor.chat.welcome',
+          }),
+          placeholder: intl.formatMessage({
+            id: 'component.newAiEditor.chat.placeholder',
+          }),
           toolApproval: 'always',
         },
         onUpdate: (ed: Editor) => {

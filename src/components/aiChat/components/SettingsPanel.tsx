@@ -4,6 +4,7 @@ import {
   ProFormRadio,
   ProFormText,
 } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import { Button, List, Modal } from 'antd';
 import { AiProviderConfig } from '../types';
 
@@ -24,9 +25,10 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const intl = useIntl();
   return (
     <Modal
-      title="AI 设置"
+      title={intl.formatMessage({ id: 'ai.settings.title' })}
       open={visible}
       onCancel={onClose}
       footer={null}
@@ -34,12 +36,12 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
     >
       <div style={{ marginBottom: 12 }}>
         <Button type="primary" size="small" onClick={onAdd}>
-          添加自定义接口
+          {intl.formatMessage({ id: 'ai.settings.add-provider' })}
         </Button>
       </div>
       {customProviders.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '24px 0', color: '#999' }}>
-          暂无自定义接口
+          {intl.formatMessage({ id: 'ai.settings.no-providers' })}
         </div>
       ) : (
         <List
@@ -54,7 +56,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   size="small"
                   onClick={() => onEdit(index, item)}
                 >
-                  编辑
+                  {intl.formatMessage({ id: 'ai.settings.edit' })}
                 </Button>,
                 <Button
                   key="delete"
@@ -63,7 +65,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   danger
                   onClick={() => onDelete(index)}
                 >
-                  删除
+                  {intl.formatMessage({ id: 'ai.settings.delete' })}
                 </Button>,
               ]}
             >
@@ -104,9 +106,14 @@ export const ProviderFormModal: React.FC<ProviderFormModalProps> = ({
   onClose,
   onSave,
 }) => {
+  const intl = useIntl();
   return (
     <ModalForm
-      title={editIndex !== -1 ? '编辑自定义接口' : '添加自定义接口'}
+      title={
+        editIndex !== -1
+          ? intl.formatMessage({ id: 'ai.settings.edit-provider' })
+          : intl.formatMessage({ id: 'ai.settings.add-provider' })
+      }
       open={visible}
       onOpenChange={(flag) => {
         if (!flag) onClose();
@@ -122,44 +129,80 @@ export const ProviderFormModal: React.FC<ProviderFormModalProps> = ({
         <div>
           <ProFormText
             name="name"
-            label="接口名称"
-            placeholder="例如：我的 DeepSeek"
-            rules={[{ required: true, message: '请填写接口名称' }]}
+            label={intl.formatMessage({ id: 'ai.settings.provider-name' })}
+            placeholder={intl.formatMessage({
+              id: 'ai.settings.provider-name-placeholder',
+            })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: 'ai.settings.provider-name-required',
+                }),
+              },
+            ]}
           />
           <ProFormText
             name="base_url"
-            label="API 地址"
+            label={intl.formatMessage({ id: 'ai.settings.base-url' })}
             placeholder="https://api.openai.com/v1"
-            rules={[{ required: true, message: '请填写 API 地址' }]}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: 'ai.settings.base-url-required',
+                }),
+              },
+            ]}
           />
           <ProFormText
             name="api_key"
             label="API Key"
             placeholder="sk-xxxxxxxxxxxxxxxx"
-            rules={[{ required: true, message: '请填写 API Key' }]}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: 'ai.settings.api-key-required',
+                }),
+              },
+            ]}
           />
           <ProFormText
             name="model"
-            label="模型"
+            label={intl.formatMessage({ id: 'ai.settings.model' })}
             placeholder="deepseek-v4-flash"
-            rules={[{ required: true, message: '请填写模型名称' }]}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: 'ai.settings.model-required',
+                }),
+              },
+            ]}
           />
           <ProFormRadio.Group
             name="enable_reasoning"
-            label="思考模式"
+            label={intl.formatMessage({ id: 'ai.settings.reasoning-mode' })}
             options={[
-              { label: '开启', value: true },
-              { label: '关闭', value: false },
+              {
+                label: intl.formatMessage({ id: 'ai.settings.enable' }),
+                value: true,
+              },
+              {
+                label: intl.formatMessage({ id: 'ai.settings.disable' }),
+                value: false,
+              },
             ]}
           />
           <ProFormDigit
             name="max_tokens"
-            label="最大回复长度"
+            label={intl.formatMessage({ id: 'ai.settings.max-tokens' })}
             placeholder="8192"
           />
           <ProFormDigit
             name="timeout_seconds"
-            label="请求超时时间"
+            label={intl.formatMessage({ id: 'ai.settings.timeout' })}
             placeholder="120"
           />
         </div>

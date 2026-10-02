@@ -41,4 +41,5 @@ export default {
   'website.db.template.description': '新添加的站点将启用选择的模板',
   'website.db.preview-data': '安装演示数据',
   'website.db.preview-data.description': '勾选后，将安装默认演示数据',
+  'website.vip.multi-site': 'VIP会员可添加管理5个以上多站点',
 };

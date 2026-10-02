@@ -104,20 +104,20 @@ const PlaceList: React.FC = () => {
   const handleAddPlace = () => {
     checkVip(() => {
       handleEditPlace({});
-    }, '城市管理功能需要VIP会员。');
+    }, intl.formatMessage({ id: 'content.place.vip.city' }));
   };
 
   const handleAddMultiPlace = async (record: any) => {
     checkVip(() => {
       setCurrentPlace(record);
       setMultiVisible(true);
-    }, '城市管理功能需要VIP会员。');
+    }, intl.formatMessage({ id: 'content.place.vip.city' }));
   };
 
   const handleShowSetting = () => {
     checkVip(() => {
       setSettingVisible(true);
-    }, '城市管理功能需要VIP会员。');
+    }, intl.formatMessage({ id: 'content.place.vip.city' }));
   };
 
   const columns: ProColumns<any>[] = [

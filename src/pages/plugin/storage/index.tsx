@@ -106,7 +106,7 @@ const PluginStorage: React.FC<any> = () => {
                         checkVip(() => {});
                       }}
                     >
-                      更多存储方式为VIP功能，点击查看VIP
+                      <FormattedMessage id="plugin.storage.vip-tip" />
                     </div>
                   ) : null
                 }

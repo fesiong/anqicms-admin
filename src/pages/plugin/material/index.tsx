@@ -142,7 +142,6 @@ const PluginMaterial: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.material' })}
         actionRef={actionRef}
         rowKey="id"
         search={false}

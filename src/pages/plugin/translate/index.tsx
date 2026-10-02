@@ -166,7 +166,7 @@ const PluginTranslate: React.FC<any> = () => {
                         checkVip(() => {});
                       }}
                     >
-                      更多翻译接口为VIP功能，点击查看VIP
+                      <FormattedMessage id="plugin.translate.vip-tip" />
                     </div>
                   ) : null
                 }
@@ -179,7 +179,7 @@ const PluginTranslate: React.FC<any> = () => {
                       history.push('/setting/ai');
                     }}
                   >
-                    AI 接口配置请到 [设置] -&gt; [AI统一配置] 中设置
+                    <FormattedMessage id="plugin.translate.ai-config-tips" />
                   </div>
                 </div>
               )}
@@ -279,7 +279,7 @@ const PluginTranslate: React.FC<any> = () => {
                   <div className="mt-normal">
                     <div className="font-bold">
                       {intl.formatMessage({
-                        id: 'plugin.translate.origin-content',
+                        id: 'content.translate.origin-content',
                       })}
                     </div>
                     <div className="mt-normal">{record.origin_content}</div>

@@ -47,6 +47,7 @@ import React, { lazy, useEffect, useRef, useState } from 'react';
 import './index.less';
 const MarkdownEditor = lazy(() => import('@/components/markdown'));
 const NewAiEditor = lazy(() => import('@/components/newAiEditor'));
+const SimpleEditor = lazy(() => import('@/components/simpleEditor'));
 
 const ArchiveTagDetail: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
@@ -69,7 +70,7 @@ const ArchiveTagDetail: React.FC = () => {
   ]);
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedArchives, setSelectedArchives] = useState<any[]>([]);
-  const editorRef = useRef(null);
+  const editorRef = useRef<any>(null);
   const [aiTitle, setAiTitle] = useState<string>('');
   const [aiVisible, setAiVisible] = useState<boolean>(false);
   const [aiTdkVisible, setAiTdkVisible] = useState<boolean>(false);
@@ -1013,6 +1014,15 @@ const ArchiveTagDetail: React.FC = () => {
                                 content={extraContent[item.field_name] || ''}
                                 ref={null}
                               />
+                            ) : contentSetting.editor === 'simple' ? (
+                              <SimpleEditor
+                                className="mb-normal"
+                                setContent={(html) =>
+                                  updateExtraContent(item.field_name, html)
+                                }
+                                content={extraContent[item.field_name] || ''}
+                                ref={null}
+                              />
                             ) : (
                               <NewAiEditor
                                 className="mb-normal"
@@ -1032,6 +1042,15 @@ const ArchiveTagDetail: React.FC = () => {
                 )}
                 {contentSetting.editor === 'markdown' ? (
                   <MarkdownEditor
+                    className="mb-normal"
+                    setContent={async (html: string) => {
+                      setContent(html);
+                    }}
+                    content={content}
+                    ref={editorRef}
+                  />
+                ) : contentSetting.editor === 'simple' ? (
+                  <SimpleEditor
                     className="mb-normal"
                     setContent={async (html: string) => {
                       setContent(html);

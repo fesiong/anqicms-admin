@@ -124,7 +124,7 @@ const WebsiteList: React.FC = () => {
           initialed: false,
           status: 1,
         });
-      }, 'VIP会员可添加管理5个以上多站点');
+      }, intl.formatMessage({ id: 'website.vip.multi-site' }));
     } else {
       handleEdit({
         mysql: { use_default: true },

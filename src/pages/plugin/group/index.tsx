@@ -1,9 +1,14 @@
 import { pluginDeleteUserGroup, pluginGetUserGroups } from '@/services';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import UserGroupForm from './components/groupForm';
-import { FormattedMessage, useIntl } from '@umijs/max';
 
 const PluginUserGroup: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -74,7 +79,6 @@ const PluginUserGroup: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.group'})}
         actionRef={actionRef}
         rowKey="id"
         search={false}

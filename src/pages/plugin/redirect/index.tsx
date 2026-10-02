@@ -6,7 +6,7 @@ import {
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Modal, Space, message } from 'antd';
+import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import RedirectImport from './components/import';
 import RedirectForm from './components/redirectForm';
@@ -100,86 +100,84 @@ const PluginRedirect: React.FC = () => {
 
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
-      <Card key={newKey}>
-        <ProTable<any>
-          headerTitle={intl.formatMessage({ id: 'menu.plugin.redirect' })}
-          actionRef={actionRef}
-          rowKey="id"
-          search={false}
-          toolBarRender={() => [
+      <ProTable<any>
+        key={newKey}
+        actionRef={actionRef}
+        rowKey="id"
+        search={false}
+        toolBarRender={() => [
+          <Button
+            type="primary"
+            key="add"
+            onClick={() => {
+              handleEditRedirect({});
+            }}
+          >
+            <PlusOutlined /> <FormattedMessage id="plugin.redirect.add" />
+          </Button>,
+          <RedirectImport
+            key="import"
+            onCancel={() => {
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
             <Button
-              type="primary"
-              key="add"
               onClick={() => {
-                handleEditRedirect({});
+                //todo
               }}
             >
-              <PlusOutlined /> <FormattedMessage id="plugin.redirect.add" />
-            </Button>,
-            <RedirectImport
-              key="import"
-              onCancel={() => {
-                actionRef.current?.reloadAndRest?.();
+              <FormattedMessage id="plugin.redirect.import" />
+            </Button>
+          </RedirectImport>,
+        ]}
+        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+          <Space>
+            <Button
+              size={'small'}
+              onClick={() => {
+                handleRemove(selectedRowKeys);
               }}
             >
-              <Button
-                onClick={() => {
-                  //todo
-                }}
-              >
-                <FormattedMessage id="plugin.redirect.import" />
-              </Button>
-            </RedirectImport>,
-          ]}
-          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-            <Space>
-              <Button
-                size={'small'}
-                onClick={() => {
-                  handleRemove(selectedRowKeys);
-                }}
-              >
-                <FormattedMessage id="content.option.batch-delete" />
-              </Button>
-              <Button type="link" size={'small'} onClick={onCleanSelected}>
-                <FormattedMessage id="content.option.cancel-select" />
-              </Button>
-            </Space>
-          )}
-          request={(params) => {
-            return pluginGetRedirects(params);
+              <FormattedMessage id="content.option.batch-delete" />
+            </Button>
+            <Button type="link" size={'small'} onClick={onCleanSelected}>
+              <FormattedMessage id="content.option.cancel-select" />
+            </Button>
+          </Space>
+        )}
+        request={(params) => {
+          return pluginGetRedirects(params);
+        }}
+        columnsState={{
+          persistenceKey: 'redirect-table',
+          persistenceType: 'localStorage',
+        }}
+        columns={columns}
+        rowSelection={{
+          onChange: (selectedRowKeys) => {
+            setSelectedRowKeys(selectedRowKeys);
+          },
+        }}
+        pagination={{
+          showSizeChanger: true,
+          showQuickJumper: true,
+        }}
+      />
+      {editVisible && (
+        <RedirectForm
+          open={editVisible}
+          editingRedirect={currentRedirect}
+          onCancel={() => {
+            setEditVisible(false);
           }}
-          columnsState={{
-            persistenceKey: 'redirect-table',
-            persistenceType: 'localStorage',
-          }}
-          columns={columns}
-          rowSelection={{
-            onChange: (selectedRowKeys) => {
-              setSelectedRowKeys(selectedRowKeys);
-            },
-          }}
-          pagination={{
-            showSizeChanger: true,
-            showQuickJumper: true,
+          onSubmit={async () => {
+            setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
           }}
         />
-        {editVisible && (
-          <RedirectForm
-            open={editVisible}
-            editingRedirect={currentRedirect}
-            onCancel={() => {
-              setEditVisible(false);
-            }}
-            onSubmit={async () => {
-              setEditVisible(false);
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }}
-          />
-        )}
-      </Card>
+      )}
     </NewContainer>
   );
 };

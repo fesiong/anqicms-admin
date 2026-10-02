@@ -405,7 +405,7 @@ const CollectorSetting: React.FC<CollectorSettingProps> = (props) => {
                 checkVip(() => {});
               }}
             >
-              更多AI接口为VIP功能，点击查看VIP
+              <FormattedMessage id="plugin.aigenerate.vip-tip" />
             </div>
           ) : null}
           {(aiEngine === 'openai' || aiEngine === 'deepseek') && (

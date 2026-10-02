@@ -1,4 +1,5 @@
 import { DownOutlined, PlusOutlined, SendOutlined } from '@ant-design/icons';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Dropdown, Input, MenuProps } from 'antd';
 import { AiProviderConfig } from '../types';
 import { formatTokenCount } from '../utils';
@@ -38,6 +39,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   onDropFile,
   onDragOver,
 }) => {
+  const intl = useIntl();
   // 构建模型选项列表
   const modelOptions = [
     { label: 'AnQi Flash', value: 'anqi-flash' },
@@ -57,7 +59,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
     {
       key: '__group_官方__',
       type: 'group',
-      label: '安企官方接口',
+      label: intl.formatMessage({ id: 'ai.chat.official-providers' }),
       children: [
         { key: 'anqi-flash', label: 'AnQi Flash' },
         { key: 'anqi-pro', label: 'AnQi Pro' },
@@ -68,7 +70,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           {
             key: '__group_自定义__',
             type: 'group' as const,
-            label: '自定义接口',
+            label: intl.formatMessage({ id: 'ai.chat.custom-providers' }),
             children: customProviders.map((p, index) => ({
               key: `custom:${index}`,
               label: p.name,
@@ -98,7 +100,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
           onChange={(e) => onInputChange(e.target.value)}
           onKeyDown={onKeyPress}
           onPaste={onPaste}
-          placeholder="输入消息，按 Shift + Enter 换行，可拖拽上传文件，可粘贴图片，按 Enter 发送"
+          placeholder={intl.formatMessage({ id: 'ai.chat.input-placeholder' })}
           disabled={loading}
           autoSize={{ minRows: 1, maxRows: 6 }}
         />
@@ -148,7 +150,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         </div>
       </div>
       <div className="ai-chat-disclaimer">
-        内容由 AI 生成，仅供参考，您据此所作判断及操作均由您自行承担责任。
+        <FormattedMessage id="ai.chat.disclaimer" />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { FormattedMessage } from '@umijs/max';
 import { useState } from 'react';
 
 /** 思维链条折叠展示 */
@@ -14,7 +15,9 @@ const ThinkingBlock: React.FC<{ content: string }> = ({ content }) => {
         >
           ▶
         </span>
-        <span className="ai-chat-thinking-label">已思考</span>
+        <span className="ai-chat-thinking-label">
+          <FormattedMessage id="ai.thinking" />
+        </span>
       </div>
       {expanded && (
         <div className="ai-chat-thinking-body">

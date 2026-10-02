@@ -266,7 +266,6 @@ const PluginGuestbook: React.FC = () => {
     <NewContainer onTabChange={(key) => onTabChange(key)}>
       <Card key={newKey}>
         <ProTable<any>
-          headerTitle={intl.formatMessage({ id: 'menu.plugin.guestbook' })}
           actionRef={actionRef}
           rowKey="id"
           search={false}

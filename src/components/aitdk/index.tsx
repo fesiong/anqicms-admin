@@ -31,8 +31,6 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const intl = useIntl();
 
-  const prompt = `<content>{content}</content>\n请帮我根据以上内容生成TDK，并按 {"title": "标题", "description": "描述", "keywords": "关键词"} 的JSON格式返回结果\n注意：你应该先判断一下这句话是中文还是英文，如果是中文，请给我返回中文的内容，如果是英文，请给我返回英文内容，只需要返回JSON内容即可，不需要告知我是中文还是英文。`;
-
   useEffect(() => {
     // 获取AIremain
     getAnqiInfo().then((res) => {
@@ -68,7 +66,10 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
 
     const adminToken = getSessionStore('adminToken') || getStore('adminToken');
     const body: any = {
-      prompt: prompt.replace('{content}', plainText),
+      prompt: intl.formatMessage(
+        { id: 'component.aitdk.prompt' },
+        { content: plainText },
+      ),
     };
 
     try {
@@ -86,7 +87,9 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
       const contentType = response.headers.get('Content-Type') || '';
       if (contentType.includes('application/json')) {
         const jsonResp = await response.json();
-        throw new Error(jsonResp.msg || '请求失败');
+        throw new Error(
+          jsonResp.msg || intl.formatMessage({ id: 'component.ai.request-failed' }),
+        );
       }
 
       const reader = response.body?.getReader();
@@ -166,7 +169,9 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
 
           // config 事件：AI 配置错误
           if (eventType === 'config') {
-            message.error('AI接口尚未配置或配置错误。');
+            message.error(
+              intl.formatMessage({ id: 'component.ai.config-error' }),
+            );
             setLoading(false);
             continue;
           }
@@ -187,7 +192,10 @@ const AiGetTdk: React.FC<AiGetTdkProps> = (props) => {
       }
     } catch (error: any) {
       console.error('TDK generation error:', error);
-      message.error(error.message || '生成失败，请重试');
+      message.error(
+        error.message ||
+          intl.formatMessage({ id: 'component.aitdk.generate-failed' }),
+      );
       setLoading(false);
     }
   };

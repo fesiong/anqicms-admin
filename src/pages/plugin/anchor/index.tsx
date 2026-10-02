@@ -9,7 +9,7 @@ import { exportFile } from '@/utils';
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Modal, Space, message } from 'antd';
+import { Button, Modal, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import AnchorForm from './components/anchorForm';
 import AnchorImport from './components/import';
@@ -168,112 +168,110 @@ const PluginAnchor: React.FC = () => {
 
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
-      <Card key={newKey}>
-        <ProTable<any>
-          headerTitle={intl.formatMessage({ id: 'menu.plugin.anchor' })}
-          actionRef={actionRef}
-          rowKey="id"
-          toolBarRender={() => [
+      <ProTable<any>
+        key={newKey}
+        actionRef={actionRef}
+        rowKey="id"
+        toolBarRender={() => [
+          <Button
+            type="primary"
+            key="add"
+            onClick={() => {
+              handleEditAnchor({});
+            }}
+          >
+            <PlusOutlined /> <FormattedMessage id="plugin.anchor.new" />
+          </Button>,
+          <Button
+            key="export"
+            onClick={() => {
+              handleExportAnchor();
+            }}
+          >
+            <FormattedMessage id="plugin.anchor.export" />
+          </Button>,
+          <AnchorImport
+            key="import"
+            onCancel={() => {
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
             <Button
-              type="primary"
-              key="add"
-              onClick={() => {
-                handleEditAnchor({});
-              }}
-            >
-              <PlusOutlined /> <FormattedMessage id="plugin.anchor.new" />
-            </Button>,
-            <Button
-              key="export"
-              onClick={() => {
-                handleExportAnchor();
-              }}
-            >
-              <FormattedMessage id="plugin.anchor.export" />
-            </Button>,
-            <AnchorImport
               key="import"
-              onCancel={() => {
-                actionRef.current?.reloadAndRest?.();
-              }}
-            >
-              <Button
-                key="import"
-                onClick={() => {
-                  //todo
-                }}
-              >
-                <FormattedMessage id="plugin.anchor.import" />
-              </Button>
-            </AnchorImport>,
-            <Button
-              key="update"
               onClick={() => {
-                handleReplaceAnchor({});
+                //todo
               }}
             >
-              <FormattedMessage id="plugin.anchor.batch-update" />
-            </Button>,
-            <AnchorSetting key="setting">
-              <Button
-                key="setting"
-                onClick={() => {
-                  //todo
-                }}
-              >
-                <FormattedMessage id="plugin.anchor.setting" />
-              </Button>
-            </AnchorSetting>,
-          ]}
-          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-            <Space>
-              <Button
-                size={'small'}
-                onClick={() => {
-                  handleRemove(selectedRowKeys);
-                }}
-              >
-                <FormattedMessage id="content.option.batch-delete" />
-              </Button>
-              <Button type="link" size={'small'} onClick={onCleanSelected}>
-                <FormattedMessage id="content.option.cancel-select" />
-              </Button>
-            </Space>
-          )}
-          request={(params) => {
-            return pluginGetAnchors(params);
+              <FormattedMessage id="plugin.anchor.import" />
+            </Button>
+          </AnchorImport>,
+          <Button
+            key="update"
+            onClick={() => {
+              handleReplaceAnchor({});
+            }}
+          >
+            <FormattedMessage id="plugin.anchor.batch-update" />
+          </Button>,
+          <AnchorSetting key="setting">
+            <Button
+              key="setting"
+              onClick={() => {
+                //todo
+              }}
+            >
+              <FormattedMessage id="plugin.anchor.setting" />
+            </Button>
+          </AnchorSetting>,
+        ]}
+        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+          <Space>
+            <Button
+              size={'small'}
+              onClick={() => {
+                handleRemove(selectedRowKeys);
+              }}
+            >
+              <FormattedMessage id="content.option.batch-delete" />
+            </Button>
+            <Button type="link" size={'small'} onClick={onCleanSelected}>
+              <FormattedMessage id="content.option.cancel-select" />
+            </Button>
+          </Space>
+        )}
+        request={(params) => {
+          return pluginGetAnchors(params);
+        }}
+        columnsState={{
+          persistenceKey: 'anchor-table',
+          persistenceType: 'localStorage',
+        }}
+        columns={columns}
+        rowSelection={{
+          onChange: (selectedRowKeys) => {
+            setSelectedRowKeys(selectedRowKeys);
+          },
+        }}
+        pagination={{
+          showSizeChanger: true,
+          showQuickJumper: true,
+        }}
+      />
+      {editVisible && (
+        <AnchorForm
+          open={editVisible}
+          editingAnchor={currentAnchor}
+          onCancel={() => {
+            setEditVisible(false);
           }}
-          columnsState={{
-            persistenceKey: 'anchor-table',
-            persistenceType: 'localStorage',
-          }}
-          columns={columns}
-          rowSelection={{
-            onChange: (selectedRowKeys) => {
-              setSelectedRowKeys(selectedRowKeys);
-            },
-          }}
-          pagination={{
-            showSizeChanger: true,
-            showQuickJumper: true,
+          onSubmit={async () => {
+            setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
           }}
         />
-        {editVisible && (
-          <AnchorForm
-            open={editVisible}
-            editingAnchor={currentAnchor}
-            onCancel={() => {
-              setEditVisible(false);
-            }}
-            onSubmit={async () => {
-              setEditVisible(false);
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }}
-          />
-        )}
-      </Card>
+      )}
     </NewContainer>
   );
 };

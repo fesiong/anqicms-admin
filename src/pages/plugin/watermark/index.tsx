@@ -140,7 +140,7 @@ const PluginWatermark: React.FC<any> = () => {
           <Col sm={12} xs={24}>
             {fetched && (
               <ProForm
-                title={intl.formatMessage({ id: 'menu.plugin.watermark' })}
+                title={intl.formatMessage({ id: 'menu.plugin.system.watermark' })}
                 layout="vertical"
                 initialValues={setting}
                 onFinish={onSubmit}

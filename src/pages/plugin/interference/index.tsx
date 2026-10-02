@@ -5,7 +5,7 @@ import {
   pluginSaveInterferenceConfig,
 } from '@/services';
 import { ProForm, ProFormRadio } from '@ant-design/pro-components';
-import { useIntl } from '@umijs/max';
+import { FormattedMessage, useIntl } from '@umijs/max';
 import { Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.less';
@@ -55,7 +55,7 @@ const PluginInterference: React.FC<any> = () => {
       <Card key={newKey}>
         {fetched && (
           <ProForm
-            title={intl.formatMessage({ id: 'menu.plugin.interference' })}
+            title={intl.formatMessage({ id: 'menu.plugin.system.interference' })}
             layout="vertical"
             initialValues={setting}
             onFinish={onSubmit}
@@ -89,7 +89,7 @@ const PluginInterference: React.FC<any> = () => {
                   checkVip(() => {});
                 }}
               >
-                更多存储方式为VIP功能，点击查看VIP
+                <FormattedMessage id="plugin.interference.vip-tip" />
               </div>
             ) : null}
             <ProFormRadio.Group

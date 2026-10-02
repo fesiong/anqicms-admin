@@ -342,7 +342,7 @@ const Dashboard: React.FC = () => {
                             className="link"
                             onClick={() => handleJump('/plugin/rewrite')}
                           >
-                            <FormattedMessage id="menu.plugin.rewrite" />
+                            <FormattedMessage id="menu.plugin.seo.rewrite" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
@@ -353,7 +353,7 @@ const Dashboard: React.FC = () => {
                             className="link"
                             onClick={() => handleJump('/plugin/robots')}
                           >
-                            <FormattedMessage id="menu.plugin.robots" />
+                            <FormattedMessage id="menu.plugin.seo.robots" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
@@ -364,7 +364,7 @@ const Dashboard: React.FC = () => {
                             className="link"
                             onClick={() => handleJump('/plugin/sitemap')}
                           >
-                            <FormattedMessage id="menu.plugin.sitemap" />
+                            <FormattedMessage id="menu.plugin.seo.sitemap" />
                           </span>
                           <FormattedMessage id="dashboard.guide.step.semicolon" />
                         </li>
@@ -443,7 +443,9 @@ const Dashboard: React.FC = () => {
               >
                 <Statistic
                   className="link"
-                  title={intl.formatMessage({ id: 'menu.plugin.friendlink' })}
+                  title={intl.formatMessage({
+                    id: 'menu.plugin.system.friendlink',
+                  })}
                   value={data.link_count}
                 />
               </Col>
@@ -455,7 +457,9 @@ const Dashboard: React.FC = () => {
               >
                 <Statistic
                   className="link"
-                  title={intl.formatMessage({ id: 'menu.plugin.guestbook' })}
+                  title={intl.formatMessage({
+                    id: 'menu.plugin.interaction.guestbook',
+                  })}
                   value={data.guestbook_count}
                 />
               </Col>

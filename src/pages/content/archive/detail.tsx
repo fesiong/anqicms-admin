@@ -10,6 +10,7 @@ import SelectColor from '@/components/selectColor';
 import {
   anqiExtractDescription,
   anqiExtractKeywords,
+  deleteArchive,
   deleteArchiveImage,
   getArchiveInfo,
   getArchives,
@@ -71,6 +72,7 @@ import { IntlShape } from 'react-intl';
 import './index.less';
 const MarkdownEditor = React.lazy(() => import('@/components/markdown'));
 const NewAiEditor = React.lazy(() => import('@/components/newAiEditor'));
+const SimpleEditor = React.lazy(() => import('@/components/simpleEditor'));
 
 export type intlProps = {
   intl: IntlShape;
@@ -385,6 +387,40 @@ class ArchiveForm extends React.Component<intlProps> {
       extraTexts: extraTexts,
       extraTimelines: extraTimelines,
       relations: archive.relations || [],
+    });
+  };
+
+  handleRemove = async (id: number) => {
+    if (!id) {
+      return;
+    }
+    Modal.confirm({
+      title: this.props.intl.formatMessage({ id: 'content.delete.confirm' }),
+      onOk: async () => {
+        const hide = message.loading(
+          this.props.intl.formatMessage({ id: 'content.delete.deletting' }),
+          0,
+        );
+        try {
+          await deleteArchive({
+            id: id,
+          });
+          hide();
+          message.success(
+            this.props.intl.formatMessage({ id: 'content.delete.success' }),
+          );
+          // 跳回上一步
+          history.back();
+
+          return true;
+        } catch (error) {
+          hide();
+          message.error(
+            this.props.intl.formatMessage({ id: 'content.delete.failure' }),
+          );
+          return true;
+        }
+      },
     });
   };
 
@@ -3001,6 +3037,16 @@ class ArchiveForm extends React.Component<intlProps> {
                                   content={extraContent[item.field_name] || ''}
                                   ref={null}
                                 />
+                              ) : contentSetting.editor === 'simple' ? (
+                                <SimpleEditor
+                                  className="mb-normal"
+                                  setContent={this.setExtraContent.bind(
+                                    this,
+                                    item.field_name,
+                                  )}
+                                  content={extraContent[item.field_name] || ''}
+                                  ref={null}
+                                />
                               ) : (
                                 <NewAiEditor
                                   className="mb-normal"
@@ -3021,6 +3067,13 @@ class ArchiveForm extends React.Component<intlProps> {
                   )}
                   {contentSetting.editor === 'markdown' ? (
                     <MarkdownEditor
+                      className="mb-normal"
+                      setContent={this.setContent}
+                      content={content}
+                      ref={this.editorRef}
+                    />
+                  ) : contentSetting.editor === 'simple' ? (
+                    <SimpleEditor
                       className="mb-normal"
                       setContent={this.setContent}
                       content={content}
@@ -3168,7 +3221,11 @@ class ArchiveForm extends React.Component<intlProps> {
                               .toLowerCase()
                               .includes(input.toLowerCase()),
                         }}
-                        extra={<div>关联分类，可选</div>}
+                        extra={
+                          <div>
+                            <FormattedMessage id="content.archive.related-category.description" />
+                          </div>
+                        }
                       />
                     )}
                   </Card>

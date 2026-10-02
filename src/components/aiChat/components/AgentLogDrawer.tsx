@@ -1,3 +1,4 @@
+import { useIntl } from '@umijs/max';
 import { Viewer } from '@bytemd/react';
 import { Button, Drawer, List, Spin, Tag } from 'antd';
 import React from 'react';
@@ -15,9 +16,9 @@ const statusColor: Record<number, string> = {
   2: 'error',
 };
 
-const statusText: Record<number, string> = {
-  1: '成功',
-  2: '失败',
+const statusKey: Record<number, string> = {
+  1: 'ai.panel.log-success',
+  2: 'ai.panel.log-failed',
 };
 
 const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
@@ -28,10 +29,18 @@ const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
   onClose,
 }) => {
   const [openidx, setOpenidx] = React.useState<number | null>(null);
+  const intl = useIntl();
 
   return (
     <Drawer
-      title={agent ? `执行日志 - ${agent.name || `#${agent.id}`}` : '执行日志'}
+      title={
+        agent
+          ? intl.formatMessage(
+              { id: 'ai.panel.log-title' },
+              { name: agent.name || `#${agent.id}` },
+            )
+          : intl.formatMessage({ id: 'ai.panel.log' })
+      }
       open={visible}
       onClose={onClose}
       width={560}
@@ -42,7 +51,7 @@ const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
         </div>
       ) : logs.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-          暂无执行日志
+          {intl.formatMessage({ id: 'ai.panel.no-logs' })}
         </div>
       ) : (
         <List
@@ -54,12 +63,18 @@ const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
                 title={
                   <div style={{ fontSize: 13 }}>
                     <Tag color={statusColor[item.status] || 'processing'}>
-                      {statusText[item.status] || '执行中'}
+                      {intl.formatMessage({
+                        id: statusKey[item.status] || 'ai.panel.log-running',
+                      })}
                     </Tag>
                     {item.created_time
                       ? new Date(item.created_time * 1000).toLocaleString()
                       : ''}
-                    {item.tool_calls > 0 && ` | ${item.tool_calls} 次工具调用`}
+                    {item.tool_calls > 0 &&
+                      ` | ${intl.formatMessage(
+                        { id: 'ai.panel.tool-call-count' },
+                        { count: item.tool_calls },
+                      )}`}
                   </div>
                 }
                 description={
@@ -73,7 +88,7 @@ const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
                               size="small"
                               onClick={() => setOpenidx(null)}
                             >
-                              收起
+                              {intl.formatMessage({ id: 'ai.panel.collapse' })}
                             </Button>
                           </>
                         ) : (
@@ -83,7 +98,7 @@ const AgentLogDrawer: React.FC<AgentLogDrawerProps> = ({
                               size="small"
                               onClick={() => setOpenidx(index)}
                             >
-                              展开
+                              {intl.formatMessage({ id: 'ai.panel.expand' })}
                             </Button>
                           </>
                         )}

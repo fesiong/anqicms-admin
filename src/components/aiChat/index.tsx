@@ -1,4 +1,5 @@
 import {
+  anqiAiChatTrace,
   anqiAiToolConfirm,
   anqiAiUpload,
   anqiSkillDelete,
@@ -15,8 +16,10 @@ import {
 import config from '@/services/config';
 import { getSessionStore, getStore, setStore } from '@/utils/store';
 import { CloudServerOutlined, PaperClipOutlined } from '@ant-design/icons';
-import { Button, MenuProps, Modal, Upload, message } from 'antd';
+import { FormattedMessage, useIntl } from '@umijs/max';
+import { Button, Drawer, Empty, MenuProps, Modal, Spin, Tag, Upload, message } from 'antd';
 import { useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import AgentDrawer from './components/AgentDrawer';
 import AgentLogDrawer from './components/AgentLogDrawer';
 import ChatInput from './components/ChatInput';
@@ -35,6 +38,44 @@ import {
 } from './types';
 import { convertHistoryMessages } from './utils';
 
+// 执行链路追踪事件的阶段 / 决策配色（P2-7）
+const TRACE_PHASE_COLOR: Record<string, string> = {
+  round: 'blue',
+  tool: 'green',
+  guardrail: 'gold',
+  retry: 'purple',
+  compact: 'cyan',
+  agent: 'geekblue',
+  note: 'default',
+};
+const TRACE_DECISION_COLOR: Record<string, string> = {
+  proceed: 'green',
+  allow: 'green',
+  deny: 'red',
+  ask: 'orange',
+  block: 'red',
+};
+
+// 审批项的风险配色（与后端 intent.Risk 口径一致）
+const RISK_COLOR: Record<string, string> = {
+  read: 'green',
+  write: 'blue',
+  destructive: 'orange',
+  system: 'red',
+};
+
+const APPROVAL_ARGS_PRE_STYLE: CSSProperties = {
+  background: '#f5f5f5',
+  padding: 12,
+  borderRadius: 4,
+  maxHeight: 200,
+  overflow: 'auto',
+  fontSize: 12,
+  whiteSpace: 'pre-wrap',
+  wordBreak: 'break-all',
+  margin: '4px 0',
+};
+
 // =====================================================================
 // 主组件
 // =====================================================================
@@ -46,6 +87,7 @@ const AiChat: React.FC<AiChatProps> = ({
   selectedDom,
   onIframeReload,
 }) => {
+  const intl = useIntl();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -95,6 +137,11 @@ const AiChat: React.FC<AiChatProps> = ({
   const [skillList, setSkillList] = useState<any[]>([]);
   const [skillListLoading, setSkillListLoading] = useState(false);
 
+  // ── P2-7: 执行链路追踪面板 ──
+  const [traceDrawerVisible, setTraceDrawerVisible] = useState(false);
+  const [traceEvents, setTraceEvents] = useState<any[]>([]);
+  const [traceLoading, setTraceLoading] = useState(false);
+
   // ── P0: 工具执行审批 ──
   // 用 antd Modal.confirm 命令式 API（在 tool_confirm handler 内调用），
   // 不再持有 pendingApproval React state，避免渲染队列积压导致 Modal 延迟弹出。
@@ -108,6 +155,23 @@ const AiChat: React.FC<AiChatProps> = ({
       if (Array.isArray(res.data)) setAgentLogs(res.data);
     } catch (_) {}
     setAgentLogsLoading(false);
+  };
+
+  // P2-7: 打开执行链路追踪面板并拉取最近事件
+  const handleOpenTraceDrawer = async () => {
+    setTraceDrawerVisible(true);
+    setTraceLoading(true);
+    try {
+      const res = await anqiAiChatTrace({ limit: 200 });
+      if (Array.isArray(res?.data?.events)) {
+        setTraceEvents(res.data.events);
+      } else {
+        setTraceEvents([]);
+      }
+    } catch (_) {
+      setTraceEvents([]);
+    }
+    setTraceLoading(false);
   };
 
   const loadProviders = () => {
@@ -138,7 +202,12 @@ const AiChat: React.FC<AiChatProps> = ({
         setSessionList(list);
         setSessionListOpen(true);
       })
-      .catch(() => message.error('加载历史记录失败'))
+      .catch(
+        () =>
+          message.error(
+            intl.formatMessage({ id: 'ai.chat.history-load-failed' }),
+          ),
+      )
       .finally(() => setSessionListLoading(false));
   };
 
@@ -251,7 +320,9 @@ const AiChat: React.FC<AiChatProps> = ({
       const contentType = response.headers.get('Content-Type') || '';
       if (contentType.includes('application/json')) {
         const jsonResp = await response.json();
-        throw new Error(jsonResp.msg || '请求失败');
+        throw new Error(
+          jsonResp.msg || intl.formatMessage({ id: 'ai.chat.request-failed' }),
+        );
       }
 
       const reader = response.body?.getReader();
@@ -377,6 +448,180 @@ const AiChat: React.FC<AiChatProps> = ({
                   continue;
                 }
 
+                if (eventType === 'tool_confirm_batch') {
+                  console.log('tool_confirm_batch', parsed);
+                  // 回合级合并审批：后端先扫完整轮，把所有需要确认的调用
+                  // 打包成一次确认，避免并发写操作把弹窗串成一片。
+                  const batchId = parsed.tool_call_id || '';
+                  const items: any[] = Array.isArray(parsed.items)
+                    ? parsed.items
+                    : [];
+                  const allowFullControl =
+                    parsed.allow_full_control === true;
+
+                  const batchResult = async (
+                    decision:
+                      | 'allow'
+                      | 'once_allow'
+                      | 'deny'
+                      | 'full_control',
+                  ) => {
+                    await anqiAiToolConfirm({
+                      tool_call_id: batchId,
+                      decision,
+                    });
+                  };
+
+                  const batchModal = Modal.confirm({
+                    title: intl.formatMessage(
+                      { id: 'ai.approval.batch-title' },
+                      { count: items.length },
+                    ),
+                    width: 640,
+                    content: (
+                      <div>
+                        {items.map((it: any, i: number) => {
+                          const argsText =
+                            typeof it.arguments === 'object'
+                              ? JSON.stringify(it.arguments, null, 2)
+                              : it.arguments || '';
+                          const sensitive = it.path_class === 'sensitive';
+                          const pathNote =
+                            it.path_class === 'undeterminable' &&
+                            !(it.path_targets || []).length
+                              ? ''
+                              : it.path_class;
+                          return (
+                            <div
+                              key={it.tool_call_id || i}
+                              style={{
+                                borderBottom: '1px solid #f0f0f0',
+                                padding: '8px 0',
+                              }}
+                            >
+                              <div>
+                                <Tag
+                                  color={RISK_COLOR[it.risk] || 'red'}
+                                >
+                                  {it.risk}
+                                </Tag>
+                                <strong>{it.title || it.name}</strong>
+                                <span
+                                  style={{
+                                    color: '#999',
+                                    fontSize: 12,
+                                    marginLeft: 6,
+                                  }}
+                                >
+                                  {it.name}
+                                </span>
+                              </div>
+                              {pathNote || it.reason ? (
+                                <p
+                                  style={{
+                                    color: sensitive
+                                      ? '#cf1322'
+                                      : '#d46b08',
+                                    fontSize: 12,
+                                    margin: '4px 0',
+                                  }}
+                                >
+                                  {pathNote}
+                                  {it.reason
+                                    ? `${pathNote ? ' ' : ''}${it.reason}`
+                                    : ''}
+                                </p>
+                              ) : null}
+                              <details>
+                                <summary
+                                  style={{
+                                    cursor: 'pointer',
+                                    fontSize: 12,
+                                    color: '#666',
+                                  }}
+                                >
+                                  {intl.formatMessage({
+                                    id: 'ai.panel.parameters',
+                                  })}
+                                </summary>
+                                <pre style={APPROVAL_ARGS_PRE_STYLE}>
+                                  {argsText}
+                                </pre>
+                              </details>
+                            </div>
+                          );
+                        })}
+                        <p style={{ color: '#999', fontSize: 12 }}>
+                          {intl.formatMessage({ id: 'ai.approval.batch-hint' })}
+                          {allowFullControl
+                            ? intl.formatMessage({
+                                id: 'ai.approval.full-control-hint',
+                              })
+                            : ''}
+                        </p>
+                      </div>
+                    ),
+                    okText: intl.formatMessage({ id: 'ai.approve.once' }),
+                    cancelText: intl.formatMessage({ id: 'ai.approve.reject' }),
+                    onOk: () => batchResult('allow'),
+                    onCancel: () => batchResult('deny'),
+                    // 命令式 Modal 挂在自建的 React root 上，拿不到 IntlProvider，
+                    // 因此只能用 useIntl() 的 intl 预先求值，不能用 <FormattedMessage/>。
+                    footer: (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'flex-end',
+                          gap: 8,
+                        }}
+                      >
+                        <Button
+                          danger
+                          onClick={() => {
+                            batchModal.destroy();
+                            batchResult('deny');
+                          }}
+                        >
+                          {intl.formatMessage({ id: 'ai.approve.all-reject' })}
+                        </Button>
+                        {allowFullControl ? (
+                          <Button
+                            onClick={() => {
+                              batchModal.destroy();
+                              batchResult('full_control');
+                            }}
+                          >
+                            {intl.formatMessage({
+                              id: 'ai.approve.fully-control',
+                            })}
+                          </Button>
+                        ) : null}
+                        <Button
+                          onClick={() => {
+                            batchModal.destroy();
+                            batchResult('once_allow');
+                          }}
+                        >
+                          {intl.formatMessage({
+                            id: 'ai.approve.session-allow',
+                          })}
+                        </Button>
+                        <Button
+                          type="primary"
+                          onClick={() => {
+                            batchModal.destroy();
+                            batchResult('allow');
+                          }}
+                        >
+                          {intl.formatMessage({ id: 'ai.approve.all-allow' })}
+                        </Button>
+                      </div>
+                    ),
+                  });
+
+                  continue;
+                }
+
                 if (eventType === 'tool_confirm') {
                   console.log('tool_confirm', parsed);
                   // P0: 主会话写操作审批 — 用 antd Modal.confirm 命令式 API
@@ -387,9 +632,17 @@ const AiChat: React.FC<AiChatProps> = ({
                     typeof parsed.arguments === 'object'
                       ? JSON.stringify(parsed.arguments, null, 2)
                       : parsed.arguments || '';
+                  // P0-2: 路径分类 + 完全控制可用性（由后端 tool_confirm 事件下发）
+                  const allowFullControl = parsed.allow_full_control === true;
+                  const pathClass = parsed.path_class || '';
+                  const pathReason = parsed.reason || '';
 
                   const approvalResult = async (
-                    decision: 'allow' | 'once_allow' | 'deny',
+                    decision:
+                      | 'allow'
+                      | 'once_allow'
+                      | 'deny'
+                      | 'full_control',
                   ) => {
                     await anqiAiToolConfirm({
                       tool_call_id: toolCallId,
@@ -398,7 +651,10 @@ const AiChat: React.FC<AiChatProps> = ({
                   };
 
                   const modal = Modal.confirm({
-                    title: `AI 请求执行写操作: ${toolName}`,
+                    title: intl.formatMessage(
+                      { id: 'ai.approval.write-title' },
+                      { name: toolName },
+                    ),
                     content: (
                       <div>
                         <pre
@@ -416,14 +672,43 @@ const AiChat: React.FC<AiChatProps> = ({
                         >
                           {toolArgs}
                         </pre>
+                        {pathClass ? (
+                          <p
+                            style={{
+                              color:
+                                pathClass === 'sensitive'
+                                  ? '#cf1322'
+                                  : '#d46b08',
+                              fontSize: 12,
+                              margin: '4px 0',
+                            }}
+                          >
+                            {intl.formatMessage(
+                              { id: 'ai.approval.path-class' },
+                              { class: pathClass },
+                            )}
+                            {pathReason
+                              ? intl.formatMessage(
+                                  { id: 'ai.approval.path-reason' },
+                                  { reason: pathReason },
+                                )
+                              : ''}
+                          </p>
+                        ) : null}
                         <p style={{ color: '#999', fontSize: 12 }}>
-                          本次允许: 仅本次执行 | 本会话允许:
-                          本会话内该工具不再询问 | 拒绝: 不执行
+                          {intl.formatMessage({
+                            id: 'ai.approval.single-hint',
+                          })}
+                          {allowFullControl
+                            ? intl.formatMessage({
+                                id: 'ai.approval.full-control-hint',
+                              })
+                            : ''}
                         </p>
                       </div>
                     ),
-                    okText: '本次允许',
-                    cancelText: '拒绝',
+                    okText: intl.formatMessage({ id: 'ai.approve.once' }),
+                    cancelText: intl.formatMessage({ id: 'ai.approve.reject' }),
                     onOk: () => approvalResult('allow'),
                     onCancel: () => approvalResult('deny'),
                     footer: (
@@ -441,15 +726,29 @@ const AiChat: React.FC<AiChatProps> = ({
                             approvalResult('deny');
                           }}
                         >
-                          拒绝
+                          {intl.formatMessage({ id: 'ai.approve.reject' })}
                         </Button>
+                        {allowFullControl ? (
+                          <Button
+                            onClick={() => {
+                              modal.destroy();
+                              approvalResult('full_control');
+                            }}
+                          >
+                            {intl.formatMessage({
+                              id: 'ai.approve.fully-control',
+                            })}
+                          </Button>
+                        ) : null}
                         <Button
                           onClick={() => {
                             modal.destroy();
                             approvalResult('once_allow');
                           }}
                         >
-                          本会话允许
+                          {intl.formatMessage({
+                            id: 'ai.approve.session-allow-tool',
+                          })}
                         </Button>
                         <Button
                           type="primary"
@@ -458,7 +757,7 @@ const AiChat: React.FC<AiChatProps> = ({
                             approvalResult('allow');
                           }}
                         >
-                          本次允许
+                          {intl.formatMessage({ id: 'ai.approve.once' })}
                         </Button>
                       </div>
                     ),
@@ -537,8 +836,9 @@ const AiChat: React.FC<AiChatProps> = ({
       await readStream();
     } catch (error: any) {
       console.error('Chat error:', error);
-      message.error(error.message || '发送失败，请重试');
-      setErrorMsg(error.message || '发送失败，请重试');
+      const sendFailed = intl.formatMessage({ id: 'ai.chat.send-failed' });
+      message.error(error.message || sendFailed);
+      setErrorMsg(error.message || sendFailed);
       setLoading(false);
     }
   };
@@ -566,27 +866,40 @@ const AiChat: React.FC<AiChatProps> = ({
 
   const handleDeleteAgent = async (agent: any) => {
     //message.loading('删除中...', 0);
-    handleSend(`使用 agent_delete 工具删除 ID 为 ${agent.id} 的智能体`);
+    handleSend(
+      intl.formatMessage(
+        { id: 'ai.prompt.agent-delete' },
+        { id: agent.id },
+      ),
+    );
     setAgentDrawerVisible(false);
   };
 
   const handleToggleAgent = async (agent: any, enabled: number) => {
     handleSend(
-      `使用 agent_toggle 工具将 ID 为 ${agent.id} 的智能体状态设为 ${
-        enabled === 1 ? '启用' : '暂停'
-      }`,
+      intl.formatMessage(
+        { id: 'ai.prompt.agent-toggle' },
+        {
+          id: agent.id,
+          state: intl.formatMessage({
+            id: enabled === 1 ? 'ai.panel.agent-enable' : 'ai.panel.agent-pause',
+          }),
+        },
+      ),
     );
     setAgentDrawerVisible(false);
   };
 
   const handleRunAgent = async (agent: any) => {
-    handleSend(`使用 agent_run 工具手动触发 ID 为 ${agent.id} 的智能体执行`);
+    handleSend(
+      intl.formatMessage({ id: 'ai.prompt.agent-run' }, { id: agent.id }),
+    );
     setAgentDrawerVisible(false);
   };
 
   const handleChatAgent = async (agent: any) => {
     handleSend(
-      `使用 agent_chat 工具与 ID 为 ${agent.id} 的智能体对话，询问它的状态和进度`,
+      intl.formatMessage({ id: 'ai.prompt.agent-chat' }, { id: agent.id }),
     );
     setAgentDrawerVisible(false);
   };
@@ -613,43 +926,53 @@ const AiChat: React.FC<AiChatProps> = ({
       const res = await anqiSkillDelete({ name: skill.name });
       //message.destroy();
       if (res.code === 0) {
-        message.success('删除成功');
+        message.success(intl.formatMessage({ id: 'ai.chat.delete-success' }));
         loadSkillList();
       } else {
-        message.error(res.msg || '删除失败');
+        message.error(
+          res.msg || intl.formatMessage({ id: 'ai.chat.delete-failed' }),
+        );
       }
     } catch (_) {
       //message.destroy();
-      message.error('删除失败');
+      message.error(intl.formatMessage({ id: 'ai.chat.delete-failed' }));
     }
   };
 
   const handleReloadSkills = async () => {
-    message.loading('重载中...', 0);
+    message.loading(intl.formatMessage({ id: 'ai.chat.reloading' }), 0);
     try {
       const res = await anqiSkillReload();
       message.destroy();
       if (res.code === 0) {
-        message.success('重载成功');
+        message.success(intl.formatMessage({ id: 'ai.chat.reload-success' }));
         loadSkillList();
       } else {
-        message.error(res.msg || '重载失败');
+        message.error(
+          res.msg || intl.formatMessage({ id: 'ai.chat.reload-failed' }),
+        );
       }
     } catch (_) {
       message.destroy();
-      message.error('重载失败');
+      message.error(intl.formatMessage({ id: 'ai.chat.reload-failed' }));
     }
   };
 
   const handleViewSkill = async (skill: any) => {
+    const none = intl.formatMessage({ id: 'ai.panel.none' });
     handleSend(
-      `查看技能 ${skill.name} 的详情：\n名称：${skill.name}\n描述：${
-        skill.description || '无'
-      }\n分类：${skill.category || '无'}\n版本：${
-        skill.version || '无'
-      }\n标签：${skill.tags?.join(', ') || '无'}\n文件数：${
-        skill.file_count
-      }\n更新时间：${skill.updated_at || '无'}`,
+      intl.formatMessage(
+        { id: 'ai.prompt.skill-view' },
+        {
+          name: skill.name,
+          description: skill.description || none,
+          category: skill.category || none,
+          version: skill.version || none,
+          tags: skill.tags?.join(', ') || none,
+          fileCount: skill.file_count,
+          updatedAt: skill.updated_at || none,
+        },
+      ),
     );
     setSkillDrawerVisible(false);
   };
@@ -662,7 +985,10 @@ const AiChat: React.FC<AiChatProps> = ({
   const handleUploadFile = (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    const hide = message.loading('上传中...', 0);
+    const hide = message.loading(
+      intl.formatMessage({ id: 'ai.chat.uploading' }),
+      0,
+    );
     anqiAiUpload(formData)
       .then((res: any) => {
         if (res.code === 0) {
@@ -674,9 +1000,11 @@ const AiChat: React.FC<AiChatProps> = ({
               file_type: 'attachment',
             },
           ]);
-          message.info('文件上传成功');
+          message.info(intl.formatMessage({ id: 'ai.chat.upload-success' }));
         } else {
-          message.info(res.msg || '上传失败');
+          message.info(
+            res.msg || intl.formatMessage({ id: 'ai.chat.upload-failed' }),
+          );
         }
       })
       .finally(() => hide());
@@ -719,7 +1047,9 @@ const AiChat: React.FC<AiChatProps> = ({
 
   const handleSaveCustomProvider = (values: any) => {
     if (!values.name || !values.base_url || !values.api_key || !values.model) {
-      message.warning('请填写完整的接口信息');
+      message.warning(
+        intl.formatMessage({ id: 'ai.settings.fill-required' }),
+      );
       return;
     }
     const provider = Object.assign({}, editProvider, values);
@@ -735,12 +1065,14 @@ const AiChat: React.FC<AiChatProps> = ({
           if (Array.isArray(res.data)) setCustomProviders(res.data);
           setEditProviderModalVisible(false);
           setEditProvider(null);
-          message.success('保存成功');
+          message.success(intl.formatMessage({ id: 'ai.chat.save-success' }));
         } else {
-          message.info(res.msg || '保存失败');
+          message.info(
+            res.msg || intl.formatMessage({ id: 'ai.chat.save-failed' }),
+          );
         }
       })
-      .catch(() => message.error('保存失败'));
+      .catch(() => message.error(intl.formatMessage({ id: 'ai.chat.save-failed' })));
   };
 
   const handleDeleteCustomProvider = (index: number) => {
@@ -752,12 +1084,16 @@ const AiChat: React.FC<AiChatProps> = ({
             setCustomProviders(res.data);
           }
           setEditProvider(null);
-          message.success('删除成功');
+          message.success(intl.formatMessage({ id: 'ai.chat.delete-success' }));
         } else {
-          message.info(res.msg || '删除失败');
+          message.info(
+            res.msg || intl.formatMessage({ id: 'ai.chat.delete-failed' }),
+          );
         }
       })
-      .catch(() => message.error('删除成功'));
+      .catch(
+        () => message.error(intl.formatMessage({ id: 'ai.chat.delete-success' })),
+      );
   };
 
   const handleOpenEditProvider = (
@@ -801,7 +1137,12 @@ const AiChat: React.FC<AiChatProps> = ({
           );
         setTemplateFiles(tmpList);
       })
-      .catch(() => message.error('加载模板文件失败'))
+      .catch(
+        () =>
+          message.error(
+            intl.formatMessage({ id: 'ai.chat.template-load-failed' }),
+          ),
+      )
       .finally(() => setTemplateLoading(false));
   };
 
@@ -828,7 +1169,8 @@ const AiChat: React.FC<AiChatProps> = ({
             handleUploadFile(e.file as File);
           }}
         >
-          <PaperClipOutlined /> 上传文件
+          <PaperClipOutlined />{' '}
+          <FormattedMessage id="ai.chat.upload-file" />
         </Upload>
       ),
     },
@@ -836,7 +1178,8 @@ const AiChat: React.FC<AiChatProps> = ({
       key: 'select',
       label: (
         <div onClick={handleOpenTemplateSelect}>
-          <CloudServerOutlined /> 选择模板
+          <CloudServerOutlined />{' '}
+          <FormattedMessage id="ai.chat.select-template" />
         </div>
       ),
     },
@@ -857,6 +1200,7 @@ const AiChat: React.FC<AiChatProps> = ({
         onOpenAgentDrawer={handleOpenAgentDrawer}
         onOpenSettings={handleOpenSettings}
         onOpenSkillsList={handleOpenSkillsList}
+        onOpenTrace={handleOpenTraceDrawer}
         sessionListOpen={sessionListOpen}
         sessionListLoading={sessionListLoading}
         sessionList={sessionList}
@@ -997,6 +1341,83 @@ const AiChat: React.FC<AiChatProps> = ({
         onReload={handleReloadSkills}
         onDelete={handleDeleteSkill}
       />
+
+      <Drawer
+        title={intl.formatMessage({ id: 'ai.panel.trace' })}
+        width={520}
+        open={traceDrawerVisible}
+        onClose={() => setTraceDrawerVisible(false)}
+      >
+        {traceLoading ? (
+          <div style={{ textAlign: 'center', padding: '32px 0' }}>
+            <Spin />
+          </div>
+        ) : traceEvents.length === 0 ? (
+          <Empty
+            description={intl.formatMessage({ id: 'ai.panel.no-trace-events' })}
+          />
+        ) : (
+          <div style={{ fontSize: 13 }}>
+            {[...traceEvents].reverse().map((ev: any, i: number) => (
+              <div
+                key={i}
+                style={{
+                  borderBottom: '1px solid #f0f0f0',
+                  padding: '8px 0',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  <Tag color={TRACE_PHASE_COLOR[ev.phase] || 'default'}>
+                    {ev.phase}
+                  </Tag>
+                  <span style={{ color: '#999', fontSize: 12 }}>
+                    {ev.ts
+                      ? new Date(ev.ts).toLocaleTimeString('zh-CN', {
+                          hour12: false,
+                        })
+                      : ''}
+                  </span>
+                  {ev.duration_ms ? (
+                    <span style={{ color: '#999', fontSize: 12 }}>
+                      {ev.duration_ms}ms
+                    </span>
+                  ) : null}
+                  {ev.err ? <Tag color="red">error</Tag> : null}
+                  {ev.decision ? (
+                    <Tag
+                      color={TRACE_DECISION_COLOR[ev.decision] || 'default'}
+                    >
+                      {ev.decision}
+                    </Tag>
+                  ) : null}
+                </div>
+                <div style={{ marginTop: 4, fontWeight: 500 }}>
+                  {ev.name}
+                </div>
+                {ev.detail ? (
+                  <div
+                    style={{
+                      marginTop: 2,
+                      color: '#666',
+                      whiteSpace: 'pre-wrap',
+                      wordBreak: 'break-all',
+                    }}
+                  >
+                    {ev.detail}
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        )}
+      </Drawer>
     </div>
   );
 };

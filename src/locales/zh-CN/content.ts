@@ -384,6 +384,7 @@ export default {
   'content.module.field.delete.content': '对应的文档内该字段内容也会被删除',
   'content.module.field.error': '调用字段必须是英文字母',
   'content.module.field.name': '参数名称',
+  'content.module.field.group': '模块组',
   'content.module.field.field-name': '调用字段',
   'content.module.field.field-name.description':
     '英文字母开头，只能填写字母和数字，默认为参数名称的拼音',
@@ -485,4 +486,19 @@ export default {
   'content.place.latitude': '纬度',
   'content.place.longitude': '经度',
   'content.place.timezone': '时区',
+  'content.archive.related-category': '关联分类',
+  'content.archive.related-category.description': '关联分类，可选',
+  'content.place.vip.city': '城市管理功能需要VIP会员。',
+  'content.place.setting.enable': '启用城市功能',
+  'content.place.setting.disable': '停用',
+  'content.place.setting.enabled': '启用',
+  'content.place.setting.url-type': '城市分站形式',
+  'content.place.setting.url-type.none': '无',
+  'content.place.setting.url-type.subdomain': '子域名',
+  'content.place.setting.url-type.directory': '子目录',
+  'content.place.setting.content-type': '城市分站内容形式',
+  'content.place.setting.content-type.default': '默认',
+  'content.place.setting.content-type.reuse-all': '全站复用',
+  'content.place.setting.content-type.description':
+    '启用全站复用后，城市分站将使用全站内容，URL为分站URL（慎用）。',
 };

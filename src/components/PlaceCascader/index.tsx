@@ -4,6 +4,7 @@ import {
   pluginPlaceGetStates,
 } from '@/services';
 import { ProForm, ProFormItemProps } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
 import type { CascaderProps } from 'antd';
 import { Cascader } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -64,14 +65,28 @@ const PlaceCascader: React.FC<PlaceCascaderProps> = ({
   label,
   name,
   multiple = false,
-  placeholder = '请选择省/市/区',
+  placeholder,
   disabled = false,
   showSearch = false,
-  rules = [{ required: true, message: '请选择地区' }],
+  rules,
   onChange,
   cascaderProps,
   ...restProps
 }) => {
+  const intl = useIntl();
+  const resolvedPlaceholder =
+    placeholder ??
+    intl.formatMessage({ id: 'component.placeCascader.placeholder' });
+  const resolvedRules =
+    rules ??
+    [
+      {
+        required: true,
+        message: intl.formatMessage({
+          id: 'component.placeCascader.required',
+        }),
+      },
+    ];
   const [options, setOptions] = useState<CascaderOption[]>([]);
   const [loading, setLoading] = useState(false);
   const optionsRef = useRef<CascaderOption[]>([]);
@@ -299,7 +314,7 @@ const PlaceCascader: React.FC<PlaceCascaderProps> = ({
     <ProForm.Item
       label={label}
       name={name}
-      rules={rules}
+      rules={resolvedRules}
       valuePropName="value"
       getValueFromEvent={(e: any) => {
         const cascaderValue = e;
@@ -325,7 +340,7 @@ const PlaceCascader: React.FC<PlaceCascaderProps> = ({
         loadData={loadData}
         loading={loading}
         changeOnSelect
-        placeholder={placeholder}
+        placeholder={resolvedPlaceholder}
         displayRender={displayRender}
         disabled={disabled}
         showSearch={showSearch}

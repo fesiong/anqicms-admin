@@ -134,12 +134,27 @@ export async function anqiAiChat(body: any, options?: { [key: string]: any }) {
 // P0: 工具执行审批 — 主会话写操作需要前端确认
 // decision: "allow" 本次允许 | "deny" 拒绝 | "once_allow" 本会话允许
 export async function anqiAiToolConfirm(
-  body: { tool_call_id: string; decision: 'allow' | 'deny' | 'once_allow' },
+  body: {
+    tool_call_id: string;
+    decision: 'allow' | 'deny' | 'once_allow' | 'full_control';
+  },
   options?: { [key: string]: any },
 ) {
   return post({
     url: '/anqi/ai/chat/confirm',
     body,
+    options,
+  });
+}
+
+// P2-7: 执行链路追踪 — 返回最近的结构化追踪事件 (GET /anqi/ai/chat/trace)
+export async function anqiAiChatTrace(
+  params?: { limit?: number },
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/anqi/ai/chat/trace',
+    params,
     options,
   });
 }

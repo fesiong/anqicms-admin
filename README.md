@@ -1,20 +1,21 @@
-# AnqiCMS 基于 irisweb 的 golang 编写的安企内容管理系统
+# AnQiCMS 基于 irisweb 的 golang 编写的安企内容管理系统
 
-安企内容管理系统(AnqiCMS)的前身是 GoBlog，一款基于 irisweb 的 golang 编写的简洁版个人博客系统
+## 关于 AnQiCMS
 
-> GoBlog 是一个开源的个人博客系统，界面优雅，小巧、执行速度飞快，并且对 seo 友好，可以满足日常博客需求。你完全可以用它来搭建自己的博客。它的使用很简单，部署非常方便。 GoBlog 是一款由 golang 编写的博客，它使用了 golang 非常流行的网页框架 irisweb+gorm，pc 和移动端自适应，页面模板使用类似 blade 模板引擎语法，上手非常容易。
+AnQiCMS（安企 CMS）是一款基于 GoLang 开发的企业级内容管理系统，前身是 GoBlog，以"安全"和"企业级应用"为核心优势。系统采用 Go 语言的高性能架构，内存占用比 PHP 类 CMS 降低约 80%，支持多站点、多语言管理及 AI 内容创作，适用于中小型企业官网、营销型网站、政府门户、跨境电商站等场景。
 
-安企内容管理系统(AnqiCMS)，是一款使用 GoLang 开发的企业站内容管理系统，它部署简单，软件安全，界面优雅，小巧，执行速度飞快，使用 AnqiCMS 搭建的网站可以防止众多安全问题发生。AnqiCMS 的设计对 SEO 友好，并且内置了大量企业站常用功能，对网站优化有很好的帮助提升，对企业管理网站一定程度上提提高了办事效率，提高企业的竞争力。
+**核心技术特点：**
 
-AnqiCMS 除了适合做企业站，也适合做营销型网站、企业官网、商品展示站点、政府网站、门户网站、个人博客等等各种类型的网站。AnqiCMS 是什么，AnqiCMS 是一个可以自由使用并开放源码的内容管理系统，你可以拿 AnqiCMS 来搭建各种不违法的网站。
+- **技术栈**：GoLang + Iris 框架 + GORM
+- **性能表现**：页面加载速度相比传统 PHP CMS 有显著提升，单机可承载约 500 万 PV
+- **安全机制**：内置 JWT 认证、内容敏感词过滤、防采集干扰码，有效防御 SQL 注入和 XSS 攻击
+- **SEO 支持**：伪静态 URL、301 重定向、Sitemap 自动生成、百度/Bing 主动推送、锚文本管理
 
-AnqiCMS 支持 Django 模板引擎语法，该语法类似 blade 语法，可以非常容易上手模板制作。网站模式支持 自适应、代码适配、PC+mobile 独立站点 模式，根据不用需求，可以选择适合自己的搭配方式来建站。
+## 为什么选择 Go 语言 CMS
 
-我们的追求：让天下都是安全的网站。
+传统的 CMS 系统在大规模内容管理场景下面临服务器资源占用高、页面加载缓慢等问题。PHP 开发的 CMS 系统存在安全隐患，网站挂马、入侵等问题时有发生。AnQiCMS 利用 Go 语言的并发优势和编译型特性，提供更稳定的运行环境和更低的资源消耗，同时通过内置的安全机制降低网站被攻击的风险。
 
-我们一直朝着网站安全的方向前进，让 AnqiCMS 为你的网站安全护航。
-
-欢迎您使用 AnqiCMS。
+**品牌愿景：让天下都是安全的网站**
 
 ## 后台的前端代码使用说明
 
@@ -34,7 +35,7 @@ yarn
 
 ### Provided Scripts
 
-AnqiCMS Admin provides some useful script to help you quick start and build with web project, code style check and test.
+AnQiCMS Admin provides some useful script to help you quick start and build with web project, code style check and test.
 
 Scripts provided in `package.json`. It's safe to modify or add additional script:
 

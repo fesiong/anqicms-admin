@@ -148,15 +148,21 @@ const TemplateShare: React.FC<TemplateShareProps> = (props) => {
           name="category_id"
           options={[
             {
-              label: '外贸模板',
+              label: intl.formatMessage({
+                id: 'design.share.category.foreign-trade',
+              }),
               value: 36,
             },
             {
-              label: '中文模板',
+              label: intl.formatMessage({
+                id: 'design.share.category.chinese',
+              }),
               value: 37,
             },
             {
-              label: '免费模板',
+              label: intl.formatMessage({
+                id: 'design.share.category.free',
+              }),
               value: 38,
             },
           ]}

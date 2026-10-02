@@ -121,7 +121,6 @@ const PluginWechatMessage: React.FC<any> = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.wechat' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [

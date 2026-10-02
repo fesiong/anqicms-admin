@@ -165,7 +165,9 @@ const DesignDetail: React.FC = () => {
       content: (
         <div>
           <div style={{ padding: '10px 0' }}>
-            <div>原模板文件名</div>
+            <div>
+              <FormattedMessage id="design.detail.copy-original-name" />
+            </div>
             <div>
               <Input disabled value={info.path} />
             </div>
@@ -535,14 +537,48 @@ const DesignDetail: React.FC = () => {
       title: intl.formatMessage({ id: 'design.data.name' }),
       dataIndex: 'path',
       render: (text: any, record: any) => (
-        <a
-          title={intl.formatMessage({ id: 'design.click-to-edit' })}
-          onClick={() => {
-            handleShowEdit('static', record);
-          }}
-        >
-          {text}
-        </a>
+        <Space size={16}>
+          <a
+            title={intl.formatMessage({ id: 'design.click-to-edit' })}
+            onClick={() => {
+              handleShowEdit('static', record);
+            }}
+          >
+            {text}
+          </a>
+          {(record.path.indexOf('.jpg') !== -1 ||
+            record.path.indexOf('.jpeg') !== -1 ||
+            record.path.indexOf('.png') !== -1 ||
+            record.path.indexOf('.gif') !== -1 ||
+            record.path.indexOf('.webp') !== -1 ||
+            record.path.indexOf('.svg') !== -1 ||
+            record.path.indexOf('.bmp') !== -1 ||
+            record.path.indexOf('.tiff') !== -1 ||
+            record.path.indexOf('.avif') !== -1 ||
+            record.path.indexOf('.heic') !== -1 ||
+            record.path.indexOf('.heif') !== -1) && (
+            <Image
+              height={50}
+              className="img"
+              preview={{
+                src:
+                  (initialState?.system?.base_url || '') +
+                  '/static/' +
+                  designInfo.package +
+                  '/' +
+                  record.path,
+              }}
+              src={
+                (initialState?.system?.base_url || '') +
+                '/static/' +
+                designInfo.package +
+                '/' +
+                record.path
+              }
+              alt={record.path}
+            />
+          )}
+        </Space>
       ),
     },
     {
@@ -865,12 +901,18 @@ const DesignDetail: React.FC = () => {
       >
         <div className="attachment-detail">
           <div className="preview">
-            {currentFile.path?.indexOf('.png') !== -1 ||
-            currentFile.path?.indexOf('.jpg') !== -1 ||
-            currentFile.path?.indexOf('.jpeg') !== -1 ||
-            currentFile.path?.indexOf('.gif') !== -1 ||
-            currentFile.path?.indexOf('.webp') !== -1 ||
-            currentFile.path?.indexOf('.bmp') !== -1 ? (
+            {currentFile.path &&
+            (currentFile.path.indexOf('.jpg') !== -1 ||
+              currentFile.path.indexOf('.jpeg') !== -1 ||
+              currentFile.path.indexOf('.png') !== -1 ||
+              currentFile.path.indexOf('.gif') !== -1 ||
+              currentFile.path.indexOf('.webp') !== -1 ||
+              currentFile.path.indexOf('.svg') !== -1 ||
+              currentFile.path.indexOf('.bmp') !== -1 ||
+              currentFile.path.indexOf('.tiff') !== -1 ||
+              currentFile.path.indexOf('.avif') !== -1 ||
+              currentFile.path.indexOf('.heic') !== -1 ||
+              currentFile.path.indexOf('.heif') !== -1) ? (
               <Image
                 width={'100%'}
                 className="img"

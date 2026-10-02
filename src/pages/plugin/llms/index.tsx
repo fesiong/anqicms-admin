@@ -121,10 +121,13 @@ const PluginLLMs: React.FC<any> = () => {
                 <div
                   className="link mt-normal"
                   onClick={() => {
-                    checkVip(() => {}, '更多的LLMs设置为VIP功能');
+                    checkVip(
+                      () => {},
+                      intl.formatMessage({ id: 'plugin.llms.vip-feature' }),
+                    );
                   }}
                 >
-                  更多的LLMs设置为VIP功能，点击查看VIP
+                  <FormattedMessage id="plugin.llms.vip-tip" />
                 </div>
               ) : null}
             </div>
@@ -338,10 +341,15 @@ const PluginLLMs: React.FC<any> = () => {
                         <div
                           className="link"
                           onClick={() => {
-                            checkVip(() => {}, '更多的LLMs设置为VIP功能');
+                            checkVip(
+                              () => {},
+                              intl.formatMessage({
+                                id: 'plugin.llms.vip-feature',
+                              }),
+                            );
                           }}
                         >
-                          点击查看VIP
+                          <FormattedMessage id="plugin.llms.click-view-vip" />
                         </div>
                       ) : null
                     }

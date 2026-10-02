@@ -218,10 +218,20 @@ const PlaceSetting: React.FC<PlaceSettingProps> = (props) => {
           <div>
             <ProFormRadio.Group
               name="open"
-              label="启用城市功能"
+              label={intl.formatMessage({ id: 'content.place.setting.enable' })}
               options={[
-                { label: '停用', value: false },
-                { label: '启用', value: true },
+                {
+                  label: intl.formatMessage({
+                    id: 'content.place.setting.disable',
+                  }),
+                  value: false,
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'content.place.setting.enabled',
+                  }),
+                  value: true,
+                },
               ]}
               fieldProps={{
                 onChange: handleChangeOpen,
@@ -229,21 +239,50 @@ const PlaceSetting: React.FC<PlaceSettingProps> = (props) => {
             />
             <ProFormRadio.Group
               name="url_type"
-              label="城市分站形式"
+              label={intl.formatMessage({ id: 'content.place.setting.url-type' })}
               options={[
-                { label: '无', value: '' },
-                { label: '子域名', value: 'subdomain' },
-                { label: '子目录', value: 'directory' },
+                {
+                  label: intl.formatMessage({
+                    id: 'content.place.setting.url-type.none',
+                  }),
+                  value: '',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'content.place.setting.url-type.subdomain',
+                  }),
+                  value: 'subdomain',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'content.place.setting.url-type.directory',
+                  }),
+                  value: 'directory',
+                },
               ]}
             />
             <ProFormRadio.Group
               name="content_type"
-              label="城市分站内容形式"
+              label={intl.formatMessage({
+                id: 'content.place.setting.content-type',
+              })}
               options={[
-                { label: '默认', value: '' },
-                { label: '全站复用', value: 'full' },
+                {
+                  label: intl.formatMessage({
+                    id: 'content.place.setting.content-type.default',
+                  }),
+                  value: '',
+                },
+                {
+                  label: intl.formatMessage({
+                    id: 'content.place.setting.content-type.reuse-all',
+                  }),
+                  value: 'full',
+                },
               ]}
-              extra="启用全站复用后，城市分站将使用全站内容，URL为分站URL（慎用）。"
+              extra={intl.formatMessage({
+                id: 'content.place.setting.content-type.description',
+              })}
             />
             <ProTable<any>
               key="fields-table"

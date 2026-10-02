@@ -1,18 +1,21 @@
-import { history } from '@umijs/max';
+import { FormattedMessage, history, useIntl } from '@umijs/max';
 import { Button, Result } from 'antd';
 import React from 'react';
 
-const NoFoundPage: React.FC = () => (
-  <Result
-    status="404"
-    title="404"
-    subTitle="Sorry, the page you visited does not exist."
-    extra={
-      <Button type="primary" onClick={() => history.push('/')}>
-        返回后台首页
-      </Button>
-    }
-  />
-);
+const NoFoundPage: React.FC = () => {
+  const intl = useIntl();
+  return (
+    <Result
+      status="404"
+      title="404"
+      subTitle={intl.formatMessage({ id: 'pages.404.description' })}
+      extra={
+        <Button type="primary" onClick={() => history.push('/')}>
+          <FormattedMessage id="pages.404.back-home" />
+        </Button>
+      }
+    />
+  );
+};
 
 export default NoFoundPage;

@@ -1,4 +1,5 @@
 import account from './zh-TW/account';
+import ai from './zh-TW/ai';
 import common from './zh-TW/common';
 import component from './zh-TW/component';
 import content from './zh-TW/content';
@@ -24,6 +25,7 @@ export default {
   ...tool,
   ...website,
   ...account,
+  ...ai,
   ...statistic,
   ...design,
   ...content,

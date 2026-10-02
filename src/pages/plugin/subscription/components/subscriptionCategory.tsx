@@ -147,7 +147,7 @@ const SubscriptionCategory: React.FC<AttachmentCategoryProps> = (props) => {
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <ProTable<any>
             headerTitle={intl.formatMessage({
-              id: 'content.attachment.category.manage',
+              id: 'plugin.subscription.category.manage',
             })}
             actionRef={actionRef}
             rowKey="id"

@@ -7,7 +7,7 @@ import {
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Image, Modal, Space, message } from 'antd';
+import { Button, Image, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 import LinkApi from './components/api';
@@ -85,7 +85,7 @@ const PluginLink: React.FC = () => {
 
   const columns: ProColumns<any>[] = [
     {
-      title: intl.formatMessage({ id: 'ID' }),
+      title: intl.formatMessage({ id: 'plugin.link.id' }),
       dataIndex: 'id',
     },
     {
@@ -176,76 +176,74 @@ const PluginLink: React.FC = () => {
 
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
-      <Card key={newKey}>
-        <ProTable<any>
-          headerTitle={intl.formatMessage({ id: 'menu.plugin.friendlink' })}
-          actionRef={actionRef}
-          rowKey="id"
-          search={false}
-          toolBarRender={() => [
-            <LinkApi key="api">
-              <Button>
-                <FormattedMessage id="plugin.link.api.title" />
-              </Button>
-            </LinkApi>,
+      <ProTable<any>
+        key={newKey}
+        actionRef={actionRef}
+        rowKey="id"
+        search={false}
+        toolBarRender={() => [
+          <LinkApi key="api">
+            <Button>
+              <FormattedMessage id="plugin.link.api.title" />
+            </Button>
+          </LinkApi>,
+          <Button
+            type="primary"
+            key="add"
+            onClick={() => {
+              handleEditLink({});
+            }}
+          >
+            <PlusOutlined /> <FormattedMessage id="plugin.link.add" />
+          </Button>,
+        ]}
+        tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
+          <Space>
             <Button
-              type="primary"
-              key="add"
+              size={'small'}
               onClick={() => {
-                handleEditLink({});
+                handleRemove(selectedRowKeys);
               }}
             >
-              <PlusOutlined /> <FormattedMessage id="plugin.link.add" />
-            </Button>,
-          ]}
-          tableAlertOptionRender={({ selectedRowKeys, onCleanSelected }) => (
-            <Space>
-              <Button
-                size={'small'}
-                onClick={() => {
-                  handleRemove(selectedRowKeys);
-                }}
-              >
-                <FormattedMessage id="content.option.batch-delete" />
-              </Button>
-              <Button type="link" size={'small'} onClick={onCleanSelected}>
-                <FormattedMessage id="content.option.cancel-select" />
-              </Button>
-            </Space>
-          )}
-          request={(params) => {
-            return pluginGetLinks(params);
+              <FormattedMessage id="content.option.batch-delete" />
+            </Button>
+            <Button type="link" size={'small'} onClick={onCleanSelected}>
+              <FormattedMessage id="content.option.cancel-select" />
+            </Button>
+          </Space>
+        )}
+        request={(params) => {
+          return pluginGetLinks(params);
+        }}
+        columnsState={{
+          persistenceKey: 'friendlink-table',
+          persistenceType: 'localStorage',
+        }}
+        columns={columns}
+        rowSelection={{
+          onChange: (selectedRowKeys) => {
+            setSelectedRowKeys(selectedRowKeys);
+          },
+        }}
+        pagination={{
+          showSizeChanger: true,
+        }}
+      />
+      {editVisible && (
+        <LinkForm
+          open={editVisible}
+          editingLink={currentLink}
+          onCancel={() => {
+            setEditVisible(false);
           }}
-          columnsState={{
-            persistenceKey: 'friendlink-table',
-            persistenceType: 'localStorage',
-          }}
-          columns={columns}
-          rowSelection={{
-            onChange: (selectedRowKeys) => {
-              setSelectedRowKeys(selectedRowKeys);
-            },
-          }}
-          pagination={{
-            showSizeChanger: true,
+          onSubmit={async () => {
+            setEditVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
           }}
         />
-        {editVisible && (
-          <LinkForm
-            open={editVisible}
-            editingLink={currentLink}
-            onCancel={() => {
-              setEditVisible(false);
-            }}
-            onSubmit={async () => {
-              setEditVisible(false);
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }}
-          />
-        )}
-      </Card>
+      )}
     </NewContainer>
   );
 };

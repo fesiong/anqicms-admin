@@ -1,3 +1,4 @@
+import { useIntl } from '@umijs/max';
 import { Button, Drawer, List, Spin } from 'antd';
 
 interface AgentDrawerProps {
@@ -23,9 +24,10 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
   onToggle,
   onDelete,
 }) => {
+  const intl = useIntl();
   return (
     <Drawer
-      title="AI 智能体管理"
+      title={intl.formatMessage({ id: 'ai.panel.agent-title' })}
       placement="right"
       className="agent-drawer"
       open={visible}
@@ -38,11 +40,13 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
         </div>
       ) : agents.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-          暂无智能体。
+          {intl.formatMessage({ id: 'ai.panel.no-agents' })}
           <br />
-          在 AI 聊天中告诉 AI 创建即可，例如：
+          {intl.formatMessage({ id: 'ai.panel.create-hint' })}
           <br />
-          <em>创建一个每日写作智能体，每天早上8点搜索热词并写3篇文章</em>
+          <em>
+            {intl.formatMessage({ id: 'ai.panel.agent-create-example' })}
+          </em>
         </div>
       ) : (
         <List
@@ -58,7 +62,7 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
                   size="small"
                   onClick={() => onRun(item)}
                 >
-                  执行
+                  {intl.formatMessage({ id: 'ai.panel.agent-run' })}
                 </Button>,
                 <Button
                   key="chat"
@@ -66,7 +70,7 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
                   size="small"
                   onClick={() => onChat(item)}
                 >
-                  对话
+                  {intl.formatMessage({ id: 'ai.panel.agent-chat' })}
                 </Button>,
                 <Button
                   key="logs"
@@ -74,7 +78,7 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
                   size="small"
                   onClick={() => onLogs(item)}
                 >
-                  日志
+                  {intl.formatMessage({ id: 'ai.panel.agent-logs' })}
                 </Button>,
                 <Button
                   key="toggle"
@@ -82,7 +86,9 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
                   size="small"
                   onClick={() => onToggle(item, item.enabled === 1 ? 0 : 1)}
                 >
-                  {item.enabled === 1 ? '暂停' : '启用'}
+                  {item.enabled === 1
+                    ? intl.formatMessage({ id: 'ai.panel.agent-pause' })
+                    : intl.formatMessage({ id: 'ai.panel.agent-enable' })}
                 </Button>,
                 <Button
                   key="delete"
@@ -91,7 +97,7 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
                   danger
                   onClick={() => onDelete(item)}
                 >
-                  删除
+                  {intl.formatMessage({ id: 'ai.panel.agent-delete' })}
                 </Button>,
               ]}
             >
@@ -108,18 +114,34 @@ const AgentDrawer: React.FC<AgentDrawerProps> = ({
                         marginRight: 6,
                       }}
                     />
-                    {item.name || `智能体 #${item.id}`}
+                    {item.name ||
+                      intl.formatMessage(
+                        { id: 'ai.panel.agent-unnamed' },
+                        { id: item.id },
+                      )}
                   </div>
                 }
                 description={
                   <div style={{ fontSize: 12, color: '#999' }}>
-                    {item.cron_expr ? `⏰ ${item.cron_expr}` : '🔘 仅手动'}
+                    {item.cron_expr
+                      ? `⏰ ${item.cron_expr}`
+                      : `🔘 ${intl.formatMessage({
+                          id: 'ai.panel.manual-only',
+                        })}`}
                     {' | '}
-                    运行 {item.run_count || 0} 次
+                    {intl.formatMessage(
+                      { id: 'ai.panel.run-count' },
+                      { count: item.run_count || 0 },
+                    )}
                     {item.last_run_at > 0
-                      ? ` | 上次 ${new Date(
-                          item.last_run_at * 1000,
-                        ).toLocaleString()}`
+                      ? ` | ${intl.formatMessage(
+                          { id: 'ai.panel.last-run' },
+                          {
+                            time: new Date(
+                              item.last_run_at * 1000,
+                            ).toLocaleString(),
+                          },
+                        )}`
                       : ''}
                     {item.last_summary && (
                       <div

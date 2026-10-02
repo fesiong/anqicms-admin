@@ -1,3 +1,4 @@
+import { useIntl } from '@umijs/max';
 import { Modal, Spin, Tabs } from 'antd';
 
 interface TemplateModalProps {
@@ -15,6 +16,7 @@ const TemplateModal: React.FC<TemplateModalProps> = ({
   onClose,
   onSelect,
 }) => {
+  const intl = useIntl();
   const filterByExt = (ext: string) =>
     files.filter((f: any) => f.path.endsWith(ext));
   const filterOther = () =>
@@ -27,7 +29,7 @@ const TemplateModal: React.FC<TemplateModalProps> = ({
 
   return (
     <Modal
-      title="选择模板文件"
+      title={intl.formatMessage({ id: 'ai.panel.template-title' })}
       open={visible}
       onCancel={onClose}
       footer={null}
@@ -39,7 +41,7 @@ const TemplateModal: React.FC<TemplateModalProps> = ({
         </div>
       ) : files.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>
-          暂无模板文件
+          {intl.formatMessage({ id: 'ai.panel.no-templates' })}
         </div>
       ) : (
         <div className="ai-chat-template-list">
@@ -47,7 +49,10 @@ const TemplateModal: React.FC<TemplateModalProps> = ({
             items={[
               {
                 key: 'html',
-                label: `模板文件 (${filterByExt('.html').length})`,
+                label: intl.formatMessage(
+                  { id: 'ai.panel.tab-templates' },
+                  { count: filterByExt('.html').length },
+                ),
                 children: (
                   <div className="ai-chat-template-items">
                     {filterByExt('.html').map((file: any) => (
@@ -75,7 +80,10 @@ const TemplateModal: React.FC<TemplateModalProps> = ({
               },
               {
                 key: 'css',
-                label: `样式文件 (${filterByExt('.css').length})`,
+                label: intl.formatMessage(
+                  { id: 'ai.panel.tab-styles' },
+                  { count: filterByExt('.css').length },
+                ),
                 children: (
                   <div className="ai-chat-template-items">
                     {filterByExt('.css').map((file: any) => (
@@ -103,7 +111,10 @@ const TemplateModal: React.FC<TemplateModalProps> = ({
               },
               {
                 key: 'js',
-                label: `脚本文件 (${filterByExt('.js').length})`,
+                label: intl.formatMessage(
+                  { id: 'ai.panel.tab-scripts' },
+                  { count: filterByExt('.js').length },
+                ),
                 children: (
                   <div className="ai-chat-template-items">
                     {filterByExt('.js').map((file: any) => (
@@ -131,7 +142,10 @@ const TemplateModal: React.FC<TemplateModalProps> = ({
               },
               {
                 key: 'other',
-                label: `其他资源 (${filterOther().length})`,
+                label: intl.formatMessage(
+                  { id: 'ai.panel.tab-others' },
+                  { count: filterOther().length },
+                ),
                 children: (
                   <div className="ai-chat-template-items">
                     {filterOther().map((file: any) => (

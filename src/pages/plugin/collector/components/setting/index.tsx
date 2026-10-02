@@ -306,7 +306,9 @@ class CollectorSetting extends React.Component<CollectorSettingProps> {
                 label={this.props.intl.formatMessage({
                   id: 'plugin.collector.source',
                 })}
-                placeholder="如：https://cn.bing.com/search?q=%s"
+                placeholder={this.props.intl.formatMessage({
+                  id: 'plugin.collector.source.placeholder',
+                })}
                 extra={
                   <div>
                     <FormattedMessage id="plugin.collector.source.description" />

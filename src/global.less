@@ -349,3 +349,29 @@ body {
 .article-content * {
   max-width: 100%;
 }
+.module-tags {
+  font-weight: normal;
+  .module-tag {
+    display: inline-block;
+    min-width: 80px;
+    padding: 8px 16px;
+    text-align: center;
+    cursor: pointer;
+    &.active {
+      color: #1890ff;
+    }
+  }
+}
+.ant-card {
+  .ant-card-head {
+    .ant-tabs-top {
+      margin-bottom: -1px;
+      > .ant-tabs-nav::before {
+        border-bottom: none;
+      }
+    }
+  }
+}
+.ant-card-contain-tabs > div.ant-card-head {
+  min-height: 56px !important;
+}

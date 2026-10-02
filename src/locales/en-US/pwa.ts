@@ -1,6 +1,7 @@
 export default {
-  'app.pwa.offline': 'Currently offline',
-  'app.pwa.serviceworker.updated': 'There is new content',
-  'app.pwa.serviceworker.updated.hint': 'Please click the "Refresh" button or refresh the page manually',
-  'app.pwa.serviceworker.updated.ok': 'refresh',
+  'app.pwa.offline': 'You are currently offline',
+  'app.pwa.serviceworker.updated': 'New content is available',
+  'app.pwa.serviceworker.updated.hint':
+    'Click the "Refresh" button or reload the page manually',
+  'app.pwa.serviceworker.updated.ok': 'Refresh',
 };

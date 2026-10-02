@@ -129,7 +129,6 @@ const PluginRetailer: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.retailer' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [

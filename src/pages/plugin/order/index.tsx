@@ -34,6 +34,7 @@ const PluginOrder: React.FC = () => {
   const [refundVisible, setRefundVisible] = useState<boolean>(false);
   const [exportVisible, setExportVisible] = useState<boolean>(false);
   const [payVisible, setPayVisible] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>('');
   const intl = useIntl();
 
   const exportOrder = async (values: any) => {
@@ -129,6 +130,45 @@ const PluginOrder: React.FC = () => {
     });
   };
 
+  const statusItems = [
+    {
+      label: intl.formatMessage({ id: 'plugin.order.status.all' }),
+      value: '',
+    },
+    {
+      label: intl.formatMessage({ id: 'plugin.order.status.wait' }),
+      value: 'waiting',
+    },
+    {
+      label: intl.formatMessage({ id: 'plugin.order.status.paid' }),
+      value: 'paid',
+    },
+    {
+      label: intl.formatMessage({
+        id: 'plugin.order.status.delivery',
+      }),
+      value: 'delivery',
+    },
+    {
+      label: intl.formatMessage({
+        id: 'plugin.order.status.finished',
+      }),
+      value: 'finished',
+    },
+    {
+      label: intl.formatMessage({
+        id: 'plugin.order.status.refunding',
+      }),
+      value: 'refunding',
+    },
+    {
+      label: intl.formatMessage({
+        id: 'plugin.order.status.closed',
+      }),
+      value: 'closed',
+    },
+  ];
+
   const columns: ProColumns<any>[] = [
     {
       title: intl.formatMessage({ id: 'plugin.order.order-id' }),
@@ -171,6 +211,7 @@ const PluginOrder: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'plugin.order.status' }),
       dataIndex: 'status',
+      hideInSearch: true,
       valueEnum: {
         0: {
           text: intl.formatMessage({ id: 'plugin.order.status.wait' }),
@@ -194,47 +235,6 @@ const PluginOrder: React.FC = () => {
         '-1': {
           text: intl.formatMessage({ id: 'plugin.order.status.closed' }),
         },
-      },
-      renderFormItem: () => {
-        return (
-          <ProFormSelect
-            name="status"
-            request={async () => {
-              return [
-                {
-                  label: intl.formatMessage({ id: 'plugin.order.status.all' }),
-                  value: '',
-                },
-                {
-                  label: intl.formatMessage({ id: 'plugin.order.status.wait' }),
-                  value: 'waiting',
-                },
-                {
-                  label: intl.formatMessage({ id: 'plugin.order.status.paid' }),
-                  value: 'paid',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.order.status.delivery',
-                  }),
-                  value: 'delivery',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.order.status.finished',
-                  }),
-                  value: 'finished',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.order.status.refunding',
-                  }),
-                  value: 'refunding',
-                },
-              ];
-            }}
-          />
-        );
       },
     },
     {
@@ -305,7 +305,26 @@ const PluginOrder: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
-        headerTitle={intl.formatMessage({ id: 'menu.plugin.order' })}
+        headerTitle={
+          <>
+            <div className="module-tags">
+              {statusItems.map((item: any) => (
+                <div
+                  className={
+                    'module-tag ' + (item.value === status ? 'active' : '')
+                  }
+                  key={item.value || 'all'}
+                  onClick={() => {
+                    setStatus(item.value);
+                    actionRef.current?.reload();
+                  }}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          </>
+        }
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -328,6 +347,7 @@ const PluginOrder: React.FC = () => {
         ]}
         tableAlertOptionRender={false}
         request={(params) => {
+          params.status = status;
           return pluginGetOrders(params);
         }}
         columnsState={{

@@ -530,7 +530,7 @@ const Pluginjsonld: React.FC<any> = () => {
   const handleCategoryOpen = () => {
     checkVip(() => {
       setCategoryModalVisible(true);
-    }, '更丰富的设置为VIP功能。');
+    }, intl.formatMessage({ id: 'plugin.jsonld.vip-feature' }));
   };
 
   return (
@@ -552,7 +552,7 @@ const Pluginjsonld: React.FC<any> = () => {
                     checkVip(() => {});
                   }}
                 >
-                  更丰富的设置为VIP功能，点击查看VIP
+                  <FormattedMessage id="plugin.jsonld.vip-tip" />
                 </p>
               ) : null}
             </div>
@@ -677,7 +677,7 @@ const Pluginjsonld: React.FC<any> = () => {
                                 checkVip(() => {});
                               }}
                             >
-                              点击查看VIP
+                              <FormattedMessage id="plugin.jsonld.click-view-vip" />
                             </div>
                           ) : null
                         }

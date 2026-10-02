@@ -44,5 +44,7 @@ export default {
   'pages.login.step.file.tips': '验证文件放置于网站的public目录下',
   'pages.login.step.dns.tips': '添加一条TXT域名解析完成验证',
   'pages.login.step.file.visit': '尝试访问',
-  'app.links.anqicms': '安企CMS(AnqiCMS)',
+  'app.links.anqicms': '安企CMS(AnQiCMS)',
+  'pages.404.description': '抱歉，你访问的页面不存在。',
+  'pages.404.back-home': '返回后台首页',
 };

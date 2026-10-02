@@ -15,7 +15,7 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Card, Modal, Space, message } from 'antd';
+import { Button, Modal, Space, message } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import SubscriptionSendMail from './components/sendMail';
@@ -44,7 +44,7 @@ const PluginSubscription: React.FC = () => {
 
   const handleDelete = (selectedRowKeys: any[]) => {
     Modal.confirm({
-      title: intl.formatMessage({ id: 'content.subscription.delete.confirm' }),
+      title: intl.formatMessage({ id: 'plugin.subscription.delete.confirm' }),
       onOk: async () => {
         if (!selectedRowKeys.length) return true;
         const hide = message.loading(
@@ -170,112 +170,108 @@ const PluginSubscription: React.FC = () => {
 
   return (
     <NewContainer onTabChange={(key) => onTabChange(key)}>
-      <Card key={newKey}>
-        <ProTable<any>
-          headerTitle={intl.formatMessage({
-            id: 'menu.plugin.subscription',
-          })}
-          rowKey="id"
-          actionRef={actionRef}
-          search={false}
-          pagination={false}
-          toolBarRender={() => [
-            <SubscriptionCategory key="category" onCancel={() => {}}>
-              <Button key="category" onClick={() => handleShowCategories()}>
-                <FormattedMessage id="plugin.subscription.category" />
-              </Button>
-            </SubscriptionCategory>,
-            <Button key="add" onClick={() => handleEdit({})}>
-              <FormattedMessage id="plugin.subscription.add" />
-            </Button>,
-            <Button key="send" onClick={() => handleSendVisible()}>
-              <FormattedMessage id="plugin.subscription.send" />
-            </Button>,
-          ]}
-          request={(params) => {
-            return pluginGetSubscribers(params);
+      <ProTable<any>
+        key={newKey}
+        rowKey="id"
+        actionRef={actionRef}
+        search={false}
+        pagination={false}
+        toolBarRender={() => [
+          <SubscriptionCategory key="category" onCancel={() => {}}>
+            <Button key="category" onClick={() => handleShowCategories()}>
+              <FormattedMessage id="plugin.subscription.category" />
+            </Button>
+          </SubscriptionCategory>,
+          <Button key="add" onClick={() => handleEdit({})}>
+            <FormattedMessage id="plugin.subscription.add" />
+          </Button>,
+          <Button key="send" onClick={() => handleSendVisible()}>
+            <FormattedMessage id="plugin.subscription.send" />
+          </Button>,
+        ]}
+        request={(params) => {
+          return pluginGetSubscribers(params);
+        }}
+        columnsState={{
+          persistenceKey: 'subscribers-table',
+          persistenceType: 'localStorage',
+        }}
+        columns={columns}
+      />
+      {visible && (
+        <ModalForm
+          width={600}
+          title={intl.formatMessage({ id: 'plugin.subscription.edit' })}
+          initialValues={currentSubscriber}
+          open={visible}
+          layout="horizontal"
+          onOpenChange={(flag) => {
+            if (!flag) {
+              setVisible(flag);
+            }
           }}
-          columnsState={{
-            persistenceKey: 'subscribers-table',
-            persistenceType: 'localStorage',
+          onFinish={async (values) => {
+            onSaveSubscriber(values);
           }}
-          columns={columns}
-        />
-        {visible && (
-          <ModalForm
-            width={600}
-            title={intl.formatMessage({ id: 'plugin.subscription.edit' })}
-            initialValues={currentSubscriber}
-            open={visible}
-            layout="horizontal"
-            onOpenChange={(flag) => {
-              if (!flag) {
-                setVisible(flag);
-              }
-            }}
-            onFinish={async (values) => {
-              onSaveSubscriber(values);
-            }}
-          >
-            <ProFormSelect
-              label={intl.formatMessage({
-                id: 'plugin.subscription.category.name',
-              })}
-              name="category_id"
-              width="lg"
-              request={async () => {
-                const res = await pluginGetSubscriberCategories();
-                const data = [
-                  {
-                    id: 0,
-                    title: intl.formatMessage({
-                      id: 'plugin.subscription.category.empty',
-                    }),
-                  },
-                ]
-                  .concat(res.data || [])
-                  .map((item) => ({ label: item.title, value: item.id }));
+        >
+          <ProFormSelect
+            label={intl.formatMessage({
+              id: 'plugin.subscription.category.name',
+            })}
+            name="category_id"
+            width="lg"
+            request={async () => {
+              const res = await pluginGetSubscriberCategories();
+              const data = [
+                {
+                  id: 0,
+                  title: intl.formatMessage({
+                    id: 'plugin.subscription.category.empty',
+                  }),
+                },
+              ]
+                .concat(res.data || [])
+                .map((item) => ({ label: item.title, value: item.id }));
 
-                return data;
-              }}
-            />
-            <ProFormText
-              name="email"
-              width="lg"
-              label={intl.formatMessage({ id: 'plugin.subscription.email' })}
-            />
-            <ProFormRadio.Group
-              name="status"
-              label={intl.formatMessage({ id: 'plugin.subscription.status' })}
-              options={[
-                {
-                  value: 0,
-                  label: intl.formatMessage({
-                    id: 'plugin.subscription.status.inactive',
-                  }),
-                },
-                {
-                  value: 1,
-                  label: intl.formatMessage({
-                    id: 'plugin.subscription.status.active',
-                  }),
-                },
-              ]}
-            />
-            <ProFormText
-              name="remark"
-              width="lg"
-              label={intl.formatMessage({ id: 'plugin.subscription.remark' })}
-            />
-          </ModalForm>
-        )}
-        {sendVisible && (
-          <SubscriptionSendMail
-            open={sendVisible}
-            onCancel={() => setSendVisible(false)}
+              return data;
+            }}
           />
-        )}
-      </Card>
+          <ProFormText
+            name="email"
+            width="lg"
+            label={intl.formatMessage({ id: 'plugin.subscription.email' })}
+          />
+          <ProFormRadio.Group
+            name="status"
+            label={intl.formatMessage({ id: 'plugin.subscription.status' })}
+            options={[
+              {
+                value: 0,
+                label: intl.formatMessage({
+                  id: 'plugin.subscription.status.inactive',
+                }),
+              },
+              {
+                value: 1,
+                label: intl.formatMessage({
+                  id: 'plugin.subscription.status.active',
+                }),
+              },
+            ]}
+          />
+          <ProFormText
+            name="remark"
+            width="lg"
+            label={intl.formatMessage({ id: 'plugin.subscription.remark' })}
+          />
+        </ModalForm>
+      )}
+      {sendVisible && (
+        <SubscriptionSendMail
+          open={sendVisible}
+          onCancel={() => setSendVisible(false)}
+        />
+      )}
     </NewContainer>
   );
 };

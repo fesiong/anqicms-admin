@@ -1,4 +1,5 @@
 import account from './zh-CN/account';
+import ai from './zh-CN/ai';
 import common from './zh-CN/common';
 import component from './zh-CN/component';
 import content from './zh-CN/content';
@@ -24,6 +25,7 @@ export default {
   ...tool,
   ...website,
   ...account,
+  ...ai,
   ...statistic,
   ...design,
   ...content,

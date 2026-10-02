@@ -167,7 +167,7 @@ const PluginFulltext: React.FC<any> = () => {
             return data;
           }}
           onFinish={onSubmit}
-          title={intl.formatMessage({ id: 'menu.plugin.fulltext' })}
+          title={intl.formatMessage({ id: 'menu.plugin.system.fulltext' })}
         >
           <ProFormRadio.Group
             name={'open'}
@@ -235,7 +235,7 @@ const PluginFulltext: React.FC<any> = () => {
                         checkVip(() => {});
                       }}
                     >
-                      更多全文索引方式为VIP功能，点击查看VIP
+                      <FormattedMessage id="plugin.fulltext.vip-tip" />
                     </div>
                   ) : null
                 }

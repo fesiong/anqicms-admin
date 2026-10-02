@@ -168,7 +168,7 @@ const PluginCollector: React.FC = () => {
                 history.push('/plugin/keyword');
               }}
             >
-              <FormattedMessage id="menu.plugin.keyword" />
+              <FormattedMessage id="menu.plugin.contentops.keyword" />
             </Button>,
             <Button
               key="replace"
