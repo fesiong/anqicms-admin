@@ -266,7 +266,7 @@ export default {
   'setting.tab.social': '社媒信息',
   'setting.tab.ai-writing': 'AI接口配置(写作/翻译)',
   'setting.tab.ai-assistant': 'AI接口配置(AI助手)',
-  'setting.tab.mcp': 'MCP 对外接口',
+  'setting.tab.mcp': 'MCP 开放接口',
   'setting.ai.delete-success': '删除成功',
   'setting.ai.delete-failed': '删除失败',
   'setting.ai.save-success': '保存成功',
@@ -284,8 +284,9 @@ export default {
   'setting.ai.mcp-tools-count': ' {count} 个',
   'setting.ai.mcp-tools-all': '全部',
   'setting.ai.copy-mcp-config': '一键复制配置',
-  'setting.ai.mcp-enable': '启用 MCP 对外接口',
-  'setting.ai.mcp-enable-description': '开启后允许第三方 AI 通过 MCP 协议访问本站点',
+  'setting.ai.mcp-enable': '启用 MCP 开放接口',
+  'setting.ai.mcp-enable-description':
+    '开启后允许第三方 AI 通过 MCP 协议访问本站点',
   'setting.ai.mcp-token-label': '鉴权 Token',
   'setting.ai.mcp-token-placeholder': '点击右侧按钮生成随机 Token',
   'setting.ai.mcp-token-extra':

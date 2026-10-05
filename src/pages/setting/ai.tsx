@@ -35,7 +35,7 @@ const SettingAiFrom: React.FC<any> = () => {
   const [aiEngine, setAiEngine] = useState<string>('');
   const [tmpInput, setTmpInput] = useState<any>({});
   const [newKey, setNewKey] = useState<string>('');
-  const [activeTabKey, setActiveTabKey] = useState<string>('write');
+  const [activeTabKey, setActiveTabKey] = useState<string>('mcp');
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -179,7 +179,9 @@ const SettingAiFrom: React.FC<any> = () => {
             setChatSetting(res.data);
           }
           setEditChatSetting(null);
-          message.success(intl.formatMessage({ id: 'setting.ai.delete-success' }));
+          message.success(
+            intl.formatMessage({ id: 'setting.ai.delete-success' }),
+          );
         } else {
           message.info(
             res.msg || intl.formatMessage({ id: 'setting.ai.delete-failed' }),
@@ -211,7 +213,9 @@ const SettingAiFrom: React.FC<any> = () => {
           if (Array.isArray(res.data.chat)) setChatSetting(res.data.chat);
           setEditChatOpen(false);
           setEditChatSetting(null);
-          message.success(intl.formatMessage({ id: 'setting.ai.save-success' }));
+          message.success(
+            intl.formatMessage({ id: 'setting.ai.save-success' }),
+          );
         } else {
           message.info(
             res.msg || intl.formatMessage({ id: 'setting.ai.save-failed' }),
@@ -369,407 +373,417 @@ const SettingAiFrom: React.FC<any> = () => {
           },
         ]}
       >
-        {fetched && activeTabKey === 'write' ? (
-          <ProForm initialValues={writeSetting} onFinish={onSubmitWrite}>
-            <ProFormRadio.Group
-              name="ai_engine"
-              label={intl.formatMessage({
-                id: 'plugin.aigenerate.source',
-              })}
-              options={[
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.aigenerate.source.anqicms',
-                  }),
-                  value: '',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.aigenerate.source.openai',
-                  }),
-                  value: 'openai',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.aigenerate.source.deepseek',
-                  }),
-                  value: 'deepseek',
-                },
-                {
-                  label: intl.formatMessage({
-                    id: 'plugin.aigenerate.source.spark',
-                  }),
-                  value: 'spark',
-                },
-              ]}
-              fieldProps={{
-                onChange: (e) => {
-                  handleChangeAiEngine(e);
-                },
-              }}
-              extra={
-                <div>
-                  <span>
-                    <FormattedMessage id="plugin.aigenerate.source.description" />
-                  </span>
-                  <Tag
-                    style={{ marginLeft: 10 }}
-                    className="link"
-                    onClick={handleCheckOpenAIApi}
-                  >
-                    <FormattedMessage id="plugin.aigenerate.source.check-openai" />
-                  </Tag>
-                </div>
-              }
-              disabled={isVip === false}
-            />
-            {!isVip ? (
-              <div
-                className="link mb-normal"
-                onClick={() => {
-                  checkVip(() => {});
+        {fetched &&
+          (activeTabKey === 'write' ? (
+            <ProForm initialValues={writeSetting} onFinish={onSubmitWrite}>
+              <ProFormRadio.Group
+                name="ai_engine"
+                label={intl.formatMessage({
+                  id: 'plugin.aigenerate.source',
+                })}
+                options={[
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.aigenerate.source.anqicms',
+                    }),
+                    value: '',
+                  },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.aigenerate.source.openai',
+                    }),
+                    value: 'openai',
+                  },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.aigenerate.source.deepseek',
+                    }),
+                    value: 'deepseek',
+                  },
+                  {
+                    label: intl.formatMessage({
+                      id: 'plugin.aigenerate.source.spark',
+                    }),
+                    value: 'spark',
+                  },
+                ]}
+                fieldProps={{
+                  onChange: (e) => {
+                    handleChangeAiEngine(e);
+                  },
                 }}
-              >
-                <FormattedMessage id="setting.ai.vip-more-ai" />
-              </div>            ) : null}
-            {(aiEngine === 'openai' || aiEngine === 'deepseek') && (
-              <>
-                <ProFormText
-                  name={'open_ai_api'}
-                  label={intl.formatMessage({
-                    id: 'plugin.aigenerate.openai.base-url',
-                  })}
-                  extra={intl.formatMessage({
-                    id:
-                      aiEngine === 'deepseek'
-                        ? 'plugin.aigenerate.openai.base-url.deepseek'
-                        : 'plugin.aigenerate.openai.base-url.openai',
-                  })}
-                />
-                <ProFormText
-                  name={'open_ai_model'}
-                  label={intl.formatMessage({
-                    id: 'plugin.aigenerate.openai.model',
-                  })}
-                  extra={intl.formatMessage({
-                    id:
-                      aiEngine === 'deepseek'
-                        ? 'plugin.aigenerate.openai.model.deepseek'
-                        : 'plugin.aigenerate.openai.model.openai',
-                  })}
-                />
-                <ProFormText
-                  label="API Keys"
-                  extra={
-                    <div>
-                      <div className="text-muted">
-                        <div>
-                          <span className="text-red">*</span>
-                          <FormattedMessage id="plugin.aigenerate.openai.description" />
-                        </div>
-                      </div>
-                      <div className="tag-lists">
-                        <Space size={[12, 12]} wrap>
-                          {writeSetting.open_ai_keys?.map(
-                            (tag: any, index: number) => (
-                              <span className="edit-tag" key={index}>
-                                <span className="key">{tag.key}</span>
-                                <span className="divide">
-                                  <span className="value">
-                                    {tag.invalid
-                                      ? intl.formatMessage({
-                                          id: 'plugin.aigenerate.openai.invalid',
-                                        })
-                                      : intl.formatMessage({
-                                          id: 'plugin.aigenerate.openai.valid',
-                                        })}
-                                  </span>
-                                </span>
-                                <span
-                                  className="close"
-                                  onClick={() => handleRemoveOpenAIKey(index)}
-                                >
-                                  ×
-                                </span>
-                              </span>
-                            ),
-                          )}
-                        </Space>
-                      </div>
-                    </div>
-                  }
-                >
-                  <Input.Group compact>
-                    <Input
-                      value={tmpInput.key || ''}
-                      onChange={(e) => handleChangeTmpInput('key', e)}
-                      onPressEnter={() => handleAddOpenAIKey()}
-                      suffix={
-                        <a onClick={() => handleAddOpenAIKey()}>
-                          <FormattedMessage id="plugin.aigenerate.enter-to-add" />
-                        </a>
-                      }
-                    />
-                  </Input.Group>
-                </ProFormText>
-              </>
-            )}
-            {aiEngine === 'spark' && (
-              <>
-                <div className="mb-normal">
-                  <FormattedMessage id="plugin.aigenerate.spark.description" />:
-                  <a
-                    href="https://xinghuo.xfyun.cn/sparkapi?ch=gjp"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    https://xinghuo.xfyun.cn/sparkapi?ch=gjp
-                  </a>
-                </div>
-                <ProFormRadio.Group
-                  name={['spark', 'version']}
-                  label={intl.formatMessage({
-                    id: 'plugin.aigenerate.spark.version',
-                  })}
-                  options={[
-                    { label: 'Spark Lite(Free)', value: '1.5' },
-                    { label: 'Spark Pro', value: '3.0' },
-                    { label: 'Spark Max', value: '3.5' },
-                    { label: 'Spark4.0 Ultra', value: '4.0' },
-                  ]}
-                />
-                <ProFormText name={['spark', 'app_id']} label="APPID" />
-                <ProFormText name={['spark', 'api_secret']} label="APISecret" />
-                <ProFormText name={['spark', 'api_key']} label="APIKey" />
-              </>
-            )}
-          </ProForm>
-        ) : activeTabKey === 'chat' ? (
-          <div>
-            <div style={{ marginBottom: 12 }}>
-              <Button type="primary" size="small" onClick={onAddChatAi}>
-                <FormattedMessage id="setting.ai.add-custom-endpoint" />
-              </Button>
-            </div>
-            {chatSetting.length === 0 ? (
-              <div
-                style={{
-                  textAlign: 'center',
-                  padding: '24px 0',
-                  color: '#999',
-                }}
-              >
-                <FormattedMessage id="setting.ai.no-custom-endpoint" />
-              </div>
-            ) : (
-              <List
-                size="small"
-                dataSource={chatSetting}
-                renderItem={(item: any, index: number) => (
-                  <List.Item
-                    actions={[
-                      <Button
-                        key="edit"
-                        type="link"
-                        size="small"
-                        onClick={() => onEditChatSetting(index, item)}
-                      >
-                        <FormattedMessage id="common.edit" />
-                      </Button>,
-                      <Button
-                        key="delete"
-                        type="link"
-                        size="small"
-                        danger
-                        onClick={() => handleDeleteChatSetting(index)}
-                      >
-                        <FormattedMessage id="setting.system.delete" />
-                      </Button>,
-                    ]}
-                  >
-                    <List.Item.Meta
-                      title={item.name}
-                      description={
-                        <span style={{ fontSize: 12, color: '#999' }}>
-                          {item.base_url} | {item.model}
-                        </span>
-                      }
-                    />
-                  </List.Item>
-                )}
+                extra={
+                  <div>
+                    <span>
+                      <FormattedMessage id="plugin.aigenerate.source.description" />
+                    </span>
+                    <Tag
+                      style={{ marginLeft: 10 }}
+                      className="link"
+                      onClick={handleCheckOpenAIApi}
+                    >
+                      <FormattedMessage id="plugin.aigenerate.source.check-openai" />
+                    </Tag>
+                  </div>
+                }
+                disabled={isVip === false}
               />
-            )}
-          </div>
-        ) : activeTabKey === 'mcp' ? (
-          <ProForm
-            formRef={mcpFormRef}
-            initialValues={{
-              enabled: mcpSetting.enabled || false,
-              token: mcpSetting.token || '',
-              rate_limit: mcpSetting.rate_limit || 0,
-              exposed_intents: Array.isArray(mcpSetting.exposed_intents)
-                ? mcpSetting.exposed_intents.join(', ')
-                : '',
-            }}
-            onFinish={onSubmitMcp}
-          >
-            <div
-              style={{
-                marginBottom: 16,
-                padding: 12,
-                background: '#f6f8fa',
-                borderRadius: 6,
-                fontSize: 13,
-                color: '#666',
-              }}
-            >
-              {intl.formatMessage(
-                { id: 'setting.ai.mcp-intro' },
-                {
-                  tools:
-                    mcpTools.length > 0
-                      ? intl.formatMessage(
-                          { id: 'setting.ai.mcp-tools-count' },
-                          { count: mcpTools.length },
-                        )
-                      : intl.formatMessage({ id: 'setting.ai.mcp-tools-all' }),
-                },
-              )}
-              <code style={{ marginLeft: 6 }}>
-                {initialState?.system?.base_url || ''}/api/mcp
-              </code>
-              <Button
-                type="link"
-                size="small"
-                onClick={handleCopyMcpConfig}
-                style={{ float: 'right', padding: 0 }}
-              >
-                <FormattedMessage id="setting.ai.copy-mcp-config" />
-              </Button>
-            </div>
-            <ProFormSwitch
-              name="enabled"
-              label={intl.formatMessage({ id: 'setting.ai.mcp-enable' })}
-              extra={intl.formatMessage({
-                id: 'setting.ai.mcp-enable-description',
-              })}
-            />
-            <ProFormText
-              name="token"
-              label={intl.formatMessage({ id: 'setting.ai.mcp-token-label' })}
-              placeholder={intl.formatMessage({
-                id: 'setting.ai.mcp-token-placeholder',
-              })}
-              extra={intl.formatMessage({ id: 'setting.ai.mcp-token-extra' })}
-              fieldProps={{
-                addonAfter: (
-                  <Button size="small" onClick={handleGenerateToken}>
-                    <FormattedMessage id="setting.ai.mcp-generate-token" />
-                  </Button>
-                ),
-              }}
-            />
-            <ProFormDigit
-              name="rate_limit"
-              label={intl.formatMessage({ id: 'setting.ai.mcp-rate-limit' })}
-              placeholder={intl.formatMessage({
-                id: 'setting.ai.mcp-rate-limit-placeholder',
-              })}
-              min={0}
-              extra={intl.formatMessage({
-                id: 'setting.ai.mcp-rate-limit-extra',
-              })}
-            />
-            <ProFormText
-              name="exposed_intents"
-              label={intl.formatMessage({ id: 'setting.ai.mcp-exposed-tools' })}
-              placeholder={intl.formatMessage({
-                id: 'setting.ai.mcp-exposed-tools-placeholder',
-              })}
-              extra={intl.formatMessage({
-                id: 'setting.ai.mcp-exposed-tools-extra',
-              })}
-            />
-            {mcpTools.length > 0 && (
-              <div
-                style={{
-                  marginTop: -8,
-                  marginBottom: 16,
-                  padding: 12,
-                  background: '#fafafa',
-                  border: '1px solid #f0f0f0',
-                  borderRadius: 6,
-                }}
-              >
+              {!isVip ? (
                 <div
-                  style={{
-                    fontSize: 13,
-                    color: '#999',
-                    marginBottom: 8,
+                  className="link mb-normal"
+                  onClick={() => {
+                    checkVip(() => {});
                   }}
                 >
-                  <FormattedMessage
-                    id="setting.ai.mcp-available-tools"
-                    values={{ count: mcpTools.length }}
-                  />
+                  <FormattedMessage id="setting.ai.vip-more-ai" />
                 </div>
-                {Object.entries(toolsByDomain).map(([domain, list]: any) => (
-                  <div key={domain} style={{ marginBottom: 6 }}>
-                    <span
-                      style={{
-                        fontSize: 12,
-                        color: '#666',
-                        marginRight: 8,
-                      }}
+              ) : null}
+              {(aiEngine === 'openai' || aiEngine === 'deepseek') && (
+                <>
+                  <ProFormText
+                    name={'open_ai_api'}
+                    label={intl.formatMessage({
+                      id: 'plugin.aigenerate.openai.base-url',
+                    })}
+                    extra={intl.formatMessage({
+                      id:
+                        aiEngine === 'deepseek'
+                          ? 'plugin.aigenerate.openai.base-url.deepseek'
+                          : 'plugin.aigenerate.openai.base-url.openai',
+                    })}
+                  />
+                  <ProFormText
+                    name={'open_ai_model'}
+                    label={intl.formatMessage({
+                      id: 'plugin.aigenerate.openai.model',
+                    })}
+                    extra={intl.formatMessage({
+                      id:
+                        aiEngine === 'deepseek'
+                          ? 'plugin.aigenerate.openai.model.deepseek'
+                          : 'plugin.aigenerate.openai.model.openai',
+                    })}
+                  />
+                  <ProFormText
+                    label="API Keys"
+                    extra={
+                      <div>
+                        <div className="text-muted">
+                          <div>
+                            <span className="text-red">*</span>
+                            <FormattedMessage id="plugin.aigenerate.openai.description" />
+                          </div>
+                        </div>
+                        <div className="tag-lists">
+                          <Space size={[12, 12]} wrap>
+                            {writeSetting.open_ai_keys?.map(
+                              (tag: any, index: number) => (
+                                <span className="edit-tag" key={index}>
+                                  <span className="key">{tag.key}</span>
+                                  <span className="divide">
+                                    <span className="value">
+                                      {tag.invalid
+                                        ? intl.formatMessage({
+                                            id: 'plugin.aigenerate.openai.invalid',
+                                          })
+                                        : intl.formatMessage({
+                                            id: 'plugin.aigenerate.openai.valid',
+                                          })}
+                                    </span>
+                                  </span>
+                                  <span
+                                    className="close"
+                                    onClick={() => handleRemoveOpenAIKey(index)}
+                                  >
+                                    ×
+                                  </span>
+                                </span>
+                              ),
+                            )}
+                          </Space>
+                        </div>
+                      </div>
+                    }
+                  >
+                    <Input.Group compact>
+                      <Input
+                        value={tmpInput.key || ''}
+                        onChange={(e) => handleChangeTmpInput('key', e)}
+                        onPressEnter={() => handleAddOpenAIKey()}
+                        suffix={
+                          <a onClick={() => handleAddOpenAIKey()}>
+                            <FormattedMessage id="plugin.aigenerate.enter-to-add" />
+                          </a>
+                        }
+                      />
+                    </Input.Group>
+                  </ProFormText>
+                </>
+              )}
+              {aiEngine === 'spark' && (
+                <>
+                  <div className="mb-normal">
+                    <FormattedMessage id="plugin.aigenerate.spark.description" />
+                    :
+                    <a
+                      href="https://xinghuo.xfyun.cn/sparkapi?ch=gjp"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      {domain}
-                    </span>
-                    <Space size={[6, 6]} wrap>
-                      {list.map((t: any) => (
-                        <Tooltip
-                          key={t.name}
-                          title={
-                            <div>
-                              <div>{t.title || t.name}</div>
-                              <div style={{ marginTop: 4 }}>{t.desc}</div>
-                              <div style={{ marginTop: 4 }}>
-                                <FormattedMessage id="setting.ai.mcp-risk-level" />
-                                {t.risk}
-                                {t.default_off ? (
-                                  <FormattedMessage id="setting.ai.mcp-default-off" />
-                                ) : null}
-                              </div>
-                            </div>
-                          }
-                        >
-                          <Tag
-                            style={{
-                              cursor: 'pointer',
-                              marginRight: 0,
-                              opacity: t.default_off ? 0.65 : 1,
-                            }}
-                            color={
-                              t.risk === 'read'
-                                ? 'green'
-                                : t.risk === 'write'
-                                ? 'blue'
-                                : t.risk === 'destructive'
-                                ? 'orange'
-                                : 'red'
-                            }
-                            onClick={() => handleAddIntent(t.name)}
-                          >
-                            {t.name}
-                          </Tag>
-                        </Tooltip>
-                      ))}
-                    </Space>
+                      https://xinghuo.xfyun.cn/sparkapi?ch=gjp
+                    </a>
                   </div>
-                ))}
+                  <ProFormRadio.Group
+                    name={['spark', 'version']}
+                    label={intl.formatMessage({
+                      id: 'plugin.aigenerate.spark.version',
+                    })}
+                    options={[
+                      { label: 'Spark Lite(Free)', value: '1.5' },
+                      { label: 'Spark Pro', value: '3.0' },
+                      { label: 'Spark Max', value: '3.5' },
+                      { label: 'Spark4.0 Ultra', value: '4.0' },
+                    ]}
+                  />
+                  <ProFormText name={['spark', 'app_id']} label="APPID" />
+                  <ProFormText
+                    name={['spark', 'api_secret']}
+                    label="APISecret"
+                  />
+                  <ProFormText name={['spark', 'api_key']} label="APIKey" />
+                </>
+              )}
+            </ProForm>
+          ) : activeTabKey === 'chat' ? (
+            <div>
+              <div style={{ marginBottom: 12 }}>
+                <Button type="primary" size="small" onClick={onAddChatAi}>
+                  <FormattedMessage id="setting.ai.add-custom-endpoint" />
+                </Button>
               </div>
-            )}
-          </ProForm>
-        ) : null}
+              {chatSetting.length === 0 ? (
+                <div
+                  style={{
+                    textAlign: 'center',
+                    padding: '24px 0',
+                    color: '#999',
+                  }}
+                >
+                  <FormattedMessage id="setting.ai.no-custom-endpoint" />
+                </div>
+              ) : (
+                <List
+                  size="small"
+                  dataSource={chatSetting}
+                  renderItem={(item: any, index: number) => (
+                    <List.Item
+                      actions={[
+                        <Button
+                          key="edit"
+                          type="link"
+                          size="small"
+                          onClick={() => onEditChatSetting(index, item)}
+                        >
+                          <FormattedMessage id="common.edit" />
+                        </Button>,
+                        <Button
+                          key="delete"
+                          type="link"
+                          size="small"
+                          danger
+                          onClick={() => handleDeleteChatSetting(index)}
+                        >
+                          <FormattedMessage id="setting.system.delete" />
+                        </Button>,
+                      ]}
+                    >
+                      <List.Item.Meta
+                        title={item.name}
+                        description={
+                          <span style={{ fontSize: 12, color: '#999' }}>
+                            {item.base_url} | {item.model}
+                          </span>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                />
+              )}
+            </div>
+          ) : activeTabKey === 'mcp' ? (
+            <ProForm
+              formRef={mcpFormRef}
+              initialValues={{
+                enabled: mcpSetting.enabled || false,
+                token: mcpSetting.token || '',
+                rate_limit: mcpSetting.rate_limit || 0,
+                exposed_intents: Array.isArray(mcpSetting.exposed_intents)
+                  ? mcpSetting.exposed_intents.join(', ')
+                  : '',
+              }}
+              onFinish={onSubmitMcp}
+            >
+              <div
+                style={{
+                  marginBottom: 16,
+                  padding: 12,
+                  background: '#f6f8fa',
+                  borderRadius: 6,
+                  fontSize: 13,
+                  color: '#666',
+                }}
+              >
+                {intl.formatMessage(
+                  { id: 'setting.ai.mcp-intro' },
+                  {
+                    tools:
+                      mcpTools.length > 0
+                        ? intl.formatMessage(
+                            { id: 'setting.ai.mcp-tools-count' },
+                            { count: mcpTools.length },
+                          )
+                        : intl.formatMessage({
+                            id: 'setting.ai.mcp-tools-all',
+                          }),
+                  },
+                )}
+                <code style={{ marginLeft: 6 }}>
+                  {initialState?.system?.base_url || ''}/api/mcp
+                </code>
+                <Button
+                  type="link"
+                  size="small"
+                  onClick={handleCopyMcpConfig}
+                  style={{ float: 'right', padding: 0 }}
+                >
+                  <FormattedMessage id="setting.ai.copy-mcp-config" />
+                </Button>
+              </div>
+              <ProFormSwitch
+                name="enabled"
+                label={intl.formatMessage({ id: 'setting.ai.mcp-enable' })}
+                extra={intl.formatMessage({
+                  id: 'setting.ai.mcp-enable-description',
+                })}
+              />
+              <ProFormText
+                name="token"
+                label={intl.formatMessage({ id: 'setting.ai.mcp-token-label' })}
+                placeholder={intl.formatMessage({
+                  id: 'setting.ai.mcp-token-placeholder',
+                })}
+                extra={intl.formatMessage({ id: 'setting.ai.mcp-token-extra' })}
+                fieldProps={{
+                  addonAfter: (
+                    <Button size="small" onClick={handleGenerateToken}>
+                      <FormattedMessage id="setting.ai.mcp-generate-token" />
+                    </Button>
+                  ),
+                }}
+              />
+              <ProFormDigit
+                name="rate_limit"
+                label={intl.formatMessage({ id: 'setting.ai.mcp-rate-limit' })}
+                placeholder={intl.formatMessage({
+                  id: 'setting.ai.mcp-rate-limit-placeholder',
+                })}
+                min={0}
+                extra={intl.formatMessage({
+                  id: 'setting.ai.mcp-rate-limit-extra',
+                })}
+              />
+              <ProFormText
+                name="exposed_intents"
+                label={intl.formatMessage({
+                  id: 'setting.ai.mcp-exposed-tools',
+                })}
+                placeholder={intl.formatMessage({
+                  id: 'setting.ai.mcp-exposed-tools-placeholder',
+                })}
+                extra={intl.formatMessage({
+                  id: 'setting.ai.mcp-exposed-tools-extra',
+                })}
+              />
+              {mcpTools.length > 0 && (
+                <div
+                  style={{
+                    marginTop: -8,
+                    marginBottom: 16,
+                    padding: 12,
+                    background: '#fafafa',
+                    border: '1px solid #f0f0f0',
+                    borderRadius: 6,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: '#999',
+                      marginBottom: 8,
+                    }}
+                  >
+                    <FormattedMessage
+                      id="setting.ai.mcp-available-tools"
+                      values={{ count: mcpTools.length }}
+                    />
+                  </div>
+                  {Object.entries(toolsByDomain).map(([domain, list]: any) => (
+                    <div key={domain} style={{ marginBottom: 6 }}>
+                      <span
+                        style={{
+                          fontSize: 12,
+                          color: '#666',
+                          marginRight: 8,
+                        }}
+                      >
+                        {domain}
+                      </span>
+                      <Space size={[6, 6]} wrap>
+                        {list.map((t: any) => (
+                          <Tooltip
+                            key={t.name}
+                            title={
+                              <div>
+                                <div>{t.title || t.name}</div>
+                                <div style={{ marginTop: 4 }}>{t.desc}</div>
+                                <div style={{ marginTop: 4 }}>
+                                  <FormattedMessage id="setting.ai.mcp-risk-level" />
+                                  {t.risk}
+                                  {t.default_off ? (
+                                    <FormattedMessage id="setting.ai.mcp-default-off" />
+                                  ) : null}
+                                </div>
+                              </div>
+                            }
+                          >
+                            <Tag
+                              style={{
+                                cursor: 'pointer',
+                                marginRight: 0,
+                                opacity: t.default_off ? 0.65 : 1,
+                              }}
+                              color={
+                                t.risk === 'read'
+                                  ? 'green'
+                                  : t.risk === 'write'
+                                  ? 'blue'
+                                  : t.risk === 'destructive'
+                                  ? 'orange'
+                                  : 'red'
+                              }
+                              onClick={() => handleAddIntent(t.name)}
+                            >
+                              {t.name}
+                            </Tag>
+                          </Tooltip>
+                        ))}
+                      </Space>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ProForm>
+          ) : null)}
       </Card>
       <VipModal />
       <ModalForm
