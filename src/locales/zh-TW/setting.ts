@@ -285,7 +285,8 @@ export default {
   'setting.ai.mcp-tools-all': '全部',
   'setting.ai.copy-mcp-config': '一鍵複製設定',
   'setting.ai.mcp-enable': '啟用 MCP 對外介面',
-  'setting.ai.mcp-enable-description': '開啟後允許第三方 AI 透過 MCP 協定存取本站點',
+  'setting.ai.mcp-enable-description':
+    '開啟後允許第三方 AI 透過 MCP 協定存取本站點',
   'setting.ai.mcp-token-label': '驗證 Token',
   'setting.ai.mcp-token-placeholder': '點擊右側按鈕產生隨機 Token',
   'setting.ai.mcp-token-extra':
@@ -295,15 +296,43 @@ export default {
   'setting.ai.mcp-rate-limit-placeholder': '0 表示不限制',
   'setting.ai.mcp-rate-limit-extra':
     '防止第三方 AI 過度呼叫造成服務壓力過大，0 表示不限制',
-  'setting.ai.mcp-exposed-tools': '暴露的工具清單',
+  'setting.ai.mcp-exposed-tools': '允許使用的工具',
   'setting.ai.mcp-exposed-tools-placeholder':
-    '留空表示暴露全部預設工具；多個意圖名稱或能力域以英文逗號分隔，* 表示全部（含預設關閉的高風險工具）',
+    '留空即開放全部常用工具；填 * 開放所有工具（含危險工具）；也可只指定其中幾個，多個以英文逗號分隔',
   'setting.ai.mcp-exposed-tools-extra':
-    '填寫意圖名稱（如 content_article、media）或能力域名（如 content、seo）；備份/升級/通用呼叫等預設關閉的工具需明確列出才會開放',
+    '備份、升級、刪除等危險工具預設不開放，需要在此手動加入。也可填寫分類名（如 content、seo）授權一整類工具',
   'setting.ai.mcp-available-tools':
-    '本站點可用工具（{count}）：點擊工具名稱可加入上方清單，游標懸停檢視說明',
+    '本站點可用工具（{count}）：點擊下面的工具名稱即可加入上方清單，游標懸停檢視說明',
   'setting.ai.mcp-risk-level': '風險等級：',
-  'setting.ai.mcp-default-off': '（預設關閉，需明確開放）',
+  'setting.ai.mcp-default-off': '（預設不開放，需手動加入）',
+  'setting.ai.mcp-invoke-admin': '介面呼叫身分',
+  'setting.ai.mcp-invoke-admin-none': '不開放',
+  'setting.ai.mcp-invoke-admin-required': '請選擇介面呼叫身分',
+  'setting.ai.mcp-invoke-admin-extra':
+    '選擇 AI 呼叫網站介面時以哪個管理員身分進行，首次進入已預設選第一位管理員。選「不開放」時 AI 無法呼叫任何後台介面',
+  'setting.ai.mcp-exposure-mode': '介面開放範圍',
+  'setting.ai.mcp-exposure-mode-attention':
+    '請先選擇介面開放範圍，否則 AI 無法存取網站資料',
+  'setting.ai.mcp-exposure-mode-required': '請選擇介面開放範圍',
+  'setting.ai.mcp-exposure-mode-off': '關閉（AI 不能存取資料）',
+  'setting.ai.mcp-exposure-mode-read': '唯讀',
+  'setting.ai.mcp-exposure-mode-read-write': '讀 + 寫（預設，推薦）',
+  'setting.ai.mcp-exposure-mode-all': '全部（含刪除，謹慎開啟）',
+  'setting.ai.mcp-exposure-mode-extra':
+    '決定 AI 能對網站做哪類操作：唯讀只能檢視，讀+寫可新增與修改，全部則包含刪除。開啟前請先確認已選擇呼叫身分',
+  'setting.ai.mcp-exposure-allow-ns': '介面白名單',
+  'setting.ai.mcp-exposure-allow-ns-placeholder':
+    '選填，多個以英文逗號分隔，如 archive, category',
+  'setting.ai.mcp-exposure-allow-ns-extra':
+    '只允許 AI 存取這些模組的介面，留空表示不限制',
+  'setting.ai.mcp-exposure-deny-ns': '介面黑名單',
+  'setting.ai.mcp-exposure-deny-ns-extra':
+    '禁止 AI 存取這些模組的介面，黑名單優先於白名單',
+  'setting.ai.mcp-exposure-deny-endpoints': '禁止存取的介面',
+  'setting.ai.mcp-exposure-deny-endpoints-placeholder':
+    '選填，多個以英文逗號分隔，如 POST /archive/detail',
+  'setting.ai.mcp-exposure-deny-endpoints-extra':
+    '精確禁止 AI 存取某幾個具體介面',
   'setting.ai.endpoint-name': '介面名稱',
   'setting.ai.endpoint-name-example': '例如：我的 DeepSeek',
   'setting.ai.endpoint-name-required': '請填寫介面名稱',

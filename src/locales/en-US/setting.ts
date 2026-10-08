@@ -7,7 +7,8 @@ export default {
   'setting.action.submit': 'Submit',
   'setting.action.view': 'View',
   'setting.system.upload-success': 'Upload complete',
-  'setting.system.confirm-delete-ico': 'Are you sure you want to delete the favicon?',
+  'setting.system.confirm-delete-ico':
+    'Are you sure you want to delete the favicon?',
   'setting.system.submitting': 'Submitting',
   'setting.system.submit-success': 'Submitted successfully',
   'setting.system.template-type': 'Website type',
@@ -15,7 +16,8 @@ export default {
   'setting.system.template-type.code': 'Code adaptation',
   'setting.system.template-type.auto': 'Responsive',
   'setting.system.site-name': 'Website name',
-  'setting.system.site-name-description': 'This name is appended to the end of page titles',
+  'setting.system.site-name-description':
+    'This name is appended to the end of page titles',
   'setting.system.site-name-error': 'Please enter the website name!',
   'setting.system.base-url': 'Website URL',
   'setting.system.base-url-description':
@@ -28,7 +30,8 @@ export default {
   'setting.system.mobile-url-description':
     'The mobile access URL of this website, e.g. https://m.anqicms.com. Required when the website type is PC + Mobile.',
   'setting.system.site-logo': 'Website Logo',
-  'setting.system.site-logo-description': 'The Logo is displayed in the page header',
+  'setting.system.site-logo-description':
+    'The Logo is displayed in the page header',
   'setting.system.delete': 'Delete',
   'setting.system.upload': 'Upload',
   'setting.system.site-ico': 'Site icon',
@@ -39,19 +42,22 @@ export default {
   'setting.system.site-icp-description-after':
     ', only the main ICP filing number is required. Leave blank if you have none.',
   'setting.system.site-copyright': 'Copyright notice',
-  'setting.system.site-copyright-placeholder': 'The copyright notice is displayed in the page footer',
+  'setting.system.site-copyright-placeholder':
+    'The copyright notice is displayed in the page footer',
   'setting.system.site-copyright-description': 'HTML tags are supported here',
   'setting.system.language': 'Default language pack',
   'setting.system.language-description':
     'Built-in frontend text is displayed according to the selected language pack',
   'setting.system.admin-url': 'Admin panel URL',
-  'setting.system.admin-url-placeholder': 'A domain starting with http or https',
+  'setting.system.admin-url-placeholder':
+    'A domain starting with http or https',
   'setting.system.admin-url-description-before':
     'You can assign a separate domain to the admin panel for extra security, e.g. https://admin.anqicms.com',
   'setting.system.admin-url-description-after':
     'Before setting this, resolve and bind the domain first; otherwise the admin panel will be inaccessible.',
   'setting.system.admin-url-description-notice': 'Note: ',
-  'setting.system.admin-url-description-notice-value': 'Do not use this site\'s own domain!',
+  'setting.system.admin-url-description-notice-value':
+    "Do not use this site's own domain!",
   'setting.system.site-close': 'Website status',
   'setting.system.site-close-description': 'Whether the site is closed',
   'setting.system.normal': 'Normal',
@@ -72,13 +78,15 @@ export default {
     'Converted to camelCase after saving; call it by this name',
   'setting.system.param-value': 'Parameter value',
   'setting.system.remark': 'Remarks',
-  'setting.system.confirm-delete-param': 'Are you sure you want to delete this parameter?',
+  'setting.system.confirm-delete-param':
+    'Are you sure you want to delete this parameter?',
   'setting.system.confirm-delete': 'Are you sure you want to delete?',
   'setting.content.confirm-convert-webp':
     'Are you sure you want to convert all non-WebP images in the media library to WebP?',
   'setting.content.confirm-convert-webp.content':
     'The replacement may be incomplete, leaving some pages referencing old image URLs that display incorrectly. You will need to find and fix them manually.',
-  'setting.content.confirm-thumbnal': 'Are you sure you want to regenerate thumbnails?',
+  'setting.content.confirm-thumbnal':
+    'Are you sure you want to regenerate thumbnails?',
   'setting.content.confirm-thumbnal.content':
     'If you just changed the thumbnail size but have not saved, cancel this dialog, save first, then click regenerate.',
   'setting.content.editor': 'Default editor',
@@ -113,7 +121,8 @@ export default {
     'If you want all uploaded jpg, png and other images to be converted to WebP (to reduce file size), enable this. It only applies to images uploaded after the change.',
   'setting.content.use-webp.description.tips':
     'To convert already uploaded images to WebP, click ',
-  'setting.content.use-webp.description.convert': 'Use the WebP conversion tool',
+  'setting.content.use-webp.description.convert':
+    'Use the WebP conversion tool',
   'setting.content.convert-gif': 'Convert GIF images to WebP',
   'setting.content.convert-gif.description':
     'If enabled, GIF images are automatically converted to WebP, which removes the animation and turns them into static images.',
@@ -186,7 +195,8 @@ export default {
   'setting.sensitive.sync': 'Sync sensitive words',
   'setting.sensitive.sync.list': 'Sensitive word list',
   'setting.sensitive.sync.placeholder': 'Note: one word per line.',
-  'setting.sensitive.sync.description': 'Please enter one sensitive word per line.',
+  'setting.sensitive.sync.description':
+    'Please enter one sensitive word per line.',
   'setting.contact.username': 'Contact person',
   'setting.contact.cellphone': 'Phone number',
   'setting.contact.address': 'Address',
@@ -204,7 +214,8 @@ export default {
   'setting.index.params.tips':
     '{sep} SEO separator, default " - "\n(Page {page}) pagination page number\n{siteName} current site name\n{catname} current category name\n{multicatname} current category name including hierarchy\nBuilt-in fields of the "current content" are supported; custom fields are not. Format: {field}\nE.g.: {title} post title\t{keywords} content keywords\t{description} content description',
   'setting.banner.name.require': 'Please enter the group name',
-  'setting.banner.confirm-delete': 'Are you sure you want to delete this Banner?',
+  'setting.banner.confirm-delete':
+    'Are you sure you want to delete this Banner?',
   'setting.banner.logo': 'Image',
   'setting.banner.name-link': 'Name / Link',
   'setting.banner.link': 'Link: ',
@@ -220,7 +231,8 @@ export default {
   'setting.banner.alt-name': 'ALT',
   'setting.banner.description-name': 'Description',
   'setting.nav.home': 'Home',
-  'setting.nav.confirm-delete': 'Are you sure you want to delete this navigation item?',
+  'setting.nav.confirm-delete':
+    'Are you sure you want to delete this navigation item?',
   'setting.nav.types': 'Navigation category management',
   'setting.nav.types.title': 'Navigation category',
   'setting.nav.types.add': 'Add navigation category',
@@ -238,7 +250,8 @@ export default {
   'setting.nav.title': 'Display name',
   'setting.nav.title.description': 'The name shown in the navigation',
   'setting.nav.subtitle': 'Subtitle',
-  'setting.nav.subtitle.description': 'The small text below the navigation name',
+  'setting.nav.subtitle.description':
+    'The small text below the navigation name',
   'setting.nav.description': 'Navigation description',
   'setting.nav.type': 'Link type',
   'setting.nav.internal.name': 'Built-in navigation',
@@ -298,15 +311,45 @@ export default {
   'setting.ai.mcp-rate-limit-placeholder': '0 means unlimited',
   'setting.ai.mcp-rate-limit-extra':
     'Prevents excessive calls from third-party AI from overloading the service. 0 means unlimited',
-  'setting.ai.mcp-exposed-tools': 'Exposed tools',
+  'setting.ai.mcp-exposed-tools': 'Allowed tools',
   'setting.ai.mcp-exposed-tools-placeholder':
-    'Leave empty to expose all default tools; separate intent names or capability domains with commas; * means all (including high-risk tools disabled by default)',
+    'Leave empty to allow all common tools; enter * to allow everything (including risky tools); or list only the ones you want, separated with commas',
   'setting.ai.mcp-exposed-tools-extra':
-    'Enter intent names (e.g. content_article, media) or capability domains (e.g. content, seo). Tools disabled by default, such as backup, upgrade, and generic calls, must be listed explicitly to be exposed',
+    'Risky tools such as backup, upgrade, and delete are not enabled by default — add them here to allow. You can also enter a category name (e.g. content, seo) to allow a whole group',
   'setting.ai.mcp-available-tools':
-    'Available tools on this site ({count}): click a tool name to add it to the list above; hover to view its description',
+    'Available tools on this site ({count}): click a tool below to add it to the list above; hover to view its description',
   'setting.ai.mcp-risk-level': 'Risk level: ',
-  'setting.ai.mcp-default-off': ' (disabled by default, must be exposed explicitly)',
+  'setting.ai.mcp-default-off': ' (not allowed by default, add it manually)',
+  'setting.ai.mcp-invoke-admin': 'API call identity',
+  'setting.ai.mcp-invoke-admin-none': 'Not allowed',
+  'setting.ai.mcp-invoke-admin-required': 'Please choose an API call identity',
+  'setting.ai.mcp-invoke-admin-extra':
+    'Choose which admin account the AI uses when calling site APIs. The first admin is pre-selected on first visit. If not allowed, the AI cannot call any backend API',
+  'setting.ai.mcp-exposure-mode': 'Access level',
+  'setting.ai.mcp-exposure-mode-attention':
+    'Choose an access level first, otherwise the AI cannot access your site data',
+  'setting.ai.mcp-exposure-mode-required': 'Please choose an access level',
+  'setting.ai.mcp-exposure-mode-off': 'Off (AI cannot access data)',
+  'setting.ai.mcp-exposure-mode-read': 'Read only',
+  'setting.ai.mcp-exposure-mode-read-write':
+    'Read + write (default, recommended)',
+  'setting.ai.mcp-exposure-mode-all':
+    'Full (including delete, use with caution)',
+  'setting.ai.mcp-exposure-mode-extra':
+    'Controls what the AI can do on your site: read only views, read + write can add and edit, full also allows delete. Pick the call identity first',
+  'setting.ai.mcp-exposure-allow-ns': 'Allowed modules',
+  'setting.ai.mcp-exposure-allow-ns-placeholder':
+    'Optional, separate with commas, e.g. archive, category',
+  'setting.ai.mcp-exposure-allow-ns-extra':
+    'Let the AI access only these modules; leave empty to allow all',
+  'setting.ai.mcp-exposure-deny-ns': 'Blocked modules',
+  'setting.ai.mcp-exposure-deny-ns-extra':
+    'Stop the AI from accessing these modules; takes priority over the allowed list',
+  'setting.ai.mcp-exposure-deny-endpoints': 'Blocked APIs',
+  'setting.ai.mcp-exposure-deny-endpoints-placeholder':
+    'Optional, separate with commas, e.g. POST /archive/detail',
+  'setting.ai.mcp-exposure-deny-endpoints-extra':
+    'Stop the AI from accessing specific individual APIs',
   'setting.ai.endpoint-name': 'Endpoint name',
   'setting.ai.endpoint-name-example': 'e.g. My DeepSeek',
   'setting.ai.endpoint-name-required': 'Please enter the endpoint name',

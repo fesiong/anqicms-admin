@@ -1,17 +1,35 @@
 import NewContainer from '@/components/NewContainer';
 import { useVipModal } from '@/components/vipModal';
-import { checkOpenAIApi, getSettingAi, saveSettingAi } from '@/services';
+import {
+  checkOpenAIApi,
+  getAdminList,
+  getSettingAi,
+  saveSettingAi,
+} from '@/services';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   ModalForm,
   ProForm,
   ProFormDigit,
   ProFormRadio,
+  ProFormSelect,
   ProFormSwitch,
   ProFormText,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, useModel } from '@umijs/max';
-import { Button, Card, Input, List, message, Space, Tag, Tooltip } from 'antd';
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Input,
+  List,
+  message,
+  Row,
+  Space,
+  Tag,
+  Tooltip,
+} from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
@@ -240,6 +258,27 @@ const SettingAiFrom: React.FC<any> = () => {
         .filter(Boolean);
     } else if (!Array.isArray(postData.exposed_intents)) {
       postData.exposed_intents = [];
+    }
+    // api_exposure 的三个名单同理：表单里是逗号分隔字符串，后端要数组
+    const exposure = {
+      ...(mcpSetting.api_exposure || {}),
+      ...(postData.api_exposure || {}),
+    };
+    for (const k of ['allow_ns', 'deny_ns', 'deny_endpoints']) {
+      if (typeof exposure[k] === 'string') {
+        exposure[k] = exposure[k]
+          .split(',')
+          .map((s: string) => s.trim())
+          .filter(Boolean);
+      } else if (!Array.isArray(exposure[k])) {
+        exposure[k] = [];
+      }
+    }
+    // 必填项：mode 缺失时按前端默认 read_write 兜底（后端仍对空值 fail-closed）
+    exposure.mode = exposure.mode || 'read_write';
+    postData.api_exposure = exposure;
+    if (typeof postData.invoke_admin_id !== 'number') {
+      postData.invoke_admin_id = Number(postData.invoke_admin_id) || 0;
     }
 
     const hide = message.loading(
@@ -617,9 +656,24 @@ const SettingAiFrom: React.FC<any> = () => {
                 enabled: mcpSetting.enabled || false,
                 token: mcpSetting.token || '',
                 rate_limit: mcpSetting.rate_limit || 0,
+                invoke_admin_id: mcpSetting.invoke_admin_id || 0,
                 exposed_intents: Array.isArray(mcpSetting.exposed_intents)
                   ? mcpSetting.exposed_intents.join(', ')
                   : '',
+                api_exposure: {
+                  mode: mcpSetting.api_exposure?.mode || 'read_write',
+                  allow_ns: Array.isArray(mcpSetting.api_exposure?.allow_ns)
+                    ? mcpSetting.api_exposure.allow_ns.join(', ')
+                    : '',
+                  deny_ns: Array.isArray(mcpSetting.api_exposure?.deny_ns)
+                    ? mcpSetting.api_exposure.deny_ns.join(', ')
+                    : '',
+                  deny_endpoints: Array.isArray(
+                    mcpSetting.api_exposure?.deny_endpoints,
+                  )
+                    ? mcpSetting.api_exposure.deny_endpoints.join(', ')
+                    : '',
+                },
               }}
               onFinish={onSubmitMcp}
             >
@@ -659,39 +713,208 @@ const SettingAiFrom: React.FC<any> = () => {
                   <FormattedMessage id="setting.ai.copy-mcp-config" />
                 </Button>
               </div>
-              <ProFormSwitch
-                name="enabled"
-                label={intl.formatMessage({ id: 'setting.ai.mcp-enable' })}
-                extra={intl.formatMessage({
-                  id: 'setting.ai.mcp-enable-description',
-                })}
-              />
-              <ProFormText
-                name="token"
-                label={intl.formatMessage({ id: 'setting.ai.mcp-token-label' })}
-                placeholder={intl.formatMessage({
-                  id: 'setting.ai.mcp-token-placeholder',
-                })}
-                extra={intl.formatMessage({ id: 'setting.ai.mcp-token-extra' })}
-                fieldProps={{
-                  addonAfter: (
-                    <Button size="small" onClick={handleGenerateToken}>
-                      <FormattedMessage id="setting.ai.mcp-generate-token" />
-                    </Button>
-                  ),
-                }}
-              />
-              <ProFormDigit
-                name="rate_limit"
-                label={intl.formatMessage({ id: 'setting.ai.mcp-rate-limit' })}
-                placeholder={intl.formatMessage({
-                  id: 'setting.ai.mcp-rate-limit-placeholder',
-                })}
-                min={0}
-                extra={intl.formatMessage({
-                  id: 'setting.ai.mcp-rate-limit-extra',
-                })}
-              />
+              <Row gutter={24}>
+                <Col xs={24} md={12}>
+                  <ProFormSwitch
+                    name="enabled"
+                    label={intl.formatMessage({ id: 'setting.ai.mcp-enable' })}
+                    extra={intl.formatMessage({
+                      id: 'setting.ai.mcp-enable-description',
+                    })}
+                  />
+                  <ProFormText
+                    name="token"
+                    label={intl.formatMessage({
+                      id: 'setting.ai.mcp-token-label',
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: 'setting.ai.mcp-token-placeholder',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'setting.ai.mcp-token-extra',
+                    })}
+                    fieldProps={{
+                      addonAfter: (
+                        <Button size="small" onClick={handleGenerateToken}>
+                          <FormattedMessage id="setting.ai.mcp-generate-token" />
+                        </Button>
+                      ),
+                    }}
+                  />
+                  <ProFormDigit
+                    name="rate_limit"
+                    label={intl.formatMessage({
+                      id: 'setting.ai.mcp-rate-limit',
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: 'setting.ai.mcp-rate-limit-placeholder',
+                    })}
+                    min={0}
+                    extra={intl.formatMessage({
+                      id: 'setting.ai.mcp-rate-limit-extra',
+                    })}
+                  />
+                  <div
+                    style={{
+                      border: '1px solid #ffd591',
+                      background: '#fffbe6',
+                      borderRadius: 8,
+                      padding: '12px 12px 0',
+                      marginBottom: 16,
+                    }}
+                  >
+                    <ProFormSelect
+                      name="invoke_admin_id"
+                      label={intl.formatMessage({
+                        id: 'setting.ai.mcp-invoke-admin',
+                      })}
+                      extra={intl.formatMessage({
+                        id: 'setting.ai.mcp-invoke-admin-extra',
+                      })}
+                      showSearch
+                      rules={[
+                        {
+                          required: true,
+                          message: intl.formatMessage({
+                            id: 'setting.ai.mcp-invoke-admin-required',
+                          }),
+                        },
+                      ]}
+                      fieldProps={{
+                        optionFilterProp: 'label',
+                      }}
+                      request={async () => {
+                        const res: any = await getAdminList({
+                          page: 1,
+                          page_size: 200,
+                        });
+                        const list =
+                          res?.data?.list || res?.data || res?.list || [];
+                        // 后端 invoke_admin_id 是 uint，未配置也返回 0，无法与「明确选了不开放」区分。
+                        // 因此只在整套 MCP 从未配置过（没有 token）时默认选中第一个管理员，
+                        // 让新用户第一次保存即可用；已有 token 则尊重其现有选择。
+                        if (
+                          !mcpSetting.token &&
+                          !mcpSetting.invoke_admin_id &&
+                          list.length > 0
+                        ) {
+                          mcpFormRef.current?.setFieldsValue({
+                            invoke_admin_id: list[0].id,
+                          });
+                        }
+                        return [
+                          {
+                            label: intl.formatMessage({
+                              id: 'setting.ai.mcp-invoke-admin-none',
+                            }),
+                            value: 0,
+                          },
+                          ...list.map((a: any) => ({
+                            label: `${a.user_name}（ID ${a.id}）`,
+                            value: a.id,
+                          })),
+                        ];
+                      }}
+                    />
+                  </div>
+                </Col>
+                <Col xs={24} md={12}>
+                  <Alert
+                    type="info"
+                    showIcon
+                    style={{ marginBottom: 16 }}
+                    message={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-mode-attention',
+                    })}
+                  />
+                  <div
+                    style={{
+                      border: '1px solid #ffd591',
+                      background: '#fffbe6',
+                      borderRadius: 8,
+                      padding: '12px 12px 0',
+                      marginBottom: 16,
+                    }}
+                  >
+                    <ProFormSelect
+                      name={['api_exposure', 'mode']}
+                      label={intl.formatMessage({
+                        id: 'setting.ai.mcp-exposure-mode',
+                      })}
+                      extra={intl.formatMessage({
+                        id: 'setting.ai.mcp-exposure-mode-extra',
+                      })}
+                      rules={[
+                        {
+                          required: true,
+                          message: intl.formatMessage({
+                            id: 'setting.ai.mcp-exposure-mode-required',
+                          }),
+                        },
+                      ]}
+                      options={[
+                        {
+                          label: intl.formatMessage({
+                            id: 'setting.ai.mcp-exposure-mode-off',
+                          }),
+                          value: 'off',
+                        },
+                        {
+                          label: intl.formatMessage({
+                            id: 'setting.ai.mcp-exposure-mode-read',
+                          }),
+                          value: 'read',
+                        },
+                        {
+                          label: intl.formatMessage({
+                            id: 'setting.ai.mcp-exposure-mode-read-write',
+                          }),
+                          value: 'read_write',
+                        },
+                        {
+                          label: intl.formatMessage({
+                            id: 'setting.ai.mcp-exposure-mode-all',
+                          }),
+                          value: 'all',
+                        },
+                      ]}
+                    />
+                  </div>
+                  <ProFormText
+                    name={['api_exposure', 'allow_ns']}
+                    label={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-allow-ns',
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-allow-ns-placeholder',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-allow-ns-extra',
+                    })}
+                  />
+                  <ProFormText
+                    name={['api_exposure', 'deny_ns']}
+                    label={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-deny-ns',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-deny-ns-extra',
+                    })}
+                  />
+                  <ProFormText
+                    name={['api_exposure', 'deny_endpoints']}
+                    label={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-deny-endpoints',
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-deny-endpoints-placeholder',
+                    })}
+                    extra={intl.formatMessage({
+                      id: 'setting.ai.mcp-exposure-deny-endpoints-extra',
+                    })}
+                  />
+                </Col>
+              </Row>
               <ProFormText
                 name="exposed_intents"
                 label={intl.formatMessage({

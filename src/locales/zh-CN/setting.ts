@@ -296,15 +296,43 @@ export default {
   'setting.ai.mcp-rate-limit-placeholder': '0 表示不限制',
   'setting.ai.mcp-rate-limit-extra':
     '防止第三方 AI 过度调用导致服务压力过大，0 表示不限制',
-  'setting.ai.mcp-exposed-tools': '暴露的工具列表',
+  'setting.ai.mcp-exposed-tools': '允许使用的工具',
   'setting.ai.mcp-exposed-tools-placeholder':
-    '留空表示暴露全部默认工具；多个意图名或能力域用英文逗号分隔，* 表示全部（含默认关闭的高危工具）',
+    '留空即开放全部常用工具；填 * 开放所有工具（含危险工具）；也可只指定其中几个，多个用英文逗号分隔',
   'setting.ai.mcp-exposed-tools-extra':
-    '填写意图名（如 content_article、media）或能力域名（如 content、seo）；备份/升级/通用调用等默认关闭的工具需显式列出才开放',
+    '备份、升级、删除等危险工具默认不开放，需要在此手动加入。也可填写分类名（如 content、seo）授权一整类工具',
   'setting.ai.mcp-available-tools':
-    '本站点可用工具（{count}）：点击工具名可加入上方列表，悬停查看说明',
+    '本站点可用工具（{count}）：点击下面的工具名即可加入上方列表，悬停查看说明',
   'setting.ai.mcp-risk-level': '风险等级：',
-  'setting.ai.mcp-default-off': '（默认关闭，需显式开放）',
+  'setting.ai.mcp-default-off': '（默认不开放，需手动加入）',
+  'setting.ai.mcp-invoke-admin': '接口调用身份',
+  'setting.ai.mcp-invoke-admin-none': '不开放',
+  'setting.ai.mcp-invoke-admin-required': '请选择接口调用身份',
+  'setting.ai.mcp-invoke-admin-extra':
+    '选择 AI 调用网站接口时以哪个管理员身份进行，首次进入已默认选中第一位管理员。选「不开放」时 AI 无法调用任何后台接口',
+  'setting.ai.mcp-exposure-mode': '接口开放范围',
+  'setting.ai.mcp-exposure-mode-attention':
+    '请先选择接口开放范围，否则 AI 无法访问网站数据',
+  'setting.ai.mcp-exposure-mode-required': '请选择接口开放范围',
+  'setting.ai.mcp-exposure-mode-off': '关闭（AI 不能访问数据）',
+  'setting.ai.mcp-exposure-mode-read': '只读',
+  'setting.ai.mcp-exposure-mode-read-write': '读 + 写（默认，推荐）',
+  'setting.ai.mcp-exposure-mode-all': '全部（含删除，谨慎开启）',
+  'setting.ai.mcp-exposure-mode-extra':
+    '决定 AI 能对网站做哪类操作：只读只能查看，读+写可以新增和修改，全部则包含删除。开启前请确认已选好调用身份',
+  'setting.ai.mcp-exposure-allow-ns': '接口白名单',
+  'setting.ai.mcp-exposure-allow-ns-placeholder':
+    '选填，多个用英文逗号分隔，如 archive, category',
+  'setting.ai.mcp-exposure-allow-ns-extra':
+    '只允许 AI 访问这些模块的接口，留空表示不限制',
+  'setting.ai.mcp-exposure-deny-ns': '接口黑名单',
+  'setting.ai.mcp-exposure-deny-ns-extra':
+    '禁止 AI 访问这些模块的接口，黑名单优先于白名单',
+  'setting.ai.mcp-exposure-deny-endpoints': '禁止访问的接口',
+  'setting.ai.mcp-exposure-deny-endpoints-placeholder':
+    '选填，多个用英文逗号分隔，如 POST /archive/detail',
+  'setting.ai.mcp-exposure-deny-endpoints-extra':
+    '精确禁止 AI 访问某几个具体接口',
   'setting.ai.endpoint-name': '接口名称',
   'setting.ai.endpoint-name-example': '例如：我的 DeepSeek',
   'setting.ai.endpoint-name-required': '请填写接口名称',
