@@ -467,6 +467,16 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
         element: divRef.current,
         placeholder: intl.formatMessage({ id: 'component.editor.placeholder' }),
         content: props.content,
+        // 关闭 UniqueID 扩展：它默认给每个块级节点（段落/标题/表格/图片等）
+        // 生成 UUID，并在渲染时统一写成 data-id="..."。这些 ID 只服务于
+        // 协作编辑的块定位，本站是单机 CMS，用不上；而正文里的
+        // <p data-id="..."> 会随文章一起存进库、进模板、进 AI 抓取结果，
+        // 徒增体积且没有任何语义。
+        // 关闭后扩展不注册，schema 里没有该属性：解析时不读、渲染时不输出，
+        // 历史内容里的 data-id 会在下次打开保存时自然消失。
+        // ⚠️ 标题的 id / data-toc-id 属于 TableOfContents 扩展（另一套），
+        // 不受影响，文档目录功能保持正常。
+        uniqueId: false,
         // aieditor 内部给 youtube 扩展硬编码了 nocookie: true，会把
         // youtube.com/watch 链接改写成 youtube-nocookie.com/embed，导致
         // 前台无法播放。tiptap youtube 扩展在渲染时运行时读取该选项，
