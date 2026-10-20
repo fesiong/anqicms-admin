@@ -77,7 +77,10 @@ export async function getCaptcha(
 ) {
   return get({
     url: '/captcha',
-    params,
+    // 验证码是一次性凭据：同一个 id 只能校验一次，且默认几分钟即过期。
+    // 不带时间戳时 URL 恒定，浏览器 / 中间代理会把上一次的响应（同一张图、
+    // 同一个 captcha_id）回放出来，表现为"点了图片不换"或"验证码永远校验失败"。
+    params: { ...params, _t: Date.now() },
     options,
   });
 }
