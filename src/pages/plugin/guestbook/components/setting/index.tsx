@@ -285,7 +285,7 @@ const GuestbookSetting: React.FC<GuestbookSettingProps> = (props) => {
             >
               <div>
                 <FormattedMessage id="plugin.guestbook.email-tips.before" />
-                <Link to={'/plugin/sendmail'}>
+                <Link to={'/plugin/channel/sendmail'}>
                   <FormattedMessage id="plugin.guestbook.email-tips.link" />
                 </Link>
                 <FormattedMessage id="plugin.guestbook.email-tips.after" />

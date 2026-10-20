@@ -340,7 +340,7 @@ const Dashboard: React.FC = () => {
                           <FormattedMessage id="dashboard.guide.step.change" />
                           <span
                             className="link"
-                            onClick={() => handleJump('/plugin/rewrite')}
+                            onClick={() => handleJump('/plugin/seo/rewrite')}
                           >
                             <FormattedMessage id="menu.plugin.seo.rewrite" />
                           </span>
@@ -351,7 +351,7 @@ const Dashboard: React.FC = () => {
                           <FormattedMessage id="dashboard.guide.step.change" />
                           <span
                             className="link"
-                            onClick={() => handleJump('/plugin/robots')}
+                            onClick={() => handleJump('/plugin/seo/robots')}
                           >
                             <FormattedMessage id="menu.plugin.seo.robots" />
                           </span>
@@ -362,7 +362,7 @@ const Dashboard: React.FC = () => {
                           <FormattedMessage id="dashboard.guide.step.change" />
                           <span
                             className="link"
-                            onClick={() => handleJump('/plugin/sitemap')}
+                            onClick={() => handleJump('/plugin/seo/sitemap')}
                           >
                             <FormattedMessage id="menu.plugin.seo.sitemap" />
                           </span>
@@ -438,7 +438,7 @@ const Dashboard: React.FC = () => {
               <Col
                 flex={1}
                 onClick={() => {
-                  handleJump('/plugin/friendlink');
+                  handleJump('/plugin/system/friendlink');
                 }}
               >
                 <Statistic
@@ -452,7 +452,7 @@ const Dashboard: React.FC = () => {
               <Col
                 flex={1}
                 onClick={() => {
-                  handleJump('/plugin/guestbook');
+                  handleJump('/plugin/interaction/guestbook');
                 }}
               >
                 <Statistic

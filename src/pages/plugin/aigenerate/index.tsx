@@ -130,7 +130,7 @@ const PluginAiGenerate: React.FC = () => {
             <Button
               key="keywords"
               onClick={() => {
-                history.push('/plugin/keyword');
+                history.push('/plugin/contentops/keyword');
               }}
             >
               <FormattedMessage id="menu.plugin.contentops.keyword" />

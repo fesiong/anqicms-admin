@@ -57,7 +57,7 @@ const MaterialSelect: React.FC<MaterialProps> = (props) => {
             <span>
               {intl.formatMessage({ id: 'component.editor.insert-material' })}
             </span>
-            <Link className="link" to={'/plugin/material'}>
+            <Link className="link" to={'/plugin/contentops/material'}>
               <EditOutlined />
             </Link>
           </Space>

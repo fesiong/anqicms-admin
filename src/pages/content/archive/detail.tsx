@@ -3375,7 +3375,7 @@ class ArchiveForm extends React.Component<intlProps> {
                       <Tag
                         className="link"
                         onClick={() => {
-                          history.push('/plugin/user');
+                          history.push('/plugin/commerce/user');
                         }}
                       >
                         <FormattedMessage id="setting.action.add" />

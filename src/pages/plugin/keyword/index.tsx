@@ -210,7 +210,7 @@ const PluginKeyword: React.FC = () => {
           >
             <FormattedMessage id="setting.action.edit" />
           </a>
-          <Link key="view" to={'/plugin/aigenerate?keyword=' + record.title}>
+          <Link key="view" to={'/plugin/contentops/aigenerate?keyword=' + record.title}>
             <FormattedMessage id="plugin.keyword.aigenerate.view-archive" />
           </Link>
           <a
