@@ -36,16 +36,21 @@ const SettingSafeFrom: React.FC<any> = () => {
   }, []);
 
   const onSubmit = async (values: any) => {
-    values.captcha = Number(values.captcha);
-    values.admin_captcha_off = Number(values.admin_captcha_off);
-    values.daily_limit = Number(values.daily_limit);
-    values.content_limit = Number(values.content_limit);
-    values.interval_limit = Number(values.interval_limit);
+    // 页面按 tab 条件渲染，onFinish 的 values 只含当前 tab 字段，
+    // 后端整包覆盖保存会清空其它 tab 的配置，必须取全量表单值
+    const allValues: any = {
+      ...(formRef.current?.getFieldsValue(true) || values),
+    };
+    allValues.captcha = Number(allValues.captcha);
+    allValues.admin_captcha_off = Number(allValues.admin_captcha_off);
+    allValues.daily_limit = Number(allValues.daily_limit);
+    allValues.content_limit = Number(allValues.content_limit);
+    allValues.interval_limit = Number(allValues.interval_limit);
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
     );
-    saveSettingSafe(values)
+    saveSettingSafe(allValues)
       .then((res) => {
         message.success(res.msg);
       })

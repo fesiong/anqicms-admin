@@ -8,7 +8,6 @@ import {
 import {
   ProForm,
   ProFormDigit,
-  ProFormInstance,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
@@ -19,11 +18,12 @@ import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
 const PluginSitemap: React.FC<any> = () => {
-  const formRef = React.createRef<ProFormInstance>();
   const [sitemapSetting, setSitemapSetting] = useState<any>({});
   const [fetched, setFetched] = useState<boolean>(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [activeTabKey, setActiveTabKey] = useState<string>('setting');
+  // 已访问过的 tab 常驻挂载（仅切换显示），避免切换 tab 时表单被卸载丢失未保存输入
+  const [visitedTabs, setVisitedTabs] = useState<string[]>(['setting']);
   const [newKey, setNewKey] = useState<string>('');
   const intl = useIntl();
 
@@ -64,13 +64,14 @@ const PluginSitemap: React.FC<any> = () => {
       });
   };
 
+  // 生成只按「已保存的配置」重建，不带任何表单值：
+  // 早先后端会拿请求体当全量配置覆盖，表单取不到值时点一下就清空真实配置。
   const rebuildSitemap = () => {
-    let values = formRef.current?.getFieldsValue();
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
     );
-    pluginBuildSitemap(values)
+    pluginBuildSitemap()
       .then((res) => {
         message.info(res.msg);
         if (res.code === 0) {
@@ -87,7 +88,12 @@ const PluginSitemap: React.FC<any> = () => {
       <Card
         key={newKey}
         activeTabKey={activeTabKey}
-        onTabChange={(tabKey) => setActiveTabKey(tabKey)}
+        onTabChange={(tabKey) => {
+          setActiveTabKey(tabKey);
+          setVisitedTabs((prev) =>
+            prev.includes(tabKey) ? prev : [...prev, tabKey],
+          );
+        }}
         tabList={[
           {
             key: 'setting',
@@ -111,12 +117,11 @@ const PluginSitemap: React.FC<any> = () => {
             </div>
           }
         />
-        {fetched && activeTabKey === 'setting' ? (
-          <div className="mt-normal">
+        {fetched && visitedTabs.includes('setting') && (
+          <div style={{ display: activeTabKey === 'setting' ? 'block' : 'none' }} className="mt-normal">
             <ProForm
               onFinish={onSubmit}
               initialValues={sitemapSetting}
-              formRef={formRef}
             >
               <ProFormRadio.Group
                 name="type"
@@ -260,8 +265,9 @@ const PluginSitemap: React.FC<any> = () => {
               />
             </ProForm>
           </div>
-        ) : activeTabKey === 'build' ? (
-          <div className="mt-normal">
+        )}
+        {fetched && visitedTabs.includes('build') && (
+          <div style={{ display: activeTabKey === 'build' ? 'block' : 'none' }} className="mt-normal">
             <div>
               <FormattedMessage id="plugin.sitemap.action.tips" />
             </div>
@@ -292,7 +298,7 @@ const PluginSitemap: React.FC<any> = () => {
               </Button>
             </Space>
           </div>
-        ) : null}
+        )}
       </Card>
     </NewContainer>
   );

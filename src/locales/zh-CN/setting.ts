@@ -108,6 +108,8 @@ export default {
   'setting.content.auto-match-tag': '自动添加文档标签',
   'setting.content.auto-match-tag.description':
     '在文章创建时，会自动匹配标签库',
+  'setting.content.img-alt-auto': '图片Alt优化',
+  'setting.content.img-alt-auto.description': '开启后，保存文档时自动为正文里没有 alt 的图片填充文档标题（多图自动加序号），已有 alt 的不覆盖。存量内容可在工具里执行一次批量回填。',
   'setting.content.use-webp': '启用Webp图片格式',
   'setting.content.use-webp.description':
     '如果你希望上传的jpg、png等图片，都全部转为webp图片格式(可以减少体积),则选择启用。只对修改后的上传的图片生效。',
@@ -284,6 +286,7 @@ export default {
   'setting.ai.mcp-tools-count': ' {count} 个',
   'setting.ai.mcp-tools-all': '全部',
   'setting.ai.copy-mcp-config': '一键复制配置',
+  'setting.ai.mcp-server-name': '配置名称（取自站点名称）：',
   'setting.ai.mcp-enable': '启用 MCP 开放接口',
   'setting.ai.mcp-enable-description':
     '开启后允许第三方 AI 通过 MCP 协议访问本站点',

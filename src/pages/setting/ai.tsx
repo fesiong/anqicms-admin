@@ -30,8 +30,26 @@ import {
   Tag,
   Tooltip,
 } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './index.less';
+
+/**
+ * 由站点名称推导 MCP server 名。
+ *
+ * mcpServers 的 key 会被第三方客户端当作服务标识解析（部分客户端不接受空格、
+ * 引号等字符），而站点名称是用户自由输入的，因此这里做一次保守清洗：
+ * 去掉引号/反斜杠/控制字符，连续空白折成一个短横线，收敛连续与首尾短横线。
+ * 清洗后为空（站点名为空或全是非法字符）时回退到 anqicms，保证配置始终可用。
+ */
+export const buildMcpServerName = (siteName?: string): string => {
+  const name = (siteName || '')
+    .trim()
+    .replace(/[\u0000-\u001f\u007f"'`\\]+/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return name || 'anqicms';
+};
 
 const SettingAiFrom: React.FC<any> = () => {
   const { initialState } = useModel('@@initialState');
@@ -54,6 +72,8 @@ const SettingAiFrom: React.FC<any> = () => {
   const [tmpInput, setTmpInput] = useState<any>({});
   const [newKey, setNewKey] = useState<string>('');
   const [activeTabKey, setActiveTabKey] = useState<string>('mcp');
+  // 已访问过的 tab 常驻挂载（仅切换显示），避免切换 tab 时表单被卸载丢失未保存输入
+  const [visitedTabs, setVisitedTabs] = useState<string[]>(['mcp']);
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -340,6 +360,12 @@ const SettingAiFrom: React.FC<any> = () => {
     return acc;
   }, {});
 
+  // 复制配置里的 server 名跟随站点名称，站点改名后重新复制即为新名字
+  const mcpServerName = useMemo(
+    () => buildMcpServerName(initialState?.system?.site_name),
+    [initialState?.system?.site_name],
+  );
+
   const handleCopyMcpConfig = () => {
     const baseUrl = initialState?.system?.base_url || window.location.origin;
     const token = mcpSetting.token || '';
@@ -351,7 +377,7 @@ const SettingAiFrom: React.FC<any> = () => {
     }
     const config = {
       mcpServers: {
-        anqicms: {
+        [mcpServerName]: {
           url: `${baseUrl}/api/mcp`,
           headers: {
             Authorization: `Bearer ${token}`,
@@ -396,7 +422,12 @@ const SettingAiFrom: React.FC<any> = () => {
       <Card
         key={newKey}
         activeTabKey={activeTabKey}
-        onTabChange={(tabKey) => setActiveTabKey(tabKey)}
+        onTabChange={(tabKey) => {
+          setActiveTabKey(tabKey);
+          setVisitedTabs((prev) =>
+            prev.includes(tabKey) ? prev : [...prev, tabKey],
+          );
+        }}
         tabList={[
           {
             key: 'write',
@@ -412,9 +443,9 @@ const SettingAiFrom: React.FC<any> = () => {
           },
         ]}
       >
-        {fetched &&
-          (activeTabKey === 'write' ? (
-            <ProForm initialValues={writeSetting} onFinish={onSubmitWrite}>
+        {fetched && visitedTabs.includes('write') && (
+          <div style={{ display: activeTabKey === 'write' ? 'block' : 'none' }}>
+          <ProForm initialValues={writeSetting} onFinish={onSubmitWrite}>
               <ProFormRadio.Group
                 name="ai_engine"
                 label={intl.formatMessage({
@@ -593,7 +624,10 @@ const SettingAiFrom: React.FC<any> = () => {
                 </>
               )}
             </ProForm>
-          ) : activeTabKey === 'chat' ? (
+          </div>
+        )}
+        {fetched && visitedTabs.includes('chat') && (
+          <div style={{ display: activeTabKey === 'chat' ? 'block' : 'none' }}>
             <div>
               <div style={{ marginBottom: 12 }}>
                 <Button type="primary" size="small" onClick={onAddChatAi}>
@@ -649,8 +683,11 @@ const SettingAiFrom: React.FC<any> = () => {
                 />
               )}
             </div>
-          ) : activeTabKey === 'mcp' ? (
-            <ProForm
+          </div>
+        )}
+        {fetched && visitedTabs.includes('mcp') && (
+          <div style={{ display: activeTabKey === 'mcp' ? 'block' : 'none' }}>
+          <ProForm
               formRef={mcpFormRef}
               initialValues={{
                 enabled: mcpSetting.enabled || false,
@@ -701,6 +738,13 @@ const SettingAiFrom: React.FC<any> = () => {
                           }),
                   },
                 )}
+                <div style={{ marginTop: 4 }}>
+                  {intl.formatMessage(
+                    { id: 'setting.ai.mcp-server-name' },
+                    { name: mcpServerName },
+                  )}
+                  <code style={{ marginLeft: 6 }}>{mcpServerName}</code>
+                </div>
                 <code style={{ marginLeft: 6 }}>
                   {initialState?.system?.base_url || ''}/api/mcp
                 </code>
@@ -1006,7 +1050,8 @@ const SettingAiFrom: React.FC<any> = () => {
                 </div>
               )}
             </ProForm>
-          ) : null)}
+          </div>
+        )}
       </Card>
       <VipModal />
       <ModalForm

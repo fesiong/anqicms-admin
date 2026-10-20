@@ -100,13 +100,19 @@ const SettingSystemFrom: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    values.site_logo = siteLogo;
-    values.extra_fields = extraFields;
+    // 页面按 tab 条件渲染，未挂载 tab 的字段不会出现在 onFinish 的 values 里，
+    // 而后端是整包覆盖保存，直接提交会清空其它 tab 的配置。
+    // 这里必须取全量表单值（切 tab 后未挂载字段的值仍保留在 store 中）。
+    const allValues = {
+      ...(formRef.current?.getFieldsValue(true) || values),
+    };
+    allValues.site_logo = siteLogo;
+    allValues.extra_fields = extraFields;
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
     );
-    saveSettingSystem(values)
+    saveSettingSystem(allValues)
       .then(async (res) => {
         message.success(res.msg);
         const system = await initialState?.fetchSystemSetting?.();

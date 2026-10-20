@@ -68,6 +68,8 @@ const PluginMultiLang: React.FC<any> = () => {
   const [syncConfirmVisible, setSyncConfirmVisible] = useState<boolean>(false);
   const [task, setTask] = useState<any>(null);
   const [activeTabKey, setActiveTabKey] = useState<string>('setting');
+  // 已访问过的 tab 常驻挂载（仅切换显示），避免切换 tab 时表单被卸载丢失未保存输入
+  const [visitedTabs, setVisitedTabs] = useState<string[]>(['setting']);
 
   const intl = useIntl();
 
@@ -381,7 +383,12 @@ const PluginMultiLang: React.FC<any> = () => {
     <PageContainer>
       <Card
         activeTabKey={activeTabKey}
-        onTabChange={(tabKey) => setActiveTabKey(tabKey)}
+        onTabChange={(tabKey) => {
+          setActiveTabKey(tabKey);
+          setVisitedTabs((prev) =>
+            prev.includes(tabKey) ? prev : [...prev, tabKey],
+          );
+        }}
         tabList={[
           {
             key: 'setting',
@@ -393,7 +400,8 @@ const PluginMultiLang: React.FC<any> = () => {
           },
         ]}
       >
-        {fetched && activeTabKey === 'setting' ? (
+        {fetched && visitedTabs.includes('setting') && (
+          <div style={{ display: activeTabKey === 'setting' ? 'block' : 'none' }}>
           <ProForm
             onFinish={onSubmit}
             initialValues={limiterSetting}
@@ -546,7 +554,10 @@ const PluginMultiLang: React.FC<any> = () => {
               })}
             />
           </ProForm>
-        ) : activeTabKey === 'sites' ? (
+          </div>
+        )}
+        {fetched && visitedTabs.includes('sites') && (
+          <div style={{ display: activeTabKey === 'sites' ? 'block' : 'none' }}>
           <ProTable<any>
             rowKey="language"
             search={false}
@@ -602,7 +613,8 @@ const PluginMultiLang: React.FC<any> = () => {
             columns={columns}
             pagination={false}
           />
-        ) : null}
+          </div>
+        )}
       </Card>
       {editVisible && (
         <ModalForm

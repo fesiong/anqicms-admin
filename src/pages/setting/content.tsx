@@ -112,27 +112,32 @@ const SettingContentFrom: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    values.default_thumb_type = Number(values.default_thumb_type); // 0 = default, 1 = category
-    values.default_thumbs = setting.default_thumbs || [];
-    values.thumb_category_id = Number(values.thumb_category_id);
-    values.filter_outlink = Number(values.filter_outlink);
-    values.url_token_type = Number(values.url_token_type);
-    values.remote_download = Number(values.remote_download);
-    values.resize_image = Number(values.resize_image);
-    values.resize_width = Number(values.resize_width);
-    values.thumb_crop = Number(values.thumb_crop);
-    values.thumb_width = Number(values.thumb_width);
-    values.thumb_height = Number(values.thumb_height);
-    values.quality = Number(values.quality);
-    values.use_sort = Number(values.use_sort);
-    values.max_page = Number(values.max_page);
-    values.max_limit = Number(values.max_limit);
+    // 页面按 tab 条件渲染，onFinish 的 values 只含当前 tab 字段，
+    // 后端整包覆盖保存会清空其它 tab 的配置，必须取全量表单值
+    const allValues: any = {
+      ...(formRef.current?.getFieldsValue(true) || values),
+    };
+    allValues.default_thumb_type = Number(allValues.default_thumb_type); // 0 = default, 1 = category
+    allValues.default_thumbs = setting.default_thumbs || [];
+    allValues.thumb_category_id = Number(allValues.thumb_category_id);
+    allValues.filter_outlink = Number(allValues.filter_outlink);
+    allValues.url_token_type = Number(allValues.url_token_type);
+    allValues.remote_download = Number(allValues.remote_download);
+    allValues.resize_image = Number(allValues.resize_image);
+    allValues.resize_width = Number(allValues.resize_width);
+    allValues.thumb_crop = Number(allValues.thumb_crop);
+    allValues.thumb_width = Number(allValues.thumb_width);
+    allValues.thumb_height = Number(allValues.thumb_height);
+    allValues.quality = Number(allValues.quality);
+    allValues.use_sort = Number(allValues.use_sort);
+    allValues.max_page = Number(allValues.max_page);
+    allValues.max_limit = Number(allValues.max_limit);
 
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
     );
-    saveSettingContent(values)
+    saveSettingContent(allValues)
       .then((res) => {
         message.success(res.msg);
       })
@@ -338,6 +343,25 @@ const SettingContentFrom: React.FC<any> = () => {
     ),
     image: (
       <div>
+        <ProFormRadio.Group
+          name="img_alt_auto"
+          label={intl.formatMessage({ id: 'setting.content.img-alt-auto' })}
+          options={[
+            {
+              value: 0,
+              label: intl.formatMessage({
+                id: 'setting.content.notenable',
+              }),
+            },
+            {
+              value: 1,
+              label: intl.formatMessage({ id: 'setting.content.enable' }),
+            },
+          ]}
+          extra={
+            <FormattedMessage id="setting.content.img-alt-auto.description" />
+          }
+        />
         <ProFormRadio.Group
           name="use_webp"
           label={intl.formatMessage({ id: 'setting.content.use-webp' })}

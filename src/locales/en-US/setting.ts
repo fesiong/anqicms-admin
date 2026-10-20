@@ -116,6 +116,8 @@ export default {
   'setting.content.auto-match-tag': 'Auto-add post tags',
   'setting.content.auto-match-tag.description':
     'When a post is created, tags are automatically matched from the tag library',
+  'setting.content.img-alt-auto': 'Image ALT optimization',
+  'setting.content.img-alt-auto.description': 'When enabled, images without an alt attribute in the content are automatically filled with the document title on save (numbered for multiple images). Existing alt values are never overwritten.',
   'setting.content.use-webp': 'Enable WebP image format',
   'setting.content.use-webp.description':
     'If you want all uploaded jpg, png and other images to be converted to WebP (to reduce file size), enable this. It only applies to images uploaded after the change.',
@@ -298,6 +300,7 @@ export default {
   'setting.ai.mcp-tools-count': '{count}',
   'setting.ai.mcp-tools-all': 'all',
   'setting.ai.copy-mcp-config': 'Copy config',
+  'setting.ai.mcp-server-name': 'Config name (from site name): ',
   'setting.ai.mcp-enable': 'Enable MCP public endpoint',
   'setting.ai.mcp-enable-description':
     'When enabled, third-party AI clients can access this site via the MCP protocol',

@@ -108,6 +108,8 @@ export default {
   'setting.content.auto-match-tag': '自動新增文件標籤',
   'setting.content.auto-match-tag.description':
     '在文章建立時，會自動匹配標籤庫',
+  'setting.content.img-alt-auto': '圖片Alt優化',
+  'setting.content.img-alt-auto.description': '開啟後，保存文件時自動為正文裡沒有 alt 的圖片填充文件標題（多圖自動加序號），已有 alt 的不覆蓋。存量內容可在工具裡執行一次批量回填。',
   'setting.content.use-webp': '啟用 Webp 圖片格式',
   'setting.content.use-webp.description':
     '如果你希望上傳的 jpg、png 等圖片全部轉為 webp 圖片格式（可減少體積），則選擇啟用。僅對修改後上傳的圖片生效。',
@@ -284,6 +286,7 @@ export default {
   'setting.ai.mcp-tools-count': ' {count} 個',
   'setting.ai.mcp-tools-all': '全部',
   'setting.ai.copy-mcp-config': '一鍵複製設定',
+  'setting.ai.mcp-server-name': '設定名稱（取自網站名稱）：',
   'setting.ai.mcp-enable': '啟用 MCP 對外介面',
   'setting.ai.mcp-enable-description':
     '開啟後允許第三方 AI 透過 MCP 協定存取本站點',

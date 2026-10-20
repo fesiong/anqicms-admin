@@ -57,13 +57,18 @@ const SettingContactFrom: React.FC<any> = () => {
   };
 
   const onSubmit = async (values: any) => {
-    values.qrcode = qrcode;
-    values.extra_fields = extraFields;
+    // 页面按 tab 条件渲染，onFinish 的 values 只含当前 tab 字段，
+    // 后端整包覆盖保存会清空其它 tab 的配置，必须取全量表单值
+    const allValues: any = {
+      ...(formRef.current?.getFieldsValue(true) || values),
+    };
+    allValues.qrcode = qrcode;
+    allValues.extra_fields = extraFields;
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
     );
-    saveSettingContact(values)
+    saveSettingContact(allValues)
       .then((res) => {
         message.success(res.msg);
       })
