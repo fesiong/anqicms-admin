@@ -163,6 +163,7 @@ export default {
   'component.aiEditor.error.request-error': 'AI 請求出錯',
   'component.aiEditor.error.request-failed': 'AI 請求失敗',
   'component.newAiEditor.toolbar.image-attachment': '圖片附件',
+  'component.newAiEditor.toolbar.insert-video': '嵌入影片',
   'component.newAiEditor.toolbar.content-material': '內容素材',
   'component.newAiEditor.toolbar.source-code': '檢視原始碼',
   'component.newAiEditor.chat.welcome':

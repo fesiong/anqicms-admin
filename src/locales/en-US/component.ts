@@ -175,6 +175,7 @@ export default {
     'The AI request failed with an error',
   'component.aiEditor.error.request-failed': 'AI request failed',
   'component.newAiEditor.toolbar.image-attachment': 'Images & attachments',
+  'component.newAiEditor.toolbar.insert-video': 'Embed video',
   'component.newAiEditor.toolbar.content-material': 'Content material',
   'component.newAiEditor.toolbar.source-code': 'View source code',
   'component.newAiEditor.chat.welcome':

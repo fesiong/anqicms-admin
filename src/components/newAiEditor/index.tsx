@@ -16,7 +16,7 @@ import { getSessionStore, getStore } from '@/utils/store';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useIntl } from '@umijs/max';
 import { Button, Input, message, Modal, Space, Spin, Tooltip } from 'antd';
-import { Code, Heading2, Heading3, Images, Layers } from 'lucide';
+import { Code, Heading2, Heading3, Images, Layers, Video } from 'lucide';
 import {
   forwardRef,
   lazy,
@@ -107,6 +107,73 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
     setCurEditor(editor);
     setAttachVisible(true);
   }
+
+  function attachVideo(editor: Editor) {
+    setCurEditor(editor);
+    setVideoVisible(true);
+  }
+
+  // 从 iframe 嵌入代码或裸链接中提取 YouTube 视频信息
+  const parseYouTubeInput = (input: string) => {
+    const trimmed = input.trim();
+    let src = trimmed;
+    let width: number | undefined;
+    let height: number | undefined;
+    const iframeMatch = trimmed.match(/<iframe[^>]*>/i);
+    if (iframeMatch) {
+      const tag = iframeMatch[0];
+      const srcMatch = tag.match(/src\s*=\s*["']([^"']+)["']/i);
+      if (!srcMatch) return null;
+      src = srcMatch[1];
+      const w = tag.match(/width\s*=\s*["']?(\d+)/i);
+      const h = tag.match(/height\s*=\s*["']?(\d+)/i);
+      width = w ? Number(w[1]) : undefined;
+      height = h ? Number(h[1]) : undefined;
+    }
+    // 校验是 YouTube 链接（watch / youtu.be / embed / shorts / nocookie）
+    if (
+      !/youtube(-nocookie)?\.com\/(watch\?v=|embed\/|shorts\/)/i.test(src) &&
+      !/^https?:\/\/youtu\.be\//i.test(src)
+    ) {
+      return null;
+    }
+    return { src, width, height };
+  };
+
+  const handleSubmitVideo = () => {
+    if (!videoUrl) {
+      message.error(
+        intl.formatMessage({ id: 'component.editor.video.required' }),
+      );
+      return;
+    }
+    if (curEditor) {
+      const trimmed = videoUrl.trim();
+      // YouTube 链接或 iframe 嵌入代码：走 youtube 节点，保持原链接、可选中编辑/删除
+      const youtube = parseYouTubeInput(trimmed);
+      if (youtube) {
+        curEditor
+          .chain()
+          .focus()
+          .setYoutubeVideo({
+            src: youtube.src,
+            width: youtube.width,
+            height: youtube.height,
+          } as any)
+          .run();
+      } else if (trimmed.indexOf('<') === 0) {
+        // 其它 iframe 嵌入代码原样插入
+        curEditor.chain().focus().insertContent(trimmed).run();
+      } else if (trimmed.indexOf('http') === 0) {
+        const videoHtml = `<video controls="controls" controlslist="nodownload" poster=""><source src="${trimmed}" type="video/mp4">Your browser does not support video tags.</video>`;
+        curEditor.chain().focus().insertContent(videoHtml).run();
+      } else {
+        curEditor.chain().focus().insertContent(trimmed).run();
+      }
+    }
+    setVideoUrl('');
+    setVideoVisible(false);
+  };
 
   const handleSelectVideo = () => {
     if (curEditor) {
@@ -400,9 +467,32 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
         element: divRef.current,
         placeholder: intl.formatMessage({ id: 'component.editor.placeholder' }),
         content: props.content,
+        // aieditor 内部给 youtube 扩展硬编码了 nocookie: true，会把
+        // youtube.com/watch 链接改写成 youtube-nocookie.com/embed，导致
+        // 前台无法播放。tiptap youtube 扩展在渲染时运行时读取该选项，
+        // 这里在创建前改回 false，保持用户原始链接域名。
+        onBeforeCreate: (editor: any) => {
+          const youtube = editor.extensionManager?.extensions?.find(
+            (ext: any) => ext.name === 'youtube',
+          );
+          if (youtube) {
+            youtube.options.nocookie = false;
+          }
+        },
         toolbar: {
           menus: (defaults) => [
             ...defaults,
+            {
+              type: 'button',
+              key: 'insert-video',
+              label: intl.formatMessage({
+                id: 'component.newAiEditor.toolbar.insert-video',
+              }),
+              icon: Video,
+              onClick: ({ editor }) => attachVideo(editor),
+              tip: 'video',
+              isEnabled: ({ editor }) => editor.isEditable,
+            },
             {
               type: 'button',
               key: 'images',
@@ -576,27 +666,6 @@ const NewAiEditor: React.FC<NewAiEditorProps> = forwardRef((props, ref) => {
       //  aiEditorRef.current.setContent(props.content || "");
     }
   }, [props.content]);
-
-  const handleSubmitVideo = () => {
-    if (!videoUrl) {
-      message.error(
-        intl.formatMessage({ id: 'component.editor.video.required' }),
-      );
-      return;
-    }
-    if (curEditor) {
-      // if (!curEditor.isFocused()) {
-      //   curEditor.focus();
-      // }
-      let videoHtml: string = videoUrl;
-      if (videoUrl.indexOf('http') === 0) {
-        videoHtml = `<video controls="controls" controlslist="nodownload" poster=""><source src="${videoUrl}" type="video/mp4">Your browser does not support video tags.</video>`;
-      }
-
-      curEditor.chain().focus().insertContent(videoHtml);
-    }
-    setVideoVisible(false);
-  };
 
   return (
     <div
