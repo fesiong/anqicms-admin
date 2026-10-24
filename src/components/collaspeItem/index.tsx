@@ -1,7 +1,7 @@
+import { RightOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import classNames from 'classnames';
-import { RightOutlined } from '@ant-design/icons';
 
 export type CollapseItemProps = {
   header: React.ReactNode;

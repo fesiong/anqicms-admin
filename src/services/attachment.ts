@@ -55,12 +55,46 @@ export async function deleteAttachment(
   });
 }
 
+export async function getAttachmentCategories(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/attachment/category/list',
+    params,
+    options,
+  });
+}
+
 export async function changeAttachmentCategory(
   body: any,
   options?: { [key: string]: any },
 ) {
   return post({
     url: '/attachment/category',
+    body,
+    options,
+  });
+}
+
+export async function addUrlToAttachment(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/attachment/addurl',
+    url: '/attachment/category/detail',
+    body,
+    options,
+  });
+}
+
+export async function deleteAttachmentCategory(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/attachment/category/delete',
     body,
     options,
   });

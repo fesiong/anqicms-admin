@@ -118,8 +118,15 @@ const PluginUser: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'plugin.user.real-name' }),
-      dataIndex: 'real_name',
+      title: intl.formatMessage({ id: 'plugin.user.balance' }),
+      dataIndex: 'balance',
+      render: (text, record) => {
+        return (
+          <div>
+            {record.balance > 0 ? (record.balance / 100).toFixed(2) : '-'}
+          </div>
+        );
+      },
     },
     {
       title: intl.formatMessage({ id: 'plugin.user.avatar_url' }),
@@ -264,6 +271,12 @@ const PluginUser: React.FC = () => {
               type={userType === 'ordered' ? 'primary' : 'default'}
             >
               {intl.formatMessage({ id: 'plugin.user.ordered' })}
+            </Button>
+            <Button
+              onClick={() => switchUserType('repurchase')}
+              type={userType === 'repurchase' ? 'primary' : 'default'}
+            >
+              {intl.formatMessage({ id: 'plugin.user.repurchase' })}
             </Button>
           </Space>
         }

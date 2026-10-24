@@ -160,6 +160,8 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
           >
             {order.type === 'vip'
               ? intl.formatMessage({ id: 'plugin.order.type.vip' })
+              : order.type === 'communication'
+              ? intl.formatMessage({ id: 'plugin.order.type.communication' })
               : intl.formatMessage({ id: 'plugin.order.type.goods' })}
           </ProFormText>
           <ProFormText
@@ -442,10 +444,14 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
                       className="img"
                       height={100}
                       preview={{
-                        src: item.goods?.logo,
+                        src: item.communication_order
+                          ? item.communication_order.logo
+                          : item.goods?.logo,
                       }}
                       src={
-                        item.goods?.thumb
+                        item.communication_order
+                          ? item.communication_order.thumb
+                          : item.goods?.thumb
                       }
                     />
                   </ProFormText>
@@ -455,7 +461,9 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
                     })}
                     readonly
                   >
-                    {item.goods?.title}
+                    {item.communication_order
+                      ? item.communication_order.title
+                      : item.goods?.title}
                   </ProFormText>
                   <ProFormText
                     label={intl.formatMessage({
@@ -463,7 +471,8 @@ const OrderForm: React.FC<OrderFormProps> = (props) => {
                     })}
                     readonly
                   >
-                    {item.goods_sku?.title}
+                    {item.sku_values?.map((sv: any) => sv.title).join(' / ') ||
+                      item.goods_sku?.title}
                   </ProFormText>
                   {item.order_fields && (
                     <div

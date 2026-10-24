@@ -51,7 +51,8 @@ const GlobalHeaderContent: React.FC = () => {
     history.push(current.key);
   };
 
-  let permissions = initialState?.currentUser?.group?.setting?.permissions || [];
+  let permissions =
+    initialState?.currentUser?.group?.setting?.permissions || [];
   const headerMenu = routes.reduce((pre: any, cur: any) => {
     if (!cur.hideInTop && cur.name) {
       let path = cur.path;
@@ -89,6 +90,7 @@ const GlobalHeaderContent: React.FC = () => {
     <div className="header-nav">
       <Menu
         onClick={onClickMenu}
+        theme="dark"
         selectedKeys={[selectKey]}
         mode="horizontal"
         items={headerMenu}

@@ -38,6 +38,10 @@ const PluginPay: React.FC = () => {
       label: intl.formatMessage({ id: 'plugin.pay.paypal' }),
     },
     {
+      value: 'stripe',
+      label: intl.formatMessage({ id: 'plugin.pay.stripe' }),
+    },
+    {
       value: 'balance',
       label: intl.formatMessage({ id: 'plugin.pay.balance' }),
     },
@@ -235,6 +239,7 @@ const PluginPay: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<any>
+        headerTitle={intl.formatMessage({ id: 'menu.plugin.pay' })}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [

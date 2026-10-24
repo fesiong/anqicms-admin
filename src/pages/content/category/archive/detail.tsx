@@ -3,6 +3,8 @@ import AiGenerate from '@/components/aiGenerate';
 import AiGetTdk from '@/components/aitdk';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
+import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import {
   anqiExtractDescription,
   getArchives,
@@ -118,7 +120,7 @@ const ArchiveCategoryDetail: React.FC = () => {
     let parent_id = Number(searchParams.get('parent_id') || 0);
 
     let modRes = await getModules();
-    setModules(modRes.data || []);
+    setModules((modRes.data || []).filter((item: any) => item.id !== 2));
     let catRes = await getCategoryInfo({
       id: id,
     });
@@ -164,7 +166,7 @@ const ArchiveCategoryDetail: React.FC = () => {
       setLoaded(true);
     });
     getCategories({}).then((res) => {
-      setCategories(res.data || []);
+      setCategories((res.data || []).filter((item: any) => item.module_id !== 2));
     });
   };
 

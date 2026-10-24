@@ -11,6 +11,17 @@ export async function getSettingSystem(
   });
 }
 
+export async function getSettingShop(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/setting/shop',
+    params,
+    options,
+  });
+}
+
 export async function getSettingContent(
   params?: any,
   options?: { [key: string]: any },
@@ -105,6 +116,17 @@ export async function saveSettingSystem(
 ) {
   return post({
     url: '/setting/system',
+    body,
+    options,
+  });
+}
+
+export async function saveSettingShop(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
+    url: '/setting/shop',
     body,
     options,
   });
@@ -353,22 +375,26 @@ export async function saveSettingDiyFields(
 }
 
 export async function getSettingAi(
+export async function getSettingCurrency(
   params?: any,
   options?: { [key: string]: any },
 ) {
   return get({
     url: '/setting/ai',
+    url: '/setting/currency',
     params,
     options,
   });
 }
 
 export async function saveSettingAi(
+export async function saveSettingCurrency(
   body: any,
   options?: { [key: string]: any },
 ) {
   return post({
     url: '/setting/ai',
+    url: '/setting/currency',
     body,
     options,
   });

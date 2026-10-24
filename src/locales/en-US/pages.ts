@@ -12,6 +12,7 @@ export default {
   'pages.login.username.placeholder': 'Username',
   'pages.login.username.required': 'Please enter your username!',
   'pages.login.password.placeholder': 'Password',
+    'Administrator account password reset successfully',
   'pages.login.password.required': 'Please enter your password!',
   'pages.login.auto-login': 'Remember me',
   'pages.login.forget-password': 'Forgot password',

@@ -6,6 +6,8 @@ import AttachmentSelect from '@/components/attachment';
 import ImageItem from '@/components/attachment/image';
 import CollapseItem from '@/components/collaspeItem';
 import Keywords from '@/components/keywords';
+import MarkdownEditor from '@/components/markdown';
+import NewAiEditor from '@/components/newAiEditor';
 import SelectColor from '@/components/selectColor';
 import {
   anqiExtractDescription,
@@ -149,7 +151,7 @@ class ArchiveForm extends React.Component<intlProps> {
     const res = await getModules();
     this.setState(
       {
-        modules: res.data || [],
+        modules: (res.data || []).filter((item: any) => item.id !== 2),
       },
       () => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -213,7 +215,7 @@ class ArchiveForm extends React.Component<intlProps> {
     );
     // 获取分类
     getCategories().then((res) => {
-      let categories = res.data || [];
+      let categories = (res.data || []).filter((item: any) => item.module_id !== 2);
       this.setState({
         categories,
       });
@@ -299,6 +301,9 @@ class ArchiveForm extends React.Component<intlProps> {
       id: id,
     });
     const archive = res.data || { extra: {}, flag: null };
+    if (archive.module_id === 2) {
+      history.replace('/product/detail?id=' + archive.id);
+    }
     if (copy) {
       archive.id = 0;
       archive.parent_id = 0;

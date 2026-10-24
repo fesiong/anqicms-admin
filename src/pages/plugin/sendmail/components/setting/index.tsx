@@ -102,6 +102,36 @@ const SendmailSetting: React.FC<SendmailSettingProps> = (props) => {
           id: 'plugin.sendmail.recipient.description',
         })}
       />
+      <ProFormRadio.Group
+        name="use_brevo"
+        label={intl.formatMessage({ id: 'plugin.sendmail.use-brevo' })}
+        options={[
+          {
+            label: intl.formatMessage({
+              id: 'plugin.sendmail.use-brevo.no',
+            }),
+            value: false,
+          },
+          {
+            label: intl.formatMessage({
+              id: 'plugin.sendmail.use-brevo.yes',
+            }),
+            value: true,
+          },
+        ]}
+        extra={intl.formatMessage({
+          id: 'plugin.sendmail.use-brevo.description',
+        })}
+        fieldProps={{
+          onChange: (e) => setUseBrevo(e.target.value),
+        }}
+      />
+      {useBrevo && (
+        <ProFormText
+          name="brevo_api_key"
+          label={intl.formatMessage({ id: 'plugin.sendmail.brevo-api-key' })}
+        />
+      )}
     </ModalForm>
   );
 };

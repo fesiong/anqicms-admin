@@ -37,7 +37,8 @@ const ArchiveCategory: React.FC = () => {
 
   const readModules = async () => {
     const res = await getModules();
-    setModules(res.data || []);
+
+    setModules((res.data || []).filter((item: any) => item.id !== 2));
   };
 
   const onTabChange = (key: string, isSubSite: boolean) => {
@@ -240,6 +241,7 @@ const ArchiveCategory: React.FC = () => {
                 },
               ]
                 .concat(res.data || [])
+                .filter((item: any) => item.id !== 2)
                 .map((item: any) => ({
                   label: item.name,
                   value: item.id,
@@ -445,11 +447,15 @@ const ArchiveCategory: React.FC = () => {
             </Button>
           </Space>
         )}
-        request={(params) => {
+        request={async (params) => {
           params.type = 1;
           params.show_type = 1;
           lastParams = params;
-          return getCategories(params);
+          let res = await getCategories(params);
+          return {
+            data: res.data?.filter((item: any) => item.module_id !== 2),
+            total: res.total,
+          };
         }}
         columnsState={{
           persistenceKey: 'category-table',

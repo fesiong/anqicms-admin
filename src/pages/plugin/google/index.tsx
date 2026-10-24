@@ -94,6 +94,16 @@ const PluginGoogle: React.FC<any> = () => {
                   id: 'plugin.google.client-secret.description',
                 })}
               />
+              <Divider></Divider>
+              <ProFormText
+                name="places_api_key"
+                label={intl.formatMessage({
+                  id: 'plugin.google.places-api-key',
+                })}
+                extra={intl.formatMessage({
+                  id: 'plugin.google.places-api-key.description',
+                })}
+              />
             </ProForm>
           </div>
         )}

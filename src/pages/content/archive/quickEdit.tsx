@@ -56,7 +56,7 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
       setContentSetting(res.data || {});
     });
     getCategories().then((res) => {
-      setCategories(res.data || []);
+      setCategories((res.data || []).filter((item: any) => item.module_id !== 2));
     });
   }, []);
 

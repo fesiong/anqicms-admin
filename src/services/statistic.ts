@@ -87,3 +87,91 @@ export async function getDashboardInfo(
     options,
   });
 }
+
+export async function getStatisticConversion(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/conversion',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticCoupon(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/coupon',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticCustomer(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/customer',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticLiveView(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/live',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticOrder(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/order',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticProduct(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/product',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticSearch(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/search',
+    params,
+    options,
+  });
+}
+
+export async function getStatisticSearchDetail(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
+    url: '/statistic/search/detail',
+    params,
+    options,
+  });
+}

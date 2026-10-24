@@ -6,6 +6,8 @@ import {
   ProForm,
   ProFormInstance,
   ProFormText,
+  ProFormDigit,
+  ProFormTextArea,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Button, Card, Col, message, Modal, Row } from 'antd';
@@ -15,6 +17,7 @@ const SettingContactFrom: React.FC<any> = () => {
   const formRef = useRef<ProFormInstance>();
   const [setting, setSetting] = useState<any>(null);
   const [qrcode, setQrcode] = useState<string>('');
+  const [shopLogo, setShopLogo] = useState<string>('');
   const [extraFields, setExtraFields] = useState<any[]>([]);
   const [activeTabKey, setActiveTabKey] = useState<string>('base');
   const [newKey, setNewKey] = useState<string>('');
@@ -25,6 +28,7 @@ const SettingContactFrom: React.FC<any> = () => {
     let setting = res.data || null;
     setSetting(setting);
     setQrcode(setting?.qrcode || '');
+    setShopLogo(setting?.shop_logo || '');
     setExtraFields(setting.extra_fields || []);
     formRef.current?.setFieldsValue(setting);
   };
@@ -56,6 +60,23 @@ const SettingContactFrom: React.FC<any> = () => {
     });
   };
 
+  const handleSelectShopLogo = (row: any) => {
+    setShopLogo(row.file_path);
+    message.success(
+      intl.formatMessage({ id: 'setting.system.upload-success' }),
+    );
+  };
+
+  const handleRemoveShopLogo = (e: any) => {
+    e.stopPropagation();
+    Modal.confirm({
+      title: intl.formatMessage({ id: 'setting.system.confirm-delete' }),
+      onOk: async () => {
+        setShopLogo('');
+      },
+    });
+  };
+
   const onSubmit = async (values: any) => {
     // 页面按 tab 条件渲染，onFinish 的 values 只含当前 tab 字段，
     // 后端整包覆盖保存会清空其它 tab 的配置，必须取全量表单值
@@ -63,6 +84,7 @@ const SettingContactFrom: React.FC<any> = () => {
       ...(formRef.current?.getFieldsValue(true) || values),
     };
     allValues.qrcode = qrcode;
+    allValues.shop_logo = shopLogo;
     allValues.extra_fields = extraFields;
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
@@ -145,6 +167,121 @@ const SettingContactFrom: React.FC<any> = () => {
         <ProFormText name="linkedin" label="Linkedin" width="lg" />
         <ProFormText name="instagram" label="Instagram" width="lg" />
         <ProFormText name="youtube" label="Youtube" width="lg" />
+      </div>
+    ),
+    shop: (
+      <div>
+        <ProFormText
+          name="shop_name"
+          label={intl.formatMessage({ id: 'setting.shop.name' })}
+          width="lg"
+          placeholder={intl.formatMessage({ id: 'setting.shop.name' })}
+          extra={intl.formatMessage({
+            id: 'setting.shop.name-description',
+          })}
+        />
+        <ProFormText
+          label={intl.formatMessage({ id: 'setting.shop.logo' })}
+          width="lg"
+          extra={intl.formatMessage({
+            id: 'setting.shop.logo-description',
+          })}
+        >
+          <AttachmentSelect onSelect={handleSelectShopLogo} open={false}>
+            <div className="ant-upload-item">
+              {shopLogo ? (
+                <>
+                  <img src={shopLogo} style={{ width: '100%' }} />
+                  <a className="delete" onClick={handleRemoveShopLogo}>
+                    <FormattedMessage id="setting.system.delete" />
+                  </a>
+                </>
+              ) : (
+                <div className="add">
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>
+                    <FormattedMessage id="setting.system.upload" />
+                  </div>
+                </div>
+              )}
+            </div>
+          </AttachmentSelect>
+        </ProFormText>
+        <ProFormTextArea
+          name="shop_description"
+          label={intl.formatMessage({ id: 'setting.shop.description' })}
+          width="lg"
+          fieldProps={{ rows: 3 }}
+          placeholder={intl.formatMessage({
+            id: 'setting.shop.description-placeholder',
+          })}
+          extra={intl.formatMessage({
+            id: 'setting.shop.description-description',
+          })}
+        />
+        <ProFormText
+          name="business_hours"
+          label={intl.formatMessage({
+            id: 'setting.shop.business-hours',
+          })}
+          width="lg"
+          placeholder={intl.formatMessage({
+            id: 'setting.shop.business-hours-placeholder',
+          })}
+          extra={intl.formatMessage({
+            id: 'setting.shop.business-hours-description',
+          })}
+        />
+        <ProFormText
+          name="delivery_location"
+          label={intl.formatMessage({
+            id: 'setting.shop.delivery-location',
+          })}
+          width="lg"
+          placeholder={intl.formatMessage({
+            id: 'setting.shop.delivery-location-placeholder',
+          })}
+        />
+        <ProFormText
+          name="delivery_latitude"
+          label={intl.formatMessage({
+            id: 'setting.shop.delivery-latitude',
+          })}
+          width="lg"
+        />
+        <ProFormText
+          name="delivery_longitude"
+          label={intl.formatMessage({
+            id: 'setting.shop.delivery-longitude',
+          })}
+          width="lg"
+          extra={intl.formatMessage({
+            id: 'setting.shop.delivery-longitude-description',
+          })}
+        />
+        <ProFormDigit
+          name="shipping_time"
+          label={intl.formatMessage({ id: 'setting.shop.shipping-time' })}
+          width="lg"
+          fieldProps={{
+            suffix: intl.formatMessage({
+              id: 'setting.shop.shipping-time.suffix',
+            }),
+          }}
+        />
+        <ProFormText
+          name="shipping_time_remark"
+          label={intl.formatMessage({
+            id: 'setting.shop.shipping-time-description',
+          })}
+          width="lg"
+          placeholder={intl.formatMessage({
+            id: 'setting.shop.shipping-time-placeholder',
+          })}
+          extra={intl.formatMessage({
+            id: 'setting.shop.shipping-time-description',
+          })}
+        />
       </div>
     ),
     diy: (
@@ -257,6 +394,10 @@ const SettingContactFrom: React.FC<any> = () => {
             {
               key: 'media',
               label: intl.formatMessage({ id: 'setting.tab.social' }),
+            },
+            {
+              key: 'shop',
+              label: intl.formatMessage({ id: 'setting.shop.info' }),
             },
             {
               key: 'diy',

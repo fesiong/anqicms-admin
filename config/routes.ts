@@ -30,56 +30,177 @@ export default [
     component: './dashboard/index',
   },
   {
-    path: '/setting',
-    name: 'setting',
-    icon: 'setting',
-    access: 'canAdmin',
+    path: '/order',
+    name: 'order',
+    icon: 'accountBook',
     routes: [
       {
-        path: '/setting/system',
-        name: 'system',
-        component: './setting/system',
+        path: '/order/index',
+        name: 'order',
+        component: '@/pages/plugin/order/index',
       },
       {
-        path: '/setting/content',
-        name: 'content',
-        component: './setting/content',
+        path: '/order/recall',
+        name: 'recall',
+        component: '@/pages/plugin/order/recall',
       },
       {
-        path: '/setting/safe',
-        name: 'safe',
-        component: './setting/safe',
+        path: '/order/waybill',
+        name: 'waybill',
+        component: '@/pages/plugin/order/waybill',
       },
       {
-        path: '/setting/sensitive',
-        name: 'sensitive',
-        component: './setting/sensitive',
+        path: '/order/communication',
+        name: 'communication',
+        component: '@/pages/plugin/order/communication',
       },
       {
-        path: '/setting/contact',
-        name: 'contact',
-        component: './setting/contact',
+        path: '/order/service',
+        name: 'service',
+        component: '@/pages/plugin/order/service',
       },
       {
-        path: '/setting/tdk',
-        name: 'tdk',
-        component: './setting/index',
+        path: '/order/shipping',
+        name: 'shipping',
+        component: '@/pages/plugin/shipping/index',
+      },
+    ],
+  },
+  {
+    path: '/product',
+    name: 'product',
+    icon: 'product',
+    routes: [
+      {
+        path: '/product/index',
+        name: 'product',
+        component: '@/pages/content/product/index',
       },
       {
-        path: '/setting/banner',
-        name: 'banner',
-        component: './setting/banner',
+        hideInMenu: true,
+        path: '/product/detail',
+        component: '@/pages/content/product/detail',
       },
       {
-        path: '/setting/nav',
-        name: 'nav',
-        component: './setting/nav',
+        path: '/product/category',
+        name: 'category',
+        component: '@/pages/content/category/product/index',
       },
       {
         path: '/setting/ai',
         name: 'ai',
         component: './setting/ai',
       },
+      {
+        hideInMenu: true,
+        path: '/product/category/detail',
+        component: '@/pages/content/category/product/detail',
+      },
+      // {
+      //   path: '/product/inventory',
+      //   name: 'inventory',
+      //   component: '@/pages/content/product/inventory',
+      // },
+      {
+        path: '/product/review',
+        name: 'review',
+        component: '@/pages/content/product/review',
+      },
+    ],
+  },
+  {
+    path: '/customer',
+    name: 'customer',
+    icon: 'team',
+    routes: [
+      {
+        path: '/customer/index',
+        name: 'customer',
+        component: '@/pages/plugin/user/index',
+      },
+      {
+        path: '/customer/group',
+        name: 'group',
+        component: '@/pages/plugin/group/index',
+      },
+      {
+        path: '/customer/guestbook',
+        name: 'guestbook',
+        component: '@/pages/plugin/guestbook/index',
+      },
+      {
+        path: '/customer/wishlist',
+        name: 'wishlist',
+        component: '@/pages/customer/wishlist',
+      },
+    ],
+  },
+  {
+    path: '/promotion',
+    name: 'promotion',
+    icon: 'fund',
+    routes: [
+      // {
+      //   path: '/promotion/index',
+      //   name: 'promotion',
+      //   component: '@/pages/promotion/index',
+      // },
+      {
+        path: '/promotion/automation',
+        name: 'automation',
+        component: '@/pages/plugin/sendmail/index',
+      },
+      {
+        path: '/promotion/subscription',
+        name: 'subscription',
+        component: '@/pages/promotion/subscription',
+      },
+      {
+        path: '/promotion/googlemerchant',
+        name: 'googlemerchant',
+        component: '@/pages/promotion/googlemerchant/index',
+      },
+      {
+        path: '/promotion/googlemerchant/callback',
+        component: '@/pages/promotion/googlemerchant/callback',
+      },
+    ],
+  },
+  {
+    path: '/sale',
+    name: 'sale',
+    icon: 'percentage',
+    routes: [
+      {
+        path: '/sale/index',
+        name: 'coupon',
+        component: '@/pages/sale/coupon',
+      },
+      {
+        path: '/sale/sales',
+        name: 'sales',
+        component: '@/pages/sale/sales',
+      },
+      {
+        path: '/sale/activity',
+        name: 'activity',
+        component: '@/pages/sale/activity',
+      },
+      // {
+      //   path: '/sale/package',
+      //   name: 'package',
+      //   component: '@/pages/sale/package',
+      // },
+      // {
+      //   path: '/sale/freeshipping',
+      //   name: 'freeshipping',
+      //   component: '@/pages/sale/freeshipping',
+      // },
+      // {
+      //   path: '/sale/buygifts',
+      //   name: 'buygifts',
+      //   component: '@/pages/sale/buygifts',
+      // },
     ],
   },
   {
@@ -160,6 +281,7 @@ export default [
     path: '/plugin',
     name: 'plugin',
     icon: 'appstore',
+    hideInTop: true,
     access: 'canAdmin',
     routes: [
       {
@@ -503,6 +625,20 @@ export default [
           },
         ],
       },
+      {
+        path: '/plugin/google',
+        name: 'google',
+        type: 'system',
+        component: '@/pages/plugin/google/index',
+        icon: 'google',
+      },
+      {
+        path: '/plugin/llms',
+        name: 'llms',
+        type: 'normal',
+        component: '@/pages/plugin/llms/index',
+        icon: 'llms',
+      },
     ],
   },
   {
@@ -557,6 +693,47 @@ export default [
     access: 'canAdmin',
     routes: [
       {
+        path: '/statistic/liveview',
+        name: 'liveview',
+        component: '@/pages/statistic/liveview',
+      },
+      {
+        path: '/statistic/conversion',
+        name: 'conversion',
+        component: '@/pages/statistic/conversion',
+      },
+      {
+        path: '/statistic/orders',
+        name: 'orders',
+        component: '@/pages/statistic/orders',
+      },
+      {
+        path: '/statistic/products',
+        name: 'products',
+        component: '@/pages/statistic/products',
+      },
+      {
+        path: '/statistic/customers',
+        name: 'customers',
+        component: '@/pages/statistic/customers',
+      },
+      {
+        path: '/statistic/search',
+        name: 'search',
+        component: '@/pages/statistic/search',
+      },
+      {
+        hideInMenu: true,
+        path: '/statistic/search/detail',
+        name: 'searchdetail',
+        component: '@/pages/statistic/searchDetail',
+      },
+      {
+        path: '/statistic/coupons',
+        name: 'coupons',
+        component: '@/pages/statistic/coupons',
+      },
+      {
         path: '/statistic/spider',
         name: 'spider',
         component: '@/pages/statistic/spider',
@@ -567,6 +744,7 @@ export default [
         component: '@/pages/statistic/traffic',
       },
       {
+        hideInMenu: true,
         path: '/statistic/detail',
         name: 'detail',
         component: '@/pages/statistic/detail',
@@ -577,9 +755,74 @@ export default [
         component: '@/pages/statistic/include',
       },
       {
+        hideInMenu: true,
         path: '/statistic/include/detail',
         name: 'includedetail',
         component: '@/pages/statistic/include/detail',
+      },
+    ],
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    icon: 'setting',
+    hideInTop: true,
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/setting/system',
+        name: 'system',
+        component: './setting/system',
+      },
+      {
+        path: '/setting/contact',
+        name: 'contact',
+        component: './setting/contact',
+      },
+      {
+        path: '/setting/content',
+        name: 'content',
+        component: './setting/content',
+      },
+      {
+        path: '/setting/safe',
+        name: 'safe',
+        component: './setting/safe',
+      },
+      {
+        path: '/setting/sensitive',
+        name: 'sensitive',
+        component: './setting/sensitive',
+      },
+      {
+        path: '/setting/tdk',
+        name: 'tdk',
+        component: './setting/index',
+      },
+      {
+        path: '/setting/banner',
+        name: 'banner',
+        component: './setting/banner',
+      },
+      {
+        path: '/setting/nav',
+        name: 'nav',
+        component: './setting/nav',
+      },
+      {
+        path: '/setting/diyfield',
+        name: 'diy',
+        component: './setting/diyfield',
+      },
+      {
+        path: '/setting/currency',
+        name: 'currency',
+        component: './setting/currency',
+      },
+      {
+        path: '/setting/pay',
+        name: 'pay',
+        component: '@/pages/plugin/pay/index',
       },
     ],
   },

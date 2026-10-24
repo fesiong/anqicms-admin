@@ -138,6 +138,15 @@ const UserGroupForm: React.FC<UserGroupFormProps> = (props) => {
         fieldProps={{ precision: 0, addonAfter: '%' }}
         extra={intl.formatMessage({ id: 'plugin.group.discount.description' })}
       />
+      <ProFormDigit
+        name={['setting', 'shipping_discount']}
+        label={intl.formatMessage({ id: 'plugin.group.shipping_discount' })}
+        width="sm"
+        fieldProps={{ precision: 0, addonAfter: '%' }}
+        extra={intl.formatMessage({
+          id: 'plugin.group.shipping_discount.description',
+        })}
+      />
     </ModalForm>
   );
 };
