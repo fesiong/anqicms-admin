@@ -390,4 +390,14 @@ export default {
   'setting.shipping.volumetric-divisor-placeholder': '请输入换算系数',
   'setting.shipping.volumetric-divisor-description':
     '体积重(kg) = 体积(cm³) / 换算系数，0表示禁用体积重。国内快递常用6000，国际物流常用5000',
+  'setting.system.shop-mode': '站点模式',
+  'setting.system.shop-mode-description':
+    '普通模式仅保留内容站功能，商城菜单与前台商城接口全部关闭；商城模式开启全部商城功能。切换不影响已有数据。',
+  'setting.system.shop-mode.normal': '普通模式',
+  'setting.system.shop-mode.shop': '商城模式',
+  'setting.system.shop-mode.confirm': '确认切换站点模式？',
+  'setting.system.shop-mode.confirm-content':
+    '切换后商城相关菜单与前台商城接口将整体启用或关闭，已有数据不受影响。确定要切换吗？',
+  'setting.system.shop-mode.confirm-ok': '确认切换',
+  'setting.system.shop-mode.confirm-cancel': '取消',
 };

@@ -388,4 +388,14 @@ export default {
   'setting.shipping.volumetric-divisor-placeholder': '請輸入換算係數',
   'setting.shipping.volumetric-divisor-description':
     '體積重(kg) = 體積(cm³) / 換算係數，0表示禁用體積重。國內快遞常用6000，國際物流常用5000',
+  'setting.system.shop-mode': '站點模式',
+  'setting.system.shop-mode-description':
+    '普通模式僅保留內容站功能，商城選單與前台商城介面全部關閉；商城模式開啟全部商城功能。切換不影響已有資料。',
+  'setting.system.shop-mode.normal': '普通模式',
+  'setting.system.shop-mode.shop': '商城模式',
+  'setting.system.shop-mode.confirm': '確認切換站點模式？',
+  'setting.system.shop-mode.confirm-content':
+    '切換後商城相關選單與前台商城介面將整體啟用或關閉，已有資料不受影響。確定要切換嗎？',
+  'setting.system.shop-mode.confirm-ok': '確認切換',
+  'setting.system.shop-mode.confirm-cancel': '取消',
 };

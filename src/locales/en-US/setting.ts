@@ -414,4 +414,14 @@ export default {
   'setting.shipping.volumetric-divisor-placeholder': 'Please enter divisor',
   'setting.shipping.volumetric-divisor-description':
     'Volumetric Weight (kg) = Volume (cm³) / Divisor. 0 means disabled. Common values: 6000 for domestic express, 5000 for international logistics.',
+  'setting.system.shop-mode': 'Site Mode',
+  'setting.system.shop-mode-description':
+    'Content mode keeps only CMS features and disables all mall menus and shop APIs; Shop mode enables all shop features. Switching does not affect existing data.',
+  'setting.system.shop-mode.normal': 'Content Mode',
+  'setting.system.shop-mode.shop': 'Shop Mode',
+  'setting.system.shop-mode.confirm': 'Switch site mode?',
+  'setting.system.shop-mode.confirm-content':
+    'Mall menus and frontend shop APIs will be enabled or disabled as a whole. Existing data is not affected. Continue?',
+  'setting.system.shop-mode.confirm-ok': 'Switch',
+  'setting.system.shop-mode.confirm-cancel': 'Cancel',
 };

@@ -29,6 +29,9 @@ const SettingSystemFrom: React.FC<any> = () => {
   const [extraFields, setExtraFields] = useState<any[]>([]);
   const [activeTabKey, setActiveTabKey] = useState<string>('base');
   const [newKey, setNewKey] = useState<string>('');
+  // 站点模式（0=普通内容模式，1=商城模式）的服务端现值，
+  // 用于切换时的二次确认比对
+  const shopModeRef = useRef<number>(0);
   const intl = useIntl();
 
   const getSetting = async () => {
@@ -38,6 +41,7 @@ const SettingSystemFrom: React.FC<any> = () => {
     setSiteLogo(setting.system?.site_logo || '');
     setSiteClose(setting.system?.site_close || 0);
     setExtraFields(setting.system.extra_fields || []);
+    shopModeRef.current = setting.system?.shop_mode || 0;
     setFetched(true);
     formRef.current?.setFieldsValue(setting.system);
   };
@@ -99,15 +103,7 @@ const SettingSystemFrom: React.FC<any> = () => {
       });
   };
 
-  const onSubmit = async (values: any) => {
-    // 页面按 tab 条件渲染，未挂载 tab 的字段不会出现在 onFinish 的 values 里，
-    // 而后端是整包覆盖保存，直接提交会清空其它 tab 的配置。
-    // 这里必须取全量表单值（切 tab 后未挂载字段的值仍保留在 store 中）。
-    const allValues = {
-      ...(formRef.current?.getFieldsValue(true) || values),
-    };
-    allValues.site_logo = siteLogo;
-    allValues.extra_fields = extraFields;
+  const doSubmit = async (allValues: any) => {
     const hide = message.loading(
       intl.formatMessage({ id: 'setting.system.submitting' }),
       0,
@@ -115,6 +111,7 @@ const SettingSystemFrom: React.FC<any> = () => {
     saveSettingSystem(allValues)
       .then(async (res) => {
         message.success(res.msg);
+        shopModeRef.current = allValues.shop_mode || 0;
         const system = await initialState?.fetchSystemSetting?.();
         if (system) {
           await setInitialState((s) => ({
@@ -129,6 +126,35 @@ const SettingSystemFrom: React.FC<any> = () => {
       .finally(() => {
         hide();
       });
+  };
+
+  const onSubmit = async (values: any) => {
+    // 页面按 tab 条件渲染，未挂载 tab 的字段不会出现在 onFinish 的 values 里，
+    // 而后端是整包覆盖保存，直接提交会清空其它 tab 的配置。
+    // 这里必须取全量表单值（切 tab 后未挂载字段的值仍保留在 store 中）。
+    const allValues = {
+      ...(formRef.current?.getFieldsValue(true) || values),
+    };
+    allValues.site_logo = siteLogo;
+    allValues.extra_fields = extraFields;
+    // 站点模式切换影响面大（菜单与前台商城接口整体启停），需要二次确认
+    if ((allValues.shop_mode || 0) !== shopModeRef.current) {
+      Modal.confirm({
+        title: intl.formatMessage({ id: 'setting.system.shop-mode.confirm' }),
+        content: intl.formatMessage({
+          id: 'setting.system.shop-mode.confirm-content',
+        }),
+        okText: intl.formatMessage({ id: 'setting.system.shop-mode.confirm-ok' }),
+        cancelText: intl.formatMessage({
+          id: 'setting.system.shop-mode.confirm-cancel',
+        }),
+        onOk: () => {
+          return doSubmit(allValues);
+        },
+      });
+      return;
+    }
+    return doSubmit(allValues);
   };
 
   const getLangName = (lang: string) => {
@@ -432,6 +458,29 @@ const SettingSystemFrom: React.FC<any> = () => {
               value: 1,
               label: intl.formatMessage({
                 id: 'setting.system.ban-spider',
+              }),
+            },
+          ]}
+        />
+        <ProFormRadio.Group
+          name="shop_mode"
+          label={intl.formatMessage({
+            id: 'setting.system.shop-mode',
+          })}
+          extra={intl.formatMessage({
+            id: 'setting.system.shop-mode-description',
+          })}
+          options={[
+            {
+              value: 0,
+              label: intl.formatMessage({
+                id: 'setting.system.shop-mode.normal',
+              }),
+            },
+            {
+              value: 1,
+              label: intl.formatMessage({
+                id: 'setting.system.shop-mode.shop',
               }),
             },
           ]}

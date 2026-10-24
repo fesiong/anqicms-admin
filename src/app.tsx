@@ -151,6 +151,51 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         }
       }
 
+      // 站点模式过滤（合并计划阶段 5.2）：
+      // 普通内容模式（shop_mode !== 1）下隐藏商城相关的菜单组与入口。
+      // 顶部商城组隐藏后其子菜单随之隐藏；共享组内的商城子页按路径隐藏。
+      // 新增商城菜单时必须同步此清单。
+      if (initialState?.system?.shop_mode !== 1) {
+        const shopTopGroups = [
+          '/order',
+          '/product',
+          '/customer',
+          '/promotion',
+          '/sale',
+        ];
+        const shopPaths = [
+          '/statistic/liveview',
+          '/statistic/conversion',
+          '/statistic/orders',
+          '/statistic/products',
+          '/statistic/customers',
+          '/statistic/search',
+          '/statistic/coupons',
+          '/setting/currency',
+          '/setting/pay',
+        ];
+        for (let i in menuData) {
+          const item = menuData[i];
+          if (shopTopGroups.indexOf(item.path) !== -1) {
+            item.unaccessible = true;
+            continue;
+          }
+          if (item.children) {
+            for (let j in item.children) {
+              const child = item.children[Number(j)];
+              if (
+                shopPaths.indexOf(child.path) !== -1 ||
+                shopPaths.some(
+                  (p) => child.path && child.path.startsWith(p + '/'),
+                )
+              ) {
+                child.unaccessible = true;
+              }
+            }
+          }
+        }
+      }
+
       return menuData;
     },
     // 自定义 403 页面
