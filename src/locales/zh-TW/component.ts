@@ -179,5 +179,4 @@ export default {
   'component.placeCascader.placeholder': '請選擇省/市/區',
   'component.placeCascader.required': '請選擇地區',
   'component.attachment.video-unsupport': '您的瀏覽器不支援 video 標籤。',
-    '已欠費，AI/翻譯已暫停使用，請及時充值以恢復使用',
 };

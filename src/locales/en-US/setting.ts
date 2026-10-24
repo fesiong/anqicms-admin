@@ -27,7 +27,6 @@ export default {
   'setting.system.front-url-description':
     'The frontend access URL of this website, e.g. https://www.anqicms.com. Required if the site is decoupled (e.g., the frontend is Next.js) and uses a separate domain.',
   'setting.system.mobile-url': 'Mobile URL',
-    'Refers to the PC access URL of the website, such as: https://www.anqicms.com, used to generate the absolute address of the entire site',
   'setting.system.mobile-url-description':
     'The mobile access URL of this website, e.g. https://m.anqicms.com. Required when the website type is PC + Mobile.',
   'setting.system.site-logo': 'Website Logo',
@@ -162,7 +161,6 @@ export default {
   'setting.content.default-thumb.thumbs': 'Random images',
   'setting.content.default-thumb.category': 'Image category',
   'setting.content.make-thumb': 'Batch generate thumbnails',
-    'If the article does not have a thumbnail, the default thumbnail will be used instead when calling. The default thumbnail supports single image, selected random images, or random images from specified image categories',
   'setting.system.thumb-size.tips':
     'If you changed the thumbnail size, save first, then click regenerate',
   'setting.safe.admin-captcha': 'Admin panel CAPTCHA',
@@ -368,7 +366,6 @@ export default {
   'setting.ai.thinking-off': 'Off',
   'setting.ai.max-tokens': 'Max response length',
   'setting.ai.timeout-seconds': 'Request timeout',
-    'The connection starts with http or https, such as: https://www.anqicms.com/',
   'setting.currency.currency-name': 'Currency name',
   'setting.currency.currency-code': 'International currency code',
   'setting.currency.currency-code.description':

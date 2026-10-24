@@ -6,8 +6,6 @@ import AttachmentSelect from '@/components/attachment';
 import ImageItem from '@/components/attachment/image';
 import CollapseItem from '@/components/collaspeItem';
 import Keywords from '@/components/keywords';
-import MarkdownEditor from '@/components/markdown';
-import NewAiEditor from '@/components/newAiEditor';
 import SelectColor from '@/components/selectColor';
 import {
   anqiExtractDescription,

@@ -810,11 +810,6 @@ export default [
         component: './setting/nav',
       },
       {
-        path: '/setting/diyfield',
-        name: 'diy',
-        component: './setting/diyfield',
-      },
-      {
         path: '/setting/currency',
         name: 'currency',
         component: './setting/currency',

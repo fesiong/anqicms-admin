@@ -19,7 +19,6 @@ export default {
   'plugin.aigenerate.demand.description':
     '可以定義所有 AI 寫作文章的統一要求，不超過 2000 個字元。 預設留空即可',
   'plugin.aigenerate.source': 'AI 寫作來源',
-    '可以定義所有AI寫作文章的統一要求，不超過2000字符。 預設留空即可',
   'plugin.aigenerate.source.anqicms': '安企CMS官網',
   'plugin.aigenerate.source.openai': 'OpenAI',
   'plugin.aigenerate.source.deepseek': 'DeepSeek',
@@ -39,7 +38,6 @@ export default {
     'DeepSeek 預設模型是："deepseek-chat"，也可以填寫其他正確的模型名稱',
   'plugin.aigenerate.openai.description':
     'API Key 一般以 sk- 開頭，可以新增多個 key，程式每次會隨機選擇一個 key 使用。',
-    '聲明：選擇OpenAI接口時，請確保你的伺服器能訪問OpenAI接口服務',
   'plugin.aigenerate.openai.valid': '有效',
   'plugin.aigenerate.openai.invalid': '已失效',
   'plugin.aigenerate.enter-to-add': '按 Enter 新增',
@@ -137,7 +135,6 @@ export default {
   'plugin.anchor.replace-way.render': '文件展示時即時取代',
   'plugin.anchor.replace-way.description':
     '內容取代錨文字的方式，資料庫自動取代會在儲存文件的時候就進行取代，文件展示時即時取代則會在文件展示的時候才進行取代',
-    '例如：每100字替換一個錨文本，就填寫100，預設100',
   'plugin.anchor.no_strong_tag': '是否加粗相同關鍵字',
   'plugin.anchor.no_strong_tag.no': '加粗',
   'plugin.anchor.no_strong_tag.yes': '不加粗',
@@ -399,7 +396,6 @@ export default {
   'plugin.group.shipping_discount.description':
     '建議設定為 90%-100%。使用者下單時可享受運費折扣。',
   'plugin.group.permission': '經銷權限設定',
-    '建議設定1%-5%，不能設定小數點。上級佣金比。經銷商a邀請b成為經銷商，b就為a的下家，當b成功推廣一筆訂單時，b可以獲得分銷佣金，a只獲得邀請獎勵',
   'plugin.group.delete.confirm': '確定要刪除該條資料嗎？',
   'plugin.guestbook.reply.required':
     '請先進行郵件提醒設定，在功能裡搜「郵件提醒」',
@@ -1253,7 +1249,6 @@ export default {
   'plugin.rewrite.setting.diy.explain': '自訂偽靜態規則說明',
   'plugin.rewrite.setting.diy.tips':
     '請複製下面的規則到輸入框裡修改，一共6行，分別是文件詳情、文件列表、模型首頁、頁面、標籤列表、標籤詳情。===和前面部分不可修改。<br>文件詳情還支援更靈活的自訂模式，可以單獨給某個內容模型設定不同的偽靜態規則。設定方法：<code>{内容模型的URL别名}:archive==={规则}</code>，如產品模型的URL別名後台設定的是：<code>products</code>，如需單獨設定產品模型詳情的偽靜態規則為<code>/{catname}/{filename}.html</code>，則規則為：<code>products:archive===/{catname}/{filename}.html</code>',
-    '请复制下面的规则到输入框里修改,一共6行,分别是文档详情、文档列表、模型首页、页面、标签列表、标签详情。===和前面部分不可修改。<br>文档详情还支持更灵活的自定义模式，可以单独给某个内容模型设置不同的伪静态规则。设置方法：<code>{内容模型的URL别名}:archive==={规则}</code>，如产品模型的URL别名后台设置的是：<code>products</code>，如需单独设置产品模型详情的伪静态规则为<code>/{catname}/{filename}.html</code>，则规则为：<code>products:archive===/{catname}/{filename}.html</code>',
   'plugin.rewrite.variable.tips':
     '變數由花括號包裹 `{}` ，如 `{id}` 。可用的變數有：資料ID `{id}` ； 文件自訂連結名 `{filename}` ； 分類自訂連結名 `{catname}` ， 多級分類自訂連結名 `{multicatname}` ， `{multicatname}` 和 `{catname}` 只能使用一個； 分類ID `{catid}` ； 模型表名 `{module}` ；年 `{year}` ， 月 `{month}` ， 日 `{day}` ， 時 `{hour}` ， 分 `{minute}` ， 秒 `{second}` ，年月日時分秒只有文件(archive)可用； 分頁頁碼 `{page}` ，分頁需放在小括號內， 如： `(/{page})` 。',
   'plugin.rewrite.formula.direct1': '可直接使用的方案1',
@@ -1653,7 +1648,6 @@ export default {
   'plugin.weapp.default.source':
     '小程式原始碼地址：https://github.com/fesiong/anqicms-app/releases',
   'plugin.weapp.default.download': '下載預設小程式',
-    '長寬同時小於這個尺寸的圖片，不會新增浮水印',
   'plugin.wechat.menu.delete.confirm': '確定要刪除該選單嗎？',
   'plugin.wechat.menu.submit.error': '送出錯誤',
   'plugin.wechat.menu.submit.confirm': '確定要更新公眾號選單嗎？',
@@ -1703,27 +1697,9 @@ export default {
   'plugin.wechat.auto-reply.setting': '自動回覆設定',
   'plugin.wechat.menu.setting': '選單設定',
   'plugin.wechat.official.setting': '公眾號設定',
-    '一行一個，支援IP和IP段，如：192.168.2.0/24',
-    '一行一個，支援IP和IP段，如：192.168.2.0/24',
-    '一行一個，使用這些UserAgent的存取將會被拒絕',
-    '一行一個，使用包含這些前綴的路徑將會被放行',
-    '如果選擇了是，則蜘蛛訪問將會被放行，為了不影響蜘蛛收錄，請選擇是',
-    'Whether to restrict empty UserAgent access',
-    'Some collection/testing software will use empty UserAgent access',
-    'Only restrict empty Refer access to static resources such as images, web pages are not restricted',
-    '如果选择是，则内存使用超过限制后的请求将会被拒绝',
-    '開啟限制後，當伺服器記憶體超過指定比例時，將拒絕訪問',
   'setting.multilang.sync': '同步內容',
   'setting.multilang.login': '登入後台',
-    '開啟多語言網站支援後，你將可以讓你的網站支援多種語言展示',
-    '不同的形式展示結果不一樣獨立域名形式是每種語言獨立一個域名，獨立目錄形式是每種語言一個目錄，URL不變形式是所有語言都指向同一個URL',
-    '自動翻譯是一個付費功能，請查閱官網查看具體價格',
-    '比如主站语言是en，那么主站点目录就是en',
-    '選擇一個已經建立好的網站作為多語言網站',
-    '每個語言獨立網站儲存需要為每個語言都建立一個網站來儲存和處理數據，好處是內容和範本介面都可以獨立編輯處理。僅主網站的方式，則資料和範本都只有一份，其他語言結果來自主網站介面的自動翻譯，工作量少，但無法自由控制每個語言的範本和內容。 ',
-    '確定要刪除全部翻譯快取嗎？ ',
   'content.translate.origin-content': '原文',
-    '翻譯接口預設使用官方接口，可選使用百度翻譯、有道翻譯，需要自行配置',
   'plugin.jsonld.tips.1':
     '開啟後，系統會自動將網站的結構化資料標記為 JSON-LD 格式，並自動插入到頁面底部，以便搜尋引擎更好地理解網站內容。',
   'plugin.jsonld.tips.2':
@@ -1894,13 +1870,6 @@ export default {
   'plugin.user.user-id': '使用者 ID',
   'plugin.link.id': 'ID',
   'plugin.subscription.category.manage': '訂閱分類管理',
-    '支持使用的变量 {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
-    '至少需要包含{verifyCode}或{verifyUrl}，支持使用的变量 {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
-    'LLMs.txt 是给 ChatGPT、Claude、DeepSeek 这类 AI 助手看的 Markdown 格式的文件',
-    '为你的LLMs.txt文件设置一个自定义标题。该标题将出现在生成的文件顶部，位于所有列出的网址之前。',
-    '在URL列表之前添加了可选的介绍文本。使用此文本解释LLMs.txt文件的用途或结构。',
-    '在链接或内容条目列表之前插入的可选文本。您可以在网址开始之前使用它来添加额外的注释、上下文或数据使用信息。',
-    '附加在LLMs.txt文件底部的结尾文本（例如页脚、联系方式或免责声明信息）。',
     'plugin.wishlist.wish-price.name': '願望價',
   'plugin.review.product.name': '產品標題',
   'plugin.review.user.name': '使用者名稱',

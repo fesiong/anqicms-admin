@@ -3,8 +3,6 @@ import AiGenerate from '@/components/aiGenerate';
 import AiGetTdk from '@/components/aitdk';
 import AttachmentSelect from '@/components/attachment';
 import CollapseItem from '@/components/collaspeItem';
-import MarkdownEditor from '@/components/markdown';
-import NewAiEditor from '@/components/newAiEditor';
 import {
   anqiExtractDescription,
   getArchives,

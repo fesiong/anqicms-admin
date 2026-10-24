@@ -50,7 +50,6 @@ export default {
   'dashboard.component.archive.count': '文档量',
   'dashboard.component.archive.count.tips':
     '包括各个模型已发布文档、待发布、草稿箱的文档',
-    '安企内容管理系统(AnqiCMS)，是一款使用 GoLang 开发的企业站内容管理系统，它部署简单，软件安全，界面优雅，小巧，执行速度飞快，使用 AnqiCMS 搭建的网站可以防止众多安全问题发生。',
   'dashboard.component.lastweek': '上周',
   'dashboard.component.today': '今日',
   'dashboard.component.unrelease': '待发布',

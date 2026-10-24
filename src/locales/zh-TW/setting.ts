@@ -152,7 +152,6 @@ export default {
   'setting.content.default-thumb.thumbs': '隨機圖片',
   'setting.content.default-thumb.category': '圖片分類',
   'setting.content.make-thumb': '批次產生縮圖',
-    '如果文章没有缩略图，继续调用将会使用默认缩略图代替，默认缩略图支持单图、选定的随机图片，或指定图片分类随机图片',
   'setting.system.thumb-size.tips':
     '如果你更改了縮圖尺寸，請先送出儲存，然後再點擊重新',
   'setting.safe.admin-captcha': '後台存取驗證碼',
@@ -350,7 +349,6 @@ export default {
   'setting.ai.thinking-off': '關閉',
   'setting.ai.max-tokens': '最大回覆長度',
   'setting.ai.timeout-seconds': '請求逾時時間',
-    '連線使用http或https開頭，如： https://www.anqicms.com/',
   'setting.currency.currency-name': '貨幣名稱',
   'setting.currency.currency-code': '貨幣國際代碼',
   'setting.currency.currency-code.description': '如：CNY，USD，EUR 等',

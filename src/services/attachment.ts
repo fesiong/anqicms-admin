@@ -77,12 +77,11 @@ export async function changeAttachmentCategory(
   });
 }
 
-export async function addUrlToAttachment(
+export async function saveAttachmentCategory(
   body: any,
   options?: { [key: string]: any },
 ) {
   return post({
-    url: '/attachment/addurl',
     url: '/attachment/category/detail',
     body,
     options,

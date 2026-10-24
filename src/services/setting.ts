@@ -375,12 +375,21 @@ export async function saveSettingDiyFields(
 }
 
 export async function getSettingAi(
-export async function getSettingCurrency(
   params?: any,
   options?: { [key: string]: any },
 ) {
   return get({
     url: '/setting/ai',
+    params,
+    options,
+  });
+}
+
+export async function getSettingCurrency(
+  params?: any,
+  options?: { [key: string]: any },
+) {
+  return get({
     url: '/setting/currency',
     params,
     options,
@@ -388,12 +397,21 @@ export async function getSettingCurrency(
 }
 
 export async function saveSettingAi(
-export async function saveSettingCurrency(
   body: any,
   options?: { [key: string]: any },
 ) {
   return post({
     url: '/setting/ai',
+    body,
+    options,
+  });
+}
+
+export async function saveSettingCurrency(
+  body: any,
+  options?: { [key: string]: any },
+) {
+  return post({
     url: '/setting/currency',
     body,
     options,

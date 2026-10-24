@@ -36,7 +36,6 @@ export default {
   'component.aigenerate.btn.start-combine': 'Generate from Q&A',
   'component.aigenerate.btn.finish': 'Apply',
   'component.aigenerate.btn.abundant': 'Discard',
-    'If there are other requirements, it cannot exceed 150 words.',
   'component.aigenerate.content.default':
     'AI-generated results will appear here',
   'component.attachment.select': 'Select file',
@@ -194,5 +193,4 @@ export default {
   'component.placeCascader.required': 'Please select a region',
   'component.attachment.video-unsupport':
     'Your browser does not support the video tag.',
-    'Payment overdue, AI/Translation has been suspended. Please recharge to resume usage.',
 };

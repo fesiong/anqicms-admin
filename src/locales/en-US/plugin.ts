@@ -1,7 +1,6 @@
 export default {
   'plugin.aigenerate.demand.required':
     'The unified requirement cannot exceed 2000 characters',
-    'The unified requirement cannot exceed 2000 characters.',
   'plugin.aigenerate.checking': 'Checking',
   'plugin.aigenerate.setting': 'AI auto-writing settings',
   'plugin.aigenerate.isopen': 'Auto writing',
@@ -20,7 +19,6 @@ export default {
   'plugin.aigenerate.demand': 'Unified writing requirements',
   'plugin.aigenerate.demand.description':
     'Define unified requirements for all AI-written posts, up to 2000 characters. Leaving it blank is fine by default.',
-    'It is possible to define unified requirements for all AI writing articles, no more than 2000 characters. Leave it blank by default',
   'plugin.aigenerate.source': 'AI writing source',
   'plugin.aigenerate.source.anqicms': 'AnQiCMS Official Site',
   'plugin.aigenerate.source.openai': 'OpenAI',
@@ -394,7 +392,6 @@ export default {
   'plugin.fulltext.ranking_score.tips':
     'Set a score from 0 to 100, 0 by default. Only results with a score higher than this are displayed.',
   'plugin.group.edit': 'Edit user group',
-    'Are you sure you want to rebuild the index? ',
   'plugin.group.add': 'Add user group',
   'plugin.group.name': 'Name',
   'plugin.group.description': 'Description',
@@ -430,7 +427,6 @@ export default {
   'plugin.group.shipping_discount': 'Shipping discount',
   'plugin.group.shipping_discount.description':
     'Recommended 90%-100%. Users can enjoy a shipping discount when placing orders.',
-    "It is recommended to set 1%-5%, and the decimal point cannot be set. Superior commission ratio. Distributor a invites b to become a distributor, and b becomes a's next seller. When b successfully promotes an order, b can get distribution commission, and a only gets the invitation reward.",
   'plugin.group.permission': 'Distribution permission settings',
   'plugin.group.delete.confirm': 'Are you sure you want to delete this record?',
   'plugin.guestbook.reply.required':
@@ -1144,7 +1140,6 @@ export default {
   'plugin.rewrite.setting.diy.explain': 'Custom URL rewrite rule guide',
   'plugin.rewrite.setting.diy.tips':
     "Copy the rules below into the input box to modify them. There are 6 lines in total: post detail, post list, model homepage, page, tag list, and tag detail. The part before === cannot be modified.<br>Post detail also supports a more flexible custom mode, letting you set different URL rewrite rules for a specific content model. How to set it: <code>{content model URL alias}:archive==={rule}</code>. For example, if the product model's URL alias is set in the admin panel as <code>products</code>, and you want to set the product model detail rewrite rule to <code>/{catname}/{filename}.html</code>, the rule is: <code>products:archive===/{catname}/{filename}.html</code>",
-    'Please copy the following rules into the input box to modify. There are 6 lines in total, namely document details, document list, model home page, page, tag list, and tag details. === and the previous part cannot be modified.<br>Document details also support a more flexible custom mode, allowing separate pseudo-static rules to be set for different content models. The setting method is: <code>{Content model URL alias}:archive==={rule}</code>, for example, if the URL alias for the product model is set to <code>products</code> in the backend, and you need to separately set the pseudo-static rule for the product model details to <code>/{catname}/{filename}.html</code>, then the rule would be: <code>products:archive===/{catname}/{filename}.html</code>',
   'plugin.rewrite.variable.tips':
     'Variables are wrapped in curly braces {}, such as {id}. Available variables: data ID {id}; post custom link name {filename}; category custom link name {catname}; multi-level category custom link name {multicatname} — only one of {multicatname} and {catname} can be used; category ID {catid}; model table name {module}; year {year}, month {month}, day {day}, hour {hour}, minute {minute}, second {second} — year/month/day/hour/minute/second are only available for posts (archive); pagination page number {page}, which must be placed in parentheses, e.g. (/{page}).',
   'plugin.rewrite.formula.direct1': 'Plan 1 ready to use',
@@ -1214,7 +1209,6 @@ export default {
   'plugin.sendmail.send-type.new-order': 'New order on the site',
   'plugin.sendmail.send-type.pay-order': 'Paid order on the site',
   'plugin.sendmail.send-type.register': 'Registration email verification',
-    'Please fill in the automatic reply content',
   'plugin.sendmail.send-type.order-invoice': 'Order Invoice',
   'plugin.sendmail.send-type.description':
     'Once selected, emails are sent in the chosen scenarios.',
@@ -1340,7 +1334,6 @@ export default {
   'plugin.timefactor.module': 'Enabled models',
   'plugin.timefactor.random': 'Random publishing',
   'plugin.timefactor.category': 'Categories excluded from updates',
-    "For example: 8, then every day starts at 8 o'clock",
   'plugin.timefactor.category.placeholder':
     'If you want to exclude certain categories, select them here.',
   'plugin.titleimage.open': 'Auto title image settings',
@@ -1409,7 +1402,6 @@ export default {
   'plugin.transfer.site-id': 'Site ID',
   'plugin.transfer.site-id.placeholder':
     'Leave empty by default. If the source site is multi-site, you can select one.',
-    'Only one Token can be configured for each website. If you are prompted with an error, please manually delete anqicms.config.php in the root directory of the website to configure it again.',
   'plugin.transfer.token': 'Communication token',
   'plugin.transfer.token.placeholder': 'Can be any characters',
   'plugin.transfer.step4.tips':
@@ -1479,7 +1471,6 @@ export default {
   'plugin.user.default_group_id.description':
     'The default group for newly registered users. Once a default group is selected, new users are automatically added to the chosen group.',
   'plugin.user.default_group_id': 'Default group',
-    'After expiration, the user group will roll back to the first group',
   'plugin.watermark.generate.confirm':
     'Are you sure you want to add watermarks to all images in the media library?',
   'plugin.watermark.generate.content':
@@ -1640,7 +1631,6 @@ export default {
   'plugin.limiter.mem_percent.description':
     'Server memory limit percentage, default: 90%',
   'plugin.multilang.setting': 'Setting',
-    'Only restrict empty Refer access to static resources such as images, web pages are not restricted',
   'plugin.multilang.remove.confirm':
     'Are you sure you want to remove this multilingual site?',
   'plugin.multilang.sync.confirm':
@@ -1673,7 +1663,6 @@ export default {
   'plugin.multilang.show_main_dir.description':
     'For example, if the main site language is en, the main site directory is en.',
   'plugin.multilang.sites': 'Multilingual site management',
-    'Automatic translation is a paid feature. Please check the official website for specific prices',
   'plugin.multilang.add': 'Add site',
   'plugin.multilang.edit': 'Edit multilingual site',
   'plugin.multilang.select': 'Select site',
@@ -2025,7 +2014,6 @@ export default {
   'plugin.jsonld.local-business.description':
     'For more settings, go to the contact information settings page.',
   'plugin.jsonld.opening-hours': 'Opening hours',
-    'Educational Organization',
   'plugin.jsonld.day-of-week.monday': 'Monday',
   'plugin.jsonld.day-of-week.tuesday': 'Tuesday',
   'plugin.jsonld.day-of-week.wednesday': 'Wednesday',
@@ -2047,8 +2035,6 @@ export default {
   'plugin.jsonld.default-image': 'Default image',
   'plugin.jsonld.default-image.tips':
     'According to the Google validation tool, the image size must be greater than or equal to 1200*728.',
-    'Please obtain this from the Google developer console',
-    'Please obtain this from the Google developer console',
   'plugin.google.places-api-key': 'Places API Key',
   'plugin.google.places-api-key.description':
     'Address autocomplete API. Please obtain this from the Google developer console',
@@ -2059,9 +2045,6 @@ export default {
   'plugin.sendmail.use-brevo.description':
     'Once the Brevo email marketing service is enabled, Brevo takes over the email service. To use the Brevo email marketing service, obtain an API Key at https://www.brevo.com',
   'plugin.sendmail.brevo.api-key': 'Brevo API Key',
-    'Whether to send email verification when users register',
-    'Supported variables: {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
-    'Must contain at least {verifyCode} or {verifyUrl}. Supported variables: {siteName}/{userName}/{email}/{url}/{verifyCode}/{verifyUrl}',
   'plugin.llms.description':
     'LLMs.txt is a Markdown file intended for AI assistants such as ChatGPT, Claude, and DeepSeek',
   'plugin.llms.status': 'LLMs status',
