@@ -6,17 +6,11 @@ export default {
   'component.footer.help': '使用帮助',
   'component.footer.template-manual': '模板标签手册',
   'component.footer.feedback': '意见反馈&需求提议',
-  'component.footer.upload': '上传',
-  'component.footer.feedback.tips-before':
-    '系统会将您所反馈的内容创建为一个社区帖子，您可以从 ',
-  'component.footer.feedback.tips-after': '网站上查看我们的回复。',
   'component.footer.feedback.type': '反馈类型',
   'component.footer.feedback.bug': 'BUG',
   'component.footer.feedback.suggest': '建议',
   'component.footer.feedback.consult': '咨询',
-  'component.footer.feedback.title': '标题',
   'component.footer.feedback.description': '问题描述',
-  'component.footer.feedback.screenshot': '问题截图',
   'component.close': '关闭',
   'component.aigenerate.submit.title': '提示',
   'component.aigenerate.submit.content':

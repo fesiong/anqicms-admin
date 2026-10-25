@@ -6,17 +6,11 @@ export default {
   'component.footer.help': '使用說明',
   'component.footer.template-manual': '範本標籤手冊',
   'component.footer.feedback': '意見回饋&需求建議',
-  'component.footer.upload': '上傳',
-  'component.footer.feedback.tips-before':
-    '系統會將您所回饋的內容建立為一個社群貼文，您可以從 ',
-  'component.footer.feedback.tips-after': '網站上查看我們的回應。',
   'component.footer.feedback.type': '回饋類型',
   'component.footer.feedback.bug': 'BUG',
   'component.footer.feedback.suggest': '建議',
   'component.footer.feedback.consult': '諮詢',
-  'component.footer.feedback.title': '標題',
   'component.footer.feedback.description': '問題描述',
-  'component.footer.feedback.screenshot': '問題截圖',
   'component.close': '關閉',
   'component.aigenerate.submit.title': '提示',
   'component.aigenerate.submit.content':

@@ -6,17 +6,11 @@ export default {
   'component.footer.help': 'Help',
   'component.footer.template-manual': 'Template tag manual',
   'component.footer.feedback': 'Feedback & Feature Requests',
-  'component.footer.upload': 'Upload',
-  'component.footer.feedback.tips-before':
-    'Your feedback will be submitted as a community post. You can view our replies on the ',
-  'component.footer.feedback.tips-after': ' website.',
   'component.footer.feedback.type': 'Feedback type',
   'component.footer.feedback.bug': 'BUG',
   'component.footer.feedback.suggest': 'Suggestion',
   'component.footer.feedback.consult': 'Inquiry',
-  'component.footer.feedback.title': 'Title',
   'component.footer.feedback.description': 'Issue description',
-  'component.footer.feedback.screenshot': 'Screenshots',
   'component.close': 'Close',
   'component.aigenerate.submit.title': 'Notice',
   'component.aigenerate.submit.content':
