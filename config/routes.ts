@@ -87,11 +87,6 @@ export default [
         component: '@/pages/content/category/product/index',
       },
       {
-        path: '/setting/ai',
-        name: 'ai',
-        component: './setting/ai',
-      },
-      {
         hideInMenu: true,
         path: '/product/category/detail',
         component: '@/pages/content/category/product/detail',
@@ -808,6 +803,11 @@ export default [
         path: '/setting/nav',
         name: 'nav',
         component: './setting/nav',
+      },
+      {
+        path: '/setting/ai',
+        name: 'ai',
+        component: './setting/ai',
       },
       {
         path: '/setting/currency',
