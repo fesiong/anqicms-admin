@@ -30,6 +30,69 @@ export default [
     component: './dashboard/index',
   },
   {
+    path: '/setting',
+    name: 'setting',
+    icon: 'setting',
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/setting/system',
+        name: 'system',
+        component: './setting/system',
+      },
+      {
+        path: '/setting/contact',
+        name: 'contact',
+        component: './setting/contact',
+      },
+      {
+        path: '/setting/content',
+        name: 'content',
+        component: './setting/content',
+      },
+      {
+        path: '/setting/safe',
+        name: 'safe',
+        component: './setting/safe',
+      },
+      {
+        path: '/setting/sensitive',
+        name: 'sensitive',
+        component: './setting/sensitive',
+      },
+      {
+        path: '/setting/tdk',
+        name: 'tdk',
+        component: './setting/index',
+      },
+      {
+        path: '/setting/banner',
+        name: 'banner',
+        component: './setting/banner',
+      },
+      {
+        path: '/setting/nav',
+        name: 'nav',
+        component: './setting/nav',
+      },
+      {
+        path: '/setting/ai',
+        name: 'ai',
+        component: './setting/ai',
+      },
+      {
+        path: '/setting/currency',
+        name: 'currency',
+        component: './setting/currency',
+      },
+      {
+        path: '/setting/pay',
+        name: 'pay',
+        component: '@/pages/plugin/pay/index',
+      },
+    ],
+  },
+  {
     path: '/order',
     name: 'order',
     icon: 'accountBook',
@@ -276,7 +339,6 @@ export default [
     path: '/plugin',
     name: 'plugin',
     icon: 'appstore',
-    hideInTop: true,
     access: 'canAdmin',
     routes: [
       {
@@ -754,70 +816,6 @@ export default [
         path: '/statistic/include/detail',
         name: 'includedetail',
         component: '@/pages/statistic/include/detail',
-      },
-    ],
-  },
-  {
-    path: '/setting',
-    name: 'setting',
-    icon: 'setting',
-    hideInTop: true,
-    access: 'canAdmin',
-    routes: [
-      {
-        path: '/setting/system',
-        name: 'system',
-        component: './setting/system',
-      },
-      {
-        path: '/setting/contact',
-        name: 'contact',
-        component: './setting/contact',
-      },
-      {
-        path: '/setting/content',
-        name: 'content',
-        component: './setting/content',
-      },
-      {
-        path: '/setting/safe',
-        name: 'safe',
-        component: './setting/safe',
-      },
-      {
-        path: '/setting/sensitive',
-        name: 'sensitive',
-        component: './setting/sensitive',
-      },
-      {
-        path: '/setting/tdk',
-        name: 'tdk',
-        component: './setting/index',
-      },
-      {
-        path: '/setting/banner',
-        name: 'banner',
-        component: './setting/banner',
-      },
-      {
-        path: '/setting/nav',
-        name: 'nav',
-        component: './setting/nav',
-      },
-      {
-        path: '/setting/ai',
-        name: 'ai',
-        component: './setting/ai',
-      },
-      {
-        path: '/setting/currency',
-        name: 'currency',
-        component: './setting/currency',
-      },
-      {
-        path: '/setting/pay',
-        name: 'pay',
-        component: '@/pages/plugin/pay/index',
       },
     ],
   },

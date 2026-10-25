@@ -2,6 +2,11 @@ import { history, useIntl, useModel } from '@umijs/max';
 import { Menu } from 'antd';
 import React from 'react';
 import routes from '../../../config/routes';
+import {
+  isShopMenuPath,
+  isShopMode,
+  SHOP_MODE_HIDE_IN_TOP,
+} from '../../utils/shopMode';
 import './index.less';
 
 const GlobalHeaderContent: React.FC = () => {
@@ -53,8 +58,18 @@ const GlobalHeaderContent: React.FC = () => {
 
   let permissions =
     initialState?.currentUser?.group?.setting?.permissions || [];
+  const shopMode = isShopMode(initialState?.system);
   const headerMenu = routes.reduce((pre: any, cur: any) => {
     if (!cur.hideInTop && cur.name) {
+      // 普通内容模式下顶部导航同样不显示商城分组（清单见 utils/shopMode.ts，
+      // 与 app.tsx 的侧栏过滤共用一份，避免两处漏改导致顶栏残留商城菜单）
+      if (!shopMode && isShopMenuPath(cur.path, true)) {
+        return pre;
+      }
+      // 商城模式把「设置」「功能」收进侧栏，顶栏不显示；普通模式照主干放在顶栏
+      if (shopMode && SHOP_MODE_HIDE_IN_TOP.indexOf(cur.path) !== -1) {
+        return pre;
+      }
       let path = cur.path;
       if (cur.routes) {
         path = cur.routes[0].path;
@@ -90,7 +105,9 @@ const GlobalHeaderContent: React.FC = () => {
     <div className="header-nav">
       <Menu
         onClick={onClickMenu}
-        theme="dark"
+        // 顶部导航配色跟随站点模式：普通内容模式（shop_mode=0）用浅色菜单配白色顶栏，
+        // 商城模式（1）用深色菜单配深色顶栏。写死 dark 会让普通版顶栏中间出现黑块。
+        theme={shopMode ? 'dark' : 'light'}
         selectedKeys={[selectKey]}
         mode="horizontal"
         items={headerMenu}

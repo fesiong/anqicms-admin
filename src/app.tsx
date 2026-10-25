@@ -20,17 +20,24 @@ import {
   removeStore,
   setStore,
 } from './utils/store';
+import {
+  isShopMenuPath,
+  isShopMode,
+  setRuntimeShopMode,
+} from './utils/shopMode';
 
 const loginPath = '/login';
 
 /**
  * 站点模式外观标记：global.less 用 body[data-shop-mode='1'] 区分后台配色。
  * 普通内容模式（shop_mode=0）顶栏/侧栏为白色，商城模式（1）为深色，便于区分。
- * 写 body 属性而不是类名，避免和其它全局 class 冲突。
+ * 写 body 属性而不是类名，避免和其它全局 class 冲突；
+ * 同时把结果缓存到 utils/shopMode，供类组件（archive/detail）同步读取。
  */
-const applyShopModeTheme = (shopMode?: number) => {
+const applyShopModeTheme = (system?: { shop_mode?: number }) => {
+  const shopMode = setRuntimeShopMode(system);
   if (typeof document === 'undefined') return;
-  document.body.dataset.shopMode = shopMode === 1 ? '1' : '0';
+  document.body.dataset.shopMode = shopMode ? '1' : '0';
 };
 
 /**
@@ -82,7 +89,7 @@ export async function getInitialState(): Promise<{
     const anqiUser = await fetchAnqiUser();
 
     // 首屏渲染前就打好模式标记，商城模式不会出现「先白后深」的闪烁
-    applyShopModeTheme(system?.shop_mode);
+    applyShopModeTheme(system);
 
     return {
       fetchSystemSetting,
@@ -106,7 +113,7 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   // 登录后 initialState 会重新赋值（setInitialState），这里再做一次幂等同步，
   // 保证切换站点模式后不必手动刷新页面也能拿到正确的配色标记。
-  applyShopModeTheme(initialState?.system?.shop_mode);
+  applyShopModeTheme(initialState?.system);
 
   return {
     breadcrumbRender: false,
@@ -170,42 +177,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
 
       // 站点模式过滤（合并计划阶段 5.2）：
       // 普通内容模式（shop_mode !== 1）下隐藏商城相关的菜单组与入口。
-      // 顶部商城组隐藏后其子菜单随之隐藏；共享组内的商城子页按路径隐藏。
-      // 新增商城菜单时必须同步此清单。
-      if (initialState?.system?.shop_mode !== 1) {
-        const shopTopGroups = [
-          '/order',
-          '/product',
-          '/customer',
-          '/promotion',
-          '/sale',
-        ];
-        const shopPaths = [
-          '/statistic/liveview',
-          '/statistic/conversion',
-          '/statistic/orders',
-          '/statistic/products',
-          '/statistic/customers',
-          '/statistic/search',
-          '/statistic/coupons',
-          '/setting/currency',
-          '/setting/pay',
-        ];
+      // 商城组隐藏后其子菜单随之隐藏；共享组内的商城子页按路径隐藏。
+      // 清单在 src/utils/shopMode.ts，顶部导航 headerContent 共用同一份。
+      if (!isShopMode(initialState?.system)) {
         for (let i in menuData) {
           const item = menuData[i];
-          if (shopTopGroups.indexOf(item.path) !== -1) {
+          if (isShopMenuPath(item.path, true)) {
             item.unaccessible = true;
             continue;
           }
           if (item.children) {
             for (let j in item.children) {
               const child = item.children[Number(j)];
-              if (
-                shopPaths.indexOf(child.path) !== -1 ||
-                shopPaths.some(
-                  (p) => child.path && child.path.startsWith(p + '/'),
-                )
-              ) {
+              if (isShopMenuPath(child.path)) {
                 child.unaccessible = true;
               }
             }

@@ -19,15 +19,18 @@
     align-items: center;
     height: 56px;
     padding: 0 12px;
-    color: #dfdfdf;
+    // 顶栏文字色随站点模式变化，变量在 global.less 中按 body[data-shop-mode] 赋值
+    color: var(--admin-header-fg, #252a3d);
     line-height: 1.4;
+    // 商城模式顶级菜单多，顶栏空间紧张时不允许「绑定安企账号」折成两行
+    white-space: nowrap;
     cursor: pointer;
     transition: all 0.3s;
     > span {
       vertical-align: middle;
     }
     &:hover {
-      color: #fff;
+      color: var(--admin-header-fg-hover, #252a3d);
       background-color: rgba(0, 0, 0, 0.025);
     }
     &:global(.opened) {
@@ -46,9 +49,10 @@
 }
 .restart {
   padding: 0 12px;
+  white-space: nowrap;
   cursor: pointer;
   &:hover {
-    color: #fff;
+    color: var(--admin-header-fg-hover, #252a3d);
   }
 }
 .order-control {

@@ -19,6 +19,7 @@ import { setStore } from '@/utils/store';
 import { FormattedMessage, useIntl } from '@umijs/max';
 import { Col, Row, message } from 'antd';
 import dayjs from 'dayjs';
+import { getRuntimeShopMode } from '@/utils/shopMode';
 
 export type QuickEditFormProps = {
   onCancel: (flag?: boolean) => void;
@@ -56,7 +57,13 @@ const QuickEditForm: React.FC<QuickEditFormProps> = (props) => {
       setContentSetting(res.data || {});
     });
     getCategories().then((res) => {
-      setCategories((res.data || []).filter((item: any) => item.module_id !== 2));
+      const list = res.data || [];
+      // 商城模式产品走 /product 独立管理，这里排除；普通模式保留产品分类
+      setCategories(
+        getRuntimeShopMode()
+          ? list.filter((item: any) => item.module_id !== 2)
+          : list,
+      );
     });
   }, []);
 

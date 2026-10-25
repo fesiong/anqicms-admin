@@ -112,7 +112,9 @@ body {
 .ant-menu .ant-menu-item {
   border-radius: 10px;
 }
-.ant-menu-light .ant-menu-item-selected {
+/* 侧栏（垂直）菜单的选中/悬停底色；顶部水平菜单不受影响，
+   否则水平菜单选中项会出现一块浅灰背景，看起来像渲染错位。 */
+.ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: #fafafa;
 }
 .ant-menu-light:not(.ant-menu-horizontal)
@@ -133,8 +135,24 @@ body {
   margin-inline-end: 0;
 }
 
+/* 顶栏右侧操作区不参与压缩：空间不足时让顶部菜单收缩（antd 会自动折叠成「...」），
+   而不是把「绑定安企账号」挤成两行、把「重启」裁掉。商城模式菜单多，必现。 */
+.ant-pro-global-header-right-content {
+  flex-shrink: 0;
+}
+
+/* 顶栏前景色：普通模式深色字（白底），商城模式浅色字（深底）。
+   供 CSS Modules 里的顶栏组件读取，避免各组件重复写死颜色。 */
+:root {
+  --admin-header-fg: #252a3d;
+  --admin-header-fg-hover: #252a3d;
+}
+
 /* 商城模式：沿用商城分支原有的深色外观 */
 body[data-shop-mode='1'] {
+  --admin-header-fg: #dfdfdf;
+  --admin-header-fg-hover: #fff;
+
   .ant-menu-dark {
     color: #dfdfdf;
     background-color: #1a1a1a;

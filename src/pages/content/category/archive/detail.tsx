@@ -46,6 +46,7 @@ import {
   Tag,
 } from 'antd';
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { getRuntimeShopMode } from '@/utils/shopMode';
 import '../index.less';
 const MarkdownEditor = lazy(() => import('@/components/markdown'));
 const NewAiEditor = lazy(() => import('@/components/newAiEditor'));
@@ -118,7 +119,13 @@ const ArchiveCategoryDetail: React.FC = () => {
     let parent_id = Number(searchParams.get('parent_id') || 0);
 
     let modRes = await getModules();
-    setModules((modRes.data || []).filter((item: any) => item.id !== 2));
+    // 商城模式产品独立管理，分类页排除产品模块；普通模式保留
+    const modList = modRes.data || [];
+    setModules(
+      getRuntimeShopMode()
+        ? modList.filter((item: any) => item.id !== 2)
+        : modList,
+    );
     let catRes = await getCategoryInfo({
       id: id,
     });
@@ -164,7 +171,13 @@ const ArchiveCategoryDetail: React.FC = () => {
       setLoaded(true);
     });
     getCategories({}).then((res) => {
-      setCategories((res.data || []).filter((item: any) => item.module_id !== 2));
+      const list = res.data || [];
+      // 仅商城模式排除产品分类
+      setCategories(
+        getRuntimeShopMode()
+          ? list.filter((item: any) => item.module_id !== 2)
+          : list,
+      );
     });
   };
 

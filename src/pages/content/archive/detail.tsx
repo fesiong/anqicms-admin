@@ -69,6 +69,7 @@ import {
 import dayjs from 'dayjs';
 import React from 'react';
 import { IntlShape } from 'react-intl';
+import { getRuntimeShopMode } from '@/utils/shopMode';
 import './index.less';
 const MarkdownEditor = React.lazy(() => import('@/components/markdown'));
 const NewAiEditor = React.lazy(() => import('@/components/newAiEditor'));
@@ -149,7 +150,10 @@ class ArchiveForm extends React.Component<intlProps> {
     const res = await getModules();
     this.setState(
       {
-        modules: (res.data || []).filter((item: any) => item.id !== 2),
+        // 商城模式产品走 /product 独立管理，这里排除；普通模式产品仍是内容模型
+        modules: getRuntimeShopMode()
+          ? (res.data || []).filter((item: any) => item.id !== 2)
+          : res.data || [],
       },
       () => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -213,7 +217,10 @@ class ArchiveForm extends React.Component<intlProps> {
     );
     // 获取分类
     getCategories().then((res) => {
-      let categories = (res.data || []).filter((item: any) => item.module_id !== 2);
+      const list = res.data || [];
+      let categories = getRuntimeShopMode()
+        ? list.filter((item: any) => item.module_id !== 2)
+        : list;
       this.setState({
         categories,
       });
@@ -299,7 +306,8 @@ class ArchiveForm extends React.Component<intlProps> {
       id: id,
     });
     const archive = res.data || { extra: {}, flag: null };
-    if (archive.module_id === 2) {
+    // 商城模式下产品有独立编辑页；普通模式下产品就是普通文档，留在本页编辑
+    if (archive.module_id === 2 && getRuntimeShopMode()) {
       history.replace('/product/detail?id=' + archive.id);
     }
     if (copy) {
