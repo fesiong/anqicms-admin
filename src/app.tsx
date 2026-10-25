@@ -24,6 +24,16 @@ import {
 const loginPath = '/login';
 
 /**
+ * 站点模式外观标记：global.less 用 body[data-shop-mode='1'] 区分后台配色。
+ * 普通内容模式（shop_mode=0）顶栏/侧栏为白色，商城模式（1）为深色，便于区分。
+ * 写 body 属性而不是类名，避免和其它全局 class 冲突。
+ */
+const applyShopModeTheme = (shopMode?: number) => {
+  if (typeof document === 'undefined') return;
+  document.body.dataset.shopMode = shopMode === 1 ? '1' : '0';
+};
+
+/**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
@@ -71,6 +81,9 @@ export async function getInitialState(): Promise<{
     const system = await fetchSystemSetting();
     const anqiUser = await fetchAnqiUser();
 
+    // 首屏渲染前就打好模式标记，商城模式不会出现「先白后深」的闪烁
+    applyShopModeTheme(system?.shop_mode);
+
     return {
       fetchSystemSetting,
       fetchUserInfo,
@@ -91,6 +104,10 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+  // 登录后 initialState 会重新赋值（setInitialState），这里再做一次幂等同步，
+  // 保证切换站点模式后不必手动刷新页面也能拿到正确的配色标记。
+  applyShopModeTheme(initialState?.system?.shop_mode);
+
   return {
     breadcrumbRender: false,
     rightContentRender: () => <RightContent />,

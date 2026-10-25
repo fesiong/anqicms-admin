@@ -98,34 +98,22 @@ body {
     margin: 0;
   }
 }
-.ant-menu-dark {
-  color: #dfdfdf;
-  background-color: #1a1a1a;
-}
+/* 站点模式配色（shop_mode）：
+   普通内容模式（0）顶栏/侧栏为白色，商城模式（1）为深色顶栏 + 浅灰侧栏。
+   模式标记由 src/app.tsx 写入 body[data-shop-mode]，这里只区分背景与文字颜色；
+   菜单圆角、选中底色、子菜单加粗等装饰两版共用，主色（#1890ff）不随模式变化。 */
 .ant-pro-page-container-children-container,
 .ant-pro-page-container .ant-pro-page-container-warp-page-header {
   padding-inline: 24px !important;
 }
 .ant-pro-layout .ant-layout-header.ant-pro-layout-header {
-  color: #dfdfdf;
-  background-color: #1a1a1a;
-}
-.ant-pro-global-header-logo h1 {
-  color: #dfdfdf;
-}
-.ant-pro-layout .ant-layout-sider.ant-pro-sider {
-  padding-top: 10px;
-  background-color: #ebebeb;
-}
-.ant-pro-layout .ant-pro-sider .ant-layout-sider-children {
-  border-inline-end: none;
-  margin-inline-end: 0;
-}
-.ant-menu-light .ant-menu-item-selected {
-  background-color: #fafafa;
+  background-color: #ffffff;
 }
 .ant-menu .ant-menu-item {
   border-radius: 10px;
+}
+.ant-menu-light .ant-menu-item-selected {
+  background-color: #fafafa;
 }
 .ant-menu-light:not(.ant-menu-horizontal)
   .ant-menu-item:not(.ant-menu-item-selected):hover {
@@ -136,6 +124,31 @@ body {
 }
 .ant-menu-submenu-title .ant-pro-base-menu-inline-item-text {
   font-weight: 600;
+}
+.ant-pro-layout .ant-layout-sider.ant-pro-sider {
+  padding-top: 10px;
+}
+.ant-pro-layout .ant-pro-sider .ant-layout-sider-children {
+  border-inline-end: none;
+  margin-inline-end: 0;
+}
+
+/* 商城模式：沿用商城分支原有的深色外观 */
+body[data-shop-mode='1'] {
+  .ant-menu-dark {
+    color: #dfdfdf;
+    background-color: #1a1a1a;
+  }
+  .ant-pro-layout .ant-layout-header.ant-pro-layout-header {
+    color: #dfdfdf;
+    background-color: #1a1a1a;
+  }
+  .ant-pro-global-header-logo h1 {
+    color: #dfdfdf;
+  }
+  .ant-pro-layout .ant-layout-sider.ant-pro-sider {
+    background-color: #ebebeb;
+  }
 }
 .logo-uploader {
   width: auto !important;
