@@ -4,7 +4,7 @@ import { getSessionStore } from '@/utils/store';
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, history, useIntl } from '@umijs/max';
-import { Button, Modal, Space, message } from 'antd';
+import { Button, Modal, Space, Tag, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import ModuleForm from './components/moduleForm';
 
@@ -82,6 +82,23 @@ const ModuleList: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'content.module.field' }),
       dataIndex: 'table_name',
+    },
+    {
+      // 类型决定前台按文章还是产品渲染（价格/库存/SKU/Product 结构化数据），
+      // 单看表名认不出来，列表里直接标出来。
+      title: intl.formatMessage({ id: 'content.module.kind' }),
+      dataIndex: 'kind',
+      hideInSearch: true,
+      render: (_, record) => (
+        <Tag color={record.kind === 'product' ? 'gold' : 'blue'}>
+          {intl.formatMessage({
+            id:
+              record.kind === 'product'
+                ? 'content.module.kind.product'
+                : 'content.module.kind.article',
+          })}
+        </Tag>
+      ),
     },
     {
       title: intl.formatMessage({ id: 'content.module.issystem' }),

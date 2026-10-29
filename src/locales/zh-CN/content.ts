@@ -431,6 +431,11 @@ export default {
   'content.module.issystem.yes': '系统',
   'content.module.issystem.no': '自定义',
   'content.module.setting': '模型设置',
+  'content.module.kind': '模型类型',
+  'content.module.kind.article': '文章',
+  'content.module.kind.product': '产品',
+  'content.module.kind.description':
+    '产品类型会启用价格、库存、SKU 与商品结构化数据；文章类型按普通内容渲染。已有内容的模型改类型不会动数据，只影响展示与统计归类。',
   'content.module.title': '模型名称',
   'content.module.field': '模型表名',
   'content.module.field.description': '仅支持英文小写字母。',

@@ -45,9 +45,14 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
     if (props.module.id) {
       const res = await getModuleInfo({ id: props.module.id });
       let setting = res.data || { fields: [] };
+      // 迁移前的模型没有 kind。归一成 article 再进表单：空串提交上去会被后端
+      // 当成非法类型报错，而用户只是打开看了一眼、什么都没改。
+      if (!setting.kind) {
+        setting.kind = 'article';
+      }
       setSetting(setting);
     } else {
-      setSetting({ status: 1 });
+      setSetting({ status: 1, kind: 'article' });
     }
     setFetched(true);
   };
@@ -287,6 +292,39 @@ const ModuleForm: React.FC<ModuleFormProps> = (props) => {
                       handleChangeInput('title', e);
                     }}
                   />
+                </Col>
+              </Row>
+              <Row className="mt-normal" gutter={16}>
+                <Col>
+                  <div style={{ lineHeight: '32px', width: '120px' }}>
+                    <FormattedMessage id="content.module.kind" />:
+                  </div>
+                </Col>
+                <Col flex={1}>
+                  <Radio.Group
+                    name="kind"
+                    defaultValue={setting.kind}
+                    onChange={(e: any) => {
+                      handleChangeInput('kind', e);
+                    }}
+                    options={[
+                      {
+                        value: 'article',
+                        label: intl.formatMessage({
+                          id: 'content.module.kind.article',
+                        }),
+                      },
+                      {
+                        value: 'product',
+                        label: intl.formatMessage({
+                          id: 'content.module.kind.product',
+                        }),
+                      },
+                    ]}
+                  />
+                  <div className="text-muted">
+                    <FormattedMessage id="content.module.kind.description" />
+                  </div>
                 </Col>
               </Row>
               <Row className="mt-normal" gutter={16}>
