@@ -435,7 +435,7 @@ export default {
   'content.module.kind.article': '文章',
   'content.module.kind.product': '產品',
   'content.module.kind.description':
-    '產品類型會啟用價格、庫存、SKU 與商品結構化資料；文章類型按一般內容渲染。已有內容的模型改類型不會動資料，只影響展示與統計歸類。',
+    '產品類型會啟用價格、庫存、SKU 與商品結構化資料；文章類型按一般內容渲染。',
   'content.module.title': '模型名稱',
   'content.module.field': '模型資料表名稱',
   'content.module.field.description': '僅支援英文小寫字母。',

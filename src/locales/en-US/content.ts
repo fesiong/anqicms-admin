@@ -411,7 +411,7 @@ export default {
   'content.module.kind.article': 'Article',
   'content.module.kind.product': 'Product',
   'content.module.kind.description':
-    'Product enables price, stock, SKU and Product structured data; Article renders as regular content. Changing the type of a model that already has content does not touch the data — it only affects rendering and statistics.',
+    'Product enables price, stock, SKU and Product structured data; Article renders as regular content. ',
   'content.module.title': 'Model Name',
   'content.module.field': 'Model Table Name',
   'content.module.field.description': 'Lowercase English letters only.',
